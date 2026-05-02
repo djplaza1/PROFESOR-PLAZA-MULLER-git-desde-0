@@ -194,20 +194,33 @@ window.Muller.Panels['historia'] = function({ session }) {
         window.Muller.playSceneAudio(sentence, 'de');
     };
 
-    // Regenerar iconos Lucide - con try-catch para evitar el error "removeChild"
-    // cuando React desmonta nodos mientras lucide los está reemplazando
+    // Regenerar iconos Lucide usando MutationObserver para evitar
+    // el error "NotFoundError: Failed to execute 'removeChild' on 'Node'"
+    // que ocurre cuando React desmonta nodos mientras lucide los reemplaza
     useEffect(() => {
         if (!window.lucide) return;
-        const timer = setTimeout(() => {
+        const timeout = setTimeout(() => {
             try {
                 window.lucide.createIcons();
             } catch (e) {
-                // Ignorar error de removeChild: React ya desmontó el nodo
-                if (e.name !== 'NotFoundError') console.warn('lucide:', e);
+                // Ignorar errores de removeChild
             }
-        }, 50); // esperar a que React termine su commit
-        return () => clearTimeout(timer);
-    }, [sceneIndex, activeSubmodo, mode, isPlaying, speed, vocabModeActive, currentSentenceIdx]);
+        }, 0);
+        // Observar nuevos iconos que aparezcan sin romper React
+        const observer = new MutationObserver(() => {
+            try {
+                window.lucide.createIcons();
+            } catch (e) {}
+        });
+        const container = document.getElementById('historia-panel-root');
+        if (container) {
+            observer.observe(container, { childList: true, subtree: true });
+        }
+        return () => {
+            clearTimeout(timeout);
+            observer.disconnect();
+        };
+    });
 
     const Icon = ({ name, size = 18, className = '' }) => {
         if (!name) return null;
