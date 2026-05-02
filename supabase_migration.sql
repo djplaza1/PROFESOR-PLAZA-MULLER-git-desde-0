@@ -71,38 +71,38 @@ ALTER TABLE user_vocab ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_achievements ENABLE ROW LEVEL SECURITY;
 
 -- user_settings
-CREATE POLICY IF NOT EXISTS "Usuarios ven sus ajustes" ON user_settings FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios editan sus ajustes" ON user_settings FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios actualizan sus ajustes" ON user_settings FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios ven sus ajustes" ON user_settings FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios editan sus ajustes" ON user_settings FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Usuarios actualizan sus ajustes" ON user_settings FOR UPDATE USING (auth.uid() = user_id);
 
 -- user_srs
-CREATE POLICY IF NOT EXISTS "Usuarios ven su SRS" ON user_srs FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios editan su SRS" ON user_srs FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios actualizan su SRS" ON user_srs FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios ven su SRS" ON user_srs FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios editan su SRS" ON user_srs FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Usuarios actualizan su SRS" ON user_srs FOR UPDATE USING (auth.uid() = user_id);
 
 -- user_scripts
-CREATE POLICY IF NOT EXISTS "Usuarios ven sus guiones" ON user_scripts FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios insertan sus guiones" ON user_scripts FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios actualizan sus guiones" ON user_scripts FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios borran sus guiones" ON user_scripts FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios ven sus guiones" ON user_scripts FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios insertan sus guiones" ON user_scripts FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Usuarios actualizan sus guiones" ON user_scripts FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios borran sus guiones" ON user_scripts FOR DELETE USING (auth.uid() = user_id);
 
 -- user_progress
-CREATE POLICY IF NOT EXISTS "Usuarios ven su progreso" ON user_progress FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios insertan su progreso" ON user_progress FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios actualizan su progreso" ON user_progress FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios borran su progreso" ON user_progress FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios ven su progreso" ON user_progress FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios insertan su progreso" ON user_progress FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Usuarios actualizan su progreso" ON user_progress FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios borran su progreso" ON user_progress FOR DELETE USING (auth.uid() = user_id);
 
 -- user_vocab
-CREATE POLICY IF NOT EXISTS "Usuarios ven su vocabulario" ON user_vocab FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios insertan su vocabulario" ON user_vocab FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios actualizan su vocabulario" ON user_vocab FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios borran su vocabulario" ON user_vocab FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios ven su vocabulario" ON user_vocab FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios insertan su vocabulario" ON user_vocab FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Usuarios actualizan su vocabulario" ON user_vocab FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios borran su vocabulario" ON user_vocab FOR DELETE USING (auth.uid() = user_id);
 
 -- user_achievements
-CREATE POLICY IF NOT EXISTS "Usuarios ven sus logros" ON user_achievements FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios insertan sus logros" ON user_achievements FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios actualizan sus logros" ON user_achievements FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY IF NOT EXISTS "Usuarios borran sus logros" ON user_achievements FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios ven sus logros" ON user_achievements FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios insertan sus logros" ON user_achievements FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Usuarios actualizan sus logros" ON user_achievements FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Usuarios borran sus logros" ON user_achievements FOR DELETE USING (auth.uid() = user_id);
 
 -- =====================================================
 -- 4. ÍNDICES ADICIONALES
