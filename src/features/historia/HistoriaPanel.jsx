@@ -10,21 +10,54 @@ window.Muller.Panels['historia'] = function({ session }) {
     const { useState, useEffect, useRef, useCallback } = window.React;
 
     const MData = window.Muller.Data || {};
-    const guionRaw = MData.defaultGuion;
-    let guion;
-    if (Array.isArray(guionRaw)) {
-        guion = guionRaw;
-    } else if (guionRaw && Array.isArray(guionRaw.escenas)) {
-        guion = guionRaw.escenas;
-    } else {
-        guion = [];
+
+    // --- Helper: parsear guion a array de escenas ---
+    function parseGuion(raw) {
+        if (Array.isArray(raw)) return raw;
+        if (raw && Array.isArray(raw.escenas)) return raw.escenas;
+        return [];
     }
 
-    if (!guion.length) {
-        return window.React.createElement('div', { className: 'flex items-center justify-center h-full bg-gray-900 text-white' },
-            window.React.createElement('p', null, 'Cargando guion...')
-        );
-    }
+    // --- Estado reactivo del guion activo ---
+    const [activeScriptId, setActiveScriptId] = useState(function() {
+        return window.Muller.storage.get('activeScriptId', 'default');
+    });
+    const [guion, setGuion] = useState(function() {
+        // Inicializar desde activeScriptId guardado
+        var id = window.Muller.storage.get('activeScriptId', 'default');
+        if (id !== 'default') {
+            var scripts = window.Muller.storage.get('savedScripts', []);
+            var found = scripts.find(function(s) { return s.id === id; });
+            if (found) {
+                window.Muller.activeScript = found;
+                return parseGuion(found.escenas || found);
+            }
+        }
+        return parseGuion(MData.defaultGuion);
+    });
+
+    useEffect(function() {
+        // Cargar savedScripts y recomputar guion si activeScriptId ha cambiado
+        var scripts = window.Muller.storage.get('savedScripts', []);
+        setSavedScripts(scripts);
+        
+        var id = activeScriptId;
+        if (id !== 'default') {
+            var found = scripts.find(function(s) { return s.id === id; });
+            if (found) {
+                window.Muller.activeScript = found;
+                var newGuion = parseGuion(found.escenas || found);
+                setGuion(newGuion);
+                return;
+            }
+        }
+        // Fallback a guion por defecto
+        window.Muller.activeScript = null;
+        setGuion(parseGuion(MData.defaultGuion));
+    }, [activeScriptId]);
+
+    // Si no hay guion, mostrar loading
+    var shouldShowLoading = !guion || !guion.length;
 
     const [sceneIndex, setSceneIndex] = useState(0);
     const [showTranslation, setShowTranslation] = useState(false);
@@ -46,6 +79,13 @@ window.Muller.Panels['historia'] = function({ session }) {
     // Estados para vocabulario del usuario en modo Diálogo normal
     const [sceneUserVocab, setSceneUserVocab] = useState([]);
     const [showSceneVocab, setShowSceneVocab] = useState(true);
+
+    // Si no hay guion, return early
+    if (shouldShowLoading) {
+        return window.React.createElement('div', { className: 'flex items-center justify-center h-full bg-gray-900 text-white' },
+            window.React.createElement('p', null, 'Cargando guion...')
+        );
+    }
 
     const escena = guion[sceneIndex] || guion[0];
 
@@ -427,17 +467,17 @@ window.Muller.Panels['historia'] = function({ session }) {
         if (!SubmodoComponent) return window.React.createElement('div', { className: 'text-white' }, 'Submodo no encontrado');
 
         if (activeSubmodo === 'tempus') {
-            return window.React.createElement('div', { className: 'w-full max-w-2xl mx-auto' },
+            return window.React.createElement('div', { className: 'w-full max-w-2xl mx-auto bg-gray-900 text-white' },
                 window.React.createElement(SubmodoComponent, { escena, currentScene: escena, guion, sceneIndex, salir: salirSubmodo })
             );
         }
 
-        return window.React.createElement('div', { className: 'w-full h-full flex flex-col' },
+        return window.React.createElement('div', { className: 'w-full h-full flex flex-col bg-gray-900 text-white' },
             window.React.createElement('button', {
                 onClick: salirSubmodo,
                 className: 'self-start mb-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 py-1 text-white text-sm hover:bg-white/20'
             }, '← Volver al diálogo'),
-            window.React.createElement('div', { className: 'flex-1 overflow-auto' },
+            window.React.createElement('div', { className: 'flex-1 overflow-auto bg-gray-900 text-white' },
                 window.React.createElement(SubmodoComponent, { escena, currentScene: escena, guion, sceneIndex, salir: salirSubmodo })
             )
         );
@@ -474,13 +514,16 @@ window.Muller.Panels['historia'] = function({ session }) {
                 })
             ),
             window.React.createElement('select', {
+                value: activeScriptId,
                 className: 'backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-3 py-1 text-sm text-white ml-2',
                 onChange: (e) => {
-                    if (e.target.value === 'default') setSceneIndex(0);
-                    else {
-                        var script = savedScripts.find(function(s) { return s.id === e.target.value; });
-                        if (script) window.Muller.activeScript = script;
-                    }
+                    var newId = e.target.value;
+                    // Guardar en localStorage para persistencia
+                    window.Muller.storage.set('activeScriptId', newId);
+                    // Actualizar estado reactivo (dispara useEffect que recarga el guion)
+                    setActiveScriptId(newId);
+                    // Resetear a primera escena
+                    setSceneIndex(0);
                 }
             },
                 window.React.createElement('option', { value: 'default' }, 'Guión por defecto'),

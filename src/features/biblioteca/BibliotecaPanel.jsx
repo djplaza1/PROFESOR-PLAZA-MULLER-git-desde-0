@@ -74,6 +74,12 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     const [selectedScriptId, setSelectedScriptId] = useState(null);
     const [feedback, setFeedback] = useState('');
     const [importing, setImporting] = useState(false);
+    
+    // Estado reactivo del guion activo (sincronizado con localStorage)
+    const [activeScriptId, setActiveScriptId] = useState(function() {
+        return storage.get('activeScriptId', null);
+    });
+    const [actionLoading, setActionLoading] = useState({});
 
     // --- Carga inicial ---
     useEffect(function() {
@@ -158,8 +164,30 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
 
     const handleLoadInHistoria = function(script) {
         window.Muller.activeScript = script;
-        setFeedback('✓ "' + script.title + '" cargado. Ve a la pestaña Historia.');
+        storage.set('activeScriptId', script.id);
+        setActiveScriptId(script.id);
+        setFeedback('✓ "' + script.title + '" activado. Ve a la pestaña Historia.');
         setTimeout(function() { setFeedback(''); }, 2500);
+    };
+    
+    const handleActivateScript = function(scriptId) {
+        if (activeScriptId === scriptId) {
+            // Desactivar
+            storage.set('activeScriptId', 'default');
+            setActiveScriptId('default');
+            window.Muller.activeScript = null;
+            setFeedback('✓ Guion desactivado. Se usará el guion por defecto.');
+        } else {
+            // Activar
+            var script = scripts.find(function(s) { return s.id === scriptId; });
+            if (script) {
+                window.Muller.activeScript = script;
+                storage.set('activeScriptId', scriptId);
+                setActiveScriptId(scriptId);
+                setFeedback('✓ "' + script.title + '" activado.');
+            }
+        }
+        setTimeout(function() { setFeedback(''); }, 2000);
     };
 
     const handleImportFile = function() {
