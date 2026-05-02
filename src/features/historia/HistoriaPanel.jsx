@@ -5,9 +5,9 @@
 //   - Resalta en amarillo palabras del vocabulario del usuario
 //   - Al final de cada frase muestra lista de palabras con traducción
 // ═══════════════════════════════════════════════════
+// NOTA: Íconos SVG inline para evitar conflictos React ↔ lucide.createIcons()
 window.Muller.Panels['historia'] = function({ session }) {
     const { useState, useEffect, useRef, useCallback } = window.React;
-    const lucide = window.lucide;
 
     const MData = window.Muller.Data || {};
     const guionRaw = MData.defaultGuion;
@@ -194,35 +194,49 @@ window.Muller.Panels['historia'] = function({ session }) {
         window.Muller.playSceneAudio(sentence, 'de');
     };
 
-    // Regenerar iconos Lucide después de que React termine su reconciliación
-    // Usar requestAnimationFrame para ejecutarse DESPUÉS del próximo paint
-    // No usar MutationObserver porque interfiere con React al detectar cambios
-    // que ocurren durante la reconciliación del virtual DOM
-    useEffect(() => {
-        if (!window.lucide) return;
-        let cancelled = false;
-        const raf = requestAnimationFrame(() => {
-            if (cancelled) return;
-            try {
-                // Resetear asignaciones previas para que lucide ignore nodos <svg>
-                // que ya fueron convertidos (evita removeChild en nodos que React movió)
-                window.lucide.createIcons();
-            } catch (e) {
-                // Ignorar NotFoundError: React desmontó nodos durante el proceso
-            }
-        });
-        return () => {
-            cancelled = true;
-            cancelAnimationFrame(raf);
-        };
-    });
+    // SVG inline para todos los iconos (sin depender de lucide.createIcons)
+    var ICON_SVGS = {
+        'play': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+        'pause': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>',
+        'skip-forward': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>',
+        'skip-back': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>',
+        'square': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>',
+        'book-open': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+        'bookmark': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+        'users': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        'mic': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>',
+        'clock': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+        'edit-3': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+        'align-left': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="17" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>',
+        'type': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>',
+        'table': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>',
+        'ear': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0"/><path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4"/></svg>',
+        'volume-1': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>',
+        'volume-2': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>',
+        'circle': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>',
+        'chevron-left': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
+        'chevron-right': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+        'x': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+        'eye': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+        'eye-off': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>',
+        'gauge': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15l-2-5 7-2-2 5z"/><circle cx="12" cy="12" r="10"/></svg>'
+    };
 
-    const Icon = ({ name, size = 18, className = '' }) => {
-        if (!name) return null;
-        return window.React.createElement('i', {
-            'data-lucide': name,
-            style: { width: size, height: size, display: 'inline-block' }
+    var crearIcono = function(iconName, size) {
+        if (size === undefined) size = 18;
+        if (!iconName) return null;
+        var svgString = ICON_SVGS[iconName.toLowerCase()];
+        if (!svgString) return null;
+        var resized = svgString.replace('width="24"', 'width="' + size + '"').replace('height="24"', 'height="' + size + '"');
+        return window.React.createElement('span', {
+            style: { display: 'inline-flex', width: size, height: size },
+            dangerouslySetInnerHTML: { __html: resized }
         });
+    };
+
+    var Icon = function({ name, size }) {
+        if (size === undefined) size = 18;
+        return crearIcono(name, size);
     };
 
     const GlassButton = ({ icon, label, onClick, disabled, active, className = '', ...props }) =>
@@ -233,7 +247,7 @@ window.Muller.Panels['historia'] = function({ session }) {
             title: label,
             ...props
         },
-            window.React.createElement(Icon, { name: icon, size: 16 }),
+            crearIcono(icon, 16),
             window.React.createElement('span', { className: 'text-[0.5rem] leading-tight font-medium whitespace-nowrap' }, label || '')
         );
 
@@ -280,14 +294,14 @@ window.Muller.Panels['historia'] = function({ session }) {
                         onClick: speakCurrentSentence,
                         className: 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 transition cursor-pointer'
                     },
-                        window.React.createElement(Icon, { name: 'volume-2', size: 14 }),
+                        crearIcono('volume-2', 14),
                         window.React.createElement('span', null, 'Escuchar')
                     ),
                     window.React.createElement('button', {
                         onClick: function() { setShowVocabTranslation(!showVocabTranslation); },
                         className: 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:bg-amber-500/30 transition cursor-pointer'
                     },
-                        window.React.createElement(Icon, { name: showVocabTranslation ? 'eye-off' : 'eye', size: 14 }),
+                        crearIcono(showVocabTranslation ? 'eye-off' : 'eye', 14),
                         window.React.createElement('span', null, showVocabTranslation ? 'Ocultar vocabulario' : 'Ver vocabulario')
                     )
                 )
@@ -296,7 +310,7 @@ window.Muller.Panels['historia'] = function({ session }) {
         // Panel de vocabulario de la frase (mostrar las palabras del usuario que aparecen)
         showVocabTranslation && currentSentenceVocab.length > 0 && window.React.createElement('div', { className: 'w-full p-4 rounded-2xl backdrop-blur-md bg-yellow-500/5 border border-yellow-500/20 mb-4 animate-fadeIn' },
             window.React.createElement('h4', { className: 'text-sm font-bold text-yellow-300 mb-3 flex items-center gap-2' },
-                window.React.createElement(Icon, { name: 'bookmark', size: 16 }),
+                crearIcono('bookmark', 16),
                 window.React.createElement('span', null, 'Vocabulario en esta frase (' + currentSentenceVocab.length + ')')
             ),
             window.React.createElement('div', { className: 'grid grid-cols-1 sm:grid-cols-2 gap-2' },
@@ -348,7 +362,7 @@ window.Muller.Panels['historia'] = function({ session }) {
                     disabled: sentences.length <= 1,
                     className: 'flex items-center gap-1 px-4 py-2 rounded-xl text-sm bg-white/10 hover:bg-white/20 text-white border border-white/20 transition disabled:opacity-40 cursor-pointer'
                 },
-                    window.React.createElement(Icon, { name: 'chevron-left', size: 16 }),
+                    crearIcono('chevron-left', 16),
                     window.React.createElement('span', null, 'Anterior')
                 ),
                 window.React.createElement('span', { className: 'text-xs text-gray-500' }, (currentSentenceIdx + 1) + ' / ' + sentences.length),
@@ -358,7 +372,7 @@ window.Muller.Panels['historia'] = function({ session }) {
                     className: 'flex items-center gap-1 px-4 py-2 rounded-xl text-sm bg-white/10 hover:bg-white/20 text-white border border-white/20 transition disabled:opacity-40 cursor-pointer'
                 },
                     window.React.createElement('span', null, 'Siguiente'),
-                    window.React.createElement(Icon, { name: 'chevron-right', size: 16 })
+                    crearIcono('chevron-right', 16)
                 )
             ),
 
@@ -369,7 +383,7 @@ window.Muller.Panels['historia'] = function({ session }) {
                         onClick: stopAutoPlay,
                         className: 'flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30 transition cursor-pointer'
                     },
-                        window.React.createElement(Icon, { name: 'pause', size: 14 }),
+                        crearIcono('pause', 14),
                         window.React.createElement('span', null, 'Detener auto')
                     )
                     : window.React.createElement('button', {
@@ -377,14 +391,14 @@ window.Muller.Panels['historia'] = function({ session }) {
                         disabled: currentSentenceIdx >= sentences.length - 1,
                         className: 'flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition cursor-pointer disabled:opacity-40'
                     },
-                        window.React.createElement(Icon, { name: 'play', size: 14 }),
+                        crearIcono('play', 14),
                         window.React.createElement('span', null, 'Auto-play')
                     ),
                 window.React.createElement('button', {
                     onClick: deactivateVocabMode,
                     className: 'flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs bg-gray-500/20 text-gray-300 border border-gray-500/30 hover:bg-gray-500/30 transition cursor-pointer'
                 },
-                    window.React.createElement(Icon, { name: 'x', size: 14 }),
+                    crearIcono('x', 14),
                     window.React.createElement('span', null, 'Salir')
                 )
             )
@@ -489,14 +503,14 @@ window.Muller.Panels['historia'] = function({ session }) {
                 showSceneVocab && sceneUserVocab.length > 0 && window.React.createElement('div', { className: 'mt-6 p-4 rounded-2xl backdrop-blur-md bg-yellow-500/5 border border-yellow-500/20 text-left' },
                     window.React.createElement('div', { className: 'flex items-center justify-between mb-3' },
                         window.React.createElement('h4', { className: 'text-sm font-bold text-yellow-300 flex items-center gap-2' },
-                            window.React.createElement(Icon, { name: 'bookmark', size: 16 }),
+                            crearIcono('bookmark', 16),
                             window.React.createElement('span', null, 'Tu vocabulario en esta escena (' + sceneUserVocab.length + ')')
                         ),
                         window.React.createElement('button', {
                             onClick: function() { setShowSceneVocab(false); },
                             className: 'text-xs text-gray-500 hover:text-white transition cursor-pointer'
                         },
-                            window.React.createElement(Icon, { name: 'x', size: 14 })
+                            crearIcono('x', 14)
                         )
                     ),
                     window.React.createElement('div', { className: 'flex flex-wrap gap-2' },
@@ -574,7 +588,7 @@ window.Muller.Panels['historia'] = function({ session }) {
                 window.React.createElement(GlassButton, { icon: 'skip-forward', label: 'Siguiente', onClick: vocabModeActive ? nextSentence : nextScene, disabled: vocabModeActive ? sentences.length <= 1 : sceneIndex >= guion.length - 1 })
             ),
             window.React.createElement('div', { className: 'flex items-center gap-2' },
-                window.React.createElement('i', { 'data-lucide': 'gauge', style: { width: 14, height: 14, color: '#94a3b8' } }),
+                crearIcono('gauge', 14),
                 window.React.createElement('input', {
                     type: 'range',
                     min: '0.25',
