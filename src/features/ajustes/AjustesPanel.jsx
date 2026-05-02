@@ -664,6 +664,9 @@ window.Muller.Panels.AjustesPanel = {
   }
 };
 
+// Alias minúscula para que PanelRouter lo encuentre (busca 'ajustes', no 'AjustesPanel')
+window.Muller.Panels.ajustes = window.Muller.Panels.AjustesPanel;
+
 // Método auxiliar para exportar datos filtrados
 window.Muller.Ajustes.exportFiltered = function(type) {
   const data = {};
