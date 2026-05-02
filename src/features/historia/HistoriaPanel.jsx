@@ -7,7 +7,7 @@
 // ═══════════════════════════════════════════════════
 // NOTA: Íconos SVG inline para evitar conflictos React ↔ lucide.createIcons()
 window.Muller.Panels['historia'] = function({ session }) {
-    const { useState, useEffect, useRef, useCallback } = window.React;
+    const { useState, useEffect, useRef, useCallback, useMemo } = window.React;
 
     const MData = window.Muller.Data || {};
 
@@ -22,38 +22,35 @@ window.Muller.Panels['historia'] = function({ session }) {
     const [activeScriptId, setActiveScriptId] = useState(function() {
         return window.Muller.storage.get('activeScriptId', 'default');
     });
-    const [guion, setGuion] = useState(function() {
-        // Inicializar desde activeScriptId guardado
-        var id = window.Muller.storage.get('activeScriptId', 'default');
-        if (id !== 'default') {
-            var scripts = window.Muller.storage.get('savedScripts', []);
-            var found = scripts.find(function(s) { return s.id === id; });
+    const [savedScripts, setSavedScripts] = useState([]);
+
+    // useMemo: recalcula guion en CADA render si cambian dependencias
+    // Esto es crítico porque MData.defaultGuion puede cargarse asíncronamente
+    const guion = useMemo(function() {
+        if (activeScriptId && activeScriptId !== 'default') {
+            var found = savedScripts.find(function(s) { return s.id === activeScriptId; });
+            if (found && found.escenas) {
+                window.Muller.activeScript = found;
+                //console.log('[Historia] Usando guion guardado:', found.title);
+                return parseGuion(found.escenas);
+            }
             if (found) {
                 window.Muller.activeScript = found;
-                return parseGuion(found.escenas || found);
+                //console.log('[Historia] Usando guion guardado (objeto):', found.title);
+                return parseGuion(found);
             }
         }
-        return parseGuion(MData.defaultGuion);
-    });
+        // Fallback al guion por defecto (de window.Muller.Data.defaultGuion)
+        window.Muller.activeScript = null;
+        var dg = MData.defaultGuion;
+        //console.log('[Historia] Guion por defecto:', dg ? 'encontrado' : 'NO ENCONTRADO');
+        return parseGuion(dg);
+    }, [activeScriptId, savedScripts, MData.defaultGuion]);
 
+    // Cargar savedScripts desde localStorage al montar y cuando activeScriptId cambie
     useEffect(function() {
-        // Cargar savedScripts y recomputar guion si activeScriptId ha cambiado
         var scripts = window.Muller.storage.get('savedScripts', []);
         setSavedScripts(scripts);
-        
-        var id = activeScriptId;
-        if (id !== 'default') {
-            var found = scripts.find(function(s) { return s.id === id; });
-            if (found) {
-                window.Muller.activeScript = found;
-                var newGuion = parseGuion(found.escenas || found);
-                setGuion(newGuion);
-                return;
-            }
-        }
-        // Fallback a guion por defecto
-        window.Muller.activeScript = null;
-        setGuion(parseGuion(MData.defaultGuion));
     }, [activeScriptId]);
 
     // Si no hay guion, mostrar loading
@@ -65,7 +62,6 @@ window.Muller.Panels['historia'] = function({ session }) {
     const [speed, setSpeed] = useState(1.0);
     const [activeSubmodo, setActiveSubmodo] = useState(null);
     const [mode, setMode] = useState('dialogo');
-    const [savedScripts, setSavedScripts] = useState([]);
     
     // Estados para modo Vocabulario (frase por frase)
     const [vocabModeActive, setVocabModeActive] = useState(false);
@@ -88,11 +84,6 @@ window.Muller.Panels['historia'] = function({ session }) {
     }
 
     const escena = guion[sceneIndex] || guion[0];
-
-    useEffect(() => {
-        const scripts = window.Muller.storage.get('savedScripts', []);
-        setSavedScripts(scripts);
-    }, []);
 
     const textoAleman = escena ? window.Muller.sanitizeHistoriaText(escena.text_de || escena.text) : '';
     const textoEspanol = escena ? escena.translation || '' : '';
