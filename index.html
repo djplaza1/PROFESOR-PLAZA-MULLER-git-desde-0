@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <!-- redeploy 2026-05-02 -->
+    <!-- redeploy 2026-05-03-lectura-modular -->
     <title>PROFESOR PLAZA MÜLLER</title>
     <meta name="theme-color" content="#581c87" />
     <meta name="description" content="PROFESOR PLAZA MÜLLER: historia, vocabulario, B1/B2 y progreso." />
@@ -30,8 +30,6 @@
     <!-- React y ReactDOM -->
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel para compilar JSX en el navegador -->
     
     <!-- Babel standalone -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -423,7 +421,7 @@
             .muller-nav-row { gap: 0.32rem; }
         }
 
-        /* ==================== SPLASH / PREBOOT - REDISEÃ‘O ==================== */
+        /* ==================== SPLASH / PREBOOT ==================== */
         .muller-preboot {
             position: fixed;
             inset: 0;
@@ -441,8 +439,6 @@
             pointer-events: none;
             visibility: hidden;
         }
-
-        /* ---- BANDA ALEMANA ARRIBA: flex:1 para ocupar todo el espacio restante ---- */
         .muller-preboot-de {
             flex: 1;
             width: 100%;
@@ -450,16 +446,9 @@
             position: relative;
             z-index: 1;
             margin: 0;
-            background: linear-gradient(
-                180deg,
-                #000000 0%, #000000 33.3%,
-                #dd0000 33.3%, #dd0000 66.6%,
-                #ffce00 66.6%, #ffce00 100%
-            );
+            background: linear-gradient(180deg, #000000 0%, #000000 33.3%, #dd0000 33.3%, #dd0000 66.6%, #ffce00 66.6%, #ffce00 100%);
             box-shadow: 0 2px 12px rgba(0,0,0,0.15);
         }
-
-        /* ---- BANDA ESPAÃ‘OLA ABAJO: flex:1 para ocupar todo el espacio restante ---- */
         .muller-preboot-es {
             flex: 1;
             width: 100%;
@@ -467,16 +456,9 @@
             position: relative;
             z-index: 1;
             margin: 0;
-            background: linear-gradient(
-                180deg,
-                #aa151b 0%, #aa151b 33.3%,
-                #f1bf00 33.3%, #f1bf00 66.6%,
-                #aa151b 66.6%, #aa151b 100%
-            );
+            background: linear-gradient(180deg, #aa151b 0%, #aa151b 33.3%, #f1bf00 33.3%, #f1bf00 66.6%, #aa151b 66.6%, #aa151b 100%);
             box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
         }
-
-        /* ---- ZONA CENTRAL: BLANCA, 18% VH OCUPA ANCHO COMPLETO ---- */
         .muller-preboot-mid {
             flex: 0 0 18vh;
             height: 18vh;
@@ -495,8 +477,6 @@
             background: #ffffff;
             box-sizing: border-box;
         }
-
-        /* Lado izquierdo: altura completa */
         .muller-preboot-mid-left {
             flex: 0 0 auto;
             height: 100%;
@@ -509,8 +489,6 @@
             position: relative;
             overflow: visible;
         }
-
-        /* Logo: cÃ­rculo PERFECTO cuadrado, altura = padre menos 4px, aspect-ratio:1 asegura cuadrado */
         .muller-preboot-logo-btn {
             -webkit-tap-highlight-color: transparent;
             display: block;
@@ -536,13 +514,8 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        .muller-preboot-logo-btn:hover {
-            transform: scale(1.02);
-        }
-        .muller-preboot-logo-btn:focus-visible {
-            outline: 2px solid #6366f1;
-            outline-offset: 3px;
-        }
+        .muller-preboot-logo-btn:hover { transform: scale(1.02); }
+        .muller-preboot-logo-btn:focus-visible { outline: 2px solid #6366f1; outline-offset: 3px; }
         .muller-preboot-logo-btn img {
             display: block;
             width: 100%;
@@ -554,8 +527,6 @@
             box-shadow: none;
             filter: none;
         }
-
-        /* Lado derecho: fondo blanco, título con marco negro redondeado */
         .muller-preboot-mid-right {
             flex: 0 1 auto;
             max-width: 55%;
@@ -567,7 +538,6 @@
             padding: clamp(0.25rem, 1vw, 0.75rem);
             box-sizing: border-box;
         }
-        /* Marco negro redondeado alrededor del título y CTA */
         .muller-preboot-title-frame {
             border: 3px solid #000000;
             border-radius: 1.2rem;
@@ -577,7 +547,6 @@
             transition: box-shadow 0.4s ease, border-color 0.4s ease;
             box-shadow: 0 0 6px rgba(212, 175, 55, 0.2);
         }
-        /* título enorme, negro, sin espaciado extra */
         .muller-preboot-title {
             font-family: 'Outfit', system-ui, sans-serif;
             font-size: clamp(1.2rem, 6vw, 3rem);
@@ -592,7 +561,6 @@
             word-break: keep-all;
             white-space: nowrap;
         }
-        /* CTA: flecha ← + "PULSE AQUÍ" debajo del título */
         .muller-preboot-hint {
             display: flex;
             flex-direction: row;
@@ -605,10 +573,7 @@
             pointer-events: none;
             margin-top: 0;
         }
-        .muller-preboot-hint--visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .muller-preboot-hint--visible { opacity: 1; transform: translateY(0); }
         .muller-preboot-hint-arrow {
             display: inline-block;
             font-size: clamp(1rem, 3vw, 1.8rem);
@@ -633,31 +598,15 @@
             color: transparent;
             -webkit-text-fill-color: transparent;
         }
-
-        /* ---- ANIMACIONES tras 3 segundos ---- */
-        /* Logo parpadea IGUAL que el marco (misma animaciÃ³n golden-frame-blink) */
-        .muller-preboot-logo-btn.preboot-logo-blink {
-            animation: golden-frame-blink 0.8s ease-in-out infinite;
-        }
-        /* Marco del título: destello dorado alrededor del borde redondeado */
-        .muller-preboot-mid-right.preboot-border-blink .muller-preboot-title-frame {
-            animation: golden-frame-blink 0.8s ease-in-out infinite;
-        }
+        .muller-preboot-logo-btn.preboot-logo-blink { animation: golden-frame-blink 0.8s ease-in-out infinite; }
+        .muller-preboot-mid-right.preboot-border-blink .muller-preboot-title-frame { animation: golden-frame-blink 0.8s ease-in-out infinite; }
         @keyframes golden-frame-blink {
-            0%, 100% {
-                box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
-                border-color: #000000;
-            }
-            50% {
-                box-shadow: 0 0 35px gold, 0 0 70px rgba(212, 175, 55, 0.4);
-                border-color: #d4a017;
-            }
+            0%, 100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); border-color: #000000; }
+            50% { box-shadow: 0 0 35px gold, 0 0 70px rgba(212, 175, 55, 0.4); border-color: #d4a017; }
         }
-
         @media (max-width: 640px) {
             .muller-preboot-mid { flex-direction: row; flex: 0 0 16vh; height: 16vh; min-height: 60px; max-height: 140px; }
-            .muller-preboot-mid-left,
-            .muller-preboot-mid-right { flex: none; }
+            .muller-preboot-mid-left, .muller-preboot-mid-right { flex: none; }
             .muller-preboot-mid-right { max-width: 65%; padding: 0.4rem; align-items: flex-start; }
             .muller-preboot-mid-right .muller-preboot-title-frame { text-align: left; }
             .muller-preboot-mid-right .muller-preboot-title { text-align: left; white-space: nowrap; font-size: clamp(1rem, 4.5vw, 1.8rem); }
@@ -683,14 +632,11 @@
 </head>
 <body>
     <div id="muller-preboot" class="muller-preboot" role="dialog" aria-modal="true" aria-label="Pantalla de inicio">
-        <!-- BANDERA ALEMANA (ARRIBA) -->
         <div class="muller-preboot-de" aria-hidden="true" title="Bandera de Alemania"></div>
-        
-        <!-- ZONA CENTRAL: LADO IZQUIERDO (LOGO FONDO NEGRO) + LADO DERECHO (CARD BLANCA CON BORDE NEGRO) -->
         <div class="muller-preboot-mid">
             <div class="muller-preboot-mid-left">
                 <button type="button" id="muller-preboot-logo-btn" class="muller-preboot-logo-btn" title="Pulse aquí para entrar" aria-label="Pulse en el logo para abrir la aplicación">
-                    <img src="assets/icons/Logo-Plaza-Sin-fondo_20250125_054126_0000.png" alt="Profesor Plaza MÃ¼ller" width="600" height="600" loading="eager" fetchpriority="high" decoding="async" />
+                    <img src="assets/icons/Logo-Plaza-Sin-fondo_20250125_054126_0000.png" alt="Profesor Plaza Müller" width="600" height="600" loading="eager" fetchpriority="high" decoding="async" />
                 </button>
             </div>
             <div id="muller-preboot-mid-right" class="muller-preboot-mid-right">
@@ -703,8 +649,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- BANDERA ESPAÃ‘OLA (ABAJO) IGUAL QUE ANTES -->
         <div class="muller-preboot-es" aria-hidden="true" title="Bandera de España"></div>
     </div>
     <div id="root"></div>
@@ -762,9 +706,7 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupPreboot, { once: true });
     else setupPreboot();
 })();
-</script>
-
-    
+    </script>
 
     <script>
         if ('serviceWorker' in navigator) {
@@ -798,7 +740,13 @@
   <!-- FEATURES (componentes) -->
   <script type="text/babel" src="src/features/escritura/escrituraHelpers.jsx"></script>
   <script type="text/babel" src="src/features/escritura/EscrituraPanel.jsx"></script>
-  <script type="text/babel" src="src/features/lectura/lecturaHelpers.jsx"></script>
+  <!-- LECTURA MODULAR -->
+  <script type="text/babel" src="src/features/lectura/helpers/icons.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/normalization.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/tokenizer.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/scoring.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/pronunciation.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/hooks/useLectura.js"></script>
   <script type="text/babel" src="src/features/lectura/LecturaPanel.jsx"></script>
   <script type="text/babel" src="src/features/entrenamiento/entrenamientoHelpers.jsx"></script>
   <script type="text/babel" src="src/features/entrenamiento/EntrenamientoPanel.jsx"></script>
@@ -813,7 +761,8 @@
   <script type="text/babel" src="src/features/telc/TelcPanel.jsx"></script>
   <script type="text/babel" src="src/features/splash/Splash.jsx"></script>
   <script type="text/babel" src="src/features/navigation/TopBar.jsx"></script>
-  <script type="text/babel" src="src/features/navigation/BottomBar.jsx"></script>  <script type="text/babel" src="src/features/ia/iaHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/navigation/BottomBar.jsx"></script>
+  <script type="text/babel" src="src/features/ia/iaHelpers.jsx"></script>
   <script type="text/babel" src="src/features/ia/IAPanel.jsx"></script>
   <script type="text/babel" src="src/features/ajustes/ajustesHelpers.jsx"></script>
   <script type="text/babel" src="src/features/ajustes/AjustesPanel.jsx"></script>
@@ -822,8 +771,6 @@
   <!-- RUTA DE APRENDIZAJE -->
   <script type="text/babel" src="src/features/ruta/rutaHelpers.jsx"></script>
   <script type="text/babel" src="src/features/ruta/RutaPanel.jsx"></script>
-
-
 
   <script type="text/babel" src="src/features/historia/data/defaultGuion.jsx?v=2"></script>
   <script type="text/babel" src="src/features/historia/data/oralB1Questions.jsx?v=2"></script>
@@ -845,16 +792,3 @@
   <script type="text/babel" src="src/app.jsx?v=2"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
