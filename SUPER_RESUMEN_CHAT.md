@@ -106,7 +106,7 @@ src/
   - **Cómo evitarlo**: si el commit solo contiene cambios en archivos NO web (documentación, etc.), haz también un cambio mínimo en `index.html` (por ejemplo añadir un comentario como `<!-- redeploy YYYY-MM-DD -->` en el `<head>`) para forzar el redeploy.
   - El comando de abajo ya incluye esta comprobación automática: si detecta que ningún archivo web ha cambiado, añade el comentario de redeploy en `index.html`.
 
-- **🔄 Commit + Push universal (funciona en casa con master Y en trabajo con main)** (PowerShell — copiar y pegar entero):
+- **🔄 Commit + Push universal (funciona siempre — rama `main`)** (PowerShell — copiar y pegar entero):
   ```powershell
   Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; `
   $branch = (git rev-parse --abbrev-ref HEAD); `
@@ -125,11 +125,11 @@ src/
   git push origin $branch
   ```
   > **Instrucciones**: Cambia `"tu mensaje"` por lo que quieras poner en el commit. El comando:
-  > 1. Detecta si la rama es `master` (casa) o `main` (trabajo) automáticamente
+  > 1. Detecta la rama automáticamente (ahora es `main` tanto en casa como en el trabajo — el comando ya está configurado para siempre usar `main`)
   > 2. Comprueba si los archivos modificados son de la web o no
   > 3. **Si solo has tocado documentación** (`SUPER_RESUMEN_CHAT.md`, `README.md`, `.gitignore`, etc.), añade automáticamente un comentario en `index.html` para forzar el redeploy de GitHub Pages
   > 4. Si ya hay cambios web, hace commit normal sin tocar `index.html`
-  > 5. Hace push a la rama correcta
+  > 5. Hace push a la rama correcta (`main`)
 
 - **⚠️ Caché GitHub Pages**: Si después de hacer push la web no se actualiza al recargar (https://djplaza1.github.io/PROFESOR-PLAZA-MULLER-git-desde-0/), forzar recarga con `Ctrl+F5` (Windows) o `Cmd+Shift+R` (Mac) para saltar la caché del navegador. Si sigue sin cargar, esperar 2-3 minutos a que GitHub Pages termine el despliegue.
 - **Consistencia visual**: Todas las pestañas deben compartir el mismo sistema de diseño: mismos espaciados (p-4/p-6), mismos radios de borde (rounded-xl/rounded-2xl), misma paleta de colores (Tailwind slate/indigo/emerald), mismos estilos de botones, mismos tipos de loading/empty/error states. No reinventes estilos por pestaña.
