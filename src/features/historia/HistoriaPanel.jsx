@@ -194,11 +194,18 @@ window.Muller.Panels['historia'] = function({ session }) {
         window.Muller.playSceneAudio(sentence, 'de');
     };
 
-    // Regenerar iconos Lucide
+    // Regenerar iconos Lucide - con try-catch para evitar el error "removeChild"
+    // cuando React desmonta nodos mientras lucide los está reemplazando
     useEffect(() => {
+        if (!window.lucide) return;
         const timer = setTimeout(() => {
-            if (window.lucide) window.lucide.createIcons();
-        }, 0);
+            try {
+                window.lucide.createIcons();
+            } catch (e) {
+                // Ignorar error de removeChild: React ya desmontó el nodo
+                if (e.name !== 'NotFoundError') console.warn('lucide:', e);
+            }
+        }, 50); // esperar a que React termine su commit
         return () => clearTimeout(timer);
     }, [sceneIndex, activeSubmodo, mode, isPlaying, speed, vocabModeActive, currentSentenceIdx]);
 
