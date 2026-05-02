@@ -194,31 +194,26 @@ window.Muller.Panels['historia'] = function({ session }) {
         window.Muller.playSceneAudio(sentence, 'de');
     };
 
-    // Regenerar iconos Lucide usando MutationObserver para evitar
-    // el error "NotFoundError: Failed to execute 'removeChild' on 'Node'"
-    // que ocurre cuando React desmonta nodos mientras lucide los reemplaza
+    // Regenerar iconos Lucide después de que React termine su reconciliación
+    // Usar requestAnimationFrame para ejecutarse DESPUÉS del próximo paint
+    // No usar MutationObserver porque interfiere con React al detectar cambios
+    // que ocurren durante la reconciliación del virtual DOM
     useEffect(() => {
         if (!window.lucide) return;
-        const timeout = setTimeout(() => {
+        let cancelled = false;
+        const raf = requestAnimationFrame(() => {
+            if (cancelled) return;
             try {
+                // Resetear asignaciones previas para que lucide ignore nodos <svg>
+                // que ya fueron convertidos (evita removeChild en nodos que React movió)
                 window.lucide.createIcons();
             } catch (e) {
-                // Ignorar errores de removeChild
+                // Ignorar NotFoundError: React desmontó nodos durante el proceso
             }
-        }, 0);
-        // Observar nuevos iconos que aparezcan sin romper React
-        const observer = new MutationObserver(() => {
-            try {
-                window.lucide.createIcons();
-            } catch (e) {}
         });
-        const container = document.getElementById('historia-panel-root');
-        if (container) {
-            observer.observe(container, { childList: true, subtree: true });
-        }
         return () => {
-            clearTimeout(timeout);
-            observer.disconnect();
+            cancelled = true;
+            cancelAnimationFrame(raf);
         };
     });
 
