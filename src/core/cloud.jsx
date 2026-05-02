@@ -98,5 +98,117 @@
     }
   };
 
+  // ============== SINCRONIZACIÓN GENÉRICA (NUBE) ==================
+  // Mapeo entre localStorage keys y tablas/columnas Supabase
+  const CLOUD_TABLE_MAP = {
+    'savedScripts':    { table: 'user_scripts',    column: 'script_data' },
+    'userProgress':    { table: 'user_progress',   column: 'progress_data' },
+    'mullerVocabs':    { table: 'user_vocab',      column: 'vocab_data' },
+    'mullerAchievements': { table: 'user_achievements', column: 'achievements_data' }
+  };
+
+  /**
+   * M.saveToCloud(table, data) - Guarda datos en una tabla de Supabase.
+   * @param {string} table - Nombre de la tabla ('user_scripts', 'user_progress', etc.)
+   * @param {*} data - Datos a guardar (se almacenan como JSONB)
+   * @returns {Promise<{ok: boolean, error?: *}>}
+   */
+  M.saveToCloud = async function(table, data) {
+    const client = M.getSupabase();
+    if (!client) return { ok: false, reason: 'Sin Supabase' };
+    const session = await M.tryBxSession();
+    if (!session?.user) return { ok: false, reason: 'Sin sesión' };
+
+    // Determinar el nombre de la columna JSONB según la tabla
+    const column = table === 'user_scripts' ? 'script_data'
+                 : table === 'user_progress' ? 'progress_data'
+                 : table === 'user_vocab' ? 'vocab_data'
+                 : table === 'user_achievements' ? 'achievements_data'
+                 : null;
+    if (!column) return { ok: false, reason: 'Tabla desconocida: ' + table };
+
+    try {
+      const { error } = await client.from(table).upsert({
+        user_id: session.user.id,
+        [column]: data,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'user_id' });
+      if (error) throw error;
+      return { ok: true };
+    } catch (e) {
+      console.warn('saveToCloud error (' + table + '):', e);
+      return { ok: false, reason: e.message };
+    }
+  };
+
+  /**
+   * M.loadFromCloud(table) - Carga datos desde una tabla de Supabase.
+   * @param {string} table - Nombre de la tabla
+   * @returns {Promise<*|null>} Los datos guardados, o null si no hay
+   */
+  M.loadFromCloud = async function(table) {
+    const client = M.getSupabase();
+    if (!client) return null;
+    const session = await M.tryBxSession();
+    if (!session?.user) return null;
+
+    const column = table === 'user_scripts' ? 'script_data'
+                 : table === 'user_progress' ? 'progress_data'
+                 : table === 'user_vocab' ? 'vocab_data'
+                 : table === 'user_achievements' ? 'achievements_data'
+                 : null;
+    if (!column) return null;
+
+    try {
+      const { data, error } = await client.from(table).select(column)
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+      if (error || !data) return null;
+      return data[column];
+    } catch (e) {
+      console.warn('loadFromCloud error (' + table + '):', e);
+      return null;
+    }
+  };
+
+  /**
+   * M.syncAllFromCloud() - Carga TODOS los datos desde la nube y los almacena en localStorage.
+   * Llámalo después de login exitoso.
+   */
+  M.syncAllFromCloud = async function() {
+    const tables = ['user_scripts', 'user_progress', 'user_vocab', 'user_achievements'];
+    const keys = ['savedScripts', 'userProgress', 'mullerVocabs', 'mullerAchievements'];
+    for (let i = 0; i < tables.length; i++) {
+      const cloudData = await M.loadFromCloud(tables[i]);
+      if (cloudData !== null) {
+        M.storage.set(keys[i], cloudData);
+      }
+    }
+  };
+
+  /**
+   * M.saveAllToCloud() - Guarda TODOS los datos de localStorage en la nube.
+   * Llámalo antes de logout, o periódicamente, o manualmente.
+   */
+  M.saveAllToCloud = async function() {
+    await M.saveToCloud('user_scripts', M.storage.get('savedScripts', []));
+    await M.saveToCloud('user_progress', M.storage.get('userProgress', {}));
+    await M.saveToCloud('user_vocab', M.storage.get('mullerVocabs', []));
+    await M.saveToCloud('user_achievements', M.storage.get('mullerAchievements', []));
+  };
+
+  /**
+   * M.syncKeyToCloud(key) - Guarda una clave específica en la nube si está en el mapa.
+   * Útil para sincronización en tiempo real desde M.storage.set.
+   */
+  M.syncKeyToCloud = async function(key) {
+    const mapping = CLOUD_TABLE_MAP[key];
+    if (!mapping) return;
+    const data = M.storage.get(key, null);
+    if (data !== null) {
+      await M.saveToCloud(mapping.table, data);
+    }
+  };
+
 })();
 

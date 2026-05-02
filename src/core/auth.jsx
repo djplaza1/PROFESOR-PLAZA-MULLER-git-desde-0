@@ -129,28 +129,43 @@ window.Muller.Auth = (() => {
 
     // Login híbrido recomendado: intenta Supabase, si falla usa local
     async login(emailOrPassphrase, password) {
+      let result;
       // Si se pasan dos argumentos y el primero contiene '@', asumimos email + password para Supabase
       if (password && emailOrPassphrase.includes('@')) {
         try {
           const data = await supabaseSignIn(emailOrPassphrase, password);
-          return { method: 'supabase', user: data.user };
+          result = { method: 'supabase', user: data.user };
         } catch (e) {
           console.warn('Fallo Supabase, intentando local...', e);
           // Intentamos local con el password (la passphrase local es el mismo password)
           const isValid = await verifyLocalPassword(password);
           if (isValid) {
-            return { method: 'local', user: getLocalUserData() };
+            result = { method: 'local', user: getLocalUserData() };
+          } else {
+            throw new Error('Credenciales incorrectas');
           }
-          throw new Error('Credenciales incorrectas');
         }
       } else {
         // Sin email -> login local con passphrase
         const isValid = await verifyLocalPassword(emailOrPassphrase);
         if (isValid) {
-          return { method: 'local', user: getLocalUserData() };
+          result = { method: 'local', user: getLocalUserData() };
+        } else {
+          throw new Error('Contraseña incorrecta');
         }
-        throw new Error('Contraseña incorrecta');
       }
+
+      // Después de login exitoso: sincronizar datos desde la nube a localStorage
+      if (result && window.Muller && typeof window.Muller.syncAllFromCloud === 'function') {
+        try {
+          await window.Muller.syncAllFromCloud();
+          console.log('[Auth] Datos sincronizados desde la nube tras login');
+        } catch (e) {
+          console.warn('[Auth] Error sincronizando desde nube tras login:', e);
+        }
+      }
+
+      return result;
     },
 
     // Registro híbrido (crea cuenta Supabase y también coloca passphrase local)
@@ -165,6 +180,16 @@ window.Muller.Auth = (() => {
 
     // Cerrar sesión completamente
     async logout() {
+      // ANTES de cerrar sesión: guardar todos los datos locales en la nube
+      if (window.Muller && typeof window.Muller.saveAllToCloud === 'function') {
+        try {
+          await window.Muller.saveAllToCloud();
+          console.log('[Auth] Datos guardados en la nube antes de logout');
+        } catch (e) {
+          console.warn('[Auth] Error guardando en nube antes de logout:', e);
+        }
+      }
+
       await supabaseSignOut();
       clearLocalAuth();
     },

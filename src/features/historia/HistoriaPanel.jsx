@@ -40,6 +40,7 @@ window.Muller.Panels['historia'] = function({ session }) {
     const [sentences, setSentences] = useState([]);
     const [currentSentenceVocab, setCurrentSentenceVocab] = useState([]);
     const [showVocabTranslation, setShowVocabTranslation] = useState(true);
+    const [shouldAutoPlayFirst, setShouldAutoPlayFirst] = useState(false);
     const autoPlayRef = useRef(null);
     
     // Estados para vocabulario del usuario en modo Diálogo normal
@@ -131,11 +132,24 @@ window.Muller.Panels['historia'] = function({ session }) {
     };
     const salirSubmodo = () => setActiveSubmodo(null);
 
+    // Auto-play la primera frase al activar modo vocabulario desde el botón bookmark
+    useEffect(() => {
+        if (shouldAutoPlayFirst && vocabModeActive && sentences.length > 0 && currentSentenceIdx < sentences.length) {
+            setShouldAutoPlayFirst(false);
+            var sentence = sentences[currentSentenceIdx];
+            if (sentence) {
+                window.Muller.stopSpeech();
+                window.Muller.playSceneAudio(sentence, 'de');
+            }
+        }
+    }, [shouldAutoPlayFirst, vocabModeActive, sentences, currentSentenceIdx]);
+
     // --- Modo Vocabulario: navegación de oraciones ---
     const activateVocabMode = () => {
         stopScene();
         setVocabModeActive(true);
         setActiveSubmodo(null);
+        setShouldAutoPlayFirst(true);
     };
 
     const deactivateVocabMode = () => {

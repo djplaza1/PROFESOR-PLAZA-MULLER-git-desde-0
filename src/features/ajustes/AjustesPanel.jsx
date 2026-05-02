@@ -126,12 +126,21 @@ window.Muller.Panels.AjustesPanel = {
           <p id="ajustes-name-msg" class="text-xs text-gray-500 hidden"></p>
         </div>
 
-        <!-- Sesión (placeholder para futura integración Supabase) -->
+        <!-- Sincronización en la nube -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-2">
-            <i data-lucide="cloud" class="w-4 h-4"></i> Sincronización
+            <i data-lucide="cloud" class="w-4 h-4"></i> Sincronización en la nube
           </h4>
-          <p class="text-xs text-gray-400">La sincronización en la nube estará disponible próximamente. Tus datos se guardan localmente.</p>
+          <p class="text-xs text-gray-400">
+            Todos tus datos se sincronizan automáticamente con Supabase (nube).
+            Al hacer login en otro dispositivo, tendrás todo al día.
+          </p>
+          <div class="flex gap-2 flex-wrap items-center">
+            <button id="cloud-sync-now-btn" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-sm font-bold transition">
+              <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-1"></i> Sincronizar ahora
+            </button>
+            <span id="cloud-sync-status" class="text-xs text-gray-500 hidden"></span>
+          </div>
           <div class="flex gap-2 flex-wrap">
             <button id="ajustes-export-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-violet-500/30 bg-violet-900/20 text-violet-200 hover:bg-violet-900/40 transition">
               <i data-lucide="download" class="w-3.5 h-3.5 inline mr-1"></i> Exportar backup
@@ -576,6 +585,46 @@ window.Muller.Panels.AjustesPanel = {
           window.Muller.Utils?.showToast?.('Datos borrados. Recargando...', 'warning');
           setTimeout(() => location.reload(), 1000);
         }
+      }
+    });
+
+    // ─── "Sincronizar ahora" button ───
+    document.getElementById('cloud-sync-now-btn')?.addEventListener('click', async () => {
+      const btn = document.getElementById('cloud-sync-now-btn');
+      const status = document.getElementById('cloud-sync-status');
+      if (btn) btn.disabled = true;
+
+      if (status) {
+        status.textContent = '⏳ Sincronizando...';
+        status.className = 'text-xs text-amber-400';
+        status.classList.remove('hidden');
+      }
+
+      const M = window.Muller;
+      try {
+        // Primero guardar todo local → nube
+        if (typeof M.saveAllToCloud === 'function') {
+          await M.saveAllToCloud();
+        }
+        // Luego cargar todo nube → local
+        if (typeof M.syncAllFromCloud === 'function') {
+          await M.syncAllFromCloud();
+        }
+
+        if (status) {
+          status.textContent = '✅ Sincronización completa';
+          status.className = 'text-xs text-emerald-400';
+        }
+      } catch (e) {
+        console.warn('Error en sincronización manual:', e);
+        if (status) {
+          status.textContent = '❌ Error: ' + (e.message || 'desconocido');
+          status.className = 'text-xs text-red-400';
+        }
+      } finally {
+        if (btn) btn.disabled = false;
+        // Ocultar el mensaje después de 4 segundos
+        setTimeout(() => { if (status) status.classList.add('hidden'); }, 4000);
       }
     });
 

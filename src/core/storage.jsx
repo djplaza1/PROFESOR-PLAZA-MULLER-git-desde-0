@@ -12,4 +12,39 @@
   };
   M.sessionGet = (key, fb = null) => { try { const r = sessionStorage.getItem(key); return r ? JSON.parse(r) : fb; } catch(e) { return fb; } };
   M.sessionSet = (key, val) => { try { sessionStorage.setItem(key, JSON.stringify(val)); } catch(e) {} };
+
+  // ============== SINCRONIZACIÓN AUTOMÁTICA CON SUPABASE ==================
+  // Preservar el set original y reemplazarlo con uno que también sincronice
+  (function() {
+    var originalSet = M.storage.set;
+
+    // Mapa de claves de localStorage que deben sincronizarse automáticamente
+    var AUTO_SYNC_KEYS = {
+      'savedScripts':      'user_scripts',
+      'userProgress':      'user_progress',
+      'mullerVocabs':      'user_vocab',
+      'mullerAchievements':'user_achievements'
+    };
+
+    var syncTimeout = null;
+
+    M.storage.set = function(key, val) {
+      // Siempre guardar en localStorage primero
+      originalSet(key, val);
+
+      // Si es una clave importante, programar sincronización a la nube
+      var table = AUTO_SYNC_KEYS[key];
+      if (table && window.Muller && typeof window.Muller.saveToCloud === 'function') {
+        // Debounce: agrupar múltiples sets en 2 segundos
+        if (syncTimeout) clearTimeout(syncTimeout);
+        syncTimeout = setTimeout(function() {
+          // Usar saveToCloud directamente sin esperar la promesa
+          window.Muller.saveToCloud(table, val).catch(function(e) {
+            console.warn('syncToCloud error for ' + key + ':', e);
+          });
+          syncTimeout = null;
+        }, 2000);
+      }
+    };
+  })();
 })();
