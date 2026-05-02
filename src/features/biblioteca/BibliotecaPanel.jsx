@@ -1,5 +1,29 @@
 ﻿window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
+window.Muller.Modal = function(props) {
+    var show = props.show, onClose = props.onClose, title = props.title, children = props.children;
+    if (!show) return null;
+    return React.createElement('div', {
+        className: 'fixed inset-0 z-[200] flex items-center justify-center p-4',
+        onClick: function(e) { if (e.target === e.currentTarget) onClose(); }
+    },
+        React.createElement('div', { className: 'absolute inset-0 bg-black/60 backdrop-blur-sm' }),
+        React.createElement('div', {
+            className: 'relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl backdrop-blur-xl bg-gray-900/90 border border-white/20 shadow-2xl p-6 animate-fadeIn'
+        },
+            React.createElement('div', { className: 'flex items-center justify-between mb-5' },
+                React.createElement('h3', { className: 'text-lg font-bold text-white' }, title),
+                React.createElement('button', {
+                    onClick: onClose,
+                    className: 'p-1 rounded-full hover:bg-white/10 transition-colors'
+                },
+                    window.Muller.Icon('x', 20)
+                )
+            ),
+            children
+        )
+    );
+};
 
 
 /**
