@@ -1,4 +1,4 @@
-window.Muller = window.Muller || {};
+﻿window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 
 /**
@@ -48,6 +48,30 @@ window.Muller.Icon = window.Muller.Icon || function(name, size) {
  *   - Almacena en 'savedScripts' (misma clave que HistoriaPanel) y 'mullerVocabs'.
  *   - Registra window.Muller.activeScript al cargar en Historia.
  */
+window.Muller.Modal = function(props) {
+    var show = props.show, onClose = props.onClose, title = props.title, children = props.children;
+    if (!show) return null;
+    return React.createElement('div', {
+        className: 'fixed inset-0 z-[200] flex items-center justify-center p-4',
+        onClick: function(e) { if (e.target === e.currentTarget) onClose(); }
+    },
+        React.createElement('div', { className: 'absolute inset-0 bg-black/60 backdrop-blur-sm' }),
+        React.createElement('div', {
+            className: 'relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl backdrop-blur-xl bg-gray-900/90 border border-white/20 shadow-2xl p-6 animate-fadeIn'
+        },
+            React.createElement('div', { className: 'flex items-center justify-between mb-5' },
+                React.createElement('h3', { className: 'text-lg font-bold text-white' }, title),
+                React.createElement('button', {
+                    onClick: onClose,
+                    className: 'p-1 rounded-full hover:bg-white/10 transition-colors'
+                },
+                    window.Muller.Icon('x', 20)
+                )
+            ),
+            children
+        )
+    );
+};
 window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     const { useState, useEffect, useRef, useCallback } = window.React;
     const storage = window.Muller.storage;
@@ -430,32 +454,6 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         },
             icon ? Icon(icon, 14) : null,
             label ? React.createElement('span', null, label) : null
-        );
-    };
-
-    // ==================== MODAL para formularios ====================
-    var Modal = function({ show, onClose, title, children }) {
-        if (!show) return null;
-        return React.createElement('div', {
-            className: 'fixed inset-0 z-[200] flex items-center justify-center p-4',
-            onClick: function(e) { if (e.target === e.currentTarget) onClose(); }
-        },
-            React.createElement('div', { className: 'absolute inset-0 bg-black/60 backdrop-blur-sm' }),
-            React.createElement('div', {
-                className: 'relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl backdrop-blur-xl bg-gray-900/90 border border-white/20 shadow-2xl p-6 animate-fadeIn'
-            },
-                // Header
-                React.createElement('div', { className: 'flex items-center justify-between mb-5' },
-                    React.createElement('h3', { className: 'text-lg font-bold text-white' }, title),
-                    React.createElement('button', {
-                        onClick: onClose,
-                        className: 'p-1 rounded-full hover:bg-white/10 transition-colors'
-                    },
-                        Icon('x', 20)
-                    )
-                ),
-                children
-            )
         );
     };
 
@@ -935,7 +933,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     return React.createElement('div', { className: 'flex flex-col h-full bg-gray-900 text-gray-100' },
         // ========== MODALES (renderizados directamente para que reaccionen a cambios de estado) ==========
         // Modal: Nuevo Guion
-        Modal({ show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion',
+        React.createElement(window.Muller.Modal, { show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion',
             children: React.createElement('div', { className: 'space-y-4' },
                 React.createElement(StyledInput, {
                     value: scriptForm.title,
@@ -974,7 +972,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
             )
         }),
         // Modal: Nueva Lista de Vocabulario
-        Modal({ show: showVocabForm, onClose: function() { setShowVocabForm(false); setFeedback(''); }, title: 'Nueva Lista de Vocabulario',
+        React.createElement(window.Muller.Modal, { show: showVocabForm, onClose: function() { setShowVocabForm(false); setFeedback(''); }, title: 'Nueva Lista de Vocabulario',
             children: React.createElement('div', { className: 'space-y-4' },
                 React.createElement(StyledInput, {
                     value: vocabForm.name,
