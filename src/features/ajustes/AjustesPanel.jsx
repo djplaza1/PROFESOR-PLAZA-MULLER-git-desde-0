@@ -665,7 +665,20 @@ window.Muller.Panels.AjustesPanel = {
 };
 
 // Alias minúscula para que PanelRouter lo encuentre (busca 'ajustes', no 'AjustesPanel')
-window.Muller.Panels.ajustes = window.Muller.Panels.AjustesPanel;
+// Pero TIENE que ser un componente React válido (función), no un objeto plano.
+// El objeto AjustesPanel (con init/render/getHTML) se usa internamente como helper,
+// pero PanelRouter necesita una función React.createElement válida.
+window.Muller.Panels.ajustes = function AjustesPanelWrapper(props) {
+  React.useEffect(function() {
+    // Inicializar el panel helper sobre la marcha
+    var panel = window.Muller.Panels.AjustesPanel;
+    if (panel && typeof panel.init === 'function') {
+      panel.settings = window.Muller.Ajustes.getAll();
+      panel.init();
+    }
+  }, []);
+  return React.createElement('div', { id: 'panel-content', className: 'w-full h-full' });
+};
 
 // Método auxiliar para exportar datos filtrados
 window.Muller.Ajustes.exportFiltered = function(type) {
