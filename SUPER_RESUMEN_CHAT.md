@@ -79,6 +79,8 @@ src/
 - **translate.js**: Priorizar Google Translate sobre MyMemory. Commit `c796249`. Endpoint: `translate.googleapis.com/translate_a/single?client=gtx&sl={sl}&tl={tl}&dt=t&q={word}`
 - **SUPER_RESUMEN_CHAT.md**: Optimizado + añadido protocolo de lectura + mantenimiento para futuros agentes
 - **APP_MAP.md**: Creado mapa navegable completo para búsqueda rápida sin leer código
+- **[HistoriaPanel.jsx]**: Modo Vocabulario mejorado — vocabulario automático al final de cada frase con artículo traducido (colores der/die/das), nivel (A1-C1) y traducción al español. Palabras resaltadas en AMARILLO. Commit `4fd0d57`.
+- **[BibliotecaPanel.jsx]**: Instrucciones IA mejoradas — prompt completo con ejemplos A2/B1, formato exacto para generar guiones con vocabulario por niveles (A1-C1). Commit `4fd0d57`.
 
 ---
 

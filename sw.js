@@ -1,12 +1,32 @@
-// Service Worker - se autodesinstala y recarga la página
-self.addEventListener('install', () => self.skipWaiting());
-self.addEventListener('activate', (event) => {
+// Service Worker v2 - se autodesinstala, limpia caché y recarga
+var CACHE_NAME = 'muller-cache-v2';
+self.addEventListener('install', function() {
+  self.skipWaiting();
+  // Limpiar cachés antiguas
+  caches.keys().then(function(names) {
+    return Promise.all(names.map(function(n) {
+      if (n !== CACHE_NAME) return caches.delete(n);
+    }));
+  });
+});
+self.addEventListener('activate', function(event) {
   event.waitUntil(
-    self.registration.unregister().then(() => {
-      self.clients.matchAll({ type: 'window' }).then(clients => {
-        clients.forEach(c => c.navigate(c.url));
-      });
+    caches.keys().then(function(names) {
+      return Promise.all(names.map(function(n) {
+        if (n !== CACHE_NAME) return caches.delete(n);
+      }));
+    }).then(function() {
+      return self.registration.unregister();
+    }).then(function() {
+      return self.clients.matchAll({ type: 'window' });
+    }).then(function(clients) {
+      clients.forEach(function(c) { c.navigate(c.url); });
     })
   );
 });
-self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request)));
+self.addEventListener('fetch', function(e) {
+  // No cachear nada, siempre red fetch
+  e.respondWith(fetch(e.request).catch(function() {
+    return new Response('Offline', { status: 503 });
+  }));
+});
