@@ -1,9 +1,23 @@
 ﻿// ═══════════════════════════════════════════════════
 // TOP BAR – Profesor Plaza Müller v2
 // Solo tabs que NO están en BottomBar (para evitar duplicados)
-// Cada tab con icono Lucide + texto
+// Iconos SVG inline (sin lucide.createIcons para evitar error #300)
 // ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
+
+const TOP_ICONS = {
+  'book-text': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>',
+  dumbbell: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1 1"/><path d="m3 3 1-1"/><path d="m18 3 2 2"/><path d="m3 18 2 2"/><path d="M6.5 6.5a2.5 2.5 0 0 1 0-3.5 2.5 2.5 0 0 1 3.5 0"/><path d="M17.5 17.5a2.5 2.5 0 0 1 0 3.5 2.5 2.5 0 0 1-3.5 0"/></svg>',
+  users: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  'book-open-text': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/><path d="M10 12h4"/><path d="M10 8h4"/></svg>',
+  'pen-tool': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>',
+  'chart-bar': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  school: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 4 3 6 3s6-1 6-3v-5"/></svg>',
+  sparkles: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>',
+  'user-circle': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',
+  'log-out': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'
+};
+
 window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
   const topTabs = [
     { id: 'lexikon', label: 'Léxikon', icon: 'book-text' },
@@ -22,11 +36,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     window.Muller.authLogout();
     window.location.reload();
   };
-
-  // Regenerar iconos Lucide
-  React.useEffect(() => {
-    if (window.lucide) window.lucide.createIcons();
-  });
 
   return React.createElement('div', {
     style: {
@@ -92,9 +101,9 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
           height: 32
         }
       },
-        React.createElement('i', {
-          'data-lucide': tab.icon,
-          style: { width: 14, height: 14, display: 'inline-block', flexShrink: 0 }
+        React.createElement('span', {
+          style: { width: 14, height: 14, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+          dangerouslySetInnerHTML: { __html: TOP_ICONS[tab.icon] || '' }
         }),
         React.createElement('span', null, tab.label)
       );
@@ -117,7 +126,10 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
           fontSize: '0.75rem'
         }
       },
-        React.createElement('i', { 'data-lucide': 'user-circle', style: { width: 20, height: 20 } }),
+        React.createElement('span', {
+          style: { width: 20, height: 20, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' },
+          dangerouslySetInnerHTML: { __html: TOP_ICONS['user-circle'] }
+        }),
         React.createElement('span', { style: { maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis' } }, session?.displayName || session?.email)
       ),
       menuOpen && React.createElement('div', {
@@ -149,7 +161,10 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
             gap: 6
           }
         },
-          React.createElement('i', { 'data-lucide': 'log-out', style: { width: 16, height: 16 } }),
+          React.createElement('span', {
+            style: { width: 16, height: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' },
+            dangerouslySetInnerHTML: { __html: TOP_ICONS['log-out'] }
+          }),
           'Cerrar sesión'
         )
       )
