@@ -1,4 +1,4 @@
-﻿// ==================================================
+// ==================================================
 // src/features/ajustes/AjustesPanel.jsx
 // Panel de Ajustes premium - 4 pestañas
 // ==================================================
@@ -21,7 +21,7 @@ window.Muller.Panels.AjustesPanel = {
     if (!container) return;
     container.innerHTML = this.getHTML();
     this.attachEvents();
-    if (window.lucide) lucide.createIcons();
+    // createIcons eliminado (SVG inline)
   },
 
   getHTML() {
@@ -39,7 +39,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Header -->
         <div class="flex-shrink-0 px-4 py-3 border-b border-gray-800 bg-gradient-to-r from-violet-900 to-gray-900 flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center text-xl">
-            <i data-lucide="settings" class="w-6 h-6"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </div>
           <div class="flex-1">
             <h2 class="text-lg font-bold">Ajustes</h2>
@@ -114,7 +114,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Editar nombre -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-violet-300 flex items-center gap-2">
-            <i data-lucide="user-pen" class="w-4 h-4"></i> Cambiar nombre visible
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Cambiar nombre visible
           </h4>
           <div class="flex gap-2">
             <input id="ajustes-name-input" type="text" value="${username}" placeholder="Tu nombre"
@@ -129,7 +129,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Sincronización en la nube -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-2">
-            <i data-lucide="cloud" class="w-4 h-4"></i> Sincronización en la nube
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg> Sincronización en la nube
           </h4>
           <p class="text-xs text-gray-400">
             Todos tus datos se sincronizan automáticamente con Supabase (nube).
@@ -137,16 +137,16 @@ window.Muller.Panels.AjustesPanel = {
           </p>
           <div class="flex gap-2 flex-wrap items-center">
             <button id="cloud-sync-now-btn" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-sm font-bold transition">
-              <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-1"></i> Sincronizar ahora
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg> Sincronizar ahora
             </button>
             <span id="cloud-sync-status" class="text-xs text-gray-500 hidden"></span>
           </div>
           <div class="flex gap-2 flex-wrap">
             <button id="ajustes-export-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-violet-500/30 bg-violet-900/20 text-violet-200 hover:bg-violet-900/40 transition">
-              <i data-lucide="download" class="w-3.5 h-3.5 inline mr-1"></i> Exportar backup
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Exportar backup
             </button>
             <button id="ajustes-import-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-indigo-500/30 bg-indigo-900/20 text-indigo-200 hover:bg-indigo-900/40 transition">
-              <i data-lucide="upload" class="w-3.5 h-3.5 inline mr-1"></i> Importar backup
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Importar backup
             </button>
             <input type="file" id="ajustes-import-file" accept=".json" class="hidden" />
           </div>
@@ -165,7 +165,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Tema -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">
-            <i data-lucide="palette" class="w-4 h-4"></i> Tema global
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-5.5-4.5-10-10-10Z"/></svg> Tema global
           </h4>
           <div class="flex flex-wrap gap-2">
             ${[{ id: 'dark', label: '🌙 Oscuro' }, { id: 'light', label: '☀️ Claro' }, { id: 'hc', label: '🔳 Alto contraste' }].map(t => `
@@ -179,7 +179,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Audio y voz -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-fuchsia-300 flex items-center gap-2">
-            <i data-lucide="volume-2" class="w-4 h-4"></i> Audio y voz
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg> Audio y voz
           </h4>
           <div class="flex flex-wrap gap-2">
             <button id="toggle-sfx" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition ${s.sfxEnabled ? 'bg-emerald-600 border-emerald-400 text-white' : 'bg-gray-800 border-gray-700 text-gray-400'}">
@@ -210,7 +210,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Inteligencia Artificial -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
-            <i data-lucide="brain" class="w-4 h-4"></i> Inteligencia Artificial
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 2-2 3-4 5-2-2-4-3-4-5a4 4 0 0 1 4-4Z"/><path d="M12 11c-2 0-4 1-4 3v1h8v-1c0-2-2-3-4-3Z"/><path d="M8 16v2a4 4 0 0 0 8 0v-2"/></svg> Inteligencia Artificial
           </h4>
           <div class="space-y-3">
             <div>
@@ -242,7 +242,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Preferencias de interfaz -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-2">
-            <i data-lucide="monitor" class="w-4 h-4"></i> Interfaz
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Interfaz
           </h4>
           <div class="flex flex-wrap gap-2">
             <button id="toggle-floating" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition ${s.showFloatingTools ? 'bg-cyan-600 border-cyan-400 text-white' : 'bg-gray-800 border-gray-700 text-gray-400'}">
@@ -260,7 +260,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Acción: Restablecer ajustes -->
         <div class="bg-gray-900 border border-red-900/30 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-red-300 flex items-center gap-2">
-            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Restablecer ajustes
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> Restablecer ajustes
           </h4>
           <p class="text-xs text-gray-400">Restaura todas las preferencias a sus valores por defecto sin borrar tu progreso.</p>
           <button id="reset-settings-btn" class="px-4 py-2 rounded-xl bg-red-600/20 border border-red-500/40 text-red-300 hover:bg-red-600/30 text-sm font-bold transition">
@@ -277,7 +277,7 @@ window.Muller.Panels.AjustesPanel = {
       <div class="space-y-5 animate-fade-in">
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
           <h4 class="text-sm font-bold uppercase tracking-wider text-sky-300 flex items-center gap-2">
-            <i data-lucide="keyboard" class="w-4 h-4"></i> Atajos de teclado
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/><line x1="14" y1="8" x2="14.01" y2="8"/><line x1="18" y1="8" x2="18.01" y2="8"/><line x1="6" y1="12" x2="6.01" y2="12"/><line x1="10" y1="12" x2="10.01" y2="12"/><line x1="14" y1="12" x2="14.01" y2="12"/><line x1="18" y1="12" x2="18.01" y2="12"/><line x1="6" y1="16" x2="18" y2="16"/></svg> Atajos de teclado
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
             ${[
@@ -315,15 +315,15 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Exportar / Importar -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
           <h4 class="text-sm font-bold uppercase tracking-wider text-violet-300 flex items-center gap-2">
-            <i data-lucide="folder-sync" class="w-4 h-4"></i> Copia de seguridad
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v1"/><path d="M12 10v4h4"/><path d="m12 14 1.5-1.5c.9-.9 2.2-1.5 3.5-1.5s2.6.6 3.5 1.5c.4.4.8 1 1 1.5"/><path d="M22 22v-4h-4"/><path d="m22 18-1.5 1.5c-.9.9-2.1 1.5-3.5 1.5s-2.6-.6-3.5-1.5c-.4-.4-.8-1-1-1.5"/></svg> Copia de seguridad
           </h4>
           <p class="text-xs text-gray-400">Guarda o restaura todos tus datos (progreso, SRS, ajustes, historial de IA).</p>
           <div class="flex gap-2 flex-wrap">
             <button id="datos-export-full" class="px-3 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-sm font-bold transition">
-              <i data-lucide="download" class="w-4 h-4 inline mr-1"></i> Exportar backup completo
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Exportar backup completo
             </button>
             <button id="datos-import-full" class="px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-sm font-bold transition">
-              <i data-lucide="upload" class="w-4 h-4 inline mr-1"></i> Importar backup
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Importar backup
             </button>
             <input type="file" id="datos-import-file" accept=".json" class="hidden" />
           </div>
@@ -332,7 +332,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Exportar solo partes -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-2">
-            <i data-lucide="file-json" class="w-4 h-4"></i> Exportaciones parciales
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"/><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"/></svg> Exportaciones parciales
           </h4>
           <div class="flex flex-wrap gap-2">
             <button id="export-srs" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-500/30 bg-emerald-900/20 text-emerald-200 hover:bg-emerald-900/40 transition">
@@ -350,7 +350,7 @@ window.Muller.Panels.AjustesPanel = {
         <!-- Restablecer datos -->
         <div class="bg-gray-900 border border-red-900/30 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-red-400 flex items-center gap-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Zona peligrosa
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Zona peligrosa
           </h4>
           <button id="clear-all-data-btn" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-sm font-bold transition text-white">
             Borrar todos los datos locales
@@ -371,7 +371,7 @@ window.Muller.Panels.AjustesPanel = {
                         : tab === 'atajos' ? this.renderAtajos()
                         : this.renderDatos();
       this.attachEvents();
-      if (window.lucide) lucide.createIcons();
+      // createIcons eliminado (SVG inline)
     }
     // Actualizar botones de pestaña
     document.querySelectorAll('.ajustes-tab-btn').forEach(btn => {
@@ -654,7 +654,7 @@ window.Muller.Panels.AjustesPanel = {
       if (content) {
         content.innerHTML = this.renderAjustes();
         this.attachEvents();
-        if (window.lucide) lucide.createIcons();
+        // createIcons eliminado (SVG inline)
       }
     }
   },
