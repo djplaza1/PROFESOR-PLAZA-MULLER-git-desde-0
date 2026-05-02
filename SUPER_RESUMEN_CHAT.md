@@ -81,6 +81,8 @@ src/
 - **APP_MAP.md**: Creado mapa navegable completo para búsqueda rápida sin leer código
 - **[HistoriaPanel.jsx]**: Modo Vocabulario mejorado — vocabulario automático al final de cada frase con artículo traducido (colores der/die/das), nivel (A1-C1) y traducción al español. Palabras resaltadas en AMARILLO. Commit `4fd0d57`.
 - **[BibliotecaPanel.jsx]**: Instrucciones IA mejoradas — prompt completo con ejemplos A2/B1, formato exacto para generar guiones con vocabulario por niveles (A1-C1). Commit `4fd0d57`.
+- **[BottomBar.jsx]**: **Fix error React #300** — eliminado `React.useEffect(() => window.lucide.createIcons())` que causaba bucle infinito de renderizado. Migrado a **SVG inline** con `dangerouslySetInnerHTML` y constante `BOTTOM_ICONS` con SVGs hardcodeados. Commit `8a340b4`. Rompe regla #7 (ya no se usa `createIcons` en BottomBar).
+- **Regla #7 actualizada**: BottomBar.jsx ahora usa SVG inline en lugar de `<i data-lucide>` + `createIcons()`. El resto de features siguen usando `createIcons()` normal.
 
 ---
 
@@ -89,6 +91,7 @@ src/
 2. **SyntaxError en `crearIcono`** → No tocar HistoriaPanel.jsx, ya estaba bien en el repo
 3. **Ruta con typo `\hista\`** → Usar rutas absolutas siempre
 4. **`replace_in_file` falla por indentación** → Verificar contenido actual con read_file antes de editar
+5. **[RESUELTO] Error React #300 en BottomBar.jsx** → Causa: `React.useEffect(() => { window.lucide.createIcons(); })` sin array de dependencias → bucle infinito. Solución: migrar a SVG inline con `dangerouslySetInnerHTML`, eliminar `createIcons()` del componente. Commit `8a340b4`.
 
 ---
 
@@ -97,7 +100,8 @@ src/
 - **Rutas absolutas**: `C:\PROFESOR-PLAZA-MULLER-git-desde-0\...`
 - **Namespace**: `window.Muller.*` — todo global, sin imports
 - **React**: `React.createElement(tag, props, ...children)` — sin JSX
-- **Íconos**: `<i data-lucide="iconName">` + `window.lucide.createIcons()` — NO `lucide.createElement()`
+- **Íconos (regla general)**: `<i data-lucide="iconName">` + `window.lucide.createIcons()` — NO `lucide.createElement()`
+- **Íconos (excepción BottomBar)**: BottomBar.jsx usa SVG inline `dangerouslySetInnerHTML` con `BOTTOM_ICONS` — **NO** usa `createIcons()` para evitar error React #300
 - **PowerShell**: No usar `exit`, no here-strings con comillas anidadas
 - **Git**: El agente indica comandos, usuario pega y devuelve salida
 - **⚠️ GITHUB (OBLIGATORIO)**: Cada vez que se haga un commit local, hay que hacer **también `git push` a GitHub** para que la app se actualice en internet (GitHub Pages). Sin push, los cambios no se ven en producción. **Regla: no termines una sesión sin hacer push.**

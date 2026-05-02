@@ -64,7 +64,7 @@
 
 ### 📍 NAVEGACIÓN
 - `navigation/TopBar.jsx` — Barra superior con tabs secundarias y acciones
-- `navigation/BottomBar.jsx` — Barra inferior con tabs principales
+- `navigation/BottomBar.jsx` — Barra inferior con tabs principales. **⚠️ NO usa `<i data-lucide>` + `createIcons()`** — usa SVG inline con `dangerouslySetInnerHTML` y `BOTTOM_ICONS` para evitar error React #300.
 
 ### 📖 HISTORIA — Panel principal + 9 submodos
 
@@ -163,6 +163,7 @@ Cada feature registra su componente en `window.Muller.Panels['nombreTab'] = Pane
 1. **`src/core/onboarding.jsx`** existe pero NO está cargado en index.html. Si se necesita, añadirlo al orden de carga.
 2. **Namespace global**: `window.Muller.*` — no hay imports/exports. Los scripts se cargan en orden secuencial.
 3. **Sin JSX**: Se usa `React.createElement(tag, props, ...children)`. Babel compila en navegador.
-4. **Iconos**: `<i data-lucide="iconName">` + `lucide.createIcons()`. **NO** usar `lucide.createElement()`.
+4. **Iconos (regla general)**: `<i data-lucide="iconName">` + `lucide.createIcons()`. **NO** usar `lucide.createElement()`.
+5. **Iconos (excepción BottomBar)**: `BottomBar.jsx` usa SVG inline con `dangerouslySetInnerHTML` y constante `BOTTOM_ICONS`. **NO** usa `createIcons()` — esto previene el error React #300 (bucle infinito por `useEffect` sin dependencias).
 5. **Auth offline**: Si Supabase falla, `auth.jsx` usa PBKDF2 con localStorage.
 6. **Orden de carga crítico**: core → hooks → features → app. Si un panel no aparece, revisar que esté en index.html.
