@@ -2,6 +2,43 @@ window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 
 /**
+ * @function Icon
+ * @description Helper para renderizar íconos Lucide como React elements
+ * usando dangerouslySetInnerHTML, evitando lucide.createIcons() que
+ * causa errores "removeChild" por manipular el DOM fuera de React.
+ */
+window.Muller.Icon = window.Muller.Icon || function(name, size) {
+    size = size || 16;
+    var cacheKey = 'luc_' + name + '_' + size;
+    if (!window.Muller._iconCache) window.Muller._iconCache = {};
+    if (window.Muller._iconCache[cacheKey]) {
+        return window.Muller._iconCache[cacheKey];
+    }
+    try {
+        var svgEl = window.lucide.createElement(name);
+        if (svgEl) {
+            svgEl.setAttribute('width', String(size));
+            svgEl.setAttribute('height', String(size));
+            svgEl.removeAttribute('style');
+            var html = svgEl.outerHTML;
+            var el = React.createElement('span', {
+                dangerouslySetInnerHTML: { __html: html },
+                className: 'inline-flex leading-none',
+                style: { display: 'inline-flex', lineHeight: '1' }
+            });
+            window.Muller._iconCache[cacheKey] = el;
+            return el;
+        }
+    } catch(e) {}
+    // Fallback: placeholder vacío
+    var fallback = React.createElement('span', {
+        style: { width: size + 'px', height: size + 'px', display: 'inline-block' },
+        className: 'rounded bg-gray-600/30'
+    });
+    return fallback;
+};
+
+/**
  * @function BibliotecaPanel
  * @description Panel Biblioteca con tres subvistas: Guiones, Vocabulario e Instrucciones IA.
  *   - Guiones: listar, crear (con nivel), importar archivo, cargar en Historia, eliminar.
@@ -13,8 +50,8 @@ window.Muller.Panels = window.Muller.Panels || {};
  */
 window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     const { useState, useEffect, useRef, useCallback } = window.React;
-    const lucide = window.lucide;
     const storage = window.Muller.storage;
+    var Icon = window.Muller.Icon;
 
     // --- Estados ---
     const [subview, setSubview] = useState('scripts');        // 'scripts' | 'vocabs' | 'ia-instructions'
@@ -43,14 +80,6 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         loadScripts();
         loadVocabs();
     }, []);
-
-    // Regenerar iconos Lucide después de cada render
-    useEffect(function() {
-        const timer = setTimeout(function() {
-            if (window.lucide) window.lucide.createIcons();
-        }, 0);
-        return function() { clearTimeout(timer); };
-    }, [subview, scripts, vocabLists, showScriptForm, showVocabForm, expandedVocabId, feedback]);
 
     // --- Persistencia ---
     function loadScripts() {
@@ -352,7 +381,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
                     ? 'bg-white/20 backdrop-blur-md border border-white/30 text-white shadow-lg'
                     : 'bg-white/5 backdrop-blur-sm border border-white/10 text-gray-400 hover:text-white hover:bg-white/10')
         },
-            React.createElement('i', { 'data-lucide': icon, style: { width: 16, height: 16 } }),
+            Icon(icon, 16),
             React.createElement('span', null, label)
         );
     };
@@ -371,7 +400,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
             className: 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md border transition-all duration-150 ' + colors + ' ' +
                 (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer')
         },
-            icon ? React.createElement('i', { 'data-lucide': icon, style: { width: 14, height: 14 } }) : null,
+            icon ? Icon(icon, 14) : null,
             label ? React.createElement('span', null, label) : null
         );
     };
@@ -394,7 +423,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
                         onClick: onClose,
                         className: 'p-1 rounded-full hover:bg-white/10 transition-colors'
                     },
-                        React.createElement('i', { 'data-lucide': 'x', style: { width: 20, height: 20, color: '#94a3b8' } })
+                        Icon('x', 20)
                     )
                 ),
                 children
@@ -532,8 +561,8 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         // Lista de guiones
         scripts.length === 0
             ? React.createElement('div', { className: 'text-center py-16 text-gray-500' },
-                React.createElement('i', { 'data-lucide': 'book-open', style: { width: 48, height: 48, margin: '0 auto 12px', display: 'block', opacity: 0.4 } }),
-                React.createElement('p', { className: 'text-sm' }, 'No hay guiones guardados.'),
+                Icon('book-open', 48),
+                React.createElement('p', { className: 'text-sm mt-2' }, 'No hay guiones guardados.'),
                 React.createElement('p', { className: 'text-xs mt-1 text-gray-600' }, 'Crea tu primer guion o importa un archivo.')
               )
             : React.createElement('div', { className: 'space-y-2' },
@@ -597,7 +626,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     var IAInstructionsView = React.createElement('div', { className: 'space-y-6' },
         React.createElement('div', { className: 'p-5 rounded-xl backdrop-blur-md bg-gradient-to-br from-amber-500/10 to-purple-500/10 border border-amber-500/20' },
             React.createElement('div', { className: 'flex items-center gap-3 mb-4' },
-                React.createElement('i', { 'data-lucide': 'bot', style: { width: 24, height: 24, color: '#fbbf24' } }),
+                Icon('bot', 24),
                 React.createElement('h3', { className: 'text-lg font-bold text-white' }, 'Instrucciones para IA'),
             ),
             React.createElement('p', { className: 'text-sm text-gray-300 mb-4' },
@@ -624,7 +653,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
                     },
                     className: 'flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all cursor-pointer'
                 },
-                    React.createElement('i', { 'data-lucide': 'copy', style: { width: 12, height: 12 } }),
+                    Icon('copy', 12),
                     React.createElement('span', null, 'Copiar prompt')
                 )
             ),
@@ -788,7 +817,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         // Consejos para organizar el vocabulario por niveles
         React.createElement('div', { className: 'p-5 rounded-xl backdrop-blur-md bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20' },
             React.createElement('div', { className: 'flex items-center gap-3 mb-3' },
-                React.createElement('i', { 'data-lucide': 'list-tree', style: { width: 20, height: 20, color: '#34d399' } }),
+                Icon('list-tree', 20),
                 React.createElement('h4', { className: 'text-sm font-bold text-emerald-300' }, '🗂️ Sistema recomendado de organización por niveles'),
             ),
             React.createElement('p', { className: 'text-sm text-gray-300 mb-3' },
@@ -867,7 +896,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
 
         // Nota final
         React.createElement('div', { className: 'p-4 rounded-xl backdrop-blur-sm bg-amber-500/5 border border-amber-500/20 text-xs text-amber-300/70 flex items-start gap-2' },
-            React.createElement('i', { 'data-lucide': 'lightbulb', style: { width: 14, height: 14, marginTop: 1, flexShrink: 0 } }),
+            Icon('lightbulb', 14),
             React.createElement('span', null,
                 '💡 Consejo importante: Organiza tu vocabulario por niveles (A1-C1) para poder estudiar de forma progresiva. ' +
                 'Cuando estés estudiando un guion de nivel B1, puedes crear listas de vocabulario A1 y A2 también ' +
@@ -892,8 +921,8 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         // Lista de vocabulario
         vocabLists.length === 0
             ? React.createElement('div', { className: 'text-center py-16 text-gray-500' },
-                React.createElement('i', { 'data-lucide': 'bookmark', style: { width: 48, height: 48, margin: '0 auto 12px', display: 'block', opacity: 0.4 } }),
-                React.createElement('p', { className: 'text-sm' }, 'No hay listas de vocabulario.'),
+                Icon('bookmark', 48),
+                React.createElement('p', { className: 'text-sm mt-2' }, 'No hay listas de vocabulario.'),
                 React.createElement('p', { className: 'text-xs mt-1 text-gray-600' }, 'Crea tu primera lista para ver palabras resaltadas en Historia.')
               )
             : React.createElement('div', { className: 'space-y-2' },
@@ -910,10 +939,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
                             className: 'flex items-center justify-between p-4 cursor-pointer hover:bg-white/[0.04] transition-colors'
                         },
                             React.createElement('div', { className: 'flex items-center gap-3 min-w-0' },
-                                React.createElement('i', {
-                                    'data-lucide': isExpanded ? 'chevron-down' : 'chevron-right',
-                                    style: { width: 16, height: 16, color: '#94a3b8', flexShrink: 0 }
-                                }),
+                                Icon(isExpanded ? 'chevron-down' : 'chevron-right', 16),
                                 React.createElement('div', { className: 'min-w-0' },
                                     React.createElement('h4', { className: 'text-sm font-semibold text-white truncate' }, list.name),
                                     React.createElement('div', { className: 'flex gap-3 text-xs text-gray-500 mt-0.5' },
@@ -960,7 +986,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         React.createElement('div', { className: 'flex-shrink-0 p-4 pb-2 border-b border-white/10' },
             React.createElement('div', { className: 'flex items-center justify-between mb-3' },
                 React.createElement('div', { className: 'flex items-center gap-3' },
-                    React.createElement('i', { 'data-lucide': 'library', style: { width: 24, height: 24, color: '#fbbf24' } }),
+                    Icon('library', 24),
                     React.createElement('h2', { className: 'text-xl font-bold text-white' }, 'Biblioteca')
                 ),
                 // Indicador de sesión
@@ -996,16 +1022,12 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
 
             // Hint de integración con Historia
             React.createElement('div', { className: 'mt-6 p-3 rounded-xl backdrop-blur-sm bg-amber-500/5 border border-amber-500/20 text-xs text-amber-300/70 flex items-start gap-2' },
-                React.createElement('i', { 'data-lucide': 'info', style: { width: 14, height: 14, marginTop: 1, flexShrink: 0 } }),
+                Icon('info', 14),
                 React.createElement('span', null,
-                    'Los guiones guardados aparecen automáticamente en el selector de la pestaña Historia. ' +
-                    'Usa "Cargar en Historia" para seleccionar un guion y navegar directamente.'
+                    'Consejo: En Historia, activa el modo "Vocabulario" para ver las palabras' +
+                    ' resaltadas en amarillo con su traducción al final de cada frase.'
                 )
             )
-        ),
-
-        // Modales
-        ScriptFormModal,
-        VocabFormModal
+        )
     );
 };
