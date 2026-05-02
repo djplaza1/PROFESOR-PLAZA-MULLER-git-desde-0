@@ -101,11 +101,36 @@ src/
 - **PowerShell**: No usar `exit`, no here-strings con comillas anidadas
 - **Git**: El agente indica comandos, usuario pega y devuelve salida
 - **⚠️ GITHUB (OBLIGATORIO)**: Cada vez que se haga un commit local, hay que hacer **también `git push` a GitHub** para que la app se actualice en internet (GitHub Pages). Sin push, los cambios no se ven en producción. **Regla: no termines una sesión sin hacer push.**
-- **🔄 Commit + Push universal (detecta master/main automáticamente)** (PowerShell — pegar entero):
+
+- **🔴 IMPORTANTE: GitHub Pages SOLO redeploya si el commit toca archivos de la web** (`index.html`, `src/`, `sw.js`, `assets/`). Si el commit solo toca `SUPER_RESUMEN_CHAT.md`, `README.md`, `.gitignore` u otros archivos que no se sirven en la web, **GitHub Pages NO regenera la página** aunque el código nuevo ya esté en el repositorio.
+  - **Cómo evitarlo**: si el commit solo contiene cambios en archivos NO web (documentación, etc.), haz también un cambio mínimo en `index.html` (por ejemplo añadir un comentario como `<!-- redeploy YYYY-MM-DD -->` en el `<head>`) para forzar el redeploy.
+  - El comando de abajo ya incluye esta comprobación automática: si detecta que ningún archivo web ha cambiado, añade el comentario de redeploy en `index.html`.
+
+- **🔄 Commit + Push universal (funciona en casa con master Y en trabajo con main)** (PowerShell — copiar y pegar entero):
+  ```powershell
+  Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; `
+  $branch = (git rev-parse --abbrev-ref HEAD); `
+  $webFiles = git diff --cached --name-only; `
+  $hasWebChanges = ($webFiles | Select-String -Pattern '^(index\.html|src/|sw\.js|manifest\.json|assets/)').Count -gt 0; `
+  if (-not $hasWebChanges) { `
+    $date = Get-Date -Format "yyyy-MM-dd"; `
+    $content = Get-Content "index.html" -Raw; `
+    if ($content -notmatch "redeploy $date") { `
+      $content = $content -replace "(<meta charset=""UTF-8"">)", "`$1`n    <!-- redeploy $date -->"; `
+      Set-Content "index.html" -Value $content; `
+      git add "index.html"; `
+    } `
+  }; `
+  git commit -m "tu mensaje"; `
+  git push origin $branch
   ```
-  Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $branch = (git rev-parse --abbrev-ref HEAD); git add .; git commit -m "tu mensaje"; git push origin $branch
-  ```
-  > **Importante**: Cambiar `"tu mensaje"` por el mensaje real del commit. Este comando detecta si la rama se llama `master` o `main` y hace push a la correcta automáticamente. Funciona tanto en casa (master) como en el trabajo (main).
+  > **Instrucciones**: Cambia `"tu mensaje"` por lo que quieras poner en el commit. El comando:
+  > 1. Detecta si la rama es `master` (casa) o `main` (trabajo) automáticamente
+  > 2. Comprueba si los archivos modificados son de la web o no
+  > 3. **Si solo has tocado documentación** (`SUPER_RESUMEN_CHAT.md`, `README.md`, `.gitignore`, etc.), añade automáticamente un comentario en `index.html` para forzar el redeploy de GitHub Pages
+  > 4. Si ya hay cambios web, hace commit normal sin tocar `index.html`
+  > 5. Hace push a la rama correcta
+
 - **⚠️ Caché GitHub Pages**: Si después de hacer push la web no se actualiza al recargar (https://djplaza1.github.io/PROFESOR-PLAZA-MULLER-git-desde-0/), forzar recarga con `Ctrl+F5` (Windows) o `Cmd+Shift+R` (Mac) para saltar la caché del navegador. Si sigue sin cargar, esperar 2-3 minutos a que GitHub Pages termine el despliegue.
 - **Consistencia visual**: Todas las pestañas deben compartir el mismo sistema de diseño: mismos espaciados (p-4/p-6), mismos radios de borde (rounded-xl/rounded-2xl), misma paleta de colores (Tailwind slate/indigo/emerald), mismos estilos de botones, mismos tipos de loading/empty/error states. No reinventes estilos por pestaña.
 - **DeepSeek API**: Disponible para funciones premium en tiempo real. No abuses de ella, úsala solo donde aporte valor real (traducción avanzada, explicaciones contextuales, corrección de escritura, chat IA didáctico). Guarda la API key en `window.Muller.deepseekKey` o variable de entorno.
