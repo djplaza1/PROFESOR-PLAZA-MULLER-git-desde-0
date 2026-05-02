@@ -41,6 +41,10 @@ window.Muller.Panels['historia'] = function({ session }) {
     const [currentSentenceVocab, setCurrentSentenceVocab] = useState([]);
     const [showVocabTranslation, setShowVocabTranslation] = useState(true);
     const autoPlayRef = useRef(null);
+    
+    // Estados para vocabulario del usuario en modo Diálogo normal
+    const [sceneUserVocab, setSceneUserVocab] = useState([]);
+    const [showSceneVocab, setShowSceneVocab] = useState(true);
 
     const escena = guion[sceneIndex] || guion[0];
 
@@ -70,6 +74,18 @@ window.Muller.Panels['historia'] = function({ session }) {
         setCurrentSentenceVocab(foundVocab);
         setShowVocabTranslation(true);
     }, [vocabModeActive, currentSentenceIdx, sentences]);
+
+    // Detectar vocabulario del usuario en la escena actual (modo Diálogo normal)
+    useEffect(() => {
+        if (vocabModeActive) return;
+        if (textoAleman) {
+            var foundVocab = window.Muller.Resaltador.findUserVocabInText(textoAleman);
+            setSceneUserVocab(foundVocab);
+            setShowSceneVocab(true);
+        } else {
+            setSceneUserVocab([]);
+        }
+    }, [sceneIndex, textoAleman, vocabModeActive]);
 
     // Auto-play temporizado
     useEffect(() => {
@@ -433,9 +449,11 @@ window.Muller.Panels['historia'] = function({ session }) {
             vocabModeActive && renderVocabMode(),
 
             // Modo Diálogo normal
-            !vocabModeActive && mode === 'dialogo' && !activeSubmodo && window.React.createElement('div', { className: 'text-center max-w-2xl animate-fadeIn' },
+            !vocabModeActive && mode === 'dialogo' && !activeSubmodo && window.React.createElement('div', { className: 'text-center max-w-2xl animate-fadeIn w-full' },
                 window.React.createElement('div', { className: 'mb-6' },
-                    window.React.createElement('p', { className: 'text-3xl md:text-4xl font-serif leading-relaxed mb-4 tracking-wide' }, textoAleman),
+                    window.React.createElement('p', { className: 'text-3xl md:text-4xl font-serif leading-relaxed mb-4 tracking-wide' },
+                        textoAleman ? window.Muller.Resaltador.resaltar(textoAleman, [], sceneUserVocab.map(function(v) { return v.word; })) : ''
+                    ),
                     showTranslation && window.React.createElement('p', { className: 'text-lg text-gray-400 italic' }, textoEspanol),
                     window.React.createElement('button', {
                         onClick: () => setShowTranslation(!showTranslation),
@@ -452,6 +470,56 @@ window.Muller.Panels['historia'] = function({ session }) {
                         }, palabra.de || '')
                     )
                 ),
+                // Panel de vocabulario del usuario en la escena actual
+                showSceneVocab && sceneUserVocab.length > 0 && window.React.createElement('div', { className: 'mt-6 p-4 rounded-2xl backdrop-blur-md bg-yellow-500/5 border border-yellow-500/20 text-left' },
+                    window.React.createElement('div', { className: 'flex items-center justify-between mb-3' },
+                        window.React.createElement('h4', { className: 'text-sm font-bold text-yellow-300 flex items-center gap-2' },
+                            window.React.createElement(Icon, { name: 'bookmark', size: 16 }),
+                            window.React.createElement('span', null, 'Tu vocabulario en esta escena (' + sceneUserVocab.length + ')')
+                        ),
+                        window.React.createElement('button', {
+                            onClick: function() { setShowSceneVocab(false); },
+                            className: 'text-xs text-gray-500 hover:text-white transition cursor-pointer'
+                        },
+                            window.React.createElement(Icon, { name: 'x', size: 14 })
+                        )
+                    ),
+                    window.React.createElement('div', { className: 'flex flex-wrap gap-2' },
+                        sceneUserVocab.map(function(item, idx) {
+                            var wordWithArticle = item.vocabInfo.de || item.word;
+                            var article = '';
+                            var wordDisplay = wordWithArticle;
+                            var articleMatch = wordWithArticle.match(/^(der|die|das)\s+(.+)/i);
+                            if (articleMatch) {
+                                article = articleMatch[1];
+                                wordDisplay = articleMatch[2];
+                            }
+                            return window.React.createElement('div', {
+                                key: idx,
+                                className: 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs'
+                            },
+                                article ? window.React.createElement('span', { className: 'font-bold px-1 py-0.5 rounded text-[10px] ' +
+                                    (article === 'der' ? 'bg-blue-500/30 text-blue-300' :
+                                     article === 'die' ? 'bg-red-500/30 text-red-300' :
+                                     article === 'das' ? 'bg-green-500/30 text-green-300' :
+                                     'bg-gray-500/30 text-gray-300')
+                                }, article) : null,
+                                window.React.createElement('span', { className: 'text-yellow-200 font-medium' }, wordDisplay),
+                                item.vocabInfo.level && item.vocabInfo.level !== '?' ? window.React.createElement('span', { className: 'text-[9px] px-1 py-0.5 rounded-full ' +
+                                    (['A1','A2'].includes(item.vocabInfo.level) ? 'bg-emerald-500/20 text-emerald-300' :
+                                     ['B1','B2'].includes(item.vocabInfo.level) ? 'bg-amber-500/20 text-amber-300' :
+                                     'bg-red-500/20 text-red-300')
+                                }, item.vocabInfo.level) : null,
+                                window.React.createElement('span', { className: 'text-gray-400' }, '→ ' + item.vocabInfo.es)
+                            );
+                        })
+                    )
+                ),
+                // Botón para re-mostrar vocabulario si se ocultó
+                !showSceneVocab && sceneUserVocab.length > 0 && window.React.createElement('button', {
+                    onClick: function() { setShowSceneVocab(true); },
+                    className: 'mt-3 text-xs text-yellow-500/70 hover:text-yellow-300 transition cursor-pointer'
+                }, 'Mostrar vocabulario (' + sceneUserVocab.length + ' palabras)'),
                 window.React.createElement('div', { className: 'mt-6 text-xs text-gray-500' }, 'Escena ' + (sceneIndex + 1) + ' / ' + guion.length)
             ),
             mode === 'oral' && !activeSubmodo && renderOralMode(),

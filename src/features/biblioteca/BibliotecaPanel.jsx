@@ -964,8 +964,15 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
                                         key: idx,
                                         className: 'flex items-center justify-between px-4 py-2 text-sm hover:bg-white/[0.02]'
                                     },
-                                        React.createElement('span', { className: 'text-white font-medium' }, w.de),
-                                        React.createElement('span', { className: 'text-gray-400' }, w.es || '—')
+                                        React.createElement('div', { className: 'flex items-center gap-2 min-w-0' },
+                                            // Nivel de la lista (badge)
+                                            list.level && list.level !== '?' ? React.createElement('span', { className: 'text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ' +
+                                                (['A1','A2'].includes(list.level) ? 'bg-emerald-500/20 text-emerald-300' :
+                                                 ['B1','B2'].includes(list.level) ? 'bg-amber-500/20 text-amber-300' :
+                                                 'bg-red-500/20 text-red-300') }, list.level) : null,
+                                            React.createElement('span', { className: 'text-white font-medium truncate' }, w.de)
+                                        ),
+                                        React.createElement('span', { className: 'text-gray-400 flex-shrink-0 ml-2' }, w.es || '—')
                                     );
                                 })
                             ),
@@ -1024,8 +1031,9 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
             React.createElement('div', { className: 'mt-6 p-3 rounded-xl backdrop-blur-sm bg-amber-500/5 border border-amber-500/20 text-xs text-amber-300/70 flex items-start gap-2' },
                 Icon('info', 14),
                 React.createElement('span', null,
-                    'Consejo: En Historia, activa el modo "Vocabulario" para ver las palabras' +
-                    ' resaltadas en amarillo con su traducción al final de cada frase.'
+                    '💡 Tu vocabulario se resalta en AMARILLO automáticamente en el modo Diálogo normal de Historia. ' +
+                    'Al final de la escena verás un panel con cada palabra: ARTÍCULO (der/die/das coloreado), NIVEL (A1, B1, etc.) y TRADUCCIÓN. ' +
+                    'También puedes activar el modo "Vocabulario" para ver frase por frase.'
                 )
             )
         )
