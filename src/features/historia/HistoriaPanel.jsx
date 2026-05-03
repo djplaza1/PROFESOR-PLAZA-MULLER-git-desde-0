@@ -133,6 +133,8 @@ window.Muller.Panels['historia'] = function({ session }) {
     const [sceneIndex, setSceneIndex] = useState(0);
     const [showTranslation, setShowTranslation] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const isPlayingRef = useRef(false);
+    useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
     const [speed, setSpeed] = useState(1.0);
     const [activeSubmodo, setActiveSubmodo] = useState(null);
     const [mode, setMode] = useState('dialogo');
@@ -196,15 +198,15 @@ window.Muller.Panels['historia'] = function({ session }) {
     }, []);
 
     const playScene = useCallback(() => {
-        if (!textoAleman) return;
+        var escenaActual = guion[sceneIndex];
+        if (!escenaActual) return;
         window.Muller.stopSpeech();
-        window.Muller.playSceneAudio(textoAleman, 'de');
         setIsPlaying(true);
-    }, [textoAleman]);
-
+        if (isPlayingRef) isPlayingRef.current = true;
+        crearSecuenciaReproduccion(escenaActual, sceneIndex, guion, isPlayingRef, () => { window.Muller.stopSpeech(); setIsPlaying(false); }, setSceneIndex);
+    }, [sceneIndex, guion]);
     const pauseScene = () => { window.Muller.pauseSpeech(); setIsPlaying(false); };
-    const stopScene = () => { window.Muller.stopSpeech(); setIsPlaying(false); };
-
+    const stopScene = () => { window.Muller.stopSpeech(); setIsPlaying(false); if (isPlayingRef) isPlayingRef.current = false; };
     const changeSpeed = (newSpeed) => {
         setSpeed(newSpeed);
         window.Muller.setTtsRate(newSpeed);
