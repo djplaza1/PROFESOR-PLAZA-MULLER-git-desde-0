@@ -395,7 +395,7 @@ window.Muller.Panels['historia'] = function({ session }) {
             vocabModeActive && renderVocabMode(),
             !vocabModeActive && mode === 'dialogo' && !activeSubmodo && window.React.createElement('div', { className: 'text-center max-w-2xl animate-fadeIn w-full' },
                 window.React.createElement('div', { className: 'mb-6' },
-                    window.React.createElement('p', { className: 'text-3xl md:text-4xl font-serif leading-relaxed mb-4 tracking-wide', dangerouslySetInnerHTML: { __html: escena && escena.text_de ? resaltarMarcas(escena.text_de) : '' } }),
+                    window.React.createElement('p', { className: 'text-3xl md:text-4xl font-serif leading-relaxed mb-4 tracking-wide', children: textoAleman }),
 
 
                     showTranslation && window.React.createElement('p', { className: 'text-lg text-gray-400 italic' }, textoEspanol),
