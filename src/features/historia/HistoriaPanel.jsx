@@ -100,7 +100,7 @@ window.Muller.Panels['historia'] = function({ session }) {
         var textoOriginal = escenaActual.text_de || escenaActual.text;
         var textoLimpio = window.Muller.sanitizeHistoriaText(textoOriginal);
         var marcas = [];
-        textoOriginal.replace(/\\[([^\\]]+)\\]/g, function(match, contenido) {
+        textoOriginal.replace(/\[([^\]]+)\]/g, function(match, contenido) {
             var partes = contenido.split(' - ');
             if (partes.length === 2) marcas.push({ palabra: partes[0].trim(), traduccion: partes[1].trim() });
         });
@@ -148,43 +148,6 @@ window.Muller.Panels['historia'] = function({ session }) {
         };
         speechSynthesis.speak(utterDe);
     }, []);
-        const idx = sceneIndexRef.current;
-        const escenaActual = guionRef.current[idx];
-        if (!escenaActual) return;
-        window.Muller.stopSpeech();
-        setIsPlaying(true);
-        isPlayingRef.current = true;
-        crearSecuenciaReproduccion(
-            escenaActual,
-            {
-                isPlayingRef: isPlayingRef,
-                sceneIndexRef: sceneIndexRef,
-                guionRef: guionRef,
-                playSceneRef: playSceneRef
-            },
-            {
-                onStop: () => { window.Muller.stopSpeech(); setIsPlaying(false); isPlayingRef.current = false; },
-                onNext: () => {
-                    setSceneIndex(prev => {
-                        const nextIdx = Math.min(prev + 1, guionRef.current.length - 1);
-                        if (nextIdx !== prev) {
-                            setTimeout(() => {
-                                if (isPlayingRef.current && playSceneRef.current) {
-                                    playSceneRef.current();
-                                }
-                            }, 50);
-                            return nextIdx;
-                        } else {
-                            window.Muller.stopSpeech();
-                            setIsPlaying(false);
-                            isPlayingRef.current = false;
-                            return prev;
-                        }
-                    });
-                }
-            }
-        ); ;
-    }, []);
     playSceneRef.current = playScene;
     const pauseScene = () => { window.Muller.pauseSpeech(); setIsPlaying(false); };
     const stopScene = () => { window.Muller.stopSpeech(); setIsPlaying(false); isPlayingRef.current = false; };
@@ -192,6 +155,9 @@ window.Muller.Panels['historia'] = function({ session }) {
     const prevScene = () => { stopScene(); setSceneIndex(prev => Math.max(prev - 1, 0)); };
     const activarSubmodo = (id) => { stopScene(); setActiveSubmodo(id); };
     const salirSubmodo = () => setActiveSubmodo(null);
+    const escena = guion[sceneIndex] || guion[0];
+    const textoAleman = escena ? window.Muller.sanitizeHistoriaText(escena.text_de || escena.text) : '';
+    const textoEspanol = escena ? escena.translation || '' : '';
     const escena = guion[sceneIndex] || guion[0];
     const textoAleman = escena ? window.Muller.sanitizeHistoriaText(escena.text_de || escena.text) : '';
     const textoEspanol = escena ? escena.translation || '' : '';
