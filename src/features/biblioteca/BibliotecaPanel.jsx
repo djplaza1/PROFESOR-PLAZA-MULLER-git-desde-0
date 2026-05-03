@@ -1045,12 +1045,12 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     return React.createElement('div', { className: 'flex flex-col h-full bg-gray-900 text-gray-100' },
         // ========== MODALES (renderizados directamente para que reaccionen a cambios de estado) ==========
         // Modal: Nuevo Guion
-        React.createElement(window.Muller.Modal, { show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion',
-            children: React.createElement(window.Muller.ScriptFormModal, { scriptForm, setScriptForm, handleCreateScript, setShowScriptForm }) )
+        React.createElement(window.Muller.Modal, { show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion'},
+            React.createElement(window.Muller.ScriptFormModal, { scriptForm, setScriptForm, handleCreateScript, setShowScriptForm }) )
         }),
         // Modal: Nueva Lista de Vocabulario
-        React.createElement(window.Muller.Modal, { show: showVocabForm, onClose: function() { setShowVocabForm(false); setFeedback(''); }, title: 'Nueva Lista de Vocabulario',
-            children: React.createElement(window.Muller.VocabFormModal, { vocabForm, setVocabForm, handleCreateVocabList, setShowVocabForm }) )
+        React.createElement(window.Muller.Modal, { show: showVocabForm, onClose: function() { setShowVocabForm(false); setFeedback(''); }, title: 'Nueva Lista de Vocabulario'},
+            React.createElement(window.Muller.VocabFormModal, { vocabForm, setVocabForm, handleCreateVocabList, setShowVocabForm }) )
         }),
         // Cabecera con tabs
         React.createElement('div', { className: 'flex-shrink-0 p-4 pb-2 border-b border-white/10' },
@@ -1082,7 +1082,6 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
                 label: 'Instrucciones IA',
                 onClick: function() { setSubview('ia-instructions'); setFeedback(''); }
             })
-            )
         ),
 
         // Contenido scrolleable
@@ -1098,7 +1097,6 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
                     'Al final de la escena verás un panel con cada palabra: ARTÍCULO (der/die/das coloreado), NIVEL (A1, B1, etc.) y TRADUCCIÓN. ' +
                     'También puedes activar el modo "Vocabulario" para ver frase por frase.'
                 )
-            )
         )
     );
 };
