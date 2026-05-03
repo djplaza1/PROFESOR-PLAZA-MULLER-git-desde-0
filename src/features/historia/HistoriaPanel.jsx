@@ -3,7 +3,7 @@
 // ==================================================
 window.Muller.Panels['historia'] = function({ session }) {
     const { useState, useEffect, useRef, useCallback, useMemo } = window.React;
-    const MData = window.Muller.Data || {};
+    
 
         function parseGuion(raw) {
         if (Array.isArray(raw)) return raw;
@@ -59,9 +59,9 @@ window.Muller.Panels['historia'] = function({ session }) {
             }
         }
         window.Muller.activeScript = null;
-        var dg = MData.defaultGuion;
+        var dg = window.Muller.Data?.defaultGuion;
         return parseGuion(dg);
-    }, [activeScriptId, savedScripts, MData.defaultGuion]);
+    }, [activeScriptId, savedScripts, window.Muller.Data?.defaultGuion]);
 
     useEffect(function() {
         var scripts = window.Muller.storage.get('savedScripts', []);
