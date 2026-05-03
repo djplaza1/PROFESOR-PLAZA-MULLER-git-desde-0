@@ -25,5 +25,29 @@
     localStorage.setItem('muller_ia_temperature', val);
     return val;
   };
+
+  // ─── Distancia de Levenshtein ───
+  M.levenshteinDistance = function(a, b) {
+    const alen = a.length;
+    const blen = b.length;
+    const mat = [];
+    for (let i = 0; i <= alen; i++) {
+      mat[i] = [i];
+    }
+    for (let j = 0; j <= blen; j++) {
+      mat[0][j] = j;
+    }
+    for (let i = 1; i <= alen; i++) {
+      for (let j = 1; j <= blen; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        mat[i][j] = Math.min(
+          mat[i - 1][j] + 1,
+          mat[i][j - 1] + 1,
+          mat[i - 1][j - 1] + cost
+        );
+      }
+    }
+    return mat[alen][blen];
+  };
 })();
 

@@ -23,7 +23,8 @@
       'savedScripts':      'user_scripts',
       'userProgress':      'user_progress',
       'mullerVocabs':      'user_vocab',
-      'mullerAchievements':'user_achievements'
+      'mullerAchievements':'user_achievements',
+      'muller_ocr_history_v1': 'user_ocr_history'
     };
 
     var syncTimeout = null;
@@ -47,4 +48,31 @@
       }
     };
   })();
+
+  // ─── Historial OCR ───
+  M.ocr = M.ocr || {};
+  M.ocr.pushHistory = function mullerPushOcrHistory(entry) {
+    if (!entry || !entry.text) return;
+    try {
+      var raw = localStorage.getItem('muller_ocr_history_v1');
+      var list = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(list)) list = [];
+      list.unshift({
+        text: entry.text,
+        pct: entry.confidence || 0,
+        at: new Date().toISOString(),
+        source: entry.source || 'writing_canvas'
+      });
+      if (list.length > 50) list = list.slice(0, 50);
+      localStorage.setItem('muller_ocr_history_v1', JSON.stringify(list));
+      // sync
+      if (typeof M.saveToCloud === 'function') {
+        M.saveToCloud('user_ocr_history', list).catch(function(e) {
+          console.warn('sync OcrHistory error:', e);
+        });
+      }
+    } catch(e) {
+      console.warn('pushOcrHistory error:', e);
+    }
+  };
 })();

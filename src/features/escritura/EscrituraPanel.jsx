@@ -5,6 +5,8 @@ window.Muller.Panels = window.Muller.Panels || {};
 const { WRITING_COPY_DRILLS, WRITING_PROMPTS_DE, WRITING_TELC_TASKS, buildDictationPool, buildGuionLines } = window.Muller.Escritura || {};
 
 window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
+  // Alias para PanelRouter: tab = 'escritura' en MAIN_TABS
+  window.Muller.Panels.escritura = window.Muller.Panels.EscrituraPanel;
   const { useState, useEffect, useRef, useCallback } = React;
   const { Lucide: { PenLine, Eraser, Undo2, Save, Grid, Volume2, Mail, ChevronLeft, ChevronRight, Eye, EyeOff } } = window;
   const guionData = appState?.guionData || [];
@@ -29,6 +31,7 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
   const [writingCanvasSnapshot, setWritingCanvasSnapshot] = useState(null);
   const [ocrHistoryList, setOcrHistoryList] = useState([]);
   const [spellErrors, setSpellErrors] = useState([]);
+  const [telcCoachResult, setTelcCoachResult] = useState(null);
 
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
@@ -136,10 +139,15 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
     }
   };
 
-  // Acciones de modo TELC – correcciÃ³n ortogrÃ¡fica real
+  // Acciones de modo TELC – corrección ortográfica real + coach TELC
     const telcCoach = async () => {
       const text = writingTelcTypedText || '';
       if (!text.trim()) { alert('Escribe texto para corregir.'); return; }
+      // 1. Evaluación estructural con mullerBuildTelcWritingCoach
+      const task = WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length];
+      const coach = window.mullerBuildTelcWritingCoach(text, task, null);
+      setTelcCoachResult(coach);
+      // 2. Corrección ortográfica real
       const apiKey = (window.Muller?.IA?.getApiKey && window.Muller.IA.getApiKey()) || '';
       if (apiKey) {
         const corrected = await window.Muller.Escritura.checkSpellingWithAI(text, apiKey);
@@ -152,7 +160,7 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
       const errors = await window.Muller.Escritura.checkSpelling(text);
       setSpellErrors(errors);
       if (errors.length === 0) {
-        setSpellErrors([{ message: 'Â¡Sin errores detectados!', replacements: [], offset: 0, length: 0, rule: 'ok' }]);
+        setSpellErrors([{ message: 'Sin errores detectados!', replacements: [], offset: 0, length: 0, rule: 'ok' }]);
       }
       window.Muller.Achievements.unlock('first_spell_check');
     };
@@ -360,6 +368,35 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
               )}
             </div>
           ))}
+        </div>
+      )}
+
+      {/* ─── Resultados del Coach TELC ─── */}
+      {telcCoachResult && (
+        <div className="mt-4 rounded-xl bg-black/35 border border-emerald-500/30 p-3 space-y-2">
+          <p className="text-emerald-200/90 text-sm font-bold mb-2">🏆 Coach TELC</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            {[
+              { label: 'Tarea', score: telcCoachResult.scoreTask },
+              { label: 'Registro', score: telcCoachResult.scoreRegister },
+              { label: 'Cohesión', score: telcCoachResult.scoreCohesion },
+              { label: 'Gramática', score: telcCoachResult.scoreGrammar }
+            ].map(item => (
+              <div key={item.label} className="bg-slate-900/60 rounded-lg p-2 text-center border border-white/5">
+                <p className="text-[10px] uppercase text-gray-500 font-black">{item.label}</p>
+                <p className="text-lg font-black text-white">{item.score}<span className="text-[10px] text-gray-500">/5</span></p>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between px-2">
+            <span className="text-sm text-white font-black">Total: {telcCoachResult.total}/{telcCoachResult.max}</span>
+            <span className={`text-sm font-black ${telcCoachResult.pct >= 70 ? 'text-emerald-400' : telcCoachResult.pct >= 40 ? 'text-amber-400' : 'text-rose-400'}`}>
+              {telcCoachResult.pct}%
+            </span>
+          </div>
+          {telcCoachResult.suggestionText && (
+            <p className="text-xs text-stone-300 bg-black/30 rounded-lg p-2">{telcCoachResult.suggestionText}</p>
+          )}
         </div>
       )}
     </div>
