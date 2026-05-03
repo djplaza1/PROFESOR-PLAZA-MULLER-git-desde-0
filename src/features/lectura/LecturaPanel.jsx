@@ -6,17 +6,7 @@ window.Muller.Panels = window.Muller.Panels || {};
 
 window.Muller.Panels['lectura'] = function(props) {
   var h = window.Muller.LecturaHooks.useLectura({ initialText: '' });
-  var _icon = window.Muller.LecturaHelpers.icon;
-
-  // Helper para renderizar icono como elemento React con dangerouslySetInnerHTML
-  function iconSpan(name, className, size) {
-    var html = _icon(name, className || '', size || 16);
-    if (!html) return null;
-    return React.createElement('span', {
-      dangerouslySetInnerHTML: { __html: html },
-      style: { display: 'inline', verticalAlign: 'middle' }
-    });
-  }
+  var iconSpan = window.Muller.LecturaComponents.iconSpan;
 
   // ─── Estilo contenedor principal ───
   var mainStyle = {
@@ -80,19 +70,9 @@ window.Muller.Panels['lectura'] = function(props) {
     }, [iconSpan('activity', 'shadow-icon'), ' Sombra'])
   );
 
-  // ─── Input para pegar texto ───
-  var pasteArea = !h.text ? React.createElement('textarea', {
-    placeholder: 'Pega aquí un texto en alemán para leer...',
-    rows: 6,
-    style: {
-      width: '100%', padding: '12px', borderRadius: '12px',
-      background: 'rgba(30,41,59,0.8)', border: '1px solid rgba(148,163,184,0.2)',
-      color: '#e2e8f0', fontSize: '1rem', resize: 'vertical', outline: 'none',
-      backdropFilter: 'blur(8px)'
-    },
-    onChange: function(e) {
-      if (e.target.value.trim()) h.pasteText(e.target.value.trim());
-    }
+  // ─── Input para pegar texto (componente externo para evitar pérdida de foco) ───
+  var pasteArea = !h.text ? React.createElement(window.Muller.LecturaComponents.PasteArea, {
+    onPaste: h.pasteText
   }) : null;
 
   // ─── Controles de fuente ───
