@@ -24,12 +24,13 @@
     } catch(e) {}
   };
 
-  // Extrae solo la palabra alemana de [Wort - traducción] en vez de eliminar todo
+  // Limpia texto para TTS: conserva palabras de [Wort - trad], elimina nombres tipo "Lukas:", "Elena:"
   M.sanitizeHistoriaText = t => (t||'')
     .replace(/\[([^\]]+)\]/g, function(match, contenido) {
       var partes = contenido.split(' - ');
       return partes[0].trim();
     })
+    .replace(/\b[A-ZÄÖÜ][a-zäöüß]+\s*:\s*/g,'') // Elimina "Lukas:", "Elena:", "Doctor:" pero conserva el texto tras los dos puntos
     .replace(/<[^>]*>/g,'')
     .replace(/\s+/g,' ')
     .trim();

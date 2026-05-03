@@ -386,6 +386,7 @@ window.Muller.Panels['historia'] = function({ session }) {
             window.React.createElement('select', {
                 value: activeScriptId,
                 className: 'backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-3 py-1 text-sm text-white ml-2',
+                style: { colorScheme: 'dark' },
                 onChange: (e) => {
                     var newId = e.target.value;
                     window.Muller.storage.set('activeScriptId', newId);
