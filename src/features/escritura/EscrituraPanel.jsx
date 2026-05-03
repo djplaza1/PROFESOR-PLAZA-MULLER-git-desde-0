@@ -1,17 +1,50 @@
 ﻿// src/features/escritura/EscrituraPanel.jsx
+// ═══════════════════════════════════════════════════
+// Panel de escritura con 8 modos (libre, copia, dictado, prompt, TELC, letras, guion, vocab)
+// ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 
-const { WRITING_COPY_DRILLS, WRITING_PROMPTS_DE, WRITING_TELC_TASKS, buildDictationPool, buildGuionLines } = window.Muller.Escritura || {};
+const E = window.Muller.Escritura || {};
 
-window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
-  // Alias para PanelRouter: tab = 'escritura' en MAIN_TABS
+const SVG_PEN = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 3-2 6h3l-1 4h3l-2 6"/><path d="M3 21l6-18h5l-1 4H9l-1 4h4l-1 4H7l-1 4H3z"/></svg>';
+const SVG_ERASER = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20h8"/><path d="m20.5 11.5-11-11L2 12l11 11 7.5-11.5z"/></svg>';
+const SVG_UNDO = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>';
+const SVG_SAVE = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
+const SVG_VOLUME = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+const SVG_MAIL = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+const SVG_EYE = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+const SVG_EYE_OFF = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y2="22" y1="2"/></svg>';
+const SVG_LEFT = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+const SVG_RIGHT = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+
+// Helper: crear SVG inline
+function SvgIcon(html, cls) {
+  return React.createElement('span', {
+    className: cls || '',
+    style: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 16, height: 16 },
+    dangerouslySetInnerHTML: { __html: html }
+  });
+}
+
+// ─── DEFINICIÓN DEL PANEL ───
+window.Muller.Panels.EscrituraPanel = ({ session }) => {
+  // Alias para PanelRouter: tab = 'escritura'
   window.Muller.Panels.escritura = window.Muller.Panels.EscrituraPanel;
   const { useState, useEffect, useRef, useCallback } = React;
-  const { Lucide: { PenLine, Eraser, Undo2, Save, Grid, Volume2, Mail, ChevronLeft, ChevronRight, Eye, EyeOff } } = window;
-  const guionData = appState?.guionData || [];
-  const savedScripts = appState?.savedScripts || [];
-  const currentVocabList = appState?.currentVocabList || [];
+
+  // Leer datos de window.Muller.Escritura
+  const WRITING_COPY_DRILLS = E.WRITING_COPY_DRILLS || [];
+  const WRITING_PROMPTS_DE = E.WRITING_PROMPTS_DE || [];
+  const WRITING_TELC_TASKS = E.WRITING_TELC_TASKS || [];
+  const buildDictationPool = E.buildDictationPool || (() => []);
+  const buildGuionLines = E.buildGuionLines || (() => []);
+
+  // Intentar obtener appState desde session si existe
+  const appState = (session && session.appState) || {};
+  const guionData = appState.guionData || [];
+  const savedScripts = appState.savedScripts || [];
+  const currentVocabList = appState.currentVocabList || [];
 
   // ---- estados ----
   const [writingMode, setWritingMode] = useState('free');
@@ -28,7 +61,6 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
   const [writingLetterIdx, setWritingLetterIdx] = useState(0);
   const [writingGuionWriteIdx, setWritingGuionWriteIdx] = useState(0);
   const [writingVocabIdx, setWritingVocabIdx] = useState(0);
-  const [writingCanvasSnapshot, setWritingCanvasSnapshot] = useState(null);
   const [ocrHistoryList, setOcrHistoryList] = useState([]);
   const [spellErrors, setSpellErrors] = useState([]);
   const [telcCoachResult, setTelcCoachResult] = useState(null);
@@ -39,10 +71,13 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
   const strokes = useRef([]);
   const currentStroke = useRef([]);
   const penColor = useRef('#ffffff');
-  const eraserWidth = useRef(20);
 
-  // Opciones de guiones
-  const writingScriptOptions = savedScripts.map(s => ({ id: String(s.id), title: s.title || 'Sin título', count: (() => { try { return JSON.parse(s.data).length } catch(e) { return 0 } })() }));
+  // Opciones de guiones para dictado
+  const writingScriptOptions = savedScripts.map(s => ({
+    id: String(s.id),
+    title: s.title || 'Sin título',
+    count: (() => { try { return JSON.parse(s.data).length } catch(e) { return 0 } })()
+  }));
 
   // Pool de dictado
   const writingDictationPool = buildDictationPool(writingDictSource, guionData, savedScripts, writingDictScriptId, currentVocabList);
@@ -86,41 +121,51 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
     });
   };
 
-  const handlePointerDown = (e) => {
+  const getPos = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left;
+    const y = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top;
+    return { x, y };
+  };
+
+  const handlePointerDown = (e) => {
+    e.preventDefault();
+    const pos = getPos(e);
     isDrawing.current = true;
-    lastPos.current = {x,y};
-    currentStroke.current = [{x,y}];
+    lastPos.current = pos;
+    currentStroke.current = [pos];
+    canvasRef.current.setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e) => {
     if (!isDrawing.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    currentStroke.current.push({x,y});
+    e.preventDefault();
+    const pos = getPos(e);
+    currentStroke.current.push(pos);
     const ctx = canvasRef.current.getContext('2d');
     ctx.beginPath();
     ctx.strokeStyle = penColor.current;
     ctx.lineWidth = 2;
     ctx.moveTo(lastPos.current.x, lastPos.current.y);
-    ctx.lineTo(x, y);
+    ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
-    lastPos.current = {x,y};
+    lastPos.current = pos;
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (e) => {
     if (!isDrawing.current) return;
     isDrawing.current = false;
     if (currentStroke.current.length > 1) {
-      strokes.current.push({ ...currentStroke.current, color: penColor.current, width: 2 });
+      const stroke = currentStroke.current.slice();
+      stroke.color = penColor.current;
+      stroke.width = 2;
+      strokes.current.push(stroke);
     }
     currentStroke.current = [];
+    try { canvasRef.current.releasePointerCapture(e.pointerId); } catch(ex) {}
   };
 
-  const undoStroke = () => strokes.current.pop() && redraw();
+  const undoStroke = () => { strokes.current.pop(); redraw(); };
   const clearCanvas = () => { strokes.current = []; redraw(); };
   const saveCanvasImage = () => {
     const dataUrl = canvasRef.current.toDataURL('image/png');
@@ -135,276 +180,400 @@ window.Muller.Panels.EscrituraPanel = ({ db, user, appState }) => {
         if (result) setOcrHistoryList(prev => [result, ...prev].slice(0, 5));
       });
     } else {
-      alert("OCR no disponible. Subscribirse a premium para desbloquear.");
+      if (window.Muller.Toast) {
+        window.Muller.Toast.show('OCR no disponible. Premium required.', 'warning', 3000);
+      } else {
+        alert("OCR no disponible.");
+      }
     }
   };
 
-  // Acciones de modo TELC – corrección ortográfica real + coach TELC
-    const telcCoach = async () => {
-      const text = writingTelcTypedText || '';
-      if (!text.trim()) { alert('Escribe texto para corregir.'); return; }
-      // 1. Evaluación estructural con mullerBuildTelcWritingCoach
-      const task = WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length];
-      const coach = window.mullerBuildTelcWritingCoach(text, task, null);
-      setTelcCoachResult(coach);
-      // 2. Corrección ortográfica real
-      const apiKey = (window.Muller?.IA?.getApiKey && window.Muller.IA.getApiKey()) || '';
-      if (apiKey) {
-        const corrected = await window.Muller.Escritura.checkSpellingWithAI(text, apiKey);
-        if (corrected) {
-          setSpellErrors([{ message: 'Texto corregido por IA:', replacements: [corrected], offset: 0, length: text.length, rule: 'deepseek' }]);
-          window.Muller.Achievements.unlock('first_spell_check');
-          return;
-        }
+  // Acciones de modo TELC
+  const telcCoach = async () => {
+    const text = writingTelcTypedText || '';
+    if (!text.trim()) {
+      if (window.Muller.Toast) {
+        window.Muller.Toast.show('Escribe texto para corregir.', 'warning', 2000);
       }
-      const errors = await window.Muller.Escritura.checkSpelling(text);
-      setSpellErrors(errors);
-      if (errors.length === 0) {
-        setSpellErrors([{ message: 'Sin errores detectados!', replacements: [], offset: 0, length: 0, rule: 'ok' }]);
+      return;
+    }
+    const task = WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length];
+    const coach = window.mullerBuildTelcWritingCoach(text, task, null);
+    setTelcCoachResult(coach);
+    const apiKey = (window.Muller?.IA?.getApiKey && window.Muller.IA.getApiKey()) || '';
+    if (apiKey) {
+      const corrected = await E.checkSpellingWithAI(text, apiKey);
+      if (corrected) {
+        setSpellErrors([{ message: 'Texto corregido por IA:', replacements: [corrected], offset: 0, length: text.length, rule: 'deepseek' }]);
+        if (window.Muller.Achievements) window.Muller.Achievements.unlock('first_spell_check');
+        return;
       }
-      window.Muller.Achievements.unlock('first_spell_check');
-    };
+    }
+    const errors = await E.checkSpelling(text);
+    setSpellErrors(errors);
+    if (errors.length === 0) {
+      setSpellErrors([{ message: 'Sin errores detectados!', replacements: [], offset: 0, length: 0, rule: 'ok' }]);
+    }
+    if (window.Muller.Achievements) window.Muller.Achievements.unlock('first_spell_check');
+  };
 
-  return (
-    <div className="flex-1 flex flex-col p-4 md:p-6 max-w-4xl mx-auto w-full animate-in fade-in duration-500 overflow-y-auto pb-24">
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
-        <h1 className="text-2xl md:text-4xl font-black text-rose-100 flex items-center gap-2">
-          <PenLine className="w-8 h-8 md:w-10 md:h-10" /> Escritura
-        </h1>
-      </div>
-      <p className="text-stone-300/95 text-xs md:text-sm mb-4 leading-relaxed border-b border-white/10 pb-3">
-        Zona solo para escribir a mano — pensada para <strong className="text-white">tableta con lápiz</strong>. El lienzo usa <strong className="text-white">pointer capture</strong>. Encima del lienzo tienes <strong className="text-white">goma</strong>, <strong className="text-white">deshacer</strong> y <strong className="text-white">guardar PNG</strong>.
-      </p>
+  // Render
+  return React.createElement('div', {
+    className: 'flex-1 flex flex-col p-4 md:p-6 max-w-4xl mx-auto w-full',
+    style: { overflowY: 'auto', paddingBottom: 60 }
+  },
+    // Título
+    React.createElement('div', { className: 'flex items-center gap-2 mb-1' },
+      SvgIcon(SVG_PEN, 'text-rose-300'),
+      React.createElement('h1', { className: 'text-2xl md:text-4xl font-black text-rose-100' }, 'Escritura')
+    ),
+    React.createElement('p', { className: 'text-stone-300/95 text-xs md:text-sm mb-4 leading-relaxed border-b border-white/10 pb-3' },
+      'Zona solo para escribir a mano — pensada para ',
+      React.createElement('strong', { className: 'text-white' }, 'tableta con lápiz'),
+      '. El lienzo usa ',
+      React.createElement('strong', { className: 'text-white' }, 'pointer capture'),
+      '.',
+    ),
 
-      {/* Selector de modos */}
-      <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4">
-        {[
-          { id: 'free', label: 'Libre', sub: 'notas / borrador' },
-          { id: 'copy', label: 'Copia', sub: 'caligrafía' },
-          { id: 'dictation', label: 'Dictado', sub: 'oír y escribir' },
-          { id: 'prompt', label: 'Tema', sub: 'redacción' },
-          { id: 'telc', label: 'TELC', sub: 'carta/email examen' },
-          { id: 'letters', label: 'Letras DE', sub: 'ÄÖÜß' },
-          { id: 'guion', label: 'Guion', sub: 'misma historia' },
-          { id: 'vocab', label: 'Palabra', sub: 'del vocab' }
-        ].map(m => (
-          <button key={m.id} onClick={() => { setWritingMode(m.id); setWritingDictReveal(false); setWritingCanvasKey(k => k + 1); }}
-            className={`px-2.5 py-1.5 md:px-3 md:py-2 rounded-xl text-left border transition ${writingMode === m.id ? 'bg-rose-800/90 border-rose-400/50 text-white shadow-lg' : 'bg-black/40 border-white/10 text-gray-400 hover:border-rose-500/40 hover:text-white'}`}>
-            <span className="block text-[10px] md:text-xs font-black">{m.label}</span>
-            <span className="block text-[9px] text-gray-500 md:text-[10px]">{m.sub}</span>
-          </button>
-        ))}
-      </div>
+    // Selector de modos
+    React.createElement('div', { className: 'flex flex-wrap gap-1.5 md:gap-2 mb-4' },
+      [
+        { id: 'free', label: 'Libre', sub: 'notas / borrador' },
+        { id: 'copy', label: 'Copia', sub: 'caligrafía' },
+        { id: 'dictation', label: 'Dictado', sub: 'oír y escribir' },
+        { id: 'prompt', label: 'Tema', sub: 'redacción' },
+        { id: 'telc', label: 'TELC', sub: 'carta/email examen' },
+        { id: 'letters', label: 'Letras DE', sub: 'ÄÖÜß' },
+        { id: 'guion', label: 'Guion', sub: 'misma historia' },
+        { id: 'vocab', label: 'Palabra', sub: 'del vocab' }
+      ].map(m =>
+        React.createElement('button', {
+          key: m.id,
+          onClick: () => { setWritingMode(m.id); setWritingDictReveal(false); setWritingCanvasKey(k => k + 1); },
+          className: `px-2.5 py-1.5 md:px-3 md:py-2 rounded-xl text-left border transition ${writingMode === m.id ? 'bg-rose-800/90 border-rose-400/50 text-white shadow-lg' : 'bg-black/40 border-white/10 text-gray-400 hover:border-rose-500/40 hover:text-white'}`
+        },
+          React.createElement('span', { className: 'block text-[10px] md:text-xs font-black' }, m.label),
+          React.createElement('span', { className: 'block text-[9px] text-gray-500 md:text-[10px]' }, m.sub)
+        )
+      )
+    ),
 
-      {/* Contenido según modo */}
-      {writingMode === 'free' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3">
-          <p className="text-rose-200/90 text-sm font-bold">Página en blanco</p>
-          <p className="text-[11px] text-gray-500">Escribe libremente. Usa <strong className="text-gray-300">Borrar</strong> o <strong className="text-gray-300">Guardar PNG</strong> debajo.</p>
-        </div>
-      )}
+    // Contenido según modo
+    renderModeContent(writingMode, {
+      WRITING_COPY_DRILLS, WRITING_PROMPTS_DE, WRITING_TELC_TASKS,
+      writingCopyIdx, setWritingCopyIdx,
+      writingDictSource, setWritingDictSource,
+      writingDictScriptId, setWritingDictScriptId,
+      writingScriptOptions,
+      writingDictIdx, setWritingDictIdx,
+      writingDictReveal, setWritingDictReveal,
+      writingDictationPool,
+      writingPromptIdx, setWritingPromptIdx,
+      writingTelcIdx, setWritingTelcIdx,
+      writingTelcInputMode, setWritingTelcInputMode,
+      writingTelcTypedText, setWritingTelcTypedText,
+      telcCoach,
+      writingLetterIdx, setWritingLetterIdx,
+      DE_LETTERS,
+      guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
+      currentVocabList, writingVocabIdx, setWritingVocabIdx,
+      setWritingCanvasKey
+    }),
 
-      {writingMode === 'copy' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2">
-          <p className="text-rose-200/90 text-sm font-bold">Copia la frase (caligrafía alemana)</p>
-          <p className="text-lg md:text-2xl text-white leading-snug">{WRITING_COPY_DRILLS[writingCopyIdx % WRITING_COPY_DRILLS.length]}</p>
-          <button onClick={() => { setWritingCopyIdx(i => i+1); setWritingCanvasKey(k => k+1); }} className="text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80 hover:bg-rose-800">Otra frase →</button>
-        </div>
-      )}
+    // Lienzo de dibujo
+    React.createElement('div', {
+      className: 'relative border border-rose-500/30 rounded-xl overflow-hidden',
+      style: { touchAction: 'none', background: '#0c1222' }
+    },
+      React.createElement('canvas', {
+        ref: canvasRef,
+        onPointerDown: handlePointerDown,
+        onPointerMove: handlePointerMove,
+        onPointerUp: handlePointerUp,
+        onPointerLeave: handlePointerUp,
+        className: 'w-full h-64 md:h-80',
+        style: { cursor: 'crosshair', display: 'block' }
+      }),
+      React.createElement('div', { className: 'absolute top-2 right-2 flex gap-2' },
+        React.createElement('button', { onClick: undoStroke, className: 'bg-black/60 hover:bg-black/80 p-1.5 rounded-lg', title: 'Deshacer' },
+          React.createElement('span', { dangerouslySetInnerHTML: { __html: SVG_UNDO }, style: { display: 'flex', color: '#fff' } })
+        ),
+        React.createElement('button', { onClick: clearCanvas, className: 'bg-black/60 hover:bg-black/80 p-1.5 rounded-lg', title: 'Borrar todo' },
+          React.createElement('span', { dangerouslySetInnerHTML: { __html: SVG_ERASER }, style: { display: 'flex', color: '#fff' } })
+        ),
+        React.createElement('button', { onClick: saveCanvasImage, className: 'bg-black/60 hover:bg-black/80 p-1.5 rounded-lg', title: 'Guardar PNG' },
+          React.createElement('span', { dangerouslySetInnerHTML: { __html: SVG_SAVE }, style: { display: 'flex', color: '#fff' } })
+        )
+      )
+    ),
+    React.createElement('div', { className: 'flex flex-wrap items-center gap-2 mt-2' },
+      React.createElement('button', { onClick: triggerOcr, className: 'text-[10px] bg-indigo-700/60 hover:bg-indigo-700/80 px-3 py-1 rounded-lg' }, 'OCR texto'),
+      ocrHistoryList.map(h =>
+        React.createElement('span', { key: h.at, className: 'text-[9px] text-gray-400' }, `${h.pct}% ${(h.textSnippet||'').slice(0,20)}`)
+      )
+    ),
 
-      {writingMode === 'dictation' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-3">
-          <p className="text-rose-200/90 text-sm font-bold">Dictado alemán</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            <select value={writingDictSource} onChange={e => { setWritingDictSource(e.target.value); setWritingDictIdx(0); setWritingDictReveal(false); }}
-              className="w-full bg-black/45 border border-white/15 rounded-lg px-2 py-1.5 text-xs text-white">
-              <option value="builtin">Base integrada</option>
-              <option value="current_story">Historia actual</option>
-              <option value="all_saved">Mezcla guiones</option>
-              <option value="one_saved">Un guion concreto</option>
-            </select>
-            {writingDictSource === 'one_saved' && (
-              <select value={writingDictScriptId} onChange={e => { setWritingDictScriptId(e.target.value); setWritingDictIdx(0); }}
-                className="w-full bg-black/45 border border-white/15 rounded-lg px-2 py-1.5 text-xs text-white">
-                <option value="__current__" disabled>Selecciona guion</option>
-                {writingScriptOptions.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
-              </select>
-            )}
-          </div>
-          <p className="text-[10px]">Ítem {Math.min(writingDictIdx+1, writingDictationPool.length)} de {writingDictationPool.length}</p>
-          <div className="flex flex-wrap gap-2">
-            <button onClick={() => {
-              const line = writingDictationPool[writingDictIdx % writingDictationPool.length];
-              const u = new SpeechSynthesisUtterance(line.de);
-              u.lang = 'de-DE'; u.rate = 0.88;
-              speechSynthesis.speak(u);
-            }} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-700 hover:bg-rose-600 font-bold text-sm">
-              <Volume2 className="w-4 h-4"/> Escuchar dictado
-            </button>
-            <button onClick={() => { setWritingDictIdx(i => (i+1) % writingDictationPool.length); setWritingDictReveal(false); setWritingCanvasKey(k => k+1); }}
-              className="text-xs font-bold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700">Otro dictado</button>
-            <button onClick={() => setWritingDictReveal(r => !r)} className="text-xs font-bold px-3 py-2 rounded-lg bg-amber-900/60 hover:bg-amber-800/80">
-              {writingDictReveal ? <EyeOff className="w-3 h-3 inline mr-1"/> : <Eye className="w-3 h-3 inline mr-1"/>}
-              {writingDictReveal ? 'Ocultar' : 'Mostrar'} solución
-            </button>
-          </div>
-          {writingDictReveal && writingDictationPool.length > 0 && (
-            <div className="border border-emerald-700/40 rounded-lg p-4 bg-emerald-950/40">
-              <p className="text-white font-semibold text-lg">{writingDictationPool[writingDictIdx % writingDictationPool.length].de}</p>
-              <p className="text-emerald-200/90 text-sm mt-2">{writingDictationPool[writingDictIdx % writingDictationPool.length].es}</p>
-            </div>
-          )}
-        </div>
-      )}
+    // Corrección ortográfica
+    spellErrors.length > 0 && React.createElement('div', { className: 'mt-4 rounded-xl bg-black/35 border border-amber-500/30 p-3' },
+      React.createElement('p', { className: 'text-amber-200/90 text-sm font-bold mb-2' }, '📝 Resultados de corrección'),
+      spellErrors.map((err, i) =>
+        React.createElement('div', { key: i, className: 'text-xs text-gray-300 mb-1 border-b border-white/5 pb-1' },
+          err.rule === 'ok'
+            ? React.createElement('span', { className: 'text-emerald-400' }, err.message)
+            : err.rule === 'deepseek'
+              ? React.createElement('div', null,
+                  React.createElement('p', { className: 'text-amber-400' }, err.message),
+                  React.createElement('p', { className: 'text-white bg-black/30 p-2 rounded-lg mt-1' }, err.replacements[0])
+                )
+              : React.createElement('div', null,
+                  React.createElement('span', { className: 'text-rose-400 font-bold' }, err.shortMessage || err.message),
+                  err.context && React.createElement('span', { className: 'text-gray-500 ml-2' }, `en: "${err.context}"`),
+                  err.replacements.length > 0 && React.createElement('span', { className: 'text-emerald-400 ml-2' }, `→ ${err.replacements.join(', ')}`)
+                )
+        )
+      )
+    ),
 
-      {writingMode === 'prompt' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2">
-          <p className="text-rose-200/90 text-sm font-bold">Tema para redacción corta</p>
-          <p className="text-base md:text-lg text-white font-semibold">{WRITING_PROMPTS_DE[writingPromptIdx % WRITING_PROMPTS_DE.length].de}</p>
-          <p className="text-xs text-gray-500 italic">{WRITING_PROMPTS_DE[writingPromptIdx % WRITING_PROMPTS_DE.length].es}</p>
-          <button onClick={() => { setWritingPromptIdx(i => i+1); setWritingCanvasKey(k => k+1); }} className="text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80">Otro tema</button>
-        </div>
-      )}
-
-      {writingMode === 'telc' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-orange-500/30 p-3 space-y-3">
-          <p className="text-orange-200/95 text-sm font-black flex gap-2"><Mail className="w-4 h-4"/> TELC Schreiben a mano</p>
-          <div className="flex gap-2">
-            <button onClick={() => setWritingTelcInputMode('pen')} className={`text-xs px-3 py-1.5 rounded-lg border ${writingTelcInputMode === 'pen' ? 'bg-orange-600 border-orange-300/60' : 'bg-black/40 border-white/10'}`}>✍ Lápiz</button>
-            <button onClick={() => setWritingTelcInputMode('keyboard')} className={`text-xs px-3 py-1.5 rounded-lg border ${writingTelcInputMode === 'keyboard' ? 'bg-orange-600 border-orange-300/60' : 'bg-black/40 border-white/10'}`}>⌨ Teclado</button>
-          </div>
-          {writingTelcInputMode === 'keyboard' && (
-            <textarea value={writingTelcTypedText} onChange={e => setWritingTelcTypedText(e.target.value)}
-              placeholder="Escribe tu carta/email TELC..."
-              className="w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white" />
-          )}
-          <p className="text-[10px] text-rose-200">Tarea {writingTelcIdx+1} de {WRITING_TELC_TASKS.length}</p>
-          <div className="rounded-xl border border-white/10 bg-slate-900/60 p-3 space-y-2">
-            <p className="text-[11px] font-black uppercase text-rose-300">{WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length].title}</p>
-            <p className="text-sm text-white">{WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length].promptDe}</p>
-            <ul className="text-[11px] text-emerald-100/90 space-y-1">
-              {(WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length].checklist || []).map((item,i) => <li key={i}>• {item}</li>)}
-            </ul>
-          </div>
-          <button onClick={telcCoach} className="px-4 py-2 bg-orange-700 hover:bg-orange-600 rounded-xl text-sm font-bold">Evaluar texto TELC</button>
-          <button onClick={() => { setWritingTelcIdx(i => i+1); setWritingCanvasKey(k => k+1); setWritingTelcTypedText(''); }} className="text-xs px-3 py-2 bg-slate-800 rounded-lg">Siguiente tarea</button>
-        </div>
-      )}
-
-      {writingMode === 'letters' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2">
-          <p className="text-rose-200/90 text-sm font-bold">Practica letras alemanas</p>
-          <div className="flex gap-2">
-            {DE_LETTERS.map((l,i) => (
-              <button key={l} onClick={() => setWritingLetterIdx(i)} className={`text-2xl font-black p-2 rounded-xl ${writingLetterIdx === i ? 'bg-rose-800 text-white' : 'bg-black/40 text-gray-400'}`}>{l}</button>
-            ))}
-          </div>
-          <p className="text-3xl text-white font-black">{DE_LETTERS[writingLetterIdx]}</p>
-        </div>
-      )}
-
-      {writingMode === 'guion' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2">
-          <p className="text-rose-200/90 text-sm font-bold">Escribe líneas de la historia</p>
-          {guionLines.length > 0 ? (
-            <p className="text-lg md:text-xl text-white leading-relaxed border-l-4 border-rose-500 pl-3">{guionLines[writingGuionWriteIdx % guionLines.length]}</p>
-          ) : <p className="text-gray-500">No hay historia actual. Ve al panel Historia primero.</p>}
-          <button onClick={() => { setWritingGuionWriteIdx(i => i+1); setWritingCanvasKey(k => k+1); }} className="text-xs px-3 py-1.5 bg-rose-900/80 rounded-lg">Siguiente frase</button>
-        </div>
-      )}
-
-      {writingMode === 'vocab' && (
-        <div className="mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2">
-          <p className="text-rose-200/90 text-sm font-bold">Palabra del vocabulario</p>
-          {currentVocabList.length > 0 ? (
-            <p className="text-xl text-white font-semibold">{currentVocabList[writingVocabIdx % currentVocabList.length]?.de || ''}</p>
-          ) : <p className="text-gray-500">No hay lista de vocabulario activa.</p>}
-          <button onClick={() => { setWritingVocabIdx(i => i+1); setWritingCanvasKey(k => k+1); }} className="text-xs px-3 py-1.5 bg-rose-900/80 rounded-lg">Siguiente palabra</button>
-        </div>
-      )}
-
-      {/* Lienzo de dibujo */}
-      <div className="relative bg-gray-950 border border-rose-500/30 rounded-xl overflow-hidden" style={{ touchAction: 'none' }}>
-        <canvas ref={canvasRef}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerLeave={handlePointerUp}
-          className="w-full h-64 md:h-80 bg-gray-900"
-        />
-        <div className="absolute top-2 right-2 flex gap-2">
-          <button onClick={undoStroke} className="bg-black/60 p-1.5 rounded-lg" title="Deshacer"><Undo2 className="w-4 h-4 text-white"/></button>
-          <button onClick={clearCanvas} className="bg-black/60 p-1.5 rounded-lg" title="Borrar todo"><Eraser className="w-4 h-4 text-white"/></button>
-          <button onClick={saveCanvasImage} className="bg-black/60 p-1.5 rounded-lg" title="Guardar PNG"><Save className="w-4 h-4 text-white"/></button>
-        </div>
-      </div>
-      <div className="flex justify-between mt-2">
-        <button onClick={triggerOcr} className="text-[10px] bg-indigo-700/60 px-3 py-1 rounded-lg">OCR texto</button>
-        {ocrHistoryList.map(h => (
-          <div key={h.at} className="text-[9px] text-gray-400 ml-2">{h.pct}% {h.textSnippet?.slice(0,20)}</div>
-        ))}
-      </div>
-      {/* ─── Corrección ortográfica ─── */}
-      {spellErrors.length > 0 && (
-        <div className="mt-4 rounded-xl bg-black/35 border border-amber-500/30 p-3">
-          <p className="text-amber-200/90 text-sm font-bold mb-2">📝 Resultados de corrección</p>
-          {spellErrors.map((err, i) => (
-            <div key={i} className="text-xs text-gray-300 mb-1 border-b border-white/5 pb-1">
-              {err.rule === 'ok' ? (
-                <span className="text-emerald-400">{err.message}</span>
-              ) : err.rule === 'deepseek' ? (
-                <div>
-                  <p className="text-amber-400">{err.message}</p>
-                  <p className="text-white bg-black/30 p-2 rounded-lg mt-1">{err.replacements[0]}</p>
-                </div>
-              ) : (
-                <div>
-                  <span className="text-rose-400 font-bold">{err.shortMessage || err.message}</span>
-                  {err.context && <span className="text-gray-500 ml-2">en: "{err.context}"</span>}
-                  {err.replacements.length > 0 && (
-                    <span className="text-emerald-400 ml-2">→ {err.replacements.join(', ')}</span>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* ─── Resultados del Coach TELC ─── */}
-      {telcCoachResult && (
-        <div className="mt-4 rounded-xl bg-black/35 border border-emerald-500/30 p-3 space-y-2">
-          <p className="text-emerald-200/90 text-sm font-bold mb-2">🏆 Coach TELC</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {[
-              { label: 'Tarea', score: telcCoachResult.scoreTask },
-              { label: 'Registro', score: telcCoachResult.scoreRegister },
-              { label: 'Cohesión', score: telcCoachResult.scoreCohesion },
-              { label: 'Gramática', score: telcCoachResult.scoreGrammar }
-            ].map(item => (
-              <div key={item.label} className="bg-slate-900/60 rounded-lg p-2 text-center border border-white/5">
-                <p className="text-[10px] uppercase text-gray-500 font-black">{item.label}</p>
-                <p className="text-lg font-black text-white">{item.score}<span className="text-[10px] text-gray-500">/5</span></p>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-between px-2">
-            <span className="text-sm text-white font-black">Total: {telcCoachResult.total}/{telcCoachResult.max}</span>
-            <span className={`text-sm font-black ${telcCoachResult.pct >= 70 ? 'text-emerald-400' : telcCoachResult.pct >= 40 ? 'text-amber-400' : 'text-rose-400'}`}>
-              {telcCoachResult.pct}%
-            </span>
-          </div>
-          {telcCoachResult.suggestionText && (
-            <p className="text-xs text-stone-300 bg-black/30 rounded-lg p-2">{telcCoachResult.suggestionText}</p>
-          )}
-        </div>
-      )}
-    </div>
+    // Coach TELC
+    telcCoachResult && React.createElement('div', { className: 'mt-4 rounded-xl bg-black/35 border border-emerald-500/30 p-3 space-y-2' },
+      React.createElement('p', { className: 'text-emerald-200/90 text-sm font-bold mb-2' }, '🏆 Coach TELC'),
+      React.createElement('div', { className: 'grid grid-cols-2 md:grid-cols-4 gap-2' },
+        [
+          { label: 'Tarea', score: telcCoachResult.scoreTask },
+          { label: 'Registro', score: telcCoachResult.scoreRegister },
+          { label: 'Cohesión', score: telcCoachResult.scoreCohesion },
+          { label: 'Gramática', score: telcCoachResult.scoreGrammar }
+        ].map(item =>
+          React.createElement('div', { key: item.label, className: 'bg-slate-900/60 rounded-lg p-2 text-center border border-white/5' },
+            React.createElement('p', { className: 'text-[10px] uppercase text-gray-500 font-black' }, item.label),
+            React.createElement('p', { className: 'text-lg font-black text-white' },
+              item.score,
+              React.createElement('span', { className: 'text-[10px] text-gray-500' }, '/5')
+            )
+          )
+        )
+      ),
+      React.createElement('div', { className: 'flex items-center justify-between px-2' },
+        React.createElement('span', { className: 'text-sm text-white font-black' }, `Total: ${telcCoachResult.total}/${telcCoachResult.max}`),
+        React.createElement('span', {
+          className: `text-sm font-black ${telcCoachResult.pct >= 70 ? 'text-emerald-400' : telcCoachResult.pct >= 40 ? 'text-amber-400' : 'text-rose-400'}`
+        }, `${telcCoachResult.pct}%`)
+      ),
+      telcCoachResult.suggestionText && React.createElement('p', { className: 'text-xs text-stone-300 bg-black/30 rounded-lg p-2' }, telcCoachResult.suggestionText)
+    )
   );
 };
 
+// ─── Función helper para renderizar el contenido de cada modo ───
+function renderModeContent(mode, ctx) {
+  const {
+    WRITING_COPY_DRILLS, WRITING_PROMPTS_DE, WRITING_TELC_TASKS,
+    writingCopyIdx, setWritingCopyIdx,
+    writingDictSource, setWritingDictSource,
+    writingDictScriptId, setWritingDictScriptId,
+    writingScriptOptions,
+    writingDictIdx, setWritingDictIdx,
+    writingDictReveal, setWritingDictReveal,
+    writingDictationPool,
+    writingPromptIdx, setWritingPromptIdx,
+    writingTelcIdx, setWritingTelcIdx,
+    writingTelcInputMode, setWritingTelcInputMode,
+    writingTelcTypedText, setWritingTelcTypedText,
+    telcCoach,
+    writingLetterIdx, setWritingLetterIdx,
+    DE_LETTERS,
+    guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
+    currentVocabList, writingVocabIdx, setWritingVocabIdx,
+    setWritingCanvasKey
+  } = ctx;
 
+  switch (mode) {
+    case 'free':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3' },
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Página en blanco'),
+        React.createElement('p', { className: 'text-[11px] text-gray-500' }, 'Escribe libremente. Usa ', React.createElement('strong', { className: 'text-gray-300' }, 'Borrar'), ' o ', React.createElement('strong', { className: 'text-gray-300' }, 'Guardar PNG'), ' debajo.')
+      );
 
+    case 'copy':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Copia la frase (caligrafía alemana)'),
+        React.createElement('p', { className: 'text-lg md:text-2xl text-white leading-snug' },
+          WRITING_COPY_DRILLS.length > 0 ? WRITING_COPY_DRILLS[writingCopyIdx % WRITING_COPY_DRILLS.length] : '(sin datos)'
+        ),
+        React.createElement('button', {
+          onClick: () => { setWritingCopyIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80 hover:bg-rose-800'
+        }, 'Otra frase →')
+      );
 
+    case 'dictation':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-3' },
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Dictado alemán'),
+        React.createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 gap-2' },
+          React.createElement('select', {
+            value: writingDictSource,
+            onChange: e => { setWritingDictSource(e.target.value); setWritingDictIdx(0); setWritingDictReveal(false); },
+            className: 'w-full bg-black/45 border border-white/15 rounded-lg px-2 py-1.5 text-xs text-white'
+          },
+            React.createElement('option', { value: 'builtin' }, 'Base integrada'),
+            React.createElement('option', { value: 'current_story' }, 'Historia actual'),
+            React.createElement('option', { value: 'all_saved' }, 'Mezcla guiones'),
+            React.createElement('option', { value: 'one_saved' }, 'Un guion concreto'),
+            React.createElement('option', { value: 'vocab' }, 'Vocabulario')
+          ),
+          writingDictSource === 'one_saved' && React.createElement('select', {
+            value: writingDictScriptId,
+            onChange: e => { setWritingDictScriptId(e.target.value); setWritingDictIdx(0); },
+            className: 'w-full bg-black/45 border border-white/15 rounded-lg px-2 py-1.5 text-xs text-white'
+          },
+            React.createElement('option', { value: '__current__', disabled: true }, 'Selecciona guion'),
+            writingScriptOptions.map(s => React.createElement('option', { key: s.id, value: s.id }, s.title))
+          )
+        ),
+        React.createElement('p', { className: 'text-[10px]' }, `Ítem ${Math.min(writingDictIdx+1, writingDictationPool.length)} de ${writingDictationPool.length}`),
+        React.createElement('div', { className: 'flex flex-wrap gap-2' },
+          React.createElement('button', {
+            onClick: () => {
+              const line = writingDictationPool[writingDictIdx % writingDictationPool.length];
+              if (line) {
+                try {
+                  const u = new SpeechSynthesisUtterance(line.de);
+                  u.lang = 'de-DE'; u.rate = 0.88;
+                  speechSynthesis.speak(u);
+                } catch(ex) {}
+              }
+            },
+            className: 'flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-700 hover:bg-rose-600 font-bold text-sm'
+          },
+            SvgIcon(SVG_VOLUME),
+            ' Escuchar dictado'
+          ),
+          React.createElement('button', {
+            onClick: () => { setWritingDictIdx(i => (i+1) % writingDictationPool.length); setWritingDictReveal(false); setWritingCanvasKey(k => k+1); },
+            className: 'text-xs font-bold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700'
+          }, 'Otro dictado'),
+          React.createElement('button', {
+            onClick: () => setWritingDictReveal(r => !r),
+            className: 'text-xs font-bold px-3 py-2 rounded-lg bg-amber-900/60 hover:bg-amber-800/80'
+          },
+            SvgIcon(writingDictReveal ? SVG_EYE_OFF : SVG_EYE, 'inline mr-1'),
+            writingDictReveal ? ' Ocultar' : ' Mostrar',
+            ' solución'
+          )
+        ),
+        writingDictReveal && writingDictationPool.length > 0 && React.createElement('div', { className: 'border border-emerald-700/40 rounded-lg p-4 bg-emerald-950/40' },
+          React.createElement('p', { className: 'text-white font-semibold text-lg' }, writingDictationPool[writingDictIdx % writingDictationPool.length].de),
+          React.createElement('p', { className: 'text-emerald-200/90 text-sm mt-2' }, writingDictationPool[writingDictIdx % writingDictationPool.length].es || '')
+        )
+      );
 
+    case 'prompt':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Tema para redacción corta'),
+        React.createElement('p', { className: 'text-base md:text-lg text-white font-semibold' },
+          WRITING_PROMPTS_DE.length > 0 ? WRITING_PROMPTS_DE[writingPromptIdx % WRITING_PROMPTS_DE.length].de : '(sin temas)'
+        ),
+        WRITING_PROMPTS_DE.length > 0 && React.createElement('p', { className: 'text-xs text-gray-500 italic' },
+          WRITING_PROMPTS_DE[writingPromptIdx % WRITING_PROMPTS_DE.length].es
+        ),
+        React.createElement('button', {
+          onClick: () => { setWritingPromptIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80 hover:bg-rose-800'
+        }, 'Otro tema')
+      );
 
+    case 'telc':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-orange-500/30 p-3 space-y-3' },
+        React.createElement('p', { className: 'text-orange-200/95 text-sm font-black flex gap-2 items-center' },
+          SvgIcon(SVG_MAIL), ' TELC Schreiben a mano'
+        ),
+        React.createElement('div', { className: 'flex gap-2' },
+          React.createElement('button', {
+            onClick: () => setWritingTelcInputMode('pen'),
+            className: `text-xs px-3 py-1.5 rounded-lg border ${writingTelcInputMode === 'pen' ? 'bg-orange-600 border-orange-300/60' : 'bg-black/40 border-white/10'}`
+          }, '✍ Lápiz'),
+          React.createElement('button', {
+            onClick: () => setWritingTelcInputMode('keyboard'),
+            className: `text-xs px-3 py-1.5 rounded-lg border ${writingTelcInputMode === 'keyboard' ? 'bg-orange-600 border-orange-300/60' : 'bg-black/40 border-white/10'}`
+          }, '⌨ Teclado')
+        ),
+        writingTelcInputMode === 'keyboard' && React.createElement('textarea', {
+          value: writingTelcTypedText,
+          onChange: e => setWritingTelcTypedText(e.target.value),
+          placeholder: 'Escribe tu carta/email TELC...',
+          className: 'w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+        }),
+        React.createElement('p', { className: 'text-[10px] text-rose-200' },
+          `Tarea ${writingTelcIdx+1} de ${WRITING_TELC_TASKS.length}`
+        ),
+        WRITING_TELC_TASKS.length > 0 && React.createElement('div', { className: 'rounded-xl border border-white/10 bg-slate-900/60 p-3 space-y-2' },
+          React.createElement('p', { className: 'text-[11px] font-black uppercase text-rose-300' },
+            WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length].title
+          ),
+          React.createElement('p', { className: 'text-sm text-white' },
+            WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length].promptDe || ''
+          ),
+          React.createElement('ul', { className: 'text-[11px] text-emerald-100/90 space-y-1' },
+            (WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length].checklist || []).map((item, i) =>
+              React.createElement('li', { key: i }, `• ${item}`)
+            )
+          )
+        ),
+        React.createElement('div', { className: 'flex gap-2' },
+          React.createElement('button', { onClick: telcCoach, className: 'px-4 py-2 bg-orange-700 hover:bg-orange-600 rounded-xl text-sm font-bold' },
+            'Evaluar texto TELC'
+          ),
+          React.createElement('button', {
+            onClick: () => { setWritingTelcIdx(i => i+1); setWritingCanvasKey(k => k+1); setWritingTelcTypedText(''); },
+            className: 'text-xs px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg'
+          }, 'Siguiente tarea')
+        )
+      );
+
+    case 'letters':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Practica letras alemanas'),
+        React.createElement('div', { className: 'flex gap-2' },
+          DE_LETTERS.map((l, i) =>
+            React.createElement('button', {
+              key: l,
+              onClick: () => setWritingLetterIdx(i),
+              className: `text-2xl font-black p-2 rounded-xl ${writingLetterIdx === i ? 'bg-rose-800 text-white' : 'bg-black/40 text-gray-400'}`
+            }, l)
+          )
+        ),
+        React.createElement('p', { className: 'text-3xl text-white font-black' }, DE_LETTERS[writingLetterIdx])
+      );
+
+    case 'guion':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Escribe líneas de la historia'),
+        guionLines.length > 0
+          ? React.createElement('p', { className: 'text-lg md:text-xl text-white leading-relaxed border-l-4 border-rose-500 pl-3' },
+              guionLines[writingGuionWriteIdx % guionLines.length]
+            )
+          : React.createElement('p', { className: 'text-gray-500' }, 'No hay historia actual. Ve al panel Historia primero.'),
+        React.createElement('button', {
+          onClick: () => { setWritingGuionWriteIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          className: 'text-xs px-3 py-1.5 bg-rose-900/80 hover:bg-rose-800 rounded-lg'
+        }, 'Siguiente frase')
+      );
+
+    case 'vocab':
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Palabra del vocabulario'),
+        currentVocabList.length > 0
+          ? React.createElement('p', { className: 'text-xl text-white font-semibold' },
+              (currentVocabList[writingVocabIdx % currentVocabList.length]?.de || '')
+            )
+          : React.createElement('p', { className: 'text-gray-500' }, 'No hay lista de vocabulario activa.'),
+        React.createElement('button', {
+          onClick: () => { setWritingVocabIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          className: 'text-xs px-3 py-1.5 bg-rose-900/80 hover:bg-rose-800 rounded-lg'
+        }, 'Siguiente palabra')
+      );
+
+    default:
+      return null;
+  }
+}

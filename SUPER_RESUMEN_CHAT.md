@@ -76,6 +76,7 @@ src/
 ---
 
 ## ✅ CAMBIOS RECIENTES (este chat)
+### Sesión anterior:
 - **translate.js**: Priorizar Google Translate sobre MyMemory. Commit `c796249`. Endpoint: `translate.googleapis.com/translate_a/single?client=gtx&sl={sl}&tl={tl}&dt=t&q={word}`
 - **SUPER_RESUMEN_CHAT.md**: Optimizado + añadido protocolo de lectura + mantenimiento para futuros agentes
 - **APP_MAP.md**: Creado mapa navegable completo para búsqueda rápida sin leer código
@@ -83,6 +84,13 @@ src/
 - **[BibliotecaPanel.jsx]**: Instrucciones IA mejoradas — prompt completo con ejemplos A2/B1, formato exacto para generar guiones con vocabulario por niveles (A1-C1). Commit `4fd0d57`.
 - **[BottomBar.jsx]**: **Fix error React #300** — eliminado `React.useEffect(() => window.lucide.createIcons())` que causaba bucle infinito de renderizado. Migrado a **SVG inline** con `dangerouslySetInnerHTML` y constante `BOTTOM_ICONS` con SVGs hardcodeados. Commit `8a340b4`. Rompe regla #7 (ya no se usa `createIcons` en BottomBar).
 - **Regla #7 actualizada**: BottomBar.jsx ahora usa SVG inline en lugar de `<i data-lucide>` + `createIcons()`. El resto de features siguen usando `createIcons()` normal.
+
+### Sesión actual (chat 5/2026):
+- **🧩 Pestaña Escritura creada desde cero**: `src/features/escritura/` con writing-data.jsx, telc-core.jsx, escrituraHelpers.jsx, EscrituraPanel.jsx (8 modos: libre, copia, dictado, tema, TELC, letras, guion, vocabulario). Incluye OCR history, levenshteinDistance, normalizeGermanSpeechText. Commits varios (último `48e73fa`).
+- **[speech.jsx]**: Creada función `window.Muller.sanitizeHistoriaText(texto)` que elimina patrones como `"Lukas:"`, `"Elena:"`, `"Doctor:"` del texto antes de enviarlo al TTS. Los nombres siguen viéndose en pantalla (el resaltado se aplica sobre el texto original sin sanitizar). Commit `3c8d0d4`.
+- **[HistoriaPanel.jsx] Fix dropdown `<select>`**: El selector de guiones tenía los `<option>` en blanco sobre blanco en Windows 10. Solución: `colorScheme: 'dark'` + `style={{ color: 'white', background: '#1f2937' }}` en cada `<option>` y en el `<select>`. Commit `c172487`.
+- **[HistoriaPanel.jsx] Fix traducción frase por frase**: `parseGuion()` ahora divide TAMBIÉN la traducción (`raw.translation`) con el mismo patrón de frases que el texto alemán, y empareja cada escena con su traducción correspondiente. Antes asignaba el texto de traducción completo a cada escena. Commit `48e73fa`.
+- **⚠️ Dato importante sobre traducciones en Historia**: La app NO traduce automáticamente. El botón "Ver traducción" solo muestra el texto que el usuario pegó en el campo de traducción al crear/guardar el guion. No hay integración con Google Translate/DeepL en el panel de Historia.
 
 ---
 
