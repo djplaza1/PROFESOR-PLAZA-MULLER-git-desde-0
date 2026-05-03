@@ -18,7 +18,7 @@ window.Muller.Submodos.diktat = function DiktatSubmod({ currentScene, sceneIndex
     setDiktatInput('');
     setShowResult(false);
     setIsCorrect(false);
-  }, [sceneIndex]);
+  }, []);
 
   // Limpieza de texto (app antigua)
   const clean = (t) => String(t || '').toLowerCase()

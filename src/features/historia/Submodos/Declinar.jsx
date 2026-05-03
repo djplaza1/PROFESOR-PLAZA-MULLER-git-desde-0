@@ -24,7 +24,7 @@ window.Muller.Submodos.declinar = function DeclinarSubmod({ guion, currentScene,
     setQuiz(random);
     setSelected(null);
     setFeedback(null);
-  }, [sceneIndex]);
+  }, []);
 
   const handleSelect = (option) => {
     setSelected(option);

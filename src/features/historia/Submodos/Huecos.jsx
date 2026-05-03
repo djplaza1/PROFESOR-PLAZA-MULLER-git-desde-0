@@ -48,7 +48,7 @@ window.Muller.Submodos.huecos = function HuecosSubmod({ guion, currentScene, sce
       return word;
     });
     return { tokens, blanks, answers, hintTranslations };
-  }, [sceneIndex]);
+  }, []);
 
   const [puzzle, setPuzzle] = React.useState(generateBlanks());
   const [userAnswers, setUserAnswers] = React.useState([]);
@@ -62,7 +62,7 @@ window.Muller.Submodos.huecos = function HuecosSubmod({ guion, currentScene, sce
     setUserAnswers(new Array(p.answers.length).fill(''));
     setFeedback(null);
     setShowHint(false);
-  }, [sceneIndex]);
+  }, []);
 
   // Mapear orden de blanks en tokens
   const blankOrder = puzzle.tokens

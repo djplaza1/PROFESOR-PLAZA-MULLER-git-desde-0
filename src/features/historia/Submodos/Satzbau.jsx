@@ -21,7 +21,7 @@ window.Muller.Submodos.satzbau = function SatzbauSubmod({ guion, currentScene, s
     setShuffled(arr);
     setConstructed([]);
     setFeedback(null);
-  }, [sceneIndex]);
+  }, []);
 
   const pickWord = (index) => {
     const word = shuffled[index];

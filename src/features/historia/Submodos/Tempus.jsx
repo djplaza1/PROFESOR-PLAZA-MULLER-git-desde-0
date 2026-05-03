@@ -16,7 +16,7 @@ window.Muller.Submodos.tempus = function TempusSubmod({ escena, currentScene, gu
 
   const [verbos, setVerbos] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (!texto) { setVerbos([]); return; }
 
     const dict = window.Muller.Data.tempusDict || [];
