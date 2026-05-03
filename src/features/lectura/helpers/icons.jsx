@@ -43,13 +43,23 @@ window.Muller.LecturaHelpers.icons = {
   microphone: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>'
 };
 
-// Helper para renderizar icono inline
+// Helper para renderizar icono inline como string HTML (para dangerouslySetInnerHTML)
 window.Muller.LecturaHelpers.icon = function(name, className, size) {
   var svg = window.Muller.LecturaHelpers.icons[name] || '';
   if (!svg) return '';
   if (size) {
-    svg = svg.replace(/width="24"/, 'width="' + size + '"').replace(/height="24"/, 'height="' + size + '"');
+    svg = svg.replace(/width="24"/g, 'width="' + size + '"').replace(/height="24"/g, 'height="' + size + '"');
   }
   var cls = className ? ' class="' + className + '"' : '';
   return '<span' + cls + ' style="display:inline-flex;vertical-align:middle">' + svg.split('<svg')[0] + '<svg' + svg.split('<svg')[1] + '</span>';
+};
+
+// Helper para crear un elemento React con dangerouslySetInnerHTML (uso correcto en React)
+window.Muller.LecturaHelpers.iconEl = function(name, className, size) {
+  var html = window.Muller.LecturaHelpers.icon(name, className, size);
+  if (!html) return null;
+  return React.createElement('span', {
+    dangerouslySetInnerHTML: { __html: html },
+    style: { display: 'inline', verticalAlign: 'middle' }
+  });
 };

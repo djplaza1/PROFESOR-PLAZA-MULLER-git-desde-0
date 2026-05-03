@@ -6,8 +6,17 @@ window.Muller.Panels = window.Muller.Panels || {};
 
 window.Muller.Panels['lectura'] = function(props) {
   var h = window.Muller.LecturaHooks.useLectura({ initialText: '' });
-  var icon = window.Muller.LecturaHelpers.icon;
-  var iconX = function(n, c) { return icon(n, c || '', 16); };
+  var _icon = window.Muller.LecturaHelpers.icon;
+
+  // Helper para renderizar icono como elemento React con dangerouslySetInnerHTML
+  function iconSpan(name, className, size) {
+    var html = _icon(name, className || '', size || 16);
+    if (!html) return null;
+    return React.createElement('span', {
+      dangerouslySetInnerHTML: { __html: html },
+      style: { display: 'inline', verticalAlign: 'middle' }
+    });
+  }
 
   // ─── Estilo contenedor principal ───
   var mainStyle = {
@@ -43,11 +52,11 @@ window.Muller.Panels['lectura'] = function(props) {
     React.createElement('button', {
       onClick: function() { h.setShowLibrary(!h.showLibrary); },
       style: glassButton(h.showLibrary ? '#fbbf24' : '#334155')
-    }, icon('library', 'library-icon') + ' Biblioteca'),
+    }, [iconSpan('library', 'library-icon'), ' Biblioteca']),
     React.createElement('label', {
       style: glassButton('#334155', { position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' })
     },
-      icon('fileText', 'file-icon') + ' Pegar',
+      [iconSpan('fileText', 'file-icon'), ' Pegar'],
       React.createElement('input', {
         type: 'file',
         accept: '.txt,.pdf',
@@ -58,17 +67,17 @@ window.Muller.Panels['lectura'] = function(props) {
     React.createElement('button', {
       onClick: h.startDictado,
       style: glassButton(h.dictadoActive ? '#06b6d4' : '#334155')
-    }, icon('headphones', 'dictado-icon') + ' Dictado'),
+    }, [iconSpan('headphones', 'dictado-icon'), ' Dictado']),
     React.createElement('button', {
       onClick: h.startKaraoke,
       disabled: !h.text || h.karaokeActive,
       style: glassButton(h.karaokeActive ? '#a855f7' : '#334155', { opacity: !h.text ? 0.5 : 1 })
-    }, icon('skipForward', 'karoake-icon') + ' Karaoke'),
+    }, [iconSpan('skipForward', 'karoake-icon'), ' Karaoke']),
     React.createElement('button', {
       onClick: h.startShadowReading,
       disabled: !h.text || h.shadowActive,
       style: glassButton(h.shadowActive ? '#8b5cf6' : '#334155', { opacity: !h.text ? 0.5 : 1 })
-    }, icon('activity', 'shadow-icon') + ' Sombra')
+    }, [iconSpan('activity', 'shadow-icon'), ' Sombra'])
   );
 
   // ─── Input para pegar texto ───
@@ -97,12 +106,12 @@ window.Muller.Panels['lectura'] = function(props) {
     React.createElement('span', { style: { flex: 1 } }),
     h.isReading
       ? React.createElement('button', { onClick: h.stopReading, style: glassButton('#ef4444', { display: 'flex', alignItems: 'center', gap: '4px' }) },
-          icon('stopCircle', 'stop-icon') + ' Parar y evaluar')
+          [iconSpan('stopCircle', 'stop-icon'), ' Parar y evaluar'])
       : React.createElement('button', {
           onClick: h.startReading,
           disabled: !h.text,
           style: glassButton(h.isListening ? '#f97316' : '#06b6d4', { display: 'flex', alignItems: 'center', gap: '4px', opacity: !h.text ? 0.5 : 1 })
-        }, icon('mic', 'mic-icon') + (h.isListening ? ' Escuchando...' : ' Empezar lectura'))
+        }, [iconSpan('mic', 'mic-icon'), (h.isListening ? ' Escuchando...' : ' Empezar lectura')])
   ) : null;
 
   // ─── Texto tokenizado interactivo ───
@@ -143,7 +152,7 @@ window.Muller.Panels['lectura'] = function(props) {
         React.createElement('button', {
           onClick: function() { if (window.confirm('Modo rondas: leerás el texto 3 veces con tiempo decreciente. ¿Empezar?')) h.startRounds(); },
           style: glassButton('#8b5cf6', { display: 'flex', alignItems: 'center', gap: '4px' })
-        }, icon('target', 'rounds-icon') + ' Modo rondas (3 intentos)')
+        }, [iconSpan('target', 'rounds-icon'), ' Modo rondas (3 intentos)'])
       )
     : null;
 
@@ -189,8 +198,8 @@ window.Muller.Panels['lectura'] = function(props) {
         React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
           React.createElement('span', { style: { fontSize: '0.8rem', color: '#fbbf24', fontWeight: 600 } }, '✂️ Frase seleccionada'),
           React.createElement('div', { style: { display: 'flex', gap: '6px' } },
-            React.createElement('button', { onClick: h.playSelectedText, style: glassButton('#06b6d4', { padding: '4px 8px' }) }, icon('volume2', 'play-icon', 14)),
-            React.createElement('button', { onClick: h.clearSelection, style: glassButton('#ef4444', { padding: '4px 8px' }) }, icon('x', 'clear-icon', 14))
+            React.createElement('button', { onClick: h.playSelectedText, style: glassButton('#06b6d4', { padding: '4px 8px' }) }, iconSpan('volume2', 'play-icon', 14)),
+            React.createElement('button', { onClick: h.clearSelection, style: glassButton('#ef4444', { padding: '4px 8px' }) }, iconSpan('x', 'clear-icon', 14))
           )
         ),
         React.createElement('div', { style: { color: '#e2e8f0', fontSize: '0.9rem', fontStyle: 'italic' } }, h.selectedText)
@@ -245,7 +254,7 @@ window.Muller.Panels['lectura'] = function(props) {
       },
         React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
           React.createElement('span', { style: { fontSize: '0.9rem', color: '#c4b5fd', fontWeight: 600 } }, '🎭 Sombra de lectura'),
-          React.createElement('button', { onClick: h.stopShadowReading, style: glassButton('#ef4444', { padding: '4px 8px' }) }, icon('square', 'stop-icon', 14))
+          React.createElement('button', { onClick: h.stopShadowReading, style: glassButton('#ef4444', { padding: '4px 8px' }) }, iconSpan('square', 'stop-icon', 14))
         ),
         React.createElement('div', { style: { position: 'relative', height: '8px', background: 'rgba(139,92,246,0.2)', borderRadius: '4px', overflow: 'hidden' } },
           React.createElement('div', {
@@ -282,7 +291,7 @@ window.Muller.Panels['lectura'] = function(props) {
         React.createElement('button', {
           onClick: function() { h.setShowHistory(!h.showHistory); },
           style: glassButton('#475569', { display: 'flex', alignItems: 'center', gap: '4px', margin: '0 auto' })
-        }, icon('barChart', 'history-icon') + (h.showHistory ? ' Cerrar historial' : ' Ver historial (' + h.history.length + ')'))
+        }, [iconSpan('barChart', 'history-icon'), (h.showHistory ? ' Cerrar historial' : ' Ver historial (' + h.history.length + ')')])
       )
     : null;
 
@@ -293,7 +302,7 @@ window.Muller.Panels['lectura'] = function(props) {
           disabled: true,
           title: 'Próximamente',
           style: glassButton('#475569', { opacity: 0.6, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '4px', margin: '0 auto' })
-        }, icon('brainCircuit', 'ai-icon') + ' Análisis IA (próximamente)')
+        }, [iconSpan('brainCircuit', 'ai-icon'), ' Análisis IA (próximamente)'])
       )
     : null;
 
@@ -308,7 +317,7 @@ window.Muller.Panels['lectura'] = function(props) {
       },
         React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
           React.createElement('span', { style: { fontSize: '0.9rem', color: '#d8b4fe', fontWeight: 600 } }, '🎤 Karaoke'),
-          React.createElement('button', { onClick: h.stopKaraoke, style: glassButton('#ef4444', { padding: '4px 8px' }) }, icon('square', 'stop-icon', 14))
+          React.createElement('button', { onClick: h.stopKaraoke, style: glassButton('#ef4444', { padding: '4px 8px' }) }, iconSpan('square', 'stop-icon', 14))
         ),
         React.createElement('div', { style: { display: 'flex', flexWrap: 'wrap', gap: '4px', fontSize: h.fontSize + 'px', lineHeight: 1.8 } },
           h.karaokeWords.map(function(word, idx) {
@@ -352,9 +361,12 @@ window.Muller.Panels['lectura'] = function(props) {
   );
 };
 
-// ═══════════════════════════════════════════════════
-// HELPER FUNCTIONS
-// ═══════════════════════════════════════════════════
+function formatTime(seconds) {
+  if (!seconds && seconds !== 0) return '0:00';
+  var m = Math.floor(seconds / 60);
+  var s = seconds % 60;
+  return m + ':' + (s < 10 ? '0' : '') + s;
+}
 
 function glassButton(bg, extra) {
   var base = {
@@ -382,16 +394,12 @@ function handleFileUpload(e) {
   var reader = new FileReader();
   reader.onload = function(event) {
     var text = event.target.result;
-    // Intentar usar el hook para importar
-    // Si no hay hook directo, al menos pegar texto
     window.Muller.LecturaHelpers.lastPastedText = text;
-    // Notificar al usuario
     if (window.Muller.Toast) {
       window.Muller.Toast.show({ title: 'Archivo cargado', desc: file.name + ' cargado. Copia el texto en el panel.' });
     }
   };
   if (file.type === 'application/pdf') {
-    // PDF simple - usar lógica básica (placeholder)
     if (window.Muller.Toast) {
       window.Muller.Toast.show({ title: 'PDF cargado', desc: 'Usa el botón "Pegar" para copiar texto extraído del PDF.' });
     }
@@ -414,6 +422,16 @@ function TextDisplay(props) {
   var karaokeWords = props.karaokeWords;
   var onWordClick = props.onWordClick;
   var onTextSelect = props.onTextSelect;
+  var _icon = window.Muller.LecturaHelpers.icon;
+
+  function iS(n, c, s) {
+    var html = _icon(n, c || '', s || 16);
+    if (!html) return null;
+    return React.createElement('span', {
+      dangerouslySetInnerHTML: { __html: html },
+      style: { display: 'inline', verticalAlign: 'middle' }
+    });
+  }
 
   var textStyle = {
     padding: '16px',
@@ -434,7 +452,7 @@ function TextDisplay(props) {
     onTouchEnd: onTextSelect
   },
     t.length === 0
-      ? React.createElement('span', { style: { color: '#64748b', fontStyle: 'italic' } }, 'No hay texto cargado. Pega un texto o selecciona de la biblioteca.')
+      ? React.createElement('span', { style: { color: '#64748b', fontStyle: 'italic' } }, 'No hay texto cargado.')
       : t.map(function(token, idx) {
           var isActive = token.word === activeWord;
           var isKaraoke = karaokeActive && karaokeCurrentWord === idx;
@@ -539,9 +557,7 @@ function RoundsDisplay(props) {
 
 function ScorePanel(props) {
   var r = props.result;
-
   if (!r) return null;
-
   var scoreColor = r.score >= 80 ? '#4ade80' : (r.score >= 60 ? '#fbbf24' : '#f87171');
 
   return React.createElement('div', {
@@ -649,6 +665,16 @@ function VerbInfo(props) {
 }
 
 function AudioRecorder(props) {
+  var _icon = window.Muller.LecturaHelpers.icon;
+  function iS(n, c, s) {
+    var html = _icon(n, c || '', s || 14);
+    if (!html) return null;
+    return React.createElement('span', {
+      dangerouslySetInnerHTML: { __html: html },
+      style: { display: 'inline', verticalAlign: 'middle' }
+    });
+  }
+
   return React.createElement('div', {
     style: {
       padding: '12px',
@@ -693,7 +719,6 @@ function AudioRecorder(props) {
           React.createElement('div', { style: { display: 'flex', gap: '4px' } },
             React.createElement('button', {
               onClick: function() {
-                // Convertir base64 a blob
                 var blob = dataURItoBlob(rec.blob);
                 props.playRecording(blob);
               },
@@ -725,6 +750,16 @@ function dataURItoBlob(dataURI) {
 function Oscilloscope(props) {
   var canvasRef = React.useRef(null);
   var animId = React.useRef(null);
+  var _icon = window.Muller.LecturaHelpers.icon;
+
+  function iS(n, c, s) {
+    var html = _icon(n, c || '', s || 14);
+    if (!html) return null;
+    return React.createElement('span', {
+      dangerouslySetInnerHTML: { __html: html },
+      style: { display: 'inline', verticalAlign: 'middle' }
+    });
+  }
 
   React.useEffect(function() {
     if (!props.active || !props.analyserRef.current || !canvasRef.current) return;
@@ -786,6 +821,16 @@ function Oscilloscope(props) {
 }
 
 function DictadoPanel(props) {
+  var _icon = window.Muller.LecturaHelpers.icon;
+  function iS(n, c, s) {
+    var html = _icon(n, c || '', s || 14);
+    if (!html) return null;
+    return React.createElement('span', {
+      dangerouslySetInnerHTML: { __html: html },
+      style: { display: 'inline', verticalAlign: 'middle' }
+    });
+  }
+
   return React.createElement('div', {
     style: {
       padding: '16px',
@@ -839,12 +884,10 @@ function HistoryPanel(props) {
   var hist = props.history || [];
   var streak = props.streak || 0;
 
-  // Calcular promedio de puntuación
   var avgScore = hist.length > 0
     ? Math.round(hist.reduce(function(sum, h) { return sum + (h.score || 0); }, 0) / hist.length)
     : 0;
 
-  // Últimos 7 días para gráfico simple
   var last7 = hist.slice(0, 7).reverse();
 
   return React.createElement('div', {
@@ -972,12 +1015,4 @@ function LibraryPanel(props) {
       );
     })
   );
-}
-
-// ─── Función auxiliar de formato de tiempo ───
-function formatTime(seconds) {
-  if (!seconds && seconds !== 0) return '0:00';
-  var m = Math.floor(seconds / 60);
-  var s = seconds % 60;
-  return m + ':' + (s < 10 ? '0' : '') + s;
 }
