@@ -65,6 +65,58 @@ window.Muller.Icon = function(name, size) {
     });
 };
 
+ // Botón glass genérico
+    var GlassBtn = function({ icon, label, onClick, variant, disabled, title }) {
+        var colors = variant === 'danger' ? 'bg-red-500/20 hover:bg-red-500/30 text-red-300 border-red-500/30' :
+                     variant === 'success' ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border-emerald-500/30' :
+                     variant === 'primary' ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-500/30' :
+                     variant === 'ghost' ? 'bg-transparent hover:bg-white/5 text-gray-400 border-transparent' :
+                     'bg-white/10 hover:bg-white/20 text-white border-white/20';
+        return React.createElement('button', {
+            onClick: onClick,
+            disabled: disabled,
+            title: title || label,
+            className: 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md border transition-all duration-150 ' + colors + ' ' +
+                (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer')
+        },
+           icon ? window.Muller.Icon(icon, 14) : null,
+            label ? React.createElement('span', null, label) : null
+        );
+    };
+
+    // --- Input/Textarea estilizados ---
+    var StyledInput = function({ value, onChange, placeholder, type, className }) {
+        return React.createElement('input', {
+            type: type || 'text',
+            value: value,
+            onChange: onChange,
+            placeholder: placeholder,
+            className: 'w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all ' + (className || '')
+        });
+    };
+
+    var StyledTextarea = function({ value, onChange, placeholder, rows, className }) {
+        return React.createElement('textarea', {
+            value: value,
+            onChange: onChange,
+            placeholder: placeholder,
+            rows: rows || 6,
+            className: 'w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all resize-none font-mono ' + (className || '')
+        });
+    };
+
+    var StyledSelect = function({ value, onChange, options }) {
+        return React.createElement('select', {
+            value: value,
+            onChange: onChange,
+            className: 'w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 appearance-none cursor-pointer'
+        },
+            options.map(function(opt) {
+                return React.createElement('option', { key: opt.value, value: opt.value }, opt.label);
+            })
+        );
+    };
+
 /**
  * @function BibliotecaPanel
  * @description Panel Biblioteca con tres subvistas: Guiones, Vocabulario e Instrucciones IA.
@@ -442,57 +494,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         );
     };
 
-    // Botón glass genérico
-    var GlassBtn = function({ icon, label, onClick, variant, disabled, title }) {
-        var colors = variant === 'danger' ? 'bg-red-500/20 hover:bg-red-500/30 text-red-300 border-red-500/30' :
-                     variant === 'success' ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border-emerald-500/30' :
-                     variant === 'primary' ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-500/30' :
-                     variant === 'ghost' ? 'bg-transparent hover:bg-white/5 text-gray-400 border-transparent' :
-                     'bg-white/10 hover:bg-white/20 text-white border-white/20';
-        return React.createElement('button', {
-            onClick: onClick,
-            disabled: disabled,
-            title: title || label,
-            className: 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md border transition-all duration-150 ' + colors + ' ' +
-                (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer')
-        },
-            icon ? Icon(icon, 14) : null,
-            label ? React.createElement('span', null, label) : null
-        );
-    };
-
-    // --- Input/Textarea estilizados ---
-    var StyledInput = function({ value, onChange, placeholder, type, className }) {
-        return React.createElement('input', {
-            type: type || 'text',
-            value: value,
-            onChange: onChange,
-            placeholder: placeholder,
-            className: 'w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all ' + (className || '')
-        });
-    };
-
-    var StyledTextarea = function({ value, onChange, placeholder, rows, className }) {
-        return React.createElement('textarea', {
-            value: value,
-            onChange: onChange,
-            placeholder: placeholder,
-            rows: rows || 6,
-            className: 'w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all resize-none font-mono ' + (className || '')
-        });
-    };
-
-    var StyledSelect = function({ value, onChange, options }) {
-        return React.createElement('select', {
-            value: value,
-            onChange: onChange,
-            className: 'w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 appearance-none cursor-pointer'
-        },
-            options.map(function(opt) {
-                return React.createElement('option', { key: opt.value, value: opt.value }, opt.label);
-            })
-        );
-    };
+   
 
     // ==================== SUBVISTA: Guiones ====================
     var ScriptsView = React.createElement('div', { className: 'space-y-4' },
