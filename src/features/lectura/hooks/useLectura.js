@@ -1,4 +1,4 @@
-// src/features/lectura/hooks/useLectura.js
+﻿// src/features/lectura/hooks/useLectura.js
 // Hook principal que encapsula todo el estado y lógica de Lectura
 // Se registra como window.Muller.LecturaHooks.useLectura
 window.Muller = window.Muller || {};
@@ -733,6 +733,12 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       loadLibrary();
     } catch(e) {}
   }, []);
+  var clearText = React.useCallback(function () {
+    setPasteTextInput('');
+    if (textoRef) { textoRef.current = ""; }
+    try { window.Muller.storage.remove("muller_pasted_text"); } catch (e) {}
+  }, []);
+
 
   // ─── FUNCIONES DE AI PLACEHOLDER ───
   var aiAnalyzeReading = React.useCallback(function(textData, transcriptData) {
