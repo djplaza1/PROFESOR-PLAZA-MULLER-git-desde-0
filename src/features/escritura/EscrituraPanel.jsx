@@ -28,9 +28,7 @@ function SvgIcon(html, cls) {
 }
 
 // ─── DEFINICIÓN DEL PANEL ───
-window.Muller.Panels.EscrituraPanel = ({ session }) => {
-  // Alias para PanelRouter: tab = 'escritura'
-  window.Muller.Panels.escritura = window.Muller.Panels.EscrituraPanel;
+window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const { useState, useEffect, useRef, useCallback } = React;
 
   // Leer datos de window.Muller.Escritura
@@ -363,6 +361,9 @@ window.Muller.Panels.EscrituraPanel = ({ session }) => {
     )
   );
 };
+
+// Asignar alias minúscula para PanelRouter (busca window.Muller.Panels[tab])
+window.Muller.Panels.escritura = window.Muller.Panels.EscrituraPanel;
 
 // ─── Función helper para renderizar el contenido de cada modo ───
 function renderModeContent(mode, ctx) {
