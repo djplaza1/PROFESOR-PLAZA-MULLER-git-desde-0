@@ -16,21 +16,46 @@ window.Muller.LecturaComponents = window.Muller.LecturaComponents || {};
     });
   };
 
-  // ─── PasteArea (textarea) ───
+  // ─── PasteArea (textarea + botón) ───
   // SACADO del panel para evitar que se recre en cada render y pierda el foco
   window.Muller.LecturaComponents.PasteArea = function(props) {
-    return React.createElement('textarea', {
-      placeholder: 'Pega aquí un texto en alemán para leer...',
-      rows: 6,
-      style: {
-        width: '100%', padding: '12px', borderRadius: '12px',
-        background: 'rgba(30,41,59,0.8)', border: '1px solid rgba(148,163,184,0.2)',
-        color: '#e2e8f0', fontSize: '1rem', resize: 'vertical', outline: 'none',
-        backdropFilter: 'blur(8px)'
-      },
-      onChange: function(e) {
-        if (e.target.value.trim()) props.onPaste(e.target.value.trim());
-      }
-    });
+    var localValue = React.useState('');
+
+    // Estilo de botón glass
+    var btnStyle = {
+      padding: '10px 20px', borderRadius: '10px',
+      border: '1px solid rgba(6,182,212,0.3)',
+      background: '#06b6d4', color: '#fff',
+      fontSize: '0.9rem', fontWeight: 600,
+      cursor: 'pointer', transition: 'all 0.2s ease',
+      display: 'inlineFlex', alignItems: 'center', gap: '6px',
+      outline: 'none'
+    };
+
+    return React.createElement('div', {
+      style: { display: 'flex', flexDirection: 'column', gap: '8px' }
+    },
+      React.createElement('textarea', {
+        placeholder: 'Pega aquí un texto en alemán para leer...',
+        rows: 6,
+        value: localValue[0],
+        onChange: function(e) { localValue[1](e.target.value); },
+        style: {
+          width: '100%', padding: '12px', borderRadius: '12px',
+          background: 'rgba(30,41,59,0.8)', border: '1px solid rgba(148,163,184,0.2)',
+          color: '#e2e8f0', fontSize: '1rem', resize: 'vertical', outline: 'none',
+          backdropFilter: 'blur(8px)'
+        }
+      }),
+      React.createElement('button', {
+        onClick: function() {
+          if (localValue[0].trim()) {
+            props.onPaste(localValue[0].trim());
+            localValue[1]('');
+          }
+        },
+        style: btnStyle
+      }, '📄 Cargar texto')
+    );
   };
 })();
