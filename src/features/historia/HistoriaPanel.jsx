@@ -183,7 +183,7 @@ window.Muller.Panels['historia'] = function({ session }) {
                     });
                 }
             }
-        );
+        ); ;
     }, []);
     playSceneRef.current = playScene;
     const pauseScene = () => { window.Muller.pauseSpeech(); setIsPlaying(false); };
