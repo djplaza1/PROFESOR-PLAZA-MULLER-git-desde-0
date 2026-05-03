@@ -134,85 +134,54 @@ window.Muller.Panels['historia'] = function({ session }) {
     const [showTranslation, setShowTranslation] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const isPlayingRef = useRef(false);
+    const sceneIndexRef = useRef(sceneIndex);
+    const guionRef = useRef(guion);
     useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
-    const [speed, setSpeed] = useState(1.0);
-    const [activeSubmodo, setActiveSubmodo] = useState(null);
-    const [mode, setMode] = useState('dialogo');
-    const [vocabModeActive, setVocabModeActive] = useState(false);
-    const [currentSentenceIdx, setCurrentSentenceIdx] = useState(0);
-    const [sentences, setSentences] = useState([]);
-    const [currentSentenceVocab, setCurrentSentenceVocab] = useState([]);
-    const [showVocabTranslation, setShowVocabTranslation] = useState(true);
-    const [shouldAutoPlayFirst, setShouldAutoPlayFirst] = useState(false);
-    const autoPlayRef = useRef(null);
-    const [sceneUserVocab, setSceneUserVocab] = useState([]);
-    const [showSceneVocab, setShowSceneVocab] = useState(true);
-
-    // ---------- FIN DE HOOKS ----------
-
-    var shouldShowLoading = !guion || !guion.length;
-
-    // Early return SOLO DESPUES de todos los hooks
-    if (shouldShowLoading) {
-        return window.React.createElement('div', { className: 'flex items-center justify-center h-full bg-gray-900 text-white' },
-            window.React.createElement('p', null, 'Cargando guion...')
-        );
-    }
-
-    const escena = guion[sceneIndex] || guion[0];
-    const textoAleman = escena ? window.Muller.sanitizeHistoriaText(escena.text_de || escena.text) : '';
-    const textoEspanol = escena ? escena.translation || '' : '';
-
-    useEffect(() => {
-        if (vocabModeActive && textoAleman) {
-            var oraciones = window.Muller.Resaltador.dividirEnOraciones(textoAleman);
-            setSentences(oraciones);
-            setCurrentSentenceIdx(0);
-            setShowVocabTranslation(true);
-        }
-    }, [vocabModeActive, sceneIndex, textoAleman]);
-
-    useEffect(() => {
-        if (!vocabModeActive || sentences.length === 0) return;
-        var currentSentence = sentences[currentSentenceIdx] || '';
-        var foundVocab = window.Muller.Resaltador.findUserVocabInText(currentSentence);
-        setCurrentSentenceVocab(foundVocab);
-        setShowVocabTranslation(true);
-    }, [vocabModeActive, currentSentenceIdx, sentences]);
-
-    useEffect(() => {
-        if (vocabModeActive) return;
-        if (textoAleman) {
-            var foundVocab = window.Muller.Resaltador.findUserVocabInText(textoAleman);
-            setSceneUserVocab(foundVocab);
-            setShowSceneVocab(true);
-        } else {
-            setSceneUserVocab([]);
-        }
-    }, [sceneIndex, textoAleman, vocabModeActive]);
-
-    useEffect(() => {
-        return () => {
-            if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-        };
-    }, []);
-
+    useEffect(() => { sceneIndexRef.current = sceneIndex; }, [sceneIndex]);
+    useEffect(() => { guionRef.current = guion; }, [guion]);
+    const playSceneRef = useRef();
     const playScene = useCallback(() => {
-        var escenaActual = guion[sceneIndex];
+        const idx = sceneIndexRef.current;
+        const escenaActual = guionRef.current[idx];
         if (!escenaActual) return;
         window.Muller.stopSpeech();
         setIsPlaying(true);
-        if (isPlayingRef) isPlayingRef.current = true;
-        crearSecuenciaReproduccion(escenaActual, sceneIndex, guion, isPlayingRef, () => { window.Muller.stopSpeech(); setIsPlaying(false); }, setSceneIndex);
-    }, [sceneIndex, guion]);
+        isPlayingRef.current = true;
+        crearSecuenciaReproduccion(
+            escenaActual,
+            {
+                isPlayingRef: isPlayingRef,
+                sceneIndexRef: sceneIndexRef,
+                guionRef: guionRef,
+                playSceneRef: playSceneRef
+            },
+            {
+                onStop: () => { window.Muller.stopSpeech(); setIsPlaying(false); isPlayingRef.current = false; },
+                onNext: () => {
+                    setSceneIndex(prev => {
+                        const nextIdx = Math.min(prev + 1, guionRef.current.length - 1);
+                        if (nextIdx !== prev) {
+                            setTimeout(() => {
+                                if (isPlayingRef.current && playSceneRef.current) {
+                                    playSceneRef.current();
+                                }
+                            }, 50);
+                            return nextIdx;
+                        } else {
+                            window.Muller.stopSpeech();
+                            setIsPlaying(false);
+                            isPlayingRef.current = false;
+                            return prev;
+                        }
+                    });
+                }
+            }
+        );
+    }, []);
+    playSceneRef.current = playScene;
     const pauseScene = () => { window.Muller.pauseSpeech(); setIsPlaying(false); };
-    const stopScene = () => { window.Muller.stopSpeech(); setIsPlaying(false); if (isPlayingRef) isPlayingRef.current = false; };
-    const changeSpeed = (newSpeed) => {
-        setSpeed(newSpeed);
-        window.Muller.setTtsRate(newSpeed);
-    };
-
-    const nextScene = () => { stopScene(); setSceneIndex(prev => Math.min(prev + 1, guion.length - 1)); };
+    const stopScene = () => { window.Muller.stopSpeech(); setIsPlaying(false); isPlayingRef.current = false; };
+    const nextScene = () => { stopScene(); setSceneIndex(prev => Math.min(prev + 1, (guionRef.current || guion).length - 1)); };
     const prevScene = () => { stopScene(); setSceneIndex(prev => Math.max(prev - 1, 0)); };
     const activarSubmodo = (id) => { stopScene(); setActiveSubmodo(id); };
     const salirSubmodo = () => setActiveSubmodo(null);
