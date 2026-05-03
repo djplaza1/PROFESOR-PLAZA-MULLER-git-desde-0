@@ -10,7 +10,18 @@ window.Muller.Panels['historia'] = function({ session }) {
         if (raw && Array.isArray(raw.escenas)) return raw.escenas;
         // Compatibilidad con formato Biblioteca (objeto con text)
         if (raw && typeof raw.text === 'string' && raw.text.trim()) {
-            return [{ text_de: raw.text.trim(), translation: (raw.translation || '').trim() }];
+            var texto = raw.text.trim();
+            var partes = texto.split(/\n\s*\n/);
+            if (partes.length === 1) partes = texto.split(/\n/);
+            var escenas = [];
+            for (var j = 0; j < partes.length; j++) {
+                var t = partes[j].trim();
+                if (t.length > 0) {
+                    escenas.push({ text_de: t, translation: '' });
+                }
+            }
+            if (escenas.length === 0) escenas.push({ text_de: texto, translation: (raw.translation || '').trim() });
+            return escenas;
         }
         return [];
     }
