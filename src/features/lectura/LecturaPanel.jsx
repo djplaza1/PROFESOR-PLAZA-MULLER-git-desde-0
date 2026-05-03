@@ -72,7 +72,10 @@ window.Muller.Panels['lectura'] = function(props) {
 
   // ─── Input para pegar texto (componente externo para evitar pérdida de foco) ───
   var pasteArea = !h.text ? React.createElement(window.Muller.LecturaComponents.PasteArea, {
-    onPaste: h.pasteText
+    onPaste: h.pasteText,
+    value: h.pasteTextInput,
+    onChange: h.setPasteTextInput,
+    onClear: function() { h.setPasteTextInput(''); }
   }) : null;
 
   // ─── Controles de fuente ───
@@ -320,6 +323,7 @@ window.Muller.Panels['lectura'] = function(props) {
     titleBar,
     sourceSelector,
     pasteArea,
+    clearTextButton,
     fontControls,
     roundsPanelContainer,
     roundsDisplay,

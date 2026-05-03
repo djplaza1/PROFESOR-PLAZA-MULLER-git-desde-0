@@ -16,10 +16,12 @@ window.Muller.LecturaComponents = window.Muller.LecturaComponents || {};
     });
   };
 
-  // ─── PasteArea (textarea + botón) ───
-  // SACADO del panel para evitar que se recre en cada render y pierda el foco
+  // ─── PasteArea (textarea + botón + limpiar) ───
+  // Ahora acepta props value/onChange/onClear para control externo
   window.Muller.LecturaComponents.PasteArea = function(props) {
-    var localValue = React.useState('');
+    var value = props.value !== undefined ? props.value : '';
+    var onChange = props.onChange || function() {};
+    var onClear = props.onClear || function() {};
 
     // Estilo de botón glass
     var btnStyle = {
@@ -32,14 +34,24 @@ window.Muller.LecturaComponents = window.Muller.LecturaComponents || {};
       outline: 'none'
     };
 
+    var clearBtnStyle = {
+      padding: '10px 20px', borderRadius: '10px',
+      border: '1px solid rgba(239,68,68,0.3)',
+      background: 'rgba(239,68,68,0.2)', color: '#fca5a5',
+      fontSize: '0.9rem', fontWeight: 600,
+      cursor: 'pointer', transition: 'all 0.2s ease',
+      display: 'inlineFlex', alignItems: 'center', gap: '6px',
+      outline: 'none'
+    };
+
     return React.createElement('div', {
       style: { display: 'flex', flexDirection: 'column', gap: '8px' }
     },
       React.createElement('textarea', {
         placeholder: 'Pega aquí un texto en alemán para leer...',
         rows: 6,
-        value: localValue[0],
-        onChange: function(e) { localValue[1](e.target.value); },
+        value: value,
+        onChange: function(e) { onChange(e.target.value); },
         style: {
           width: '100%', padding: '12px', borderRadius: '12px',
           background: 'rgba(30,41,59,0.8)', border: '1px solid rgba(148,163,184,0.2)',
@@ -47,15 +59,22 @@ window.Muller.LecturaComponents = window.Muller.LecturaComponents || {};
           backdropFilter: 'blur(8px)'
         }
       }),
-      React.createElement('button', {
-        onClick: function() {
-          if (localValue[0].trim()) {
-            props.onPaste(localValue[0].trim());
-            localValue[1]('');
-          }
-        },
-        style: btnStyle
-      }, '📄 Cargar texto')
+      React.createElement('div', { style: { display: 'flex', gap: '8px' } },
+        React.createElement('button', {
+          onClick: function() {
+            if (value.trim()) {
+              props.onPaste(value.trim());
+              if (onClear) onClear();
+            }
+          },
+          disabled: !value.trim(),
+          style: Object.assign({}, btnStyle, { opacity: !value.trim() ? 0.5 : 1 })
+        }, '📄 Cargar texto'),
+        value.trim() && React.createElement('button', {
+          onClick: function() { if (onClear) onClear(); },
+          style: clearBtnStyle
+        }, '🗑️ Limpiar')
+      )
     );
   };
 })();
