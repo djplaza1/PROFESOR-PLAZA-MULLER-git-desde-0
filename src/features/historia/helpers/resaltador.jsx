@@ -1,9 +1,9 @@
-// ═══════════════════════════════════════════════════
+﻿// ═══════════════════════════════════════════════════
 // RESALTADOR - Resalta palabras en texto alemán
 // Ahora soporta vocabulario del usuario desde localStorage
 // ═══════════════════════════════════════════════════
 window.Muller.Resaltador = (() => {
-  const { React } = window.React;
+  const React = window.React;
 
   const CLASSES = {
     vocab: "bg-yellow-400/30 border-b-2 border-yellow-500 text-yellow-100 font-semibold px-0.5 rounded",

@@ -371,7 +371,7 @@ window.Muller.Panels['historia'] = function({ session }) {
             !vocabModeActive && mode === 'dialogo' && !activeSubmodo && window.React.createElement('div', { className: 'text-center max-w-2xl animate-fadeIn w-full' },
                 window.React.createElement('div', { className: 'mb-6' },
                     window.React.createElement('p', { className: 'text-3xl md:text-4xl font-serif leading-relaxed mb-4 tracking-wide' },
-                         textoAleman || ''
+                          textoAleman ? window.Muller.Resaltador.resaltar(textoAleman, [], sceneUserVocab.map(function(v) { return v.word; })) : ''
                     ),
                     showTranslation && window.React.createElement('p', { className: 'text-lg text-gray-400 italic' }, textoEspanol),
                     window.React.createElement('button', { onClick: () => setShowTranslation(!showTranslation), className: 'text-sm text-amber-400 underline mt-2' },
