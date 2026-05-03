@@ -1046,11 +1046,11 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         // ========== MODALES (renderizados directamente para que reaccionen a cambios de estado) ==========
         // Modal: Nuevo Guion
         React.createElement(window.Muller.Modal, { show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion'},
-            React.createElement(window.Muller.ScriptFormModal, { scriptForm, setScriptForm, handleCreateScript, setShowScriptForm })
+            React.createElement(window.Muller.ScriptFormModal, { scriptForm, setScriptForm, handleCreateScript, setShowScriptForm }) )
         }),
         // Modal: Nueva Lista de Vocabulario
         React.createElement(window.Muller.Modal, { show: showVocabForm, onClose: function() { setShowVocabForm(false); setFeedback(''); }, title: 'Nueva Lista de Vocabulario'},
-            React.createElement(window.Muller.VocabFormModal, { vocabForm, setVocabForm, handleCreateVocabList, setShowVocabForm })
+            React.createElement(window.Muller.VocabFormModal, { vocabForm, setVocabForm, handleCreateVocabList, setShowVocabForm }) )
         }),
         // Cabecera con tabs
         React.createElement('div', { className: 'flex-shrink-0 p-4 pb-2 border-b border-white/10' },
