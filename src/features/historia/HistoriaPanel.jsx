@@ -11,6 +11,7 @@ window.Muller.Panels['historia'] = function({ session }) {
         // Compatibilidad con formato Biblioteca (objeto con text)
         if (raw && typeof raw.text === 'string' && raw.text.trim()) {
             var texto = raw.text.trim();
+            var rawTranslation = (raw.translation || '').trim();
             // Dividir por frases completas (punto, exclamación, interrogación)
             var partes = texto.match(/[^.!?]+[.!?]+/g);
             if (!partes || partes.length === 0) {
@@ -20,10 +21,10 @@ window.Muller.Panels['historia'] = function({ session }) {
             for (var j = 0; j < partes.length; j++) {
                 var t = partes[j].trim();
                 if (t.length > 0) {
-                    escenas.push({ text_de: t, translation: '' });
+                    escenas.push({ text_de: t, translation: rawTranslation });
                 }
             }
-            if (escenas.length === 0) escenas.push({ text_de: texto, translation: (raw.translation || '').trim() });
+            if (escenas.length === 0) escenas.push({ text_de: texto, translation: rawTranslation });
             return escenas;
         }
         return [];
@@ -386,7 +387,7 @@ window.Muller.Panels['historia'] = function({ session }) {
             window.React.createElement('select', {
                 value: activeScriptId,
                 className: 'backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-3 py-1 text-sm text-white ml-2',
-                style: { colorScheme: 'dark' },
+                style: { colorScheme: 'dark', color: 'white', background: '#1f2937' },
                 onChange: (e) => {
                     var newId = e.target.value;
                     window.Muller.storage.set('activeScriptId', newId);
@@ -394,8 +395,8 @@ window.Muller.Panels['historia'] = function({ session }) {
                     setSceneIndex(0);
                 }
             },
-                window.React.createElement('option', { value: 'default' }, 'Guion por defecto'),
-                savedScripts.map(s => window.React.createElement('option', { key: s.id, value: s.id }, s.title))
+                window.React.createElement('option', { value: 'default', style: { color: 'white', background: '#1f2937' } }, 'Guion por defecto'),
+                savedScripts.map(s => window.React.createElement('option', { key: s.id, value: s.id, style: { color: 'white', background: '#1f2937' } }, s.title))
             )
         ),
         window.React.createElement('div', { className: 'flex-1 flex items-center justify-center overflow-auto p-4 ' },
