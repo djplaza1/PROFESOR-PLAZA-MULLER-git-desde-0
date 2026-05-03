@@ -40,11 +40,19 @@ window.Muller.BibliotecaGlassBtn = function({ icon, label, onClick, disabled, ac
     return React.createElement('button', {
         onClick: onClick,
         disabled: disabled,
-        className: 'flex flex-col items-center gap-0.5 backdrop-blur-md bg-white/10 border border-white/20 shadow-lg rounded-lg px-2 py-1.5 text-white hover:bg-white/20 transition disabled:opacity-50 ' + (active ? 'ring-2 ring-amber-400 ' : '') + (className || ''),
+        className: 'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold backdrop-blur-md border transition-all duration-150 ' +
+            (variant === 'primary' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30 hover:bg-amber-500/30' :
+             variant === 'success' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/30' :
+             variant === 'danger' ? 'bg-red-500/20 text-red-300 border-red-500/30 hover:bg-red-500/30' :
+             variant === 'ghost' ? 'bg-transparent text-gray-400 border-transparent hover:bg-white/5' :
+             'bg-white/10 text-white border-white/20 hover:bg-white/20') +
+            (active ? ' ring-2 ring-amber-400 ' : '') +
+            (disabled ? ' opacity-50 cursor-not-allowed' : ' cursor-pointer') +
+            (className ? ' ' + className : ''),
         title: label
     },
-        window.Muller.Icon(icon, 16),
-        React.createElement('span', { className: 'text-[0.5rem] leading-tight font-medium whitespace-nowrap' }, label || '')
+        window.Muller.Icon(icon, 18),
+        React.createElement('span', { className: 'font-semibold whitespace-nowrap' }, label || '')
     );
 };
 window.Muller.Modal = function(props) {
@@ -71,7 +79,79 @@ window.Muller.Modal = function(props) {
         )
     );
 };
-
+window.Muller.ScriptFormModal = function({ scriptForm, setScriptForm, handleCreateScript, setShowScriptForm }) {
+    return React.createElement('div', { className: 'space-y-4' },
+        React.createElement(window.Muller.BibliotecaStyledInput, {
+            value: scriptForm.title,
+            onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { title: e.target.value })); },
+            placeholder: 'Título del guion (ej. Dialogo en el aeropuerto)'
+        }),
+        React.createElement(window.Muller.BibliotecaStyledTextarea, {
+            value: scriptForm.text,
+            onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { text: e.target.value })); },
+            placeholder: 'Texto del guion en aleman...\n\nFormato:\nPersonaje: texto (traduccion)\no\naleman - espanol (pares de vocabulario)',
+            rows: 10
+        }),
+        React.createElement(window.Muller.BibliotecaStyledInput, {
+            value: scriptForm.translation,
+            onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { translation: e.target.value })); },
+            placeholder: 'Traduccion al espanol (opcional)'
+        }),
+        React.createElement('div', null,
+            React.createElement('label', { className: 'block text-xs text-gray-400 mb-1.5' }, 'Nivel'),
+            React.createElement(window.Muller.BibliotecaStyledSelect, {
+                value: scriptForm.level,
+                onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { level: e.target.value })); },
+                options: [
+                    { value: 'A1', label: 'A1 - Principiante' },
+                    { value: 'A2', label: 'A2 - Basico' },
+                    { value: 'B1', label: 'B1 - Intermedio' },
+                    { value: 'B2', label: 'B2 - Intermedio-Alto' },
+                    { value: 'C1', label: 'C1 - Avanzado' }
+                ]
+            })
+        ),
+        React.createElement('div', { className: 'flex gap-3 pt-2' },
+            React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'save', label: 'Guardar Guion', variant: 'success', onClick: handleCreateScript }),
+            React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'x', label: 'Cancelar', onClick: function() { setShowScriptForm(false); } })
+        )
+    );
+};window.Muller.VocabFormModal = function({ vocabForm, setVocabForm, handleCreateVocabList, setShowVocabForm }) {
+    return React.createElement('div', { className: 'space-y-4' },
+        React.createElement(window.Muller.BibliotecaStyledInput, {
+            value: vocabForm.name,
+            onChange: function(e) { setVocabForm(Object.assign({}, vocabForm, { name: e.target.value })); },
+            placeholder: 'Nombre de la lista (ej. En el restaurante)'
+        }),
+        React.createElement('div', null,
+            React.createElement('label', { className: 'block text-xs text-gray-400 mb-1.5' }, 'Palabras (una por linea: aleman | espanol)'),
+            React.createElement(window.Muller.BibliotecaStyledTextarea, {
+                value: vocabForm.words,
+                onChange: function(e) { setVocabForm(Object.assign({}, vocabForm, { words: e.target.value })); },
+                placeholder: 'der Tisch | la mesa\ndas Wasser | el agua\ntrinken | beber\n...',
+                rows: 8
+            })
+        ),
+        React.createElement('div', null,
+            React.createElement('label', { className: 'block text-xs text-gray-400 mb-1.5' }, 'Nivel'),
+            React.createElement(window.Muller.BibliotecaStyledSelect, {
+                value: vocabForm.level,
+                onChange: function(e) { setVocabForm(Object.assign({}, vocabForm, { level: e.target.value })); },
+                options: [
+                    { value: 'A1', label: 'A1 - Principiante' },
+                    { value: 'A2', label: 'A2 - Basico' },
+                    { value: 'B1', label: 'B1 - Intermedio' },
+                    { value: 'B2', label: 'B2 - Intermedio-Alto' },
+                    { value: 'C1', label: 'C1 - Avanzado' }
+                ]
+            })
+        ),
+        React.createElement('div', { className: 'flex gap-3 pt-2' },
+            React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'save', label: 'Crear Lista', variant: 'success', onClick: handleCreateVocabList }),
+            React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'x', label: 'Cancelar', onClick: function() { setShowVocabForm(false); } })
+        )
+    );
+};
 
 /**
  * @function Icon
@@ -966,79 +1046,11 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         // ========== MODALES (renderizados directamente para que reaccionen a cambios de estado) ==========
         // Modal: Nuevo Guion
         React.createElement(window.Muller.Modal, { show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion',
-            children: React.createElement('div', { className: 'space-y-4' },
-                React.createElement(window.Muller.BibliotecaStyledInput, {
-                    value: scriptForm.title,
-                    onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { title: e.target.value })); },
-                    placeholder: 'Título del guion (ej. Diálogo en el aeropuerto)'
-                }),
-                React.createElement(window.Muller.BibliotecaStyledTextarea, {
-                    value: scriptForm.text,
-                    onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { text: e.target.value })); },
-                    placeholder: 'Texto del guion en alemán...\n\nFormato:\nPersonaje: texto (traducción)\no\nalemán - español (pares de vocabulario)',
-                    rows: 10
-                }),
-                React.createElement(window.Muller.BibliotecaStyledInput, {
-                    value: scriptForm.translation,
-                    onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { translation: e.target.value })); },
-                    placeholder: 'Traducción al español (opcional)'
-                }),
-                React.createElement('div', null,
-                    React.createElement('label', { className: 'block text-xs text-gray-400 mb-1.5' }, 'Nivel'),
-                    React.createElement(window.Muller.BibliotecaStyledSelect, {
-                        value: scriptForm.level,
-                        onChange: function(e) { setScriptForm(Object.assign({}, scriptForm, { level: e.target.value })); },
-                        options: [
-                            { value: 'A1', label: 'A1 - Principiante' },
-                            { value: 'A2', label: 'A2 - Básico' },
-                            { value: 'B1', label: 'B1 - Intermedio' },
-                            { value: 'B2', label: 'B2 - Intermedio-Alto' },
-                            { value: 'C1', label: 'C1 - Avanzado' }
-                        ]
-                    })
-                ),
-                React.createElement('div', { className: 'flex gap-3 pt-2' },
-                    React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'save', label: 'Guardar Guion', variant: 'success', onClick: handleCreateScript }),
-                    React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'x', label: 'Cancelar', onClick: function() { setShowScriptForm(false); } })
-                )
-            )
+            children: React.createElement(window.Muller.ScriptFormModal, { scriptForm, setScriptForm, handleCreateScript, setShowScriptForm }) )
         }),
         // Modal: Nueva Lista de Vocabulario
         React.createElement(window.Muller.Modal, { show: showVocabForm, onClose: function() { setShowVocabForm(false); setFeedback(''); }, title: 'Nueva Lista de Vocabulario',
-            children: React.createElement('div', { className: 'space-y-4' },
-                React.createElement(window.Muller.BibliotecaStyledInput, {
-                    value: vocabForm.name,
-                    onChange: function(e) { setVocabForm(Object.assign({}, vocabForm, { name: e.target.value })); },
-                    placeholder: 'Nombre de la lista (ej. En el restaurante)'
-                }),
-                React.createElement('div', null,
-                    React.createElement('label', { className: 'block text-xs text-gray-400 mb-1.5' }, 'Palabras (una por línea: alemán | español)'),
-                    React.createElement(window.Muller.BibliotecaStyledTextarea, {
-                        value: vocabForm.words,
-                        onChange: function(e) { setVocabForm(Object.assign({}, vocabForm, { words: e.target.value })); },
-                        placeholder: 'der Tisch | la mesa\ndas Wasser | el agua\ntrinken | beber\n...',
-                        rows: 8
-                    })
-                ),
-                React.createElement('div', null,
-                    React.createElement('label', { className: 'block text-xs text-gray-400 mb-1.5' }, 'Nivel'),
-                    React.createElement(window.Muller.BibliotecaStyledSelect, {
-                        value: vocabForm.level,
-                        onChange: function(e) { setVocabForm(Object.assign({}, vocabForm, { level: e.target.value })); },
-                        options: [
-                            { value: 'A1', label: 'A1 - Principiante' },
-                            { value: 'A2', label: 'A2 - Básico' },
-                            { value: 'B1', label: 'B1 - Intermedio' },
-                            { value: 'B2', label: 'B2 - Intermedio-Alto' },
-                            { value: 'C1', label: 'C1 - Avanzado' }
-                        ]
-                    })
-                ),
-                React.createElement('div', { className: 'flex gap-3 pt-2' },
-                    React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'save', label: 'Crear Lista', variant: 'success', onClick: handleCreateVocabList }),
-                    React.createElement(window.Muller.BibliotecaGlassBtn, { icon: 'x', label: 'Cancelar', onClick: function() { setShowVocabForm(false); } })
-                )
-            )
+            children: React.createElement(window.Muller.VocabFormModal, { vocabForm, setVocabForm, handleCreateVocabList, setShowVocabForm }) )
         }),
         // Cabecera con tabs
         React.createElement('div', { className: 'flex-shrink-0 p-4 pb-2 border-b border-white/10' },
