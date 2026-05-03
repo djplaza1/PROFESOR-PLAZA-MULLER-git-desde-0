@@ -10,9 +10,34 @@ window.Muller.Panels['historia'] = function({ session }) {
         if (raw && Array.isArray(raw.escenas)) return raw.escenas;
         // Compatibilidad con formato Biblioteca (objeto con text)
         if (raw && typeof raw.text === 'string' && raw.text.trim()) {
-            return [{ text_de: raw.text.trim(), translation: (raw.translation || '').trim() }];
+            var texto = raw.text.trim();
+            // Dividir por frases completas (punto, exclamación, interrogación)
+            var partes = texto.match(/[^.!?]+[.!?]+/g);
+            if (!partes || partes.length === 0) {
+                partes = texto.split(/\n/);
+            }
+            var escenas = [];
+            for (var j = 0; j < partes.length; j++) {
+                var t = partes[j].trim();
+                if (t.length > 0) {
+                    escenas.push({ text_de: t, translation: '' });
+                }
+            }
+            if (escenas.length === 0) escenas.push({ text_de: texto, translation: (raw.translation || '').trim() });
+            return escenas;
         }
         return [];
+    }
+
+    // Resalta marcas [palabra - traducción] en el texto visible
+    function resaltarMarcas(texto) {
+        if (!texto) return "";
+        return texto.replace(/\[([^\]]+)\]/g, function(match, contenido) {
+            var partes = contenido.split(" - ");
+            var palabra = partes[0].trim();
+            var titleAttr = contenido.replace(/"/g, "&quot;");
+            return "<span class=\\"bg-yellow-400/30 border-b-2 border-yellow-500 text-yellow-100 font-semibold px-1 rounded\\" title=\\"" + titleAttr + "\\">" + palabra + "</span>";
+        });
     }
 
     // ---------- TODOS LOS HOOKS VAN ARRIBA ----------
@@ -370,9 +395,9 @@ window.Muller.Panels['historia'] = function({ session }) {
             vocabModeActive && renderVocabMode(),
             !vocabModeActive && mode === 'dialogo' && !activeSubmodo && window.React.createElement('div', { className: 'text-center max-w-2xl animate-fadeIn w-full' },
                 window.React.createElement('div', { className: 'mb-6' },
-                    window.React.createElement('p', { className: 'text-3xl md:text-4xl font-serif leading-relaxed mb-4 tracking-wide' },
-                          textoAleman ? window.Muller.Resaltador.resaltar(textoAleman, [], sceneUserVocab.map(function(v) { return v.word; })) : ''
-                    ),
+                    window.React.createElement('p', { className: 'text-3xl md:text-4xl font-serif leading-relaxed mb-4 tracking-wide', dangerouslySetInnerHTML: { __html: escena && escena.text_de ? resaltarMarcas(escena.text_de) : '' } }),
+
+
                     showTranslation && window.React.createElement('p', { className: 'text-lg text-gray-400 italic' }, textoEspanol),
                     window.React.createElement('button', { onClick: () => setShowTranslation(!showTranslation), className: 'text-sm text-amber-400 underline mt-2' },
                         showTranslation ? 'Ocultar traduccion' : 'Ver traduccion'
