@@ -154,12 +154,12 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     wordInfo[1](null);
     showTranslation[1](true);
 
-    if (window.M && window.M.translate && window.M.translate.word) {
-      window.M.translate.word(word).then(function(info) {
+    if (window.Muller.translate && window.Muller.translate.word) {
+      window.Muller.translate.word(word).then(function(info) {
         if (info) {
           var verbInfo = null;
           try {
-            verbInfo = window.M.detect && window.M.detect.lookupVerb ? window.M.detect.lookupVerb(cleanKey) : null;
+            verbInfo = window.Muller.detect && window.Muller.detect.lookupVerb ? window.Muller.detect.lookupVerb(cleanKey) : null;
           } catch(e) {}
           wordInfo[1]({
             word: word,
@@ -173,12 +173,12 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       });
     }
 
-    if (window.M && window.M.speakGermanWord) {
-      window.M.speakGermanWord(word);
+    if (window.Muller.speakGermanWord) {
+      window.Muller.speakGermanWord(word);
     }
 
     window.Muller.Achievements.unlock('reading_first_word');
-    if (window.M && window.M.tone) window.M.tone();
+    if (window.Muller.tone) window.Muller.tone();
   }, []);
 
   // ─── FUNCIONES DE SELECCIÓN ───
@@ -195,8 +195,8 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   }, []);
 
   var playSelectedText = React.useCallback(function() {
-    if (selectedText[0] && window.M && window.M.playSceneAudio) {
-      window.M.playSceneAudio(selectedText[0], 'de');
+    if (selectedText[0] && window.Muller.playSceneAudio) {
+      window.Muller.playSceneAudio(selectedText[0], 'de');
     }
   }, [selectedText[0]]);
 
@@ -334,9 +334,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     if (result.wpm >= 50) window.Muller.Achievements.unlock('reading_speed_50');
 
     if (result.score >= 70) {
-      if (window.M && window.M.playCorrect) window.M.playCorrect();
+      if (window.Muller.playCorrect) window.Muller.playCorrect();
     } else {
-      if (window.M && window.M.playIncorrect) window.M.playIncorrect();
+      if (window.Muller.playIncorrect) window.Muller.playIncorrect();
     }
   }, [transcript[0], text[0]]);
 
@@ -508,8 +508,8 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     var kWords = tokens[0].map(function(t) { return t.word; });
     karaokeWords[1](kWords);
 
-    if (window.M && window.M.playSceneAudio) {
-      window.M.playSceneAudio(text[0], 'de', {
+    if (window.Muller.playSceneAudio) {
+      window.Muller.playSceneAudio(text[0], 'de', {
         onboundary: function(event) {
           karaokeCurrentWord[1](function(prev) {
             return Math.min(prev + 1, kWords.length - 1);
@@ -524,7 +524,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   }, [tokens[0], text[0]]);
 
   var stopKaraoke = React.useCallback(function() {
-    if (window.M && window.M.stopAudio) window.M.stopAudio();
+    if (window.Muller.stopSpeech) window.Muller.stopSpeech();
     karaokeActive[1](false);
     karaokeCurrentWord[1](-1);
   }, []);
@@ -577,11 +577,17 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     if (sentences.length > 0) {
       var randomIdx = Math.floor(Math.random() * sentences.length);
       dictadoCurrentSentence[1](sentences[randomIdx].trim());
-      if (window.M && window.M.playSceneAudio) {
-        window.M.playSceneAudio(sentences[randomIdx].trim(), 'de');
+      if (window.Muller.playSceneAudio) {
+        window.Muller.playSceneAudio(sentences[randomIdx].trim(), 'de');
       }
     }
   }, [text[0]]);
+
+  var repeatDictadoPhrase = React.useCallback(function() {
+    if (dictadoCurrentSentence[0] && window.Muller.playSceneAudio) {
+      window.Muller.playSceneAudio(dictadoCurrentSentence[0], 'de');
+    }
+  }, [dictadoCurrentSentence[0]]);
 
   var submitDictado = React.useCallback(function() {
     var compare = window.Muller.LecturaHelpers.compareTokens(dictadoCurrentSentence[0], dictadoUserInput[0]);
@@ -758,9 +764,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   var startShadowReading = React.useCallback(function() {
     shadowActive[1](true);
     shadowSync[1](0);
-    if (window.M && window.M.playSceneAudio) {
+    if (window.Muller.playSceneAudio) {
       var startTime = Date.now();
-      window.M.playSceneAudio(text[0], 'de', {
+      window.Muller.playSceneAudio(text[0], 'de', {
         onboundary: function(event) {
           var elapsed = (Date.now() - startTime) / 1000;
           var totalDuration = text[0].split(' ').length * 0.3;
@@ -776,7 +782,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   }, [text[0]]);
 
   var stopShadowReading = React.useCallback(function() {
-    if (window.M && window.M.stopAudio) window.M.stopAudio();
+    if (window.Muller.stopSpeech) window.Muller.stopSpeech();
     shadowActive[1](false);
     shadowSync[1](0);
   }, []);
@@ -870,6 +876,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     dictadoUserInput: dictadoUserInput[0], setDictadoUserInput: dictadoUserInput[1],
     dictadoScore: dictadoScore[0],
     startDictado: startDictado,
+    repeatDictadoPhrase: repeatDictadoPhrase,
     submitDictado: submitDictado,
     stopDictado: stopDictado,
 
