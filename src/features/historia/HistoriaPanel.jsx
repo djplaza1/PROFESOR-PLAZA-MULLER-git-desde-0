@@ -36,7 +36,7 @@ window.Muller.Panels['historia'] = function({ session }) {
             var partes = contenido.split(" - ");
             var palabra = partes[0].trim();
             var titleAttr = contenido.replace(/"/g, "&quot;");
-            return `<span class="bg-yellow-400/30 border-b-2 border-yellow-500 text-yellow-100 font-semibold px-1 rounded" title="${titleAttr}">${palabra}</span>`;
+            return `<span class="/30 border-b-2 border-yellow-500 text-yellow-100 font-semibold px-1 rounded" title="${titleAttr}">${palabra}</span>`;
         });
     }
 
@@ -391,7 +391,7 @@ window.Muller.Panels['historia'] = function({ session }) {
                 savedScripts.map(s => window.React.createElement('option', { key: s.id, value: s.id }, s.title))
             )
         ),
-        window.React.createElement('div', { className: 'flex-1 flex items-center justify-center overflow-auto p-4 bg-yellow-400' },
+        window.React.createElement('div', { className: 'flex-1 flex items-center justify-center overflow-auto p-4 ' },
             vocabModeActive && renderVocabMode(),
             !vocabModeActive && mode === 'dialogo' && !activeSubmodo && window.React.createElement('div', { className: 'text-center max-w-2xl animate-fadeIn w-full' },
                 window.React.createElement('div', { className: 'mb-6' },
