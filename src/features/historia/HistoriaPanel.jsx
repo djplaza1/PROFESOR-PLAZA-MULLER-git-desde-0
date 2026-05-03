@@ -5,9 +5,13 @@ window.Muller.Panels['historia'] = function({ session }) {
     const { useState, useEffect, useRef, useCallback, useMemo } = window.React;
     const MData = window.Muller.Data || {};
 
-    function parseGuion(raw) {
+        function parseGuion(raw) {
         if (Array.isArray(raw)) return raw;
         if (raw && Array.isArray(raw.escenas)) return raw.escenas;
+        // Compatibilidad con formato Biblioteca (objeto con text)
+        if (raw && typeof raw.text === 'string' && raw.text.trim()) {
+            return [{ text_de: raw.text.trim(), translation: (raw.translation || '').trim() }];
+        }
         return [];
     }
 
