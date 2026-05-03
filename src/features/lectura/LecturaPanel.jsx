@@ -323,7 +323,6 @@ window.Muller.Panels['lectura'] = function(props) {
     titleBar,
     sourceSelector,
     pasteArea,
-    clearTextButton,
     fontControls,
     roundsPanelContainer,
     roundsDisplay,

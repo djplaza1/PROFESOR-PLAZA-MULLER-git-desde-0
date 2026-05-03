@@ -898,7 +898,6 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     pasteText: pasteText,
     pasteTextInput: pasteTextInput[0], setPasteTextInput: pasteTextInput[1],
     deleteCustomText: deleteCustomText,
-    clearText: clearText,
     loadLibrary: loadLibrary,
 
     increaseFont: increaseFont,
