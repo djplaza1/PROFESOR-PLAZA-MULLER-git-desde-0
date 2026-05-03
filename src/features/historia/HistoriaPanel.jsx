@@ -12,16 +12,22 @@ window.Muller.Panels['historia'] = function({ session }) {
         if (raw && typeof raw.text === 'string' && raw.text.trim()) {
             var texto = raw.text.trim();
             var rawTranslation = (raw.translation || '').trim();
-            // Dividir por frases completas (punto, exclamación, interrogación)
+            // Dividir texto alemán por frases completas
             var partes = texto.match(/[^.!?]+[.!?]+/g);
             if (!partes || partes.length === 0) {
                 partes = texto.split(/\n/);
+            }
+            // Dividir traducción del mismo modo para emparejar cada frase con su traducción
+            var partesTrad = rawTranslation ? rawTranslation.match(/[^.!?]+[.!?]+/g) : null;
+            if (!partesTrad || partesTrad.length === 0) {
+                partesTrad = rawTranslation ? rawTranslation.split(/\n/) : [];
             }
             var escenas = [];
             for (var j = 0; j < partes.length; j++) {
                 var t = partes[j].trim();
                 if (t.length > 0) {
-                    escenas.push({ text_de: t, translation: rawTranslation });
+                    var trad = (partesTrad && j < partesTrad.length) ? partesTrad[j].trim() : rawTranslation;
+                    escenas.push({ text_de: t, translation: trad });
                 }
             }
             if (escenas.length === 0) escenas.push({ text_de: texto, translation: rawTranslation });
