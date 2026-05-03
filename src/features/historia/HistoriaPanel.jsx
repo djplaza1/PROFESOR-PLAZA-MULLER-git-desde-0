@@ -391,7 +391,7 @@ window.Muller.Panels['historia'] = function({ session }) {
                 savedScripts.map(s => window.React.createElement('option', { key: s.id, value: s.id }, s.title))
             )
         ),
-        window.React.createElement('div', { className: 'flex-1 flex items-center justify-center overflow-auto p-4' },
+        window.React.createElement('div', { className: 'flex-1 flex items-center justify-center overflow-auto p-4 bg-yellow-400' },
             vocabModeActive && renderVocabMode(),
             !vocabModeActive && mode === 'dialogo' && !activeSubmodo && window.React.createElement('div', { className: 'text-center max-w-2xl animate-fadeIn w-full' },
                 window.React.createElement('div', { className: 'mb-6' },
@@ -461,15 +461,6 @@ window.Muller.Panels['historia'] = function({ session }) {
             ),
             activeSubmodo && activeSubmodo !== 'tempus' && renderSubmodo(),
             !activeSubmodo && mode !== 'dialogo' && mode !== 'oral' && mode !== 'roleplay' && null
-        ),
-        /* DEBUG TEMPORAL - ELIMINAR DESPUÉS */
-        window.React.createElement('div', { style: { position: 'fixed', top: '80px', left: '10px', background: '#000', color: '#0f0', padding: '10px', zIndex: 9999, fontSize: '12px', maxWidth: '300px' } },
-            window.React.createElement('pre', null, 'guion.length: ' + (guion ? guion.length : 'null') + '\n' +
-                'escena: ' + (escena ? JSON.stringify(escena, null, 2).slice(0,200) : 'null') + '\n' +
-                'textoAleman: ' + (textoAleman || '(vacio)') + '\n' +
-                'activeScriptId: ' + (activeScriptId || 'null') + '\n' +
-                'savedScripts.length: ' + savedScripts.length
-            )
         ),
         window.React.createElement('div', { className: 'muller-historia-player-bar fixed bottom-[40px] left-1/2 -translate-x-1/2 z-[110] backdrop-blur-xl bg-[rgba(255,255,255,0.1)] dark:bg-[rgba(17,24,39,0.8)] border border-[rgba(255,255,255,0.2)] rounded-xl px-4 py-1.5 flex items-center justify-center gap-4 max-w-md w-auto' },
             window.React.createElement('div', { className: 'flex items-center gap-1.5' },
