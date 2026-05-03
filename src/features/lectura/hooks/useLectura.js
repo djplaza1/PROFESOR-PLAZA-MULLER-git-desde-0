@@ -6,9 +6,9 @@ window.Muller.LecturaHooks = window.Muller.LecturaHooks || {};
 
 // CONFIG - Tiempos de rondas y umbrales
 var ROUNDS_CONFIG = {
-  timePenaltyPercent: 0.20,      // 20% menos de tiempo cada ronda
+  timePenaltyPercent: 0.20,
   maxRounds: 3,
-  initialTimeBuffer: 0.3,       // buffer sobre tiempo estimado para ronda 1
+  initialTimeBuffer: 0.3,
   minTimeSeconds: 10
 };
 
@@ -30,20 +30,40 @@ var STORAGE_KEYS = {
   preferences: 'muller_reading_prefs'
 };
 
+// Helper wrapper for storage access
+function storageGet(key) {
+  try {
+    if (window.Muller.storage && window.Muller.storage.get) {
+      return window.Muller.storage.get(key);
+    }
+    return JSON.parse(localStorage.getItem(key));
+  } catch(e) { return null; }
+}
+
+function storageSet(key, val) {
+  try {
+    if (window.Muller.storage && window.Muller.storage.set) {
+      window.Muller.storage.set(key, val);
+      return;
+    }
+    localStorage.setItem(key, JSON.stringify(val));
+  } catch(e) {}
+}
+
 // Hook principal
 window.Muller.LecturaHooks.useLectura = function(opts) {
   opts = opts || {};
   var initialText = opts.initialText || '';
 
   // ─── ESTADOS PRINCIPALES ───
-  var source = React.useState('');        // fuente actual ('library', 'paste', 'pdf')
-  var text = React.useState(initialText); // texto completo a leer
-  var tokens = React.useState([]);        // tokens del texto tokenizado
-  var activeWord = React.useState(null);  // palabra clickeada
-  var wordInfo = React.useState(null);    // info de traducción/verbo de palabra activa
-  var selectedText = React.useState('');  // texto seleccionado con el ratón
-  var fontSize = React.useState(18);      // tamaño de fuente
-  var showTranslation = React.useState(false); // panel de traducción visible
+  var source = React.useState('');
+  var text = React.useState(initialText);
+  var tokens = React.useState([]);
+  var activeWord = React.useState(null);
+  var wordInfo = React.useState(null);
+  var selectedText = React.useState('');
+  var fontSize = React.useState(18);
+  var showTranslation = React.useState(false);
 
   // ─── ESTADOS DE RECONOCIMIENTO DE VOZ ───
   var isReading = React.useState(false);
@@ -73,9 +93,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   // ─── ESTADOS DE RONDAS ───
   var roundsActive = React.useState(false);
   var currentRound = React.useState(0);
-  var roundTimes = React.useState([]);     // tiempos usados en cada ronda
-  var roundScores = React.useState([]);    // puntuaciones de cada ronda
-  var roundTimeLimit = React.useState(0);  // límite de ronda actual
+  var roundTimes = React.useState([]);
+  var roundScores = React.useState([]);
+  var roundTimeLimit = React.useState(0);
   var roundTimer = React.useRef(null);
   var roundTimeLeft = React.useState(0);
 
@@ -83,7 +103,6 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   var karaokeActive = React.useState(false);
   var karaokeCurrentWord = React.useState(-1);
   var karaokeWords = React.useState([]);
-  var karaokeAudioRef = React.useRef(null);
 
   // ─── ESTADOS DE OSCILOSCOPIO ───
   var oscilloscopeActive = React.useState(false);
@@ -91,6 +110,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   var analyserRef = React.useRef(null);
   var sourceRef = React.useRef(null);
   var animationIdRef = React.useRef(null);
+  var oscilloscopeStreamRef = React.useRef(null);
 
   // ─── ESTADOS DE DICTADO INVERSO ───
   var dictadoActive = React.useState(false);
@@ -110,16 +130,17 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
 
   // ─── ESTADOS DE SOMBRA DE LECTURA ───
   var shadowActive = React.useState(false);
-  var shadowSync = React.useState(0); // 0-100%
+  var shadowSync = React.useState(0);
+
+  // ─── ESTADOS DE TEXTO PEGADO ───
+  var pasteTextInput = React.useState('');
 
   // ─── EFECTOS INICIALES ───
-  // Tokenizar cuando cambia el texto
   React.useEffect(function() {
-    var t = tokenize();
+    var t = window.Muller.LecturaHelpers.tokenize(text[0]);
     tokens[1](t);
   }, [text[0]]);
 
-  // Cargar estadísticas e historial
   React.useEffect(function() {
     loadLibrary();
     loadHistory();
@@ -127,28 +148,19 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     loadStreak();
   }, []);
 
-  // ─── FUNCIONES DE TOKENIZACIÓN ───
-  function tokenize() {
-    if (!text[0]) return [];
-    return window.Muller.LecturaHelpers.tokenize(text[0]);
-  }
-
   // ─── FUNCIONES DE PALABRA ACTIVA ───
   var handleWordClick = React.useCallback(function(word, cleanKey) {
     activeWord[1](word);
     wordInfo[1](null);
     showTranslation[1](true);
 
-    // Traducir
     if (window.M.translate && window.M.translate.word) {
       window.M.translate.word(word).then(function(info) {
         if (info) {
-          // Verificar si es verbo
           var verbInfo = null;
           try {
             verbInfo = window.M.detect && window.M.detect.lookupVerb ? window.M.detect.lookupVerb(cleanKey) : null;
           } catch(e) {}
-
           wordInfo[1]({
             word: word,
             translation: info.es || info.translation || '',
@@ -161,15 +173,11 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       });
     }
 
-    // Pronunciar
     if (window.M.speakGermanWord) {
       window.M.speakGermanWord(word);
     }
 
-    // Desbloquear logro primera palabra
     window.Muller.Achievements.unlock('reading_first_word');
-
-    // Reproducir sonido
     if (window.M.tone) window.M.tone();
   }, []);
 
@@ -199,6 +207,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       return;
     }
 
+    // Iniciar osciloscopio en paralelo
+    startOscilloscope();
+
     var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     var recognition = new SpeechRecognition();
     recognition.lang = SR_CONFIG.lang;
@@ -216,15 +227,26 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
           interim += result[0].transcript;
         }
       }
-      transcript[1](function(prev) { return prev + finalText; });
+      // Usar la función updater de estado para evitar stale closures
+      transcript[1](function(prev) {
+        var newTranscript = prev + finalText;
+        // Calcular progreso con el nuevo valor
+        var compare = window.Muller.LecturaHelpers.compareTokens(text[0], newTranscript);
+        var correct = compare.filter(function(c) { return c.correct; }).length;
+        var total = compare.filter(function(c) { return c.original !== ''; }).length;
+        progress[1]({ correct: correct, total: total });
+        return newTranscript;
+      });
       interimText[1](interim);
 
-      // Actualizar progreso en tiempo real
-      var fullTranscript = transcript[0] + finalText;
-      var compare = window.Muller.LecturaHelpers.compareTokens(text[0], fullTranscript);
-      var correct = compare.filter(function(c) { return c.correct; }).length;
-      var total = compare.filter(function(c) { return c.original !== ''; }).length;
-      progress[1]({ correct: correct, total: total });
+      // Calcular progreso también fuera por si transcript no ha cambiado
+      var fullTranscript = (transcript[0] + finalText).trim();
+      if (fullTranscript) {
+        var compare2 = window.Muller.LecturaHelpers.compareTokens(text[0], fullTranscript);
+        var correct2 = compare2.filter(function(c) { return c.correct; }).length;
+        var total2 = compare2.filter(function(c) { return c.original !== ''; }).length;
+        progress[1]({ correct: correct2, total: total2 });
+      }
     };
 
     recognition.onerror = function(event) {
@@ -232,21 +254,22 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       if (event.error === 'not-allowed') {
         isListening[1](false);
         isReading[1](false);
+        stopOscilloscope();
         if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Micrófono', desc: 'Permiso denegado. Habilita el micrófono en la configuración del navegador.' });
         return;
       }
-      // Reintentar automáticamente
       if (isReading[0] && srRestartAttempts.current < SR_CONFIG.maxRestartAttempts) {
         srRestartAttempts.current++;
         setTimeout(function() {
-          if (isReading[0]) startReading();
+          if (isReading[0]) {
+            try { recognition.start(); } catch(e) {}
+          }
         }, SR_CONFIG.restartDelay);
       }
     };
 
     recognition.onend = function() {
       isListening[1](false);
-      // Reintentar si aún leyendo
       if (isReading[0] && srRestartAttempts.current < SR_CONFIG.maxRestartAttempts) {
         srRestartAttempts.current++;
         setTimeout(function() {
@@ -282,16 +305,15 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     }
     isListening[1](false);
     isReading[1](false);
+    stopOscilloscope();
 
-    // Calcular duración
     if (readingStartTime.current) {
       readingDuration.current = (Date.now() - readingStartTime.current) / 1000;
     }
-
-    // Evaluar
     evaluateReading();
-  }, [transcript[0], text[0], readingStartTime.current]);
+  }, [transcript[0], text[0]]);
 
+  // FIX: evaluateReading depende de readingDuration.current, no lo pongo en dependencias porque es un ref
   var evaluateReading = React.useCallback(function() {
     var fullTranscript = transcript[0].trim();
     if (!fullTranscript) {
@@ -306,21 +328,17 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     scoreResult[1](result);
     showScore[1](true);
 
-    // Guardar en historial
     saveToHistory(result);
-
-    // Desbloquear logros
     window.Muller.Achievements.unlock('reading_first_session');
     if (result.accuracy >= 90) window.Muller.Achievements.unlock('reading_accuracy_90');
     if (result.wpm >= 50) window.Muller.Achievements.unlock('reading_speed_50');
 
-    // Feedback sonoro
     if (result.score >= 70) {
       if (window.M.playCorrect) window.M.playCorrect();
     } else {
       if (window.M.playIncorrect) window.M.playIncorrect();
     }
-  }, [transcript[0], text[0], readingDuration.current]);
+  }, [transcript[0], text[0]]);
 
   // ─── FUNCIONES DE GRABACIÓN ───
   var startRecording = React.useCallback(function() {
@@ -342,16 +360,15 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
         recordedBlob[1](blob);
         stream.getTracks().forEach(function(t) { t.stop(); });
 
-        // Guardar en storage
         var timestamp = new Date().toISOString();
         var key = 'reading_audio_' + timestamp;
         try {
           var reader = new FileReader();
           reader.onload = function() {
             var data = { key: key, blob: reader.result, timestamp: timestamp, score: scoreResult[0] };
-            var existing = JSON.parse(localStorage.getItem(STORAGE_KEYS.recordings) || '[]');
+            var existing = storageGet(STORAGE_KEYS.recordings) || [];
             existing.push(data);
-            localStorage.setItem(STORAGE_KEYS.recordings, JSON.stringify(existing));
+            storageSet(STORAGE_KEYS.recordings, existing);
             loadRecordings();
           };
           reader.readAsDataURL(blob);
@@ -391,18 +408,27 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     audio.play();
   }, []);
 
+  var playRecordingFromDataURL = React.useCallback(function(dataURL) {
+    if (!dataURL) return;
+    var audio = new Audio(dataURL);
+    audio.onended = function() { isPlayingRecording[1](false); };
+    audioRef.current = audio;
+    isPlayingRecording[1](true);
+    audio.play();
+  }, []);
+
   var loadRecordings = React.useCallback(function() {
     try {
-      var data = JSON.parse(localStorage.getItem(STORAGE_KEYS.recordings) || '[]');
+      var data = storageGet(STORAGE_KEYS.recordings) || [];
       recordingsList[1](data);
     } catch(e) { recordingsList[1]([]); }
   }, []);
 
   var deleteRecording = React.useCallback(function(key) {
     try {
-      var data = JSON.parse(localStorage.getItem(STORAGE_KEYS.recordings) || '[]');
+      var data = storageGet(STORAGE_KEYS.recordings) || [];
       data = data.filter(function(d) { return d.key !== key; });
-      localStorage.setItem(STORAGE_KEYS.recordings, JSON.stringify(data));
+      storageSet(STORAGE_KEYS.recordings, data);
       loadRecordings();
     } catch(e) {}
   }, []);
@@ -417,11 +443,11 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     showScore[1](false);
     scoreResult[1](null);
 
-    // Estimar tiempo inicial
     var wordCount = tokens[0].length;
     var estimatedTime = Math.max(ROUNDS_CONFIG.minTimeSeconds, Math.round(wordCount * 1.5));
     var baseTime = Math.round(estimatedTime * (1 + ROUNDS_CONFIG.initialTimeBuffer));
     roundTimeLimit[1](baseTime);
+    startOscilloscope();
     startRoundTimer(baseTime);
   }, [tokens[0], text[0]]);
 
@@ -432,7 +458,8 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       roundTimeLeft[1](function(prev) {
         if (prev <= 1) {
           clearInterval(roundTimer.current);
-          finishRound();
+          // finishRound necesita las dependencias actualizadas, llamamos con setTimeout
+          setTimeout(finishRound, 0);
           return 0;
         }
         return prev - 1;
@@ -443,7 +470,6 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   var finishRound = React.useCallback(function() {
     if (roundTimer.current) clearInterval(roundTimer.current);
 
-    // Calcular tiempo usado y puntuación
     var totalTime = roundTimeLimit[0] - roundTimeLeft[0];
     var compare = window.Muller.LecturaHelpers.compareTokens(text[0], transcript[0]);
     var baseResult = window.Muller.LecturaHelpers.calculateScore(compare, totalTime);
@@ -462,20 +488,17 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       transcript[1]('');
       startRoundTimer(newLimit);
     } else {
-      // Terminaron todas las rondas
       roundsActive[1](false);
       currentRound[1](0);
       compareResult[1](compare);
       scoreResult[1](baseResult);
       showScore[1](true);
+      stopOscilloscope();
 
-      // Desbloquear logro
       window.Muller.Achievements.unlock('reading_3_rounds');
-
-      // Guardar sesión
       saveToHistory(baseResult);
     }
-  }, [text[0], transcript[0], currentRound[0], roundTimeLimit[0], roundTimes[0], roundScores[0]]);
+  }, [text[0], transcript[0], currentRound[0], roundTimeLimit[0], roundTimeLeft[0], roundTimes[0], roundScores[0]]);
 
   // ─── FUNCIONES DE KARAOKE ───
   var startKaraoke = React.useCallback(function() {
@@ -485,11 +508,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     var kWords = tokens[0].map(function(t) { return t.word; });
     karaokeWords[1](kWords);
 
-    // Reproducir TTS
     if (window.M.playSceneAudio) {
       window.M.playSceneAudio(text[0], 'de', {
         onboundary: function(event) {
-          // Avanzar palabra resaltada
           karaokeCurrentWord[1](function(prev) {
             return Math.min(prev + 1, kWords.length - 1);
           });
@@ -510,8 +531,10 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
 
   // ─── FUNCIONES DE OSCILOSCOPIO ───
   var startOscilloscope = React.useCallback(function() {
+    if (oscilloscopeActive[0]) return; // ya iniciado
     if (!navigator.mediaDevices) return;
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+      oscilloscopeStreamRef.current = stream;
       var ctx = new (window.AudioContext || window.webkitAudioContext)();
       var analyser = ctx.createAnalyser();
       analyser.fftSize = 256;
@@ -524,12 +547,16 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     }).catch(function(err) {
       console.warn('Oscilloscope error:', err);
     });
-  }, []);
+  }, [oscilloscopeActive[0]]);
 
   var stopOscilloscope = React.useCallback(function() {
     if (audioContextRef.current) {
       audioContextRef.current.close();
       audioContextRef.current = null;
+    }
+    if (oscilloscopeStreamRef.current) {
+      oscilloscopeStreamRef.current.getTracks().forEach(function(t) { t.stop(); });
+      oscilloscopeStreamRef.current = null;
     }
     analyserRef.current = null;
     sourceRef.current = null;
@@ -546,12 +573,10 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     dictadoUserInput[1]('');
     dictadoScore[1](null);
 
-    // Seleccionar frase aleatoria del texto
     var sentences = text[0].split(/[.!?]+/).filter(Boolean);
     if (sentences.length > 0) {
       var randomIdx = Math.floor(Math.random() * sentences.length);
       dictadoCurrentSentence[1](sentences[randomIdx].trim());
-      // Reproducir TTS
       if (window.M.playSceneAudio) {
         window.M.playSceneAudio(sentences[randomIdx].trim(), 'de');
       }
@@ -589,11 +614,10 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
         rounds: roundScores[0].length > 0 ? roundScores[0] : null
       };
 
-      var data = JSON.parse(localStorage.getItem(STORAGE_KEYS.history) || '[]');
+      var data = storageGet(STORAGE_KEYS.history) || [];
       data.unshift(entry);
-      // Mantener solo últimas 200 entradas
       if (data.length > 200) data = data.slice(0, 200);
-      localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(data));
+      storageSet(STORAGE_KEYS.history, data);
       loadHistory();
       updateStreak();
       checkAchievements(result);
@@ -604,7 +628,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
 
   var loadHistory = React.useCallback(function() {
     try {
-      var data = JSON.parse(localStorage.getItem(STORAGE_KEYS.history) || '[]');
+      var data = storageGet(STORAGE_KEYS.history) || [];
       history[1](data);
       readingCount[1](data.length);
     } catch(e) { history[1]([]); }
@@ -614,9 +638,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     try {
       var now = new Date();
       var today = now.toISOString().split('T')[0];
-      var streakData = JSON.parse(localStorage.getItem(STORAGE_KEYS.streak) || '{"current":0,"lastDate":null}');
+      var streakData = storageGet(STORAGE_KEYS.streak) || { current: 0, lastDate: null };
 
-      if (streakData.lastDate === today) return; // ya contado hoy
+      if (streakData.lastDate === today) return;
 
       var lastDate = streakData.lastDate ? new Date(streakData.lastDate) : null;
       var yesterday = new Date(now);
@@ -628,25 +652,22 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
         streakData.current = 1;
       }
       streakData.lastDate = today;
-      localStorage.setItem(STORAGE_KEYS.streak, JSON.stringify(streakData));
+      storageSet(STORAGE_KEYS.streak, streakData);
       streak[1](streakData.current);
 
-      // Logro racha
       if (streakData.current >= 7) window.Muller.Achievements.unlock('reading_streak_7');
     } catch(e) {}
   }, []);
 
   var loadStreak = React.useCallback(function() {
     try {
-      var data = JSON.parse(localStorage.getItem(STORAGE_KEYS.streak) || '{"current":0,"lastDate":null}');
+      var data = storageGet(STORAGE_KEYS.streak) || { current: 0, lastDate: null };
       streak[1](data.current);
     } catch(e) { streak[1](0); }
   }, []);
 
   // ─── FUNCIONES DE LOGROS ───
   var checkAchievements = React.useCallback(function(result) {
-    // reading_first_session - ya desbloqueado en evaluateReading
-    // Comprobar reading_10_texts
     if (readingCount[0] >= 10) {
       window.Muller.Achievements.unlock('reading_10_texts');
     }
@@ -655,9 +676,8 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   // ─── FUNCIONES DE BIBLIOTECA ───
   var loadLibrary = React.useCallback(function() {
     var lib = window.Muller.LecturaHelpers.getDefaultLibrary ? window.Muller.LecturaHelpers.getDefaultLibrary() : [];
-    // Cargar textos personalizados
     try {
-      var custom = JSON.parse(localStorage.getItem(STORAGE_KEYS.texts) || '[]');
+      var custom = storageGet(STORAGE_KEYS.texts) || [];
       lib = lib.concat(custom);
     } catch(e) {}
     libraryTexts[1](lib);
@@ -680,30 +700,36 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     selectText(pdfText, 'pdf');
   }, []);
 
-  var pasteText = React.useCallback(function(pastedText) {
+  var pasteText = React.useCallback(function(textArg) {
+    var pastedText = textArg;
+    if (!pastedText) {
+      pastedText = pasteTextInput[0].trim();
+    }
+    if (!pastedText) {
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Sin contenido', desc: 'Pega primero un texto en el área.' });
+      return;
+    }
     selectText(pastedText, 'paste');
-    // Guardar en textos personalizados
     try {
-      var custom = JSON.parse(localStorage.getItem(STORAGE_KEYS.texts) || '[]');
+      var custom = storageGet(STORAGE_KEYS.texts) || [];
       custom.push({ id: 'custom_' + Date.now(), title: 'Texto pegado ' + (custom.length + 1), text: pastedText, level: 'N/A', isCustom: true });
-      localStorage.setItem(STORAGE_KEYS.texts, JSON.stringify(custom));
+      storageSet(STORAGE_KEYS.texts, custom);
       loadLibrary();
     } catch(e) {}
-  }, []);
+    pasteTextInput[1]('');
+  }, [pasteTextInput[0]]);
 
   var deleteCustomText = React.useCallback(function(id) {
     try {
-      var custom = JSON.parse(localStorage.getItem(STORAGE_KEYS.texts) || '[]');
+      var custom = storageGet(STORAGE_KEYS.texts) || [];
       custom = custom.filter(function(t) { return t.id !== id; });
-      localStorage.setItem(STORAGE_KEYS.texts, JSON.stringify(custom));
+      storageSet(STORAGE_KEYS.texts, custom);
       loadLibrary();
     } catch(e) {}
   }, []);
 
   // ─── FUNCIONES DE AI PLACEHOLDER ───
   var aiAnalyzeReading = React.useCallback(function(textData, transcriptData) {
-    // Placeholder para futura API DeepSeek
-    // Por ahora devuelve análisis local simple
     var wordCount = textData ? window.Muller.LecturaHelpers.tokenize(textData).length : 0;
     var readingTime = readingDuration.current;
     return {
@@ -732,13 +758,12 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   var startShadowReading = React.useCallback(function() {
     shadowActive[1](true);
     shadowSync[1](0);
-    // Iniciar TTS y esperar sincronización
     if (window.M.playSceneAudio) {
       var startTime = Date.now();
       window.M.playSceneAudio(text[0], 'de', {
         onboundary: function(event) {
           var elapsed = (Date.now() - startTime) / 1000;
-          var totalDuration = text[0].split(' ').length * 0.3; // estimación
+          var totalDuration = text[0].split(' ').length * 0.3;
           var progress = Math.min(100, (elapsed / totalDuration) * 100);
           shadowSync[1](Math.round(progress));
         },
@@ -770,27 +795,22 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     };
   }, []);
 
-  // ─── FUNCIÓN ESPECIAL PARA A+ A- (preferencias) ───
-  // Cargar preferencia de fuente guardada
+  // ─── PREFERENCIAS DE FUENTE ───
   React.useEffect(function() {
     try {
-      var pref = localStorage.getItem(STORAGE_KEYS.preferences);
-      if (pref) {
-        var p = JSON.parse(pref);
-        if (p.fontSize) fontSize[1](p.fontSize);
-      }
+      var pref = storageGet(STORAGE_KEYS.preferences);
+      if (pref && pref.fontSize) fontSize[1](pref.fontSize);
     } catch(e) {}
   }, []);
 
   React.useEffect(function() {
     try {
-      localStorage.setItem(STORAGE_KEYS.preferences, JSON.stringify({ fontSize: fontSize[0] }));
+      storageSet(STORAGE_KEYS.preferences, { fontSize: fontSize[0] });
     } catch(e) {}
   }, [fontSize[0]]);
 
-  // ─── RETURN: TODOS LOS ESTADOS Y FUNCIONES ───
+  // ─── RETURN ───
   return {
-    // Estados principales
     source: source[0], setSource: source[1],
     text: text[0], setText: text[1],
     tokens: tokens[0],
@@ -800,7 +820,6 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     fontSize: fontSize[0],
     showTranslation: showTranslation[0], setShowTranslation: showTranslation[1],
 
-    // Reconocimiento de voz
     isReading: isReading[0],
     isListening: isListening[0],
     transcript: transcript[0], setTranscript: transcript[1],
@@ -810,7 +829,6 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     evaluateReading: evaluateReading,
     progress: progress[0],
 
-    // Grabación
     isRecording: isRecording[0],
     recordedBlob: recordedBlob[0],
     recordingsList: recordingsList[0],
@@ -818,14 +836,13 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     startRecording: startRecording,
     stopRecording: stopRecording,
     playRecording: playRecording,
+    playRecordingFromDataURL: playRecordingFromDataURL,
     deleteRecording: deleteRecording,
 
-    // Puntuación
     compareResult: compareResult[0],
     scoreResult: scoreResult[0],
-    showScore: showScore[0],
+    showScore: showScore[0], setShowScore: showScore[1],
 
-    // Rondas
     roundsActive: roundsActive[0],
     currentRound: currentRound[0],
     roundTimes: roundTimes[0],
@@ -835,21 +852,19 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     startRounds: startRounds,
     finishRound: finishRound,
 
-    // Karaoke
     karaokeActive: karaokeActive[0],
     karaokeCurrentWord: karaokeCurrentWord[0],
     karaokeWords: karaokeWords[0],
     startKaraoke: startKaraoke,
     stopKaraoke: stopKaraoke,
 
-    // Osciloscopio
     oscilloscopeActive: oscilloscopeActive[0],
     analyserRef: analyserRef,
     animationIdRef: animationIdRef,
+    audioContextRef: audioContextRef,
     startOscilloscope: startOscilloscope,
     stopOscilloscope: stopOscilloscope,
 
-    // Dictado inverso
     dictadoActive: dictadoActive[0],
     dictadoCurrentSentence: dictadoCurrentSentence[0],
     dictadoUserInput: dictadoUserInput[0], setDictadoUserInput: dictadoUserInput[1],
@@ -858,42 +873,36 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     submitDictado: submitDictado,
     stopDictado: stopDictado,
 
-    // Estadísticas
     history: history[0],
     showHistory: showHistory[0], setShowHistory: showHistory[1],
     streak: streak[0],
     readingCount: readingCount[0],
 
-    // Biblioteca
     libraryTexts: libraryTexts[0],
     showLibrary: showLibrary[0], setShowLibrary: showLibrary[1],
     selectText: selectText,
     importPDFText: importPDFText,
     pasteText: pasteText,
+    pasteTextInput: pasteTextInput[0], setPasteTextInput: pasteTextInput[1],
     deleteCustomText: deleteCustomText,
     loadLibrary: loadLibrary,
 
-    // Fuente
     increaseFont: increaseFont,
     decreaseFont: decreaseFont,
     resetFont: resetFont,
 
-    // Interacción con texto
     handleWordClick: handleWordClick,
     handleTextSelection: handleTextSelection,
     clearSelection: clearSelection,
     playSelectedText: playSelectedText,
 
-    // Sombra de lectura
     shadowActive: shadowActive[0],
     shadowSync: shadowSync[0],
     startShadowReading: startShadowReading,
     stopShadowReading: stopShadowReading,
 
-    // Offline
     isOffline: isOffline[0],
 
-    // AI placeholder
     aiAnalyzeReading: aiAnalyzeReading
   };
 };

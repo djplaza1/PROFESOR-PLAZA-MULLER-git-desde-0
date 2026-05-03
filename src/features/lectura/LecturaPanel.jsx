@@ -175,7 +175,7 @@ window.Muller.Panels['lectura'] = function(props) {
 
   // ─── Puntuación ───
   var scorePanel = h.showScore && h.scoreResult
-    ? React.createElement(ScorePanel, { result: h.scoreResult, onClose: function() { h.setShowTranslation(false); } })
+    ? React.createElement(ScorePanel, { result: h.scoreResult, onClose: function() { h.setShowScore(false); } })
     : null;
 
   // ─── Panel de palabra activa (traducción e info) ───
