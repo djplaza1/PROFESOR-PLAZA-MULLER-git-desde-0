@@ -197,6 +197,9 @@ window.Muller.Panels['historia'] = function({ session }) {
     const prevScene = () => { stopScene(); setSceneIndex(prev => Math.max(prev - 1, 0)); };
     const activarSubmodo = (id) => { stopScene(); setActiveSubmodo(id); };
     const salirSubmodo = () => setActiveSubmodo(null);
+    const escena = guion[sceneIndex] || guion[0];
+    const textoAleman = escena ? window.Muller.sanitizeHistoriaText(escena.text_de || escena.text) : '';
+    const textoEspanol = escena ? escena.translation || '' : '';
 
     useEffect(() => {
         if (shouldAutoPlayFirst && vocabModeActive && sentences.length > 0 && currentSentenceIdx < sentences.length) {
