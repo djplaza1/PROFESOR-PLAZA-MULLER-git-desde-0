@@ -24,7 +24,15 @@
     } catch(e) {}
   };
 
-  M.sanitizeHistoriaText = t => (t||'').replace(/\[.*?\]/g,'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
+  // Extrae solo la palabra alemana de [Wort - traducción] en vez de eliminar todo
+  M.sanitizeHistoriaText = t => (t||'')
+    .replace(/\[([^\]]+)\]/g, function(match, contenido) {
+      var partes = contenido.split(' - ');
+      return partes[0].trim();
+    })
+    .replace(/<[^>]*>/g,'')
+    .replace(/\s+/g,' ')
+    .trim();
   M.playSceneAudio = (text, speaker) => {
     speechSynthesis.cancel();
     if (!text) return;

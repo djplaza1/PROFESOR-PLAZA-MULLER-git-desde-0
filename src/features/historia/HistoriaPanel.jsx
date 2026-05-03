@@ -36,7 +36,7 @@ window.Muller.Panels['historia'] = function({ session }) {
             var partes = contenido.split(" - ");
             var palabra = partes[0].trim();
             var titleAttr = contenido.replace(/"/g, "&quot;");
-            return `<span class="bg-yellow-400 text-white font-semibold px-1 rounded border-b-4 border-yellow-500 shadow-[0_2px_8px_rgba(250,204,21,0.6)]" title="${titleAttr}">${palabra}</span>`;
+            return `<span class="bg-yellow-400/60 text-white font-semibold px-1 rounded border-b-2 border-yellow-500/50 shadow-[0_2px_8px_rgba(250,204,21,0.35)]" title="${titleAttr}">${palabra}</span>`;
         });
     }
 
