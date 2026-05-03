@@ -1045,7 +1045,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     return React.createElement('div', { className: 'flex flex-col h-full bg-gray-900 text-gray-100' },
         // ========== MODALES (renderizados directamente para que reaccionen a cambios de estado) ==========
         // Modal: Nuevo Guion
-        React.createElement(window.Muller.Modal, { show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion',
+        React.createElement(window.Muller.Modal, { show: showScriptForm, onClose: function() { setShowScriptForm(false); setFeedback(''); }, title: 'Nuevo Guion' },
             React.createElement(window.Muller.ScriptFormModal, { scriptForm, setScriptForm, handleCreateScript, setShowScriptForm })
         }),
         // Modal: Nueva Lista de Vocabulario
