@@ -1,6 +1,68 @@
 ﻿// ==================================================
 // HISTORIA PANEL – Aprendizaje de guiones con modo vocabulario
 // ==================================================
+// --- Funciones auxiliares para reproducción secuencial (ámbito global del script) ---
+function extraerMarcasHistoria(texto) {
+    if (!texto) return [];
+    var marcas = [];
+    texto.replace(/\[([^\]]+)\]/g, function(match, contenido) {
+        var partes = contenido.split(" - ");
+        if (partes.length === 2) {
+            marcas.push({ palabra: partes[0].trim(), traduccion: partes[1].trim() });
+        }
+    });
+    return marcas;
+}
+
+function crearSecuenciaReproduccion(escena, indiceEscena, guionCompleto, isPlayingRef, sceneIndexRef, stopFn, nextFn) {
+    var textoOriginal = escena.text_de || escena.text;
+    var textoLimpio = window.Muller.sanitizeHistoriaText(textoOriginal);
+    var marcas = extraerMarcasHistoria(textoOriginal);
+
+    // Reproducir frase principal en alemán
+    var utterDe = new SpeechSynthesisUtterance(textoLimpio);
+    window.Muller.applyDeVoice(utterDe);
+    utterDe.rate = window.Muller.getTtsRate();
+
+    utterDe.onend = function() {
+        if (!isPlayingRef.current) return;
+        setTimeout(function() {
+            if (!isPlayingRef.current) return;
+            var idx = 0;
+            function speakNextWord() {
+                if (!isPlayingRef.current) return;
+                if (idx >= marcas.length) {
+                    // Avanzar a siguiente escena automáticamente
+                    if (sceneIndexRef.current < guionCompleto.length - 1) {
+                        nextFn();
+                    } else {
+                        stopFn();
+                    }
+                    return;
+                }
+                var marca = marcas[idx];
+                var utterPalabra = new SpeechSynthesisUtterance(marca.palabra);
+                window.Muller.applyDeVoice(utterPalabra);
+                utterPalabra.onend = function() {
+                    if (!isPlayingRef.current) return;
+                    var utterTrad = new SpeechSynthesisUtterance(marca.traduccion);
+                    window.Muller.applyEsVoice(utterTrad);
+                    utterTrad.onend = function() {
+                        if (!isPlayingRef.current) return;
+                        idx++;
+                        speakNextWord();
+                    };
+                    speechSynthesis.speak(utterTrad);
+                };
+                speechSynthesis.speak(utterPalabra);
+            }
+            speakNextWord();
+        }, 600);
+    };
+
+    speechSynthesis.speak(utterDe);
+}
+
 window.Muller.Panels['historia'] = function({ session }) {
     const { useState, useEffect, useRef, useCallback, useMemo } = window.React;
     
