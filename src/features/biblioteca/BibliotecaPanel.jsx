@@ -443,7 +443,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     };
 
     // Botón glass genérico
-    var GlassBtn = function({ icon, label, onClick, variant, disabled, title }) {
+    // var GlassBtn = function({ icon, label, onClick, variant, disabled, title }) {
         var colors = variant === 'danger' ? 'bg-red-500/20 hover:bg-red-500/30 text-red-300 border-red-500/30' :
                      variant === 'success' ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border-emerald-500/30' :
                      variant === 'primary' ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-500/30' :
@@ -462,7 +462,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
     };
 
     // --- Input/Textarea estilizados ---
-    var StyledInput = function({ value, onChange, placeholder, type, className }) {
+    // var StyledInput = function({ value, onChange, placeholder, type, className }) {
         return React.createElement('input', {
             type: type || 'text',
             value: value,
@@ -472,7 +472,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         });
     };
 
-    var StyledTextarea = function({ value, onChange, placeholder, rows, className }) {
+    // var StyledTextarea = function({ value, onChange, placeholder, rows, className }) {
         return React.createElement('textarea', {
             value: value,
             onChange: onChange,
@@ -482,7 +482,7 @@ window.Muller.Panels['biblioteca'] = function BibliotecaPanel({ session }) {
         });
     };
 
-    var StyledSelect = function({ value, onChange, options }) {
+    // var StyledSelect = function({ value, onChange, options }) {
         return React.createElement('select', {
             value: value,
             onChange: onChange,
