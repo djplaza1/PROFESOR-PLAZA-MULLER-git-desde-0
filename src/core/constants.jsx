@@ -29,6 +29,8 @@
     ACTIVE_TIME: 'muller_active_time_v1',
     MISSIONS: 'muller_missions_v1',
     CLAIMED_REWARDS: 'muller_claimed_rewards_v1',
+    PLAZA_MUENZEN: 'muller_plaza_muenzen_v1',
+    SHOP_PURCHASES: 'muller_shop_purchases_v1',
   };
 
   M.DEFAULT_GOAL = 30;
@@ -37,7 +39,7 @@
   M.LEVELS = ['A1','A2','B1','B2','C1'];
   M.ARTICLE_MODES = ['der','die','das'];
   M.SUBMODOS_HISTORIA = ['Flüstern','Ruido','Diktat','Huecos','Artículos','Declinar','Tempus','Satzbau','Oído'];
-  M.MAIN_TABS = ['inicio','historia','biblioteca','lexikon','telc','entrenamiento','comunidad','lectura','escritura','progreso','maestros','ia','ajustes'];
+  M.MAIN_TABS = ['inicio','historia','biblioteca','lexikon','telc','entrenamiento','comunidad','lectura','escritura','progreso','tienda','maestros','ia','ajustes'];
   M.COLORS = { bg:'#0f172a', surface:'#1e293b', border:'#334155', accent:'#06b6d4', accentAlt:'#8b5cf6', text:'#e2e8f0', muted:'#94a3b8' };
   M.TTS_RATES = [{id:'0.75',rate:'0.75'},{id:'0.92',rate:'0.92'},{id:'1.0',rate:'1.0'},{id:'1.15',rate:'1.15'},{id:'1.3',rate:'1.3'}];
   M.UI_THEMES = [{id:'dark',label:'Oscuro'},{id:'light',label:'Claro'},{id:'contrast',label:'Contraste'}];

@@ -660,48 +660,6 @@
           ))
         ),
 
-      /* ========== TIEMPO ACTIVO ========== */
-      React.createElement('div', {
-        className: 'rounded-xl bg-black/35 border border-amber-500/25 p-4'
-      },
-        React.createElement('h3', {
-          className: 'text-sm font-black text-amber-200 flex items-center gap-2 mb-3'
-        },
-          React.createElement('span', {
-            className: 'w-4 h-4',
-            dangerouslySetInnerHTML: { __html: SVG_PROGRESS.clock }
-          }),
-          ' Tiempo activo de estudio'
-        ),
-        React.createElement('div', {
-          className: 'grid grid-cols-2 gap-3'
-        },
-          React.createElement('div', {
-            className: 'bg-gradient-to-br from-amber-900/30 to-amber-800/20 border border-amber-500/20 rounded-lg p-3 text-center'
-          },
-            React.createElement('p', {
-              className: 'text-2xl font-black text-amber-300'
-            }, M.Progreso ? M.Progreso.formatActiveTime(activeTimeToday) : '0m'),
-            React.createElement('p', {
-              className: 'text-[10px] text-amber-400/70 uppercase tracking-wider'
-            }, 'Hoy')
-          ),
-          React.createElement('div', {
-            className: 'bg-gradient-to-br from-cyan-900/30 to-cyan-800/20 border border-cyan-500/20 rounded-lg p-3 text-center'
-          },
-            React.createElement('p', {
-              className: 'text-2xl font-black text-cyan-300'
-            }, M.Progreso ? M.Progreso.formatActiveTime(activeTimeTotal) : '0m'),
-            React.createElement('p', {
-              className: 'text-[10px] text-cyan-400/70 uppercase tracking-wider'
-            }, 'Total')
-          )
-        ),
-        React.createElement('p', {
-          className: 'text-[10px] text-gray-500 mt-2 text-center'
-        }, 'El tiempo activo se registra automáticamente mientras usas la aplicación.')
-      ),
-
       /* ========== MISIONES ========== */
       React.createElement('div', {
         className: 'rounded-xl bg-black/35 border border-amber-500/25 p-4'

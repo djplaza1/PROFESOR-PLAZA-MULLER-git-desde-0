@@ -2,6 +2,7 @@
 // TOP BAR – Profesor Plaza Müller v2
 // Solo tabs que NO están en BottomBar (para evitar duplicados)
 // Iconos SVG inline (sin lucide.createIcons para evitar error #300)
+// Incluye tiempo activo global + Plaza Münzen
 // ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
 
@@ -15,7 +16,8 @@ const TOP_ICONS = {
   school: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 4 3 6 3s6-1 6-3v-5"/></svg>',
   sparkles: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>',
   'user-circle': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',
-  'log-out': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'
+  'log-out': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+  'store': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
 };
 
 window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
@@ -27,10 +29,69 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     { id: 'escritura', label: 'Escritura', icon: 'pen-tool' },
     { id: 'progreso', label: 'Progreso', icon: 'chart-bar' },
     { id: 'maestros', label: 'Maestros', icon: 'school' },
-    { id: 'ia', label: 'IA', icon: 'sparkles' }
+    { id: 'ia', label: 'IA', icon: 'sparkles' },
+    { id: 'tienda', label: 'Tienda', icon: 'store' }
   ];
 
   const [menuOpen, setMenuOpen] = React.useState(false);
+
+  // ─── TIMER GLOBAL PARA TIEMPO ACTIVO ───
+  const [todaySeconds, setTodaySeconds] = React.useState(
+    window.Muller.Progreso ? window.Muller.Progreso.getTodayActiveTime() : 0
+  );
+  const [plazaMuenzen, setPlazaMuenzen] = React.useState(
+    window.Muller.Progreso ? window.Muller.Progreso.getPlazaMuenzen() : 0
+  );
+
+  React.useEffect(() => {
+    // Registrar cada 30 segundos en localStorage
+    const interval = setInterval(() => {
+      if (window.Muller.Progreso) {
+        const P = window.Muller.Progreso;
+        // Obtener el tiempo actual guardado
+        const currentSaved = P.getTodayActiveTime();
+        // Avanzar 30 segundos (simula que han pasado 30s reales)
+        P.logActiveTime(30);
+        // Actualizar estado visual
+        setTodaySeconds(currentSaved + 30);
+      }
+    }, 30000);
+
+    // Actualizar display cada segundo (para ver los segundos en tiempo real)
+    const displayInterval = setInterval(() => {
+      if (window.Muller.Progreso) {
+        const saved = window.Muller.Progreso.getTodayActiveTime();
+        setTodaySeconds(saved);
+        setPlazaMuenzen(window.Muller.Progreso.getPlazaMuenzen());
+      }
+    }, 1000);
+
+    // Sincronizar monedas cuando se hace clic en reclamar (evento personalizado)
+    const onCoinsChanged = () => {
+      if (window.Muller.Progreso) {
+        setPlazaMuenzen(window.Muller.Progreso.getPlazaMuenzen());
+        setTodaySeconds(window.Muller.Progreso.getTodayActiveTime());
+      }
+    };
+    window.addEventListener('plaza-coins-changed', onCoinsChanged);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(displayInterval);
+      window.removeEventListener('plaza-coins-changed', onCoinsChanged);
+    };
+  }, []);
+
+  // Formatear segundos a "45m 23s"
+  function formatSeconds(sec) {
+    if (!sec || sec <= 0) return '0s';
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    if (h > 0) return `${h}h ${m}m`;
+    if (m > 0) return `${m}m ${s}s`;
+    return `${s}s`;
+  }
 
   const handleLogout = () => {
     window.Muller.authLogout();
@@ -52,6 +113,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       borderBottom: '1px solid #334155'
     }
   },
+    // Logo + Título
     React.createElement('button', {
       onClick: () => onTabChange('inicio'),
       style: {
@@ -68,7 +130,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       React.createElement('span', { style: { fontWeight: 700, fontSize: '1rem', color: '#06b6d4' } }, 'Plaza Müller')
     ),
 
-    // Tabs secundarias con iconos y texto (solo las que NO están en BottomBar)
+    // Tabs secundarias con iconos y texto
     React.createElement('div', {
       style: {
         flex: 1,
@@ -108,6 +170,75 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
         React.createElement('span', null, tab.label)
       );
     })),
+
+    // ─── BARRA DE ESTADO: TIEMPO ACTIVO + MONEDAS ───
+    React.createElement('div', {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        flexShrink: 0,
+        marginRight: 8,
+        paddingRight: 8,
+        borderRight: '1px solid #334155'
+      }
+    },
+      // Tiempo activo
+      React.createElement('div', {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          gap: 4,
+          background: 'rgba(6,182,212,0.1)',
+          borderRadius: 6,
+          padding: '4px 8px',
+          cursor: 'default'
+        },
+        title: 'Tiempo activo de estudio hoy'
+      },
+        React.createElement('span', { style: { fontSize: '0.75rem', color: '#34d399' } }, '⏱'),
+        React.createElement('span', {
+          style: {
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: '#34d399',
+            fontVariantNumeric: 'tabular-nums',
+            minWidth: 50,
+            textAlign: 'center'
+          }
+        }, formatSeconds(todaySeconds))
+      ),
+      // Plaza Münzen
+      React.createElement('div', {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          gap: 4,
+          background: 'rgba(251,191,36,0.12)',
+          borderRadius: 6,
+          padding: '4px 8px',
+          cursor: 'pointer'
+        },
+        title: 'Plaza Münzen - Monedas',
+        onClick: () => onTabChange('tienda')
+      },
+        React.createElement('img', {
+          src: 'assets/icons/profesor-plaza-muller-logo.jpg',
+          alt: '₿',
+          style: { width: 16, height: 16, borderRadius: '50%', objectFit: 'cover' }
+        }),
+        React.createElement('span', {
+          style: {
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            color: '#fbbf24',
+            fontVariantNumeric: 'tabular-nums',
+            minWidth: 20,
+            textAlign: 'center'
+          }
+        }, plazaMuenzen)
+      )
+    ),
 
     // Menú de usuario
     React.createElement('div', { style: { position: 'relative', flexShrink: 0 } },

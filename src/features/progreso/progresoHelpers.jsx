@@ -192,6 +192,89 @@
     }
   };
 
+  // ─── PLAZA MÜNZEN (SISTEMA DE MONEDAS) ───
+
+  /**
+   * Obtener saldo actual de Plaza Münzen
+   */
+  M.Progreso.getPlazaMuenzen = function() {
+    try {
+      const key = M.KEYS?.PLAZA_MUENZEN || 'muller_plaza_muenzen_v1';
+      const data = JSON.parse(localStorage.getItem(key) || '{}');
+      return data.balance || 0;
+    } catch (e) {
+      return 0;
+    }
+  };
+
+  /**
+   * Añadir monedas al saldo
+   * @param {number} amount - Cantidad a añadir
+   * @param {string} reason - Razón (para historial)
+   */
+  M.Progreso.addPlazaMuenzen = function(amount, reason) {
+    try {
+      const key = M.KEYS?.PLAZA_MUENZEN || 'muller_plaza_muenzen_v1';
+      const data = JSON.parse(localStorage.getItem(key) || '{}');
+      data.balance = (data.balance || 0) + Math.round(amount);
+      data.history = data.history || [];
+      data.history.push({
+        type: 'earn',
+        amount: Math.round(amount),
+        reason: reason || 'Recompensa',
+        date: new Date().toISOString(),
+      });
+      // Mantener solo últimas 50 transacciones
+      if (data.history.length > 50) data.history = data.history.slice(-50);
+      localStorage.setItem(key, JSON.stringify(data));
+      return data.balance;
+    } catch (e) {
+      console.error('addPlazaMuenzen error:', e);
+      return 0;
+    }
+  };
+
+  /**
+   * Gastar monedas
+   * @param {number} amount - Cantidad a gastar
+   * @param {string} item - Artículo comprado
+   */
+  M.Progreso.spendPlazaMuenzen = function(amount, item) {
+    try {
+      const key = M.KEYS?.PLAZA_MUENZEN || 'muller_plaza_muenzen_v1';
+      const data = JSON.parse(localStorage.getItem(key) || '{}');
+      const balance = data.balance || 0;
+      if (balance < amount) return { ok: false, reason: 'Saldo insuficiente' };
+      data.balance = balance - Math.round(amount);
+      data.history = data.history || [];
+      data.history.push({
+        type: 'spend',
+        amount: Math.round(amount),
+        reason: 'Compra: ' + (item || 'Artículo'),
+        date: new Date().toISOString(),
+      });
+      if (data.history.length > 50) data.history = data.history.slice(-50);
+      localStorage.setItem(key, JSON.stringify(data));
+      return { ok: true, balance: data.balance };
+    } catch (e) {
+      console.error('spendPlazaMuenzen error:', e);
+      return { ok: false, reason: e.message };
+    }
+  };
+
+  /**
+   * Obtener historial de transacciones de monedas
+   */
+  M.Progreso.getPlazaMuenzenHistory = function() {
+    try {
+      const key = M.KEYS?.PLAZA_MUENZEN || 'muller_plaza_muenzen_v1';
+      const data = JSON.parse(localStorage.getItem(key) || '{}');
+      return (data.history || []).reverse();
+    } catch (e) {
+      return [];
+    }
+  };
+
   // ─── MISIONES DIARIAS/SEMANALES/MENSUALES (PUNTO 3) ───
 
   /**
