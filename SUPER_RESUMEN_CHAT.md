@@ -157,22 +157,48 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
 3. No hagas commit de archivos de documentación si no hay cambios web — solo añade comentario en `index.html` para forzar redeploy.
 4. Haz push solo cuando estés seguro de que la app funciona en local.
 
-### ⚠️ REGLA CRÍTICA: Windows cmd.exe NO soporta `&&`
-**Error conocido**: `El token '&&' no es un separador de instrucciones válido en esta versión.`
-**Causa**: En Windows, **cmd.exe** (el shell por defecto de Windsurf) **NO acepta el operador `&&`** para encadenar comandos. `&&` solo funciona en PowerShell, Bash, o Git Bash.
-**Solución correcta**: Ejecutar CADA comando por separado en su propia herramienta `execute_command`:
-1. `git add .` → esperar éxito
-2. `git commit -m "tipo(ámbito): descripción clara"` → esperar éxito
-3. `git push` → esperar éxito
+### ⚠️ REGLA CRÍTICA: Windows cmd.exe NO SOPORTA `&&` (NUNCA USARLO)
+**Error conocido (OCURRE SIEMPRE)**: `El token '&&' no es un separador de instrucciones válido en esta versión.`
+**Causa**: En Windows, **cmd.exe** (el shell por defecto de Windsurf) **NO acepta el operador `&&`** para encadenar comandos. Solo funciona en PowerShell, Bash o Git Bash.
+**Solución**: **NUNCA** uses `&&`. Ejecuta CADA comando en su propio `execute_command` separado.
 
-**Alternativa (NO recomendada si hay errores)**: Usar `&` en cmd.exe separa comandos pero NO detiene en error. Mejor comandos separados.
+### ✅ MÉTODO INFALIBLE — Commit + Push a GitHub Pages (main)
 
-**Pro tip**: La URL de GitHub Pages es `https://djplaza1.github.io/PROFESOR-PLAZA-MULLER-git-desde-0/`
+**Contexto**: El proyecto está en `main` (única rama). GitHub Pages deploya automáticamente con Actions. La URL del sitio es: `https://djplaza1.github.io/PROFESOR-PLAZA-MULLER-git-desde-0/`
 
-### Al hacer commit:
-1. `git add .`
-2. `git commit -m "tipo(ámbito): descripción clara"`
-3. `git push`
+**Errores comunes que ya están solucionados**:
+1. ❌ Usar `&&` → **NO FUNCIONA** en cmd.exe
+2. ❌ `git push` sin upstream → da error `fatal: The current branch main has no upstream branch.`
+3. ❌ Ignorar `git status` antes → puedes commitear cambios no deseados
+
+**PASO A PASO (ejecutar en orden, cada uno en su propio `execute_command`):**
+
+| Paso | Comando | ¿Cuándo usarlo? |
+|------|---------|-----------------|
+| 0. Ver estado | `git status` | Opcional, para ver qué va a commitearse |
+| 1. Staging | `git add .` | Siempre |
+| 2. Commit | `git commit -m "tipo(ámbito): descripción clara"` | Siempre (cambia el mensaje) |
+| 3. Push (primera vez) | `git push --set-upstream origin main` | Solo la primera vez que se hace push desde el repo clonado |
+| 4. Push (siguientes) | `git push` | Después del paso 3, ya queda configurado |
+
+**Ejemplo completo real (funciona siempre):**
+```bash
+# Terminal 1: git add .
+git add .
+
+# Terminal 2: git commit
+git commit -m "feat(pdfstudy): mejoras completas — fullscreen, zoom, colores, TTS"
+
+# Terminal 3: git push (primera vez usa --set-upstream)
+git push --set-upstream origin main
+# En pushes siguientes: git push  (sin flags)
+```
+
+**Tipos de commit válidos**: `feat:`, `fix:`, `refactor:`, `docs:`, `style:`, `perf:`
+
+**URL GitHub Pages**: `https://djplaza1.github.io/PROFESOR-PLAZA-MULLER-git-desde-0/`
+**Repo remoto**: `https://github.com/djplaza1/PROFESOR-PLAZA-MULLER-git-desde-0`
+**Rama**: `main` (única rama, usar `origin main` siempre)
 
 ### Tipos de commit:
 - `feat:` — nueva funcionalidad
