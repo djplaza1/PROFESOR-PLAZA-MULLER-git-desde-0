@@ -174,10 +174,10 @@
       if (activeTimerRef.current) clearInterval(activeTimerRef.current);
       activeTimerRef.current = setInterval(function() {
         if (M.Progreso && M.Progreso.logActiveTime) {
-          M.Progreso.logActiveTime(30);
+          M.Progreso.logActiveTime(1);
           refreshActiveTime();
         }
-      }, 30000);
+      }, 1000);
     }, []);
 
     async function loadData() {
