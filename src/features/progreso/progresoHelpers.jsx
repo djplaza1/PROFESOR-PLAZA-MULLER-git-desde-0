@@ -1,72 +1,200 @@
 // src/features/progreso/progresoHelpers.jsx
-window.Muller = window.Muller || {};
-window.Muller.Progreso = window.Muller.Progreso || {};
+(function() {
+  window.Muller = window.Muller || {};
+  const M = window.Muller;
 
-// Obtener todos los datos de progreso combinados
-window.Muller.Progreso.getDashboardData = () => {
-  const advanced = (typeof window.Muller.getAdvancedProgress === 'function')
-    ? window.Muller.getAdvancedProgress() : {};
-  const daily = (typeof window.Muller.getDailyActivity === 'function')
-    ? window.Muller.getDailyActivity() : {};
-  const streak = (typeof window.Muller.calculateStreak === 'function')
-    ? window.Muller.calculateStreak() : 0;
-  const achievements = (typeof window.Muller.getAchievementsUnlocked === 'function')
-    ? window.Muller.getAchievementsUnlocked() : [];
-  const counts = (typeof window.Muller.getProgressCounts === 'function')
-    ? window.Muller.getProgressCounts() : {};
+  // ─── NAMESPACE M.Progreso ───
+  M.Progreso = M.Progreso || {};
 
-  // Simular datos si no hay nada
-  return {
-    streak: streak || 0,
-    totalPoints: (counts.total || 0) + (advanced.points || 0),
-    achievements: achievements || [],
-    dailyActivity: daily || {},
-    wordsLearned: counts.words || advanced.wordsLearned || 0,
-    sessionsCompleted: counts.sessions || advanced.sessions || 0,
-    articlesMastered: counts.articles || 0,
-    verbsMastered: counts.verbs || 0,
-    prepositionsMastered: counts.prepositions || 0,
-    readingSessions: counts.reading || advanced.readingSessions || 0,
-    writingSessions: counts.writing || advanced.writingSessions || 0,
-    lastActive: advanced.lastActive || null,
+  /**
+   * Obtener datos completos del dashboard de progreso
+   */
+  M.Progreso.getDashboardData = function() {
+    const advanced = (typeof M.getAdvancedProgress === 'function') ? M.getAdvancedProgress() : {};
+    const daily = (typeof M.getDailyActivity === 'function') ? M.getDailyActivity() : {};
+    const today = (typeof M.getTodayISODate === 'function') ? M.getTodayISODate() : new Date().toISOString().slice(0,10);
+    const dailyGoal = daily.dailyGoal || 30;
+    const todayAttempts = (daily.days && daily.days[today]) || 0;
+    const achievements = getAchievementsList();
+    const streak = (typeof M.calculateStreak === 'function')
+      ? M.calculateStreak(daily.days)
+      : calculateStreakLocal(daily.days);
+
+    // Contadores por categoría
+    const counters = {
+      articles: countMastered(advanced, 'articulos'),
+      verbs: countMastered(advanced, 'verbos'),
+      prepositions: countMastered(advanced, 'preposiciones'),
+    };
+
+    return {
+      totalPoints: advanced.points || 0,
+      streak: streak || 0,
+      wordsLearned: advanced.wordsLearned || 0,
+      sessionsCompleted: advanced.sessions || 0,
+      articlesMastered: counters.articles,
+      verbsMastered: counters.verbs,
+      prepositionsMastered: counters.prepositions,
+      readingSessions: advanced.readingSessions || 0,
+      writingSessions: advanced.writingSessions || 0,
+      dailyProgress: Math.min(100, Math.round((todayAttempts / Math.max(1, dailyGoal)) * 100)),
+      todayAttempts: todayAttempts,
+      dailyGoal: dailyGoal,
+      achievements: achievements,
+    };
   };
-};
 
-// Obtener actividad de los últimos 30 días como array
-window.Muller.Progreso.getLast30DaysActivity = () => {
-  const daily = (typeof window.Muller.getDailyActivity === 'function')
-    ? window.Muller.getDailyActivity() : {};
-  const days = [];
-  const now = new Date();
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const key = d.toISOString().slice(0, 10);
-    const count = daily[key] || 0;
-    days.push({ date: key, count, day: d.getDate(), month: d.getMonth() + 1, weekday: d.getDay() });
+  /**
+   * Obtener actividad de los últimos 30 días
+   */
+  M.Progreso.getLast30DaysActivity = function() {
+    const daily = (typeof M.getDailyActivity === 'function') ? M.getDailyActivity() : {};
+    const days = daily.days || {};
+    const result = [];
+    const today = new Date();
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = d.toISOString().slice(0,10);
+      result.push({
+        date: key,
+        count: days[key] || 0,
+        dayLabel: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][d.getDay()]
+      });
+    }
+    return result;
+  };
+
+  /**
+   * Obtener estadísticas semanales (últimos 7 días)
+   */
+  M.Progreso.getWeeklyStats = function() {
+    const daily = (typeof M.getDailyActivity === 'function') ? M.getDailyActivity() : {};
+    const days = daily.days || {};
+    const result = [];
+    const dayNames = ['D','L','M','X','J','V','S'];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = d.toISOString().slice(0,10);
+      result.push({
+        label: dayNames[d.getDay()],
+        value: days[key] || 0,
+        fullDate: key
+      });
+    }
+    return result;
+  };
+
+  /**
+   * Calcular perfil (nivel, título, emoji, color)
+   */
+  M.Progreso.getProfileLevel = function(points) {
+    const levels = [
+      { min: 0, level: 1, title: 'Anfänger', emoji: '🌱', color: 'bg-gray-600' },
+      { min: 500, level: 2, title: 'Schüler', emoji: '📘', color: 'bg-blue-600' },
+      { min: 1200, level: 3, title: 'Sprachlerner', emoji: '📗', color: 'bg-green-600' },
+      { min: 2500, level: 4, title: 'Forscher', emoji: '🔍', color: 'bg-teal-600' },
+      { min: 5000, level: 5, title: 'Entdecker', emoji: '🧭', color: 'bg-cyan-600' },
+      { min: 10000, level: 6, title: 'Meister', emoji: '⚡', color: 'bg-purple-600' },
+      { min: 20000, level: 7, title: 'Experte', emoji: '🌟', color: 'bg-amber-600' },
+      { min: 40000, level: 8, title: 'Sprachheld', emoji: '🏆', color: 'bg-rose-600' },
+      { min: 100000, level: 9, title: 'Legende', emoji: '👑', color: 'bg-yellow-500' },
+    ];
+    for (let i = levels.length - 1; i >= 0; i--) {
+      if (points >= levels[i].min) return levels[i];
+    }
+    return levels[0];
+  };
+
+  // ─── Sincronización Cloud ───
+
+  /**
+   * Guardar progreso en la nube (Supabase user_progress)
+   */
+  M.Progreso.syncProgressToCloud = async function() {
+    try {
+      const data = M.Progreso.getDashboardData();
+      const daily = (typeof M.getDailyActivity === 'function') ? M.getDailyActivity() : {};
+      const payload = {
+        points: data.totalPoints,
+        streak: data.streak,
+        wordsLearned: data.wordsLearned,
+        sessions: data.sessionsCompleted,
+        articlesMastered: data.articlesMastered,
+        verbsMastered: data.verbsMastered,
+        prepositionsMastered: data.prepositionsMastered,
+        readingSessions: data.readingSessions,
+        writingSessions: data.writingSessions,
+        dailyActivity: daily,
+        lastUpdated: new Date().toISOString(),
+      };
+
+      if (typeof M.saveToCloud === 'function') {
+        return await M.saveToCloud('user_progress', payload);
+      }
+      return { ok: false, reason: 'saveToCloud no disponible' };
+    } catch (e) {
+      console.error('syncProgressToCloud error:', e);
+      return { ok: false, reason: e.message };
+    }
+  };
+
+  /**
+   * Descargar progreso desde la nube (Supabase user_progress)
+   */
+  M.Progreso.pullProgressFromCloud = async function() {
+    try {
+      if (typeof M.loadFromCloud !== 'function') {
+        return { ok: false, reason: 'loadFromCloud no disponible' };
+      }
+      const cloudData = await M.loadFromCloud('user_progress');
+      if (cloudData) {
+        return { ok: true, data: cloudData };
+      }
+      return { ok: true, data: null };
+    } catch (e) {
+      console.error('pullProgressFromCloud error:', e);
+      return { ok: false, reason: e.message };
+    }
+  };
+
+  // ========== FUNCIONES INTERNAS ==========
+
+  function calculateStreakLocal(daysMap) {
+    let streak = 0;
+    const today = new Date().toISOString().slice(0,10);
+    const map = daysMap || {};
+    let d = new Date(today);
+    while (true) {
+      const key = d.toISOString().slice(0,10);
+      if (map[key]) { streak++; d.setDate(d.getDate() - 1); }
+      else break;
+    }
+    return streak;
   }
-  return days;
-};
 
-// Calcular nivel de perfil basado en puntos
-window.Muller.Progreso.getProfileLevel = (points) => {
-  if (points >= 10000) return { level: 25, title: 'Maestro del Alemán', color: 'bg-gradient-to-r from-yellow-400 to-amber-500', emoji: '👑' };
-  if (points >= 7000) return { level: 20, title: 'Experto Políglota', color: 'bg-gradient-to-r from-purple-400 to-pink-500', emoji: '🎓' };
-  if (points >= 5000) return { level: 15, title: 'Avanzado Destacado', color: 'bg-gradient-to-r from-blue-400 to-cyan-500', emoji: '⭐' };
-  if (points >= 3000) return { level: 10, title: 'Intermedio Superior', color: 'bg-gradient-to-r from-green-400 to-emerald-500', emoji: '📘' };
-  if (points >= 1500) return { level: 5, title: 'Intermedio', color: 'bg-gradient-to-r from-teal-400 to-cyan-500', emoji: '📗' };
-  if (points >= 500) return { level: 3, title: 'Principiante Avanzado', color: 'bg-gradient-to-r from-orange-400 to-amber-500', emoji: '📙' };
-  return { level: 1, title: 'Principiante', color: 'bg-gradient-to-r from-gray-400 to-slate-500', emoji: '📕' };
-};
+  function countMastered(progress, prefix) {
+    if (!progress || typeof progress !== 'object') return 0;
+    return Object.entries(progress)
+      .filter(function(e) { return e[0].startsWith(prefix + '::') && (e[1] >= 3); })
+      .length;
+  }
 
-// Estadísticas semanales simuladas para gráfico
-window.Muller.Progreso.getWeeklyStats = () => {
-  const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-  const daily = window.Muller.Progreso.getLast30DaysActivity();
-  const last7 = daily.slice(-7);
-  return last7.map((d, i) => ({
-    label: days[d.weekday === 0 ? 6 : d.weekday - 1],
-    value: d.count,
-    date: d.date,
-  }));
-};
+  function getAchievementsList() {
+    try {
+      const raw = (typeof M.getAchievementsUnlocked === 'function')
+        ? M.getAchievementsUnlocked()
+        : JSON.parse(localStorage.getItem(M.KEYS?.ACHIEVEMENTS || 'muller_achievements') || '{}');
+      if (Array.isArray(raw)) return raw;
+      if (typeof raw === 'object' && raw !== null) {
+        return Object.values(raw).filter(function(v) { return v && v.name; });
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+})();
