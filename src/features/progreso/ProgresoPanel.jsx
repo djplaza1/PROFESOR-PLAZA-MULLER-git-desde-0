@@ -6,27 +6,29 @@
   const M = window.Muller;
 
   // Iconos SVG inline para evitar error React #300
+  // IMPORTANTE: width/height="100%" para que se escalen al contenedor (w-3,h-3, w-4,h-4, etc.)
+  // Si se usara width="24" height="24" fijo, el SVG desborda contenedores pequeños y tapa texto de botones
   const SVG_PROGRESS = {
-    trendingUp: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
-    flame: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
-    award: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
-    bookOpen: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
-    zap: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
-    calendar: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
-    target: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
-    clock: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-    brain: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5C8.5 3 4 5 4 9c0 2.5 1.5 4.5 3 5.5V22l5-3 5 3v-7.5c1.5-1 3-3 3-5.5 0-4-4.5-6-8-4.5z"/></svg>',
-    checkCircle: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-    share2: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>',
-    download: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
-    refreshCcw: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
+    trendingUp: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+    flame: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
+    award: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
+    bookOpen: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+    zap: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+    calendar: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+    target: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+    clock: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    brain: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5C8.5 3 4 5 4 9c0 2.5 1.5 4.5 3 5.5V22l5-3 5 3v-7.5c1.5-1 3-3 3-5.5 0-4-4.5-6-8-4.5z"/></svg>',
+    checkCircle: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    share2: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>',
+    download: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+    refreshCcw: '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
   };
 
   const svg = (name, cls = 'w-5 h-5') => `<span class="${cls}" style="display:inline-flex">${SVG_PROGRESS[name] || ''}</span>`;
 
   // ─── PANEL PRINCIPAL ───
   window.Muller.Panels.ProgresoPanel = function ProgresoPanel({ session }) {
-    const { useState, useEffect, useRef } = React;
+    const { useState, useEffect, useRef, useCallback } = React;
     const [dashboard, setDashboard] = useState(null);
     const [last30Days, setLast30Days] = useState([]);
     const [weeklyStats, setWeeklyStats] = useState([]);
@@ -34,14 +36,36 @@
     const [cloudStatus, setCloudStatus] = useState(null); // 'syncing' | 'ok' | 'error' | null
     const [syncMsg, setSyncMsg] = useState('');
     const [showExportMenu, setShowExportMenu] = useState(false);
+    const [activeTimeToday, setActiveTimeToday] = useState(0);
+    const [activeTimeTotal, setActiveTimeTotal] = useState(0);
+    const [missions, setMissions] = useState([]);
+    const [claimedRewards, setClaimedRewards] = useState([]);
+    const [claimingId, setClaimingId] = useState(null);
     const exportRef = useRef(null);
+
+    // Timer para registrar tiempo activo cada 30 segundos
+    const activeTimerRef = useRef(null);
 
     useEffect(() => {
       loadData();
       // Cerrar menú export al hacer click fuera
       const handleClick = (e) => { if (exportRef.current && !exportRef.current.contains(e.target)) setShowExportMenu(false); };
       document.addEventListener('mousedown', handleClick);
-      return () => document.removeEventListener('mousedown', handleClick);
+      return () => {
+        document.removeEventListener('mousedown', handleClick);
+        if (activeTimerRef.current) clearInterval(activeTimerRef.current);
+      };
+    }, []);
+
+    // Iniciar timer de tiempo activo al montar
+    useEffect(() => {
+      if (activeTimerRef.current) clearInterval(activeTimerRef.current);
+      activeTimerRef.current = setInterval(function() {
+        if (M.Progreso && M.Progreso.logActiveTime) {
+          M.Progreso.logActiveTime(30);
+          refreshActiveTime();
+        }
+      }, 30000);
     }, []);
 
     async function loadData() {
@@ -52,9 +76,46 @@
       setLast30Days(M.Progreso.getLast30DaysActivity());
       setWeeklyStats(M.Progreso.getWeeklyStats());
       setProfileLevel(M.Progreso.getProfileLevel(data.totalPoints));
+      refreshActiveTime();
+      refreshMissions();
 
       // Sincronizar con la nube automáticamente
       syncFromCloud();
+    }
+
+    function refreshActiveTime() {
+      if (M.Progreso && M.Progreso.getTodayActiveTime) {
+        setActiveTimeToday(M.Progreso.getTodayActiveTime());
+      }
+      if (M.Progreso && M.Progreso.getTotalActiveTime) {
+        setActiveTimeTotal(M.Progreso.getTotalActiveTime());
+      }
+    }
+
+    function refreshMissions() {
+      if (M.Progreso && M.Progreso.getMissions) {
+        setMissions(M.Progreso.getMissions());
+      }
+      if (M.Progreso && M.Progreso.getClaimedRewards) {
+        setClaimedRewards(M.Progreso.getClaimedRewards());
+      }
+    }
+
+    async function claimMission(missionId) {
+      setClaimingId(missionId);
+      try {
+        const result = M.Progreso.claimMissionReward(missionId);
+        if (result && result.ok) {
+          // Recargar datos
+          refreshMissions();
+          const newData = M.Progreso.getDashboardData();
+          setDashboard(newData);
+          setProfileLevel(M.Progreso.getProfileLevel(newData.totalPoints));
+        }
+      } catch (e) {
+        console.error('claim error:', e);
+      }
+      setClaimingId(null);
     }
 
     async function syncFromCloud() {
@@ -598,6 +659,151 @@
             )
           ))
         ),
+
+      /* ========== TIEMPO ACTIVO ========== */
+      React.createElement('div', {
+        className: 'rounded-xl bg-black/35 border border-amber-500/25 p-4'
+      },
+        React.createElement('h3', {
+          className: 'text-sm font-black text-amber-200 flex items-center gap-2 mb-3'
+        },
+          React.createElement('span', {
+            className: 'w-4 h-4',
+            dangerouslySetInnerHTML: { __html: SVG_PROGRESS.clock }
+          }),
+          ' Tiempo activo de estudio'
+        ),
+        React.createElement('div', {
+          className: 'grid grid-cols-2 gap-3'
+        },
+          React.createElement('div', {
+            className: 'bg-gradient-to-br from-amber-900/30 to-amber-800/20 border border-amber-500/20 rounded-lg p-3 text-center'
+          },
+            React.createElement('p', {
+              className: 'text-2xl font-black text-amber-300'
+            }, M.Progreso ? M.Progreso.formatActiveTime(activeTimeToday) : '0m'),
+            React.createElement('p', {
+              className: 'text-[10px] text-amber-400/70 uppercase tracking-wider'
+            }, 'Hoy')
+          ),
+          React.createElement('div', {
+            className: 'bg-gradient-to-br from-cyan-900/30 to-cyan-800/20 border border-cyan-500/20 rounded-lg p-3 text-center'
+          },
+            React.createElement('p', {
+              className: 'text-2xl font-black text-cyan-300'
+            }, M.Progreso ? M.Progreso.formatActiveTime(activeTimeTotal) : '0m'),
+            React.createElement('p', {
+              className: 'text-[10px] text-cyan-400/70 uppercase tracking-wider'
+            }, 'Total')
+          )
+        ),
+        React.createElement('p', {
+          className: 'text-[10px] text-gray-500 mt-2 text-center'
+        }, 'El tiempo activo se registra automáticamente mientras usas la aplicación.')
+      ),
+
+      /* ========== MISIONES ========== */
+      React.createElement('div', {
+        className: 'rounded-xl bg-black/35 border border-amber-500/25 p-4'
+      },
+        React.createElement('h3', {
+          className: 'text-sm font-black text-amber-200 flex items-center gap-2 mb-3'
+        },
+          React.createElement('span', {
+            className: 'w-4 h-4',
+            dangerouslySetInnerHTML: { __html: SVG_PROGRESS.award }
+          }),
+          ' Misiones'
+        ),
+        missions.length === 0 && React.createElement('p', {
+          className: 'text-xs text-gray-400 text-center py-3'
+        }, 'No hay misiones disponibles en este momento. Vuelve más tarde.'),
+        missions.length > 0 && React.createElement('div', {
+          className: 'grid grid-cols-1 md:grid-cols-2 gap-2'
+        }, missions.map(function(m) {
+          const isCompleted = m.check ? m.check() : false;
+          const isClaiming = claimingId === m.id;
+          return React.createElement('div', {
+            key: m.id,
+            className: `rounded-lg p-3 border transition-all ${
+              isCompleted
+                ? 'bg-emerald-900/20 border-emerald-500/30'
+                : 'bg-gray-800/40 border-gray-600/30'
+            }`
+          },
+            React.createElement('div', {
+              className: 'flex items-start gap-3'
+            },
+              React.createElement('span', {
+                className: `w-5 h-5 flex-shrink-0 mt-0.5 ${
+                  m.type === 'daily' ? 'text-amber-400' :
+                  m.type === 'weekly' ? 'text-cyan-400' :
+                  'text-purple-400'
+                }`,
+                dangerouslySetInnerHTML: {
+                  __html: m.icon === 'clock' ? SVG_PROGRESS.clock :
+                          m.icon === 'zap' ? SVG_PROGRESS.zap :
+                          m.icon === 'bookOpen' ? SVG_PROGRESS.bookOpen :
+                          m.icon === 'trendingUp' ? SVG_PROGRESS.trendingUp :
+                          m.icon === 'flame' ? SVG_PROGRESS.flame :
+                          m.icon === 'award' ? SVG_PROGRESS.award :
+                          SVG_PROGRESS.target
+                }
+              }),
+              React.createElement('div', {
+                className: 'flex-1 min-w-0'
+              },
+                React.createElement('p', {
+                  className: 'text-xs font-bold text-amber-200'
+                }, m.label),
+                React.createElement('p', {
+                  className: 'text-[9px] text-gray-400 mt-0.5'
+                }, m.description),
+                React.createElement('div', {
+                  className: 'flex items-center gap-2 mt-1.5'
+                },
+                  React.createElement('span', {
+                    className: `text-[9px] px-1.5 py-0.5 rounded-full ${
+                      m.type === 'daily' ? 'bg-amber-900/30 text-amber-300' :
+                      m.type === 'weekly' ? 'bg-cyan-900/30 text-cyan-300' :
+                      'bg-purple-900/30 text-purple-300'
+                    }`
+                  }, m.type === 'daily' ? 'Diaria' : m.type === 'weekly' ? 'Semanal' : 'Mensual'),
+                  React.createElement('span', {
+                    className: 'text-[9px] text-emerald-400'
+                  }, `+${m.reward?.points || 0} XP`)
+                )
+              ),
+              React.createElement('button', {
+                onClick: function() { claimMission(m.id); },
+                disabled: !isCompleted || isClaiming,
+                className: `flex-shrink-0 px-2.5 py-1 rounded-full text-[9px] font-bold transition-all cursor-pointer ${
+                  isCompleted && !isClaiming
+                    ? 'bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-600/60'
+                    : isClaiming
+                      ? 'bg-gray-600/30 text-gray-400 border border-gray-500/20 animate-pulse'
+                      : 'bg-gray-700/30 text-gray-500 border border-gray-600/20 cursor-not-allowed'
+                }`
+              }, isClaiming ? '...' : isCompleted ? 'Reclamar' : 'Bloqueado')
+            )
+          );
+        })),
+        claimedRewards.length > 0 && React.createElement('div', {
+          className: 'mt-3 pt-3 border-t border-gray-600/30'
+        },
+          React.createElement('p', {
+            className: 'text-[9px] text-gray-500 mb-2'
+          }, 'Últimas recompensas reclamadas:'),
+          React.createElement('div', {
+            className: 'flex flex-wrap gap-1.5'
+          }, claimedRewards.slice(0, 5).map(function(r) {
+            return React.createElement('span', {
+              key: r.id,
+              className: 'text-[8px] px-1.5 py-0.5 rounded-full bg-amber-900/20 text-amber-400/70'
+            }, `${r.id}: +${r.reward?.points || 0} XP`)
+          }))
+        )
+      ),
 
       /* ========== TIEMPO TOTAL ESTIMADO ========== */
       React.createElement('div', {

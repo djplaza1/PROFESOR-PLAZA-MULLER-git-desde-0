@@ -25,7 +25,10 @@
     ACHIEVEMENTS: 'muller_achievements',
     ADVANCED_PROGRESS: 'muller_advanced_progress',
     DAILY_ACTIVITY: 'muller_daily_activity',
-    B1B2_SESSION: 'muller_b1b2_json_v1'
+    B1B2_SESSION: 'muller_b1b2_json_v1',
+    ACTIVE_TIME: 'muller_active_time_v1',
+    MISSIONS: 'muller_missions_v1',
+    CLAIMED_REWARDS: 'muller_claimed_rewards_v1',
   };
 
   M.DEFAULT_GOAL = 30;
