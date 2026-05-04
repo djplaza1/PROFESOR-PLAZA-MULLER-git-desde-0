@@ -11,6 +11,7 @@ window.Muller.PdfStudy = (function() {
   const STORE_NAME = 'pdfBlobs';
   const LIBRARY_KEY = 'muller_pdf_study_library_v2';
   const NOTES_KEY = 'muller_pdf_study_notes_v2';
+  const BOOKMARKS_KEY = 'muller_pdf_study_bookmarks_v1';
 
   // ---- INDEXEDDB: abrir BD ----
   function openDB() {
@@ -92,9 +93,8 @@ window.Muller.PdfStudy = (function() {
 
   // ---- AÑADIR PDF (File/Blob → IndexedDB, metadatos → localStorage) ----
   async function addPdfToLibrary(file) {
-    // Guardar blob en IndexedDB (sin límite de tamaño)
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    const blob = file; // File es un Blob
+    const blob = file;
 
     await saveBlobToIndexedDB(id, blob);
 
@@ -123,10 +123,14 @@ window.Muller.PdfStudy = (function() {
     saveLibrary(lib);
     await deleteBlobFromIndexedDB(id);
 
-    // Limpiar notas
     const notes = getAllNotes();
     delete notes[id];
     saveAllNotes(notes);
+
+    // Limpiar marcadores del PDF eliminado
+    const bks = getBookmarks();
+    delete bks[id];
+    saveBookmarks(bks);
   }
 
   // ---- OBTENER PDF por ID (solo metadatos) ----
@@ -145,7 +149,6 @@ window.Muller.PdfStudy = (function() {
   async function loadPdfAsObjectUrl(id) {
     const blob = await getBlobFromIndexedDB(id);
     if (!blob) return null;
-    // Crear URL de objeto (revocable con revokeObjectUrl)
     return URL.createObjectURL(blob);
   }
 
@@ -297,6 +300,41 @@ TEXTO: ${text.slice(0, 3000)}`;
     saveAllNotes(all);
   }
 
+  // ---- MARCADORES (BOOKMARKS) ----
+  function getBookmarks() {
+    try { const r = localStorage.getItem(BOOKMARKS_KEY); return r ? JSON.parse(r) : {}; } catch(e) { return {}; }
+  }
+
+  function saveBookmarks(bks) {
+    try { localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bks)); } catch(e) {}
+  }
+
+  /** Obtener marcadores de un PDF */
+  function getPdfBookmarks(pdfId) {
+    const all = getBookmarks();
+    return all[pdfId] || [];
+  }
+
+  /** Alternar marcador de una página */
+  function toggleBookmark(pdfId, page) {
+    const all = getBookmarks();
+    if (!all[pdfId]) all[pdfId] = [];
+    const idx = all[pdfId].indexOf(page);
+    if (idx >= 0) {
+      all[pdfId].splice(idx, 1);
+    } else {
+      all[pdfId].push(page);
+      all[pdfId].sort((a, b) => a - b);
+    }
+    saveBookmarks(all);
+    return all[pdfId];
+  }
+
+  function isPageBookmarked(pdfId, page) {
+    const all = getBookmarks();
+    return all[pdfId] ? all[pdfId].includes(page) : false;
+  }
+
   // ---- SRS: Vocabulario del PDF integrado con SRS global ----
   function addVocabToSrs(words) {
     const srs = window.Muller.SRS || {};
@@ -307,6 +345,26 @@ TEXTO: ${text.slice(0, 3000)}`;
         source: 'PDF Study',
         addedAt: Date.now()
       })));
+    }
+  }
+
+  // ---- TTS: Leer texto con Web Speech API ----
+  function speakText(text, lang, rate) {
+    const speaker = window.Muller && window.Muller.speak;
+    if (speaker) {
+      speaker(text, rate || 0.85, lang || 'de-DE');
+      return true;
+    }
+    // Fallback directo a Web Speech API
+    try {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang || 'de-DE';
+      utterance.rate = rate || 0.85;
+      speechSynthesis.speak(utterance);
+      return true;
+    } catch(e) {
+      console.warn("TTS fallback failed:", e);
+      return false;
     }
   }
 
@@ -354,6 +412,12 @@ TEXTO: ${text.slice(0, 3000)}`;
     cleanText,
     stopWords,
     clearAllBlobs,
+    getBookmarks,
+    saveBookmarks,
+    getPdfBookmarks,
+    toggleBookmark,
+    isPageBookmarked,
+    speakText,
     _ocrProgress: 0
   };
 })();

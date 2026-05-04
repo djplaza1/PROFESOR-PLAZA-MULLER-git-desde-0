@@ -2,9 +2,84 @@
 // PDF STUDY – Panel de estudio de PDFs
 // Almacenamiento: IndexedDB (PDFs binarios sin límite)
 // + PDF.js real + OCR Tesseract + vocabulario + notas
+// Mejoras: pantalla completa, scroll, 30+ colores,
+// subrayado, goma borrador, TTS, marcadores
 // ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
+
+// --- Constantes de colores (30+) ---
+const DRAW_COLORS = {
+  // Amarillos
+  "#facc15": "Amarillo",
+  "#eab308": "Oro",
+  "#fde047": "Limón",
+  "#fef08a": "Amarillo claro",
+  "#a16207": "Amarillo oscuro",
+  // Naranjas
+  "#f97316": "Naranja",
+  "#fb923c": "Naranja claro",
+  "#ea580c": "Naranja intenso",
+  "#c2410c": "Naranja oscuro",
+  // Rojos
+  "#ef4444": "Rojo",
+  "#f87171": "Rojo claro",
+  "#dc2626": "Rojo intenso",
+  "#b91c1c": "Rojo oscuro",
+  "#fca5a5": "Rosa claro",
+  "#ec4899": "Rosa",
+  "#db2777": "Rosa intenso",
+  // Azules
+  "#3b82f6": "Azul",
+  "#60a5fa": "Azul claro",
+  "#2563eb": "Azul intenso",
+  "#1d4ed8": "Azul oscuro",
+  "#06b6d4": "Cian",
+  "#22d3ee": "Cian claro",
+  "#0284c7": "Azul cielo",
+  "#818cf8": "Azul lavanda",
+  // Verdes
+  "#22c55e": "Verde",
+  "#4ade80": "Verde claro",
+  "#16a34a": "Verde intenso",
+  "#10b981": "Esmeralda",
+  "#34d399": "Esmeralda claro",
+  "#059669": "Verde oscuro",
+  // Púrpuras
+  "#a855f7": "Púrpura",
+  "#c084fc": "Púrpura claro",
+  "#9333ea": "Púrpura intenso",
+  "#7c3aed": "Violeta",
+  "#d946ef": "Fucsia",
+  // Grises
+  "#9ca3af": "Gris",
+  "#6b7280": "Gris oscuro",
+  "#d1d5db": "Gris claro",
+  "#f3f4f6": "Blanco",
+  "#111827": "Negro",
+  // Especiales
+  "#ff6b35": "Naranja neón",
+  "#00d4aa": "Verde menta",
+  "#ff61a6": "Rosa neón",
+  "#7dd3fc": "Cielo claro",
+  "#a78bfa": "Lavanda",
+};
+
+const COLOR_GROUPS = [
+  { label: "Amarillos", colors: ["#facc15","#eab308","#fde047","#fef08a","#a16207"] },
+  { label: "Naranjas", colors: ["#f97316","#fb923c","#ea580c","#c2410c"] },
+  { label: "Rojos", colors: ["#ef4444","#f87171","#dc2626","#b91c1c","#fca5a5","#ec4899","#db2777"] },
+  { label: "Azules", colors: ["#3b82f6","#60a5fa","#2563eb","#1d4ed8","#06b6d4","#22d3ee","#0284c7","#818cf8"] },
+  { label: "Verdes", colors: ["#22c55e","#4ade80","#16a34a","#10b981","#34d399","#059669"] },
+  { label: "Púrpuras", colors: ["#a855f7","#c084fc","#9333ea","#7c3aed","#d946ef"] },
+  { label: "Grises", colors: ["#9ca3af","#6b7280","#d1d5db","#f3f4f6","#111827"] },
+  { label: "Neón", colors: ["#ff6b35","#00d4aa","#ff61a6","#7dd3fc","#a78bfa"] },
+];
+
+// --- Modos de herramienta ---
+const TOOL_PEN = "pen";
+const TOOL_HIGHLIGHT = "highlight";
+const TOOL_ERASER = "eraser";
 
 window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const PS = window.Muller.PdfStudy;
@@ -16,7 +91,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const [totalPages, setTotalPages] = React.useState(0);
   const [pageText, setPageText] = React.useState("");
   const [fullText, setFullText] = React.useState("");
-  const [notes, setNotes] = React.useState({ typed: "", drawing: "" });
+  const [notes, setNotes] = React.useState({ typed: "", drawing: "", highlights: [] });
   const [vocab, setVocab] = React.useState([]);
   const [showVocab, setShowVocab] = React.useState(false);
   const [showSummary, setShowSummary] = React.useState(false);
@@ -33,32 +108,85 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const [showSearch, setShowSearch] = React.useState(false);
   const [expandedVocabDialog, setExpandedVocabDialog] = React.useState(false);
 
-  // Canvas ref para dibujo
+  // --- Nuevos estados ---
+  const [fullscreen, setFullscreen] = React.useState(false);
+  const [tool, setTool] = React.useState(TOOL_PEN); // pen | highlight | eraser
+  const [toolColor, setToolColor] = React.useState("#facc15");
+  const [toolWidth, setToolWidth] = React.useState(3);
+  const [eraserSize, setEraserSize] = React.useState(30);
+  const [showColorPicker, setShowColorPicker] = React.useState(false);
+  const [customColor, setCustomColor] = React.useState("#facc15");
+  const [bookmarks, setBookmarks] = React.useState([]);
+  const [ttsPlaying, setTtsPlaying] = React.useState(false);
+  const [bookmarkedPages, setBookmarkedPages] = React.useState([]);
+
+  // Refs
   const canvasRef = React.useRef(null);
   const isDrawing = React.useRef(false);
   const lastPos = React.useRef({ x: 0, y: 0 });
-  const [toolColor, setToolColor] = React.useState("#facc15"); // amarillo por defecto
-  const [toolWidth, setToolWidth] = React.useState(3);
+  const viewerRef = React.useRef(null);
+  const touchStartY = React.useRef(null);
+  const containerRef = React.useRef(null);
 
-  // --- Inicializar canvas cuando cambia página ---
+  // --- Inicializar marcadores al cargar PDF ---
+  React.useEffect(() => {
+    if (pdfEntry) {
+      setBookmarkedPages(PS.getPdfBookmarks(pdfEntry.id));
+    }
+  }, [pdfEntry]);
+
+  // --- Canvas: inicializar / re-dibujar al cambiar página ---
   React.useEffect(() => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const rect = canvas.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
-        canvas.width = rect.width * 2;
-        canvas.height = rect.height * 2;
+        const scale = 2;
+        canvas.width = rect.width * scale;
+        canvas.height = rect.height * scale;
         canvas.style.width = rect.width + "px";
         canvas.style.height = rect.height + "px";
         const ctx = canvas.getContext("2d");
-        ctx.scale(2, 2);
-        ctx.lineWidth = toolWidth;
-        ctx.strokeStyle = toolColor;
+        ctx.scale(scale, scale);
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
+
+        // Restaurar dibujos guardados
+        if (notes.drawing) {
+          const img = new Image();
+          img.src = notes.drawing;
+          img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+        }
       }
     }
-  }, [currentPage, pdfEntry, toolColor, toolWidth]);
+  }, [currentPage, pdfEntry]);
+
+  // --- Actualizar tool en canvas ---
+  React.useEffect(() => {
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      updateCanvasTool(ctx);
+    }
+  }, [tool, toolColor, toolWidth, eraserSize]);
+
+  function updateCanvasTool(ctx) {
+    if (!ctx) return;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    if (tool === TOOL_ERASER) {
+      // El borrador se maneja diferente (en draw)
+    } else if (tool === TOOL_HIGHLIGHT) {
+      ctx.globalAlpha = 0.35;
+      ctx.strokeStyle = toolColor;
+      ctx.lineWidth = toolWidth * 3;
+      ctx.globalCompositeOperation = "source-over";
+    } else {
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = toolColor;
+      ctx.lineWidth = toolWidth;
+      ctx.globalCompositeOperation = "source-over";
+    }
+  }
 
   // --- Limpiar object URL al desmontar ---
   React.useEffect(() => {
@@ -67,11 +195,60 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     };
   }, []);
 
+  // --- Pantalla completa ---
+  const toggleFullscreen = () => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (!document.fullscreenElement) {
+      el.requestFullscreen().then(() => setFullscreen(true)).catch(() => {});
+    } else {
+      document.exitFullscreen().then(() => setFullscreen(false)).catch(() => {});
+    }
+  };
+
+  // --- Escuchar cambios de fullscreen ---
+  React.useEffect(() => {
+    const handler = () => {
+      setFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handler);
+    return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
+  // --- Scroll con rueda ratón ---
+  const handleWheel = React.useCallback((e) => {
+    if (!pdfEntry) return;
+    if (e.deltaY > 0) {
+      changePage(1);
+    } else if (e.deltaY < 0) {
+      changePage(-1);
+    }
+  }, [pdfEntry, currentPage, totalPages]);
+
+  // --- Touch para móvil ---
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartY.current === null) return;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    if (Math.abs(deltaY) > 50) {
+      if (deltaY < 0) changePage(1);
+      else changePage(-1);
+    }
+    touchStartY.current = null;
+  };
+
   // --- Canvas drawing handlers ---
   const startDraw = (e) => {
     isDrawing.current = true;
     const pos = getCanvasPos(e);
     lastPos.current = pos;
+    if (canvasRef.current && tool === TOOL_ERASER) {
+      // Borrar inmediatamente un área
+      eraseArea(pos.x, pos.y);
+    }
   };
 
   const draw = (e) => {
@@ -79,6 +256,24 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     e.preventDefault();
     const ctx = canvasRef.current.getContext("2d");
     const pos = getCanvasPos(e);
+
+    if (tool === TOOL_ERASER) {
+      eraseArea(pos.x, pos.y);
+      return;
+    }
+
+    if (tool === TOOL_HIGHLIGHT) {
+      ctx.globalAlpha = 0.35;
+      ctx.strokeStyle = toolColor;
+      ctx.lineWidth = toolWidth * 3;
+      ctx.globalCompositeOperation = "source-over";
+    } else {
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = toolColor;
+      ctx.lineWidth = toolWidth;
+      ctx.globalCompositeOperation = "source-over";
+    }
+
     ctx.beginPath();
     ctx.moveTo(lastPos.current.x, lastPos.current.y);
     ctx.lineTo(pos.x, pos.y);
@@ -88,7 +283,11 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
   const stopDraw = () => {
     isDrawing.current = false;
+    // Restaurar composite después de dibujar
     if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
       const dataUrl = canvasRef.current.toDataURL();
       setNotes(prev => ({ ...prev, drawing: dataUrl }));
       if (pdfEntry) PS.savePageNotes(pdfEntry.id, currentPage, { drawing: dataUrl });
@@ -107,28 +306,26 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     };
   };
 
+  // --- Goma de borrar (parcial, por área) ---
+  const eraseArea = (x, y) => {
+    if (!canvasRef.current) return;
+    const ctx = canvasRef.current.getContext("2d");
+    const size = eraserSize / (canvasRef.current.width / canvasRef.current.getBoundingClientRect().width / 2);
+    // Guardar la imagen, borrar un círculo, restaurar
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    ctx.restore();
+  };
+
   const clearCanvas = () => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     setNotes(prev => ({ ...prev, drawing: "" }));
     if (pdfEntry) PS.savePageNotes(pdfEntry.id, currentPage, { drawing: "" });
-  };
-
-  const changeToolColor = (color) => {
-    setToolColor(color);
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
-      ctx.strokeStyle = color;
-    }
-  };
-
-  const changeToolWidth = (w) => {
-    setToolWidth(w);
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
-      ctx.lineWidth = w;
-    }
   };
 
   // --- Cargar PDF ---
@@ -156,21 +353,20 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
   const loadPdfEntry = async (entry) => {
     if (!entry) return;
-    // Limpiar object URL anterior
     if (pdfObjectUrl) PS.revokeObjectUrl(pdfObjectUrl);
     setPdfObjectUrl(null);
 
     setPdfEntry(entry);
     setCurrentPage(1);
-    setNotes({ typed: "", drawing: "" });
+    setNotes({ typed: "", drawing: "", highlights: [] });
     setVocab([]);
     setShowVocab(false);
     setSummaryText("");
     setShowSummary(false);
     setSearchResults([]);
     setSearchQuery("");
+    setBookmarkedPages(PS.getPdfBookmarks(entry.id));
 
-    // Cargar desde IndexedDB
     const objectUrl = await PS.loadPdfAsObjectUrl(entry.id);
     setPdfObjectUrl(objectUrl);
 
@@ -183,7 +379,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
         setFullText(result.fullText);
         const page1 = result.pageTexts.find(p => p.page === 1);
         setPageText(page1?.text || result.fullText.slice(0, 2000));
-        // Actualizar metadatos
         entry.totalPages = result.totalPages;
         PS.saveLibrary(PS.getLibrary());
       }
@@ -192,7 +387,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     }
     setLoading(false);
 
-    // Cargar notas de página 1
     const savedNotes = PS.getPageNotes(entry.id, 1);
     setNotes(savedNotes);
   };
@@ -217,10 +411,25 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setLibrary(PS.getLibrary());
   };
 
+  // --- Marcador ---
+  const toggleBookmark = () => {
+    if (!pdfEntry) return;
+    const updated = PS.toggleBookmark(pdfEntry.id, currentPage);
+    setBookmarkedPages(updated);
+  };
+
+  const goToBookmark = (page) => {
+    changePageDirect(page);
+  };
+
+  // --- Cambiar página (con guardado) ---
   const changePage = (delta) => {
     const newPage = Math.max(1, Math.min(totalPages, currentPage + delta));
     if (newPage === currentPage) return;
-    // Guardar nota actual
+    changePageDirect(newPage);
+  };
+
+  const changePageDirect = (newPage) => {
     if (pdfEntry) {
       const textarea = document.getElementById("pdf-typed-notes");
       if (textarea) {
@@ -230,16 +439,41 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       }
     }
     setCurrentPage(newPage);
-    // Restaurar notas de nueva página
     if (pdfEntry) {
       const savedNotes = PS.getPageNotes(pdfEntry.id, newPage);
       setNotes(savedNotes);
-      // Actualizar texto de página
       if (fullText) {
         const pages = fullText.split('\n');
         setPageText(pages[newPage - 1] || pages.join(' ').slice(0, 2000));
       }
     }
+  };
+
+  // --- TTS: Leer página actual ---
+  const speakPage = () => {
+    if (!pageText && !fullText) return;
+    const text = pageText || fullText.slice(0, 2000);
+    setTtsPlaying(true);
+    const success = PS.speakText(text, 'de-DE', 0.85);
+    if (!success) {
+      setUploadError("TTS no disponible. Prueba con otro navegador.");
+    }
+    // Detectar cuando termina
+    if (window.speechSynthesis) {
+      const checkEnd = setInterval(() => {
+        if (!window.speechSynthesis.speaking) {
+          clearInterval(checkEnd);
+          setTtsPlaying(false);
+        }
+      }, 500);
+    }
+  };
+
+  const stopSpeaking = () => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    setTtsPlaying(false);
   };
 
   // --- Extraer vocabulario ---
@@ -249,7 +483,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setShowVocab(true);
   };
 
-  // --- Añadir todas las palabras a SRS ---
   const addAllToSrs = () => {
     if (!vocab.length) return;
     PS.addVocabToSrs(vocab.map(v => ({
@@ -261,7 +494,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setShowVocab(false);
   };
 
-  // --- Añadir palabra individual a SRS ---
   const addWordToSrs = (word) => {
     PS.addVocabToSrs([{
       word: word.word,
@@ -284,7 +516,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setSummaryLoading(false);
   };
 
-  // --- OCR (Tesseract) sobre la página actual ---
+  // --- OCR ---
   const runOcr = async () => {
     if (!window.Tesseract) {
       setUploadError("Tesseract.js no cargado. Recarga la página.");
@@ -297,7 +529,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       const arrayBuffer = await PS.loadPdfAsArrayBuffer(pdfEntry.id);
       if (!arrayBuffer) { throw new Error("No se pudo cargar el PDF"); }
 
-      // Renderizar página actual con PDF.js
       setOcrMessage("Renderizando página...");
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const page = await pdf.getPage(currentPage);
@@ -309,7 +540,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       const ctx = canvas.getContext("2d");
       await page.render({ canvasContext: ctx, viewport }).promise;
 
-      // OCR con Tesseract
       setOcrMessage("Reconociendo texto con OCR...");
       const text = await PS.runOcrOnPdfPage(canvas);
       if (text) {
@@ -327,13 +557,12 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setOcrRunning(false);
   };
 
-  // --- Guardar notas escritas ---
   const saveTypedNotes = (val) => {
     setNotes(prev => ({ ...prev, typed: val }));
     if (pdfEntry) PS.savePageNotes(pdfEntry.id, currentPage, { typed: val });
   };
 
-  // --- Búsqueda de texto ---
+  // --- Búsqueda ---
   const doSearch = () => {
     if (!searchQuery || !fullText) { setSearchResults([]); return; }
     const query = searchQuery.toLowerCase();
@@ -361,133 +590,209 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
   // ==================== RENDER ====================
   return (
-    <div className="flex flex-col h-full bg-gray-950 text-white">
+    <div ref={containerRef} className="flex flex-col h-full bg-gray-950 text-white" style={{ minHeight: '100%' }}>
       {/* TOOLBAR */}
-      <div className="flex-shrink-0 px-3 py-2 border-b border-gray-800 bg-gray-900 flex items-center gap-2 flex-wrap">
-        <span className="text-sm font-bold text-cyan-400">📄 PDF Study</span>
+      <div className="flex-shrink-0 px-2 py-1 border-b border-gray-800 bg-gray-900 flex items-center gap-1 flex-wrap text-xs">
+        <span className="text-sm font-bold text-cyan-400 mr-1">📄 PDF</span>
+
+        {/* Archivo */}
         <button onClick={openPdfDialog}
-          className="px-2 py-1 rounded bg-cyan-700 hover:bg-cyan-600 text-xs font-semibold transition-colors"
+          className="px-1.5 py-0.5 rounded bg-cyan-700 hover:bg-cyan-600 text-[10px] font-semibold transition-colors"
           disabled={loading}>
-          {loading ? "⏳" : "Abrir PDF"}
+          {loading ? "⏳" : "Abrir"}
         </button>
         <button onClick={() => setShowLibrary(!showLibrary)}
-          className={`px-2 py-1 rounded text-xs transition-colors ${showLibrary ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}>
+          className={`px-1.5 py-0.5 rounded text-[10px] transition-colors ${showLibrary ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}>
           📚
         </button>
 
         {pdfEntry && (
           <>
-            <span className="text-xs text-gray-400 ml-1 truncate max-w-[130px]">{pdfEntry.name}</span>
+            <span className="text-[10px] text-gray-400 ml-0.5 truncate max-w-[100px]">{pdfEntry.name}</span>
+            <span className="text-gray-600 mx-0.5">|</span>
 
             {/* Navegación páginas */}
             <button onClick={() => changePage(-1)} disabled={currentPage <= 1 || loading}
-              className="px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 text-xs disabled:opacity-40 transition-colors">
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40 transition-colors">
               ◀
             </button>
-            <span className="text-xs text-gray-300 min-w-[3rem] text-center">
+            <span className="text-[10px] text-gray-300 min-w-[2.5rem] text-center">
               {loading ? "..." : `${currentPage}/${totalPages}`}
             </span>
             <button onClick={() => changePage(1)} disabled={currentPage >= totalPages || loading}
-              className="px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 text-xs disabled:opacity-40 transition-colors">
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40 transition-colors">
               ▶
             </button>
 
-            {/* Zoom */}
-            <span className="text-gray-600">|</span>
-            <button onClick={() => setZoom(Math.max(50, zoom - 10))}
-              className="px-1.5 py-1 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">
-              −
-            </button>
-            <span className="text-[10px] text-gray-400 min-w-[2rem] text-center">{zoom}%</span>
-            <button onClick={() => setZoom(Math.min(200, zoom + 10))}
-              className="px-1.5 py-1 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">
-              +
+            {/* Marcador */}
+            <button onClick={toggleBookmark}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${bookmarkedPages.includes(currentPage) ? "bg-yellow-700 text-yellow-200" : "bg-gray-700 hover:bg-gray-600"}`}
+              title={bookmarkedPages.includes(currentPage) ? "Quitar marcador" : "Añadir marcador"}>
+              {bookmarkedPages.includes(currentPage) ? "★" : "☆"}
             </button>
 
+            {/* Zoom */}
+            <span className="text-gray-600 mx-0.5">|</span>
+            <button onClick={() => setZoom(Math.max(50, zoom - 10))}
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">−</button>
+            <span className="text-[9px] text-gray-400 min-w-[1.8rem] text-center">{zoom}%</span>
+            <button onClick={() => setZoom(Math.min(200, zoom + 10))}
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">+</button>
+
             {/* Búsqueda */}
-            <span className="text-gray-600">|</span>
             <button onClick={() => setShowSearch(!showSearch)}
-              className={`px-2 py-1 rounded text-xs transition-colors ${showSearch ? "bg-blue-700 ring-1 ring-blue-400" : "bg-gray-700 hover:bg-gray-600"}`}>
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${showSearch ? "bg-blue-700 ring-1 ring-blue-400" : "bg-gray-700 hover:bg-gray-600"}`}>
               🔍
             </button>
 
             {/* Acciones */}
-            <span className="text-gray-600">|</span>
+            <span className="text-gray-600 mx-0.5">|</span>
             <button onClick={extractVocab}
-              className="px-2 py-1 rounded bg-amber-700 hover:bg-amber-600 text-xs transition-colors">
-              📖 Vocab
-            </button>
+              className="px-1 py-0.5 rounded bg-amber-700 hover:bg-amber-600 text-[10px] transition-colors">📖</button>
             <button onClick={runOcr} disabled={ocrRunning}
-              className="px-2 py-1 rounded bg-purple-700 hover:bg-purple-600 text-xs disabled:opacity-50 transition-colors">
-              {ocrRunning ? "🔄" : "🔍 OCR"}
+              className="px-1 py-0.5 rounded bg-purple-700 hover:bg-purple-600 text-[10px] disabled:opacity-50 transition-colors">
+              {ocrRunning ? "🔄" : "🔍"}
             </button>
             <button onClick={generateSummary} disabled={summaryLoading || !fullText}
-              className="px-2 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-xs disabled:opacity-50 transition-colors">
-              {summaryLoading ? "⏳" : "🤖 Resumen"}
+              className="px-1 py-0.5 rounded bg-emerald-700 hover:bg-emerald-600 text-[10px] disabled:opacity-50 transition-colors">
+              {summaryLoading ? "⏳" : "🤖"}
             </button>
 
-            {/* Herramientas dibujo */}
-            <span className="text-gray-600">|</span>
-            {["#facc15", "#3b82f6", "#ef4444", "#22c55e", "#9ca3af"].map(c => (
-              <button key={c}
-                onClick={() => changeToolColor(c)}
-                className={`w-4 h-4 rounded-full border ${toolColor === c ? "ring-1 ring-white scale-110" : "border-gray-600"}`}
-                style={{ background: c }}
-                title={`Color: ${c}`}
-              />
-            ))}
-            <select onChange={(e) => changeToolWidth(parseInt(e.target.value))} value={toolWidth}
-              className="bg-gray-800 border border-gray-700 rounded text-[10px] text-white px-1 py-0.5">
+            {/* TTS */}
+            <button onClick={ttsPlaying ? stopSpeaking : speakPage}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${ttsPlaying ? "bg-green-600 ring-1 ring-green-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title={ttsPlaying ? "Detener" : "Leer página"}>
+              {ttsPlaying ? "⏹" : "🔊"}
+            </button>
+
+            {/* Pantalla completa */}
+            <button onClick={toggleFullscreen}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${fullscreen ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title={fullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
+              {fullscreen ? "⛶" : "⛶"}
+            </button>
+
+            {/* Separador herramientas */}
+            <span className="text-gray-600 mx-0.5">|</span>
+
+            {/* Selector de herramienta */}
+            <button onClick={() => setTool(TOOL_PEN)}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_PEN ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title="Dibujar">✏️</button>
+            <button onClick={() => setTool(TOOL_HIGHLIGHT)}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_HIGHLIGHT ? "bg-yellow-700 ring-1 ring-yellow-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title="Subrayar">🖍️</button>
+            <button onClick={() => setTool(TOOL_ERASER)}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_ERASER ? "bg-red-700 ring-1 ring-red-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title="Goma de borrar">🧹</button>
+
+            {/* Grosor (según herramienta) */}
+            <select onChange={(e) => setToolWidth(parseInt(e.target.value))}
+              value={toolWidth}
+              className="bg-gray-800 border border-gray-700 rounded text-[9px] text-white px-0.5 py-0.5">
               <option value={1}>1px</option>
+              <option value={2}>2px</option>
               <option value={3}>3px</option>
-              <option value={6}>6px</option>
-              <option value={10}>10px</option>
+              <option value={5}>5px</option>
+              <option value={8}>8px</option>
+              <option value={12}>12px</option>
             </select>
+
+            {/* Color selector */}
+            <div className="relative">
+              <button onClick={() => setShowColorPicker(!showColorPicker)}
+                className="w-4 h-4 rounded-full border border-gray-500 flex-shrink-0"
+                style={{ background: toolColor }}
+                title="Cambiar color" />
+              {showColorPicker && (
+                <div className="absolute top-5 left-0 z-20 bg-gray-900 border border-gray-700 rounded p-2 shadow-xl"
+                  style={{ width: '280px', maxHeight: '300px', overflowY: 'auto' }}>
+                  <div className="flex items-center gap-1 mb-1.5">
+                    <span className="text-[9px] text-gray-400">Color:</span>
+                    <input type="color" value={customColor}
+                      onChange={(e) => { setCustomColor(e.target.value); setToolColor(e.target.value); }}
+                      className="w-6 h-6 border-0 rounded cursor-pointer" />
+                  </div>
+                  {COLOR_GROUPS.map((group, gi) => (
+                    <div key={gi} className="mb-1">
+                      <p className="text-[8px] text-gray-500 mb-0.5">{group.label}</p>
+                      <div className="flex gap-0.5 flex-wrap">
+                        {group.colors.map(c => (
+                          <button key={c}
+                            onClick={() => { setToolColor(c); setCustomColor(c); setShowColorPicker(false); }}
+                            className={`w-4 h-4 rounded-full border ${toolColor === c ? "ring-1 ring-white scale-110" : "border-gray-600"} transition-transform`}
+                            style={{ background: c }}
+                            title={DRAW_COLORS[c] || c} />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Tamaño goma (solo visible en modo borrador) */}
+            {tool === TOOL_ERASER && (
+              <select onChange={(e) => setEraserSize(parseInt(e.target.value))} value={eraserSize}
+                className="bg-gray-800 border border-gray-700 rounded text-[9px] text-white px-0.5 py-0.5">
+                <option value={15}>🔸Goma pequeña</option>
+                <option value={30}>🔸Goma mediana</option>
+                <option value={50}>🔸Goma grande</option>
+              </select>
+            )}
+
+            {/* Limpiar canvas */}
             <button onClick={clearCanvas}
-              className="px-1.5 py-1 rounded bg-red-800 hover:bg-red-700 text-[10px] transition-colors">
+              className="px-1 py-0.5 rounded bg-red-800 hover:bg-red-700 text-[10px] transition-colors"
+              title="Limpiar todo">
               🗑
             </button>
           </>
         )}
       </div>
 
+      {/* Marcadores rápidos */}
+      {bookmarkedPages.length > 0 && !showLibrary && pdfEntry && (
+        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-0.5 flex items-center gap-1 flex-wrap">
+          <span className="text-[9px] text-yellow-500">★</span>
+          {bookmarkedPages.map(p => (
+            <button key={p} onClick={() => goToBookmark(p)}
+              className={`px-1.5 py-0 rounded text-[9px] transition-colors ${p === currentPage ? "bg-yellow-800 text-yellow-200" : "bg-gray-800 text-gray-400 hover:bg-gray-700"}`}>
+              p.{p}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Búsqueda */}
       {showSearch && pdfEntry && (
-        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-3 py-2 flex items-center gap-2">
+        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-1 flex items-center gap-1">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && doSearch()}
-            placeholder="Buscar en el PDF..."
-            className="flex-1 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white"
+            placeholder="Buscar..."
+            className="flex-1 bg-gray-800 border border-gray-700 rounded px-1.5 py-0.5 text-[11px] text-white"
           />
           <button onClick={doSearch}
-            className="px-2 py-1 rounded bg-blue-700 hover:bg-blue-600 text-xs transition-colors">
-            Ir
-          </button>
+            className="px-1.5 py-0.5 rounded bg-blue-700 hover:bg-blue-600 text-[10px] transition-colors">Ir</button>
           {searchResults.length > 0 && (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5">
               <button onClick={() => goToSearchResult(searchIndex - 1)}
                 disabled={searchIndex <= 0}
-                className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40">
-                ◀
-              </button>
-              <span className="text-[10px] text-gray-400">
-                {searchIndex + 1}/{searchResults.length}
-              </span>
+                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40">◀</button>
+              <span className="text-[9px] text-gray-400">{searchIndex + 1}/{searchResults.length}</span>
               <button onClick={() => goToSearchResult(searchIndex + 1)}
                 disabled={searchIndex >= searchResults.length - 1}
-                className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40">
-                ▶
-              </button>
+                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40">▶</button>
             </div>
           )}
         </div>
       )}
       {searchResults.length > 0 && (
-        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-3 py-1">
-          <p className="text-[10px] text-gray-400 leading-relaxed">
+        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-0.5">
+          <p className="text-[9px] text-gray-400 leading-relaxed">
             ...{searchResults[searchIndex]?.context}...
           </p>
         </div>
@@ -495,7 +800,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
       {/* ERROR / MENSAJE */}
       {(uploadError || ocrMessage) && (
-        <div className="flex-shrink-0 px-3 py-1.5 border-b text-xs flex items-center gap-2"
+        <div className="flex-shrink-0 px-2 py-1 border-b text-[10px] flex items-center gap-1"
           style={{ background: uploadError && !ocrMessage ? "#7f1d1d" : "#1e3a5f",
                   borderColor: uploadError && !ocrMessage ? "#991b1b" : "#1d4ed8" }}>
           <span className={uploadError && !ocrMessage ? "text-red-300" : "text-blue-300"}>
@@ -508,26 +813,24 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
       {/* LIBRARY PANEL */}
       {showLibrary && (
-        <div className="flex-shrink-0 max-h-[35vh] overflow-y-auto bg-gray-900 border-b border-gray-800 p-3">
-          <h3 className="text-xs font-bold text-cyan-300 mb-2">📚 Mis PDFs ({library.length})</h3>
+        <div className="flex-shrink-0 max-h-[30vh] overflow-y-auto bg-gray-900 border-b border-gray-800 p-2">
+          <h3 className="text-xs font-bold text-cyan-300 mb-1">📚 Mis PDFs ({library.length})</h3>
           {library.length === 0 && (
-            <p className="text-xs text-gray-500">No hay PDFs. Toca "Abrir PDF" para subir uno.</p>
+            <p className="text-[10px] text-gray-500">No hay PDFs. Toca "Abrir" para subir uno.</p>
           )}
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             {library.map(doc => (
-              <div key={doc.id} className="flex items-center justify-between bg-gray-800 rounded px-2.5 py-1.5">
+              <div key={doc.id} className="flex items-center justify-between bg-gray-800 rounded px-2 py-1">
                 <button onClick={() => loadFromLibrary(doc.id)}
-                  className="text-xs text-gray-200 hover:text-cyan-300 truncate flex-1 text-left transition-colors">
+                  className="text-[10px] text-gray-200 hover:text-cyan-300 truncate flex-1 text-left transition-colors">
                   📄 {doc.name}
                 </button>
-                <span className="text-[10px] text-gray-500 mr-2">{doc.totalPages}p</span>
-                <span className="text-[10px] text-gray-600 mr-2">
+                <span className="text-[9px] text-gray-500 mr-1">{doc.totalPages}p</span>
+                <span className="text-[9px] text-gray-600 mr-1">
                   {doc.size > 1048576 ? `${(doc.size / 1048576).toFixed(1)}MB` : `${(doc.size / 1024).toFixed(0)}KB`}
                 </span>
                 <button onClick={() => removeFromLibrary(doc.id)}
-                  className="text-xs text-red-400 hover:text-red-300 transition-colors">
-                  ✕
-                </button>
+                  className="text-[10px] text-red-400 hover:text-red-300 transition-colors">✕</button>
               </div>
             ))}
           </div>
@@ -535,7 +838,11 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       )}
 
       {/* MAIN VIEWER */}
-      <div className="flex-1 relative bg-black min-h-0">
+      <div className="flex-1 relative bg-black min-h-0"
+        onWheel={handleWheel}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        ref={viewerRef}>
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-10">
             <div className="text-cyan-400 text-sm animate-pulse">Cargando PDF...</div>
@@ -544,17 +851,27 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
         {pdfObjectUrl && !loading && (
           <div className="absolute inset-0 overflow-auto bg-gray-900">
-            <div className="relative" style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top left', width: `${100 / (zoom / 100)}%`, height: `${100 / (zoom / 100)}%` }}>
+            <div className="relative" style={{
+              transform: `scale(${zoom / 100})`,
+              transformOrigin: 'top left',
+              width: `${10000 / zoom}%`,
+              height: `${10000 / zoom}%`
+            }}>
               <iframe
                 src={`${pdfObjectUrl}#page=${currentPage}`}
-                className="w-full h-full border-0"
+                className="w-full border-0"
                 style={{ height: '100vh' }}
                 title="PDF Viewer"
               />
               <canvas
                 ref={canvasRef}
-                className="absolute top-0 left-0 w-full"
-                style={{ pointerEvents: "auto", touchAction: "none", opacity: 0.4, height: '100vh' }}
+                className={`absolute top-0 left-0 w-full ${tool === TOOL_HIGHLIGHT ? 'opacity-60' : tool === TOOL_ERASER ? 'opacity-30' : 'opacity-50'}`}
+                style={{
+                  pointerEvents: "auto",
+                  touchAction: "none",
+                  height: '100vh',
+                  cursor: tool === TOOL_ERASER ? 'cell' : tool === TOOL_HIGHLIGHT ? 'crosshair' : 'crosshair'
+                }}
                 onMouseDown={startDraw}
                 onMouseMove={draw}
                 onMouseUp={stopDraw}
@@ -582,32 +899,28 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
       {/* VOCAB PANEL */}
       {showVocab && vocab.length > 0 && (
-        <div className="flex-shrink-0 max-h-[30vh] overflow-y-auto bg-gray-900 border-t border-gray-800 p-3">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-bold text-amber-300">📖 Vocabulario ({vocab.length})</h3>
+        <div className="flex-shrink-0 max-h-[25vh] overflow-y-auto bg-gray-900 border-t border-gray-800 p-2">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-xs font-bold text-amber-300">📖 Vocab ({vocab.length})</h3>
             <div className="flex gap-1">
               <button onClick={addAllToSrs}
-                className="px-2 py-0.5 rounded bg-green-700 hover:bg-green-600 text-[10px] transition-colors">
+                className="px-1.5 py-0 rounded bg-green-700 hover:bg-green-600 text-[9px] transition-colors">
                 + Todas al SRS
               </button>
               <button onClick={() => setShowVocab(false)}
-                className="text-[10px] text-gray-500 hover:text-gray-300">
-                Cerrar
-              </button>
+                className="text-[9px] text-gray-500 hover:text-gray-300">Cerrar</button>
             </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-0.5">
             {vocab.map((v, i) => (
-              <div key={i} className="text-xs bg-gray-800 rounded px-2 py-1 text-gray-200 flex items-center justify-between gap-1">
+              <div key={i} className="text-[10px] bg-gray-800 rounded px-1.5 py-0.5 text-gray-200 flex items-center justify-between gap-0.5">
                 <span className="truncate flex-1" title={v.word}>
                   {v.word}
-                  <span className="text-gray-500 ml-1">({v.count})</span>
+                  <span className="text-gray-500 ml-0.5">({v.count})</span>
                 </span>
                 <button onClick={() => addWordToSrs(v)}
-                  className="text-[10px] text-cyan-400 hover:text-cyan-300 flex-shrink-0"
-                  title="Añadir al SRS">
-                  +
-                </button>
+                  className="text-[9px] text-cyan-400 hover:text-cyan-300 flex-shrink-0"
+                  title="Añadir al SRS">+</button>
               </div>
             ))}
           </div>
@@ -616,27 +929,25 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
       {/* SUMMARY PANEL */}
       {showSummary && summaryText && (
-        <div className="flex-shrink-0 max-h-[25vh] overflow-y-auto bg-gray-900 border-t border-gray-800 p-3">
-          <h3 className="text-xs font-bold text-emerald-300 mb-1">🤖 Resumen IA</h3>
-          <p className="text-xs text-gray-300 whitespace-pre-wrap">{summaryText}</p>
-          <button onClick={() => setShowSummary(false)} className="text-[10px] text-gray-500 mt-1 hover:text-gray-300">
-            Cerrar
-          </button>
+        <div className="flex-shrink-0 max-h-[20vh] overflow-y-auto bg-gray-900 border-t border-gray-800 p-2">
+          <h3 className="text-xs font-bold text-emerald-300 mb-0.5">🤖 Resumen IA</h3>
+          <p className="text-[10px] text-gray-300 whitespace-pre-wrap">{summaryText}</p>
+          <button onClick={() => setShowSummary(false)} className="text-[9px] text-gray-500 mt-0.5 hover:text-gray-300">Cerrar</button>
         </div>
       )}
 
       {/* NOTES */}
       {pdfEntry && (
-        <div className="flex-shrink-0 border-t border-gray-800 bg-gray-900 p-2">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] text-gray-500">Notas p.{currentPage}</span>
+        <div className="flex-shrink-0 border-t border-gray-800 bg-gray-900 p-1.5">
+          <div className="flex items-center gap-1 mb-0.5">
+            <span className="text-[9px] text-gray-500">📝 p.{currentPage}</span>
           </div>
           <textarea
             id="pdf-typed-notes"
             defaultValue={notes.typed}
             onChange={(e) => saveTypedNotes(e.target.value)}
             placeholder="Escribe notas sobre esta página..."
-            className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-xs text-white resize-none"
+            className="w-full bg-gray-800 border border-gray-700 rounded p-1.5 text-[11px] text-white resize-none"
             rows={2}
           />
         </div>

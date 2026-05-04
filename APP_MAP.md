@@ -136,7 +136,7 @@
 | `telc/` | `TelcPanel.jsx` (sin helpers propio) | Preparación TELC |
 | `ia/` | `IAPanel.jsx` + `iaHelpers.jsx` | Panel IA |
 | `ajustes/` | `AjustesPanel.jsx` + `ajustesHelpers.jsx` | Ajustes/configuración |
-| `pdfstudy/` | `PdfstudyPanel.jsx` + `pdfstudyHelpers.jsx` | Estudio con PDFs (pdf.js + Tesseract.js) |
+| `pdfstudy/` | `PdfstudyPanel.jsx` + `pdfstudyHelpers.jsx` | Estudio con PDFs: pdf.js + Tesseract OCR + DeepSeek IA + SRS + IndexedDB. **Funcionalidades**: subida drag&drop, visor con zoom 50-200%, búsqueda texto, marcadores por página, TTS (Web Speech), dibujo libre, subrayado 30+ colores, goma borrador ajustable, notas escritas por página, vocabulario extraíble → SRS, resumen IA, pantalla completa, scroll rueda/touch |
 | `ruta/` | `RutaPanel.jsx` + `rutaHelpers.jsx` | Ruta de aprendizaje |
 | `splash/` | `Splash.jsx` | Componente SplashScreen |
 

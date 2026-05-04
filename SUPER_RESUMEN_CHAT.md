@@ -96,16 +96,30 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
 
 ## 📋 CAMBIOS RECIENTES (sesión actual)
 
-### ✅ [04/05/2026] Pestaña PDF Study implementada al 100%
-**Archivos creados** (2 en `src/features/pdfstudy/`):
-- `pdfstudyHelpers.jsx` — Helpers con: `getLibrary()`, `addPdfToLibrary()`, `extractTextFromPdf()` (PDF.js real), `runOcrOnPdfPage()` (Tesseract.js), `generateSummary()`/`generateVocab()`/`generateTelcQuestions()` (DeepSeek), `savePageNotes()`, `extractVocab()` (frecuencia con stopWords)
-- `PdfstudyPanel.jsx` — Panel con: visor PDF + canvas draw, biblioteca, vocabulario por frecuencia, resumen IA, OCR, notas por página
+### ✅ [04/05/2026] PDF Study: mejoras completas — fullscreen, scroll, 30+ colores, TTS, marcadores
+**Archivos modificados** (2 en `src/features/pdfstudy/`):
+- `pdfstudyHelpers.jsx` — Añadido: `getPdfBookmarks()`, `toggleBookmark()`, `isPageBookmarked()`, `speakText()` (TTS con Web Speech API + fallback `Muller.speak`), `clearAllBlobs()`. Ya incluía: `getLibrary()`, `addPdfToLibrary()`, `extractTextFromPdf()` (PDF.js real), `runOcrOnPdfPage()` (Tesseract.js), `generateSummary()`/`generateVocab()`/`generateTelcQuestions()` (DeepSeek), `savePageNotes()`, `extractVocab()` (frecuencia con stopWords)
+- `PdfstudyPanel.jsx` — **Mejoras completas**:
+  - **Pantalla completa**: toggle con `requestFullscreen`/`exitFullscreen`, evento `fullscreenchange` sincronizado
+  - **Scroll rueda ratón** para cambiar página (handleWheel con deltaY)
+  - **Touch para móvil** (handleTouchStart/handleTouchEnd con delta mínimo 50px)
+  - **Zoom** 50-200% con escala del visor
+  - **Búsqueda de texto** en todo el PDF con resultados contextuales y navegación
+  - **Marcadores por página** con toggle ☆/★, barra de acceso rápido abajo del toolbar
+  - **TTS** con botón play/stop y detección automática de fin mediante polling
+  - **Dibujo libre** con 30+ colores organizados en 8 grupos (Amarillos, Naranjas, Rojos, Azules, Verdes, Púrpuras, Grises, Neón) + selector de color personalizado
+  - **Subrayado** (tool highlight) con opacidad 35% y grosor triple
+  - **Goma borrador** ajustable (pequeña/mediana/grande) basada en clipping path
+  - **Grosor de herramienta** seleccionable (1/2/3/5/8/12 px)
+  - **Limpiar canvas** completo
+  - Notas escritas guardadas por página que se restauran al navegar
+  - **Bugfix**: `ttsPlaying.current = true` reemplazado por `setTtsPlaying(true)` (era estado, no ref)
 
-**Archivos modificados**:
+**Archivos previamente creados**:
 - `src/core/constants.jsx` — Añadido `pdfstudy` a `M.MAIN_TABS`
 - `index.html` — CDNs pdf.js + tesseract.js + scripts helpers+panel
-- `APP_MAP.md` — Actualizado
-- **Commit**: `b2a3891` — `feat(pdfstudy): implementar panel PDF Study con pdf.js + OCR + IA`
+
+**Commit**: `b2a3891` — `feat(pdfstudy): implementar panel PDF Study con pdf.js + OCR + IA`
 
 ### ✅ [03/05/2026] Migración monedas: estilo unificado (círculo negro + borde dorado + logo-plaza-sin-fondo.png)
 **Archivos modificados**:
@@ -143,13 +157,22 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
 3. No hagas commit de archivos de documentación si no hay cambios web — solo añade comentario en `index.html` para forzar redeploy.
 4. Haz push solo cuando estés seguro de que la app funciona en local.
 
+### ⚠️ REGLA CRÍTICA: Windows cmd.exe NO soporta `&&`
+**Error conocido**: `El token '&&' no es un separador de instrucciones válido en esta versión.`
+**Causa**: En Windows, **cmd.exe** (el shell por defecto de Windsurf) **NO acepta el operador `&&`** para encadenar comandos. `&&` solo funciona en PowerShell, Bash, o Git Bash.
+**Solución correcta**: Ejecutar CADA comando por separado en su propia herramienta `execute_command`:
+1. `git add .` → esperar éxito
+2. `git commit -m "tipo(ámbito): descripción clara"` → esperar éxito
+3. `git push` → esperar éxito
+
+**Alternativa (NO recomendada si hay errores)**: Usar `&` en cmd.exe separa comandos pero NO detiene en error. Mejor comandos separados.
+
+**Pro tip**: La URL de GitHub Pages es `https://djplaza1.github.io/PROFESOR-PLAZA-MULLER-git-desde-0/`
+
 ### Al hacer commit:
-```bash
-cd C:\PROFESOR-PLAZA-MULLER-git-desde-0
-git add .
-git commit -m "tipo(ámbito): descripción clara"
-git push
-```
+1. `git add .`
+2. `git commit -m "tipo(ámbito): descripción clara"`
+3. `git push`
 
 ### Tipos de commit:
 - `feat:` — nueva funcionalidad
