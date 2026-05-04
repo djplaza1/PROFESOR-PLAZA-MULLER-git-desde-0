@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════════
 // PDF STUDY – Panel de estudio de PDFs
-// PDF.js real + OCR Tesseract + vocabulario + notas
+// Almacenamiento: IndexedDB (PDFs binarios sin límite)
+// + PDF.js real + OCR Tesseract + vocabulario + notas
 // ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
@@ -21,32 +22,50 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const [showSummary, setShowSummary] = React.useState(false);
   const [summaryText, setSummaryText] = React.useState("");
   const [summaryLoading, setSummaryLoading] = React.useState(false);
-  const [ocrProgress, setOcrProgress] = React.useState(0);
+  const [ocrMessage, setOcrMessage] = React.useState("");
   const [ocrRunning, setOcrRunning] = React.useState(false);
   const [uploadError, setUploadError] = React.useState("");
+  const [pdfObjectUrl, setPdfObjectUrl] = React.useState(null);
+  const [zoom, setZoom] = React.useState(100);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState([]);
+  const [searchIndex, setSearchIndex] = React.useState(0);
+  const [showSearch, setShowSearch] = React.useState(false);
+  const [expandedVocabDialog, setExpandedVocabDialog] = React.useState(false);
 
   // Canvas ref para dibujo
   const canvasRef = React.useRef(null);
   const isDrawing = React.useRef(false);
   const lastPos = React.useRef({ x: 0, y: 0 });
+  const [toolColor, setToolColor] = React.useState("#facc15"); // amarillo por defecto
+  const [toolWidth, setToolWidth] = React.useState(3);
 
   // --- Inicializar canvas cuando cambia página ---
   React.useEffect(() => {
-    if (canvasRef.current && pdfEntry) {
+    if (canvasRef.current) {
       const canvas = canvasRef.current;
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * 2;
-      canvas.height = rect.height * 2;
-      canvas.style.width = rect.width + "px";
-      canvas.style.height = rect.height + "px";
-      const ctx = canvas.getContext("2d");
-      ctx.scale(2, 2);
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "#facc15";
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
+      if (rect.width > 0 && rect.height > 0) {
+        canvas.width = rect.width * 2;
+        canvas.height = rect.height * 2;
+        canvas.style.width = rect.width + "px";
+        canvas.style.height = rect.height + "px";
+        const ctx = canvas.getContext("2d");
+        ctx.scale(2, 2);
+        ctx.lineWidth = toolWidth;
+        ctx.strokeStyle = toolColor;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+      }
     }
-  }, [currentPage, pdfEntry]);
+  }, [currentPage, pdfEntry, toolColor, toolWidth]);
+
+  // --- Limpiar object URL al desmontar ---
+  React.useEffect(() => {
+    return () => {
+      if (pdfObjectUrl) PS.revokeObjectUrl(pdfObjectUrl);
+    };
+  }, []);
 
   // --- Canvas drawing handlers ---
   const startDraw = (e) => {
@@ -96,6 +115,22 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     if (pdfEntry) PS.savePageNotes(pdfEntry.id, currentPage, { drawing: "" });
   };
 
+  const changeToolColor = (color) => {
+    setToolColor(color);
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.strokeStyle = color;
+    }
+  };
+
+  const changeToolWidth = (w) => {
+    setToolWidth(w);
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.lineWidth = w;
+    }
+  };
+
   // --- Cargar PDF ---
   const openPdfDialog = () => {
     const input = document.createElement("input");
@@ -121,6 +156,10 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
   const loadPdfEntry = async (entry) => {
     if (!entry) return;
+    // Limpiar object URL anterior
+    if (pdfObjectUrl) PS.revokeObjectUrl(pdfObjectUrl);
+    setPdfObjectUrl(null);
+
     setPdfEntry(entry);
     setCurrentPage(1);
     setNotes({ typed: "", drawing: "" });
@@ -128,18 +167,28 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setShowVocab(false);
     setSummaryText("");
     setShowSummary(false);
+    setSearchResults([]);
+    setSearchQuery("");
+
+    // Cargar desde IndexedDB
+    const objectUrl = await PS.loadPdfAsObjectUrl(entry.id);
+    setPdfObjectUrl(objectUrl);
 
     setLoading(true);
     try {
-      const result = await PS.extractTextFromPdf(entry.data);
-      setTotalPages(result.totalPages);
-      setFullText(result.fullText);
-      const page1 = result.pageTexts.find(p => p.page === 1);
-      setPageText(page1?.text || result.fullText.slice(0, 2000));
-      entry.totalPages = result.totalPages;
-      PS.saveLibrary(PS.getLibrary());
+      const arrayBuffer = await PS.loadPdfAsArrayBuffer(entry.id);
+      if (arrayBuffer) {
+        const result = await PS.extractTextFromPdf(arrayBuffer);
+        setTotalPages(result.totalPages);
+        setFullText(result.fullText);
+        const page1 = result.pageTexts.find(p => p.page === 1);
+        setPageText(page1?.text || result.fullText.slice(0, 2000));
+        // Actualizar metadatos
+        entry.totalPages = result.totalPages;
+        PS.saveLibrary(PS.getLibrary());
+      }
     } catch(e) {
-      console.warn("Error loading PDF:", e);
+      console.warn("Error loading PDF text:", e);
     }
     setLoading(false);
 
@@ -153,8 +202,10 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     if (entry) loadPdfEntry(entry);
   };
 
-  const removeFromLibrary = (id) => {
+  const removeFromLibrary = async (id) => {
     if (pdfEntry?.id === id) {
+      if (pdfObjectUrl) PS.revokeObjectUrl(pdfObjectUrl);
+      setPdfObjectUrl(null);
       setPdfEntry(null);
       setFullText("");
       setPageText("");
@@ -162,7 +213,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       setTotalPages(0);
       setVocab([]);
     }
-    PS.removePdfFromLibrary(id);
+    await PS.removePdfFromLibrary(id);
     setLibrary(PS.getLibrary());
   };
 
@@ -183,6 +234,11 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     if (pdfEntry) {
       const savedNotes = PS.getPageNotes(pdfEntry.id, newPage);
       setNotes(savedNotes);
+      // Actualizar texto de página
+      if (fullText) {
+        const pages = fullText.split('\n');
+        setPageText(pages[newPage - 1] || pages.join(' ').slice(0, 2000));
+      }
     }
   };
 
@@ -191,6 +247,29 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     const words = PS.extractVocab(pageText || fullText);
     setVocab(words);
     setShowVocab(true);
+  };
+
+  // --- Añadir todas las palabras a SRS ---
+  const addAllToSrs = () => {
+    if (!vocab.length) return;
+    PS.addVocabToSrs(vocab.map(v => ({
+      word: v.word,
+      translation: '',
+      count: v.count
+    })));
+    alert(`Añadidas ${vocab.length} palabras al sistema SRS.`);
+    setShowVocab(false);
+  };
+
+  // --- Añadir palabra individual a SRS ---
+  const addWordToSrs = (word) => {
+    PS.addVocabToSrs([{
+      word: word.word,
+      translation: '',
+      count: word.count
+    }]);
+    setUploadError(`"${word.word}" añadida al SRS ✓`);
+    setTimeout(() => setUploadError(""), 2000);
   };
 
   // --- DeepSeek resumen ---
@@ -205,21 +284,22 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setSummaryLoading(false);
   };
 
-  // --- OCR (Tesseract) ---
+  // --- OCR (Tesseract) sobre la página actual ---
   const runOcr = async () => {
     if (!window.Tesseract) {
       setUploadError("Tesseract.js no cargado. Recarga la página.");
       return;
     }
+    if (!pdfEntry) return;
     setOcrRunning(true);
-    setOcrProgress(0);
+    setOcrMessage("Iniciando OCR...");
     try {
-      // Crear canvas temporal con la página del PDF renderizada
-      if (!pdfEntry) return;
-      const binaryStr = atob(pdfEntry.data);
-      const bytes = new Uint8Array(binaryStr.length);
-      for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
-      const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      const arrayBuffer = await PS.loadPdfAsArrayBuffer(pdfEntry.id);
+      if (!arrayBuffer) { throw new Error("No se pudo cargar el PDF"); }
+
+      // Renderizar página actual con PDF.js
+      setOcrMessage("Renderizando página...");
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const page = await pdf.getPage(currentPage);
       const scale = 2;
       const viewport = page.getViewport({ scale });
@@ -229,18 +309,22 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       const ctx = canvas.getContext("2d");
       await page.render({ canvasContext: ctx, viewport }).promise;
 
-      // OCR
+      // OCR con Tesseract
+      setOcrMessage("Reconociendo texto con OCR...");
       const text = await PS.runOcrOnPdfPage(canvas);
       if (text) {
         setPageText(text);
         setVocab(PS.extractVocab(text));
+        setOcrMessage(`OCR completado (${text.length} caracteres)`);
+        setTimeout(() => setOcrMessage(""), 3000);
+      } else {
+        setOcrMessage("No se reconoció texto en esta página.");
       }
     } catch(e) {
       console.warn("OCR failed:", e);
       setUploadError("Error en OCR: " + e.message);
     }
     setOcrRunning(false);
-    setOcrProgress(0);
   };
 
   // --- Guardar notas escritas ---
@@ -249,11 +333,33 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     if (pdfEntry) PS.savePageNotes(pdfEntry.id, currentPage, { typed: val });
   };
 
-  // ==================== RENDER ====================
-  const pdfUrl = pdfEntry?.data
-    ? `data:application/pdf;base64,${pdfEntry.data}#page=${currentPage}`
-    : null;
+  // --- Búsqueda de texto ---
+  const doSearch = () => {
+    if (!searchQuery || !fullText) { setSearchResults([]); return; }
+    const query = searchQuery.toLowerCase();
+    const parts = fullText.toLowerCase().split(query);
+    if (parts.length <= 1) { setSearchResults([]); return; }
+    const results = [];
+    let pos = 0;
+    for (let i = 0; i < parts.length - 1; i++) {
+      pos += parts[i].length;
+      results.push({
+        index: i,
+        start: pos,
+        end: pos + query.length,
+        context: fullText.slice(Math.max(0, pos - 40), pos + query.length + 40)
+      });
+      pos += query.length;
+    }
+    setSearchResults(results);
+    setSearchIndex(0);
+  };
 
+  const goToSearchResult = (idx) => {
+    setSearchIndex(Math.max(0, Math.min(searchResults.length - 1, idx)));
+  };
+
+  // ==================== RENDER ====================
   return (
     <div className="flex flex-col h-full bg-gray-950 text-white">
       {/* TOOLBAR */}
@@ -262,7 +368,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
         <button onClick={openPdfDialog}
           className="px-2 py-1 rounded bg-cyan-700 hover:bg-cyan-600 text-xs font-semibold transition-colors"
           disabled={loading}>
-          {loading ? "Cargando..." : "Abrir PDF"}
+          {loading ? "⏳" : "Abrir PDF"}
         </button>
         <button onClick={() => setShowLibrary(!showLibrary)}
           className={`px-2 py-1 rounded text-xs transition-colors ${showLibrary ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}>
@@ -273,6 +379,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
           <>
             <span className="text-xs text-gray-400 ml-1 truncate max-w-[130px]">{pdfEntry.name}</span>
 
+            {/* Navegación páginas */}
             <button onClick={() => changePage(-1)} disabled={currentPage <= 1 || loading}
               className="px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 text-xs disabled:opacity-40 transition-colors">
               ◀
@@ -285,44 +392,124 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
               ▶
             </button>
 
+            {/* Zoom */}
             <span className="text-gray-600">|</span>
+            <button onClick={() => setZoom(Math.max(50, zoom - 10))}
+              className="px-1.5 py-1 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">
+              −
+            </button>
+            <span className="text-[10px] text-gray-400 min-w-[2rem] text-center">{zoom}%</span>
+            <button onClick={() => setZoom(Math.min(200, zoom + 10))}
+              className="px-1.5 py-1 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">
+              +
+            </button>
 
+            {/* Búsqueda */}
+            <span className="text-gray-600">|</span>
+            <button onClick={() => setShowSearch(!showSearch)}
+              className={`px-2 py-1 rounded text-xs transition-colors ${showSearch ? "bg-blue-700 ring-1 ring-blue-400" : "bg-gray-700 hover:bg-gray-600"}`}>
+              🔍
+            </button>
+
+            {/* Acciones */}
+            <span className="text-gray-600">|</span>
             <button onClick={extractVocab}
               className="px-2 py-1 rounded bg-amber-700 hover:bg-amber-600 text-xs transition-colors">
               📖 Vocab
             </button>
             <button onClick={runOcr} disabled={ocrRunning}
               className="px-2 py-1 rounded bg-purple-700 hover:bg-purple-600 text-xs disabled:opacity-50 transition-colors">
-              {ocrRunning ? `OCR ${ocrProgress}%` : "🔍 OCR"}
+              {ocrRunning ? "🔄" : "🔍 OCR"}
             </button>
             <button onClick={generateSummary} disabled={summaryLoading || !fullText}
               className="px-2 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-xs disabled:opacity-50 transition-colors">
-              {summaryLoading ? "..." : "🤖 Resumen"}
+              {summaryLoading ? "⏳" : "🤖 Resumen"}
             </button>
-            <button onClick={() => setShowVocab(!showVocab)}
-              className={`px-2 py-1 rounded text-xs transition-colors ${showVocab ? "bg-amber-600" : "bg-gray-700 hover:bg-gray-600"}`}>
-              📋
-            </button>
+
+            {/* Herramientas dibujo */}
+            <span className="text-gray-600">|</span>
+            {["#facc15", "#3b82f6", "#ef4444", "#22c55e", "#9ca3af"].map(c => (
+              <button key={c}
+                onClick={() => changeToolColor(c)}
+                className={`w-4 h-4 rounded-full border ${toolColor === c ? "ring-1 ring-white scale-110" : "border-gray-600"}`}
+                style={{ background: c }}
+                title={`Color: ${c}`}
+              />
+            ))}
+            <select onChange={(e) => changeToolWidth(parseInt(e.target.value))} value={toolWidth}
+              className="bg-gray-800 border border-gray-700 rounded text-[10px] text-white px-1 py-0.5">
+              <option value={1}>1px</option>
+              <option value={3}>3px</option>
+              <option value={6}>6px</option>
+              <option value={10}>10px</option>
+            </select>
             <button onClick={clearCanvas}
-              className="px-2 py-1 rounded bg-red-800 hover:bg-red-700 text-xs transition-colors">
+              className="px-1.5 py-1 rounded bg-red-800 hover:bg-red-700 text-[10px] transition-colors">
               🗑
             </button>
           </>
         )}
       </div>
 
-      {/* ERROR */}
-      {uploadError && (
-        <div className="flex-shrink-0 px-3 py-1.5 bg-red-900/50 border-b border-red-700 text-xs text-red-300">
-          {uploadError}
-          <button onClick={() => setUploadError("")} className="ml-2 text-red-200 hover:text-white">✕</button>
+      {/* Búsqueda */}
+      {showSearch && pdfEntry && (
+        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-3 py-2 flex items-center gap-2">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && doSearch()}
+            placeholder="Buscar en el PDF..."
+            className="flex-1 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs text-white"
+          />
+          <button onClick={doSearch}
+            className="px-2 py-1 rounded bg-blue-700 hover:bg-blue-600 text-xs transition-colors">
+            Ir
+          </button>
+          {searchResults.length > 0 && (
+            <div className="flex items-center gap-1">
+              <button onClick={() => goToSearchResult(searchIndex - 1)}
+                disabled={searchIndex <= 0}
+                className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40">
+                ◀
+              </button>
+              <span className="text-[10px] text-gray-400">
+                {searchIndex + 1}/{searchResults.length}
+              </span>
+              <button onClick={() => goToSearchResult(searchIndex + 1)}
+                disabled={searchIndex >= searchResults.length - 1}
+                className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40">
+                ▶
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+      {searchResults.length > 0 && (
+        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-3 py-1">
+          <p className="text-[10px] text-gray-400 leading-relaxed">
+            ...{searchResults[searchIndex]?.context}...
+          </p>
+        </div>
+      )}
+
+      {/* ERROR / MENSAJE */}
+      {(uploadError || ocrMessage) && (
+        <div className="flex-shrink-0 px-3 py-1.5 border-b text-xs flex items-center gap-2"
+          style={{ background: uploadError && !ocrMessage ? "#7f1d1d" : "#1e3a5f",
+                  borderColor: uploadError && !ocrMessage ? "#991b1b" : "#1d4ed8" }}>
+          <span className={uploadError && !ocrMessage ? "text-red-300" : "text-blue-300"}>
+            {uploadError || ocrMessage}
+          </span>
+          <button onClick={() => { setUploadError(""); setOcrMessage(""); }}
+            className="text-gray-400 hover:text-white">✕</button>
         </div>
       )}
 
       {/* LIBRARY PANEL */}
       {showLibrary && (
         <div className="flex-shrink-0 max-h-[35vh] overflow-y-auto bg-gray-900 border-b border-gray-800 p-3">
-          <h3 className="text-xs font-bold text-cyan-300 mb-2">📚 Mis PDFs</h3>
+          <h3 className="text-xs font-bold text-cyan-300 mb-2">📚 Mis PDFs ({library.length})</h3>
           {library.length === 0 && (
             <p className="text-xs text-gray-500">No hay PDFs. Toca "Abrir PDF" para subir uno.</p>
           )}
@@ -334,6 +521,9 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
                   📄 {doc.name}
                 </button>
                 <span className="text-[10px] text-gray-500 mr-2">{doc.totalPages}p</span>
+                <span className="text-[10px] text-gray-600 mr-2">
+                  {doc.size > 1048576 ? `${(doc.size / 1048576).toFixed(1)}MB` : `${(doc.size / 1024).toFixed(0)}KB`}
+                </span>
                 <button onClick={() => removeFromLibrary(doc.id)}
                   className="text-xs text-red-400 hover:text-red-300 transition-colors">
                   ✕
@@ -352,19 +542,19 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
           </div>
         )}
 
-        {pdfUrl && !loading && (
+        {pdfObjectUrl && !loading && (
           <div className="absolute inset-0 overflow-auto bg-gray-900">
-            <div className="relative w-full h-full">
+            <div className="relative" style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top left', width: `${100 / (zoom / 100)}%`, height: `${100 / (zoom / 100)}%` }}>
               <iframe
-                src={pdfUrl}
+                src={`${pdfObjectUrl}#page=${currentPage}`}
                 className="w-full h-full border-0"
+                style={{ height: '100vh' }}
                 title="PDF Viewer"
               />
-              {/* Canvas de dibujo superpuesto */}
               <canvas
                 ref={canvasRef}
-                className="absolute top-0 left-0 w-full h-full"
-                style={{ pointerEvents: "auto", touchAction: "none", opacity: 0.5 }}
+                className="absolute top-0 left-0 w-full"
+                style={{ pointerEvents: "auto", touchAction: "none", opacity: 0.4, height: '100vh' }}
                 onMouseDown={startDraw}
                 onMouseMove={draw}
                 onMouseUp={stopDraw}
@@ -382,6 +572,10 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             <span className="text-4xl">📄</span>
             <span>Abre un PDF para empezar a estudiar</span>
             <span className="text-xs text-gray-600">o selecciona uno de tu biblioteca</span>
+            <button onClick={openPdfDialog}
+              className="mt-2 px-4 py-2 rounded bg-cyan-700 hover:bg-cyan-600 text-sm transition-colors">
+              📂 Abrir PDF
+            </button>
           </div>
         )}
       </div>
@@ -389,13 +583,32 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       {/* VOCAB PANEL */}
       {showVocab && vocab.length > 0 && (
         <div className="flex-shrink-0 max-h-[30vh] overflow-y-auto bg-gray-900 border-t border-gray-800 p-3">
-          <h3 className="text-xs font-bold text-amber-300 mb-2">📖 Vocabulario ({vocab.length})</h3>
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-1">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-xs font-bold text-amber-300">📖 Vocabulario ({vocab.length})</h3>
+            <div className="flex gap-1">
+              <button onClick={addAllToSrs}
+                className="px-2 py-0.5 rounded bg-green-700 hover:bg-green-600 text-[10px] transition-colors">
+                + Todas al SRS
+              </button>
+              <button onClick={() => setShowVocab(false)}
+                className="text-[10px] text-gray-500 hover:text-gray-300">
+                Cerrar
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1">
             {vocab.map((v, i) => (
-              <span key={i} className="text-xs bg-gray-800 rounded px-2 py-1 text-gray-200 truncate" title={v.word}>
-                {v.word}
-                <span className="text-gray-500 ml-1">({v.count})</span>
-              </span>
+              <div key={i} className="text-xs bg-gray-800 rounded px-2 py-1 text-gray-200 flex items-center justify-between gap-1">
+                <span className="truncate flex-1" title={v.word}>
+                  {v.word}
+                  <span className="text-gray-500 ml-1">({v.count})</span>
+                </span>
+                <button onClick={() => addWordToSrs(v)}
+                  className="text-[10px] text-cyan-400 hover:text-cyan-300 flex-shrink-0"
+                  title="Añadir al SRS">
+                  +
+                </button>
+              </div>
             ))}
           </div>
         </div>
