@@ -409,30 +409,33 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     }
   };
 
-  // 🐛 FIX CRÍTICO #1: Coordenadas de dibujo con zoom
+  // 🐛 FIX CRÍTICO #1: Coordenadas de dibujo con zoom (CORREGIDO)
   // El canvas está dentro de un contenedor con transform: scale(zoom/100)
-  // Las coordenadas del mouse NO se escalan automáticamente con CSS transform
-  // Por eso hay que dividir por la escala del zoom
+  // getBoundingClientRect() YA devuelve el tamaño visual escalado (incluye transform)
+  // Por tanto: (clientX - rect.left) ya está en el espacio escalado.
+  // canvas.width / rect.width convierte de espacio escalado a coordenadas canvas (sin división extra ni zoom)
   const getCanvasPos = (e) => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const zoomScale = zoom / 100;
     return {
-      x: (clientX - rect.left) * (canvas.width / rect.width / 2) / zoomScale,
-      y: (clientY - rect.top) * (canvas.height / rect.height / 2) / zoomScale
+      x: (clientX - rect.left) * (canvas.width / rect.width),
+      y: (clientY - rect.top) * (canvas.height / rect.height)
     };
   };
 
-  // 🐛 FIX CRÍTICO #2: Tamaño de la goma de borrar con zoom
+  // 🐛 FIX CRÍTICO #2: Tamaño de la goma de borrar con zoom (CORREGIDO)
+  // Same logic: getBoundingClientRect() ya incluye zoom, así que pixelRatio = canvas.width / rect.width
+  // EraserSize en píxeles CSS → dividir por pixelRatio para obtener coordenadas canvas
+  // No se necesita zoomScale porque rect.width ya está escalado
   const eraseArea = (x, y) => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
-    const zoomScale = zoom / 100;
-    const baseScale = canvasRef.current.width / canvasRef.current.getBoundingClientRect().width / 2;
-    const size = eraserSize / baseScale / zoomScale;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const pixelRatio = canvasRef.current.width / rect.width;
+    const size = eraserSize / pixelRatio;
     ctx.save();
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
