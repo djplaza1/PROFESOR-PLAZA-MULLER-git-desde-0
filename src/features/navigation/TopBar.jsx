@@ -57,9 +57,11 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       }
     }, 30000);
 
-    // Actualizar display cada segundo (para ver los segundos en tiempo real)
+    // Actualizar display cada segundo Y registrar tiempo activo (para toda la app)
     const displayInterval = setInterval(() => {
       if (window.Muller.Progreso) {
+        // Registrar 1 segundo de actividad (efectivo en toda la app)
+        window.Muller.Progreso.logActiveTime(1);
         const saved = window.Muller.Progreso.getTodayActiveTime();
         setTodaySeconds(saved);
         setPlazaMuenzen(window.Muller.Progreso.getPlazaMuenzen());
@@ -224,11 +226,28 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
         title: 'Plaza Münzen - Monedas',
         onClick: () => onTabChange('tienda')
       },
-        React.createElement('img', {
-          src: 'assets/icons/profesor-plaza-muller-logo.jpg',
-          alt: '₿',
-          style: { width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2.5px solid #fbbf24', boxShadow: '0 0 10px rgba(251,191,36,0.5)' }
-        }),
+        // Moneda personalizada: fondo negro + logo PNG sin fondo
+        React.createElement('div', {
+          style: {
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            background: '#000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: '2.5px solid #fbbf24',
+            boxShadow: '0 0 10px rgba(251,191,36,0.5)',
+            overflow: 'hidden',
+            flexShrink: 0
+          }
+        },
+          React.createElement('img', {
+            src: 'assets/icons/logo-plaza-sin-fondo.png',
+            alt: '₿',
+            style: { width: 28, height: 28, objectFit: 'contain' }
+          })
+        ),
         React.createElement('span', {
           style: {
             fontSize: '0.9rem',

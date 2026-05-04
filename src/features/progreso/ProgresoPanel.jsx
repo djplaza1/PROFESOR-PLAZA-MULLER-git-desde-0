@@ -170,14 +170,14 @@
       }
     }, [dashboard, period]);
 
+    // Timer local eliminado: el TopBar gestiona el contador global 1s
+    // Solo refrescamos la visualización periódicamente
     useEffect(function() {
-      if (activeTimerRef.current) clearInterval(activeTimerRef.current);
-      activeTimerRef.current = setInterval(function() {
-        if (M.Progreso && M.Progreso.logActiveTime) {
-          M.Progreso.logActiveTime(1);
-          refreshActiveTime();
-        }
-      }, 1000);
+      const interval = setInterval(function() {
+        refreshActiveTime();
+        refreshMissions();
+      }, 10000); // cada 10s refrescar datos visuales
+      return function() { clearInterval(interval); };
     }, []);
 
     async function loadData() {
