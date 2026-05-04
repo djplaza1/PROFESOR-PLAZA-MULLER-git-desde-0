@@ -208,16 +208,18 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
           }
         }, formatSeconds(todaySeconds))
       ),
-      // Plaza Münzen
+      // Plaza Münzen (más grande y visible)
       React.createElement('div', {
         style: {
           display: 'flex',
           alignItems: 'center',
-          gap: 4,
-          background: 'rgba(251,191,36,0.12)',
-          borderRadius: 6,
-          padding: '4px 8px',
-          cursor: 'pointer'
+          gap: 6,
+          background: 'linear-gradient(135deg, rgba(251,191,36,0.2), rgba(245,158,11,0.1))',
+          borderRadius: 8,
+          padding: '4px 10px',
+          cursor: 'pointer',
+          border: '1px solid rgba(251,191,36,0.25)',
+          boxShadow: '0 0 8px rgba(251,191,36,0.15)'
         },
         title: 'Plaza Münzen - Monedas',
         onClick: () => onTabChange('tienda')
@@ -225,16 +227,17 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
         React.createElement('img', {
           src: 'assets/icons/profesor-plaza-muller-logo.jpg',
           alt: '₿',
-          style: { width: 16, height: 16, borderRadius: '50%', objectFit: 'cover' }
+          style: { width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fbbf24', boxShadow: '0 0 6px rgba(251,191,36,0.4)' }
         }),
         React.createElement('span', {
           style: {
-            fontSize: '0.75rem',
-            fontWeight: 700,
+            fontSize: '0.9rem',
+            fontWeight: 800,
             color: '#fbbf24',
             fontVariantNumeric: 'tabular-nums',
-            minWidth: 20,
-            textAlign: 'center'
+            minWidth: 24,
+            textAlign: 'center',
+            textShadow: '0 0 4px rgba(251,191,36,0.3)'
           }
         }, plazaMuenzen)
       )
