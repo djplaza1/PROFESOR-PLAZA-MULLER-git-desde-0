@@ -165,11 +165,27 @@ window.Muller.Panels.tienda = function TiendaPanel({ session }) {
           gap: 6
         }
       },
-        React.createElement('img', {
-          src: 'assets/icons/profesor-plaza-muller-logo.jpg',
-          alt: '₿',
-          style: { width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fbbf24', boxShadow: '0 0 6px rgba(251,191,36,0.3)' }
-        }),
+        React.createElement('div', {
+          style: {
+            width: 36,
+            height: 36,
+            borderRadius: '50%',
+            background: '#000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: '2.5px solid #fbbf24',
+            boxShadow: '0 0 10px rgba(251,191,36,0.5)',
+            overflow: 'hidden',
+            flexShrink: 0
+          }
+        },
+          React.createElement('img', {
+            src: 'assets/icons/logo-plaza-sin-fondo.png',
+            alt: '₿',
+            style: { width: 24, height: 24, objectFit: 'contain' }
+          })
+        ),
         React.createElement('span', { style: { color: '#fbbf24', fontWeight: 700, fontSize: '1rem' } }, balance)
       )
     ),
@@ -212,11 +228,27 @@ window.Muller.Panels.tienda = function TiendaPanel({ session }) {
                     gap: 4
                   }
                 },
-                  React.createElement('img', {
-                    src: 'assets/icons/profesor-plaza-muller-logo.jpg',
-                    alt: '₿',
-                    style: { width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #fbbf24', boxShadow: '0 0 4px rgba(251,191,36,0.2)' }
-                  }),
+                  React.createElement('div', {
+                    style: {
+                      width: 28,
+                      height: 28,
+                      borderRadius: '50%',
+                      background: '#000',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '2px solid #fbbf24',
+                      boxShadow: '0 0 6px rgba(251,191,36,0.3)',
+                      overflow: 'hidden',
+                      flexShrink: 0
+                    }
+                  },
+                    React.createElement('img', {
+                      src: 'assets/icons/logo-plaza-sin-fondo.png',
+                      alt: '₿',
+                      style: { width: 18, height: 18, objectFit: 'contain' }
+                    })
+                  ),
                   React.createElement('span', { style: { color: '#fbbf24', fontWeight: 700, fontSize: '0.8rem' } }, item.price)
                 )
             )
