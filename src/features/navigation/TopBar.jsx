@@ -227,7 +227,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
         React.createElement('img', {
           src: 'assets/icons/profesor-plaza-muller-logo.jpg',
           alt: '₿',
-          style: { width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fbbf24', boxShadow: '0 0 6px rgba(251,191,36,0.4)' }
+          style: { width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2.5px solid #fbbf24', boxShadow: '0 0 10px rgba(251,191,36,0.5)' }
         }),
         React.createElement('span', {
           style: {

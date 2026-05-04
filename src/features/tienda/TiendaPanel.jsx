@@ -168,7 +168,7 @@ window.Muller.Panels.tienda = function TiendaPanel({ session }) {
         React.createElement('img', {
           src: 'assets/icons/profesor-plaza-muller-logo.jpg',
           alt: '₿',
-          style: { width: 20, height: 20, borderRadius: '50%', objectFit: 'cover' }
+          style: { width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fbbf24', boxShadow: '0 0 6px rgba(251,191,36,0.3)' }
         }),
         React.createElement('span', { style: { color: '#fbbf24', fontWeight: 700, fontSize: '1rem' } }, balance)
       )
@@ -215,7 +215,7 @@ window.Muller.Panels.tienda = function TiendaPanel({ session }) {
                   React.createElement('img', {
                     src: 'assets/icons/profesor-plaza-muller-logo.jpg',
                     alt: '₿',
-                    style: { width: 14, height: 14, borderRadius: '50%', objectFit: 'cover' }
+                    style: { width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #fbbf24', boxShadow: '0 0 4px rgba(251,191,36,0.2)' }
                   }),
                   React.createElement('span', { style: { color: '#fbbf24', fontWeight: 700, fontSize: '0.8rem' } }, item.price)
                 )
