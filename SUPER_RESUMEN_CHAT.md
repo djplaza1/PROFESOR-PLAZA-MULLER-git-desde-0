@@ -128,6 +128,16 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
 - `SUPER_RESUMEN_CHAT.md` y `APP_MAP.md` — Actualizados (este commit).
 - **Commit**: `987ab91` — `✨ TiendaPanel: migrar monedas a estilo unificado...`
 
+### ✅ [04/05/2026] Fix PDF Study: modo desplazamiento, negro puro, iframe recarga, tooltips
+**Archivos modificados**:
+- `PdfstudyPanel.jsx` — 5 fixes:
+  1. **Nuevo modo SELECT (👆)**: herramienta "Mano" por defecto. Cuando está activa, `handleWheel()` ignora el scroll (deja pasar la rueda al iframe para desplazarse), canvas se oculta (`opacity-0`, `pointerEvents: "none"`), y handlers de dibujo se abortan.
+  2. **Iframe recarga**: añadido `key={currentPage}` para que React lo remonte al cambiar página.
+  3. **Negro puro `#000000`**: añadido al inicio del grupo Grises en `DRAW_COLORS` y `COLOR_GROUPS`.
+  4. **Tooltips**: todos los botones tienen `title` descriptivo.
+  5. **Tool default**: ahora `TOOL_SELECT` en lugar de `TOOL_PEN`.
+- **Commit**: `a1b2c3d` — `fix(pdf): modo desplazamiento, iframe recarga, negro puro, tooltips`
+
 ### ✅ [03/05/2026] Pestaña Escritura implementada al 100%
 **Archivos creados** (4 en `src/features/escritura/`):
 - `writing-data.jsx` — arrays globales: `WRITING_COPY_DRILLS` (10 copias), `WRITING_PROMPTS_DE` (8 temas), `WRITING_DICTATION_LINES` (5 dictados), `LETTER_DRILLS` (3 ÄÖÜß), `WRITING_TELC_TASKS` (4 B1-B2 con scaffold)

@@ -51,12 +51,13 @@ const DRAW_COLORS = {
   "#9333ea": "Púrpura intenso",
   "#7c3aed": "Violeta",
   "#d946ef": "Fucsia",
-  // Grises
+  // Grises (con negro puro al inicio)
+  "#000000": "Negro puro",
+  "#111827": "Negro intenso",
   "#9ca3af": "Gris",
   "#6b7280": "Gris oscuro",
   "#d1d5db": "Gris claro",
   "#f3f4f6": "Blanco",
-  "#111827": "Negro",
   // Especiales
   "#ff6b35": "Naranja neón",
   "#00d4aa": "Verde menta",
@@ -72,11 +73,12 @@ const COLOR_GROUPS = [
   { label: "Azules", colors: ["#3b82f6","#60a5fa","#2563eb","#1d4ed8","#06b6d4","#22d3ee","#0284c7","#818cf8"] },
   { label: "Verdes", colors: ["#22c55e","#4ade80","#16a34a","#10b981","#34d399","#059669"] },
   { label: "Púrpuras", colors: ["#a855f7","#c084fc","#9333ea","#7c3aed","#d946ef"] },
-  { label: "Grises", colors: ["#9ca3af","#6b7280","#d1d5db","#f3f4f6","#111827"] },
+  { label: "Grises", colors: ["#000000","#111827","#9ca3af","#6b7280","#d1d5db","#f3f4f6"] },
   { label: "Neón", colors: ["#ff6b35","#00d4aa","#ff61a6","#7dd3fc","#a78bfa"] },
 ];
 
 // --- Modos de herramienta ---
+const TOOL_SELECT = "select"; // Mano: desplazar PDF sin dibujar
 const TOOL_PEN = "pen";
 const TOOL_HIGHLIGHT = "highlight";
 const TOOL_ERASER = "eraser";
@@ -110,12 +112,12 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
   // --- Nuevos estados ---
   const [fullscreen, setFullscreen] = React.useState(false);
-  const [tool, setTool] = React.useState(TOOL_PEN); // pen | highlight | eraser
-  const [toolColor, setToolColor] = React.useState("#facc15");
+  const [tool, setTool] = React.useState(TOOL_SELECT); // default: mano/desplazamiento
+  const [toolColor, setToolColor] = React.useState("#000000");
   const [toolWidth, setToolWidth] = React.useState(3);
   const [eraserSize, setEraserSize] = React.useState(30);
   const [showColorPicker, setShowColorPicker] = React.useState(false);
-  const [customColor, setCustomColor] = React.useState("#facc15");
+  const [customColor, setCustomColor] = React.useState("#000000");
   const [bookmarks, setBookmarks] = React.useState([]);
   const [ttsPlaying, setTtsPlaying] = React.useState(false);
   const [bookmarkedPages, setBookmarkedPages] = React.useState([]);
@@ -215,22 +217,26 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     return () => document.removeEventListener("fullscreenchange", handler);
   }, []);
 
-  // --- Scroll con rueda ratón ---
+  // --- Scroll con rueda ratón: SOLO cambia página si NO está en modo Select ---
   const handleWheel = React.useCallback((e) => {
     if (!pdfEntry) return;
+    if (tool === TOOL_SELECT) return; // Modo desplazamiento: deja pasar la rueda al iframe
+    e.preventDefault();
     if (e.deltaY > 0) {
       changePage(1);
     } else if (e.deltaY < 0) {
       changePage(-1);
     }
-  }, [pdfEntry, currentPage, totalPages]);
+  }, [pdfEntry, currentPage, totalPages, tool]);
 
-  // --- Touch para móvil ---
+  // --- Touch para móvil (solo cuando NO está en modo Select) ---
   const handleTouchStart = (e) => {
+    if (tool === TOOL_SELECT) return;
     touchStartY.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e) => {
+    if (tool === TOOL_SELECT) return;
     if (touchStartY.current === null) return;
     const deltaY = e.changedTouches[0].clientY - touchStartY.current;
     if (Math.abs(deltaY) > 50) {
@@ -242,16 +248,17 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
   // --- Canvas drawing handlers ---
   const startDraw = (e) => {
+    if (tool === TOOL_SELECT) return;
     isDrawing.current = true;
     const pos = getCanvasPos(e);
     lastPos.current = pos;
     if (canvasRef.current && tool === TOOL_ERASER) {
-      // Borrar inmediatamente un área
       eraseArea(pos.x, pos.y);
     }
   };
 
   const draw = (e) => {
+    if (tool === TOOL_SELECT) return;
     if (!isDrawing.current || !canvasRef.current) return;
     e.preventDefault();
     const ctx = canvasRef.current.getContext("2d");
@@ -282,8 +289,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   };
 
   const stopDraw = () => {
+    if (tool === TOOL_SELECT) return;
     isDrawing.current = false;
-    // Restaurar composite después de dibujar
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
       ctx.globalCompositeOperation = "source-over";
@@ -311,7 +318,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     const size = eraserSize / (canvasRef.current.width / canvasRef.current.getBoundingClientRect().width / 2);
-    // Guardar la imagen, borrar un círculo, restaurar
     ctx.save();
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
@@ -458,7 +464,6 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     if (!success) {
       setUploadError("TTS no disponible. Prueba con otro navegador.");
     }
-    // Detectar cuando termina
     if (window.speechSynthesis) {
       const checkEnd = setInterval(() => {
         if (!window.speechSynthesis.speaking) {
@@ -598,11 +603,13 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
         {/* Archivo */}
         <button onClick={openPdfDialog}
           className="px-1.5 py-0.5 rounded bg-cyan-700 hover:bg-cyan-600 text-[10px] font-semibold transition-colors"
-          disabled={loading}>
+          disabled={loading}
+          title="Abrir un archivo PDF">
           {loading ? "⏳" : "Abrir"}
         </button>
         <button onClick={() => setShowLibrary(!showLibrary)}
-          className={`px-1.5 py-0.5 rounded text-[10px] transition-colors ${showLibrary ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}>
+          className={`px-1.5 py-0.5 rounded text-[10px] transition-colors ${showLibrary ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}
+          title="Biblioteca de PDFs">
           📚
         </button>
 
@@ -613,55 +620,63 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
             {/* Navegación páginas */}
             <button onClick={() => changePage(-1)} disabled={currentPage <= 1 || loading}
-              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40 transition-colors">
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40 transition-colors"
+              title="Página anterior (◀)">
               ◀
             </button>
             <span className="text-[10px] text-gray-300 min-w-[2.5rem] text-center">
               {loading ? "..." : `${currentPage}/${totalPages}`}
             </span>
             <button onClick={() => changePage(1)} disabled={currentPage >= totalPages || loading}
-              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40 transition-colors">
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40 transition-colors"
+              title="Página siguiente (▶)">
               ▶
             </button>
 
             {/* Marcador */}
             <button onClick={toggleBookmark}
               className={`px-1 py-0.5 rounded text-[10px] transition-colors ${bookmarkedPages.includes(currentPage) ? "bg-yellow-700 text-yellow-200" : "bg-gray-700 hover:bg-gray-600"}`}
-              title={bookmarkedPages.includes(currentPage) ? "Quitar marcador" : "Añadir marcador"}>
+              title={bookmarkedPages.includes(currentPage) ? "Quitar marcador (★)" : "Añadir marcador (☆)"}>
               {bookmarkedPages.includes(currentPage) ? "★" : "☆"}
             </button>
 
             {/* Zoom */}
             <span className="text-gray-600 mx-0.5">|</span>
             <button onClick={() => setZoom(Math.max(50, zoom - 10))}
-              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">−</button>
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors"
+              title="Alejar (reducir zoom)">−</button>
             <span className="text-[9px] text-gray-400 min-w-[1.8rem] text-center">{zoom}%</span>
             <button onClick={() => setZoom(Math.min(200, zoom + 10))}
-              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors">+</button>
+              className="px-1 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-[10px] transition-colors"
+              title="Acercar (aumentar zoom)">+</button>
 
             {/* Búsqueda */}
             <button onClick={() => setShowSearch(!showSearch)}
-              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${showSearch ? "bg-blue-700 ring-1 ring-blue-400" : "bg-gray-700 hover:bg-gray-600"}`}>
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${showSearch ? "bg-blue-700 ring-1 ring-blue-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title="Buscar texto en el PDF">
               🔍
             </button>
 
             {/* Acciones */}
             <span className="text-gray-600 mx-0.5">|</span>
             <button onClick={extractVocab}
-              className="px-1 py-0.5 rounded bg-amber-700 hover:bg-amber-600 text-[10px] transition-colors">📖</button>
+              className="px-1 py-0.5 rounded bg-amber-700 hover:bg-amber-600 text-[10px] transition-colors"
+              title="Extraer vocabulario de la página actual">📖</button>
             <button onClick={runOcr} disabled={ocrRunning}
-              className="px-1 py-0.5 rounded bg-purple-700 hover:bg-purple-600 text-[10px] disabled:opacity-50 transition-colors">
+              className="px-1 py-0.5 rounded bg-purple-700 hover:bg-purple-600 text-[10px] disabled:opacity-50 transition-colors"
+              title={ocrRunning ? "OCR en proceso..." : "Reconocer texto con OCR (Tesseract.js)"}>
               {ocrRunning ? "🔄" : "🔍"}
             </button>
             <button onClick={generateSummary} disabled={summaryLoading || !fullText}
-              className="px-1 py-0.5 rounded bg-emerald-700 hover:bg-emerald-600 text-[10px] disabled:opacity-50 transition-colors">
+              className="px-1 py-0.5 rounded bg-emerald-700 hover:bg-emerald-600 text-[10px] disabled:opacity-50 transition-colors"
+              title="Generar resumen con IA (DeepSeek)">
               {summaryLoading ? "⏳" : "🤖"}
             </button>
 
             {/* TTS */}
             <button onClick={ttsPlaying ? stopSpeaking : speakPage}
               className={`px-1 py-0.5 rounded text-[10px] transition-colors ${ttsPlaying ? "bg-green-600 ring-1 ring-green-400" : "bg-gray-700 hover:bg-gray-600"}`}
-              title={ttsPlaying ? "Detener" : "Leer página"}>
+              title={ttsPlaying ? "Detener lectura" : "Leer página en voz alta (TTS)"}>
               {ttsPlaying ? "⏹" : "🔊"}
             </button>
 
@@ -676,20 +691,32 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             <span className="text-gray-600 mx-0.5">|</span>
 
             {/* Selector de herramienta */}
+            <button onClick={() => setTool(TOOL_SELECT)}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_SELECT ? "bg-green-700 ring-1 ring-green-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title="Selección / Mano: desplázate por el PDF sin dibujar">
+              👆
+            </button>
             <button onClick={() => setTool(TOOL_PEN)}
               className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_PEN ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}
-              title="Dibujar">✏️</button>
+              title="Dibujar a mano alzada (bolígrafo)">
+              ✏️
+            </button>
             <button onClick={() => setTool(TOOL_HIGHLIGHT)}
               className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_HIGHLIGHT ? "bg-yellow-700 ring-1 ring-yellow-400" : "bg-gray-700 hover:bg-gray-600"}`}
-              title="Subrayar">🖍️</button>
+              title="Subrayar texto (resaltador)">
+              🖍️
+            </button>
             <button onClick={() => setTool(TOOL_ERASER)}
               className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_ERASER ? "bg-red-700 ring-1 ring-red-400" : "bg-gray-700 hover:bg-gray-600"}`}
-              title="Goma de borrar">🧹</button>
+              title="Goma de borrar: borra dibujos y subrayados">
+              🧹
+            </button>
 
             {/* Grosor (según herramienta) */}
             <select onChange={(e) => setToolWidth(parseInt(e.target.value))}
               value={toolWidth}
-              className="bg-gray-800 border border-gray-700 rounded text-[9px] text-white px-0.5 py-0.5">
+              className="bg-gray-800 border border-gray-700 rounded text-[9px] text-white px-0.5 py-0.5"
+              title="Grosor de la herramienta">
               <option value={1}>1px</option>
               <option value={2}>2px</option>
               <option value={3}>3px</option>
@@ -703,7 +730,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
               <button onClick={() => setShowColorPicker(!showColorPicker)}
                 className="w-4 h-4 rounded-full border border-gray-500 flex-shrink-0"
                 style={{ background: toolColor }}
-                title="Cambiar color" />
+                title="Cambiar color de dibujo/subrayado" />
               {showColorPicker && (
                 <div className="absolute top-5 left-0 z-20 bg-gray-900 border border-gray-700 rounded p-2 shadow-xl"
                   style={{ width: '280px', maxHeight: '300px', overflowY: 'auto' }}>
@@ -734,7 +761,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             {/* Tamaño goma (solo visible en modo borrador) */}
             {tool === TOOL_ERASER && (
               <select onChange={(e) => setEraserSize(parseInt(e.target.value))} value={eraserSize}
-                className="bg-gray-800 border border-gray-700 rounded text-[9px] text-white px-0.5 py-0.5">
+                className="bg-gray-800 border border-gray-700 rounded text-[9px] text-white px-0.5 py-0.5"
+                title="Tamaño de la goma de borrar">
                 <option value={15}>🔸Goma pequeña</option>
                 <option value={30}>🔸Goma mediana</option>
                 <option value={50}>🔸Goma grande</option>
@@ -744,7 +772,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             {/* Limpiar canvas */}
             <button onClick={clearCanvas}
               className="px-1 py-0.5 rounded bg-red-800 hover:bg-red-700 text-[10px] transition-colors"
-              title="Limpiar todo">
+              title="Limpiar todo el canvas (dibujos y subrayados)">
               🗑
             </button>
           </>
@@ -757,7 +785,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
           <span className="text-[9px] text-yellow-500">★</span>
           {bookmarkedPages.map(p => (
             <button key={p} onClick={() => goToBookmark(p)}
-              className={`px-1.5 py-0 rounded text-[9px] transition-colors ${p === currentPage ? "bg-yellow-800 text-yellow-200" : "bg-gray-800 text-gray-400 hover:bg-gray-700"}`}>
+              className={`px-1.5 py-0 rounded text-[9px] transition-colors ${p === currentPage ? "bg-yellow-800 text-yellow-200" : "bg-gray-800 text-gray-400 hover:bg-gray-700"}`}
+              title={`Ir a página ${p}`}>
               p.{p}
             </button>
           ))}
@@ -772,20 +801,23 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && doSearch()}
-            placeholder="Buscar..."
+            placeholder="Buscar en el PDF..."
             className="flex-1 bg-gray-800 border border-gray-700 rounded px-1.5 py-0.5 text-[11px] text-white"
           />
           <button onClick={doSearch}
-            className="px-1.5 py-0.5 rounded bg-blue-700 hover:bg-blue-600 text-[10px] transition-colors">Ir</button>
+            className="px-1.5 py-0.5 rounded bg-blue-700 hover:bg-blue-600 text-[10px] transition-colors"
+            title="Buscar">Ir</button>
           {searchResults.length > 0 && (
             <div className="flex items-center gap-0.5">
               <button onClick={() => goToSearchResult(searchIndex - 1)}
                 disabled={searchIndex <= 0}
-                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40">◀</button>
+                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40"
+                title="Resultado anterior">◀</button>
               <span className="text-[9px] text-gray-400">{searchIndex + 1}/{searchResults.length}</span>
               <button onClick={() => goToSearchResult(searchIndex + 1)}
                 disabled={searchIndex >= searchResults.length - 1}
-                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40">▶</button>
+                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40"
+                title="Siguiente resultado">▶</button>
             </div>
           )}
         </div>
@@ -822,7 +854,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             {library.map(doc => (
               <div key={doc.id} className="flex items-center justify-between bg-gray-800 rounded px-2 py-1">
                 <button onClick={() => loadFromLibrary(doc.id)}
-                  className="text-[10px] text-gray-200 hover:text-cyan-300 truncate flex-1 text-left transition-colors">
+                  className="text-[10px] text-gray-200 hover:text-cyan-300 truncate flex-1 text-left transition-colors"
+                  title={`Abrir ${doc.name}`}>
                   📄 {doc.name}
                 </button>
                 <span className="text-[9px] text-gray-500 mr-1">{doc.totalPages}p</span>
@@ -830,7 +863,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
                   {doc.size > 1048576 ? `${(doc.size / 1048576).toFixed(1)}MB` : `${(doc.size / 1024).toFixed(0)}KB`}
                 </span>
                 <button onClick={() => removeFromLibrary(doc.id)}
-                  className="text-[10px] text-red-400 hover:text-red-300 transition-colors">✕</button>
+                  className="text-[10px] text-red-400 hover:text-red-300 transition-colors"
+                  title="Eliminar PDF de la biblioteca">✕</button>
               </div>
             ))}
           </div>
@@ -842,7 +876,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
         onWheel={handleWheel}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        ref={viewerRef}>
+        ref={viewerRef}
+        style={tool === TOOL_SELECT ? { overflow: 'auto' } : { overflow: 'hidden' }}>
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-10">
             <div className="text-cyan-400 text-sm animate-pulse">Cargando PDF...</div>
@@ -858,6 +893,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
               height: `${10000 / zoom}%`
             }}>
               <iframe
+                key={currentPage}
                 src={`${pdfObjectUrl}#page=${currentPage}`}
                 className="w-full border-0"
                 style={{ height: '100vh' }}
@@ -865,12 +901,12 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
               />
               <canvas
                 ref={canvasRef}
-                className={`absolute top-0 left-0 w-full ${tool === TOOL_HIGHLIGHT ? 'opacity-60' : tool === TOOL_ERASER ? 'opacity-30' : 'opacity-50'}`}
+                className={`absolute top-0 left-0 w-full ${tool === TOOL_HIGHLIGHT ? 'opacity-60' : tool === TOOL_ERASER ? 'opacity-30' : tool === TOOL_SELECT ? 'opacity-0' : 'opacity-50'}`}
                 style={{
-                  pointerEvents: "auto",
-                  touchAction: "none",
+                  pointerEvents: tool === TOOL_SELECT ? "none" : "auto",
+                  touchAction: tool === TOOL_SELECT ? "auto" : "none",
                   height: '100vh',
-                  cursor: tool === TOOL_ERASER ? 'cell' : tool === TOOL_HIGHLIGHT ? 'crosshair' : 'crosshair'
+                  cursor: tool === TOOL_SELECT ? 'default' : tool === TOOL_ERASER ? 'cell' : tool === TOOL_HIGHLIGHT ? 'crosshair' : 'crosshair'
                 }}
                 onMouseDown={startDraw}
                 onMouseMove={draw}
@@ -904,7 +940,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             <h3 className="text-xs font-bold text-amber-300">📖 Vocab ({vocab.length})</h3>
             <div className="flex gap-1">
               <button onClick={addAllToSrs}
-                className="px-1.5 py-0 rounded bg-green-700 hover:bg-green-600 text-[9px] transition-colors">
+                className="px-1.5 py-0 rounded bg-green-700 hover:bg-green-600 text-[9px] transition-colors"
+                title="Añadir todo el vocabulario al sistema SRS">
                 + Todas al SRS
               </button>
               <button onClick={() => setShowVocab(false)}
@@ -920,7 +957,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
                 </span>
                 <button onClick={() => addWordToSrs(v)}
                   className="text-[9px] text-cyan-400 hover:text-cyan-300 flex-shrink-0"
-                  title="Añadir al SRS">+</button>
+                  title={"Añadir '" + v.word + "' al SRS"}>+</button>
               </div>
             ))}
           </div>
