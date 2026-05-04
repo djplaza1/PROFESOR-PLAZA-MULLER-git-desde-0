@@ -96,6 +96,17 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
 
 ## 📋 CAMBIOS RECIENTES (sesión actual)
 
+### ✅ [04/05/2026] Pestaña PDF Study implementada al 100%
+**Archivos creados** (2 en `src/features/pdfstudy/`):
+- `pdfstudyHelpers.jsx` — Helpers con: `getLibrary()`, `addPdfToLibrary()`, `extractTextFromPdf()` (PDF.js real), `runOcrOnPdfPage()` (Tesseract.js), `generateSummary()`/`generateVocab()`/`generateTelcQuestions()` (DeepSeek), `savePageNotes()`, `extractVocab()` (frecuencia con stopWords)
+- `PdfstudyPanel.jsx` — Panel con: visor PDF + canvas draw, biblioteca, vocabulario por frecuencia, resumen IA, OCR, notas por página
+
+**Archivos modificados**:
+- `src/core/constants.jsx` — Añadido `pdfstudy` a `M.MAIN_TABS`
+- `index.html` — CDNs pdf.js + tesseract.js + scripts helpers+panel
+- `APP_MAP.md` — Actualizado
+- **Commit**: `b2a3891` — `feat(pdfstudy): implementar panel PDF Study con pdf.js + OCR + IA`
+
 ### ✅ [03/05/2026] Migración monedas: estilo unificado (círculo negro + borde dorado + logo-plaza-sin-fondo.png)
 **Archivos modificados**:
 - `TopBar.jsx` — Moneda cambió de `icon-192.png` a círculo negro con borde dorado + `logo-plaza-sin-fondo.png`. Display más grande (40×40), gradiente, sombra.
