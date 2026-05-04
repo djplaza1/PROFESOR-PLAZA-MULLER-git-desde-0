@@ -128,7 +128,7 @@
 | `lexikon/` | `LexikonPanel.jsx` + `vocabSrsHelpers.jsx` | Visor vocabulario B1/B2 con SRS + búsqueda online |
 | `lectura/` | `LecturaPanel.jsx` + helpers modulares (normalization, scoring, pronunciation, icons, tokenizer, useLectura, LecturaComponents) | Lector con herramientas |
 | `entrenamiento/` | `EntrenamientoPanel.jsx` + `entrenamientoHelpers.jsx` + `ArticlePractice.jsx` + `CloudPractice.jsx` | Ejercicios |
-| `progreso/` | `ProgresoPanel.jsx` + `progresoHelpers.jsx` | Estadísticas y progreso |
+| `progreso/` | `ProgresoPanel.jsx` + `progresoHelpers.jsx` | Estadísticas y progreso. **Versión premium**: PlazaMünzen, Heatmap de Actividad, Predicción TELC. Dashboard unificado vía `M.Progreso.getDashboardData()` con soporte para `M.progressExport.getDashboard()` (premium) + fallback antiguo |
 | `comunidad/` | `ComunidadPanel.jsx` + `comunidadHelpers.jsx` | Comunidad / foro |
 | `biblioteca/` | `BibliotecaPanel.jsx` + `bibliotecaHelpers.jsx` | Biblioteca recursos |
 | `maestros/` | `MaestrosPanel.jsx` + `maestrosHelpers.jsx` | Maestros / profesores |
