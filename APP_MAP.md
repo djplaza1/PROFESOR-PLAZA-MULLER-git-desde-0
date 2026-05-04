@@ -25,7 +25,7 @@
 
 | Archivo | Funciones clave |
 |---------|----------------|
-| `constants.jsx` | `M.KEYS` (localStorage), `M.MAIN_TABS` (13 tabs: inicio, historia, biblioteca, lexikon, telc, entrenamiento, comunidad, lectura, **escritura**, progreso, maestros, ia, ajustes), `M.SUBMODOS_HISTORIA` (9), `M.COLORS`, `M.TTS_RATES`, `M.UI_THEMES` |
+| `constants.jsx` | `M.KEYS` (localStorage), `M.MAIN_TABS` (15 tabs: inicio, historia, biblioteca, lexikon, telc, entrenamiento, comunidad, lectura, **escritura**, progreso, tienda, maestros, ia, ajustes, **pdfstudy**), `M.SUBMODOS_HISTORIA` (9), `M.COLORS`, `M.TTS_RATES`, `M.UI_THEMES` |
 | `translate.js` | `window.Muller.traslate(texto, lang)` — Google Translate + MyMemory fallback |
 | `detectaPalabra.js` | `_buildIndex()`, `detect.local()`, `detect.word()` — búsqueda BD local + API externa |
 | `storage.jsx` | `get()`, `set()`, `remove()`, `getSession()`, `setSession()`. **Contiene**: `MULLER_OCR_HIST_KEY`, `mullerPushOcrHistory()`, expone `window.Muller.ocr = { pushHistory }` |
@@ -161,7 +161,7 @@ App()
 ## 📋 REGISTRO DE PANELES
 
 Cada feature registra su componente en `window.Muller.Panels['nombreTab'] = PanelComponent`. Tabs definidas en `M.MAIN_TABS`:
-`['inicio','historia','biblioteca','lexikon','telc','entrenamiento','comunidad','lectura','escritura','progreso','maestros','ia','ajustes']`
+`['inicio','historia','biblioteca','lexikon','telc','entrenamiento','comunidad','lectura','escritura','progreso','tienda','maestros','ia','ajustes','pdfstudy']`
 
 ---
 
