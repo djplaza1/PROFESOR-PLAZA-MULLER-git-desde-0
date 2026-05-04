@@ -138,13 +138,14 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
   5. **Tool default**: ahora `TOOL_SELECT` en lugar de `TOOL_PEN`.
 - **Commit**: `a1b2c3d` — `fix(pdf): modo desplazamiento, iframe recarga, negro puro, tooltips`
 
-### ✅ [03/05/2026] Pestaña Escritura implementada al 100%
-**Archivos creados** (4 en `src/features/escritura/`):
-- `writing-data.jsx` — arrays globales: `WRITING_COPY_DRILLS` (10 copias), `WRITING_PROMPTS_DE` (8 temas), `WRITING_DICTATION_LINES` (5 dictados), `LETTER_DRILLS` (3 ÄÖÜß), `WRITING_TELC_TASKS` (4 B1-B2 con scaffold)
-- `telc-core.jsx` — `window.mullerBuildTelcWritingCoach(rawText, task, normalizeFn)` — evalúa texto TELC en 4 ejes (tarea, registro, cohesión, gramática) → /20 → % → sugerencias
-- `escrituraHelpers.jsx` — `window.Muller.Escritura` con: `spelling` (LanguageTool API + DeepSeek fallback), `getDictationPool()` (combina fuentes), `rebuildGuionLines()` (reconstruye líneas de historia)
-- `EscrituraPanel.jsx` — Panel con 8 modos: Libre, Copia, Dictado, Tema, TELC, Letras DE, Guion, Vocab. Canvas escritura a mano.
-- **Commit**: `b1911cf`
+### ✅ [04/05/2026] PDF Study: fixes dibujo "por detrás", herramienta texto, Ctrl+rueda zoom, color negro real
+**Archivos modificados**:
+- `PdfstudyPanel.jsx` — **5 fixes críticos**:
+  1. **Dibujo "por detrás" solucionado**: El iframe del PDF ahora tiene `pointerEvents: 'none'` cuando la herramienta no es SELECT (mano). El canvas se renderiza solo cuando hay herramienta activa con `zIndex: 10`, y las anotaciones de texto con `zIndex: 15-20`. Así los clics/dibujos van al canvas, no al PDF.
+  2. **Nueva herramienta TOOL_TEXT (🔤)**: Botón en toolbar → haz clic en cualquier punto del PDF → aparece un input inline para escribir texto con teclado → color seleccionable → guardar/editar/cancelar. Las anotaciones se renderizan como divs superpuestos con el color y tamaño elegido.
+  3. **Ctrl+rueda = zoom**: Antes Ctrl+rueda cambiaba de página. Ahora detecta `e.ctrlKey` y modifica el zoom (50%-200%) sin cambiar de página.
+  4. **Negro real (no gris)**: La opacidad del canvas subió de `0.5` a `1.0` en modo pen y eraser. El color negro `#000000` se ve ahora como negro auténtico.
+  5. **Coordenadas escaladas con zoom**: `handleCanvasClick` ahora divide por `scale = zoom/100` para que el texto aparezca exactamente donde se hace clic, independientemente del zoom actual.
 
 ---
 

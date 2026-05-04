@@ -82,6 +82,7 @@ const TOOL_SELECT = "select"; // Mano: desplazar PDF sin dibujar
 const TOOL_PEN = "pen";
 const TOOL_HIGHLIGHT = "highlight";
 const TOOL_ERASER = "eraser";
+const TOOL_TEXT = "text"; // Escribir texto con teclado
 
 window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const PS = window.Muller.PdfStudy;
@@ -121,6 +122,12 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const [bookmarks, setBookmarks] = React.useState([]);
   const [ttsPlaying, setTtsPlaying] = React.useState(false);
   const [bookmarkedPages, setBookmarkedPages] = React.useState([]);
+  const [textAnnotations, setTextAnnotations] = React.useState([]);
+  const [textInputPos, setTextInputPos] = React.useState(null);
+  const [tempText, setTempText] = React.useState("");
+  const [textFontSize, setTextFontSize] = React.useState(16);
+  const [activeTextId, setActiveTextId] = React.useState(null);
+  const [editingText, setEditingText] = React.useState("");
 
   // Refs
   const canvasRef = React.useRef(null);
@@ -129,6 +136,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const viewerRef = React.useRef(null);
   const touchStartY = React.useRef(null);
   const containerRef = React.useRef(null);
+  const textInputRef = React.useRef(null);
 
   // --- Inicializar marcadores al cargar PDF ---
   React.useEffect(() => {
@@ -217,9 +225,21 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     return () => document.removeEventListener("fullscreenchange", handler);
   }, []);
 
-  // --- Scroll con rueda ratón: SOLO cambia página si NO está en modo Select ---
+  // --- Scroll con rueda ratón: Ctrl+rueda = zoom, si no cambia página (salvo modo Select) ---
   const handleWheel = React.useCallback((e) => {
     if (!pdfEntry) return;
+
+    // Ctrl+rueda = zoom SIEMPRE, independientemente del tool
+    if (e.ctrlKey) {
+      e.preventDefault();
+      if (e.deltaY > 0) {
+        setZoom(prev => Math.max(50, prev - 5));
+      } else {
+        setZoom(prev => Math.min(200, prev + 5));
+      }
+      return;
+    }
+
     if (tool === TOOL_SELECT) return; // Modo desplazamiento: deja pasar la rueda al iframe
     e.preventDefault();
     if (e.deltaY > 0) {
@@ -246,9 +266,54 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     touchStartY.current = null;
   };
 
+  // --- TOOL_TEXT: manejar click para colocar texto (con corrección de zoom) ---
+  const handleCanvasClick = React.useCallback((e) => {
+    if (tool !== TOOL_TEXT) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    // Escalar coordenadas según el zoom actual
+    const scale = zoom / 100;
+    const x = (e.clientX - rect.left) / scale;
+    const y = (e.clientY - rect.top) / scale;
+    // Crear nueva anotación de texto
+    const newAnnotation = {
+      id: Date.now(),
+      x, y,
+      text: "",
+      color: toolColor,
+      fontSize: textFontSize,
+      page: currentPage
+    };
+    setTextAnnotations(prev => [...prev, newAnnotation]);
+    setActiveTextId(newAnnotation.id);
+    setEditingText("");
+    setTextInputPos({ x, y });
+    setTimeout(() => {
+      if (textInputRef.current) textInputRef.current.focus();
+    }, 50);
+  }, [tool, toolColor, textFontSize, currentPage]);
+
+  // --- Guardar texto de anotación ---
+  const saveTextAnnotation = (id) => {
+    setTextAnnotations(prev => {
+      const updated = prev.map(a => a.id === id ? { ...a, text: editingText } : a);
+      // Guardar en PS
+      if (pdfEntry) {
+        const allTextAnnotations = JSON.parse(PS.getPageNotes(pdfEntry.id, currentPage).textAnnotations || "[]");
+        PS.savePageNotes(pdfEntry.id, currentPage, {
+          textAnnotations: JSON.stringify(updated.filter(a => a.page === currentPage))
+        });
+      }
+      return updated;
+    });
+    setActiveTextId(null);
+    setTextInputPos(null);
+  };
+
   // --- Canvas drawing handlers ---
   const startDraw = (e) => {
-    if (tool === TOOL_SELECT) return;
+    if (tool === TOOL_SELECT || tool === TOOL_TEXT) return;
     isDrawing.current = true;
     const pos = getCanvasPos(e);
     lastPos.current = pos;
@@ -258,7 +323,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   };
 
   const draw = (e) => {
-    if (tool === TOOL_SELECT) return;
+    if (tool === TOOL_SELECT || tool === TOOL_TEXT) return;
     if (!isDrawing.current || !canvasRef.current) return;
     e.preventDefault();
     const ctx = canvasRef.current.getContext("2d");
@@ -289,7 +354,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   };
 
   const stopDraw = () => {
-    if (tool === TOOL_SELECT) return;
+    if (tool === TOOL_SELECT || tool === TOOL_TEXT) return;
     isDrawing.current = false;
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
@@ -711,6 +776,11 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
               title="Goma de borrar: borra dibujos y subrayados">
               🧹
             </button>
+            <button onClick={() => setTool(TOOL_TEXT)}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${tool === TOOL_TEXT ? "bg-purple-700 ring-1 ring-purple-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title="Texto: haz clic en el PDF para escribir con teclado">
+              🔤
+            </button>
 
             {/* Grosor (según herramienta) */}
             <select onChange={(e) => setToolWidth(parseInt(e.target.value))}
@@ -780,7 +850,21 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       </div>
 
       {/* Marcadores rápidos */}
-      {bookmarkedPages.length > 0 && !showLibrary && pdfEntry && (
+          {/* Anotaciones de texto activas */}
+          {pdfEntry && textAnnotations.filter(a => a.page === currentPage).length > 0 && (
+            <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-0.5 flex items-center gap-1 flex-wrap">
+              <span className="text-[9px] text-cyan-400">📝 Texto:</span>
+              {textAnnotations.filter(a => a.page === currentPage).map(a => (
+                <span key={a.id}
+                  className="px-1 py-0 rounded text-[9px] bg-gray-800 text-gray-400"
+                  style={{ color: a.color }}>
+                  {a.text || "(vacío)"}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {bookmarkedPages.length > 0 && !showLibrary && pdfEntry && (
         <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-0.5 flex items-center gap-1 flex-wrap">
           <span className="text-[9px] text-yellow-500">★</span>
           {bookmarkedPages.map(p => (
@@ -892,30 +976,101 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
               width: `${10000 / zoom}%`,
               height: `${10000 / zoom}%`
             }}>
+              {/* Iframe con pointerEvents none cuando se dibuja/escribe */}
               <iframe
                 key={currentPage}
                 src={`${pdfObjectUrl}#page=${currentPage}`}
                 className="w-full border-0"
-                style={{ height: '100vh' }}
+                style={{
+                  height: '100vh',
+                  pointerEvents: (tool === TOOL_SELECT) ? 'auto' : 'none',
+                  position: 'relative',
+                  zIndex: 1
+                }}
                 title="PDF Viewer"
               />
-              <canvas
-                ref={canvasRef}
-                className={`absolute top-0 left-0 w-full ${tool === TOOL_HIGHLIGHT ? 'opacity-60' : tool === TOOL_ERASER ? 'opacity-30' : tool === TOOL_SELECT ? 'opacity-0' : 'opacity-50'}`}
-                style={{
-                  pointerEvents: tool === TOOL_SELECT ? "none" : "auto",
-                  touchAction: tool === TOOL_SELECT ? "auto" : "none",
-                  height: '100vh',
-                  cursor: tool === TOOL_SELECT ? 'default' : tool === TOOL_ERASER ? 'cell' : tool === TOOL_HIGHLIGHT ? 'crosshair' : 'crosshair'
-                }}
-                onMouseDown={startDraw}
-                onMouseMove={draw}
-                onMouseUp={stopDraw}
-                onMouseLeave={stopDraw}
-                onTouchStart={startDraw}
-                onTouchMove={draw}
-                onTouchEnd={stopDraw}
-              />
+              {/* Canvas superpuesto: dibujo, subrayado y texto sobre el PDF */}
+              {tool !== TOOL_SELECT && (
+                <canvas
+                  ref={canvasRef}
+                  className="absolute top-0 left-0 w-full"
+                  style={{
+                    pointerEvents: 'auto',
+                    touchAction: 'none',
+                    height: '100vh',
+                    opacity: tool === TOOL_HIGHLIGHT ? 0.6 : 1.0,
+                    zIndex: 10,
+                    cursor: tool === TOOL_ERASER ? 'cell' : tool === TOOL_HIGHLIGHT ? 'crosshair' : tool === TOOL_TEXT ? 'text' : 'crosshair'
+                  }}
+                  onMouseDown={startDraw}
+                  onMouseMove={draw}
+                  onMouseUp={stopDraw}
+                  onMouseLeave={stopDraw}
+                  onTouchStart={startDraw}
+                  onTouchMove={draw}
+                  onTouchEnd={stopDraw}
+                  onClick={handleCanvasClick}
+                />
+              )}
+              {/* Anotaciones de texto renderizadas como divs sobre el canvas */}
+              {textAnnotations.filter(a => a.page === currentPage).length > 0 && (
+                <div className="absolute top-0 left-0 w-full" style={{ zIndex: 15, pointerEvents: 'none', height: '100vh' }}>
+                  {textAnnotations.filter(a => a.page === currentPage).map(a => (
+                    <div key={a.id}
+                      style={{
+                        position: 'absolute',
+                        left: a.x + 'px',
+                        top: a.y + 'px',
+                        color: a.color,
+                        fontSize: a.fontSize + 'px',
+                        fontFamily: 'sans-serif',
+                        fontWeight: 'bold',
+                        textShadow: '0 0 3px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.6)',
+                        pointerEvents: 'auto',
+                        zIndex: 20,
+                        cursor: 'default',
+                        whiteSpace: 'pre-wrap',
+                        background: a.text ? 'rgba(0,0,0,0.3)' : 'transparent',
+                        padding: '2px 4px',
+                        borderRadius: '2px'
+                      }}>
+                      {a.id === activeTextId ? (
+                        <span style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+                          <input
+                            ref={a.id === activeTextId ? textInputRef : null}
+                            type="text"
+                            value={editingText}
+                            onChange={(e) => setEditingText(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') { saveTextAnnotation(a.id); }
+                              if (e.key === 'Escape') { setActiveTextId(null); setTextInputPos(null); }
+                            }}
+                            className="bg-gray-900 border border-cyan-500 rounded px-1 py-0 text-white"
+                            style={{ fontSize: a.fontSize + 'px', width: '150px', pointerEvents: 'auto' }}
+                            autoFocus
+                            placeholder="Escribe aquí..."
+                          />
+                          <button onClick={() => saveTextAnnotation(a.id)}
+                            className="text-[10px] bg-green-700 px-1 py-0 rounded"
+                            title="Guardar texto">✓</button>
+                          <button onClick={() => setActiveTextId(null)}
+                            className="text-[10px] bg-red-700 px-1 py-0 rounded"
+                            title="Cancelar">✕</button>
+                        </span>
+                      ) : (
+                        <span onClick={() => {
+                          setActiveTextId(a.id);
+                          setEditingText(a.text);
+                        }}
+                          style={{ cursor: 'pointer', pointerEvents: 'auto' }}
+                          title="Clic para editar">
+                          {a.text}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
