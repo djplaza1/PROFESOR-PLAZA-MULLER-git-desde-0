@@ -84,6 +84,9 @@ const TOOL_HIGHLIGHT = "highlight";
 const TOOL_ERASER = "eraser";
 const TOOL_TEXT = "text"; // Escribir texto con teclado
 
+// --- Clave para estadísticas de sesión ---
+const SESSION_STATS_KEY = 'muller_pdfsession_stats_v1';
+
 window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const PS = window.Muller.PdfStudy;
   const [showLibrary, setShowLibrary] = React.useState(true);
@@ -129,6 +132,44 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const [activeTextId, setActiveTextId] = React.useState(null);
   const [editingText, setEditingText] = React.useState("");
 
+  // --- 🚀 SESSION STATS: premium feature #4 (SRS Integration PRO) ---
+  const [sessionStats, setSessionStats] = React.useState({
+    pagesViewed: 0,
+    wordsExtracted: 0,
+    wordsAddedToSrs: 0,
+    sessionStart: Date.now(),
+    currentPdfId: null,
+    pagesSet: new Set()
+  });
+  const [showStats, setShowStats] = React.useState(false);
+
+  // Cargar estadísticas guardadas al montar
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(SESSION_STATS_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Restaurar pagesSet como array y convertir a Set
+        if (parsed && parsed.pagesSet) {
+          parsed.pagesSet = new Set(parsed.pagesSet);
+        }
+        setSessionStats(prev => ({ ...prev, ...parsed }));
+      }
+    } catch(e) {}
+  }, []);
+
+  // Guardar estadísticas cuando cambien
+  React.useEffect(() => {
+    try {
+      const toSave = { ...sessionStats };
+      if (toSave.pagesSet) {
+        // Convertir Set a array para JSON
+        toSave.pagesSet = Array.from(toSave.pagesSet);
+      }
+      localStorage.setItem(SESSION_STATS_KEY, JSON.stringify(toSave));
+    } catch(e) {}
+  }, [sessionStats]);
+
   // Refs
   const canvasRef = React.useRef(null);
   const isDrawing = React.useRef(false);
@@ -137,6 +178,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
   const touchStartY = React.useRef(null);
   const containerRef = React.useRef(null);
   const textInputRef = React.useRef(null);
+  const sessionStatsRef = React.useRef(sessionStats);
+  sessionStatsRef.current = sessionStats;
 
   // --- Inicializar marcadores al cargar PDF ---
   React.useEffect(() => {
@@ -292,7 +335,7 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setTimeout(() => {
       if (textInputRef.current) textInputRef.current.focus();
     }, 50);
-  }, [tool, toolColor, textFontSize, currentPage]);
+  }, [tool, toolColor, textFontSize, currentPage, zoom]);
 
   // --- Guardar texto de anotación ---
   const saveTextAnnotation = (id) => {
@@ -366,23 +409,30 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     }
   };
 
+  // 🐛 FIX CRÍTICO #1: Coordenadas de dibujo con zoom
+  // El canvas está dentro de un contenedor con transform: scale(zoom/100)
+  // Las coordenadas del mouse NO se escalan automáticamente con CSS transform
+  // Por eso hay que dividir por la escala del zoom
   const getCanvasPos = (e) => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const zoomScale = zoom / 100;
     return {
-      x: (clientX - rect.left) * (canvas.width / rect.width / 2),
-      y: (clientY - rect.top) * (canvas.height / rect.height / 2)
+      x: (clientX - rect.left) * (canvas.width / rect.width / 2) / zoomScale,
+      y: (clientY - rect.top) * (canvas.height / rect.height / 2) / zoomScale
     };
   };
 
-  // --- Goma de borrar (parcial, por área) ---
+  // 🐛 FIX CRÍTICO #2: Tamaño de la goma de borrar con zoom
   const eraseArea = (x, y) => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
-    const size = eraserSize / (canvasRef.current.width / canvasRef.current.getBoundingClientRect().width / 2);
+    const zoomScale = zoom / 100;
+    const baseScale = canvasRef.current.width / canvasRef.current.getBoundingClientRect().width / 2;
+    const size = eraserSize / baseScale / zoomScale;
     ctx.save();
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
@@ -437,6 +487,18 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     setSearchResults([]);
     setSearchQuery("");
     setBookmarkedPages(PS.getPdfBookmarks(entry.id));
+
+    // Inicializar estadísticas si es un PDF nuevo
+    if (sessionStats.currentPdfId !== entry.id) {
+      setSessionStats(prev => ({
+        ...prev,
+        currentPdfId: entry.id,
+        pagesSet: new Set([1]),
+        pagesViewed: prev.pagesSet ? prev.pagesSet.size + 1 : 1
+      }));
+    } else {
+      setSessionStats(prev => ({ ...prev, pagesSet: new Set([...(prev.pagesSet || []), 1]) }));
+    }
 
     const objectUrl = await PS.loadPdfAsObjectUrl(entry.id);
     setPdfObjectUrl(objectUrl);
@@ -510,6 +572,12 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       }
     }
     setCurrentPage(newPage);
+    // 🚀 SRS Integration PRO: track page viewed
+    setSessionStats(prev => {
+      const newSet = new Set(prev.pagesSet || []);
+      newSet.add(newPage);
+      return { ...prev, pagesSet: newSet, pagesViewed: newSet.size };
+    });
     if (pdfEntry) {
       const savedNotes = PS.getPageNotes(pdfEntry.id, newPage);
       setNotes(savedNotes);
@@ -551,6 +619,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
     const words = PS.extractVocab(pageText || fullText);
     setVocab(words);
     setShowVocab(true);
+    // 🚀 SRS Integration PRO: track words extracted
+    setSessionStats(prev => ({ ...prev, wordsExtracted: prev.wordsExtracted + words.length }));
   };
 
   const addAllToSrs = () => {
@@ -560,7 +630,10 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       translation: '',
       count: v.count
     })));
-    alert(`Añadidas ${vocab.length} palabras al sistema SRS.`);
+    // 🚀 SRS Integration PRO: track words added
+    setSessionStats(prev => ({ ...prev, wordsAddedToSrs: prev.wordsAddedToSrs + vocab.length }));
+    setUploadError(`Añadidas ${vocab.length} palabras al sistema SRS ✓`);
+    setTimeout(() => setUploadError(""), 3000);
     setShowVocab(false);
   };
 
@@ -570,6 +643,8 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       translation: '',
       count: word.count
     }]);
+    // 🚀 SRS Integration PRO: track words added
+    setSessionStats(prev => ({ ...prev, wordsAddedToSrs: prev.wordsAddedToSrs + 1 }));
     setUploadError(`"${word.word}" añadida al SRS ✓`);
     setTimeout(() => setUploadError(""), 2000);
   };
@@ -614,9 +689,12 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
       const text = await PS.runOcrOnPdfPage(canvas);
       if (text) {
         setPageText(text);
-        setVocab(PS.extractVocab(text));
-        setOcrMessage(`OCR completado (${text.length} caracteres)`);
-        setTimeout(() => setOcrMessage(""), 3000);
+        const extractedWords = PS.extractVocab(text);
+        setVocab(extractedWords);
+        // 🚀 SRS Integration PRO: track OCR words
+        setSessionStats(prev => ({ ...prev, wordsExtracted: prev.wordsExtracted + extractedWords.length }));
+        setOcrMessage(`OCR completado (${text.length} caracteres, ${extractedWords.length} palabras)`);
+        setTimeout(() => setOcrMessage(""), 4000);
       } else {
         setOcrMessage("No se reconoció texto en esta página.");
       }
@@ -656,6 +734,18 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
 
   const goToSearchResult = (idx) => {
     setSearchIndex(Math.max(0, Math.min(searchResults.length - 1, idx)));
+  };
+
+  // --- 🚀 SRS Integration PRO: Reset stats ---
+  const resetSessionStats = () => {
+    setSessionStats({
+      pagesViewed: 0,
+      wordsExtracted: 0,
+      wordsAddedToSrs: 0,
+      sessionStart: Date.now(),
+      currentPdfId: pdfEntry ? pdfEntry.id : null,
+      pagesSet: new Set()
+    });
   };
 
   // ==================== RENDER ====================
@@ -745,6 +835,13 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
               {ttsPlaying ? "⏹" : "🔊"}
             </button>
 
+            {/* 🚀 SRS Stats */}
+            <button onClick={() => setShowStats(!showStats)}
+              className={`px-1 py-0.5 rounded text-[10px] transition-colors ${showStats ? "bg-indigo-700 ring-1 ring-indigo-400" : "bg-gray-700 hover:bg-gray-600"}`}
+              title="Estadísticas de sesión: páginas leídas, palabras extraídas, añadidas al SRS">
+              📊
+            </button>
+
             {/* Pantalla completa */}
             <button onClick={toggleFullscreen}
               className={`px-1 py-0.5 rounded text-[10px] transition-colors ${fullscreen ? "bg-cyan-700 ring-1 ring-cyan-400" : "bg-gray-700 hover:bg-gray-600"}`}
@@ -798,206 +895,212 @@ window.Muller.Panels.pdfstudy = function PdfstudyPanel({ session }) {
             {/* Color selector */}
             <div className="relative">
               <button onClick={() => setShowColorPicker(!showColorPicker)}
-                className="w-4 h-4 rounded-full border border-gray-500 flex-shrink-0"
-                style={{ background: toolColor }}
-                title="Cambiar color de dibujo/subrayado" />
+                className="w-4 h-4 rounded border border-gray-600"
+                style={{ backgroundColor: toolColor }}
+                title="Seleccionar color de dibujo" />
               {showColorPicker && (
-                <div className="absolute top-5 left-0 z-20 bg-gray-900 border border-gray-700 rounded p-2 shadow-xl"
-                  style={{ width: '280px', maxHeight: '300px', overflowY: 'auto' }}>
-                  <div className="flex items-center gap-1 mb-1.5">
-                    <span className="text-[9px] text-gray-400">Color:</span>
-                    <input type="color" value={customColor}
-                      onChange={(e) => { setCustomColor(e.target.value); setToolColor(e.target.value); }}
-                      className="w-6 h-6 border-0 rounded cursor-pointer" />
-                  </div>
-                  {COLOR_GROUPS.map((group, gi) => (
-                    <div key={gi} className="mb-1">
-                      <p className="text-[8px] text-gray-500 mb-0.5">{group.label}</p>
+                <div className="absolute top-full left-0 mt-1 bg-gray-800 border border-gray-700 rounded p-1.5 z-30 shadow-lg" style={{ minWidth: '200px', maxHeight: '280px', overflowY: 'auto' }}>
+                  {/* Grupos de colores */}
+                  {COLOR_GROUPS.map(group => (
+                    <div key={group.label} className="mb-0.5">
+                      <div className="text-[8px] text-gray-500 mb-0.5">{group.label}</div>
                       <div className="flex gap-0.5 flex-wrap">
                         {group.colors.map(c => (
-                          <button key={c}
-                            onClick={() => { setToolColor(c); setCustomColor(c); setShowColorPicker(false); }}
-                            className={`w-4 h-4 rounded-full border ${toolColor === c ? "ring-1 ring-white scale-110" : "border-gray-600"} transition-transform`}
-                            style={{ background: c }}
+                          <button key={c} onClick={() => { setToolColor(c); setCustomColor(c); }}
+                            className={`w-4 h-4 rounded border ${toolColor === c ? 'ring-2 ring-white' : 'border-gray-600'}`}
+                            style={{ backgroundColor: c }}
                             title={DRAW_COLORS[c] || c} />
                         ))}
                       </div>
                     </div>
                   ))}
+                  {/* Selector personalizado */}
+                  <div className="border-t border-gray-700 mt-1 pt-1">
+                    <input type="color" value={customColor}
+                      onChange={(e) => { setCustomColor(e.target.value); setToolColor(e.target.value); }}
+                      className="w-full h-4 rounded cursor-pointer"
+                      title="Color personalizado" />
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Tamaño goma (solo visible en modo borrador) */}
+            {/* Goma tamaño */}
             {tool === TOOL_ERASER && (
-              <select onChange={(e) => setEraserSize(parseInt(e.target.value))} value={eraserSize}
+              <select onChange={(e) => setEraserSize(parseInt(e.target.value))}
+                value={eraserSize}
                 className="bg-gray-800 border border-gray-700 rounded text-[9px] text-white px-0.5 py-0.5"
                 title="Tamaño de la goma de borrar">
-                <option value={15}>🔸Goma pequeña</option>
-                <option value={30}>🔸Goma mediana</option>
-                <option value={50}>🔸Goma grande</option>
+                <option value={15}>Goma pequeña</option>
+                <option value={30}>Goma mediana</option>
+                <option value={50}>Goma grande</option>
               </select>
             )}
 
             {/* Limpiar canvas */}
             <button onClick={clearCanvas}
               className="px-1 py-0.5 rounded bg-red-800 hover:bg-red-700 text-[10px] transition-colors"
-              title="Limpiar todo el canvas (dibujos y subrayados)">
-              🗑
+              title="Limpiar todo el dibujo de la página actual">
+              🗑️
             </button>
           </>
         )}
       </div>
 
-      {/* Marcadores rápidos */}
-          {/* Anotaciones de texto activas */}
-          {pdfEntry && textAnnotations.filter(a => a.page === currentPage).length > 0 && (
-            <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-0.5 flex items-center gap-1 flex-wrap">
-              <span className="text-[9px] text-cyan-400">📝 Texto:</span>
-              {textAnnotations.filter(a => a.page === currentPage).map(a => (
-                <span key={a.id}
-                  className="px-1 py-0 rounded text-[9px] bg-gray-800 text-gray-400"
-                  style={{ color: a.color }}>
-                  {a.text || "(vacío)"}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {bookmarkedPages.length > 0 && !showLibrary && pdfEntry && (
-        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-0.5 flex items-center gap-1 flex-wrap">
-          <span className="text-[9px] text-yellow-500">★</span>
-          {bookmarkedPages.map(p => (
-            <button key={p} onClick={() => goToBookmark(p)}
-              className={`px-1.5 py-0 rounded text-[9px] transition-colors ${p === currentPage ? "bg-yellow-800 text-yellow-200" : "bg-gray-800 text-gray-400 hover:bg-gray-700"}`}
-              title={`Ir a página ${p}`}>
-              p.{p}
-            </button>
-          ))}
+      {/* Mensajes de error/info flotantes */}
+      {uploadError && (
+        <div className="flex-shrink-0 bg-red-900/80 text-red-200 text-[10px] px-2 py-0.5 text-center">
+          {uploadError}
+        </div>
+      )}
+      {ocrMessage && (
+        <div className="flex-shrink-0 bg-purple-900/80 text-purple-200 text-[10px] px-2 py-0.5 text-center">
+          {ocrMessage}
         </div>
       )}
 
-      {/* Búsqueda */}
-      {showSearch && pdfEntry && (
-        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-1 flex items-center gap-1">
-          <input
-            type="text"
-            value={searchQuery}
+      {/* 🚀 SRS Integration PRO: Stats Panel */}
+      {showStats && pdfEntry && (
+        <div className="flex-shrink-0 bg-indigo-900/80 border-b border-indigo-700 px-2 py-1.5">
+          <div className="flex items-center justify-between mb-0.5">
+            <h3 className="text-[10px] font-bold text-indigo-300">📊 Estadísticas de Sesión</h3>
+            <div className="flex gap-1">
+              <button onClick={resetSessionStats}
+                className="text-[8px] text-gray-400 hover:text-gray-200 px-1 py-0 rounded bg-gray-800 hover:bg-gray-700"
+                title="Reiniciar estadísticas">Reiniciar</button>
+              <button onClick={() => setShowStats(false)}
+                className="text-[8px] text-gray-500 hover:text-gray-300">Cerrar</button>
+            </div>
+          </div>
+          <div className="grid grid-cols-4 gap-1 text-[9px]">
+            <div className="bg-indigo-800/50 rounded px-1 py-0.5 text-center">
+              <span className="text-indigo-300 font-bold">{sessionStats.pagesViewed}</span>
+              <span className="text-gray-400 ml-0.5">págs</span>
+            </div>
+            <div className="bg-indigo-800/50 rounded px-1 py-0.5 text-center">
+              <span className="text-amber-300 font-bold">{sessionStats.wordsExtracted}</span>
+              <span className="text-gray-400 ml-0.5">extraídas</span>
+            </div>
+            <div className="bg-indigo-800/50 rounded px-1 py-0.5 text-center">
+              <span className="text-green-300 font-bold">{sessionStats.wordsAddedToSrs}</span>
+              <span className="text-gray-400 ml-0.5">al SRS</span>
+            </div>
+            <div className="bg-indigo-800/50 rounded px-1 py-0.5 text-center">
+              <span className="text-cyan-300 font-bold">{bookmarkedPages.length}</span>
+              <span className="text-gray-400 ml-0.5">marcadores</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Búsqueda inline */}
+      {showSearch && (
+        <div className="flex-shrink-0 px-2 py-1 bg-gray-900 border-b border-gray-800 flex items-center gap-1">
+          <input type="text" value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && doSearch()}
-            placeholder="Buscar en el PDF..."
+            onKeyDown={(e) => { if (e.key === 'Enter') doSearch(); }}
+            placeholder="Buscar en PDF..."
             className="flex-1 bg-gray-800 border border-gray-700 rounded px-1.5 py-0.5 text-[11px] text-white"
           />
           <button onClick={doSearch}
             className="px-1.5 py-0.5 rounded bg-blue-700 hover:bg-blue-600 text-[10px] transition-colors"
-            title="Buscar">Ir</button>
+            title="Buscar">🔍</button>
           {searchResults.length > 0 && (
             <div className="flex items-center gap-0.5">
               <button onClick={() => goToSearchResult(searchIndex - 1)}
                 disabled={searchIndex <= 0}
-                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40"
-                title="Resultado anterior">◀</button>
-              <span className="text-[9px] text-gray-400">{searchIndex + 1}/{searchResults.length}</span>
+                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40">◀</button>
+              <span className="text-[10px] text-gray-400">{searchIndex + 1}/{searchResults.length}</span>
               <button onClick={() => goToSearchResult(searchIndex + 1)}
                 disabled={searchIndex >= searchResults.length - 1}
-                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[9px] disabled:opacity-40"
-                title="Siguiente resultado">▶</button>
+                className="px-1 py-0 rounded bg-gray-700 hover:bg-gray-600 text-[10px] disabled:opacity-40">▶</button>
             </div>
           )}
-        </div>
-      )}
-      {searchResults.length > 0 && (
-        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-2 py-0.5">
-          <p className="text-[9px] text-gray-400 leading-relaxed">
-            ...{searchResults[searchIndex]?.context}...
-          </p>
+          <button onClick={() => setShowSearch(false)}
+            className="text-[10px] text-gray-500 hover:text-gray-300">✕</button>
         </div>
       )}
 
-      {/* ERROR / MENSAJE */}
-      {(uploadError || ocrMessage) && (
-        <div className="flex-shrink-0 px-2 py-1 border-b text-[10px] flex items-center gap-1"
-          style={{ background: uploadError && !ocrMessage ? "#7f1d1d" : "#1e3a5f",
-                  borderColor: uploadError && !ocrMessage ? "#991b1b" : "#1d4ed8" }}>
-          <span className={uploadError && !ocrMessage ? "text-red-300" : "text-blue-300"}>
-            {uploadError || ocrMessage}
-          </span>
-          <button onClick={() => { setUploadError(""); setOcrMessage(""); }}
-            className="text-gray-400 hover:text-white">✕</button>
+      {/* Resultados búsqueda */}
+      {showSearch && searchResults.length > 0 && (
+        <div className="flex-shrink-0 max-h-[12vh] overflow-y-auto bg-gray-900 border-b border-gray-800 px-2 py-1">
+          <p className="text-[9px] text-gray-500 mb-0.5">{searchResults.length} resultados</p>
+          {searchResults.slice(Math.max(0, searchIndex - 2), searchIndex + 3).map((r, i) => (
+            <div key={r.index}
+              className={`text-[9px] py-0.5 px-1 rounded cursor-pointer ${r.index === searchIndex ? 'bg-blue-800 text-white' : 'text-gray-400 hover:bg-gray-800'}`}
+              onClick={() => goToSearchResult(r.index)}>
+              ...{r.context.slice(0, 80)}...
+            </div>
+          ))}
         </div>
       )}
 
-      {/* LIBRARY PANEL */}
-      {showLibrary && (
-        <div className="flex-shrink-0 max-h-[30vh] overflow-y-auto bg-gray-900 border-b border-gray-800 p-2">
-          <h3 className="text-xs font-bold text-cyan-300 mb-1">📚 Mis PDFs ({library.length})</h3>
-          {library.length === 0 && (
-            <p className="text-[10px] text-gray-500">No hay PDFs. Toca "Abrir" para subir uno.</p>
+      {/* Marcadores rápidos */}
+      {pdfEntry && bookmarkedPages.length > 0 && (
+        <div className="flex-shrink-0 px-2 py-0.5 bg-gray-900 border-b border-gray-800 flex items-center gap-1 flex-wrap">
+          <span className="text-[9px] text-yellow-500 mr-0.5">★</span>
+          {bookmarkedPages.slice(0, 15).map(p => (
+            <button key={p} onClick={() => goToBookmark(p)}
+              className="text-[9px] text-yellow-400 bg-yellow-900/30 px-1 py-0 rounded hover:bg-yellow-800/50 transition-colors"
+              title={`Ir a página ${p}`}>
+              p.{p}
+            </button>
+          ))}
+          {bookmarkedPages.length > 15 && (
+            <span className="text-[9px] text-gray-500">+{bookmarkedPages.length - 15}</span>
           )}
-          <div className="space-y-1">
-            {library.map(doc => (
-              <div key={doc.id} className="flex items-center justify-between bg-gray-800 rounded px-2 py-1">
-                <button onClick={() => loadFromLibrary(doc.id)}
-                  className="text-[10px] text-gray-200 hover:text-cyan-300 truncate flex-1 text-left transition-colors"
-                  title={`Abrir ${doc.name}`}>
-                  📄 {doc.name}
-                </button>
-                <span className="text-[9px] text-gray-500 mr-1">{doc.totalPages}p</span>
-                <span className="text-[9px] text-gray-600 mr-1">
-                  {doc.size > 1048576 ? `${(doc.size / 1048576).toFixed(1)}MB` : `${(doc.size / 1024).toFixed(0)}KB`}
-                </span>
-                <button onClick={() => removeFromLibrary(doc.id)}
-                  className="text-[10px] text-red-400 hover:text-red-300 transition-colors"
-                  title="Eliminar PDF de la biblioteca">✕</button>
-              </div>
-            ))}
-          </div>
         </div>
       )}
 
-      {/* MAIN VIEWER */}
-      <div className="flex-1 relative bg-black min-h-0"
-        onWheel={handleWheel}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        ref={viewerRef}
-        style={tool === TOOL_SELECT ? { overflow: 'auto' } : { overflow: 'hidden' }}>
+      {/* CONTENIDO PRINCIPAL */}
+      <div className="flex-1 relative overflow-hidden bg-gray-800" style={{ height: 'calc(100% - 0px)', minHeight: 0 }}>
         {loading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-10">
-            <div className="text-cyan-400 text-sm animate-pulse">Cargando PDF...</div>
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80 z-20">
+            <div className="text-center">
+              <div className="animate-spin text-2xl mb-1">⏳</div>
+              <p className="text-[11px] text-gray-400">Cargando PDF...</p>
+            </div>
           </div>
         )}
 
-        {pdfObjectUrl && !loading && (
-          <div className="absolute inset-0 overflow-auto bg-gray-900">
-            <div className="relative" style={{
+        {pdfEntry && (
+          <div className="relative w-full h-full overflow-auto"
+            onWheel={handleWheel}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}>
+            <div style={{
               transform: `scale(${zoom / 100})`,
               transformOrigin: 'top left',
-              width: `${10000 / zoom}%`,
-              height: `${10000 / zoom}%`
+              width: '100%',
+              height: '100%',
+              position: 'relative'
             }}>
-              {/* Iframe con pointerEvents none cuando se dibuja/escribe */}
+              {/* Visor PDF */}
               <iframe
                 key={currentPage}
-                src={`${pdfObjectUrl}#page=${currentPage}`}
-                className="w-full border-0"
+                ref={viewerRef}
+                src={pdfObjectUrl ? pdfObjectUrl + "#page=" + currentPage : ""}
+                className="w-full h-full"
                 style={{
-                  height: '100vh',
-                  pointerEvents: (tool === TOOL_SELECT) ? 'auto' : 'none',
-                  position: 'relative',
-                  zIndex: 1
+                  border: 'none',
+                  pointerEvents: tool === TOOL_SELECT ? 'auto' : 'none',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%'
                 }}
                 title="PDF Viewer"
               />
-              {/* Canvas superpuesto: dibujo, subrayado y texto sobre el PDF */}
-              {tool !== TOOL_SELECT && (
+
+              {/* Canvas de dibujo (solo cuando hay herramienta activa) */}
+              {(tool !== TOOL_SELECT) && (
                 <canvas
                   ref={canvasRef}
-                  className="absolute top-0 left-0 w-full"
+                  className="absolute top-0 left-0"
                   style={{
-                    pointerEvents: 'auto',
-                    touchAction: 'none',
-                    height: '100vh',
+                    width: '100%',
+                    height: '100%',
                     opacity: tool === TOOL_HIGHLIGHT ? 0.6 : 1.0,
                     zIndex: 10,
                     cursor: tool === TOOL_ERASER ? 'cell' : tool === TOOL_HIGHLIGHT ? 'crosshair' : tool === TOOL_TEXT ? 'text' : 'crosshair'
