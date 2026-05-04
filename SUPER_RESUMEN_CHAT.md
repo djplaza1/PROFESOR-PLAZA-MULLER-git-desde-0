@@ -64,6 +64,7 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
 | **Tamaño app** | ~90 archivos JSX/JS, ~60 JSON, carga secuencial en ~20 scripts |
 | **Splash preboot** | Animación de carga inicial (círculo rotatorio + texto) antes de React |
 | **PWA** | `manifest.json` + `sw.js` (service worker para caché offline) |
+| **Monedas** | Plaza Münzen: localStorage key `muller_plaza_muenzen_v1`. Icono: círculo negro + borde dorado + `logo-plaza-sin-fondo.png`. Funciones: `getPlazaMuenzen()`, `addPlazaMuenzen()`, `spendPlazaMuenzen()`, `getPlazaMuenzenHistory()` en `progresoHelpers.jsx` |
 
 ---
 
@@ -95,49 +96,31 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
 
 ## 📋 CAMBIOS RECIENTES (sesión actual)
 
+### ✅ [03/05/2026] Migración monedas: estilo unificado (círculo negro + borde dorado + logo-plaza-sin-fondo.png)
+**Archivos modificados**:
+- `TopBar.jsx` — Moneda cambió de `icon-192.png` a círculo negro con borde dorado + `logo-plaza-sin-fondo.png`. Display más grande (40×40), gradiente, sombra.
+- `TiendaPanel.jsx` — Moneda en encabezado de balance (36×36) y en precio de cada artículo (28×28) migradas al mismo estilo. Se eliminó la dependencia de `profesor-plaza-muller-logo.jpg`.
+- `SUPER_RESUMEN_CHAT.md` y `APP_MAP.md` — Actualizados (este commit).
+- **Commit**: `987ab91` — `✨ TiendaPanel: migrar monedas a estilo unificado...`
+
 ### ✅ [03/05/2026] Pestaña Escritura implementada al 100%
 **Archivos creados** (4 en `src/features/escritura/`):
 - `writing-data.jsx` — arrays globales: `WRITING_COPY_DRILLS` (10 copias), `WRITING_PROMPTS_DE` (8 temas), `WRITING_DICTATION_LINES` (5 dictados), `LETTER_DRILLS` (3 ÄÖÜß), `WRITING_TELC_TASKS` (4 B1-B2 con scaffold)
 - `telc-core.jsx` — `window.mullerBuildTelcWritingCoach(rawText, task, normalizeFn)` — evalúa texto TELC en 4 ejes (tarea, registro, cohesión, gramática) → /20 → % → sugerencias
 - `escrituraHelpers.jsx` — `window.Muller.Escritura` con: `spelling` (LanguageTool API + DeepSeek fallback), `getDictationPool()` (combina fuentes), `rebuildGuionLines()` (reconstruye líneas de historia)
-- `EscrituraPanel.jsx` — Panel con 8 modos: Libre, Copia, Dictado, Tema, TELC, Letras DE, Guion, Vocab. Canvas escritura a mano. Se registra como `window.Muller.Panels.escritura = EscrituraPanel`
-
-**Archivos modificados**:
-- `src/core/constants.jsx` — añadido `OCR_HISTORY: 'muller_ocr_history_v1'`, `'escritura'` en `MAIN_TABS`
-- `src/core/storage.jsx` — `MULLER_OCR_HIST_KEY`, `mullerPushOcrHistory()`, `window.Muller.ocr = { pushHistory }`
-- `src/core/utils.jsx` — `levenshteinDistance(a, b)` para corrección ortográfica
-- `src/core/speech.jsx` — verificar/actualizar `normalizeGermanSpeechText` (ya existía)
-- `index.html` — scripts escritura añadidos en orden: helpers → data → telc → panel
-- `src/app.jsx` — PanelRouter usa `(window.Muller.Panels || {})[tab]` (ya funcionaba)
-- `navigation/TopBar.jsx` — añadido tab `{ id: 'escritura', label: 'Escritura', icon: 'pen-tool' }`
-
-**Detalles técnicos importantes de EscrituraPanel**:
-- **Firma de props**: `({ session })` — NO `{ db, user, appState }`. El router pasa `session`.
-- **Iconos**: Todos inline SVG via `getSvgIcon(name)` — NO `createIcons()` para evitar #300
-- **Canvas**: `<canvas>` nativo con pointer events (pointerdown/move/up) capturados. Draw de línea real (no puntos). Goma, colores, deshacer (historial de strokes). OCR con Tesseract.js (window.Tesseract). Guardado PNG.
-- **TELC Coach**: Evalúa 4 ejes (tarea/registro/cohesión/gramática 0-5 c/u → /20). Usa `mullerBuildTelcWritingCoach()` + corrección ortográfica vía API LanguageTool o DeepSeek.
-- **Modo Guion**: Lee `window.historiaGuionActual` (global de Historia). Si no hay guion, muestra mensaje informativo.
-- **Modo Vocab**: Lee `window.vocabSrsData` (global de SRS/Lexikon). Si no hay, muestra mensaje.
-- **Canvas compartido**: Un solo canvas `<canvas>` reutilizado entre todos los modos (no se recrea al cambiar de modo, solo se limpia al cambiar).
-- **Commit**: `b1911cf` — `feat(escritura): implementar pestaña Escritura con 8 modos...`
+- `EscrituraPanel.jsx` — Panel con 8 modos: Libre, Copia, Dictado, Tema, TELC, Letras DE, Guion, Vocab. Canvas escritura a mano.
+- **Commit**: `b1911cf`
 
 ---
 
 ## 📋 PENDIENTE (mantener actualizado)
-> **Regla obligatoria**: Marca `[x]` cuando el usuario confirme que funciona. Elimina entradas cuando el bloque esté resuelto. Añade bugs/mejoras que descubras.
 
 - [ ] Verificar CORS de Google Translate en producción
 - [ ] Ampliar `BX_DB_FALLBACK` en bxHelpers.jsx con palabras comunes
 - [ ] Asegurar detección bidireccional en detectaPalabra.js (dirección correcta con Google Translate)
 - [ ] Refactor: lógica duplicada en HistoriaPanel.jsx (líneas 196-217 vs 172-192)
 - [ ] Verificar que todos los submódulos están registrados en `window.Muller.Submodos`
-- [ ] SRS: funciones en bxHelpers.jsx (getVocabSrsMap, sortVocabBySrs, applyVocabSrsRating, incrementSrsView)
 - [ ] Sincronización SRS bidireccional con Supabase (cloud.jsx sync/pull)
-- [ ] **MEJORA Escritura**: Añadir Tesseract.js como script en index.html (si no está ya) para OCR en modo Libre
-- [ ] **MEJORA Escritura**: Añadir soporte para subir imagen al canvas (fondo de caligrafía)
-- [ ] **MEJORA Escritura**: Añadir detección de escritura a mano real vs teclado (por ahora solo canvas pointer)
-- [ ] **MEJORA Escritura**: Integrar corrección ortográfica con LanguageTool en modo TELC (ya esqueletado, falta probar)
-- [ ] Verificar que los modos Guion y Vocab funcionan cuando hay datos reales de Historia/SRS
 
 ---
 
@@ -195,6 +178,7 @@ git push
 - `bxHelpers.jsx`: `normalizeBxPayload()`, `mergeBxDatabases()`, `mullerSortVocabBySrs()`, `mullerLoadExternalScript()`
 - `cloud.jsx`: `syncSrsToCloud()`, `pullSrsFromCloud()`, `syncSettingsToCloud()`, `pullSettingsFromCloud()`
 - `app.jsx`: `PanelRouter` renderiza `window.Muller.Panels[tab]` — cada feature debe registrar su panel ahí
+- `progresoHelpers.jsx`: `getPlazaMuenzen()`, `addPlazaMuenzen()`, `spendPlazaMuenzen()`, `getPlazaMuenzenHistory()` — sistema monetario
 - `escritura/telc-core.jsx`: `window.mullerBuildTelcWritingCoach(rawText, task, normalizeFn)` — evalúa texto TELC en 4 ejes
 - `escritura/escrituraHelpers.jsx`: `window.Muller.Escritura` — spelling API, dictation pool, guion lines
 - `core/utils.jsx`: `levenshteinDistance(a, b)` — distancia de Levenshtein para corrección ortográfica
