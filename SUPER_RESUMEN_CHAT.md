@@ -45,7 +45,6 @@ SPA (Single Page Application) para aprender alemán, construida con **React 18 v
 **Solución**: 
 - BottomBar.jsx usa SVG inline manual (no `createIcons()`) — constante `BOTTOM_ICONS` con SVGs.
 - EscrituraPanel.jsx también usa SVG inline manual con función `getSvgIcon(name)`.
-- ProgresoPanel.jsx usa SVG inline manual en constante `SVG_PROGRESS`.
 - TopBar.jsx SÍ usa `document.addEventListener('click', () => requestAnimationFrame(() => window.lucide.createIcons()))` para regenerar iconos de Lucide — pero esto puede causar #300 si se anida un componente dentro de otro.
 
 **⚠️ REGLA UNIVERSAL**: Cualquier componente que renderice iconos Lucide debe decidir: o `createIcons()` CON listener singleton en el padre, o SVG inline manual. NO ambas. Y NUNCA `createIcons()` dentro de un componente anidado dentro de otro.
@@ -67,22 +66,6 @@ SPA (Single Page Application) para aprender alemán, construida con **React 18 v
 
 ## 📋 CAMBIOS RECIENTES (sesión actual)
 
-### ✅ [04/05/2026] ProgresoPanel — Versión Premium con PlazaMünzen, Heatmap, Predicción TELC
-**Archivos modificados** (3):
-- `src/features/progreso/progresoHelpers.jsx` — 
-  - `getDashboardData()` ahora usa `M.progressExport.getDashboard()` como fuente principal (plazaMünzen, activeTime, missions), con fallback al sistema antiguo.
-  - `getLast30DaysActivity()` usa datos de dashboard premium si están disponibles.
-  - `getWeeklyStats()` usa `M.activeTime` para minutos activos en lugar de "attempts".
-  - `getProfileLevel()` acepta objeto con `totalMinutes`/`points` para nivel desde premium.
-- `src/features/progreso/ProgresoPanel.jsx` — 
-  - **Añadidas 3 secciones premium**:
-    1. **PlazaMünzen**: Muestra monedas actuales, total ganadas, calidad (Oro/Plata/Bronce) y nivel cualitativo. Gradiente amarillo/dorado.
-    2. **Heatmap de Actividad**: Grid 12 semanas × 7 días con escala logarítmica de intensidad amarilla.
-    3. **Predicción TELC**: Nivel estimado, barra de probabilidad, fecha de próximo examen. Gradiente púrpura/índigo.
-  - Añadidos 16 nuevos iconos SVG inline: `coins`, `listTodo`, `grid3x3`, `clipboardList`, `monitor`, `barChart3`, `star`, `messageSquare`, `music`, `eye`, `heart`, `thumbsUp`, `activity`, `helpCircle`, `layers`, `gem`, `trendingDown`, `alertTriangle`, `smile`, `bell`, `check`, `moreHorizontal`.
-  - Mejorada detección de datos: las secciones premium solo se renderizan si hay datos (`dashboard.muenzen > 0`, `dashboard.heatmap` no vacío, `dashboard.telcPrediction` no null).
-- `src/core/constants.jsx` — (si aplica) verificar que no faltan constantes.
-
 ### ✅ [03/05/2026] Pestaña Escritura implementada al 100%
 **Archivos creados** (4 en `src/features/escritura/`):
 - `writing-data.jsx` — arrays globales: `WRITING_COPY_DRILLS` (10 copias), `WRITING_PROMPTS_DE` (8 temas), `WRITING_DICTATION_LINES` (5 dictados), `LETTER_DRILLS` (3 ÄÖÜß), `WRITING_TELC_TASKS` (4 B1-B2 con scaffold)
@@ -98,6 +81,16 @@ SPA (Single Page Application) para aprender alemán, construida con **React 18 v
 - `index.html` — scripts escritura añadidos en orden: helpers → data → telc → panel
 - `src/app.jsx` — PanelRouter usa `(window.Muller.Panels || {})[tab]` (ya funcionaba)
 - `navigation/TopBar.jsx` — añadido tab `{ id: 'escritura', label: 'Escritura', icon: 'pen-tool' }`
+
+**Detalles técnicos importantes de EscrituraPanel**:
+- **Firma de props**: `({ session })` — NO `{ db, user, appState }`. El router pasa `session`.
+- **Iconos**: Todos inline SVG via `getSvgIcon(name)` — NO `createIcons()` para evitar #300
+- **Canvas**: `<canvas>` nativo con pointer events (pointerdown/move/up) capturados. Draw de línea real (no puntos). Goma, colores, deshacer (historial de strokes). OCR con Tesseract.js (window.Tesseract). Guardado PNG.
+- **TELC Coach**: Evalúa 4 ejes (tarea/registro/cohesión/gramática 0-5 c/u → /20). Usa `mullerBuildTelcWritingCoach()` + corrección ortográfica vía API LanguageTool o DeepSeek.
+- **Modo Guion**: Lee `window.historiaGuionActual` (global de Historia). Si no hay guion, muestra mensaje informativo.
+- **Modo Vocab**: Lee `window.vocabSrsData` (global de SRS/Lexikon). Si no hay, muestra mensaje.
+- **Canvas compartido**: Un solo canvas `<canvas>` reutilizado entre todos los modos (no se recrea al cambiar de modo, solo se limpia al cambiar).
+- **Commit**: `b1911cf` — `feat(escritura): implementar pestaña Escritura con 8 modos...`
 
 ---
 
@@ -116,8 +109,6 @@ SPA (Single Page Application) para aprender alemán, construida con **React 18 v
 - [ ] **MEJORA Escritura**: Añadir detección de escritura a mano real vs teclado (por ahora solo canvas pointer)
 - [ ] **MEJORA Escritura**: Integrar corrección ortográfica con LanguageTool en modo TELC (ya esqueletado, falta probar)
 - [ ] Verificar que los modos Guion y Vocab funcionan cuando hay datos reales de Historia/SRS
-- [ ] **Prueba Progreso**: Verificar que PlazaMünzen y Heatmap se renderizan correctamente con datos simulados
-- [ ] **Prueba Progreso**: Verificar sincronización cloud bidireccional con datos de prueba
 
 ---
 
@@ -179,5 +170,3 @@ git push
 - `escritura/escrituraHelpers.jsx`: `window.Muller.Escritura` — spelling API, dictation pool, guion lines
 - `core/utils.jsx`: `levenshteinDistance(a, b)` — distancia de Levenshtein para corrección ortográfica
 - `core/storage.jsx`: `mullerPushOcrHistory()` y `window.Muller.ocr.pushHistory` — historial OCR
-- **`progreso/progresoHelpers.jsx`**: `M.Progreso.getDashboardData()` — obtiene dashboard unificado con datos premium (plazaMünzen, activeTime, heatmap, telcPrediction) vía `M.progressExport.getDashboard()`, con fallback al sistema antiguo. `M.Progreso.getLast30DaysActivity()`, `getWeeklyStats()`, `getProfileLevel()`, `syncProgressToCloud()`, `pullProgressFromCloud()`
-- **`progreso/ProgresoPanel.jsx`**: Panel de progreso con secciones premium: PlazaMünzen (monedas + calidad), Heatmap de Actividad (12 semanas × 7 días, escala logarítmica), Predicción TELC (nivel estimado + probabilidad). Iconos SVG inline via `SVG_PROGRESS` constante.
