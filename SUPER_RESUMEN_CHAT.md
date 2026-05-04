@@ -145,7 +145,15 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
   2. **Nueva herramienta TOOL_TEXT (🔤)**: Botón en toolbar → haz clic en cualquier punto del PDF → aparece un input inline para escribir texto con teclado → color seleccionable → guardar/editar/cancelar. Las anotaciones se renderizan como divs superpuestos con el color y tamaño elegido.
   3. **Ctrl+rueda = zoom**: Antes Ctrl+rueda cambiaba de página. Ahora detecta `e.ctrlKey` y modifica el zoom (50%-200%) sin cambiar de página.
   4. **Negro real (no gris)**: La opacidad del canvas subió de `0.5` a `1.0` en modo pen y eraser. El color negro `#000000` se ve ahora como negro auténtico.
-  5. **Coordenadas escaladas con zoom**: `handleCanvasClick` ahora divide por `scale = zoom/100` para que el texto aparezca exactamente donde se hace clic, independientemente del zoom actual.
+   5. **Coordenadas escaladas con zoom**: `handleCanvasClick` ahora divide por `scale = zoom/100` para que el texto aparezca exactamente donde se hace clic, independientemente del zoom actual.
+
+### ✅ [04/05/2026] Fix CRÍTICO: coordenadas dibujo y borrador precisos a cualquier zoom
+**Archivos modificados**:
+- `PdfstudyPanel.jsx` — **2 bugs corregidos**:
+  1. **`getCanvasPos` Bug #1**: La fórmula tenía `/ 2` extra y dividía por `zoomScale`. `getBoundingClientRect()` YA incluye el escalado CSS `transform: scale()`. Corregido a `(clientX - rect.left) * (canvas.width / rect.width)` — funciona con cualquier zoom (50%-200%).
+  2. **`eraseArea` Bug #2**: Mismo patrón incorrecto con `/ 2` y `/ zoomScale`. Corregido a `eraserSize / (canvas.width / rect.width)` — el borrador borra exactamente donde haces clic independientemente del zoom.
+- **Commit**: `b54ceba` — `fix(pdf): coordenadas dibujo y borrador precisos a cualquier zoom`
+- **Push**: `main` → GitHub Pages redeploy automático
 
 ---
 
