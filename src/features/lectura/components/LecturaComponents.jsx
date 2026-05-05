@@ -30,7 +30,7 @@ window.Muller.LecturaComponents = window.Muller.LecturaComponents || {};
       background: '#06b6d4', color: '#fff',
       fontSize: '0.9rem', fontWeight: 600,
       cursor: 'pointer', transition: 'all 0.2s ease',
-      display: 'inlineFlex', alignItems: 'center', gap: '6px',
+      display: 'inline-flex', alignItems: 'center', gap: '6px',
       outline: 'none'
     };
 
@@ -40,7 +40,7 @@ window.Muller.LecturaComponents = window.Muller.LecturaComponents || {};
       background: 'rgba(239,68,68,0.2)', color: '#fca5a5',
       fontSize: '0.9rem', fontWeight: 600,
       cursor: 'pointer', transition: 'all 0.2s ease',
-      display: 'inlineFlex', alignItems: 'center', gap: '6px',
+      display: 'inline-flex', alignItems: 'center', gap: '6px',
       outline: 'none'
     };
 

@@ -1094,6 +1094,15 @@ window.Muller.LecturaPanel = function(props) {
   actionButtons.push(
     React.createElement('div', { key: 'spacer', style: { flex: 1 } })
   );
+  // Botón de pantalla completa
+  actionButtons.push(
+    React.createElement('button', {
+      key: 'fullscreen',
+      onClick: toggleFullscreen,
+      style: glassButton(isFullscreen ? '#ef4444' : '#64748b', { padding: '4px 8px', fontSize: '0.7rem' })
+    }, isFullscreen ? '⛶ Salir' : '⛶ Full')
+  );
+
   actionButtons.push(
     React.createElement('button', {
       key: 'heatmap',

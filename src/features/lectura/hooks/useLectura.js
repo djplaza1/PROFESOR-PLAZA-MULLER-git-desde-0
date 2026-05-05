@@ -173,6 +173,35 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   // ─── ESTADOS DE EXPORT/IMPORT ───
   var showExportImport = React.useState(false);
 
+  // ─── ESTADOS DE PANTALLA COMPLETA ───
+  var isFullscreen = React.useState(false);
+
+  var toggleFullscreen = React.useCallback(function() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(function() {
+        isFullscreen[1](true);
+      }).catch(function(e) {
+        // Fallback para navegadores que no soportan fullscreen
+        isFullscreen[1](true); // Modo pseudo-fullscreen mediante CSS
+      });
+    } else {
+      document.exitFullscreen().then(function() {
+        isFullscreen[1](false);
+      }).catch(function() {
+        isFullscreen[1](false);
+      });
+    }
+  }, []);
+
+  // Escuchar cambios externos de fullscreen (tecla F11, etc.)
+  React.useEffect(function() {
+    var handler = function() {
+      isFullscreen[1](!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handler);
+    return function() { document.removeEventListener('fullscreenchange', handler); };
+  }, []);
+
   // ─── REFS ───
   var textoRef = React.useRef('');
 
@@ -1386,6 +1415,10 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     // Exportar / Importar
     showExportImport: showExportImport[0], setShowExportImport: showExportImport[1],
     exportStats: exportStats,
-    importStats: importStats
+    importStats: importStats,
+
+    // Pantalla completa
+    isFullscreen: isFullscreen[0],
+    toggleFullscreen: toggleFullscreen
   };
 };

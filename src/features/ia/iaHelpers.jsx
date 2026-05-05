@@ -1,4 +1,4 @@
-﻿// ==================================================
+// ==================================================
 // src/features/ia/iaHelpers.jsx
 // Motor IA real (DeepSeek por defecto) + fallback local
 // ==================================================
@@ -229,3 +229,51 @@ Usa ejemplos bilingües. Sé motivador y cercano.`,
     return achievements;
   }
 };
+
+// DeepSeek integrado para análisis de pronunciación (usado por LecturaPanel)
+window.Muller.DeepSeek = {
+  analyze: function(opts) {
+    // Usar el motor IA real si está disponible, con fallback offline
+    if (window.Muller.IA && window.Muller.IA.isRealIAReady()) {
+      var prompt = 'Analiza la siguiente lectura en alemán:\n\n';
+      prompt += 'Texto original: ' + (opts.text || '') + '\n';
+      prompt += 'Transcripción: ' + (opts.transcript || '') + '\n';
+      if (opts.errors && opts.errors.length > 0) {
+        prompt += 'Errores detectados: ' + opts.errors.map(function(e) { return e.expected; }).join(', ') + '\n';
+      }
+      prompt += 'Tiempo de lectura: ' + (opts.readingTime || 0) + 's\n\n';
+      prompt += 'Proporciona: 1) Puntuación 2) Errores principales 3) Consejos de mejora';
+      return window.Muller.IA.callRealAI(prompt).then(function(reply) {
+        return {
+          analysis: reply,
+          wordCount: (opts.text || '').split(/\s+/).length,
+          readingTime: opts.readingTime || 0,
+          errorCount: (opts.errors || []).length,
+          errorWords: (opts.errors || []).map(function(e) { return e.expected; }),
+          suggestedFocus: (opts.errors || []).length > 3 ? 'Pronunciación' : 'Vocabulario',
+          deepseekReady: true
+        };
+      }).catch(function() {
+        return fallbackAnalysis(opts);
+      });
+    }
+    return Promise.resolve(fallbackAnalysis(opts));
+  }
+};
+
+function fallbackAnalysis(opts) {
+  var errors = opts.errors || [];
+  var wordCount = (opts.text || '').split(/\s+/).length;
+  return {
+    analysis: 'Análisis local',
+    wordCount: wordCount,
+    readingTime: opts.readingTime || 0,
+    errorCount: errors.length,
+    errorWords: errors.map(function(e) { return e.expected; }),
+    suggestedFocus: errors.length > 3 ? 'Pronunciación' : 'Vocabulario',
+    message: errors.length > 0
+      ? 'Has cometido ' + errors.length + ' error(es) de pronunciación. Revisa las palabras marcadas en rojo.'
+      : '¡Buena lectura! Tu pronunciación es clara.',
+    deepseekReady: true
+  };
+}

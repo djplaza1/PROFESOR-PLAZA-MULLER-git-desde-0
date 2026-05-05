@@ -421,3 +421,19 @@ TEXTO: ${text.slice(0, 3000)}`;
     _ocrProgress: 0
   };
 })();
+
+// Alias para LecturaPanel: acepta File y lo convierte a ArrayBuffer
+window.Muller.extractPDFText = function(file) {
+  // Si ya es ArrayBuffer, llamar directamente
+  if (file instanceof ArrayBuffer || file instanceof Uint8Array) {
+    return window.Muller.PdfStudy.extractTextFromPdf(file);
+  }
+  // Si es File/Blob, convertir a ArrayBuffer
+  if (file.arrayBuffer) {
+    return file.arrayBuffer().then(function(buf) {
+      return window.Muller.PdfStudy.extractTextFromPdf(buf);
+    });
+  }
+  // Fallback: intentar como ArrayBuffer directamente
+  return Promise.reject(new Error('Formato no soportado para extracción de PDF'));
+};
