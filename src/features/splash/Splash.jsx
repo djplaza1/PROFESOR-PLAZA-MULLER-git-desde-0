@@ -1,11 +1,14 @@
-﻿// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // SPLASH – Profesor Plaza Müller v2
 // ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
 window.Muller.SplashScreen = ({ onStart }) => (
   <div style={{ fontFamily: 'Outfit, sans-serif', background: '#0f172a', color: '#e2e8f0', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <div style={{ textAlign: 'center' }}>
-      <img src="assets/icons/Logo-Plaza-Sin-fondo_20250125_054126_0000.png" alt="Logo" style={{ width: 140, marginBottom: 24 }} />
+      {/* Moneda grande con logo dentro */}
+      <div style={{ width: 160, height: 160, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '4px solid #fbbf24', boxShadow: '0 0 30px rgba(251,191,36,0.6)', overflow: 'hidden', margin: '0 auto 32px' }}>
+        <img src="assets/icons/logo-plaza-sin-fondo.png" alt="₿" style={{ width: 100, height: 100, objectFit: 'contain' }} />
+      </div>
       <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#06b6d4' }}>Profesor Plaza Müller</h1>
       <p style={{ marginTop: 8, color: '#94a3b8', fontSize: '1rem' }}>Plattform zum Deutschlernen</p>
       <button
