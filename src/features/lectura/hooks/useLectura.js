@@ -173,35 +173,6 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   // ─── ESTADOS DE EXPORT/IMPORT ───
   var showExportImport = React.useState(false);
 
-  // ─── ESTADOS DE PANTALLA COMPLETA ───
-  var isFullscreen = React.useState(false);
-
-  var toggleFullscreen = React.useCallback(function() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().then(function() {
-        isFullscreen[1](true);
-      }).catch(function(e) {
-        // Fallback para navegadores que no soportan fullscreen
-        isFullscreen[1](true); // Modo pseudo-fullscreen mediante CSS
-      });
-    } else {
-      document.exitFullscreen().then(function() {
-        isFullscreen[1](false);
-      }).catch(function() {
-        isFullscreen[1](false);
-      });
-    }
-  }, []);
-
-  // Escuchar cambios externos de fullscreen (tecla F11, etc.)
-  React.useEffect(function() {
-    var handler = function() {
-      isFullscreen[1](!!document.fullscreenElement);
-    };
-    document.addEventListener('fullscreenchange', handler);
-    return function() { document.removeEventListener('fullscreenchange', handler); };
-  }, []);
-
   // ─── REFS ───
   var textoRef = React.useRef('');
 
@@ -445,50 +416,33 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
         var blob = new Blob(audioChunks.current, { type: 'audio/webm' });
         recordedBlob[1](blob);
 
-        // Guardar grabación con metadatos completos
+          // Guardar grabación con metadatos completos (IndexedDB, sin límite de tamaño)
         var reader = new FileReader();
         reader.onload = function(e) {
           var dataURL = e.target.result;
-          try {
-            var data = storageGet(STORAGE_KEYS.recordings) || [];
-            var entry = {
-              key: 'rec_' + Date.now(),
-              blob: dataURL,
-              timestamp: new Date().toISOString(),
-              duration: audioChunks.current.length > 0 ? '~' + Math.round(audioChunks.current.length * 0.5) + 's' : '?',
-              source: source[0] || 'unknown',
-              textPreview: text[0] ? text[0].substring(0, 80) : ''
-            };
-            // LIMITAR grabaciones: máximo 10, y cada dataURL no debe exceder ~500KB
-            // Eliminar las más antiguas si se supera el límite
-            data.push(entry);
-            // Limitar a máximo 10 grabaciones
-            if (data.length > 10) {
-              data = data.slice(-10);
-            }
-            // Verificar tamaño total aproximado del localStorage
+          var entry = {
+            key: 'rec_' + Date.now(),
+            blob: dataURL,
+            timestamp: new Date().toISOString(),
+            duration: audioChunks.current.length > 0 ? '~' + Math.round(audioChunks.current.length * 0.5) + 's' : '?',
+            source: source[0] || 'unknown',
+            textPreview: text[0] ? text[0].substring(0, 80) : ''
+          };
+          if (window.Muller.LecturaHelpers && window.Muller.LecturaHelpers.saveRecordingToIndexedDB) {
+            window.Muller.LecturaHelpers.saveRecordingToIndexedDB(entry).then(function() {
+              loadRecordings();
+            });
+          } else {
+            // Fallback a localStorage
             try {
-              var totalSize = 0;
-              data.forEach(function(r) { totalSize += (r.blob ? r.blob.length : 0); });
-              var totalSizeMB = totalSize / (1024 * 1024);
-              if (totalSizeMB > 4) {
-                // Si supera 4MB, eliminar las grabaciones más antiguas hasta bajar de 3MB
-                while (data.length > 3 && totalSizeMB > 3) {
-                  var removed = data.shift();
-                  totalSizeMB -= (removed.blob ? removed.blob.length / (1024 * 1024) : 0);
-                }
-                if (window.Muller.Toast) {
-                  window.Muller.Toast.show({
-                    title: 'Límite de almacenamiento',
-                    desc: 'Las grabaciones más antiguas se han eliminado para liberar espacio.'
-                  });
-                }
-              }
-            } catch(e) {}
-            storageSet(STORAGE_KEYS.recordings, data);
-            loadRecordings();
-          } catch(e) {
-            console.warn('Could not save recording:', e);
+              var data = storageGet(STORAGE_KEYS.recordings) || [];
+              data.push(entry);
+              if (data.length > 10) data = data.slice(-10);
+              storageSet(STORAGE_KEYS.recordings, data);
+              loadRecordings();
+            } catch(e2) {
+              console.warn('Could not save recording:', e2);
+            }
           }
         };
         reader.readAsDataURL(blob);
@@ -539,28 +493,56 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   }, []);
 
   var loadRecordings = React.useCallback(function() {
-    try {
-      var data = storageGet(STORAGE_KEYS.recordings) || [];
-      recordingsList[1](data);
-    } catch(e) { recordingsList[1]([]); }
+    // Intentar cargar desde IndexedDB primero
+    if (window.Muller.LecturaHelpers && window.Muller.LecturaHelpers.getRecordingsFromIndexedDB) {
+      window.Muller.LecturaHelpers.getRecordingsFromIndexedDB().then(function(data) {
+        recordingsList[1](data || []);
+      }).catch(function() {
+        // Fallback a localStorage
+        try {
+          var data = storageGet(STORAGE_KEYS.recordings) || [];
+          recordingsList[1](data);
+        } catch(e) { recordingsList[1]([]); }
+      });
+    } else {
+      try {
+        var data = storageGet(STORAGE_KEYS.recordings) || [];
+        recordingsList[1](data);
+      } catch(e) { recordingsList[1]([]); }
+    }
   }, []);
 
   var deleteRecording = React.useCallback(function(key) {
-    try {
-      var data = storageGet(STORAGE_KEYS.recordings) || [];
-      data = data.filter(function(d) { return d.key !== key; });
-      storageSet(STORAGE_KEYS.recordings, data);
-      loadRecordings();
-      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Eliminada', desc: 'Grabación borrada.' });
-    } catch(e) {}
+    if (window.Muller.LecturaHelpers && window.Muller.LecturaHelpers.deleteRecordingFromIndexedDB) {
+      window.Muller.LecturaHelpers.deleteRecordingFromIndexedDB(key).then(function() {
+        loadRecordings();
+        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Eliminada', desc: 'Grabación borrada.' });
+      });
+    } else {
+      // Fallback a localStorage
+      try {
+        var data = storageGet(STORAGE_KEYS.recordings) || [];
+        data = data.filter(function(d) { return d.key !== key; });
+        storageSet(STORAGE_KEYS.recordings, data);
+        loadRecordings();
+        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Eliminada', desc: 'Grabación borrada.' });
+      } catch(e) {}
+    }
   }, []);
 
   var deleteAllRecordings = React.useCallback(function() {
-    try {
-      storageSet(STORAGE_KEYS.recordings, []);
-      recordingsList[1]([]);
-      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Todas eliminadas', desc: 'Grabaciones borradas.' });
-    } catch(e) {}
+    if (window.Muller.LecturaHelpers && window.Muller.LecturaHelpers.clearAllRecordingsFromIndexedDB) {
+      window.Muller.LecturaHelpers.clearAllRecordingsFromIndexedDB().then(function() {
+        recordingsList[1]([]);
+        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Todas eliminadas', desc: 'Grabaciones borradas.' });
+      });
+    } else {
+      try {
+        storageSet(STORAGE_KEYS.recordings, []);
+        recordingsList[1]([]);
+        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Todas eliminadas', desc: 'Grabaciones borradas.' });
+      } catch(e) {}
+    }
   }, []);
 
   // ─── FUNCIONES DE RONDAS ───
@@ -1018,6 +1000,39 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
 
     return analysis;
   }, [transcriptionErrors[0], readingDuration.current]);
+
+  // ─── PANTALLA COMPLETA ───
+  var toggleFullscreen = React.useCallback(function() {
+    if (!document.fullscreenElement) {
+      var el = document.getElementById('lectura-panel-root');
+      if (el && el.requestFullscreen) {
+        el.requestFullscreen().catch(function(){});
+      } else {
+        // Fallback para móviles: clase CSS
+        var panelEl = document.querySelector('.muller-reading-surface');
+        if (panelEl) {
+          panelEl.closest('[class*="muller-"]') ? 
+            panelEl.closest('[class*="muller-"]').classList.toggle('muller-fullscreen-mode') :
+            panelEl.classList.toggle('muller-fullscreen-mode');
+        }
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(function(){});
+      }
+    }
+  }, []);
+
+  var isFullscreen = React.useState(!!document.fullscreenElement);
+  React.useEffect(function() {
+    function onChange() { isFullscreen[1](!!document.fullscreenElement); }
+    document.addEventListener('fullscreenchange', onChange);
+    document.addEventListener('webkitfullscreenchange', onChange);
+    return function() {
+      document.removeEventListener('fullscreenchange', onChange);
+      document.removeEventListener('webkitfullscreenchange', onChange);
+    };
+  }, []);
 
   // ─── MAPA DE CALOR ───
   var toggleHeatmap = React.useCallback(function() {

@@ -915,6 +915,10 @@ window.Muller.LecturaPanel = function(props) {
   var setDictadoUserInput = h.setDictadoUserInput;
   var setShowExportImport = h.setShowExportImport;
 
+  // Fullscreen
+  var isFullscreen = h.isFullscreen;
+  var toggleFullscreen = h.toggleFullscreen;
+
   // ─── ICON HELPER ───
   function iS(n, c, s) {
     var html = window.Muller.LecturaHelpers.icon(n, c || '', s || 16);

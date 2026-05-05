@@ -628,6 +628,41 @@
             .muller-preboot-logo-btn { max-width: 22vh; max-height: 22vh; }
             .muller-preboot-title { font-size: clamp(1.5rem, 5vw, 3.2rem); }
         }
+        .muller-fullscreen-mode {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 200 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: #020617 !important;
+            overflow-y: auto !important;
+            padding: 1rem !important;
+            padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px)) !important;
+        }
+        .muller-fullscreen-mode .muller-reading-surface {
+            max-width: 100% !important;
+            min-height: calc(100vh - 2rem) !important;
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.98) 0%, rgba(7, 16, 35, 0.92) 100%) !important;
+        }
+        .muller-fullscreen-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+            color: #e2e8f0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+        .muller-fullscreen-btn:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.25);
+        }
     </style>
 </head>
 <body>

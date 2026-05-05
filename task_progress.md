@@ -1,0 +1,7 @@
+- [x] Leer código actual
+- [x] Diagnosticar error toggleFullscreen
+- [x] Diagnosticar migración grabaciones a IndexedDB
+- [ ] Corregir toggleFullscreen en LecturaPanel.jsx
+- [ ] Añadir funciones IndexedDB en lecturaHelpers.jsx
+- [ ] Modificar useLectura.js para usar IndexedDB (sin límites)
+- [ ] Verificar que no haya errores
