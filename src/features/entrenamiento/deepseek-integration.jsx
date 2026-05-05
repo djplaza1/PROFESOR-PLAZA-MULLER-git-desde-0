@@ -1,6 +1,46 @@
 window.Muller = window.Muller || {};
 
-// ==================== DEEPSEEK CONFIG ====================
+// ═══════════════════════════════════════════════════════════════
+// DEEPSEEK SAFETY NET – Garantiza que DeepSeek exista siempre
+// ═══════════════════════════════════════════════════════════════
+// Esto evita "TypeError: window.Muller.DeepSeek.hasApiKey is not a function"
+// cuando Babel no ha terminado de compilar deepSeekAi.jsx
+// ═══════════════════════════════════════════════════════════════
+
+window.Muller.DeepSeek = window.Muller.DeepSeek || {};
+
+// Si deepSeekAi.jsx no se ha cargado aún, estas funciones stub evitan el crash
+if (typeof window.Muller.DeepSeek.hasApiKey !== 'function') {
+    window.Muller.DeepSeek.hasApiKey = function() {
+        try {
+            var k = window.Muller.DeepSeek.getApiKey ? window.Muller.DeepSeek.getApiKey() : (localStorage.getItem('muller_deepseek_api_key_v1') || '');
+            return k && k.length > 10;
+        } catch(e) {
+            return false;
+        }
+    };
+}
+
+if (typeof window.Muller.DeepSeek.getApiKey !== 'function') {
+    window.Muller.DeepSeek.getApiKey = function() {
+        try {
+            return localStorage.getItem('muller_deepseek_api_key_v1') || '';
+        } catch(e) {
+            return '';
+        }
+    };
+}
+
+if (typeof window.Muller.DeepSeek.setApiKey !== 'function') {
+    window.Muller.DeepSeek.setApiKey = function(k) {
+        try {
+            localStorage.setItem('muller_deepseek_api_key_v1', k);
+            window.dispatchEvent(new CustomEvent('deepseekKeyChanged', { detail: { key: k } }));
+        } catch(e) {}
+    };
+}
+
+// ==================== DEEPSEEK CONFIG (legacy) ====================
 window.Muller.DEEPSEEK_KEY_STORAGE = 'muller_deepseek_key';
 window.Muller.DEEPSEEK_MODEL = 'deepseek-chat';
 

@@ -34,6 +34,40 @@
     <!-- Babel standalone -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SAFETY NET: DeepSeek stub síncrono (antes de Babel)       -->
+    <!-- Evita "TypeError: window.Muller.DeepSeek.hasApiKey        -->
+    <!-- is not a function" cuando Babel aún no ha compilado       -->
+    <!-- deepSeekAi.jsx                                             -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <script>
+    window.Muller = window.Muller || {};
+    window.Muller.DeepSeek = window.Muller.DeepSeek || {};
+    
+    // Stub: si deepSeekAi.jsx no se ha cargado, esto evita el crash
+    if (typeof window.Muller.DeepSeek.hasApiKey !== 'function') {
+        window.Muller.DeepSeek.hasApiKey = function() {
+            try {
+                var k = localStorage.getItem('muller_deepseek_api_key_v1') || '';
+                return k && k.length > 10;
+            } catch(e) { return false; }
+        };
+    }
+    if (typeof window.Muller.DeepSeek.getApiKey !== 'function') {
+        window.Muller.DeepSeek.getApiKey = function() {
+            try { return localStorage.getItem('muller_deepseek_api_key_v1') || ''; } catch(e) { return ''; }
+        };
+    }
+    if (typeof window.Muller.DeepSeek.setApiKey !== 'function') {
+        window.Muller.DeepSeek.setApiKey = function(k) {
+            try {
+                localStorage.setItem('muller_deepseek_api_key_v1', k);
+                window.dispatchEvent(new CustomEvent('deepseekKeyChanged', { detail: { key: k } }));
+            } catch(e) {}
+        };
+    }
+    </script>
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
     <!-- Supabase JS -->
