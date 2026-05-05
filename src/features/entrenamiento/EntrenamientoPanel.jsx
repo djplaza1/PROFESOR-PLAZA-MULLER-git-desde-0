@@ -2118,13 +2118,13 @@
     // COMPONENTE PRINCIPAL
     // ═══════════════════════════════════════════════════════════════
     function EntrenamientoPanel({ session }) {
-        var [dashboard, setDashboard] = React.useState(window.Muller.getAdvancedDashboard());
+        var [dashboard, setDashboard] = React.useState(window.Muller.getAdvancedDashboard ? window.Muller.getAdvancedDashboard() : {});
         var [activeSection, setActiveSection] = React.useState('dashboard');
         var [deepseekReady, setDeepseekReady] = React.useState(false);
         
         // Actualizar dashboard cuando cambia
         React.useEffect(function() {
-            var handler = function() { setDashboard(window.Muller.getAdvancedDashboard()); };
+            var handler = function() { if (window.Muller.getAdvancedDashboard) setDashboard(window.Muller.getAdvancedDashboard()); };
             window.addEventListener('advancedProgressUpdated', handler);
             window.addEventListener('achievementsUpdated', handler);
             window.addEventListener('dailyProgressUpdated', handler);

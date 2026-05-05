@@ -1681,5 +1681,3 @@ window.Muller.EntrenamientoHelpers = {
 };
 
 console.log('✅ entrenamientoHelpers v4 super-premium loaded');
-
-})();
