@@ -260,6 +260,9 @@ window.Muller.LecturaHelpers.migrateRecordingsToIndexedDB = async function() {
   }
 };
 
+// Alias para compatibilidad (checkGermanPhonetics está en window.Muller.Lectura)
+window.Muller.LecturaHelpers.checkGermanPhonetics = window.Muller.Lectura.checkGermanPhonetics;
+
 // ─── BIBLIOTECA DE TEXTOS PRESELECCIONADOS (getDefaultLibrary) ───
 window.Muller.LecturaHelpers.getDefaultLibrary = function() {
   return [
