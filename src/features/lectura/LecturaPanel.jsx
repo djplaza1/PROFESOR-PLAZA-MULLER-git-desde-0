@@ -408,9 +408,11 @@ function dataURItoBlob(dataURI) {
 function Oscilloscope(props) {
   var canvasRef = React.useRef(null);
   var animId = React.useRef(null);
+  var mountedRef = React.useRef(true);
 
   React.useEffect(function() {
-    if (!props.active || !props.analyserRef.current || !canvasRef.current) return;
+    mountedRef.current = true;
+    if (!props.active || !props.analyserRef || !props.analyserRef.current || !canvasRef.current) return;
 
     var canvas = canvasRef.current;
     var ctx = canvas.getContext('2d');
@@ -420,8 +422,9 @@ function Oscilloscope(props) {
     var W = canvas.width;
     var H = canvas.height;
 
-    function draw() {
-      animId.current = requestAnimationFrame(draw);
+    var rafId = requestAnimationFrame(function tick() {
+      if (!mountedRef.current) return;
+      animId.current = requestAnimationFrame(tick);
       analyser.getByteTimeDomainData(dataArray);
       ctx.fillStyle = 'rgba(15,23,42,0.3)';
       ctx.fillRect(0, 0, W, H);
@@ -440,13 +443,14 @@ function Oscilloscope(props) {
       }
       ctx.lineTo(W, H / 2);
       ctx.stroke();
-    }
-    draw();
+    });
 
     return function() {
+      mountedRef.current = false;
       if (animId.current) cancelAnimationFrame(animId.current);
+      if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [props.active, props.analyserRef.current]);
+  }, [props.active, props.analyserRef ? props.analyserRef.current : null]);
 
   return React.createElement('div', {
     style: {
@@ -1035,7 +1039,7 @@ window.Muller.LecturaPanel = function(props) {
     actionButtons.push(
       React.createElement('button', {
         key: 'karaoke',
-        onClick: karaokeActive ? stopKaraoke : (function() { if (text) startKaraoke(); }),
+        onClick: function() { if (text) startKaraoke(); },
         disabled: !text,
         style: glassButton('#a855f7', { padding: '6px 12px', opacity: (!text) ? 0.5 : 1 })
       }, '🎤 Karaoke')
@@ -1043,7 +1047,7 @@ window.Muller.LecturaPanel = function(props) {
     actionButtons.push(
       React.createElement('button', {
         key: 'shadow',
-        onClick: shadowActive ? stopShadowReading : (function() { if (text) startShadowReading(); }),
+        onClick: function() { if (text) startShadowReading(); },
         disabled: !text,
         style: glassButton('#06b6d4', { padding: '6px 12px', opacity: (!text) ? 0.5 : 1 })
       }, '🌙 Sombra')
@@ -1051,10 +1055,39 @@ window.Muller.LecturaPanel = function(props) {
     actionButtons.push(
       React.createElement('button', {
         key: 'dictado',
-        onClick: dictadoActive ? stopDictado : (function() { if (text) startDictado(); }),
+        onClick: function() { if (text) startDictado(); },
         disabled: !text,
         style: glassButton('#22d3ee', { padding: '6px 12px', opacity: (!text) ? 0.5 : 1 })
       }, '✍️ Dictado')
+    );
+  } else {
+    // Botón de volver cuando estamos en un modo de práctica
+    actionButtons.push(
+      React.createElement('button', {
+        key: 'back',
+        onClick: function() {
+          if (roundsActive) stopReading();
+          if (karaokeActive) stopKaraoke();
+          if (shadowActive) stopShadowReading();
+          if (dictadoActive) stopDictado();
+          if (marathonActive) stopMarathon();
+        },
+        style: glassButton('#64748b', { padding: '6px 16px', fontSize: '0.9rem', fontWeight: 700 })
+      }, '⬅ Volver')
+    );
+    // Indicar modo activo
+    var modoLabel = '';
+    if (roundsActive) modoLabel = '🏆 Rondas activas';
+    else if (karaokeActive) modoLabel = '🎤 Karaoke activo';
+    else if (shadowActive) modoLabel = '🌙 Sombra activa';
+    else if (dictadoActive) modoLabel = '✍️ Dictado activo';
+    else if (marathonActive) modoLabel = '🏃 Maratón activo';
+
+    actionButtons.push(
+      React.createElement('span', {
+        key: 'modo-label',
+        style: { fontSize: '0.85rem', color: '#fbbf24', fontWeight: 600, padding: '0 8px' }
+      }, modoLabel)
     );
   }
 

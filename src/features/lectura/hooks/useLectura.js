@@ -259,7 +259,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     } catch(e) {
       console.warn('Could not start recognition:', e);
     }
-  }, [isReading[0], text[0], tokens[0]]);
+  }, [isReading[0], text[0], tokens[0], startOscilloscope]);
 
   var stopReading = React.useCallback(function() {
     if (recognitionRef.current) {
@@ -271,14 +271,14 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     readingDuration.current = Date.now() - (readingStartTime.current || Date.now());
     stopOscilloscope();
     evaluateReading();
-  }, [transcript[0], text[0], tokens[0]]);
+  }, [transcript[0], text[0], tokens[0], stopOscilloscope, evaluateReading]);
 
   // ─── FEEDBACK VISUAL EN VIVO ───
   // Compara transcript con tokens en tiempo real y actualiza wordStatuses
   var updateWordStatuses = React.useCallback(function(transcriptText, originalTokens) {
     if (!transcriptText || !originalTokens || originalTokens.length === 0) return;
 
-    var normalizedTranscript = window.Muller.Lectura.normalizeGermanSpeechText(transcriptText);
+    var normalizedTranscript = window.Muller.LecturaHelpers.normalize(transcriptText);
     var spokenWords = normalizedTranscript.split(/\s+/).filter(Boolean);
 
     var newStatuses = {};
@@ -296,7 +296,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       }
 
       var isExact = spokenWord === cleanKey;
-      var phoneticCheck = window.Muller.Lectura.checkGermanPhonetics(cleanKey, spokenWord);
+      var phoneticCheck = window.Muller.LecturaHelpers.checkGermanPhonetics(cleanKey, spokenWord);
 
       if (isExact) {
         newStatuses[cleanKey] = 'correct';
@@ -430,7 +430,32 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
               source: source[0] || 'unknown',
               textPreview: text[0] ? text[0].substring(0, 80) : ''
             };
+            // LIMITAR grabaciones: máximo 10, y cada dataURL no debe exceder ~500KB
+            // Eliminar las más antiguas si se supera el límite
             data.push(entry);
+            // Limitar a máximo 10 grabaciones
+            if (data.length > 10) {
+              data = data.slice(-10);
+            }
+            // Verificar tamaño total aproximado del localStorage
+            try {
+              var totalSize = 0;
+              data.forEach(function(r) { totalSize += (r.blob ? r.blob.length : 0); });
+              var totalSizeMB = totalSize / (1024 * 1024);
+              if (totalSizeMB > 4) {
+                // Si supera 4MB, eliminar las grabaciones más antiguas hasta bajar de 3MB
+                while (data.length > 3 && totalSizeMB > 3) {
+                  var removed = data.shift();
+                  totalSizeMB -= (removed.blob ? removed.blob.length / (1024 * 1024) : 0);
+                }
+                if (window.Muller.Toast) {
+                  window.Muller.Toast.show({
+                    title: 'Límite de almacenamiento',
+                    desc: 'Las grabaciones más antiguas se han eliminado para liberar espacio.'
+                  });
+                }
+              }
+            } catch(e) {}
             storageSet(STORAGE_KEYS.recordings, data);
             loadRecordings();
           } catch(e) {
@@ -529,44 +554,56 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     startRoundTimer(baseTime);
   }, [tokens[0], text[0]]);
 
+  // Usamos refs para evitar closures stale en el timer de rondas
+  var roundStateRef = React.useRef({ currentRound: 1, roundTimeLimit: 30, roundTimeLeft: 30, roundTimes: [], roundScores: [] });
+
   var startRoundTimer = React.useCallback(function(limit) {
     if (roundTimer.current) clearInterval(roundTimer.current);
     roundTimeLeft[1](limit);
+    roundStateRef.current.roundTimeLimit = limit;
+    roundStateRef.current.roundTimeLeft = limit;
     roundTimer.current = setInterval(function() {
       roundTimeLeft[1](function(prev) {
         if (prev <= 1) {
           clearInterval(roundTimer.current);
-          setTimeout(finishRound, 0);
+          roundTimer.current = null;
+          roundStateRef.current.roundTimeLeft = 0;
+          // Ejecutar finishRound usando refs en lugar de closures
+          finishRoundFromRefs();
           return 0;
         }
+        roundStateRef.current.roundTimeLeft = prev - 1;
         return prev - 1;
       });
     }, 1000);
   }, []);
 
-  var finishRound = React.useCallback(function() {
-    if (roundTimer.current) clearInterval(roundTimer.current);
+  // finishRound basado en refs para evitar closures stale
+  var finishRoundFromRefs = React.useCallback(function() {
+    if (roundTimer.current) { clearInterval(roundTimer.current); roundTimer.current = null; }
 
-    var totalTime = roundTimeLimit[0] - roundTimeLeft[0];
+    var state = roundStateRef.current;
+    var totalTime = state.roundTimeLimit - state.roundTimeLeft;
     var transcriptText = transcript[0];
     var compare = window.Muller.LecturaHelpers.compareTokens(text[0], transcriptText);
     var baseResult = window.Muller.LecturaHelpers.calculateScore(compare, totalTime);
-    var roundScore = window.Muller.LecturaHelpers.calculateRoundScore(baseResult.score, totalTime, roundTimeLimit[0]);
+    var roundScore = window.Muller.LecturaHelpers.calculateRoundScore(baseResult.score, totalTime, state.roundTimeLimit);
 
-    var newTimes = roundTimes[0].concat([totalTime]);
-    var newScores = roundScores[0].concat([roundScore]);
+    var newTimes = state.roundTimes.concat([totalTime]);
+    var newScores = state.roundScores.concat([roundScore]);
     roundTimes[1](newTimes);
     roundScores[1](newScores);
 
     // Guardar palabras falladas de esta ronda
     saveFailedWords(compare);
 
-    var nextRound = currentRound[0] + 1;
+    var nextRound = state.currentRound + 1;
     if (nextRound <= ROUNDS_CONFIG.maxRounds) {
+      var newLimit = Math.max(ROUNDS_CONFIG.minTimeSeconds, Math.round(state.roundTimeLimit * (1 - ROUNDS_CONFIG.timePenaltyPercent)));
       currentRound[1](nextRound);
-      var newLimit = Math.max(ROUNDS_CONFIG.minTimeSeconds, Math.round(roundTimeLimit[0] * (1 - ROUNDS_CONFIG.timePenaltyPercent)));
       roundTimeLimit[1](newLimit);
       transcript[1]('');
+      roundStateRef.current = { currentRound: nextRound, roundTimeLimit: newLimit, roundTimeLeft: newLimit, roundTimes: newTimes, roundScores: newScores };
       startRoundTimer(newLimit);
     } else {
       roundsActive[1](false);
@@ -579,7 +616,12 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       try { window.Muller.Achievements.unlock('reading_3_rounds'); } catch(e) {}
       saveToHistory(baseResult);
     }
-  }, [text[0], transcript[0], currentRound[0], roundTimeLimit[0], roundTimeLeft[0], roundTimes[0], roundScores[0]]);
+  }, [text[0], transcript[0]]);
+
+  // finishRound legacy: llama a la versión con refs
+  var finishRound = React.useCallback(function() {
+    finishRoundFromRefs();
+  }, [finishRoundFromRefs]);
 
   // ─── MODO MARATÓN ───
   var startMarathon = React.useCallback(function(durationSeconds) {
@@ -958,7 +1000,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     try {
       var historyData = storageGet(STORAGE_KEYS.history) || [];
       var fallWords = storageGet(STORAGE_KEYS.fallWords) || [];
-      var hTokens = window.Muller.Lectura.generateHeatmap(tokens[0], fallWords);
+      var hTokens = window.Muller.LecturaHelpers.generateHeatmap(tokens[0], fallWords);
       heatmapTokens[1](hTokens);
       showHeatmap[1](true);
     } catch(e) {
