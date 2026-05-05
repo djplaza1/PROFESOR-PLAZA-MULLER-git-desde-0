@@ -40,7 +40,7 @@ window.Muller.Panels.IaPanel = {
             <p class="text-xs text-gray-400">Dein persönlicher Deutschlehrer</p>
           </div>
           <span id="ia-api-badge" class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-400">Local</span>
-          <span id="ia-mode-badge" class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-300">Normal</span>
+          <button id="ia-mode-badge" class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-300 hover:bg-gray-600 border-none cursor-pointer transition" title="Cambiar modo de IA">Normal ▾</button>
           <button id="ia-clear-btn" title="Neuen Chat starten" class="p-2 hover:bg-gray-700 rounded-lg transition">
             <i data-lucide="trash-2" class="w-5 h-5 text-gray-400"></i>
           </button>
@@ -80,6 +80,7 @@ window.Muller.Panels.IaPanel = {
     sendBtn?.addEventListener("click", () => this.sendMessage());
     clearBtn?.addEventListener("click", () => this.confirmClear());
     modeBtn?.addEventListener("click", () => this.toggleModeMenu());
+    this.modeBadge?.addEventListener("click", () => this.toggleModeMenu());
 
     this.inputField?.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
