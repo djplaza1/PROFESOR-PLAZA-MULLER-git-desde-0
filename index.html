@@ -27,6 +27,124 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- CSS Variables para temas: oscuro / claro / alto contraste -->
+    <style>
+      :root, .dark {
+        --bg-primary: #0f172a;
+        --bg-surface: #1e293b;
+        --bg-card: #1e293b;
+        --bg-elevated: #334155;
+        --border-color: #334155;
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --accent: #06b6d4;
+        --accent-alt: #8b5cf6;
+      }
+      .light {
+        --bg-primary: #f1f5f9;
+        --bg-surface: #ffffff;
+        --bg-card: #ffffff;
+        --bg-elevated: #e2e8f0;
+        --border-color: #cbd5e1;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --accent: #0891b2;
+        --accent-alt: #7c3aed;
+      }
+      .hc {
+        --bg-primary: #000000;
+        --bg-surface: #1a1a1a;
+        --bg-card: #000000;
+        --bg-elevated: #333333;
+        --border-color: #ffffff;
+        --text-primary: #ffffff;
+        --text-secondary: #cccccc;
+        --accent: #ffcc00;
+        --accent-alt: #ff8800;
+      }
+      body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+      }
+      /* ── FORZAR TEMAS en componentes concretos ── */
+      .light #app-main,
+      .light #app-main .bg-slate-900,
+      .light #app-main .bg-gray-900,
+      .light #app-main .bg-slate-800,
+      .light #app-main .bg-gray-800,
+      .light #app-main .bg-zinc-900,
+      .light #app-main .bg-zinc-800,
+      .light #app-main [class*="bg-black/"] {
+        background: var(--bg-primary) !important;
+      }
+      .light #app-main .bg-slate-700,
+      .light #app-main .bg-gray-700 {
+        background: var(--bg-elevated) !important;
+      }
+      .light #app-main .text-white,
+      .light #app-main .text-gray-100,
+      .light #app-main .text-slate-100,
+      .light #app-main .text-zinc-100 {
+        color: var(--text-primary) !important;
+      }
+      .light #app-main .text-gray-300,
+      .light #app-main .text-gray-400,
+      .light #app-main .text-slate-400 {
+        color: var(--text-secondary) !important;
+      }
+      .light #app-main .border-white\/10,
+      .light #app-main .border-white\/20,
+      .light #app-main .border-slate-700 {
+        border-color: var(--border-color) !important;
+      }
+      .light #app-main .muller-mobile-bottom-nav {
+        background: var(--bg-surface) !important;
+        border-top-color: var(--border-color) !important;
+      }
+      .light #app-main .muller-glass-card {
+        background: var(--bg-card) !important;
+        border-color: var(--border-color) !important;
+      }
+      /* alto contraste */
+      .hc #app-main .bg-slate-900,
+      .hc #app-main .bg-gray-900,
+      .hc #app-main .bg-slate-800,
+      .hc #app-main .bg-gray-800,
+      .hc #app-main .bg-zinc-900,
+      .hc #app-main .bg-zinc-800,
+      .hc #app-main .bg-slate-700,
+      .hc #app-main [class*="bg-black/"] {
+        background: #000000 !important;
+      }
+      .hc #app-main .text-white,
+      .hc #app-main .text-gray-100,
+      .hc #app-main .text-slate-100 {
+        color: #ffffff !important;
+      }
+      .hc #app-main .text-gray-300,
+      .hc #app-main .text-gray-400,
+      .hc #app-main .text-slate-400 {
+        color: #cccccc !important;
+      }
+      .hc #app-main .border-white\/10,
+      .hc #app-main .border-white\/20 {
+        border-color: #ffffff !important;
+      }
+      .hc #app-main .muller-mobile-bottom-nav {
+        background: #000000 !important;
+        border-top-color: #ffffff !important;
+      }
+      .hc #app-main .muller-glass-card {
+        background: #1a1a1a !important;
+        border-color: #ffffff !important;
+      }
+      .hc #app-main button,
+      .hc #app-main a {
+        border-color: #ffffff !important;
+        color: #ffcc00 !important;
+      }
+    </style>
+    
     <!-- React y ReactDOM -->
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>

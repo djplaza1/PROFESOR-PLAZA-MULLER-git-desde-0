@@ -680,27 +680,4 @@ window.Muller.Panels.ajustes = function AjustesPanelWrapper(props) {
   return React.createElement('div', { id: 'panel-content', className: 'w-full h-full' });
 };
 
-// Método auxiliar para exportar datos filtrados
-window.Muller.Ajustes.exportFiltered = function(type) {
-  const data = {};
-  const prefixMap = {
-    srs: ['bx_srs_', 'muller_srs_', 'srs_'],
-    decks: ['bx_deck_', 'muller_deck_', 'deck_'],
-    ia: ['ia_chat_history'],
-  };
-  const prefixes = prefixMap[type] || [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (prefixes.some(p => key.startsWith(p))) {
-      data[key] = localStorage.getItem(key);
-    }
-  }
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `muller_${type}_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-};
 

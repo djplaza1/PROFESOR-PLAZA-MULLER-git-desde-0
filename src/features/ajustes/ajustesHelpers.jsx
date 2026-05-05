@@ -67,6 +67,16 @@ window.Muller.Ajustes = {
       case 'THEME':
         document.documentElement.classList.remove('dark', 'light', 'hc');
         document.documentElement.classList.add(value);
+        // Forzar colores en body y root para que se vea el cambio
+        document.body.style.background = 'var(--bg-primary)';
+        document.body.style.color = 'var(--text-primary)';
+        var root = document.getElementById('root');
+        if (root) root.style.background = 'var(--bg-primary)';
+        var main = document.getElementById('app-main');
+        if (main) {
+          main.style.background = 'var(--bg-primary)';
+          main.style.color = 'var(--text-primary)';
+        }
         break;
       case 'REDUCE_MOTION':
         document.documentElement.style.setProperty('--reduce-motion', value ? '1' : '0');
@@ -154,4 +164,69 @@ window.Muller.Ajustes = {
     };
     return map[prop] || prop;
   }
+};
+
+// ══════════════════════════════════════════════════════════════════
+// AUTO‑INIT: aplicar el tema guardado al cargar la página
+// ══════════════════════════════════════════════════════════════════
+(function initAjustes() {
+  try {
+    var saved = window.Muller.Ajustes.getAll();
+    if (saved && saved.theme) {
+      window.Muller.Ajustes.apply('THEME', saved.theme);
+    }
+    if (saved && saved.reduceMotion) {
+      window.Muller.Ajustes.apply('REDUCE_MOTION', saved.reduceMotion);
+    }
+    if (saved && saved.sfxEnabled !== undefined) {
+      window.__mullerSfxEnabled = saved.sfxEnabled;
+    }
+    if (saved && saved.ttsRate) {
+      window.Muller.Ajustes.apply('TTS_RATE', saved.ttsRate);
+    }
+  } catch(e) { /* ignora errores en init */ }
+})();
+
+// Método auxiliar para exportar datos filtrados
+window.Muller = window.Muller || {};
+window.Muller.Ajustes.exportFiltered = function(type) {
+  const data = {};
+
+  // SRS data
+  if (type === 'srs') {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('muller_vocab_') || key.startsWith('muller_srs_')) {
+        data[key] = localStorage.getItem(key);
+      }
+    }
+  }
+
+  // Decks
+  if (type === 'decks') {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('muller_deck_') || key.startsWith('decks_')) {
+        data[key] = localStorage.getItem(key);
+      }
+    }
+  }
+
+  // IA
+  if (type === 'ia') {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('ia_') || key.startsWith('muller_ia_')) {
+        data[key] = localStorage.getItem(key);
+      }
+    }
+  }
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `muller_${type}_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 };
