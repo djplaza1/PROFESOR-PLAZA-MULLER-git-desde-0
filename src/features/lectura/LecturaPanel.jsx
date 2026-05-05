@@ -1398,4 +1398,5 @@ window.Muller.LecturaPanel = function(props) {
 };
 
 // Registrar como componente global
-window.Muller.LecturaPanel = window.Muller.LecturaPanel;
+window.Muller.Panels = window.Muller.Panels || {};
+window.Muller.Panels['lectura'] = window.Muller.LecturaPanel;
