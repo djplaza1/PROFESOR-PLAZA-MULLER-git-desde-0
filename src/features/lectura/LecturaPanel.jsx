@@ -1,400 +1,38 @@
-﻿// src/features/lectura/LecturaPanel.jsx
-// Panel principal de Lectura - ensambla todos los subcomponentes
-// Registrado como window.Muller.Panels['lectura']
+// src/features/lectura/LecturaPanel.jsx
+// Panel principal de la pestaña Lectura
+// Se registra como window.Muller.LecturaPanel
+
 window.Muller = window.Muller || {};
-window.Muller.Panels = window.Muller.Panels || {};
 
-window.Muller.Panels['lectura'] = function(props) {
-  var h = window.Muller.LecturaHooks.useLectura({ initialText: '' });
-  var iconSpan = window.Muller.LecturaComponents.iconSpan;
+// ─── HELPERS LOCALES ───
 
-  // ─── Estilo contenedor principal ───
-  var mainStyle = {
-    padding: '16px',
-    maxWidth: '960px',
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px'
-  };
-
-  // ─── Título ───
-  var titleBar = React.createElement('div', {
-    style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }
-  },
-    React.createElement('h2', {
-      style: { fontSize: '1.5rem', fontWeight: 700, color: '#f1f5f9', margin: 0 }
-    }, ['📖 Lectura']),
-    React.createElement('div', { style: { display: 'flex', gap: '8px', alignItems: 'center' } },
-      h.isOffline && React.createElement('span', {
-        style: { fontSize: '0.75rem', color: '#fbbf24', background: 'rgba(251,191,36,0.1)', padding: '2px 8px', borderRadius: '4px' }
-      }, '📡 Sin conexión'),
-      h.streak > 0 && React.createElement('span', {
-        style: { fontSize: '0.8rem', color: '#f97316', display: 'flex', alignItems: 'center', gap: '4px' }
-      }, ['🔥', String(h.streak), ' días'])
-    )
-  );
-
-  // ─── Selector de fuente de texto ───
-  var sourceSelector = React.createElement('div', {
-    style: { display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }
-  },
-    React.createElement('button', {
-      onClick: function() { h.setShowLibrary(!h.showLibrary); },
-      style: glassButton(h.showLibrary ? '#fbbf24' : '#334155')
-    }, [iconSpan('library', 'library-icon'), ' Biblioteca']),
-    React.createElement('label', {
-      style: glassButton('#334155', { position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' })
-    },
-      [iconSpan('fileText', 'file-icon'), ' Pegar'],
-      React.createElement('input', {
-        type: 'file',
-        accept: '.txt,.pdf',
-        style: { position: 'absolute', opacity: 0, width: '100%', height: '100%', top: 0, left: 0, cursor: 'pointer' },
-        onChange: handleFileUpload
-      })
-    ),
-    React.createElement('button', {
-      onClick: h.startDictado,
-      style: glassButton(h.dictadoActive ? '#06b6d4' : '#334155')
-    }, [iconSpan('headphones', 'dictado-icon'), ' Dictado']),
-    React.createElement('button', {
-      onClick: h.startKaraoke,
-      disabled: !h.text || h.karaokeActive,
-      style: glassButton(h.karaokeActive ? '#a855f7' : '#334155', { opacity: !h.text ? 0.5 : 1 })
-    }, [iconSpan('skipForward', 'karoake-icon'), ' Karaoke']),
-    React.createElement('button', {
-      onClick: h.startShadowReading,
-      disabled: !h.text || h.shadowActive,
-      style: glassButton(h.shadowActive ? '#8b5cf6' : '#334155', { opacity: !h.text ? 0.5 : 1 })
-    }, [iconSpan('activity', 'shadow-icon'), ' Sombra'])
-  );
-
-  // ─── Input para pegar texto (componente externo para evitar pérdida de foco) ───
-  var pasteArea = !h.text ? React.createElement(window.Muller.LecturaComponents.PasteArea, {
-    onPaste: h.pasteText,
-    value: h.pasteTextInput,
-    onChange: h.setPasteTextInput,
-    onClear: function() { h.setPasteTextInput(''); }
-  }) : null;
-
-  // ─── Controles de fuente ───
-  var fontControls = h.text ? React.createElement('div', {
-    style: { display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }
-  },
-    React.createElement('button', { onClick: h.decreaseFont, style: glassButton('#475569', { padding: '4px 8px' }) }, 'A−'),
-    React.createElement('span', { style: { color: '#94a3b8', fontSize: '0.8rem', minWidth: '40px', textAlign: 'center' } }, [String(h.fontSize), 'px']),
-    React.createElement('button', { onClick: h.increaseFont, style: glassButton('#475569', { padding: '4px 8px' }) }, 'A+'),
-    React.createElement('button', { onClick: h.resetFont, style: glassButton('#475569', { padding: '4px 8px' }) }, '↺'),
-    React.createElement('span', { style: { flex: 1 } }),
-    h.isReading
-      ? React.createElement('button', { onClick: h.stopReading, style: glassButton('#ef4444', { display: 'flex', alignItems: 'center', gap: '4px' }) },
-          [iconSpan('stopCircle', 'stop-icon'), ' Parar y evaluar'])
-      : React.createElement('button', {
-          onClick: h.startReading,
-          disabled: !h.text,
-          style: glassButton(h.isListening ? '#f97316' : '#06b6d4', { display: 'flex', alignItems: 'center', gap: '4px', opacity: !h.text ? 0.5 : 1 })
-        }, [iconSpan('mic', 'mic-icon'), (h.isListening ? ' Escuchando...' : ' Empezar lectura')])
-  ) : null;
-
-  // ─── Texto tokenizado interactivo ───
-  var textDisplay = h.text ? React.createElement(TextDisplay, {
-    tokens: h.tokens,
-    fontSize: h.fontSize,
-    activeWord: h.activeWord,
-    karaokeActive: h.karaokeActive,
-    karaokeCurrentWord: h.karaokeCurrentWord,
-    karaokeWords: h.karaokeWords,
-    shadowActive: h.shadowActive,
-    onWordClick: h.handleWordClick,
-    onTextSelect: h.handleTextSelection
-  }) : null;
-
-  // ─── Barra de progreso durante lectura ───
-  var progressBar = (h.isReading || h.isListening) && h.progress.total > 0
-    ? React.createElement(ProgressBar, { progress: h.progress })
-    : null;
-
-  // ─── Temporizador de rondas ───
-  var roundsDisplay = h.roundsActive
-    ? React.createElement(RoundsDisplay, {
-        currentRound: h.currentRound,
-        roundTimeLeft: h.roundTimeLeft,
-        roundTimeLimit: h.roundTimeLimit,
-        roundScores: h.roundScores,
-        onFinish: h.finishRound,
-        isReading: h.isReading,
-        startReading: h.startReading,
-        stopReading: h.stopReading
-      })
-    : null;
-
-  // ─── Panel de rondas (antes de empezar) ───
-  var roundsPanelContainer = !h.roundsActive && h.text
-    ? React.createElement('div', { style: { marginBottom: '8px' } },
-        React.createElement('button', {
-          onClick: function() { if (window.confirm('Modo rondas: leerás el texto 3 veces con tiempo decreciente. ¿Empezar?')) h.startRounds(); },
-          style: glassButton('#8b5cf6', { display: 'flex', alignItems: 'center', gap: '4px' })
-        }, [iconSpan('target', 'rounds-icon'), ' Modo rondas (3 intentos)'])
-      )
-    : null;
-
-  // ─── Transcripción en tiempo real ───
-  var transcriptDisplay = (h.transcript || h.interimText) && (h.isReading || h.showScore)
-    ? React.createElement('div', {
-        style: {
-          marginTop: '8px', padding: '12px', borderRadius: '12px',
-          background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(148,163,184,0.15)',
-          backdropFilter: 'blur(8px)'
-        }
-      },
-        React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginBottom: '4px' } }, '📝 Tu lectura:'),
-        React.createElement('div', { style: { color: '#e2e8f0', fontSize: '0.9rem' } },
-          h.transcript,
-          h.interimText && React.createElement('span', { style: { color: '#94a3b8', opacity: 0.6 } }, h.interimText)
-        )
-      )
-    : null;
-
-  // ─── Puntuación ───
-  var scorePanel = h.showScore && h.scoreResult
-    ? React.createElement(ScorePanel, { result: h.scoreResult, onClose: function() { h.setShowScore(false); } })
-    : null;
-
-  // ─── Panel de palabra activa (traducción e info) ───
-  var translationPanel = h.showTranslation && h.wordInfo
-    ? React.createElement(TranslationPanel, {
-        wordInfo: h.wordInfo,
-        onClose: function() { h.setShowTranslation(false); }
-      })
-    : null;
-
-  // ─── Frase seleccionada ───
-  var selectedTextPanel = h.selectedText
-    ? React.createElement('div', {
-        style: {
-          padding: '12px', borderRadius: '12px',
-          background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(251,191,36,0.3)',
-          backdropFilter: 'blur(8px)'
-        }
-      },
-        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
-          React.createElement('span', { style: { fontSize: '0.8rem', color: '#fbbf24', fontWeight: 600 } }, '✂️ Frase seleccionada'),
-          React.createElement('div', { style: { display: 'flex', gap: '6px' } },
-            React.createElement('button', { onClick: h.playSelectedText, style: glassButton('#06b6d4', { padding: '4px 8px' }) }, iconSpan('volume2', 'play-icon', 14)),
-            React.createElement('button', { onClick: h.clearSelection, style: glassButton('#ef4444', { padding: '4px 8px' }) }, iconSpan('x', 'clear-icon', 14))
-          )
-        ),
-        React.createElement('div', { style: { color: '#e2e8f0', fontSize: '0.9rem', fontStyle: 'italic' } }, h.selectedText)
-      )
-    : null;
-
-  // ─── Grabación de audio ───
-  var audioRecorder = h.text
-    ? React.createElement(AudioRecorder, {
-        isRecording: h.isRecording,
-        isPlaying: h.isPlayingRecording,
-        recordedBlob: h.recordedBlob,
-        recordingsList: h.recordingsList,
-        isReading: h.isReading,
-        startRecording: h.startRecording,
-        stopRecording: h.stopRecording,
-        playRecording: h.playRecording,
-        deleteRecording: h.deleteRecording
-      })
-    : null;
-
-  // ─── Osciloscopio ───
-  var oscilloscope = (h.isListening || h.oscilloscopeActive)
-    ? React.createElement(Oscilloscope, {
-        active: h.oscilloscopeActive,
-        analyserRef: h.analyserRef,
-        animationIdRef: h.animationIdRef
-      })
-    : null;
-
-  // ─── Dictado inverso ───
-  var dictadoPanel = h.dictadoActive
-    ? React.createElement(DictadoPanel, {
-        currentSentence: h.dictadoCurrentSentence,
-        userInput: h.dictadoUserInput,
-        setUserInput: h.setDictadoUserInput,
-        score: h.dictadoScore,
-        onSubmit: h.submitDictado,
-        onStop: h.stopDictado,
-        onRepeat: h.startDictado
-      })
-    : null;
-
-  // ─── Sombra de lectura ───
-  var shadowPanel = h.shadowActive
-    ? React.createElement('div', {
-        style: {
-          padding: '12px', borderRadius: '12px',
-          background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)',
-          backdropFilter: 'blur(8px)', marginTop: '8px'
-        }
-      },
-        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
-          React.createElement('span', { style: { fontSize: '0.9rem', color: '#c4b5fd', fontWeight: 600 } }, '🎭 Sombra de lectura'),
-          React.createElement('button', { onClick: h.stopShadowReading, style: glassButton('#ef4444', { padding: '4px 8px' }) }, iconSpan('square', 'stop-icon', 14))
-        ),
-        React.createElement('div', { style: { position: 'relative', height: '8px', background: 'rgba(139,92,246,0.2)', borderRadius: '4px', overflow: 'hidden' } },
-          React.createElement('div', {
-            style: { position: 'absolute', left: 0, top: 0, height: '100%', width: h.shadowSync + '%', background: 'linear-gradient(90deg, #8b5cf6, #a78bfa)', borderRadius: '4px', transition: 'width 0.3s ease' }
-          })
-        ),
-        React.createElement('div', { style: { fontSize: '0.8rem', color: '#a78bfa', marginTop: '4px', textAlign: 'center' } },
-          'Sincronización: ' + h.shadowSync + '%')
-      )
-    : null;
-
-  // ─── Historial ───
-  var historyPanel = h.showHistory
-    ? React.createElement(HistoryPanel, {
-        history: h.history,
-        onClose: function() { h.setShowHistory(false); },
-        streak: h.streak
-      })
-    : null;
-
-  // ─── Biblioteca ───
-  var libraryPanel = h.showLibrary
-    ? React.createElement(LibraryPanel, {
-        texts: h.libraryTexts,
-        onSelect: h.selectText,
-        onDelete: h.deleteCustomText,
-        onClose: function() { h.setShowLibrary(false); }
-      })
-    : null;
-
-  // ─── Botón de historial ───
-  var historyButton = h.text
-    ? React.createElement('div', { style: { textAlign: 'center', marginTop: '8px' } },
-        React.createElement('button', {
-          onClick: function() { h.setShowHistory(!h.showHistory); },
-          style: glassButton('#475569', { display: 'flex', alignItems: 'center', gap: '4px', margin: '0 auto' })
-        }, [iconSpan('barChart', 'history-icon'), (h.showHistory ? ' Cerrar historial' : ' Ver historial (' + h.history.length + ')')])
-      )
-    : null;
-
-  // ─── Botón de análisis IA (placeholder) ───
-  var aiButton = h.showScore && h.scoreResult
-    ? React.createElement('div', { style: { textAlign: 'center', marginTop: '8px' } },
-        React.createElement('button', {
-          disabled: true,
-          title: 'Próximamente',
-          style: glassButton('#475569', { opacity: 0.6, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '4px', margin: '0 auto' })
-        }, [iconSpan('brainCircuit', 'ai-icon'), ' Análisis IA (próximamente)'])
-      )
-    : null;
-
-  // ─── News Section (Karaoke) ───
-  var karaokeDisplay = h.karaokeActive
-    ? React.createElement('div', {
-        style: {
-          padding: '12px', borderRadius: '12px',
-          background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.3)',
-          backdropFilter: 'blur(8px)', marginTop: '8px'
-        }
-      },
-        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
-          React.createElement('span', { style: { fontSize: '0.9rem', color: '#d8b4fe', fontWeight: 600 } }, '🎤 Karaoke'),
-          React.createElement('button', { onClick: h.stopKaraoke, style: glassButton('#ef4444', { padding: '4px 8px' }) }, iconSpan('square', 'stop-icon', 14))
-        ),
-        React.createElement('div', { style: { display: 'flex', flexWrap: 'wrap', gap: '4px', fontSize: h.fontSize + 'px', lineHeight: 1.8 } },
-          h.karaokeWords.map(function(word, idx) {
-            return React.createElement('span', {
-              key: idx,
-              style: {
-                color: idx === h.karaokeCurrentWord ? '#fbbf24' : '#e2e8f0',
-                fontWeight: idx === h.karaokeCurrentWord ? 700 : 400,
-                transition: 'all 0.2s ease',
-                textShadow: idx === h.karaokeCurrentWord ? '0 0 10px rgba(251,191,36,0.5)' : 'none'
-              }
-            }, word + ' ');
-          })
-        )
-      )
-    : null;
-
-  // ─── Ensamblaje final ───
-  return React.createElement('div', { style: mainStyle },
-    titleBar,
-    sourceSelector,
-    pasteArea,
-    fontControls,
-    roundsPanelContainer,
-    roundsDisplay,
-    textDisplay,
-    progressBar,
-    transcriptDisplay,
-    scorePanel,
-    selectedTextPanel,
-    translationPanel,
-    karaokeDisplay,
-    shadowPanel,
-    dictadoPanel,
-    audioRecorder,
-    oscilloscope,
-    historyButton,
-    historyPanel,
-    libraryPanel,
-    aiButton
-  );
-};
+function glassButton(bg, extra) {
+  extra = extra || {};
+  return Object.assign({
+    border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '8px',
+    padding: '6px 12px',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontSize: extra.fontSize || '0.8rem',
+    color: '#f8fafc',
+    background: 'rgba(255,255,255,0.06)',
+    backdropFilter: 'blur(4px)',
+    transition: 'all 0.2s ease',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '4px'
+  }, bg ? { borderColor: bg + '44', background: bg + '22' } : {}, extra);
+}
 
 function formatTime(seconds) {
   if (!seconds && seconds !== 0) return '0:00';
   var m = Math.floor(seconds / 60);
   var s = seconds % 60;
-  return m + ':' + (s < 10 ? '0' : '') + s;
+  return m + ':' + (s < 10 ? '0' + s : '' + s);
 }
 
-function glassButton(bg, extra) {
-  var base = {
-    padding: '6px 12px',
-    borderRadius: '8px',
-    border: '1px solid rgba(255,255,255,0.1)',
-    background: bg,
-    color: '#f1f5f9',
-    fontSize: '0.85rem',
-    fontWeight: 500,
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    backdropFilter: 'blur(4px)',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '4px',
-    outline: 'none'
-  };
-  return extra ? Object.assign({}, base, extra) : base;
-}
-
-function handleFileUpload(e) {
-  var file = e.target.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(event) {
-    var text = event.target.result;
-    window.Muller.LecturaHelpers.lastPastedText = text;
-    if (window.Muller.Toast) {
-      window.Muller.Toast.show({ title: 'Archivo cargado', desc: file.name + ' cargado. Copia el texto en el panel.' });
-    }
-  };
-  if (file.type === 'application/pdf') {
-    if (window.Muller.Toast) {
-      window.Muller.Toast.show({ title: 'PDF cargado', desc: 'Usa el botón "Pegar" para copiar texto extraído del PDF.' });
-    }
-  } else {
-    reader.readAsText(file);
-  }
-  e.target.value = '';
-}
-
-// ═══════════════════════════════════════════════════
-// SUBCOMPONENTES
-// ═══════════════════════════════════════════════════
+// ─── SUBCOMPONENTES ───
 
 function TextDisplay(props) {
   var t = props.tokens || [];
@@ -405,10 +43,12 @@ function TextDisplay(props) {
   var karaokeWords = props.karaokeWords;
   var onWordClick = props.onWordClick;
   var onTextSelect = props.onTextSelect;
-  var _icon = window.Muller.LecturaHelpers.icon;
+  var wordStatuses = props.wordStatuses || {};
+  var showHeatmap = props.showHeatmap;
+  var heatmapTokens = props.heatmapTokens || [];
 
   function iS(n, c, s) {
-    var html = _icon(n, c || '', s || 16);
+    var html = window.Muller.LecturaHelpers.icon(n, c || '', s || 16);
     if (!html) return null;
     return React.createElement('span', {
       dangerouslySetInnerHTML: { __html: html },
@@ -439,27 +79,58 @@ function TextDisplay(props) {
       : t.map(function(token, idx) {
           var isActive = token.word === activeWord;
           var isKaraoke = karaokeActive && karaokeCurrentWord === idx;
+          var status = wordStatuses[token.cleanKey];
+          var heatData = showHeatmap ? (heatmapTokens[idx] || null) : null;
+
           var wordStyle = {
-            color: isActive ? '#fbbf24' : (isKaraoke ? '#a855f7' : '#e2e8f0'),
-            fontWeight: (isActive || isKaraoke) ? 700 : 400,
             cursor: 'pointer',
             padding: '0 1px',
             borderRadius: '4px',
-            transition: 'all 0.2s ease',
-            background: isActive ? 'rgba(251,191,36,0.15)' : 'transparent',
-            textShadow: isKaraoke ? '0 0 8px rgba(168,85,247,0.4)' : 'none'
+            transition: 'all 0.25s ease'
           };
+
+          // Color base: feedback en vivo o normal
+          if (status === 'correct') {
+            wordStyle.color = '#4ade80';
+            wordStyle.background = 'rgba(74,222,128,0.12)';
+            wordStyle.fontWeight = 500;
+          } else if (status === 'incorrect') {
+            wordStyle.color = '#f87171';
+            wordStyle.background = 'rgba(248,113,113,0.15)';
+            wordStyle.fontWeight = 500;
+            wordStyle.textDecoration = 'underline wavy #f87171';
+          } else if (isActive) {
+            wordStyle.color = '#fbbf24';
+            wordStyle.fontWeight = 700;
+            wordStyle.background = 'rgba(251,191,36,0.15)';
+          } else if (isKaraoke) {
+            wordStyle.color = '#a855f7';
+            wordStyle.fontWeight = 700;
+            wordStyle.textShadow = '0 0 8px rgba(168,85,247,0.4)';
+            wordStyle.background = 'rgba(168,85,247,0.15)';
+          } else if (heatData && heatData.color !== '#22c55e') {
+            // Mapa de calor - palabras que suelen fallar
+            wordStyle.color = '#e2e8f0';
+            wordStyle.background = heatData.color + '33';
+            wordStyle.borderBottom = '2px solid ' + heatData.color;
+            wordStyle.fontWeight = 500;
+          } else {
+            wordStyle.color = '#e2e8f0';
+            wordStyle.fontWeight = 400;
+            wordStyle.background = 'transparent';
+          }
 
           return React.createElement('span', {
             key: idx,
             onClick: function() { onWordClick(token.word, token.cleanKey); },
             style: wordStyle,
             onMouseEnter: function(e) {
-              if (!isActive) e.target.style.background = 'rgba(251,191,36,0.08)';
+              if (!isActive && !status) e.target.style.background = 'rgba(251,191,36,0.08)';
             },
             onMouseLeave: function(e) {
-              if (!isActive) e.target.style.background = 'transparent';
-            }
+              if (!isActive && !status) e.target.style.background = 'transparent';
+            },
+            title: heatData && heatData.errorCount > 0 ? 'Fallada ' + heatData.errorCount + ' vez/veces' : ''
           }, token.word + (token.space || ' '));
         })
   );
@@ -648,9 +319,8 @@ function VerbInfo(props) {
 }
 
 function AudioRecorder(props) {
-  var _icon = window.Muller.LecturaHelpers.icon;
   function iS(n, c, s) {
-    var html = _icon(n, c || '', s || 14);
+    var html = window.Muller.LecturaHelpers.icon(n, c || '', s || 14);
     if (!html) return null;
     return React.createElement('span', {
       dangerouslySetInnerHTML: { __html: html },
@@ -698,12 +368,11 @@ function AudioRecorder(props) {
           key: rec.key || idx,
           style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '2px 0', borderBottom: '1px solid rgba(148,163,184,0.1)' }
         },
-          React.createElement('span', {}, new Date(rec.timestamp).toLocaleDateString() + ' ' + new Date(rec.timestamp).toLocaleTimeString()),
+          React.createElement('span', { style: { fontSize: '0.75rem' } }, new Date(rec.timestamp).toLocaleDateString() + ' ' + new Date(rec.timestamp).toLocaleTimeString()),
           React.createElement('div', { style: { display: 'flex', gap: '4px' } },
             React.createElement('button', {
               onClick: function() {
-                var blob = dataURItoBlob(rec.blob);
-                props.playRecording(blob);
+                props.playRecordingFromDataURL(rec.blob);
               },
               style: glassButton('#06b6d4', { padding: '2px 6px', fontSize: '0.75rem' })
             }, '▶️'),
@@ -713,7 +382,13 @@ function AudioRecorder(props) {
             }, '🗑️')
           )
         );
-      })
+      }),
+      props.recordingsList.length > 0 && React.createElement('div', { style: { marginTop: '6px' } },
+        React.createElement('button', {
+          onClick: props.deleteAllRecordings,
+          style: glassButton('#ef4444', { padding: '2px 8px', fontSize: '0.7rem' })
+        }, '🗑️ Borrar todas')
+      )
     )
   );
 }
@@ -733,16 +408,6 @@ function dataURItoBlob(dataURI) {
 function Oscilloscope(props) {
   var canvasRef = React.useRef(null);
   var animId = React.useRef(null);
-  var _icon = window.Muller.LecturaHelpers.icon;
-
-  function iS(n, c, s) {
-    var html = _icon(n, c || '', s || 14);
-    if (!html) return null;
-    return React.createElement('span', {
-      dangerouslySetInnerHTML: { __html: html },
-      style: { display: 'inline', verticalAlign: 'middle' }
-    });
-  }
 
   React.useEffect(function() {
     if (!props.active || !props.analyserRef.current || !canvasRef.current) return;
@@ -804,142 +469,134 @@ function Oscilloscope(props) {
 }
 
 function DictadoPanel(props) {
-  var _icon = window.Muller.LecturaHelpers.icon;
-  function iS(n, c, s) {
-    var html = _icon(n, c || '', s || 14);
-    if (!html) return null;
-    return React.createElement('span', {
-      dangerouslySetInnerHTML: { __html: html },
-      style: { display: 'inline', verticalAlign: 'middle' }
-    });
-  }
-
   return React.createElement('div', {
     style: {
       padding: '16px',
       borderRadius: '12px',
-      background: 'rgba(6,182,212,0.08)',
-      border: '1px solid rgba(6,182,212,0.3)',
+      background: 'rgba(6,182,212,0.05)',
+      border: '1px solid rgba(6,182,212,0.2)',
       backdropFilter: 'blur(8px)',
       marginTop: '8px'
     }
   },
     React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' } },
-      React.createElement('span', { style: { fontSize: '0.9rem', color: '#06b6d4', fontWeight: 600 } }, '🎧 Dictado inverso'),
-      React.createElement('div', { style: { display: 'flex', gap: '6px' } },
-        React.createElement('button', { onClick: props.onRepeat, style: glassButton('#06b6d4', { padding: '4px 8px' }) }, '🔊 Repetir'),
-        React.createElement('button', { onClick: props.onStop, style: glassButton('#ef4444', { padding: '4px 8px' }) }, '✕ Cerrar')
-      )
+      React.createElement('span', { style: { fontSize: '0.9rem', color: '#22d3ee', fontWeight: 600 } }, '✍️ Dictado inverso'),
+      React.createElement('button', { onClick: props.onClose, style: glassButton('#475569', { padding: '4px 8px' }) }, '✕')
     ),
-    React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginBottom: '8px' } },
-      'Escucha la frase y escríbela exactamente como la oyes:'),
-    props.currentSentence && React.createElement('textarea', {
-      placeholder: 'Escribe lo que escuchaste...',
+    React.createElement('div', { style: { marginBottom: '12px', padding: '12px', borderRadius: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(148,163,184,0.1)' } },
+      React.createElement('div', { style: { fontSize: '0.75rem', color: '#94a3b8', marginBottom: '4px' } }, 'Frase a escribir:'),
+      React.createElement('div', { style: { fontSize: '1rem', color: '#fbbf24', fontStyle: 'italic' } }, '"' + props.currentSentence + '"')
+    ),
+    React.createElement('div', { style: { marginBottom: '8px' } },
+      React.createElement('button', {
+        onClick: props.repeatPhrase,
+        style: glassButton('#06b6d4', { padding: '4px 10px' })
+      }, '🔊 Repetir frase')
+    ),
+    React.createElement('textarea', {
       value: props.userInput,
       onChange: function(e) { props.setUserInput(e.target.value); },
-      rows: 3,
+      placeholder: 'Escribe lo que has escuchado...',
       style: {
-        width: '100%', padding: '10px', borderRadius: '8px',
-        background: 'rgba(15,23,42,0.5)', border: '1px solid rgba(148,163,184,0.2)',
-        color: '#e2e8f0', fontSize: '1rem', resize: 'vertical', outline: 'none'
+        width: '100%', minHeight: '80px', padding: '12px', borderRadius: '8px',
+        background: 'rgba(15,23,42,0.6)', border: '1px solid rgba(148,163,184,0.2)',
+        color: '#e2e8f0', fontSize: '1rem', resize: 'vertical',
+        fontFamily: 'inherit'
       }
     }),
-    React.createElement('button', {
-      onClick: props.onSubmit,
-      disabled: !props.userInput.trim(),
-      style: glassButton('#06b6d4', { marginTop: '8px', opacity: !props.userInput.trim() ? 0.5 : 1 })
-    }, '📤 Enviar y evaluar'),
+    React.createElement('div', { style: { display: 'flex', gap: '8px', marginTop: '8px' } },
+      React.createElement('button', {
+        onClick: props.submitDictado,
+        disabled: !props.userInput.trim(),
+        style: glassButton('#22c55e', { padding: '6px 16px', opacity: props.userInput.trim() ? 1 : 0.5 })
+      }, '✅ Corregir')
+    ),
     props.score && React.createElement('div', {
       style: {
         marginTop: '12px', padding: '12px', borderRadius: '8px',
-        background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.2)'
+        background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)'
       }
     },
-      React.createElement('div', { style: { fontSize: '1.2rem', fontWeight: 700, color: '#fbbf24', marginBottom: '8px' } },
-        'Puntuación: ' + props.score.score + '%'),
-      React.createElement('div', { style: { fontSize: '0.85rem', color: '#e2e8f0' } },
-        props.score.correct + '/' + props.score.total + ' palabras correctas')
+      React.createElement('div', { style: { fontSize: '0.85rem', color: '#4ade80', fontWeight: 600 } },
+        'Puntuación: ' + props.score.score + '% (' + props.score.correct + '/' + props.score.total + ' correctas)')
     )
   );
 }
 
 function HistoryPanel(props) {
-  var hist = props.history || [];
+  var history = props.history || [];
   var streak = props.streak || 0;
 
-  var avgScore = hist.length > 0
-    ? Math.round(hist.reduce(function(sum, h) { return sum + (h.score || 0); }, 0) / hist.length)
-    : 0;
+  if (history.length === 0) {
+    return React.createElement('div', {
+      style: { padding: '16px', borderRadius: '12px', background: 'rgba(30,41,59,0.6)', textAlign: 'center', color: '#64748b' }
+    }, 'Aún no hay historial. ¡Empieza a leer!');
+  }
 
-  var last7 = hist.slice(0, 7).reverse();
+  var last7 = history.slice(0, 7).reverse();
+  var maxScore = Math.max(70, Math.max.apply(null, last7.map(function(h) { return h.score || 0; })));
+  var avgScore = Math.round(history.reduce(function(s, h) { return s + (h.score || 0); }, 0) / history.length);
+  var avgWpm = Math.round(history.reduce(function(s, h) { return s + (h.wpm || 0); }, 0) / history.length);
 
   return React.createElement('div', {
     style: {
       padding: '16px',
       borderRadius: '12px',
       background: 'rgba(30,41,59,0.8)',
-      border: '1px solid rgba(148,163,184,0.2)',
+      border: '1px solid rgba(148,163,184,0.15)',
       backdropFilter: 'blur(12px)'
     }
   },
-    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' } },
-      React.createElement('span', { style: { fontSize: '1rem', color: '#f1f5f9', fontWeight: 700 } }, '📊 Historial'),
+    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' } },
+      React.createElement('h3', { style: { margin: 0, fontSize: '1.1rem', color: '#f1f5f9', fontWeight: 700 } }, '📈 Historial'),
       React.createElement('button', { onClick: props.onClose, style: glassButton('#475569', { padding: '4px 8px' }) }, '✕')
     ),
-    React.createElement('div', { style: { display: 'flex', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' } },
-      React.createElement(StatBox, { label: 'Sesiones', value: String(hist.length), color: '#06b6d4' }),
-      React.createElement(StatBox, { label: 'Promedio', value: avgScore + '%', color: avgScore >= 70 ? '#4ade80' : '#fbbf24' }),
-      React.createElement(StatBox, { label: 'Racha', value: streak + ' días', color: streak >= 7 ? '#f97316' : '#94a3b8' })
+    React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginBottom: '16px' } },
+      React.createElement(StatBox, { label: 'Racha', value: '🔥 ' + streak + ' días', color: '#f97316' }),
+      React.createElement(StatBox, { label: 'Media pun.', value: avgScore + '%', color: avgScore >= 80 ? '#4ade80' : '#fbbf24' }),
+      React.createElement(StatBox, { label: 'Media ppm', value: avgWpm, color: '#06b6d4' })
     ),
-    last7.length > 0 && React.createElement('div', { style: { marginBottom: '16px' } },
-      React.createElement('div', { style: { fontSize: '0.85rem', color: '#94a3b8', marginBottom: '8px' } }, 'Últimas sesiones:'),
-      React.createElement('div', { style: { display: 'flex', gap: '4px', alignItems: 'flex-end', height: '60px' } },
-        last7.map(function(h, idx) {
-          var barH = Math.max(10, (h.score || 0) * 0.6);
+    React.createElement('div', {
+      style: { marginBottom: '12px' }
+    },
+      React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginBottom: '8px' } }, 'Últimas 7 sesiones:'),
+      React.createElement('div', { style: { display: 'flex', alignItems: 'flex-end', gap: '4px', height: '80px', padding: '4px 0' } },
+        last7.map(function(entry, idx) {
+          var h = Math.max(10, (entry.score || 0) / maxScore * 70);
+          var color = (entry.score || 0) >= 80 ? '#4ade80' : ((entry.score || 0) >= 60 ? '#fbbf24' : '#f87171');
           return React.createElement('div', {
             key: idx,
             style: {
-              flex: 1, height: barH + 'px',
-              background: h.score >= 80 ? '#4ade80' : (h.score >= 60 ? '#fbbf24' : '#f87171'),
-              borderRadius: '4px 4px 0 0',
-              transition: 'height 0.3s ease',
-              minWidth: '20px',
-              position: 'relative'
+              flex: 1, height: h + 'px', borderRadius: '4px 4px 0 0',
+              background: color, opacity: 0.8,
+              position: 'relative', minWidth: '20px',
+              transition: 'height 0.3s ease'
             },
-            title: new Date(h.timestamp).toLocaleDateString() + ': ' + h.score + '%'
+            title: new Date(entry.timestamp).toLocaleDateString() + ': ' + (entry.score || 0) + '% | ' + (entry.wpm || 0) + ' ppm'
           },
             React.createElement('span', {
-              style: { position: 'absolute', top: '-16px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.65rem', color: '#94a3b8' }
-            }, h.score + '%')
+              style: {
+                position: 'absolute', bottom: '-18px', left: '50%', transform: 'translateX(-50%)',
+                fontSize: '0.6rem', color: '#94a3b8', whiteSpace: 'nowrap'
+              }
+            }, new Date(entry.timestamp).toLocaleDateString().slice(0, 5))
           );
-        })
-      ),
-      React.createElement('div', { style: { display: 'flex', gap: '4px', marginTop: '4px' } },
-        last7.map(function(h, idx) {
-          return React.createElement('div', {
-            key: idx,
-            style: { flex: 1, fontSize: '0.6rem', color: '#64748b', textAlign: 'center' }
-          }, new Date(h.timestamp).toLocaleDateString(undefined, { weekday: 'short' }));
         })
       )
     ),
     React.createElement('div', { style: { maxHeight: '200px', overflowY: 'auto' } },
-      hist.slice(0, 30).map(function(h, idx) {
+      history.slice(0, 10).map(function(entry, idx) {
         return React.createElement('div', {
           key: idx,
           style: {
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '6px 8px', borderRadius: '6px',
-            background: idx % 2 === 0 ? 'rgba(15,23,42,0.3)' : 'transparent',
-            marginBottom: '2px', fontSize: '0.8rem'
+            display: 'flex', justifyContent: 'space-between',
+            padding: '6px 0', borderBottom: '1px solid rgba(148,163,184,0.1)',
+            fontSize: '0.8rem', color: '#cbd5e1'
           }
         },
-          React.createElement('div', { style: { color: '#94a3b8', minWidth: '80px' } },
-            new Date(h.timestamp).toLocaleDateString()),
-          React.createElement('div', { style: { flex: 1, color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', margin: '0 8px' } },
-            h.textPreview || ''),
-          React.createElement('div', { style: { color: h.score >= 80 ? '#4ade80' : (h.score >= 60 ? '#fbbf24' : '#f87171'), fontWeight: 600, minWidth: '40px', textAlign: 'right' } },
-            h.score + '% / ' + h.wpm + 'ppm')
+          React.createElement('span', {}, new Date(entry.timestamp).toLocaleDateString() + ' ' + new Date(entry.timestamp).toLocaleTimeString()),
+          React.createElement('span', { style: { color: (entry.score || 0) >= 80 ? '#4ade80' : '#fbbf24', fontWeight: 600 } },
+            (entry.score || 0) + '% | ' + (entry.wpm || 0) + ' ppm')
         );
       })
     )
@@ -954,48 +611,791 @@ function LibraryPanel(props) {
       padding: '16px',
       borderRadius: '12px',
       background: 'rgba(30,41,59,0.8)',
-      border: '1px solid rgba(148,163,184,0.2)',
-      backdropFilter: 'blur(12px)',
-      maxHeight: '400px',
-      overflowY: 'auto'
+      border: '1px solid rgba(148,163,184,0.15)',
+      backdropFilter: 'blur(12px)'
     }
   },
     React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' } },
-      React.createElement('span', { style: { fontSize: '1rem', color: '#f1f5f9', fontWeight: 700 } }, '📚 Biblioteca'),
+      React.createElement('h3', { style: { margin: 0, fontSize: '1.1rem', color: '#f1f5f9', fontWeight: 700 } }, '📚 Biblioteca'),
       React.createElement('button', { onClick: props.onClose, style: glassButton('#475569', { padding: '4px 8px' }) }, '✕')
     ),
-    texts.length === 0 && React.createElement('div', { style: { color: '#64748b', fontStyle: 'italic', textAlign: 'center', padding: '16px' } },
-      'No hay textos disponibles. Pega un texto o carga un archivo.'),
-    texts.map(function(item, idx) {
-      return React.createElement('div', {
-        key: item.id || idx,
-        style: {
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          padding: '10px 12px', borderRadius: '8px',
-          background: 'rgba(15,23,42,0.5)', border: '1px solid rgba(148,163,184,0.1)',
-          marginBottom: '6px', cursor: 'pointer',
-          transition: 'all 0.2s ease'
-        },
-        onClick: function() { props.onSelect(item.text, 'library'); },
-        onMouseEnter: function(e) { e.currentTarget.style.borderColor = '#06b6d4'; },
-        onMouseLeave: function(e) { e.currentTarget.style.borderColor = 'rgba(148,163,184,0.1)'; }
-      },
-        React.createElement('div', { style: { flex: 1 } },
-          React.createElement('div', { style: { color: '#e2e8f0', fontWeight: 500 } }, item.title || 'Sin título'),
-          React.createElement('div', { style: { color: '#94a3b8', fontSize: '0.75rem' } },
-            (item.level || 'N/A') + ' · ' +
-            (item.text ? item.text.split(' ').length + ' palabras' : '') +
-            (item.source ? ' · ' + item.source : '')
-          )
-        ),
-        React.createElement('div', { style: { display: 'flex', gap: '4px' } },
-          item.isCustom && React.createElement('button', {
-            onClick: function(e) { e.stopPropagation(); props.onDelete(item.id); },
-            style: glassButton('#ef4444', { padding: '4px 8px', fontSize: '0.75rem' })
-          }, '🗑️'),
-          React.createElement('div', { style: glassButton('#06b6d4', { padding: '4px 8px', fontSize: '0.75rem' }) }, '📖 Leer')
+    texts.length === 0
+      ? React.createElement('div', { style: { color: '#64748b', textAlign: 'center', padding: '20px' } }, 'No hay textos disponibles.')
+      : React.createElement('div', { style: { maxHeight: '300px', overflowY: 'auto' } },
+          texts.map(function(t, idx) {
+            return React.createElement('div', {
+              key: t.id || idx,
+              onClick: function() { props.onSelect(t); },
+              style: {
+                padding: '10px 12px', borderRadius: '8px',
+                cursor: 'pointer', marginBottom: '4px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(148,163,184,0.08)',
+                transition: 'all 0.2s ease',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+              },
+              onMouseEnter: function(e) { e.currentTarget.style.background = 'rgba(6,182,212,0.1)'; },
+              onMouseLeave: function(e) { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; }
+            },
+              React.createElement('div', {},
+                React.createElement('div', { style: { fontSize: '0.9rem', color: '#e2e8f0', fontWeight: 500 } }, t.title || 'Sin título'),
+                React.createElement('div', { style: { fontSize: '0.75rem', color: '#64748b', marginTop: '2px' } },
+                  t.level || 'N/A' + ' · ' + (t.text ? t.text.split(' ').length + ' palabras' : '0'))
+              ),
+              t.isCustom && React.createElement('button', {
+                onClick: function(e) { e.stopPropagation(); props.onDelete(t.id); },
+                style: glassButton('#ef4444', { padding: '2px 6px', fontSize: '0.7rem' })
+              }, '🗑️')
+            );
+          })
         )
-      );
-    })
   );
 }
+
+// ─── SUBCOMPONENTES NUEVOS ───
+
+function MarathonDisplay(props) {
+  return React.createElement('div', {
+    style: {
+      padding: '16px',
+      borderRadius: '12px',
+      background: 'rgba(249,115,22,0.08)',
+      border: '1px solid rgba(249,115,22,0.3)',
+      backdropFilter: 'blur(8px)',
+      marginTop: '8px'
+    }
+  },
+    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
+      React.createElement('span', { style: { fontSize: '0.9rem', color: '#fb923c', fontWeight: 600 } }, '🏃 Maratón de lectura'),
+      !props.active && React.createElement('div', { style: { display: 'flex', gap: '4px' } },
+        React.createElement('button', { onClick: function() { props.onStart(300); }, style: glassButton('#f97316', { padding: '3px 8px', fontSize: '0.7rem' }) }, '5 min'),
+        React.createElement('button', { onClick: function() { props.onStart(600); }, style: glassButton('#f97316', { padding: '3px 8px', fontSize: '0.7rem' }) }, '10 min'),
+        React.createElement('button', { onClick: function() { props.onStart(900); }, style: glassButton('#f97316', { padding: '3px 8px', fontSize: '0.7rem' }) }, '15 min')
+      ),
+      props.active && React.createElement('button', {
+        onClick: props.onStop,
+        style: glassButton('#ef4444', { padding: '3px 8px', fontSize: '0.7rem' })
+      }, '⏹ Parar')
+    ),
+    props.active && React.createElement('div', {},
+      React.createElement('div', { style: { textAlign: 'center' } },
+        React.createElement('div', { style: { fontSize: '2rem', fontWeight: 700, color: '#fbbf24' } }, formatTime(props.timeLeft)),
+        React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px' } },
+          'Correctas: ' + (props.stats ? props.stats.correct : 0) + ' | ' +
+          'PPM: ' + (props.stats ? props.stats.wpm : 0) + ' | ' +
+          'Racha: ' + (props.stats ? props.stats.streak : 0))
+      )
+    )
+  );
+}
+
+function HeatmapToggle(props) {
+  return React.createElement('button', {
+    onClick: props.onToggle,
+    style: glassButton(props.active ? '#4ade80' : '#64748b', { padding: '4px 10px', fontSize: '0.75rem' })
+  }, props.active ? '🔥 Mapa de calor ON' : '🗺️ Mapa de calor OFF');
+}
+
+function FallWordsPanel(props) {
+  var words = props.words || [];
+  if (words.length === 0) return null;
+
+  return React.createElement('div', {
+    style: {
+      padding: '12px',
+      borderRadius: '12px',
+      background: 'rgba(248,113,113,0.05)',
+      border: '1px solid rgba(248,113,113,0.15)',
+      backdropFilter: 'blur(8px)',
+      marginTop: '8px'
+    }
+  },
+    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
+      React.createElement('span', { style: { fontSize: '0.8rem', color: '#fca5a5', fontWeight: 500 } },
+        '📝 Palabras a repasar (' + words.length + ')'),
+      React.createElement('button', {
+        onClick: props.onClear,
+        style: glassButton('#ef4444', { padding: '2px 6px', fontSize: '0.7rem' })
+      }, 'Limpiar')
+    ),
+    React.createElement('div', { style: { display: 'flex', flexWrap: 'wrap', gap: '4px' } },
+      words.slice(0, 20).map(function(w, idx) {
+        return React.createElement('span', {
+          key: idx,
+          style: {
+            padding: '2px 8px', borderRadius: '12px',
+            background: 'rgba(248,113,113,0.15)',
+            color: '#fca5a5', fontSize: '0.75rem',
+            border: '1px solid rgba(248,113,113,0.2)'
+          }
+        }, w);
+      }),
+      words.length > 20 && React.createElement('span', {
+        style: { color: '#64748b', fontSize: '0.75rem', padding: '2px 4px' }
+      }, '+' + (words.length - 20) + ' más')
+    )
+  );
+}
+
+function ExportImportPanel(props) {
+  var fileInputRef = React.useRef(null);
+
+  return React.createElement('div', {
+    style: {
+      padding: '16px',
+      borderRadius: '12px',
+      background: 'rgba(30,41,59,0.8)',
+      border: '1px solid rgba(148,163,184,0.15)',
+      backdropFilter: 'blur(12px)',
+      marginTop: '8px'
+    }
+  },
+    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' } },
+      React.createElement('span', { style: { fontSize: '0.9rem', color: '#f1f5f9', fontWeight: 600 } }, '💾 Exportar / Importar'),
+      React.createElement('button', { onClick: props.onClose, style: glassButton('#475569', { padding: '4px 8px' }) }, '✕')
+    ),
+    React.createElement('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap' } },
+      React.createElement('button', {
+        onClick: props.onExport,
+        style: glassButton('#06b6d4', { padding: '6px 16px' })
+      }, '📤 Exportar estadísticas'),
+      React.createElement('button', {
+        onClick: function() { if (fileInputRef.current) fileInputRef.current.click(); },
+        style: glassButton('#22c55e', { padding: '6px 16px' })
+      }, '📥 Importar estadísticas'),
+      React.createElement('input', {
+        ref: fileInputRef,
+        type: 'file',
+        accept: '.json',
+        style: { display: 'none' },
+        onChange: function(e) { if (e.target.files[0]) { props.onImport(e.target.files[0]); e.target.value = ''; } }
+      })
+    )
+  );
+}
+
+// ─── COMPONENTE PRINCIPAL ───
+
+window.Muller.LecturaPanel = function(props) {
+  var h = window.Muller.LecturaHooks.useLectura({ initialText: props.initialText || '' });
+
+  // Desestructuración plana para mantener compatibilidad
+  // Propiedades principales
+  var source = h.source;
+  var text = h.text;
+  var tokens = h.tokens;
+  var activeWord = h.activeWord;
+  var wordInfo = h.wordInfo;
+  var selectedText = h.selectedText;
+  var fontSize = h.fontSize;
+  var showTranslation = h.showTranslation;
+
+  // Voz
+  var isReading = h.isReading;
+  var isListening = h.isListening;
+  var transcript = h.transcript;
+  var interimText = h.interimText;
+  var startReading = h.startReading;
+  var stopReading = h.stopReading;
+  var progress = h.progress;
+  var wordStatuses = h.wordStatuses;
+  var transcriptionErrors = h.transcriptionErrors;
+
+  // Grabación
+  var isRecording = h.isRecording;
+  var recordedBlob = h.recordedBlob;
+  var recordingsList = h.recordingsList;
+  var startRecording = h.startRecording;
+  var stopRecording = h.stopRecording;
+  var playRecording = h.playRecording;
+  var playRecordingFromDataURL = h.playRecordingFromDataURL;
+  var deleteRecording = h.deleteRecording;
+  var deleteAllRecordings = h.deleteAllRecordings;
+
+  // Puntuación
+  var scoreResult = h.scoreResult;
+  var showScore = h.showScore;
+
+  // Rondas
+  var roundsActive = h.roundsActive;
+  var currentRound = h.currentRound;
+  var roundScores = h.roundScores;
+  var roundTimeLimit = h.roundTimeLimit;
+  var roundTimeLeft = h.roundTimeLeft;
+  var startRounds = h.startRounds;
+
+  // Maratón
+  var marathonActive = h.marathonActive;
+  var marathonTimeLeft = h.marathonTimeLeft;
+  var marathonStats = h.marathonStats;
+  var startMarathon = h.startMarathon;
+  var stopMarathon = h.stopMarathon;
+
+  // Karaoke
+  var karaokeActive = h.karaokeActive;
+  var karaokeCurrentWord = h.karaokeCurrentWord;
+  var karaokeWords = h.karaokeWords;
+  var startKaraoke = h.startKaraoke;
+  var stopKaraoke = h.stopKaraoke;
+
+  // Osciloscopio
+  var oscilloscopeActive = h.oscilloscopeActive;
+  var analyserRef = h.analyserRef;
+
+  // Dictado
+  var dictadoActive = h.dictadoActive;
+  var dictadoCurrentSentence = h.dictadoCurrentSentence;
+  var dictadoUserInput = h.dictadoUserInput;
+  var dictadoScore = h.dictadoScore;
+  var startDictado = h.startDictado;
+  var repeatDictadoPhrase = h.repeatDictadoPhrase;
+  var submitDictado = h.submitDictado;
+  var stopDictado = h.stopDictado;
+
+  // Historial
+  var history = h.history;
+  var showHistory = h.showHistory;
+  var streak = h.streak;
+
+  // Biblioteca
+  var libraryTexts = h.libraryTexts;
+  var showLibrary = h.showLibrary;
+  var selectText = h.selectText;
+  var pasteText = h.pasteText;
+  var pasteTextInput = h.pasteTextInput;
+  var deleteCustomText = h.deleteCustomText;
+
+  // Fuente
+  var increaseFont = h.increaseFont;
+  var decreaseFont = h.decreaseFont;
+  var resetFont = h.resetFont;
+
+  // Manejadores de palabra
+  var handleWordClick = h.handleWordClick;
+  var handleTextSelection = h.handleTextSelection;
+  var playSelectedText = h.playSelectedText;
+  var clearSelection = h.clearSelection;
+
+  // Sombra
+  var shadowActive = h.shadowActive;
+  var shadowSync = h.shadowSync;
+  var startShadowReading = h.startShadowReading;
+  var stopShadowReading = h.stopShadowReading;
+
+  // Offline
+  var isOffline = h.isOffline;
+
+  // AI
+  var aiAnalyzeReading = h.aiAnalyzeReading;
+
+  // SRS palabras falladas
+  var fallWordsList = h.fallWordsList;
+  var clearFallWords = h.clearFallWords;
+
+  // Mapa de calor
+  var showHeatmap = h.showHeatmap;
+  var heatmapTokens = h.heatmapTokens;
+  var toggleHeatmap = h.toggleHeatmap;
+
+  // Export/Import
+  var showExportImport = h.showExportImport;
+  var exportStats = h.exportStats;
+  var importStats = h.importStats;
+
+  // Setters
+  var setShowScore = h.setShowScore;
+  var setShowHistory = h.setShowHistory;
+  var setShowLibrary = h.setShowLibrary;
+  var setShowTranslation = h.setShowTranslation;
+  var setPasteTextInput = h.setPasteTextInput;
+  var setDictadoUserInput = h.setDictadoUserInput;
+  var setShowExportImport = h.setShowExportImport;
+
+  // ─── ICON HELPER ───
+  function iS(n, c, s) {
+    var html = window.Muller.LecturaHelpers.icon(n, c || '', s || 16);
+    if (!html) return null;
+    return React.createElement('span', {
+      dangerouslySetInnerHTML: { __html: html },
+      style: { display: 'inline', verticalAlign: 'middle' }
+    });
+  }
+
+  // ─── HANDLER DE ARCHIVO ───
+  function handleFileUpload(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var name = file.name.toLowerCase();
+    if (name.endsWith('.txt')) {
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        selectText(ev.target.result, 'file');
+      };
+      reader.readAsText(file);
+    } else if (name.endsWith('.pdf')) {
+      if (window.Muller.extractPDFText) {
+        window.Muller.extractPDFText(file).then(function(pdfText) {
+          if (pdfText) selectText(pdfText, 'pdf');
+        }).catch(function() {
+          if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Error PDF', desc: 'No se pudo extraer el texto del PDF.' });
+        });
+      } else {
+        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'PDF no soportado', desc: 'Carga un archivo .txt o instala pdf.js (ya incluido automáticamente).' });
+      }
+    } else {
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Formato no soportado', desc: 'Solo .txt y .pdf.' });
+    }
+    e.target.value = '';
+  }
+
+  // ─── ESTILOS BASE ───
+  var containerStyle = {
+    maxWidth: '900px',
+    margin: '0 auto',
+    padding: '20px',
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+    color: '#e2e8f0',
+    position: 'relative'
+  };
+
+  var headerStyle = {
+    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+    marginBottom: '16px', flexWrap: 'wrap', gap: '8px'
+  };
+
+  var controlRowStyle = {
+    display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '12px'
+  };
+
+  var sectionCard = {
+    padding: '16px',
+    borderRadius: '12px',
+    background: 'rgba(30,41,59,0.6)',
+    border: '1px solid rgba(148,163,184,0.15)',
+    backdropFilter: 'blur(8px)',
+    marginBottom: '12px'
+  };
+
+  var offlineBanner = {
+    padding: '8px 12px', borderRadius: '8px', background: 'rgba(251,191,36,0.15)',
+    border: '1px solid rgba(251,191,36,0.3)', marginBottom: '12px',
+    fontSize: '0.8rem', color: '#fbbf24', textAlign: 'center'
+  };
+
+  // ─── RENDER ───
+  var children = [];
+
+  // Banner offline
+  if (isOffline) {
+    children.push(
+      React.createElement('div', { key: 'offline', style: offlineBanner }, '📡 Sin conexión — Las funcionalidades que requieren internet (TTS, API) no estarán disponibles')
+    );
+  }
+
+  // Header: título y atajos
+  children.push(
+    React.createElement('div', { key: 'header', style: headerStyle },
+      React.createElement('h2', { style: { margin: 0, fontSize: '1.3rem', color: '#f1f5f9', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' } },
+        '📖 Lectura', React.createElement('span', { style: { fontSize: '0.7rem', color: '#64748b', fontWeight: 400 } }, 'Práctica de lectura en alemán')
+      ),
+      React.createElement('div', { style: { display: 'flex', gap: '4px', fontSize: '0.65rem', color: '#475569' } },
+        '⌨️ Espacio=Leer | H=Historial | L=Biblioteca | R=Rondas | K=Karaoke | S=Sombra | D=Dictado | M=Maratón'
+      )
+    )
+  );
+
+  // Botones principales de acción
+  var actionButtons = [];
+
+  if (!roundsActive && !karaokeActive && !shadowActive && !dictadoActive && !marathonActive) {
+    if (text) {
+      actionButtons.push(
+        React.createElement('button', {
+          key: 'read',
+          onClick: isReading ? stopReading : startReading,
+          style: glassButton(isReading ? '#ef4444' : '#06b6d4', { padding: '8px 20px', fontSize: '0.9rem', fontWeight: 700 })
+        }, isReading ? '⏹ Parar lectura' : '🎤 Empezar lectura')
+      );
+    }
+    actionButtons.push(
+      React.createElement('button', {
+        key: 'rounds',
+        onClick: function() { if (text) startRounds(); },
+        disabled: !text || isReading,
+        style: glassButton('#8b5cf6', { padding: '6px 12px', opacity: (!text || isReading) ? 0.5 : 1 })
+      }, '🏆 Rondas')
+    );
+    actionButtons.push(
+      React.createElement('button', {
+        key: 'marathon',
+        onClick: function() {}, // botón en MarathonDisplay
+        style: glassButton('#f97316', { padding: '6px 12px' })
+      }, '🏃 Maratón')
+    );
+    actionButtons.push(
+      React.createElement('button', {
+        key: 'karaoke',
+        onClick: karaokeActive ? stopKaraoke : (function() { if (text) startKaraoke(); }),
+        disabled: !text,
+        style: glassButton('#a855f7', { padding: '6px 12px', opacity: (!text) ? 0.5 : 1 })
+      }, '🎤 Karaoke')
+    );
+    actionButtons.push(
+      React.createElement('button', {
+        key: 'shadow',
+        onClick: shadowActive ? stopShadowReading : (function() { if (text) startShadowReading(); }),
+        disabled: !text,
+        style: glassButton('#06b6d4', { padding: '6px 12px', opacity: (!text) ? 0.5 : 1 })
+      }, '🌙 Sombra')
+    );
+    actionButtons.push(
+      React.createElement('button', {
+        key: 'dictado',
+        onClick: dictadoActive ? stopDictado : (function() { if (text) startDictado(); }),
+        disabled: !text,
+        style: glassButton('#22d3ee', { padding: '6px 12px', opacity: (!text) ? 0.5 : 1 })
+      }, '✍️ Dictado')
+    );
+  }
+
+  actionButtons.push(
+    React.createElement('div', { key: 'spacer', style: { flex: 1 } })
+  );
+  actionButtons.push(
+    React.createElement('button', {
+      key: 'heatmap',
+      onClick: toggleHeatmap,
+      style: glassButton(showHeatmap ? '#4ade80' : '#64748b', { padding: '4px 8px', fontSize: '0.7rem' })
+    }, showHeatmap ? '🔥 Calor ON' : '🗺️ Calor')
+  );
+  actionButtons.push(
+    React.createElement('button', {
+      key: 'lib',
+      onClick: function() { setShowLibrary(!showLibrary); },
+      style: glassButton('#8b5cf6', { padding: '4px 8px', fontSize: '0.7rem' })
+    }, '📚')
+  );
+  actionButtons.push(
+    React.createElement('button', {
+      key: 'hist',
+      onClick: function() { setShowHistory(!showHistory); },
+      style: glassButton('#06b6d4', { padding: '4px 8px', fontSize: '0.7rem' })
+    }, '📈')
+  );
+  actionButtons.push(
+    React.createElement('button', {
+      key: 'export',
+      onClick: function() { setShowExportImport(!showExportImport); },
+      style: glassButton('#22c55e', { padding: '4px 8px', fontSize: '0.7rem' })
+    }, '💾')
+  );
+
+  children.push(
+    React.createElement('div', { key: 'actions', style: Object.assign({}, controlRowStyle, { flexWrap: 'wrap' }) }, actionButtons)
+  );
+
+  // Indicador de escucha
+  if (isListening) {
+    children.push(
+      React.createElement('div', {
+        key: 'listening',
+        style: Object.assign({}, sectionCard, {
+          background: 'rgba(6,182,212,0.08)',
+          border: '1px solid rgba(6,182,212,0.3)',
+          display: 'flex', alignItems: 'center', gap: '8px',
+          padding: '8px 12px', marginBottom: '8px'
+        })
+      },
+        React.createElement('span', { style: { width: '10px', height: '10px', borderRadius: '50%', background: '#06b6d4', animation: 'pulse 1s ease-in-out infinite' } }),
+        React.createElement('span', { style: { fontSize: '0.85rem', color: '#22d3ee' } }, 'Escuchando... Habla en alemán'),
+        React.createElement('span', { style: { fontSize: '0.75rem', color: '#64748b', marginLeft: 'auto' } }, interimText || '')
+      )
+    );
+  }
+
+  // Progreso en vivo durante la lectura
+  if (isReading && (progress.correct > 0 || progress.total > 0)) {
+    children.push(
+      React.createElement('div', { key: 'progress-live' },
+        React.createElement(ProgressBar, { progress: progress })
+      )
+    );
+  }
+
+  // Control de fuente
+  children.push(
+    React.createElement('div', { key: 'font-controls', style: Object.assign({}, controlRowStyle, { justifyContent: 'flex-end' }) },
+      React.createElement('button', { onClick: decreaseFont, style: glassButton('#475569', { padding: '2px 8px', fontSize: '0.7rem' }) }, 'A-'),
+      React.createElement('span', { style: { fontSize: '0.75rem', color: '#94a3b8', minWidth: '30px', textAlign: 'center' } }, fontSize),
+      React.createElement('button', { onClick: increaseFont, style: glassButton('#475569', { padding: '2px 8px', fontSize: '0.7rem' }) }, 'A+'),
+      React.createElement('button', { onClick: resetFont, style: glassButton('#475569', { padding: '2px 8px', fontSize: '0.7rem' }) }, 'R')
+    )
+  );
+
+  // Texto interactivo
+  children.push(
+    React.createElement('div', { key: 'text-display', style: { marginBottom: '12px' } },
+      React.createElement(TextDisplay, {
+        tokens: tokens,
+        fontSize: fontSize,
+        activeWord: activeWord,
+        karaokeActive: karaokeActive,
+        karaokeCurrentWord: karaokeCurrentWord,
+        karaokeWords: karaokeWords,
+        onWordClick: handleWordClick,
+        onTextSelect: handleTextSelection,
+        wordStatuses: wordStatuses,
+        showHeatmap: showHeatmap,
+        heatmapTokens: heatmapTokens
+      })
+    )
+  );
+
+  // Selección de texto
+  if (selectedText) {
+    children.push(
+      React.createElement('div', { key: 'selected', style: Object.assign({}, sectionCard, { padding: '10px 12px', display: 'flex', alignItems: 'center', gap: '8px' }) },
+        React.createElement('span', { style: { fontSize: '0.8rem', color: '#64748b' } }, 'Seleccionado:'),
+        React.createElement('span', { style: { fontSize: '0.85rem', color: '#fbbf24', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, selectedText),
+        React.createElement('button', { onClick: playSelectedText, style: glassButton('#06b6d4', { padding: '2px 8px', fontSize: '0.7rem' }) }, '🔊'),
+        React.createElement('button', { onClick: clearSelection, style: glassButton('#475569', { padding: '2px 8px', fontSize: '0.7rem' }) }, '✕')
+      )
+    );
+  }
+
+  // Panel de traducción
+  if (showTranslation && wordInfo) {
+    children.push(
+      React.createElement('div', { key: 'translation' },
+        React.createElement(TranslationPanel, {
+          wordInfo: wordInfo,
+          onClose: function() { setShowTranslation(false); }
+        })
+      )
+    );
+  }
+
+  // Grabación y osciloscopio
+  children.push(
+    React.createElement('div', { key: 'recording' },
+      React.createElement(AudioRecorder, {
+        isReading: isReading,
+        isRecording: isRecording,
+        recordedBlob: recordedBlob,
+        recordingsList: recordingsList,
+        startRecording: startRecording,
+        stopRecording: stopRecording,
+        playRecording: playRecording,
+        playRecordingFromDataURL: playRecordingFromDataURL,
+        deleteRecording: deleteRecording,
+        deleteAllRecordings: deleteAllRecordings
+      })
+    )
+  );
+
+  if (oscilloscopeActive) {
+    children.push(
+      React.createElement('div', { key: 'oscilloscope' },
+        React.createElement(Oscilloscope, {
+          active: oscilloscopeActive,
+          analyserRef: analyserRef
+        })
+      )
+    );
+  }
+
+  // Rondas activas
+  if (roundsActive) {
+    children.push(
+      React.createElement('div', { key: 'rounds' },
+        React.createElement(RoundsDisplay, {
+          currentRound: currentRound,
+          roundScores: roundScores,
+          roundTimeLimit: roundTimeLimit,
+          roundTimeLeft: roundTimeLeft,
+          isReading: isReading,
+          startReading: startReading,
+          stopReading: stopReading
+        })
+      )
+    );
+  }
+
+  // Maratón activo
+  if (marathonActive || text) {
+    children.push(
+      React.createElement('div', { key: 'marathon' },
+        React.createElement(MarathonDisplay, {
+          active: marathonActive,
+          timeLeft: marathonTimeLeft,
+          stats: marathonStats,
+          onStart: startMarathon,
+          onStop: stopMarathon
+        })
+      )
+    );
+  }
+
+  // Sombra activa
+  if (shadowActive) {
+    children.push(
+      React.createElement('div', { key: 'shadow', style: Object.assign({}, sectionCard, { border: '1px solid rgba(6,182,212,0.3)', background: 'rgba(6,182,212,0.05)' }) },
+        React.createElement('div', { style: { fontSize: '0.8rem', color: '#22d3ee', marginBottom: '8px', fontWeight: 500 } }, '🌙 Sombra de lectura activa'),
+        React.createElement('div', { style: { height: '4px', borderRadius: '2px', background: 'rgba(148,163,184,0.2)', overflow: 'hidden' } },
+          React.createElement('div', { style: { height: '100%', width: shadowSync + '%', background: 'linear-gradient(90deg, #06b6d4, #22d3ee)', borderRadius: '2px', transition: 'width 0.2s ease' } })
+        ),
+        React.createElement('div', { style: { fontSize: '0.7rem', color: '#64748b', textAlign: 'right', marginTop: '4px' } }, 'Sincronización: ' + shadowSync + '%'),
+        React.createElement('button', {
+          onClick: stopShadowReading,
+          style: glassButton('#ef4444', { padding: '4px 10px', fontSize: '0.75rem', marginTop: '8px' })
+        }, '⏹ Parar sombra')
+      )
+    );
+  }
+
+  // Dictado activo
+  if (dictadoActive) {
+    children.push(
+      React.createElement('div', { key: 'dictado' },
+        React.createElement(DictadoPanel, {
+          currentSentence: dictadoCurrentSentence,
+          userInput: dictadoUserInput,
+          setUserInput: setDictadoUserInput,
+          score: dictadoScore,
+          repeatPhrase: repeatDictadoPhrase,
+          submitDictado: submitDictado,
+          onClose: stopDictado
+        })
+      )
+    );
+  }
+
+  // Score
+  if (showScore && scoreResult) {
+    children.push(
+      React.createElement('div', { key: 'score' },
+        React.createElement(ScorePanel, {
+          result: scoreResult,
+          onClose: function() { setShowScore(false); }
+        })
+      )
+    );
+  }
+
+  // Palabras falladas SRS
+  if (fallWordsList.length > 0) {
+    children.push(
+      React.createElement('div', { key: 'fallwords' },
+        React.createElement(FallWordsPanel, {
+          words: fallWordsList,
+          onClear: clearFallWords
+        })
+      )
+    );
+  }
+
+  // Historial
+  if (showHistory) {
+    children.push(
+      React.createElement('div', { key: 'history' },
+        React.createElement(HistoryPanel, {
+          history: history,
+          streak: streak,
+          onClose: function() { setShowHistory(false); }
+        })
+      )
+    );
+  }
+
+  // Biblioteca
+  if (showLibrary) {
+    children.push(
+      React.createElement('div', { key: 'library' },
+        React.createElement(LibraryPanel, {
+          texts: libraryTexts,
+          onSelect: function(t) { selectText(t.text, t.source || 'library'); },
+          onDelete: deleteCustomText,
+          onClose: function() { setShowLibrary(false); }
+        })
+      )
+    );
+  }
+
+  // Export/Import
+  if (showExportImport) {
+    children.push(
+      React.createElement('div', { key: 'exportimport' },
+        React.createElement(ExportImportPanel, {
+          onExport: exportStats,
+          onImport: importStats,
+          onClose: function() { setShowExportImport(false); }
+        })
+      )
+    );
+  }
+
+  // ─── ÁREA DE PEGAR / SUBIR TEXTO ───
+  children.push(
+    React.createElement('div', { key: 'input-area', style: Object.assign({}, sectionCard, { marginTop: '16px' }) },
+      React.createElement('div', { style: { fontSize: '0.85rem', color: '#94a3b8', marginBottom: '8px', fontWeight: 500 } }, '📝 Cargar texto'),
+      React.createElement('textarea', {
+        value: pasteTextInput,
+        onChange: function(e) { setPasteTextInput(e.target.value); },
+        placeholder: 'Pega aquí tu texto en alemán...',
+        rows: 3,
+        style: {
+          width: '100%', padding: '10px', borderRadius: '8px',
+          background: 'rgba(15,23,42,0.6)', border: '1px solid rgba(148,163,184,0.2)',
+          color: '#e2e8f0', fontSize: '0.9rem', resize: 'vertical',
+          fontFamily: 'inherit', marginBottom: '8px'
+        }
+      }),
+      React.createElement('div', { style: { display: 'flex', gap: '8px' } },
+        React.createElement('button', {
+          onClick: function() { pasteText(); },
+          style: glassButton('#06b6d4', { padding: '6px 16px' })
+        }, '📋 Pegar texto'),
+        React.createElement('label', {
+          style: glassButton('#8b5cf6', { padding: '6px 16px', cursor: 'pointer' })
+        },
+          '📂 Subir archivo',
+          React.createElement('input', {
+            type: 'file',
+            accept: '.txt,.pdf',
+            style: { display: 'none' },
+            onChange: handleFileUpload
+          })
+        )
+      ),
+      React.createElement('div', { style: { fontSize: '0.7rem', color: '#475569', marginTop: '6px' } },
+        'Soporta .txt y .pdf. Cuando subes un PDF, se extrae el texto automáticamente si pdf.js está disponible.'
+      )
+    )
+  );
+
+  // AI Analysis
+  if (transcript && text && (isReading === false && scoreResult)) {
+    var analysis = aiAnalyzeReading(text, transcript);
+    if (analysis) {
+      children.push(
+        React.createElement('div', { key: 'ai', style: Object.assign({}, sectionCard, { marginTop: '8px', border: '1px solid rgba(139,92,246,0.3)', background: 'rgba(139,92,246,0.05)' }) },
+          React.createElement('div', { style: { fontSize: '0.85rem', color: '#c4b5fd', fontWeight: 600, marginBottom: '6px' } }, '🤖 Análisis' + (analysis.deepseekReady ? ' (DeepSeek)' : ' (local)')),
+          React.createElement('div', { style: { fontSize: '0.85rem', color: '#e2e8f0', marginBottom: '4px' } }, analysis.message || ''),
+          analysis.phoneticTips && analysis.phoneticTips.length > 0 && React.createElement('div', { style: { fontSize: '0.75rem', color: '#fca5a5', marginTop: '4px', padding: '8px', borderRadius: '6px', background: 'rgba(248,113,113,0.1)' } },
+            React.createElement('div', { style: { fontWeight: 600, marginBottom: '4px' } }, '📢 Consejos de pronunciación:'),
+            analysis.phoneticTips.slice(0, 3).map(function(tip, idx) {
+              return React.createElement('div', { key: idx, style: { marginBottom: '2px' } }, '• ' + tip);
+            })
+          ),
+          !analysis.deepseekReady && React.createElement('div', { style: { fontSize: '0.7rem', color: '#64748b', marginTop: '4px', fontStyle: 'italic' } },
+            'Conecta DeepSeek API para análisis avanzado de pronunciación.')
+        )
+      );
+    }
+  }
+
+  return React.createElement('div', { style: containerStyle }, children);
+};
+
+// Registrar como componente global
+window.Muller.LecturaPanel = window.Muller.LecturaPanel;

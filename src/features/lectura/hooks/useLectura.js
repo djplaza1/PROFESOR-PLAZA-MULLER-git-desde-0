@@ -1,4 +1,4 @@
-﻿// src/features/lectura/hooks/useLectura.js
+// src/features/lectura/hooks/useLectura.js
 // Hook principal que encapsula todo el estado y lógica de Lectura
 // Se registra como window.Muller.LecturaHooks.useLectura
 window.Muller = window.Muller || {};
@@ -27,7 +27,10 @@ var STORAGE_KEYS = {
   recordings: 'muller_reading_recordings',
   streak: 'muller_reading_streak',
   texts: 'muller_reading_texts',
-  preferences: 'muller_reading_prefs'
+  preferences: 'muller_reading_prefs',
+  fallWords: 'muller_reading_fallWords',
+  srsWords: 'muller_srs_words',
+  marathonHistory: 'muller_reading_marathon'
 };
 
 // Helper wrapper for storage access
@@ -49,6 +52,21 @@ function storageSet(key, val) {
     localStorage.setItem(key, JSON.stringify(val));
   } catch(e) {}
 }
+
+// ─── ATAJOS DE TECLADO ───
+var KEYBOARD_SHORTCUTS = {
+  SPACE: 'Space',
+  ARROW_LEFT: 'ArrowLeft',
+  ARROW_RIGHT: 'ArrowRight',
+  ENTER: 'Enter',
+  KEY_M: 'KeyM', // maratón
+  KEY_H: 'KeyH', // historial
+  KEY_L: 'KeyL', // biblioteca
+  KEY_R: 'KeyR', // rondas
+  KEY_K: 'KeyK', // karaoke
+  KEY_S: 'KeyS', // sombra
+  KEY_D: 'KeyD'  // dictado
+};
 
 // Hook principal
 window.Muller.LecturaHooks.useLectura = function(opts) {
@@ -74,6 +92,11 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   var srRestartAttempts = React.useRef(0);
   var readingStartTime = React.useRef(null);
   var readingDuration = React.useRef(0);
+
+  // ─── FEEDBACK VISUAL EN VIVO ───
+  // Para cada token: 'pending' | 'correct' | 'incorrect'
+  var wordStatuses = React.useState({});
+  var transcriptionErrors = React.useState([]); // array de { expected, got, cleanKey }
 
   // ─── ESTADOS DE GRABACIÓN ───
   var isRecording = React.useState(false);
@@ -106,17 +129,21 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
 
   // ─── ESTADOS DE OSCILOSCOPIO ───
   var oscilloscopeActive = React.useState(false);
-  var audioContextRef = React.useRef(null);
   var analyserRef = React.useRef(null);
-  var sourceRef = React.useRef(null);
   var animationIdRef = React.useRef(null);
+  var audioContextRef = React.useRef(null);
   var oscilloscopeStreamRef = React.useRef(null);
+  var sourceRef = React.useRef(null);
 
-  // ─── ESTADOS DE DICTADO INVERSO ───
+  // ─── ESTADOS DE DICTADO ───
   var dictadoActive = React.useState(false);
   var dictadoCurrentSentence = React.useState('');
   var dictadoUserInput = React.useState('');
   var dictadoScore = React.useState(null);
+
+  // ─── ESTADOS DE SOMBRA ───
+  var shadowActive = React.useState(false);
+  var shadowSync = React.useState(0);
 
   // ─── ESTADOS DE ESTADÍSTICAS ───
   var history = React.useState([]);
@@ -127,279 +154,315 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   // ─── ESTADOS DE BIBLIOTECA ───
   var libraryTexts = React.useState([]);
   var showLibrary = React.useState(false);
-
-  // ─── ESTADOS DE SOMBRA DE LECTURA ───
-  var shadowActive = React.useState(false);
-  var shadowSync = React.useState(0);
-
-  // ─── ESTADOS DE TEXTO PEGADO ───
   var pasteTextInput = React.useState('');
 
-  // ─── EFECTOS INICIALES ───
-  React.useEffect(function() {
-    var t = window.Muller.LecturaHelpers.tokenize(text[0]);
-    tokens[1](t);
-  }, [text[0]]);
+  // ─── ESTADOS DE MODO MARATÓN ───
+  var marathonActive = React.useState(false);
+  var marathonDuration = React.useState(0); // segundos totales seleccionados (300/600/900)
+  var marathonTimeLeft = React.useState(0);
+  var marathonTimer = React.useRef(null);
+  var marathonStats = React.useState({ correct: 0, total: 0, wpm: 0, streak: 0, bestStreak: 0 });
 
-  React.useEffect(function() {
-    loadLibrary();
-    loadHistory();
-    loadRecordings();
-    loadStreak();
-  }, []);
+  // ─── ESTADOS DE MAPA DE CALOR ───
+  var showHeatmap = React.useState(false);
+  var heatmapTokens = React.useState([]);
 
-  // ─── FUNCIONES DE PALABRA ACTIVA ───
-  var handleWordClick = React.useCallback(function(word, cleanKey) {
-    activeWord[1](word);
-    wordInfo[1](null);
-    showTranslation[1](true);
+  // ─── ESTADOS DE SRS ───
+  var fallWordsList = React.useState([]);
 
-    if (window.Muller.translate && window.Muller.translate.word) {
-      window.Muller.translate.word(word).then(function(info) {
-        if (info) {
-          var verbInfo = null;
-          try {
-            verbInfo = window.Muller.detect && window.Muller.detect.lookupVerb ? window.Muller.detect.lookupVerb(cleanKey) : null;
-          } catch(e) {}
-          wordInfo[1]({
-            word: word,
-            translation: info.es || info.translation || '',
-            originalLang: info.originalLang || 'de',
-            verbInfo: verbInfo
-          });
-        }
-      }).catch(function(err) {
-        console.warn('Translation error:', err);
-      });
-    }
+  // ─── ESTADOS DE EXPORT/IMPORT ───
+  var showExportImport = React.useState(false);
 
-    if (window.Muller.speakGermanWord) {
-      window.Muller.speakGermanWord(word);
-    }
-
-    window.Muller.Achievements.unlock('reading_first_word');
-    if (window.Muller.tone) window.Muller.tone();
-  }, []);
-
-  // ─── FUNCIONES DE SELECCIÓN ───
-  var handleTextSelection = React.useCallback(function() {
-    var sel = window.getSelection();
-    if (sel && sel.toString().trim().length > 0) {
-      selectedText[1](sel.toString().trim());
-    }
-  }, []);
-
-  var clearSelection = React.useCallback(function() {
-    selectedText[1]('');
-    if (window.getSelection) window.getSelection().removeAllRanges();
-  }, []);
-
-  var playSelectedText = React.useCallback(function() {
-    if (selectedText[0] && window.Muller.playSceneAudio) {
-      window.Muller.playSceneAudio(selectedText[0], 'de');
-    }
-  }, [selectedText[0]]);
+  // ─── REFS ───
+  var textoRef = React.useRef('');
 
   // ─── FUNCIONES DE RECONOCIMIENTO DE VOZ ───
+
   var startReading = React.useCallback(function() {
-    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Error', desc: 'Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.' });
+    if (isReading[0]) return;
+
+    // Limpiar estados previos
+    wordStatuses[1]({});
+    transcriptionErrors[1]([]);
+    transcript[1]('');
+    interimText[1]('');
+    showScore[1](false);
+    scoreResult[1](null);
+    progress[1]({ correct: 0, total: 0 });
+
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      if (window.Muller.Toast) {
+        window.Muller.Toast.show({ title: 'No soportado', desc: 'Tu navegador no soporta reconocimiento de voz.' });
+      }
       return;
     }
 
-    // Iniciar osciloscopio en paralelo
-    startOscilloscope();
-
-    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     var recognition = new SpeechRecognition();
     recognition.lang = SR_CONFIG.lang;
     recognition.continuous = SR_CONFIG.continuous;
     recognition.interimResults = SR_CONFIG.interimResults;
 
     recognition.onresult = function(event) {
-      var finalText = '';
       var interim = '';
+      var final = '';
       for (var i = event.resultIndex; i < event.results.length; i++) {
-        var result = event.results[i];
-        if (result.isFinal) {
-          finalText += result[0].transcript + ' ';
+        if (event.results[i].isFinal) {
+          final += event.results[i][0].transcript;
         } else {
-          interim += result[0].transcript;
+          interim += event.results[i][0].transcript;
         }
       }
-      // Usar la función updater de estado para evitar stale closures
-      transcript[1](function(prev) {
-        var newTranscript = prev + finalText;
-        // Calcular progreso con el nuevo valor
-        var compare = window.Muller.LecturaHelpers.compareTokens(text[0], newTranscript);
-        var correct = compare.filter(function(c) { return c.correct; }).length;
-        var total = compare.filter(function(c) { return c.original !== ''; }).length;
-        progress[1]({ correct: correct, total: total });
-        return newTranscript;
-      });
-      interimText[1](interim);
-
-      // Calcular progreso también fuera por si transcript no ha cambiado
-      var fullTranscript = (transcript[0] + finalText).trim();
-      if (fullTranscript) {
-        var compare2 = window.Muller.LecturaHelpers.compareTokens(text[0], fullTranscript);
-        var correct2 = compare2.filter(function(c) { return c.correct; }).length;
-        var total2 = compare2.filter(function(c) { return c.original !== ''; }).length;
-        progress[1]({ correct: correct2, total: total2 });
+      if (final) {
+        transcript[1](function(prev) { return (prev + ' ' + final).trim(); });
       }
+      interimText[1](interim);
     };
 
     recognition.onerror = function(event) {
-      console.warn('SpeechRecognition error:', event.error);
-      if (event.error === 'not-allowed') {
+      console.warn('Speech recognition error:', event.error);
+      if (event.error === 'no-speech' || event.error === 'aborted') return;
+      srRestartAttempts.current++;
+      if (srRestartAttempts.current < SR_CONFIG.maxRestartAttempts) {
+        setTimeout(function() { startReading(); }, SR_CONFIG.restartDelay);
+      } else {
         isListening[1](false);
         isReading[1](false);
-        stopOscilloscope();
-        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Micrófono', desc: 'Permiso denegado. Habilita el micrófono en la configuración del navegador.' });
-        return;
-      }
-      if (isReading[0] && srRestartAttempts.current < SR_CONFIG.maxRestartAttempts) {
-        srRestartAttempts.current++;
-        setTimeout(function() {
-          if (isReading[0]) {
-            try { recognition.start(); } catch(e) {}
-          }
-        }, SR_CONFIG.restartDelay);
+        if (window.Muller.Toast) {
+          window.Muller.Toast.show({ title: 'Error', desc: 'No se pudo iniciar el reconocimiento de voz.' });
+        }
       }
     };
 
     recognition.onend = function() {
       isListening[1](false);
-      if (isReading[0] && srRestartAttempts.current < SR_CONFIG.maxRestartAttempts) {
-        srRestartAttempts.current++;
-        setTimeout(function() {
-          if (isReading[0]) {
-            try { recognition.start(); } catch(e) {}
-          }
-        }, SR_CONFIG.restartDelay);
+      if (isReading[0]) {
+        // Si sigue leyendo, reiniciar
+        if (srRestartAttempts.current < SR_CONFIG.maxRestartAttempts) {
+          srRestartAttempts.current++;
+          setTimeout(function() {
+            try { recognition.start(); isListening[1](true); } catch(e) {}
+          }, SR_CONFIG.restartDelay);
+        }
       }
     };
+
+    srRestartAttempts.current = 0;
+    readingStartTime.current = Date.now();
 
     try {
       recognition.start();
       recognitionRef.current = recognition;
-      isListening[1](true);
       isReading[1](true);
-      readingStartTime.current = Date.now();
-      srRestartAttempts.current = 0;
-      transcript[1]('');
-      interimText[1]('');
-      showScore[1](false);
-      scoreResult[1](null);
-      compareResult[1]([]);
-      progress[1]({ correct: 0, total: 0 });
+      isListening[1](true);
+      startOscilloscope();
     } catch(e) {
-      console.error('Error starting recognition:', e);
+      console.warn('Could not start recognition:', e);
     }
-  }, []);
+  }, [isReading[0], text[0], tokens[0]]);
 
   var stopReading = React.useCallback(function() {
     if (recognitionRef.current) {
       try { recognitionRef.current.stop(); } catch(e) {}
       recognitionRef.current = null;
     }
-    isListening[1](false);
     isReading[1](false);
+    isListening[1](false);
+    readingDuration.current = Date.now() - (readingStartTime.current || Date.now());
     stopOscilloscope();
-
-    if (readingStartTime.current) {
-      readingDuration.current = (Date.now() - readingStartTime.current) / 1000;
-    }
     evaluateReading();
-  }, [transcript[0], text[0]]);
+  }, [transcript[0], text[0], tokens[0]]);
 
-  // FIX: evaluateReading depende de readingDuration.current, no lo pongo en dependencias porque es un ref
-  var evaluateReading = React.useCallback(function() {
-    var fullTranscript = transcript[0].trim();
-    if (!fullTranscript) {
-      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Sin datos', desc: 'No se detectó tu lectura. Intenta de nuevo.' });
-      return;
+  // ─── FEEDBACK VISUAL EN VIVO ───
+  // Compara transcript con tokens en tiempo real y actualiza wordStatuses
+  var updateWordStatuses = React.useCallback(function(transcriptText, originalTokens) {
+    if (!transcriptText || !originalTokens || originalTokens.length === 0) return;
+
+    var normalizedTranscript = window.Muller.Lectura.normalizeGermanSpeechText(transcriptText);
+    var spokenWords = normalizedTranscript.split(/\s+/).filter(Boolean);
+
+    var newStatuses = {};
+    var newErrors = [];
+    var correctCount = 0;
+    var totalCount = originalTokens.length;
+
+    originalTokens.forEach(function(token, idx) {
+      var cleanKey = token.cleanKey;
+      var spokenWord = spokenWords[idx] || '';
+
+      if (!spokenWord) {
+        newStatuses[cleanKey] = newStatuses[cleanKey] || 'pending';
+        return;
+      }
+
+      var isExact = spokenWord === cleanKey;
+      var phoneticCheck = window.Muller.Lectura.checkGermanPhonetics(cleanKey, spokenWord);
+
+      if (isExact) {
+        newStatuses[cleanKey] = 'correct';
+        correctCount++;
+      } else if (phoneticCheck.correct) {
+        newStatuses[cleanKey] = 'correct';
+        correctCount++;
+      } else {
+        newStatuses[cleanKey] = 'incorrect';
+        newErrors.push({ expected: cleanKey, got: spokenWord, cleanKey: cleanKey, phoneticErrors: phoneticCheck.errors });
+      }
+    });
+
+    wordStatuses[1](newStatuses);
+    transcriptionErrors[1](newErrors);
+    progress[1]({ correct: correctCount, total: totalCount });
+  }, []);
+
+  // Efecto que se dispara cuando cambia el transcript
+  React.useEffect(function() {
+    if (isReading[0] && transcript[0]) {
+      updateWordStatuses(transcript[0], tokens[0]);
     }
+  }, [transcript[0], isReading[0], tokens[0]]);
 
-    var compare = window.Muller.LecturaHelpers.compareTokens(text[0], fullTranscript);
-    compareResult[1](compare);
-
+  var evaluateReading = React.useCallback(function() {
+    if (!text[0]) return;
+    var compare = window.Muller.LecturaHelpers.compareTokens(text[0], transcript[0]);
     var result = window.Muller.LecturaHelpers.calculateScore(compare, readingDuration.current);
+
+    compareResult[1](compare);
     scoreResult[1](result);
     showScore[1](true);
 
+    // Guardar en historial
     saveToHistory(result);
-    window.Muller.Achievements.unlock('reading_first_session');
-    if (result.accuracy >= 90) window.Muller.Achievements.unlock('reading_accuracy_90');
-    if (result.wpm >= 50) window.Muller.Achievements.unlock('reading_speed_50');
 
-    if (result.score >= 70) {
-      if (window.Muller.playCorrect) window.Muller.playCorrect();
-    } else {
-      if (window.Muller.playIncorrect) window.Muller.playIncorrect();
+    // Guardar palabras falladas para SRS
+    saveFailedWords(compare);
+
+    // Logros
+    if (result.score >= 90) {
+      try { window.Muller.Achievements.unlock('reading_perfect_90'); } catch(e) {}
     }
-  }, [transcript[0], text[0]]);
+  }, [text[0], transcript[0], readingDuration.current]);
+
+  // ─── SRS AUTOMÁTICO: PALABRAS FALLADAS ───
+  var saveFailedWords = React.useCallback(function(compareTokens) {
+    if (!compareTokens || compareTokens.length === 0) return;
+
+    var failed = compareTokens
+      .filter(function(c) { return !c.correct && c.original && c.original.trim(); })
+      .map(function(c) { return c.original.toLowerCase().trim(); });
+
+    if (failed.length === 0) return;
+
+    // Guardar en localStorage para Léxikon
+    try {
+      var existing = storageGet(STORAGE_KEYS.srsWords) || [];
+      var now = Date.now();
+      failed.forEach(function(word) {
+        var found = existing.find(function(e) { return e.word === word; });
+        if (found) {
+          found.lastFailed = now;
+          found.count = (found.count || 1) + 1;
+        } else {
+          existing.push({ word: word, lastFailed: now, count: 1, addedFrom: 'lectura' });
+        }
+      });
+      storageSet(STORAGE_KEYS.srsWords, existing);
+    } catch(e) {}
+
+    // También guardar lista de fallos específica de lectura
+    try {
+      var fallWords = storageGet(STORAGE_KEYS.fallWords) || [];
+      failed.forEach(function(word) {
+        if (!fallWords.includes(word)) fallWords.push(word);
+      });
+      storageSet(STORAGE_KEYS.fallWords, fallWords);
+      fallWordsList[1](fallWords);
+    } catch(e) {}
+  }, []);
+
+  var loadFallWords = React.useCallback(function() {
+    try {
+      var data = storageGet(STORAGE_KEYS.fallWords) || [];
+      fallWordsList[1](data);
+    } catch(e) { fallWordsList[1]([]); }
+  }, []);
+
+  var clearFallWords = React.useCallback(function() {
+    try {
+      storageSet(STORAGE_KEYS.fallWords, []);
+      fallWordsList[1]([]);
+    } catch(e) {}
+  }, []);
 
   // ─── FUNCIONES DE GRABACIÓN ───
   var startRecording = React.useCallback(function() {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Error', desc: 'Grabación no soportada.' });
+    if (isRecording[0]) return;
+    if (!navigator.mediaDevices) {
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'No soportado', desc: 'Tu navegador no soporta grabación.' });
       return;
     }
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-      var recorder = new MediaRecorder(stream);
+      var mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
       audioChunks.current = [];
 
-      recorder.ondataavailable = function(e) {
-        if (e.data.size > 0) audioChunks.current.push(e.data);
+      mediaRecorder.ondataavailable = function(event) {
+        if (event.data.size > 0) audioChunks.current.push(event.data);
       };
 
-      recorder.onstop = function() {
+      mediaRecorder.onstop = function() {
+        stream.getTracks().forEach(function(t) { t.stop(); });
         var blob = new Blob(audioChunks.current, { type: 'audio/webm' });
         recordedBlob[1](blob);
-        stream.getTracks().forEach(function(t) { t.stop(); });
 
-        var timestamp = new Date().toISOString();
-        var key = 'reading_audio_' + timestamp;
-        try {
-          var reader = new FileReader();
-          reader.onload = function() {
-            var data = { key: key, blob: reader.result, timestamp: timestamp, score: scoreResult[0] };
-            var existing = storageGet(STORAGE_KEYS.recordings) || [];
-            existing.push(data);
-            storageSet(STORAGE_KEYS.recordings, existing);
+        // Guardar grabación con metadatos completos
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var dataURL = e.target.result;
+          try {
+            var data = storageGet(STORAGE_KEYS.recordings) || [];
+            var entry = {
+              key: 'rec_' + Date.now(),
+              blob: dataURL,
+              timestamp: new Date().toISOString(),
+              duration: audioChunks.current.length > 0 ? '~' + Math.round(audioChunks.current.length * 0.5) + 's' : '?',
+              source: source[0] || 'unknown',
+              textPreview: text[0] ? text[0].substring(0, 80) : ''
+            };
+            data.push(entry);
+            storageSet(STORAGE_KEYS.recordings, data);
             loadRecordings();
-          };
-          reader.readAsDataURL(blob);
-        } catch(e) {
-          console.warn('Could not save recording:', e);
-        }
+          } catch(e) {
+            console.warn('Could not save recording:', e);
+          }
+        };
+        reader.readAsDataURL(blob);
       };
 
-      recorder.start();
-      mediaRecorderRef.current = recorder;
+      mediaRecorder.start();
       isRecording[1](true);
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Grabando', desc: 'Grabación iniciada. Habla en alemán.' });
     }).catch(function(err) {
-      console.error('Error accessing microphone:', err);
-      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Error', desc: 'No se pudo acceder al micrófono para grabar.' });
+      console.warn('Microphone error:', err);
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Error', desc: 'No se pudo acceder al micrófono.' });
     });
-  }, [scoreResult[0]]);
+  }, [isRecording[0], text[0], source[0]]);
 
   var stopRecording = React.useCallback(function() {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
-      mediaRecorderRef.current = null;
     }
     isRecording[1](false);
+    if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Grabación guardada', desc: 'Audio almacenado en tu dispositivo.' });
   }, []);
 
   var playRecording = React.useCallback(function(blob) {
-    if (!blob) return;
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
     }
+    if (!blob) return;
     var url = URL.createObjectURL(blob);
     var audio = new Audio(url);
     audio.onended = function() { isPlayingRecording[1](false); URL.revokeObjectURL(url); };
@@ -410,6 +473,10 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
 
   var playRecordingFromDataURL = React.useCallback(function(dataURL) {
     if (!dataURL) return;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
     var audio = new Audio(dataURL);
     audio.onended = function() { isPlayingRecording[1](false); };
     audioRef.current = audio;
@@ -430,6 +497,15 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       data = data.filter(function(d) { return d.key !== key; });
       storageSet(STORAGE_KEYS.recordings, data);
       loadRecordings();
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Eliminada', desc: 'Grabación borrada.' });
+    } catch(e) {}
+  }, []);
+
+  var deleteAllRecordings = React.useCallback(function() {
+    try {
+      storageSet(STORAGE_KEYS.recordings, []);
+      recordingsList[1]([]);
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Todas eliminadas', desc: 'Grabaciones borradas.' });
     } catch(e) {}
   }, []);
 
@@ -442,6 +518,8 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     transcript[1]('');
     showScore[1](false);
     scoreResult[1](null);
+    wordStatuses[1]({});
+    transcriptionErrors[1]([]);
 
     var wordCount = tokens[0].length;
     var estimatedTime = Math.max(ROUNDS_CONFIG.minTimeSeconds, Math.round(wordCount * 1.5));
@@ -458,7 +536,6 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       roundTimeLeft[1](function(prev) {
         if (prev <= 1) {
           clearInterval(roundTimer.current);
-          // finishRound necesita las dependencias actualizadas, llamamos con setTimeout
           setTimeout(finishRound, 0);
           return 0;
         }
@@ -471,7 +548,8 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     if (roundTimer.current) clearInterval(roundTimer.current);
 
     var totalTime = roundTimeLimit[0] - roundTimeLeft[0];
-    var compare = window.Muller.LecturaHelpers.compareTokens(text[0], transcript[0]);
+    var transcriptText = transcript[0];
+    var compare = window.Muller.LecturaHelpers.compareTokens(text[0], transcriptText);
     var baseResult = window.Muller.LecturaHelpers.calculateScore(compare, totalTime);
     var roundScore = window.Muller.LecturaHelpers.calculateRoundScore(baseResult.score, totalTime, roundTimeLimit[0]);
 
@@ -479,6 +557,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     var newScores = roundScores[0].concat([roundScore]);
     roundTimes[1](newTimes);
     roundScores[1](newScores);
+
+    // Guardar palabras falladas de esta ronda
+    saveFailedWords(compare);
 
     var nextRound = currentRound[0] + 1;
     if (nextRound <= ROUNDS_CONFIG.maxRounds) {
@@ -495,10 +576,87 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       showScore[1](true);
       stopOscilloscope();
 
-      window.Muller.Achievements.unlock('reading_3_rounds');
+      try { window.Muller.Achievements.unlock('reading_3_rounds'); } catch(e) {}
       saveToHistory(baseResult);
     }
   }, [text[0], transcript[0], currentRound[0], roundTimeLimit[0], roundTimeLeft[0], roundTimes[0], roundScores[0]]);
+
+  // ─── MODO MARATÓN ───
+  var startMarathon = React.useCallback(function(durationSeconds) {
+    if (marathonActive[0]) return;
+    marathonDuration[1](durationSeconds);
+    marathonTimeLeft[1](durationSeconds);
+    marathonStats[1]({ correct: 0, total: 0, wpm: 0, streak: 0, bestStreak: 0 });
+    transcript[1]('');
+    interimText[1]('');
+    showScore[1](false);
+    scoreResult[1](null);
+    wordStatuses[1]({});
+    transcriptionErrors[1]([]);
+    readingStartTime.current = Date.now();
+
+    // Iniciar timer
+    if (marathonTimer.current) clearInterval(marathonTimer.current);
+    marathonTimer.current = setInterval(function() {
+      marathonTimeLeft[1](function(prev) {
+        if (prev <= 1) {
+          clearInterval(marathonTimer.current);
+          marathonTimer.current = null;
+          finishMarathon();
+          return 0;
+        }
+        return prev - 1;
+      });
+      // Actualizar wpm en vivo
+      marathonStats[1](function(prev) {
+        var elapsed = (Date.now() - readingStartTime.current) / 1000 / 60;
+        var wpm = elapsed > 0 ? Math.round(prev.correct / elapsed) : 0;
+        return Object.assign({}, prev, { wpm: wpm });
+      });
+    }, 1000);
+
+    marathonActive[1](true);
+    // Iniciar speech recognition
+    startReading();
+  }, [marathonActive[0], text[0]]);
+
+  var stopMarathon = React.useCallback(function() {
+    if (marathonTimer.current) {
+      clearInterval(marathonTimer.current);
+      marathonTimer.current = null;
+    }
+    marathonActive[1](false);
+    stopReading();
+
+    // Guardar estadísticas de maratón
+    try {
+      var data = storageGet(STORAGE_KEYS.marathonHistory) || [];
+      data.push({
+        timestamp: new Date().toISOString(),
+        duration: marathonDuration[0],
+        stats: marathonStats[0]
+      });
+      if (data.length > 50) data = data.slice(-50);
+      storageSet(STORAGE_KEYS.marathonHistory, data);
+    } catch(e) {}
+  }, [marathonDuration[0], marathonStats[0]]);
+
+  var finishMarathon = React.useCallback(function() {
+    marathonActive[1](false);
+    readingDuration.current = marathonDuration[0] * 1000;
+    stopReading();
+
+    try {
+      var data = storageGet(STORAGE_KEYS.marathonHistory) || [];
+      data.push({
+        timestamp: new Date().toISOString(),
+        duration: marathonDuration[0],
+        stats: marathonStats[0]
+      });
+      if (data.length > 50) data = data.slice(-50);
+      storageSet(STORAGE_KEYS.marathonHistory, data);
+    } catch(e) {}
+  }, [marathonDuration[0], marathonStats[0]]);
 
   // ─── FUNCIONES DE KARAOKE ───
   var startKaraoke = React.useCallback(function() {
@@ -531,7 +689,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
 
   // ─── FUNCIONES DE OSCILOSCOPIO ───
   var startOscilloscope = React.useCallback(function() {
-    if (oscilloscopeActive[0]) return; // ya iniciado
+    if (oscilloscopeActive[0]) return;
     if (!navigator.mediaDevices) return;
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
       oscilloscopeStreamRef.current = stream;
@@ -610,12 +768,13 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       var entry = {
         timestamp: new Date().toISOString(),
         source: source[0],
-        textPreview: text[0].substring(0, 100),
+        textPreview: text[0] ? text[0].substring(0, 100) : '',
         score: result.score,
         accuracy: result.accuracy,
         wpm: result.wpm,
         correct: result.correct,
         total: result.total,
+        errors: transcriptionErrors[0].length,
         duration: readingDuration.current,
         rounds: roundScores[0].length > 0 ? roundScores[0] : null
       };
@@ -630,7 +789,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     } catch(e) {
       console.warn('Could not save history:', e);
     }
-  }, [source[0], text[0], readingDuration.current, roundScores[0]]);
+  }, [source[0], text[0], readingDuration.current, roundScores[0], transcriptionErrors[0]]);
 
   var loadHistory = React.useCallback(function() {
     try {
@@ -661,7 +820,9 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       storageSet(STORAGE_KEYS.streak, streakData);
       streak[1](streakData.current);
 
-      if (streakData.current >= 7) window.Muller.Achievements.unlock('reading_streak_7');
+      if (streakData.current >= 7) {
+        try { window.Muller.Achievements.unlock('reading_streak_7'); } catch(e) {}
+      }
     } catch(e) {}
   }, []);
 
@@ -675,7 +836,10 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
   // ─── FUNCIONES DE LOGROS ───
   var checkAchievements = React.useCallback(function(result) {
     if (readingCount[0] >= 10) {
-      window.Muller.Achievements.unlock('reading_10_texts');
+      try { window.Muller.Achievements.unlock('reading_10_texts'); } catch(e) {}
+    }
+    if (result && result.wpm >= 100) {
+      try { window.Muller.Achievements.unlock('reading_speed_100'); } catch(e) {}
     }
   }, [readingCount[0]]);
 
@@ -700,6 +864,8 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     scoreResult[1](null);
     transcript[1]('');
     showLibrary[1](false);
+    wordStatuses[1]({});
+    transcriptionErrors[1]([]);
   }, []);
 
   var importPDFText = React.useCallback(function(pdfText) {
@@ -733,24 +899,120 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       loadLibrary();
     } catch(e) {}
   }, []);
-  var clearText = React.useCallback(function () {
-    setPasteTextInput('');
-    if (textoRef) { textoRef.current = ""; }
-    try { window.Muller.storage.remove("muller_pasted_text"); } catch (e) {}
-  }, []);
 
+  // clearText eliminado: era código muerto con variables indefinidas
 
-  // ─── FUNCIONES DE AI PLACEHOLDER ───
+  // ─── FUNCIONES DE AI PLACEHOLDER (mejorado para DeepSeek) ───
   var aiAnalyzeReading = React.useCallback(function(textData, transcriptData) {
     var wordCount = textData ? window.Muller.LecturaHelpers.tokenize(textData).length : 0;
     var readingTime = readingDuration.current;
-    return {
+    var errors = transcriptionErrors[0] || [];
+
+    // Si DeepSeek está disponible, usarlo
+    if (window.Muller.DeepSeek && window.Muller.DeepSeek.analyze) {
+      return window.Muller.DeepSeek.analyze({
+        type: 'reading',
+        text: textData,
+        transcript: transcriptData,
+        errors: errors,
+        readingTime: readingTime
+      });
+    }
+
+    // Fallback offline mejorado
+    var analysis = {
       analysis: 'Análisis local',
       wordCount: wordCount,
       readingTime: readingTime,
-      suggestedFocus: Math.random() > 0.5 ? 'Vocabulario' : 'Pronunciación',
-      message: 'Próximamente: análisis con IA de DeepSeek para recomendaciones personalizadas.'
+      errorCount: errors.length,
+      errorWords: errors.map(function(e) { return e.expected; }),
+      suggestedFocus: errors.length > 3 ? 'Pronunciación' : 'Vocabulario',
+      message: errors.length > 0
+        ? 'Has cometido ' + errors.length + ' error(es) de pronunciación. Revisa las palabras marcadas en rojo.'
+        : '¡Buena lectura! Tu pronunciación es clara.',
+      deepseekReady: window.Muller.DeepSeek ? true : false
     };
+
+    // Sugerencias basadas en errores fonéticos
+    var phoneticTips = [];
+    errors.forEach(function(err) {
+      if (err.phoneticErrors && err.phoneticErrors.length > 0) {
+        phoneticTips = phoneticTips.concat(err.phoneticErrors);
+      }
+    });
+    if (phoneticTips.length > 0) {
+      analysis.phoneticTips = phoneticTips.slice(0, 5);
+      analysis.message += ' Consejos: ' + phoneticTips.slice(0, 3).join(' | ');
+    }
+
+    return analysis;
+  }, [transcriptionErrors[0], readingDuration.current]);
+
+  // ─── MAPA DE CALOR ───
+  var toggleHeatmap = React.useCallback(function() {
+    if (showHeatmap[0]) {
+      showHeatmap[1](false);
+      return;
+    }
+    // Cargar palabras falladas del historial reciente
+    try {
+      var historyData = storageGet(STORAGE_KEYS.history) || [];
+      var fallWords = storageGet(STORAGE_KEYS.fallWords) || [];
+      var hTokens = window.Muller.Lectura.generateHeatmap(tokens[0], fallWords);
+      heatmapTokens[1](hTokens);
+      showHeatmap[1](true);
+    } catch(e) {
+      showHeatmap[1](false);
+    }
+  }, [tokens[0], showHeatmap[0]]);
+
+  // ─── EXPORTAR / IMPORTAR ESTADÍSTICAS ───
+  var exportStats = React.useCallback(function() {
+    try {
+      var data = {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        history: storageGet(STORAGE_KEYS.history) || [],
+        streak: storageGet(STORAGE_KEYS.streak) || { current: 0, lastDate: null },
+        recordingsCount: (storageGet(STORAGE_KEYS.recordings) || []).length,
+        fallWords: storageGet(STORAGE_KEYS.fallWords) || [],
+        marathonHistory: storageGet(STORAGE_KEYS.marathonHistory) || []
+      };
+      var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'muller_reading_stats_' + new Date().toISOString().split('T')[0] + '.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Exportado', desc: 'Estadísticas descargadas como JSON.' });
+    } catch(e) {
+      console.warn('Export error:', e);
+    }
+  }, []);
+
+  var importStats = React.useCallback(function(file) {
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        var data = JSON.parse(e.target.result);
+        if (!data.version) throw new Error('Formato inválido');
+        if (data.history) storageSet(STORAGE_KEYS.history, data.history);
+        if (data.streak) storageSet(STORAGE_KEYS.streak, data.streak);
+        if (data.fallWords) storageSet(STORAGE_KEYS.fallWords, data.fallWords);
+        if (data.marathonHistory) storageSet(STORAGE_KEYS.marathonHistory, data.marathonHistory);
+        loadHistory();
+        loadStreak();
+        loadFallWords();
+        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Importado', desc: 'Estadísticas cargadas correctamente.' });
+      } catch(err) {
+        if (window.Muller.Toast) window.Muller.Toast.show({ title: 'Error', desc: 'Archivo inválido.' });
+      }
+    };
+    reader.readAsText(file);
   }, []);
 
   // ─── FUNCIONES DE FUENTE ───
@@ -793,7 +1055,49 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     shadowSync[1](0);
   }, []);
 
-  // ─── FUNCIONES DE MODO SIN CONEXIÓN ───
+  // ─── MANEJADORES DE PALABRA CLICK / SELECCIÓN ───
+  var handleWordClick = React.useCallback(function(word, cleanKey) {
+    activeWord[1](word);
+    setWordInfo(word, cleanKey);
+  }, []);
+
+  var setWordInfo = React.useCallback(function(word, cleanKey) {
+    if (window.Muller.translate && window.Muller.translate.word) {
+      window.Muller.translate.word(cleanKey || word).then(function(info) {
+        wordInfo[1](info);
+        showTranslation[1](true);
+      }).catch(function() {
+        wordInfo[1]({ word: word, translation: 'Traducción no disponible' });
+        showTranslation[1](true);
+      });
+    } else {
+      wordInfo[1]({ word: word, translation: 'Sin servicio de traducción' });
+      showTranslation[1](true);
+    }
+    // TTS de la palabra
+    try { window.Muller.speakGermanWord(word); } catch(e) {}
+  }, []);
+
+  var handleTextSelection = React.useCallback(function() {
+    var sel = window.getSelection();
+    if (sel && sel.toString().trim()) {
+      selectedText[1](sel.toString().trim());
+    }
+  }, []);
+
+  var clearSelection = React.useCallback(function() {
+    selectedText[1]('');
+    var sel = window.getSelection();
+    if (sel) sel.removeAllRanges();
+  }, []);
+
+  var playSelectedText = React.useCallback(function() {
+    if (selectedText[0] && window.Muller.playSceneAudio) {
+      window.Muller.playSceneAudio(selectedText[0], 'de');
+    }
+  }, [selectedText[0]]);
+
+  // ─── MODO SIN CONEXIÓN ───
   var isOffline = React.useState(!navigator.onLine);
 
   React.useEffect(function() {
@@ -806,6 +1110,79 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  // ─── ATAJOS DE TECLADO ───
+  React.useEffect(function() {
+    function handleKeyDown(e) {
+      // Solo si no estamos en un input/textarea
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      switch (e.code) {
+        case KEYBOARD_SHORTCUTS.SPACE:
+          e.preventDefault();
+          if (text[0]) {
+            if (isReading[0]) stopReading();
+            else startReading();
+          }
+          break;
+        case KEYBOARD_SHORTCUTS.ARROW_LEFT:
+          e.preventDefault();
+          if (activeWord[0] && tokens[0].length > 0) {
+            var currentIdx = tokens[0].findIndex(function(t) { return t.word === activeWord[0]; });
+            if (currentIdx > 0) {
+              var prevToken = tokens[0][currentIdx - 1];
+              handleWordClick(prevToken.word, prevToken.cleanKey);
+            }
+          }
+          break;
+        case KEYBOARD_SHORTCUTS.ARROW_RIGHT:
+          e.preventDefault();
+          if (activeWord[0] && tokens[0].length > 0) {
+            var currentIdx = tokens[0].findIndex(function(t) { return t.word === activeWord[0]; });
+            if (currentIdx < tokens[0].length - 1) {
+              var nextToken = tokens[0][currentIdx + 1];
+              handleWordClick(nextToken.word, nextToken.cleanKey);
+            }
+          }
+          break;
+        case KEYBOARD_SHORTCUTS.KEY_M:
+          e.preventDefault();
+          if (text[0] && !marathonActive[0]) startMarathon(300);
+          else if (marathonActive[0]) stopMarathon();
+          break;
+        case KEYBOARD_SHORTCUTS.KEY_H:
+          e.preventDefault();
+          showHistory[1](function(prev) { return !prev; });
+          break;
+        case KEYBOARD_SHORTCUTS.KEY_L:
+          e.preventDefault();
+          showLibrary[1](function(prev) { return !prev; });
+          break;
+        case KEYBOARD_SHORTCUTS.KEY_R:
+          e.preventDefault();
+          if (text[0] && !roundsActive[0]) startRounds();
+          break;
+        case KEYBOARD_SHORTCUTS.KEY_K:
+          e.preventDefault();
+          if (!karaokeActive[0] && text[0]) startKaraoke();
+          else if (karaokeActive[0]) stopKaraoke();
+          break;
+        case KEYBOARD_SHORTCUTS.KEY_S:
+          e.preventDefault();
+          if (!shadowActive[0] && text[0]) startShadowReading();
+          else if (shadowActive[0]) stopShadowReading();
+          break;
+        case KEYBOARD_SHORTCUTS.KEY_D:
+          e.preventDefault();
+          if (!dictadoActive[0] && text[0]) startDictado();
+          else if (dictadoActive[0]) stopDictado();
+          break;
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return function() { window.removeEventListener('keydown', handleKeyDown); };
+  }, [text[0], isReading[0], activeWord[0], tokens[0], marathonActive[0], roundsActive[0], karaokeActive[0], shadowActive[0], dictadoActive[0]]);
 
   // ─── PREFERENCIAS DE FUENTE ───
   React.useEffect(function() {
@@ -821,8 +1198,18 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     } catch(e) {}
   }, [fontSize[0]]);
 
+  // ─── CARGA INICIAL ───
+  React.useEffect(function() {
+    loadHistory();
+    loadStreak();
+    loadRecordings();
+    loadLibrary();
+    loadFallWords();
+  }, []);
+
   // ─── RETURN ───
   return {
+    // Principales
     source: source[0], setSource: source[1],
     text: text[0], setText: text[1],
     tokens: tokens[0],
@@ -832,6 +1219,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     fontSize: fontSize[0],
     showTranslation: showTranslation[0], setShowTranslation: showTranslation[1],
 
+    // Reconocimiento de voz
     isReading: isReading[0],
     isListening: isListening[0],
     transcript: transcript[0], setTranscript: transcript[1],
@@ -841,6 +1229,11 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     evaluateReading: evaluateReading,
     progress: progress[0],
 
+    // Feedback visual en vivo
+    wordStatuses: wordStatuses[0],
+    transcriptionErrors: transcriptionErrors[0],
+
+    // Grabación
     isRecording: isRecording[0],
     recordedBlob: recordedBlob[0],
     recordingsList: recordingsList[0],
@@ -850,11 +1243,14 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     playRecording: playRecording,
     playRecordingFromDataURL: playRecordingFromDataURL,
     deleteRecording: deleteRecording,
+    deleteAllRecordings: deleteAllRecordings,
 
+    // Puntuación
     compareResult: compareResult[0],
     scoreResult: scoreResult[0],
     showScore: showScore[0], setShowScore: showScore[1],
 
+    // Rondas
     roundsActive: roundsActive[0],
     currentRound: currentRound[0],
     roundTimes: roundTimes[0],
@@ -864,12 +1260,22 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     startRounds: startRounds,
     finishRound: finishRound,
 
+    // Maratón
+    marathonActive: marathonActive[0],
+    marathonDuration: marathonDuration[0],
+    marathonTimeLeft: marathonTimeLeft[0],
+    marathonStats: marathonStats[0],
+    startMarathon: startMarathon,
+    stopMarathon: stopMarathon,
+
+    // Karaoke
     karaokeActive: karaokeActive[0],
     karaokeCurrentWord: karaokeCurrentWord[0],
     karaokeWords: karaokeWords[0],
     startKaraoke: startKaraoke,
     stopKaraoke: stopKaraoke,
 
+    // Osciloscopio
     oscilloscopeActive: oscilloscopeActive[0],
     analyserRef: analyserRef,
     animationIdRef: animationIdRef,
@@ -877,6 +1283,7 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     startOscilloscope: startOscilloscope,
     stopOscilloscope: stopOscilloscope,
 
+    // Dictado
     dictadoActive: dictadoActive[0],
     dictadoCurrentSentence: dictadoCurrentSentence[0],
     dictadoUserInput: dictadoUserInput[0], setDictadoUserInput: dictadoUserInput[1],
@@ -886,11 +1293,13 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     submitDictado: submitDictado,
     stopDictado: stopDictado,
 
+    // Historial
     history: history[0],
     showHistory: showHistory[0], setShowHistory: showHistory[1],
     streak: streak[0],
     readingCount: readingCount[0],
 
+    // Biblioteca
     libraryTexts: libraryTexts[0],
     showLibrary: showLibrary[0], setShowLibrary: showLibrary[1],
     selectText: selectText,
@@ -900,22 +1309,41 @@ window.Muller.LecturaHooks.useLectura = function(opts) {
     deleteCustomText: deleteCustomText,
     loadLibrary: loadLibrary,
 
+    // Fuente
     increaseFont: increaseFont,
     decreaseFont: decreaseFont,
     resetFont: resetFont,
 
+    // Palabra y selección
     handleWordClick: handleWordClick,
     handleTextSelection: handleTextSelection,
     clearSelection: clearSelection,
     playSelectedText: playSelectedText,
 
+    // Sombra
     shadowActive: shadowActive[0],
     shadowSync: shadowSync[0],
     startShadowReading: startShadowReading,
     stopShadowReading: stopShadowReading,
 
+    // Offline
     isOffline: isOffline[0],
 
-    aiAnalyzeReading: aiAnalyzeReading
+    // AI
+    aiAnalyzeReading: aiAnalyzeReading,
+
+    // SRS de palabras falladas
+    fallWordsList: fallWordsList[0],
+    clearFallWords: clearFallWords,
+
+    // Mapa de calor
+    showHeatmap: showHeatmap[0],
+    heatmapTokens: heatmapTokens[0],
+    toggleHeatmap: toggleHeatmap,
+
+    // Exportar / Importar
+    showExportImport: showExportImport[0], setShowExportImport: showExportImport[1],
+    exportStats: exportStats,
+    importStats: importStats
   };
 };
