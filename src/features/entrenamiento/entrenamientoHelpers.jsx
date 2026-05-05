@@ -1509,7 +1509,137 @@ window.Muller.getReviewRecommendations = function(limit) {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 17. EXPORTAR AL MÓDULO PRINCIPAL
+// 17. DATOS Y REGLAS DE PLURAL
+// ═══════════════════════════════════════════════════════════════
+var PLURAL_DATA = [
+    // ── PLURAL EN -e ──
+    { singular: 'der Tag', plural: 'die Tage', type: '-e', rule: 'Plural en -e: la mayoría de masculinos (no -er/-el/-en) → die + palabra + e', gender: 'der' },
+    { singular: 'der Tisch', plural: 'die Tische', type: '-e', rule: 'Plural en -e: masculinos añaden -e', gender: 'der' },
+    { singular: 'der Stuhl', plural: 'die Stühle', type: '-e+Umlaut', rule: 'Plural en -e con Umlaut: ~50% de masculinos monosílabos', gender: 'der' },
+    { singular: 'der Gast', plural: 'die Gäste', type: '-e+Umlaut', rule: 'Plural en -e con Umlaut', gender: 'der' },
+    { singular: 'der Sohn', plural: 'die Söhne', type: '-e+Umlaut', rule: 'Plural en -e con Umlaut', gender: 'der' },
+    { singular: 'der König', plural: 'die Könige', type: '-e', rule: 'Masculinos -ich/-ig → plural -e (sin Umlaut generalmente)', gender: 'der' },
+    { singular: 'der Teppich', plural: 'die Teppiche', type: '-e', rule: 'Masculinos -ich/-ig → plural -e', gender: 'der' },
+    { singular: 'der Schmetterling', plural: 'die Schmetterlinge', type: '-e', rule: 'Masculinos -ling → plural -e', gender: 'der' },
+    { singular: 'der Fuchs', plural: 'die Füchse', type: '-e+Umlaut', rule: 'Masculinos -s a veces con Umlaut', gender: 'der' },
+    { singular: 'der Friseur', plural: 'die Friseure', type: '-e', rule: 'Masculinos -eur → plural -e', gender: 'der' },
+    { singular: 'der Offizier', plural: 'die Offiziere', type: '-e', rule: 'Masculinos -ier → plural -e', gender: 'der' },
+    { singular: 'der Bibliothekar', plural: 'die Bibliothekare', type: '-e', rule: 'Masculinos -ar → plural -e', gender: 'der' },
+    { singular: 'das Jahr', plural: 'die Jahre', type: '-e', rule: 'Muchos neutros → plural -e (sin Umlaut)', gender: 'das' },
+    { singular: 'das Heft', plural: 'die Hefte', type: '-e', rule: 'Neutros bisílabos → plural -e', gender: 'das' },
+    { singular: 'das Floß', plural: 'die Flöße', type: '-e+Umlaut', rule: 'Neutros monosílabos → -e con Umlaut posible', gender: 'das' },
+    { singular: 'das Ergebnis', plural: 'die Ergebnisse', type: '-e', rule: 'Neutros -nis → plural -nisse (dobla s)', gender: 'das' },
+    // Femeninos excepcionales -e
+    { singular: 'die Maus', plural: 'die Mäuse', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo con plural -e+Umlaut (grupo cerrado)', gender: 'die' },
+    { singular: 'die Hand', plural: 'die Hände', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
+    { singular: 'die Nacht', plural: 'die Nächte', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
+    { singular: 'die Stadt', plural: 'die Städte', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
+    { singular: 'die Kuh', plural: 'die Kühe', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
+    // ── PLURAL EN -er ──
+    { singular: 'das Kind', plural: 'die Kinder', type: '-er', rule: 'Neutros → plural -er + Umlaut si la vocal lo permite', gender: 'das' },
+    { singular: 'das Bild', plural: 'die Bilder', type: '-er', rule: 'Plural -er (neutros típicos)', gender: 'das' },
+    { singular: 'das Buch', plural: 'die Bücher', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
+    { singular: 'das Haus', plural: 'die Häuser', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
+    { singular: 'das Glas', plural: 'die Gläser', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
+    { singular: 'das Rad', plural: 'die Räder', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
+    { singular: 'das Dach', plural: 'die Dächer', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
+    { singular: 'das Wort', plural: 'die Wörter', type: '-er', rule: 'Neutro con plural -er (Worte = poético)', gender: 'das' },
+    { singular: 'das Land', plural: 'die Länder', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
+    { singular: 'das Volk', plural: 'die Völker', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
+    { singular: 'das Eigentum', plural: 'die Eigentümer', type: '-er', rule: 'Neutros -tum → pierden -um + -tümer', gender: 'das' },
+    { singular: 'der Mann', plural: 'die Männer', type: '-er', rule: 'EXCEPCIÓN: Masculino con plural -er + Umlaut', gender: 'der' },
+    { singular: 'der Wald', plural: 'die Wälder', type: '-er', rule: 'EXCEPCIÓN: Masculino con plural -er + Umlaut', gender: 'der' },
+    { singular: 'der Gott', plural: 'die Götter', type: '-er', rule: 'EXCEPCIÓN: Masculino con plural -er + Umlaut', gender: 'der' },
+    // ── PLURAL EN -n/-en ──
+    { singular: 'die Lampe', plural: 'die Lampen', type: '-n', rule: 'Femeninos -e → plural -n', gender: 'die' },
+    { singular: 'die Mauer', plural: 'die Mauern', type: '-n', rule: 'Femeninos -er → plural -n', gender: 'die' },
+    { singular: 'die Kartoffel', plural: 'die Kartoffeln', type: '-n', rule: 'Femeninos -el → plural -n', gender: 'die' },
+    { singular: 'die Zeitung', plural: 'die Zeitungen', type: '-en', rule: 'Femeninos -ung → plural -en', gender: 'die' },
+    { singular: 'die Freiheit', plural: 'die Freiheiten', type: '-en', rule: 'Femeninos -heit → plural -en', gender: 'die' },
+    { singular: 'die Möglichkeit', plural: 'die Möglichkeiten', type: '-en', rule: 'Femeninos -keit → plural -en', gender: 'die' },
+    { singular: 'die Mannschaft', plural: 'die Mannschaften', type: '-en', rule: 'Femeninos -schaft → plural -en', gender: 'die' },
+    { singular: 'die Nation', plural: 'die Nationen', type: '-en', rule: 'Femeninos -tion → plural -en', gender: 'die' },
+    { singular: 'die Universität', plural: 'die Universitäten', type: '-en', rule: 'Femeninos -tät → plural -en', gender: 'die' },
+    { singular: 'die Musik', plural: 'die Musiken', type: '-en', rule: 'Femeninos -ik → plural -en', gender: 'die' },
+    { singular: 'die Frau', plural: 'die Frauen', type: '-en', rule: 'Femeninos terminados en vocal → plural -en', gender: 'die' },
+    // Masculinos débiles (n-Deklination)
+    { singular: 'der Junge', plural: 'die Jungen', type: '-n', rule: 'Masculino débil (-e, ser vivo) → plural -n', gender: 'der' },
+    { singular: 'der Kollege', plural: 'die Kollegen', type: '-n', rule: 'Masculino débil → plural -n', gender: 'der' },
+    { singular: 'der Student', plural: 'die Studenten', type: '-en', rule: 'Masculino débil (-ent) → plural -en', gender: 'der' },
+    { singular: 'der Polizist', plural: 'die Polizisten', type: '-en', rule: 'Masculino débil (-ist) → plural -en', gender: 'der' },
+    { singular: 'der Biologe', plural: 'die Biologen', type: '-n', rule: 'Masculino débil (-oge) → plural -n', gender: 'der' },
+    { singular: 'der Mensch', plural: 'die Menschen', type: '-en', rule: 'Masculino débil monosílabo → plural -en', gender: 'der' },
+    { singular: 'der Held', plural: 'die Helden', type: '-en', rule: 'Masculino débil monosílabo → plural -en', gender: 'der' },
+    { singular: 'der Herr', plural: 'die Herren', type: '-en', rule: 'Masculino débil → plural -en (duplica r)', gender: 'der' },
+    // Neutros especiales
+    { singular: 'das Museum', plural: 'die Museen', type: '-en', rule: 'Neutros -um → plural -en (caída de -um)', gender: 'das' },
+    { singular: 'das Zentrum', plural: 'die Zentren', type: '-en', rule: 'Neutros -um → plural -en', gender: 'das' },
+    { singular: 'das Studium', plural: 'die Studien', type: '-en', rule: 'Neutros -ium → plural -ien', gender: 'das' },
+    { singular: 'das Konto', plural: 'die Konten', type: '-en', rule: 'Neutros -o → plural -en (o -s)', gender: 'das' },
+    { singular: 'das Drama', plural: 'die Dramen', type: '-en', rule: 'Neutros -a → plural -en', gender: 'das' },
+    { singular: 'das Thema', plural: 'die Themen', type: '-en', rule: 'Neutros -a → plural -en', gender: 'das' },
+    { singular: 'das Auge', plural: 'die Augen', type: '-n', rule: 'Único neutro débil → plural -n', gender: 'das' },
+    { singular: 'das Herz', plural: 'die Herzen', type: '-en', rule: 'El único neutro con declinación débil', gender: 'das' },
+    // ── PLURAL EN -s ──
+    { singular: 'das Auto', plural: 'die Autos', type: '-s', rule: 'Extranjerismos en -o → plural -s', gender: 'das' },
+    { singular: 'der Opa', plural: 'die Opas', type: '-s', rule: 'Palabras en -a → plural -s', gender: 'der' },
+    { singular: 'die Oma', plural: 'die Omas', type: '-s', rule: 'Palabras en -a → plural -s', gender: 'die' },
+    { singular: 'das Kino', plural: 'die Kinos', type: '-s', rule: 'Neutros en -o → plural -s', gender: 'das' },
+    { singular: 'das Handy', plural: 'die Handys', type: '-s', rule: 'Palabras en -y → plural -s', gender: 'das' },
+    { singular: 'die Kamera', plural: 'die Kameras', type: '-s', rule: 'Femeninos en -a → plural -s', gender: 'die' },
+    { singular: 'das Taxi', plural: 'die Taxis', type: '-s', rule: 'Palabras en -i → plural -s', gender: 'das' },
+    { singular: 'der Zoo', plural: 'die Zoos', type: '-s', rule: 'Palabras en -o → plural -s', gender: 'der' },
+    { singular: 'das Team', plural: 'die Teams', type: '-s', rule: 'Préstamos inglés → plural -s', gender: 'das' },
+    { singular: 'der Computer', plural: 'die Computers', type: '-s', rule: 'Préstamos inglés → plural -s', gender: 'der' },
+    { singular: 'die Party', plural: 'die Partys', type: '-s', rule: 'Préstamos inglés en -y → plural -s', gender: 'die' },
+    { singular: 'der Job', plural: 'die Jobs', type: '-s', rule: 'Préstamos inglés → plural -s', gender: 'der' },
+    // ── PLURAL CERO (sin cambio, con/sin Umlaut) ──
+    { singular: 'der Lehrer', plural: 'die Lehrer', type: '= (cero)', rule: 'Masculinos -er → plural sin cambio (sin Umlaut)', gender: 'der' },
+    { singular: 'der Schlüssel', plural: 'die Schlüssel', type: '= (cero)', rule: 'Masculinos -el → plural sin cambio', gender: 'der' },
+    { singular: 'der Wagen', plural: 'die Wagen', type: '= (cero)', rule: 'Masculinos -en → plural sin cambio', gender: 'der' },
+    { singular: 'der Vater', plural: 'die Väter', type: '= (+Umlaut)', rule: 'Masculinos -er → plural sin cambio + Umlaut', gender: 'der' },
+    { singular: 'der Apfel', plural: 'die Äpfel', type: '= (+Umlaut)', rule: 'Masculinos -el → plural sin cambio + Umlaut', gender: 'der' },
+    { singular: 'der Bruder', plural: 'die Brüder', type: '= (+Umlaut)', rule: 'Masculinos -er → plural sin cambio + Umlaut', gender: 'der' },
+    { singular: 'der Ofen', plural: 'die Öfen', type: '= (+Umlaut)', rule: 'Masculinos -en → plural sin cambio + Umlaut', gender: 'der' },
+    { singular: 'der Garten', plural: 'die Gärten', type: '= (+Umlaut)', rule: 'Masculinos -en → plural sin cambio + Umlaut', gender: 'der' },
+    { singular: 'der Mantel', plural: 'die Mäntel', type: '= (+Umlaut)', rule: 'Masculinos -el → plural sin cambio + Umlaut', gender: 'der' },
+    { singular: 'das Fenster', plural: 'die Fenster', type: '= (cero)', rule: 'Neutros -er → plural sin cambio (sin Umlaut)', gender: 'das' },
+    { singular: 'das Kissen', plural: 'die Kissen', type: '= (cero)', rule: 'Neutros -en → plural sin cambio', gender: 'das' },
+    { singular: 'das Mittel', plural: 'die Mittel', type: '= (cero)', rule: 'Neutros -el → plural sin cambio', gender: 'das' },
+    { singular: 'das Mädchen', plural: 'die Mädchen', type: '= (cero)', rule: 'Diminutivos -chen → plural siempre sin cambio', gender: 'das' },
+    { singular: 'das Büchlein', plural: 'die Büchlein', type: '= (cero)', rule: 'Diminutivos -lein → plural siempre sin cambio', gender: 'das' },
+    { singular: 'die Mutter', plural: 'die Mütter', type: '= (+Umlaut)', rule: 'EXCEPCIÓN: Femenino con plural cero + Umlaut (solo 2)', gender: 'die' },
+    { singular: 'die Tochter', plural: 'die Töchter', type: '= (+Umlaut)', rule: 'EXCEPCIÓN: Femenino con plural cero + Umlaut (solo 2)', gender: 'die' },
+    // ── PLURALES DOBLES (cambio de significado) ──
+    { singular: 'das Wort', plural: 'die Wörter', type: '-er', rule: 'Wörter = palabras sueltas (diccionario); Worte = discurso', gender: 'das' },
+    { singular: 'die Bank', plural: 'die Bänke', type: '-e+Umlaut', rule: 'Bänke = bancos (asiento); Banken = bancos (financiero)', gender: 'die' },
+    { singular: 'der Strauß', plural: 'die Sträuße', type: '-e+Umlaut', rule: 'Sträuße = ramos; Strauße = avestruces', gender: 'der' },
+    // ── Femeninos -in → -innen ──
+    { singular: 'die Lehrerin', plural: 'die Lehrerinnen', type: '-nen', rule: 'Femeninos -in → plural -innen (duplica n)', gender: 'die' },
+    { singular: 'die Schülerin', plural: 'die Schülerinnen', type: '-nen', rule: 'Femeninos -in → plural -innen', gender: 'die' }
+];
+
+window.Muller.loadPluralData = function() {
+    return PLURAL_DATA.map(function(item) {
+        // Extraer solo el sustantivo sin artículo
+        var parts = item.singular.split(' ');
+        var noun = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+        var art = parts[0];
+        return {
+            de: item.singular,
+            es: item.plural,
+            article: art,
+            noun: noun,
+            pluralForm: item.plural,
+            pluralType: item.type,
+            rule: item.rule,
+            gender: item.gender
+        };
+    });
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 18. EXPORTAR AL MÓDULO PRINCIPAL
 // ═══════════════════════════════════════════════════════════════
 window.Muller.EntrenamientoHelpers = {
     KEYS: KEYS,
