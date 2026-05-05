@@ -565,10 +565,14 @@
             return function() { window.removeEventListener('advancedProgressUpdated', handler); };
         }, []);
         
-        // Verificar DeepSeek
+        // Verificar DeepSeek (defensivo: si DeepSeek aún no se ha cargado, esperar)
         React.useEffect(function() {
-            setDeepseekReady(window.Muller.DeepSeek && window.Muller.DeepSeek.hasApiKey());
-            var handler = function() { setDeepseekReady(window.Muller.DeepSeek && window.Muller.DeepSeek.hasApiKey()); };
+            var ds = window.Muller && window.Muller.DeepSeek;
+            setDeepseekReady(ds && typeof ds.hasApiKey === 'function' && ds.hasApiKey());
+            var handler = function() { 
+                var ds2 = window.Muller && window.Muller.DeepSeek;
+                setDeepseekReady(ds2 && typeof ds2.hasApiKey === 'function' && ds2.hasApiKey()); 
+            };
             window.addEventListener('deepseekKeyChanged', handler);
             return function() { window.removeEventListener('deepseekKeyChanged', handler); };
         }, []);
