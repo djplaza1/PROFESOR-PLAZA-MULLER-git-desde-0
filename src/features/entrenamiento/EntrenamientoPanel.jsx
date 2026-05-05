@@ -1045,7 +1045,16 @@
     }
 
     function getArticleTipComponent(card) {
-        var word = (getNounOnly(card) || '').toLowerCase();
+        // Extraer el sustantivo sin artículo (lógica inline de getNounOnly)
+        var cardDe = (card && card.de) || '';
+        var parts = cardDe.split(' ');
+        var nounOnly = '';
+        if (parts.length > 1 && ['der','die','das'].indexOf(parts[0].toLowerCase()) !== -1) {
+            nounOnly = parts.slice(1).join(' ');
+        } else {
+            nounOnly = cardDe;
+        }
+        var word = (nounOnly || '').toLowerCase();
         var rules = findMatchingRules(word);
         var tipLines = [];
         var articleColor = '#6366f1';
