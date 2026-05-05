@@ -806,64 +806,117 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // REGLAS COMPLETAS DE ARTÍCULOS SEGÚN TERMINACIÓN/COM-ENZO
+    // REGLAS COMPLETAS DE ARTÍCULOS SEGÚN TERMINACIÓN/SIGNIFICADO
     // ═══════════════════════════════════════════════════════════════
     var ARTICLE_RULES = [
-        // ─── DER (masculino) ───
+        // ───────────────────────────────────────────────────────────
+        //  DER (masculino) — Reglas por terminación
+        // ───────────────────────────────────────────────────────────
         { article: 'der', suffix: 'er', label: '-er',    desc: 'Sustantivos que terminan en -er (profesiones, personas, objetos): der Lehrer, der Computer' },
         { article: 'der', suffix: 'ler', label: '-ler',  desc: 'Sustantivos que terminan en -ler (personas que hacen algo): der Künstler, der Sportler' },
         { article: 'der', suffix: 'ner', label: '-ner',  desc: 'Sustantivos que terminan en -ner (personas, oficios): der Rentner, der Redner' },
-        { article: 'der', suffix: 'ling', label: '-ling', desc: 'Sustantivos que terminan en -ling (personas, cosas): der Lehrling, der Schmetterling' },
+        { article: 'der', suffix: 'ling', label: '-ling', desc: 'Sustantivos que terminan en -ling (SIEMPRE masculino): der Lehrling, der Schmetterling' },
         { article: 'der', suffix: 'or', label: '-or',    desc: 'Sustantivos que terminan en -or (extranjerismos): der Motor, der Professor' },
-        { article: 'der', suffix: 'us', label: '-us',    desc: 'Sustantivos que terminan en -us (extranjerismos): der Bus, der Kurs' },
-        { article: 'der', suffix: 'ich', label: '-ich',  desc: 'Sustantivos que terminan en -ich: der Teppich, der Appetitlich' },
+        { article: 'der', suffix: 'us', label: '-us',    desc: 'Sustantivos que terminan en -us (extranjerismos): der Bus, der Kurs, der Zirkus' },
+        { article: 'der', suffix: 'ich', label: '-ich',  desc: 'Sustantivos que terminan en -ich: der Teppich, der Sittich' },
         { article: 'der', suffix: 'ig', label: '-ig',    desc: 'Sustantivos que terminan en -ig: der Honig, der König' },
         { article: 'der', suffix: 'ist', label: '-ist',  desc: 'Sustantivos que terminan en -ist (personas): der Polizist, der Tourist' },
         { article: 'der', suffix: 'ant', label: '-ant',  desc: 'Sustantivos que terminan en -ant: der Elefant, der Praktikant' },
         { article: 'der', suffix: 'ent', label: '-ent',  desc: 'Sustantivos que terminan en -ent (personas): der Student, der Präsident' },
         { article: 'der', suffix: 'loge', label: '-loge', desc: 'Sustantivos que terminan en -loge (personas, ciencias): der Psychologe, der Biologe' },
         { article: 'der', suffix: 'ismus', label: '-ismus', desc: 'Sustantivos que terminan en -ismus (corrientes/doctrinas): der Kapitalismus, der Tourismus' },
-        // Meses, días, estaciones, puntos cardinales
-        { article: 'der', matchMonths: true, label: 'meses/días/estaciones', desc: 'Los meses (der Januar), días (der Montag) y estaciones (der Sommer) son masculinos' },
+        { article: 'der', suffix: 'eur', label: '-eur',  desc: 'Sustantivos que terminan en -eur (profesiones): der Ingenieur, der Friseur' },
+        { article: 'der', suffix: 'ier', label: '-ier',  desc: 'Sustantivos que terminan en -ier (oficios): der Offizier, der Kavalier' },
+        { article: 'der', suffix: 'ar', label: '-ar',    desc: 'Sustantivos que terminan en -ar (personas): der Bibliothekar, der Notar' },
+        { article: 'der', suffix: 'är', label: '-är',    desc: 'Sustantivos que terminan en -är (personas): der Millionär, der Funktionär' },
+        { article: 'der', suffix: 's', label: '-s',      desc: 'Muchos sustantivos monosílabos terminados en -s: der Fuchs, der Fluss, der Schluss' },
         
-        // ─── DIE (femenino) ───
-        { article: 'die', suffix: 'ung', label: '-ung',  desc: 'Sustantivos que terminan en -ung (acción/proceso): die Zeitung, die Bedeutung' },
-        { article: 'die', suffix: 'heit', label: '-heit',  desc: 'Sustantivos que terminan en -heit (cualidad abstracta): die Freiheit, die Gesundheit' },
-        { article: 'die', suffix: 'keit', label: '-keit',  desc: 'Sustantivos que terminan en -keit (cualidad abstracta): die Möglichkeit, die Freundlichkeit' },
-        { article: 'die', suffix: 'schaft', label: '-schaft', desc: 'Sustantivos que terminan en -schaft (relación/colectivo): die Freundschaft, die Mannschaft' },
-        { article: 'die', suffix: 'ion', label: '-ion',  desc: 'Sustantivos que terminan en -ion (extranjerismo): die Nation, die Station' },
-        { article: 'die', suffix: 'tät', label: '-tät',  desc: 'Sustantivos que terminan en -tät (cualidad): die Universität, die Qualität' },
-        { article: 'die', suffix: 'ik', label: '-ik',    desc: 'Sustantivos que terminan en -ik (disciplinas/ciencias): die Musik, die Mathematik' },
-        { article: 'die', suffix: 'ur', label: '-ur',    desc: 'Sustantivos que terminan en -ur: die Kultur, die Natur' },
-        { article: 'die', suffix: 'ei', label: '-ei',    desc: 'Sustantivos que terminan en -ei (lugar/profesión): die Bäckerei, die Polizei' },
-        { article: 'die', suffix: 'enz', label: '-enz',  desc: 'Sustantivos que terminan en -enz: die Toleranz, die Existenz' },
-        { article: 'die', suffix: 'anz', label: '-anz',  desc: 'Sustantivos que terminan en -anz: die Toleranz, die Distanz' },
-        { article: 'die', suffix: 'in', label: '-in',    desc: 'Forma femenina de personas/profesiones: die Lehrerin, die Freundin' },
-        { article: 'die', suffix: 'e', label: '-e',      desc: 'Muchos sustantivos bisílabos terminados en -e: die Lampe, die Katze, die Blume' },
+        // DER — Reglas semánticas
+        { article: 'der', matchMonths: true, label: 'meses/días/estaciones', desc: 'Meses (der Januar), días (der Montag) y estaciones (der Sommer) son masculinos' },
+        { article: 'der', matchWeather: true, label: 'fenómenos atmosféricos', desc: 'Fenómenos del clima: der Regen, der Schnee, der Wind, der Nebel, der Donner, der Blitz' },
+        { article: 'der', matchAlcohol: true, label: 'bebidas alcohólicas', desc: 'Bebidas alcohólicas (salvo excepciones): der Wein, der Sekt, der Schnaps, der Rum, der Wodka' },
+        { article: 'der', matchMalePerson: true, label: 'personas/animales masculinos', desc: 'Personas y animales de género masculino: der Mann, der Vater, der Stier, der Hahn' },
+        { article: 'der', matchCardinal: true, label: 'puntos cardinales', desc: 'Puntos cardinales: der Norden, der Süden, der Osten, der Westen' },
         
-        // ─── DAS (neutro) ───
-        { article: 'das', suffix: 'chen', label: '-chen',  desc: 'Diminutivos -chen: das Mädchen, das Häuschen (SIEMPRE neutro)' },
-        { article: 'das', suffix: 'lein', label: '-lein',  desc: 'Diminutivos -lein: das Büchlein, das Tischlein (SIEMPRE neutro)' },
-        { article: 'das', suffix: 'ment', label: '-ment',  desc: 'Sustantivos que terminan en -ment: das Experiment, das Fundament' },
-        { article: 'das', suffix: 'um', label: '-um',    desc: 'Sustantivos que terminan en -um (neutro en latín): das Museum, das Zentrum' },
-        { article: 'das', suffix: 'tum', label: '-tum',  desc: 'Sustantivos que terminan en -tum: das Eigentum, das Wachstum' },
-        { article: 'das', suffix: 'ma', label: '-ma',    desc: 'Sustantivos que terminan en -ma (griego): das Thema, das Drama' },
-        { article: 'das', suffix: 'o', label: '-o',      desc: 'Muchos extranjerismos terminados en -o: das Auto, das Büro, das Kino' },
-        { article: 'das', prefixGe: true, label: 'ge-',  desc: 'Sustantivos con prefijo ge- (neutro): das Gebäude, das Geschenk, das Gemüse' },
-        { article: 'das', suffix: 'nis', label: '-nis',  desc: 'Sustantivos que terminan en -nis: das Ergebnis, das Verständnis' },
-        { article: 'das', suffix: 'sal', label: '-sal',  desc: 'Sustantivos que terminan en -sal: das Schicksal, das Scheusal' },
-        { article: 'das', infinitiveNoun: true, label: 'infinitivo sustantivado', desc: 'Verbos en infinitivo como sustantivo: das Lesen, das Schwimmen, das Lernen' },
-        { article: 'das', matchColors: true, label: 'colores como sustantivo', desc: 'Los colores como sustantivo son neutros: das Rot, das Blau, das Schwarz' },
+        // ───────────────────────────────────────────────────────────
+        //  DIE (femenino) — Reglas por terminación
+        // ───────────────────────────────────────────────────────────
+        { article: 'die', suffix: 'ung', label: '-ung',  desc: 'Sustantivos en -ung (acción/proceso, SIEMPRE femenino): die Zeitung, die Bedeutung' },
+        { article: 'die', suffix: 'heit', label: '-heit',  desc: 'Sustantivos en -heit (cualidad abstracta, SIEMPRE femenino): die Freiheit, die Gesundheit' },
+        { article: 'die', suffix: 'keit', label: '-keit',  desc: 'Sustantivos en -keit (cualidad abstracta, SIEMPRE femenino): die Möglichkeit, die Freundlichkeit' },
+        { article: 'die', suffix: 'schaft', label: '-schaft', desc: 'Sustantivos en -schaft (relación/colectivo, SIEMPRE femenino): die Freundschaft, die Mannschaft' },
+        { article: 'die', suffix: 'ion', label: '-ion',  desc: 'Sustantivos en -ion (extranjerismo): die Nation, die Station' },
+        { article: 'die', suffix: 'tion', label: '-tion',  desc: 'Sustantivos en -tion (SIEMPRE femenino): die Nation, die Station, die Aktion' },
+        { article: 'die', suffix: 'sion', label: '-sion',  desc: 'Sustantivos en -sion (SIEMPRE femenino): die Diskussion, die Explosion' },
+        { article: 'die', suffix: 'ssion', label: '-ssion', desc: 'Sustantivos en -ssion (SIEMPRE femenino): die Mission, die Passion' },
+        { article: 'die', suffix: 'tät', label: '-tät',  desc: 'Sustantivos en -tät (cualidad, SIEMPRE femenino): die Universität, die Qualität' },
+        { article: 'die', suffix: 'ie', label: '-ie',    desc: 'Sustantivos en -ie (SIEMPRE femenino): die Fantasie, die Melodie, die Demokratie' },
+        { article: 'die', suffix: 'ik', label: '-ik',    desc: 'Sustantivos en -ik (disciplinas/ciencias): die Musik, die Mathematik' },
+        { article: 'die', suffix: 'ur', label: '-ur',    desc: 'Sustantivos en -ur: die Kultur, die Natur, die Temperatur' },
+        { article: 'die', suffix: 'ei', label: '-ei',    desc: 'Sustantivos en -ei (lugar/profesión): die Bäckerei, die Polizei, die Wäscherei' },
+        { article: 'die', suffix: 'enz', label: '-enz',  desc: 'Sustantivos en -enz (SIEMPRE femenino): die Existenz, die Intelligenz' },
+        { article: 'die', suffix: 'anz', label: '-anz',  desc: 'Sustantivos en -anz (SIEMPRE femenino): die Toleranz, die Distanz, die Bilanz' },
+        { article: 'die', suffix: 'in', label: '-in',    desc: 'Forma femenina de personas/profesiones: die Lehrerin, die Freundin, die Ärztin' },
+        { article: 'die', suffix: 'a', label: '-a',      desc: 'Muchos sustantivos de origen latino terminados en -a: die Firma, die Kamera, die Aula' },
+        { article: 'die', suffix: 'e', label: '-e',      desc: '~90% de sustantivos bisílabos terminados en -e: die Lampe, die Katze, die Blume, die Liebe' },
+        
+        // DIE — Reglas semánticas
+        { article: 'die', matchPlant: true, label: 'árboles/flores/frutas', desc: 'Árboles, flores y frutas (mayoría femeninos): die Rose, die Tulpe, die Eiche, die Birne, die Banane' },
+        { article: 'die', matchNumber: true, label: 'números como sustantivo', desc: 'Números usados como sustantivo: die Eins, die Zwei, die Million' },
+        
+        // ───────────────────────────────────────────────────────────
+        //  DAS (neutro) — Reglas por terminación
+        // ───────────────────────────────────────────────────────────
+        { article: 'das', suffix: 'chen', label: '-chen',  desc: 'Diminutivos -chen (SIEMPRE neutro): das Mädchen, das Häuschen, das Brötchen' },
+        { article: 'das', suffix: 'lein', label: '-lein',  desc: 'Diminutivos -lein (SIEMPRE neutro): das Büchlein, das Tischlein, das Kindlein' },
+        { article: 'das', suffix: 'ment', label: '-ment',  desc: 'Sustantivos en -ment: das Experiment, das Fundament, das Medikament' },
+        { article: 'das', suffix: 'um', label: '-um',    desc: 'Sustantivos en -um (neutro latín, SIEMPRE neutro): das Museum, das Zentrum, das Datum' },
+        { article: 'das', suffix: 'tum', label: '-tum',  desc: 'Sustantivos en -tum: das Eigentum, das Christentum, das Wachstum' },
+        { article: 'das', suffix: 'ma', label: '-ma',    desc: 'Sustantivos en -ma (griego, SIEMPRE neutro): das Thema, das Drama, das Klima' },
+        { article: 'das', suffix: 'o', label: '-o',      desc: 'Extranjerismos terminados en -o: das Auto, das Büro, das Kino, das Tempo' },
+        { article: 'das', suffix: 'ett', label: '-ett',  desc: 'Sustantivos en -ett: das Ballett, das Kabinett, das Tablett' },
+        { article: 'das', suffix: 'nis', label: '-nis',  desc: 'Sustantivos en -nis (mayoría neutros): das Ergebnis, das Geheimnis, das Verhältnis' },
+        { article: 'das', suffix: 'sal', label: '-sal',  desc: 'Sustantivos en -sal: das Schicksal, das Scheusal' },
+        
+        // DAS — Reglas semánticas y prefijo
+        { article: 'das', prefixGe: true, label: 'ge- + -e',  desc: 'Sustantivos colectivos con prefijo ge- (neutro): das Gebäude, das Geschenk, das Gemüse' },
+        { article: 'das', infinitiveNoun: true, label: 'infinitivo sustantivado', desc: 'Verbos en infinitivo como sustantivo (SIEMPRE neutro): das Lesen, das Schwimmen, das Lernen' },
+        { article: 'das', matchColors: true, label: 'colores como sustantivo', desc: 'Colores como sustantivo (neutros): das Rot, das Blau, das Grün, das Schwarz' },
+        { article: 'das', matchMetal: true, label: 'metales/elementos químicos', desc: 'Metales y elementos químicos (neutros): das Gold, das Silber, das Eisen, das Wasser' },
+        { article: 'das', matchBabyAnimal: true, label: 'crías de animales', desc: 'Crías de animales (neutro): das Kind, das Kalb, das Lamm, das Fohlen, das Küken' },
+        { article: 'das', matchLetter: true, label: 'letras del alfabeto', desc: 'Letras del alfabeto (neutras): das A, das B, das Z' },
+        
+        // ═══════════════════════════════════════════════════════════════
+        //  REGLA DE ORO — Palabras compuestas
+        // ═══════════════════════════════════════════════════════════════
+        { article: null, compoundRule: true, label: '☀️ REGLA DE ORO: palabras compuestas', desc: 'El género de una palabra compuesta lo determina SU ÚLTIMO componente. Ej: die Polizei + der Wagen → der Polizeiwagen' },
     ];
     
     function findMatchingRules(word) {
         var rules = [];
         var wordLower = word.toLowerCase().trim();
         
+        // ─── Listas de palabras para reglas semánticas ───
+        var monthsDaysSeasons = [
+            'januar', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember',
+            'montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag', 'sonntag',
+            'frühling', 'sommer', 'herbst', 'winter'
+        ];
+        var weatherWords = ['regen', 'schnee', 'wind', 'nebel', 'donner', 'blitz', 'sturm', 'hagel', 'tau', 'frost'];
+        var alcoholDrinks = ['wein', 'sekt', 'schnaps', 'likör', 'rum', 'wodka', 'whisky', 'cocktail', 'schnapps'];
+        var cardinalPoints = ['norden', 'süden', 'osten', 'westen', 'nordosten', 'nordwesten', 'südosten', 'südwesten'];
+        var malePersonWords = ['mann', 'vater', 'sohn', 'bruder', 'onkel', 'opa', 'großvater', 'junge', 'herr', 'könig', 'kaiser', 'prinz', 'graf', 'herzog', 'bär', 'stier', 'hahn', 'ochse', 'hengst', 'bulle', 'kater'];
+        var colors = ['rot', 'blau', 'grün', 'gelb', 'schwarz', 'weiß', 'grau', 'braun', 'lila', 'pink', 'orange', 'violett', 'türkis', 'beige', 'gold', 'silber'];
+        var metals = ['gold', 'silber', 'eisen', 'kupfer', 'uran', 'blei', 'zinn', 'platin', 'aluminium', 'magnesium', 'kalzium', 'wasser'];
+        var plantWords = ['rose', 'tulpe', 'lilie', 'orchidee', 'nelke', 'veilchen', 'eiche', 'buche', 'birke', 'tanne', 'fichte', 'kiefer', 'linde', 'pappel', 'weide', 'ulme', 'esche', 'erle', 'birne', 'banane', 'kirsche', 'pflaume', 'melone', 'kiwi', 'kartoffel', 'tomate', 'gurke', 'möhre', 'karotte', 'zwiebel', 'knoblauch', 'kohl', 'salat', 'bohne', 'erbse'];
+        var babyAnimalWords = ['kind', 'baby', 'kalb', 'lamm', 'fohlen', 'küken', 'ferkel', 'welpe', 'kitz', 'ferkel'];
+        var numberWords = ['eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn', 'million', 'milliarde', 'billion'];
+        var letterWords = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        
         for (var i = 0; i < ARTICLE_RULES.length; i++) {
             var rule = ARTICLE_RULES[i];
             
-            // Regla por sufijo
+            // ─── Regla por sufijo ───
             if (rule.suffix && wordLower.endsWith(rule.suffix)) {
                 // Evitar duplicados: la regla más larga (más específica) prevalece
                 var existing = false;
@@ -881,29 +934,69 @@
                 }
             }
             
-            // Regla por prefijo ge-
+            // ─── Regla por prefijo ge- ───
             if (rule.prefixGe && wordLower.startsWith('ge')) {
                 rules.push(rule);
             }
             
-            // Regla por infinitivo sustantivado (palabras que terminan en -en y pueden ser verbos)
+            // ─── Regla por infinitivo sustantivado ───
             if (rule.infinitiveNoun && wordLower.endsWith('en') && wordLower.length > 4) {
                 rules.push(rule);
             }
             
-            // Regla por colores
-            if (rule.matchColors && ['rot', 'blau', 'grün', 'gelb', 'schwarz', 'weiß', 'grau', 'braun', 'lila', 'pink', 'orange'].indexOf(wordLower) !== -1) {
+            // ─── Regla por colores ───
+            if (rule.matchColors && colors.indexOf(wordLower) !== -1) {
                 rules.push(rule);
             }
             
-            // Regla por meses/días
-            if (rule.matchMonths) {
-                var monthDays = ['januar', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember',
-                                 'montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag', 'sonntag',
-                                 'frühling', 'sommer', 'herbst', 'winter'];
-                if (monthDays.indexOf(wordLower) !== -1) {
-                    rules.push(rule);
-                }
+            // ─── Regla por meses/días/estaciones ───
+            if (rule.matchMonths && monthsDaysSeasons.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por fenómenos atmosféricos ───
+            if (rule.matchWeather && weatherWords.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por bebidas alcohólicas ───
+            if (rule.matchAlcohol && alcoholDrinks.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por puntos cardinales ───
+            if (rule.matchCardinal && cardinalPoints.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por personas/animales masculinos ───
+            if (rule.matchMalePerson && malePersonWords.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por árboles/flores/frutas ───
+            if (rule.matchPlant && plantWords.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por números como sustantivo ───
+            if (rule.matchNumber && numberWords.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por metales/elementos químicos ───
+            if (rule.matchMetal && metals.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por crías de animales ───
+            if (rule.matchBabyAnimal && babyAnimalWords.indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // ─── Regla por letras del alfabeto ───
+            if (rule.matchLetter && letterWords.indexOf(wordLower) !== -1 && wordLower.length === 1) {
+                rules.push(rule);
             }
         }
         
@@ -1886,192 +1979,4 @@
     window.Muller.CloudPractice = CloudPractice;
     
     console.log('✅ EntrenamientoPanel v3 cargado (con ArticlePractice & CloudPractice)');
-})();               React.createElement('input', {
-                        type: 'text',
-                        value: inputValue,
-                        onChange: function(e) { setInputValue(e.target.value); },
-                        onKeyDown: handleKeyDown,
-                        placeholder: 'Escribe aquí...',
-                        autoFocus: true,
-                        style: S.input
-                    }),
-                    React.createElement('div', { style: { display: 'flex', gap: 10, justifyContent: 'center', marginTop: 12 } },
-                        React.createElement('button', {
-                            onClick: function() { answerCurrent(inputValue); },
-                            disabled: !inputValue.trim(),
-                            style: Object.assign({}, S.btnPrimary, { opacity: inputValue.trim() ? 1 : 0.5 })
-                        }, '✓ Comprobar'),
-                        React.createElement('button', {
-                            onClick: handleSkip,
-                            style: S.btnSecondary
-                        }, 'Saltar →')
-                    )
-                )
-            )
-        );
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    // COMPONENTE PRINCIPAL
-    // ═══════════════════════════════════════════════════════════════
-    function EntrenamientoPanel({ session }) {
-        var [dashboard, setDashboard] = React.useState(window.Muller.getAdvancedDashboard());
-        var [activeSection, setActiveSection] = React.useState('dashboard');
-        var [deepseekReady, setDeepseekReady] = React.useState(false);
-        
-        // Actualizar dashboard cuando cambia
-        React.useEffect(function() {
-            var handler = function() { setDashboard(window.Muller.getAdvancedDashboard()); };
-            window.addEventListener('advancedProgressUpdated', handler);
-            window.addEventListener('achievementsUpdated', handler);
-            window.addEventListener('dailyProgressUpdated', handler);
-            return function() { window.removeEventListener('advancedProgressUpdated', handler); };
-        }, []);
-        
-        // Verificar DeepSeek
-        React.useEffect(function() {
-            var ds = window.Muller && window.Muller.DeepSeek;
-            setDeepseekReady(ds && typeof ds.hasApiKey === 'function' && ds.hasApiKey());
-            var handler = function() { 
-                var ds2 = window.Muller && window.Muller.DeepSeek;
-                setDeepseekReady(ds2 && typeof ds2.hasApiKey === 'function' && ds2.hasApiKey()); 
-            };
-            window.addEventListener('deepseekKeyChanged', handler);
-            return function() { window.removeEventListener('deepseekKeyChanged', handler); };
-        }, []);
-
-        function handleStartPractice() { setActiveSection('practice'); }
-        function handleStartExam() { setActiveSection('exam'); }
-        function handleViewPlan() { setActiveSection('plan'); }
-        function handleViewChallenge() { setActiveSection('challenge'); }
-        function handleBack() { setActiveSection('dashboard'); }
-        
-        // ─── Nav tabs ───
-        var sections = [
-            { id: 'dashboard', icon: '📊', label: 'Dashboard' },
-            { id: 'practice', icon: '🏋️', label: 'Entrenar' },
-            { id: 'exam', icon: '📝', label: 'Examen' },
-            { id: 'plan', icon: '📋', label: 'Plan' },
-            { id: 'challenge', icon: '🎯', label: 'Desafío' },
-            { id: 'ai', icon: '🤖', label: 'Tutor AI' },
-            { id: 'api', icon: '🔑', label: 'API Key' }
-        ];
-
-        return React.createElement('div', { style: { maxWidth: 800, margin: '0 auto', padding: '12px 16px' } },
-            // ─── Header ───
-            React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 } },
-                React.createElement('span', { style: { fontSize: 28 } }, '⚡'),
-                React.createElement('div', null,
-                    React.createElement('div', { style: { fontWeight: 700, fontSize: '1.1rem', color: '#e2e8f0' } }, 'Entrenamiento TELC'),
-                    React.createElement('div', { style: { fontSize: '0.75rem', color: '#94a3b8' } }, 'Domina artículos, verbos+prep y preposiciones')
-                )
-            ),
-            
-            // ─── Tabs de navegación ───
-            React.createElement('div', { style: { display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' } },
-                sections.map(function(s) {
-                    var active = activeSection === s.id;
-                    return React.createElement('button', {
-                        key: s.id,
-                        onClick: function() { setActiveSection(s.id); },
-                        style: Object.assign({
-                            padding: '8px 14px',
-                            borderRadius: 10,
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            fontSize: '0.78rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 5,
-                            border: '1px solid ' + (active ? '#06b6d4' : '#334155'),
-                            transition: 'all 0.2s ease',
-                            whiteSpace: 'nowrap'
-                        }, active ? { background: '#06b6d4', color: 'white' } : { background: '#1e293b', color: '#94a3b8' })
-                    },
-                        React.createElement('span', null, s.icon),
-                        s.label
-                    );
-                })
-            ),
-
-            // ─── Contenido según sección ───
-            activeSection === 'dashboard' && React.createElement('div', null,
-                React.createElement(DashboardSection, {
-                    dashboard: dashboard,
-                    onStartPractice: handleStartPractice,
-                    onStartExam: handleStartExam,
-                    onViewPlan: handleViewPlan,
-                    onViewChallenge: handleViewChallenge
-                })
-            ),
-
-            activeSection === 'practice' && React.createElement('div', null,
-                React.createElement(PracticeSelector, { onBack: handleBack, dashboard: dashboard })
-            ),
-
-            activeSection === 'exam' && React.createElement('div', null,
-                React.createElement(ExamRunner, { onBack: handleBack, dashboard: dashboard })
-            ),
-
-            activeSection === 'plan' && React.createElement('div', null,
-                React.createElement(StudyPlanSection, { onBack: handleBack })
-            ),
-
-            activeSection === 'challenge' && React.createElement('div', null,
-                React.createElement(DailyChallengeSection, { onBack: handleBack, dashboard: dashboard })
-            ),
-
-            activeSection === 'ai' && React.createElement('div', null,
-                React.createElement('div', { style: Object.assign({}, S.card, { marginBottom: 16 }) },
-                    React.createElement('div', { style: { fontWeight: 600, fontSize: '0.95rem', color: '#e2e8f0', marginBottom: 12 } }, '🤖 Tutor AI — DeepSeek'),
-                    React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginBottom: 12 } },
-                        'Pregunta cualquier duda sobre alemán, gramática, vocabulario, estrategias TELC... El AI te responde al instante.'
-                    ),
-                    React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget ? window.Muller.DeepSeek.ChatWidget : 'div', null,
-                        !window.Muller.DeepSeek && React.createElement('div', { style: { color: '#f87171', fontSize: '0.85rem' } }, 'Módulo DeepSeek no disponible')
-                    )
-                )
-            ),
-
-            activeSection === 'api' && React.createElement('div', null,
-                React.createElement('div', { style: Object.assign({}, S.card, { marginBottom: 16 }) },
-                    React.createElement('div', { style: { fontWeight: 600, fontSize: '0.95rem', color: '#e2e8f0', marginBottom: 8 } }, '🔑 Configuración DeepSeek AI'),
-                    React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginBottom: 14 } },
-                        'Introduce tu API Key de DeepSeek para activar el tutor AI. Consíguela gratis en platform.deepseek.com'
-                    ),
-                    React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ApiKeySetup ? window.Muller.DeepSeek.ApiKeySetup : 'div')
-                ),
-                // Stats extra
-                React.createElement('div', { style: Object.assign({}, S.card, { marginBottom: 16 }) },
-                    React.createElement('div', { style: { fontWeight: 600, fontSize: '0.9rem', color: '#e2e8f0', marginBottom: 10 } }, '📊 Estadísticas globales'),
-                    React.createElement('div', { style: { display: 'flex', gap: 10, flexWrap: 'wrap' } },
-                        [
-                            { label: 'Total intentos', value: dashboard.totalAttempts, icon: '🎯' },
-                            { label: 'Precisión', value: dashboard.accuracy + '%', icon: '📊' },
-                            { label: 'Tarjetas débiles', value: dashboard.weak, icon: '⚠️' },
-                            { label: 'Días de racha', value: dashboard.streakDays, icon: '🔥' },
-                            { label: 'Dominadas', value: dashboard.mastered, icon: '👑' },
-                            { label: 'Nuevas', value: dashboard.newCount, icon: '🆕' }
-                        ].map(function(stat) {
-                            return React.createElement('div', {
-                                key: stat.label,
-                                style: Object.assign({}, S.statBox, { flex: 1, minWidth: 85 })
-                            },
-                                React.createElement('div', { style: { fontSize: 18 } }, stat.icon),
-                                React.createElement('div', { style: { fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0' } }, stat.value),
-                                React.createElement('div', { style: { fontSize: '0.68rem', color: '#64748b' } }, stat.label)
-                            );
-                        })
-                    )
-                )
-            )
-        );
-    }
-
-    // ─── Exponer componentes ───
-    window.Muller = window.Muller || {};
-    window.Muller.Panels = window.Muller.Panels || {};
-    window.Muller.Panels.entrenamiento = EntrenamientoPanel;
-    window.Muller.EntrenamientoPanel = EntrenamientoPanel;
-    
-    // ✨ EXPONER LOS COMPONENTES DE PRÁCTICA QUE FALTABAN ✨
+})();
