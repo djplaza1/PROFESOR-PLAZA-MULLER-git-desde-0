@@ -459,10 +459,112 @@ window.Muller.extractPrepositionsFromGuion = function(guionText) {
 // ═══════════════════════════════════════════════════════════════
 // 9. CARGA DE DATOS (preserva conexiones Gist + localStorage)
 // ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// CARGA DE DATOS DESDE JSON LOCALES (con fallback inline)
+// ═══════════════════════════════════════════════════════════════
+
+// Inicia la carga asíncrona de los 3 JSONs al cargar el script
+window.Muller._entrenamientoDataLoaded = false;
+window.Muller._entrenamientoDataLoading = false;
+
+window.Muller._loadAllTrainingData = function() {
+    if (window.Muller._entrenamientoDataLoading) return;
+    window.Muller._entrenamientoDataLoading = true;
+    
+    // Cargar artículos
+    fetch('src/data/articulos.json?t=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(json) {
+            if (Array.isArray(json) && json.length > 0) {
+                // Mapear: json tiene {de, es, level}, necesitamos añadir article (der/die/das) desde el prefijo
+                var mapped = json.map(function(item) {
+                    var parts = (item.de || '').split(' ');
+                    var article = parts.length > 1 ? parts[0] : 'der';
+                    return {
+                        de: item.de,
+                        es: item.es || '',
+                        article: article,
+                        level: item.level || 'A1',
+                        levels: [item.level || 'A1']
+                    };
+                });
+                window.Muller.ARTICULOS_DATA_CACHED = mapped;
+                try { localStorage.setItem('muller_articulos_data_v1', JSON.stringify(mapped)); } catch(e) {}
+            }
+        })
+        .catch(function(err) { console.warn('[entrenamiento] No se pudo cargar articulos.json, usando fallback inline.', err); });
+
+    // Cargar verbos+preposición
+    fetch('src/data/verbos_con_preposiciones.json?t=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(json) {
+            if (Array.isArray(json) && json.length > 0) {
+                var mapped = json.map(function(item) {
+                    // El JSON tiene: {de: frase con ___, answer: preposición, prepCase: "Akk"|"Dat", es: traducción}
+                    // Necesitamos extraer verbo + preposición como clave (para mostrar en pregunta)
+                    var fallMap = { 'Akk': 'Akkusativ', 'Dat': 'Dativ', 'Gen': 'Genitiv' };
+                    // Extraer verbo: primera palabra del string (antes del espacio o del ___)
+                    var dePhrase = item.de || '';
+                    var verbMatch = dePhrase.match(/^(\w+)/);
+                    var verb = verbMatch ? verbMatch[1] : '';
+                    var prep = item.answer || '';
+                    return {
+                        de: dePhrase.replace(/___/g, '...'),
+                        es: item.es || '',
+                        prep: prep,
+                        fall: fallMap[item.prepCase] || 'Akkusativ',
+                        answer: prep,
+                        verb: verb
+                    };
+                });
+                window.Muller.VERBPREP_DATA_CACHED = mapped;
+                try { localStorage.setItem('muller_verbprep_data_v1', JSON.stringify(mapped)); } catch(e) {}
+            }
+        })
+        .catch(function(err) { console.warn('[entrenamiento] No se pudo cargar verbos_con_preposiciones.json, usando fallback inline.', err); });
+
+    // Cargar preposiciones + caso
+    fetch('src/data/preposiciones.json?t=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(json) {
+            if (Array.isArray(json) && json.length > 0) {
+                // El JSON tiene: {de: frase, answer: preposición, es: traducción, tipp: truco}
+                // Determinar caso desde el tipp
+                var mapped = json.map(function(item) {
+                    var tipp = (item.tipp || '').toUpperCase();
+                    // Extraer caso del tipp: "+ DAT", "+ AKK", "+ GEN"
+                    var fall = 'Akkusativ'; // default
+                    if (tipp.indexOf('+ DAT') !== -1 || tipp.indexOf('DAT') !== -1) fall = 'Dativ';
+                    else if (tipp.indexOf('+ AKK') !== -1) fall = 'Akkusativ';
+                    else if (tipp.indexOf('+ GEN') !== -1 || tipp.indexOf('GENITIV') !== -1) fall = 'Genitiv';
+                    return {
+                        de: item.de,
+                        es: item.es || '',
+                        answer: fall,
+                        fall: fall,
+                        prep: item.answer || '',
+                        tipp: item.tipp || ''
+                    };
+                });
+                window.Muller.PREP_DATA_CACHED = mapped;
+                try { localStorage.setItem('muller_prep_data_v1', JSON.stringify(mapped)); } catch(e) {}
+            }
+        })
+        .catch(function(err) { console.warn('[entrenamiento] No se pudo cargar preposiciones.json, usando fallback inline.', err); })
+        .finally(function() {
+            window.Muller._entrenamientoDataLoaded = true;
+            // Disparar evento para que componentes puedan escuchar
+            try { window.dispatchEvent(new Event('entrenamientoDataReady')); } catch(e) {}
+        });
+};
+
+// Iniciar carga inmediatamente
+window.Muller._loadAllTrainingData();
+
 window.Muller.loadArticlesData = function() {
     var data = null;
     try {
-        if (window.Muller.ARTICULOS_DATA_CACHED) {
+        if (window.Muller.ARTICULOS_DATA_CACHED && window.Muller.ARTICULOS_DATA_CACHED.length > 10) {
             data = window.Muller.ARTICULOS_DATA_CACHED;
         } else {
             var stored = localStorage.getItem('muller_articulos_data_v1');
@@ -471,20 +573,20 @@ window.Muller.loadArticlesData = function() {
             }
         }
     } catch(e) {}
-    if (!data || !Array.isArray(data) || data.length === 0) {
+    if (!data || !Array.isArray(data) || data.length < 10) {
         data = window.Muller.getDefaultArticlesData ? window.Muller.getDefaultArticlesData() : window.Muller.DEFAULT_ARTICLES || [
-            { de: 'der Mann', es: 'el hombre', article: 'der' },
-            { de: 'die Frau', es: 'la mujer', article: 'die' },
-            { de: 'das Kind', es: 'el niño', article: 'das' },
-            { de: 'der Tisch', es: 'la mesa', article: 'der' },
-            { de: 'die Lampe', es: 'la lámpara', article: 'die' },
-            { de: 'das Buch', es: 'el libro', article: 'das' },
-            { de: 'der Stuhl', es: 'la silla', article: 'der' },
-            { de: 'die Tafel', es: 'la pizarra', article: 'die' },
-            { de: 'das Fenster', es: 'la ventana', article: 'das' },
-            { de: 'der Lehrer', es: 'el profesor', article: 'der' },
-            { de: 'die Schülerin', es: 'la alumna', article: 'die' },
-            { de: 'das Heft', es: 'el cuaderno', article: 'das' }
+            { de: 'der Mann', es: 'el hombre', article: 'der', levels: ['A1'] },
+            { de: 'die Frau', es: 'la mujer', article: 'die', levels: ['A1'] },
+            { de: 'das Kind', es: 'el niño', article: 'das', levels: ['A1'] },
+            { de: 'der Tisch', es: 'la mesa', article: 'der', levels: ['A1'] },
+            { de: 'die Lampe', es: 'la lámpara', article: 'die', levels: ['A1'] },
+            { de: 'das Buch', es: 'el libro', article: 'das', levels: ['A1'] },
+            { de: 'der Stuhl', es: 'la silla', article: 'der', levels: ['A1'] },
+            { de: 'die Tafel', es: 'la pizarra', article: 'die', levels: ['A1'] },
+            { de: 'das Fenster', es: 'la ventana', article: 'das', levels: ['A1'] },
+            { de: 'der Lehrer', es: 'el profesor', article: 'der', levels: ['A1'] },
+            { de: 'die Schülerin', es: 'la alumna', article: 'die', levels: ['A1'] },
+            { de: 'das Heft', es: 'el cuaderno', article: 'das', levels: ['A1'] }
         ];
     }
     return data;
@@ -531,12 +633,20 @@ window.Muller.getDefaultArticlesData = function() {
 };
 
 window.Muller.loadVerbPrepData = function() {
+    // Prioridad 1: datos cacheados por JSON fetch
+    try {
+        if (window.Muller.VERBPREP_DATA_CACHED && window.Muller.VERBPREP_DATA_CACHED.length > 10) {
+            return window.Muller.VERBPREP_DATA_CACHED;
+        }
+    } catch(e) {}
+    // Prioridad 2: localStorage
     try {
         var stored = localStorage.getItem('muller_verbprep_data_v1');
         if (stored) {
             try { return JSON.parse(stored); } catch(e) {}
         }
     } catch(e) {}
+    // Prioridad 3: datos inline (fallback)
     return window.Muller.DEFAULT_VERBPREP_DATA || [
         { de: 'warten auf', es: 'esperar', prep: 'auf', fall: 'Akkusativ', answer: 'auf' },
         { de: 'sich freuen auf', es: 'alegrarse de (futuro)', prep: 'auf', fall: 'Akkusativ', answer: 'auf' },
@@ -572,12 +682,20 @@ window.Muller.loadVerbPrepData = function() {
 };
 
 window.Muller.loadPrepositionData = function() {
+    // Prioridad 1: datos cacheados por JSON fetch
+    try {
+        if (window.Muller.PREP_DATA_CACHED && window.Muller.PREP_DATA_CACHED.length > 10) {
+            return window.Muller.PREP_DATA_CACHED;
+        }
+    } catch(e) {}
+    // Prioridad 2: localStorage
     try {
         var stored = localStorage.getItem('muller_prep_data_v1');
         if (stored) {
             try { return JSON.parse(stored); } catch(e) {}
         }
     } catch(e) {}
+    // Prioridad 3: datos inline (fallback)
     return window.Muller.DEFAULT_PREP_DATA || [
         { de: 'für', es: 'para', fall: 'Akkusativ', answer: 'Akkusativ' },
         { de: 'durch', es: 'a través de', fall: 'Akkusativ', answer: 'Akkusativ' },
