@@ -1,4 +1,4 @@
-// ==================================================
+﻿// ==================================================
 // src/features/ajustes/AjustesPanel.jsx
 // Panel de Ajustes premium - 4 pestañas
 // ==================================================
@@ -497,10 +497,22 @@ window.Muller.Panels.AjustesPanel = {
         const val = keyInput.value.trim();
         if (val) {
           localStorage.setItem('muller_ia_api_key', val);
+          localStorage.setItem('muller_deepseek_api_key_v1', val);
+          localStorage.setItem('muller_deepseek_key', val);
+          if (window.Muller && window.Muller.DeepSeek && typeof window.Muller.DeepSeek.setApiKey === 'function') {
+            window.Muller.DeepSeek.setApiKey(val);
+          }
+          window.dispatchEvent(new CustomEvent('deepseekKeyChanged', { detail: { key: val } }));
           keyStatus.textContent = '✓ Configurada';
           keyStatus.className = 'ml-2 text-xs text-emerald-400';
         } else {
           localStorage.removeItem('muller_ia_api_key');
+          localStorage.removeItem('muller_deepseek_api_key_v1');
+          localStorage.removeItem('muller_deepseek_key');
+          if (window.Muller && window.Muller.DeepSeek && typeof window.Muller.DeepSeek.setApiKey === 'function') {
+            window.Muller.DeepSeek.setApiKey('');
+          }
+          window.dispatchEvent(new CustomEvent('deepseekKeyChanged', { detail: { key: '' } }));
           keyStatus.textContent = '✗ Eliminada';
           keyStatus.className = 'ml-2 text-xs text-red-400';
         }
