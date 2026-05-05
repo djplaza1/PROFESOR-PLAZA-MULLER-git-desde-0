@@ -1,4 +1,4 @@
-﻿(function() {
+(function() {
   const M = window.Muller = window.Muller || {};
   const { get, set, remove } = M.storage;
   const { KEYS } = M;
@@ -98,6 +98,43 @@
     }
   };
 
+  // ============== DATOS GENERALES (agrupa claves secundarias) ==================
+  M.saveGeneralData = async function(data) {
+    const client = M.getSupabase();
+    if (!client) return { ok: false, reason: 'Sin Supabase' };
+    const session = await M.tryBxSession();
+    if (!session?.user) return { ok: false, reason: 'Sin sesión' };
+    try {
+      const { error } = await client.from('user_general_data').upsert({
+        user_id: session.user.id,
+        data: data,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'user_id' });
+      if (error) throw error;
+      return { ok: true };
+    } catch (e) {
+      console.warn('saveGeneralData error:', e);
+      return { ok: false, reason: e.message };
+    }
+  };
+
+  M.loadGeneralData = async function() {
+    const client = M.getSupabase();
+    if (!client) return null;
+    const session = await M.tryBxSession();
+    if (!session?.user) return null;
+    try {
+      const { data, error } = await client.from('user_general_data').select('data')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+      if (error || !data) return null;
+      return data.data;
+    } catch (e) {
+      console.warn('loadGeneralData error:', e);
+      return null;
+    }
+  };
+
   // ============== SINCRONIZACIÓN GENÉRICA (NUBE) ==================
   // Mapeo entre localStorage keys y tablas/columnas Supabase
   const CLOUD_TABLE_MAP = {
@@ -184,6 +221,29 @@
         M.storage.set(keys[i], cloudData);
       }
     }
+    // Sincronizar SRS
+    const srsData = await M.pullSrsFromCloud();
+    if (srsData !== null) {
+      M.storage.set('muller_vocab_srs_v1', srsData);
+    }
+    // Sincronizar datos generales
+    const generalData = await M.loadGeneralData();
+    if (generalData !== null) {
+      for (const key in generalData) {
+        if (generalData.hasOwnProperty(key)) {
+          try { localStorage.setItem(key, JSON.stringify(generalData[key])); } catch(e) {}
+        }
+      }
+    }
+    // Sincronizar ajustes
+    const settings = await M.pullSettingsFromCloud();
+    if (settings !== null) {
+      for (const key in settings) {
+        if (settings.hasOwnProperty(key)) {
+          try { localStorage.setItem(key, JSON.stringify(settings[key])); } catch(e) {}
+        }
+      }
+    }
   };
 
   /**
@@ -195,6 +255,34 @@
     await M.saveToCloud('user_progress', M.storage.get('userProgress', {}));
     await M.saveToCloud('user_vocab', M.storage.get('mullerVocabs', []));
     await M.saveToCloud('user_achievements', M.storage.get('mullerAchievements', []));
+    // SRS
+    const srsMap = M.getVocabSrsMap ? M.getVocabSrsMap() : M.storage.get('muller_vocab_srs_v1', {});
+    await M.syncSrsToCloud(srsMap);
+    // Datos generales
+    const GENERAL_DATA_KEYS = {
+      'muller_streak_today_v1':1, 'muller_streak_qual_v1':1,
+      'muller_main_goal_v1':1, 'muller_theme_v1':1,
+      'muller_onboarding_v1':1, 'muller_reading_font_v1':1,
+      'muller_pdf_study_v1':1, 'muller_pdf_notes_v1':1,
+      'muller_pdf_library_v1':1, 'muller_tts_rate_v1':1,
+      'muller_mic_permission_v1':1, 'muller_goal_claim_v1':1,
+      'muller_advanced_progress':1, 'muller_daily_activity':1,
+      'muller_b1b2_json_v1':1, 'muller_active_time_v1':1,
+      'muller_missions_v1':1, 'muller_claimed_rewards_v1':1,
+      'muller_plaza_muenzen_v1':1, 'muller_shop_purchases_v1':1
+    };
+    const generalData = {};
+    for (const key in GENERAL_DATA_KEYS) {
+      if (GENERAL_DATA_KEYS.hasOwnProperty(key)) {
+        generalData[key] = M.storage.get(key, null);
+      }
+    }
+    await M.saveGeneralData(generalData);
+    // Ajustes
+    const settings = {};
+    const SETTINGS_KEYS = ['muller_theme_v1','muller_tts_rate_v1','muller_reading_font_v1','muller_mic_permission_v1'];
+    SETTINGS_KEYS.forEach(k => { settings[k] = M.storage.get(k, null); });
+    await M.syncSettingsToCloud(settings);
   };
 
   /**

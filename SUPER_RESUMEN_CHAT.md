@@ -7,6 +7,19 @@
 > 2. `APP_MAP.md` — estructura exacta, dónde está cada cosa
 > 3. Solo entonces, tocar archivos concretos
 
+## 💸 REGLA DE ORO: ECONOMÍA DE TOKENS (ESTO CUESTA DINERO REAL)
+
+Esta conversación se factura por token (DeepSeek de pago). **Cada mensaje innecesario me cobra dinero real.**  
+El agente debe comportarse como si cada palabra costara 1 céntimo:
+
+- **RESUMIR al extremo**: nada de párrafos largos, saludos, despedidas ni frases de relleno.
+- **CÓDIGO SIN COMENTARIOS REDUNDANTES**: solo comentarios si la lógica es muy oscura.
+- **IR AL GRANO**: responde con lo mínimo que necesito para actuar. Si la respuesta es "sí, funciona", no escribas 3 líneas de contexto.
+- **NO REPETIR** lo que ya está en el historial o en los archivos del proyecto.
+- **ANTES DE ENVIAR** pregúntate: "¿Puedo eliminar la mitad de las palabras y seguir siendo entendible?" Si la respuesta es sí, hazlo.
+
+> Máxima información por token. La factura la pago yo.
+
 ---
 
 ## 🚀 ¿QUÉ ES ESTO?

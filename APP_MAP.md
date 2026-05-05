@@ -30,7 +30,7 @@
 | `detectaPalabra.js` | `_buildIndex()`, `detect.local()`, `detect.word()` — búsqueda BD local + API externa |
 | `storage.jsx` | `get()`, `set()`, `remove()`, `getSession()`, `setSession()`. **Contiene**: `MULLER_OCR_HIST_KEY`, `mullerPushOcrHistory()`, expone `window.Muller.ocr = { pushHistory }` |
 | `utils.jsx` | **Contiene**: `levenshteinDistance(a, b)` para corrección ortográfica |
-| `cloud.jsx` | `syncSrsToCloud()`, `pullSrsFromCloud()`, `syncSettingsToCloud()`, `pullSettingsFromCloud()`, `mergeBxLevel()` |
+| `cloud.jsx` | **Sincronización completa Supabase** (8 tablas). `saveToCloud/loadFromCloud` (4 tablas: scripts, progreso, vocab, logros). `saveGeneralData/loadGeneralData` (1 tabla agrupa 20+ claves: monedas, rachas, PDF, misiones). `syncSrsToCloud/pullSrsFromCloud` (SRS). `syncSettingsToCloud/pullSettingsFromCloud` (ajustes). `syncAllFromCloud/saveAllToCloud` (todo en login/logout). `mergeBxLevel()` |
 | `auth.jsx` | `window.Muller.Auth.login/register/logout/getActiveSession` — Supabase + PBKDF2 local offline |
 | `achievements.jsx` | Logros del usuario |
 | `toast.jsx` | `window.Muller.toast()` — notificaciones |
@@ -199,5 +199,6 @@ Cada feature registra su componente en `window.Muller.Panels['nombreTab'] = Pane
 5. **Iconos (excepción BottomBar)**: `BottomBar.jsx` usa SVG inline con `dangerouslySetInnerHTML` y constante `BOTTOM_ICONS`. **NO** usa `createIcons()` — esto previene el error React #300 (bucle infinito por `useEffect` sin dependencias).
 6. **Iconos (excepción EscrituraPanel)**: EscrituraPanel.jsx también usa SVG inline en lugar de `createIcons()` para evitar error React #300. Los SVG están definidos en la función `getSvgIcon(name)` dentro del mismo archivo.
 7. **Auth offline**: Si Supabase falla, `auth.jsx` usa PBKDF2 con localStorage.
-8. **Orden de carga crítico**: core → hooks → features → app. Si un panel no aparece, revisar que esté en index.html.
-9. **EscrituraPanel recibe `{ session }`**: La firma de props del panel es `({ session })` — NO `{ db, user, appState }`. El router pasa `session` desde app.jsx.
+8. **Sincronización automática multi-dispositivo**: `storage.jsx` intercepta `M.storage.set()` y sincroniza en 2-3s: claves principales (scripts, progreso, vocab, logros, SRS, OCR) → tabla propia. Claves secundarias (monedas, rachas, PDF, misiones, ajustes, etc.) → `user_general_data`. `auth.jsx` llama `syncAllFromCloud()` tras login y `saveAllToCloud()` antes de logout. Ejecutar `supabase_migration.sql` en SQL Editor de Supabase para crear tablas faltantes.
+9. **Orden de carga crítico**: core → hooks → features → app. Si un panel no aparece, revisar que esté en index.html.
+10. **EscrituraPanel recibe `{ session }`**: La firma de props del panel es `({ session })` — NO `{ db, user, appState }`. El router pasa `session` desde app.jsx.

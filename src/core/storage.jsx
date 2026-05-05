@@ -1,4 +1,4 @@
-﻿(function() {
+(function() {
   const M = window.Muller = window.Muller || {};
   M.storage = {
     get: (key, fallback = null) => { try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : fallback; } catch(e) { return fallback; } },
@@ -18,33 +18,68 @@
   (function() {
     var originalSet = M.storage.set;
 
-    // Mapa de claves de localStorage que deben sincronizarse automáticamente
+    // Mapa de claves importantes que tienen tabla dedicada en Supabase
     var AUTO_SYNC_KEYS = {
-      'savedScripts':      'user_scripts',
-      'userProgress':      'user_progress',
-      'mullerVocabs':      'user_vocab',
-      'mullerAchievements':'user_achievements',
-      'muller_ocr_history_v1': 'user_ocr_history'
+      'savedScripts':         'user_scripts',
+      'userProgress':         'user_progress',
+      'mullerVocabs':         'user_vocab',
+      'mullerAchievements':   'user_achievements',
+      'muller_ocr_history_v1':'user_ocr_history',
+      'muller_vocab_srs_v1':  'user_srs'      // SRS de vocabulario (crítico)
+    };
+
+    // Claves secundarias que se agrupan en user_general_data (una sola tabla)
+    var GENERAL_DATA_KEYS = {
+      'muller_streak_today_v1':1, 'muller_streak_qual_v1':1,
+      'muller_main_goal_v1':1, 'muller_theme_v1':1,
+      'muller_onboarding_v1':1, 'muller_reading_font_v1':1,
+      'muller_pdf_study_v1':1, 'muller_pdf_notes_v1':1,
+      'muller_pdf_library_v1':1, 'muller_tts_rate_v1':1,
+      'muller_mic_permission_v1':1, 'muller_goal_claim_v1':1,
+      'muller_advanced_progress':1, 'muller_daily_activity':1,
+      'muller_b1b2_json_v1':1, 'muller_active_time_v1':1,
+      'muller_missions_v1':1, 'muller_claimed_rewards_v1':1,
+      'muller_plaza_muenzen_v1':1, 'muller_shop_purchases_v1':1
     };
 
     var syncTimeout = null;
+    var generalSyncTimeout = null;
 
     M.storage.set = function(key, val) {
       // Siempre guardar en localStorage primero
       originalSet(key, val);
 
-      // Si es una clave importante, programar sincronización a la nube
+      // Si es una clave con tabla propia, sincronizar individualmente
       var table = AUTO_SYNC_KEYS[key];
       if (table && window.Muller && typeof window.Muller.saveToCloud === 'function') {
-        // Debounce: agrupar múltiples sets en 2 segundos
         if (syncTimeout) clearTimeout(syncTimeout);
         syncTimeout = setTimeout(function() {
-          // Usar saveToCloud directamente sin esperar la promesa
           window.Muller.saveToCloud(table, val).catch(function(e) {
             console.warn('syncToCloud error for ' + key + ':', e);
           });
           syncTimeout = null;
         }, 2000);
+      }
+
+      // Si es una clave secundaria, agrupar en user_general_data
+      if (GENERAL_DATA_KEYS[key] && window.Muller && typeof window.Muller.saveGeneralData === 'function') {
+        if (generalSyncTimeout) clearTimeout(generalSyncTimeout);
+        generalSyncTimeout = setTimeout(function() {
+          // Recopilar TODAS las claves secundarias en un solo objeto
+          var generalData = {};
+          for (var k in GENERAL_DATA_KEYS) {
+            if (GENERAL_DATA_KEYS.hasOwnProperty(k)) {
+              try {
+                var v = localStorage.getItem(k);
+                generalData[k] = v ? JSON.parse(v) : null;
+              } catch(e) { generalData[k] = null; }
+            }
+          }
+          window.Muller.saveGeneralData(generalData).catch(function(e) {
+            console.warn('syncGeneralData error:', e);
+          });
+          generalSyncTimeout = null;
+        }, 3000); // 3 segundos de debounce (agrupa cambios múltiples)
       }
     };
   })();
