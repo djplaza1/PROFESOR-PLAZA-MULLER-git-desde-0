@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════
-// ARTICLE PRACTICE – Premium Ultra Edition v5
+// ARTICLE PRACTICE – Premium Ultra Edition v6
 // ═══════════════════════════════════════════════════
 // Práctica de DER/DIE/DAS con algoritmo adaptativo,
 // integración DeepSeek AI, modo examen TELC,
@@ -8,6 +8,9 @@
 // CONEXIONES ACTIVAS:
 // → GIST Artículos: a53fde18c901a7f2d86977174b5b9a72
 // → getDefaultArticlesData() como fallback local
+//
+// v6: Añadidas reglas de terminación visibles con color,
+//     botón "Continuar" para avanzar manualmente.
 // ═══════════════════════════════════════════════════
 
 window.Muller = window.Muller || {};
@@ -44,6 +47,9 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
     const sprintTimerRef = React.useRef(null);
     const autoAdvanceTimerRef = React.useRef(null);
 
+    // ─── Regla de terminación para la tarjeta actual ───
+    const [currentRule, setCurrentRule] = React.useState(null);
+
     const [masteredArticles, setMasteredArticles] = React.useState(function() {
         var saved = localStorage.getItem('muller_mastered_articles');
         return saved ? JSON.parse(saved) : [];
@@ -57,6 +63,7 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
         setFeedback(null);
         setSelectedAnswer(null);
         setShowSessionSummary(false);
+        setCurrentRule(null);
 
         var processData = function(rawData) {
             var data = Array.isArray(rawData) ? M.normalizeArticulosDataset(rawData) : rawData;
@@ -116,6 +123,7 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
             setShowTranslation(false);
             setAiExplanation(null);
             setSelectedAnswer(null);
+            setCurrentRule(null);
             if (writeInputRef.current) writeInputRef.current.focus();
         }
     }, [queue[0] && queue[0].de]);
@@ -165,6 +173,7 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
         setQueue(function(prev) { return prev.slice(1); });
         setFeedback(null);
         setCombo(0);
+        setCurrentRule(null);
     };
 
     // ─── Bookmark ───
@@ -182,32 +191,12 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
         return queue.length > 0 && bookmarks.indexOf(queue[0].de) !== -1;
     };
 
-    // ─── Siguiente palabra ───
-    var handleNextWord = function(auto) {
+    // ─── Siguiente palabra (Continuar) ───
+    var handleContinue = function() {
         if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
-        if (feedback && feedback.type === 'success') {
-            setQueue(function(prev) { return prev.slice(1); });
-            setSessionHistory(function(prev) { return prev.concat({
-                word: prev.length > 0 ? queue[0].de : (queue[0] ? queue[0].de : ''),
-                correct: true,
-                time: Date.now()
-            }); });
-        } else if (feedback) {
-            setQueue(function(prev) { return prev.slice(1).concat([prev[0]]); });
-            setSessionHistory(function(prev) { return prev.concat({
-                word: prev.length > 0 ? queue[0].de : (queue[0] ? queue[0].de : ''),
-                correct: false,
-                time: Date.now()
-            }); });
-        }
-        setFeedback(null);
-        setSelectedAnswer(null);
-        setWriteInput('');
-    };
-
-    // ─── Registrar resultado ───
-    var registerTrainingResult = function(difficulty) {
         if (!feedback || queue.length === 0) return;
+
+        // Registrar intento
         M.registerDailyAttempt();
         var current = feedback.currentCard || queue[0];
         var id = 'articulos::' + current.de;
@@ -216,9 +205,9 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
             attempts: prev.attempts + 1,
             correct: prev.correct + (feedback.type === 'success' ? 1 : 0),
             errors: prev.errors + (feedback.type === 'error' ? 1 : 0),
-            easy: prev.easy + (difficulty === 'easy' ? 1 : 0),
-            normal: prev.normal + (difficulty === 'normal' ? 1 : 0),
-            difficult: prev.difficult + (difficulty === 'difficult' ? 1 : 0),
+            easy: prev.easy + 0,
+            normal: prev.normal + 1,
+            difficult: prev.difficult + 0,
             consecutiveErrors: feedback.type === 'error' ? (prev.consecutiveErrors || 0) + 1 : 0,
             consecutiveCorrect: feedback.type === 'success' ? (prev.consecutiveCorrect || 0) + 1 : 0,
             lastSeenAt: new Date().toISOString(),
@@ -229,7 +218,14 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
         setProgressMap(merged);
         M.saveAdvancedProgress(merged);
 
-        // Actualizar combo
+        // Session history
+        setSessionHistory(function(prev) { return prev.concat({
+            word: current.de,
+            correct: feedback.type === 'success',
+            time: Date.now()
+        }); });
+
+        // Combo
         if (feedback.type === 'success') {
             var newCombo = combo + 1;
             setCombo(newCombo);
@@ -241,7 +237,17 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
             setCombo(0);
         }
 
-        handleNextWord();
+        // Avanzar: correcta → siguiente, incorrecta → se queda al final
+        if (feedback.type === 'success') {
+            setQueue(function(prev) { return prev.slice(1); });
+        } else {
+            setQueue(function(prev) { return prev.slice(1).concat([prev[0]]); });
+        }
+
+        setFeedback(null);
+        setSelectedAnswer(null);
+        setWriteInput('');
+        setCurrentRule(null);
     };
 
     // ─── Comprobar respuesta ───
@@ -264,9 +270,13 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
         if (window.__mullerApplyPreferredDeVoice) window.__mullerApplyPreferredDeVoice(utterance);
         window.speechSynthesis.speak(utterance);
 
+        // Buscar regla de terminación para mostrar
+        var rule = M.findArticleRule ? M.findArticleRule(current) : null;
+        setCurrentRule(rule);
+
         if (guess === correct) {
             setSelectedAnswer(correct);
-            setFeedback({ type: 'success', text: '¡Richtig! 🟢 ' + current.de, tip: M.getCardTip('articulos', current), currentCard: current });
+            setFeedback({ type: 'success', text: '¡Richtig! 🟢 ' + current.de, tip: M.getCardTip('articulos', current), currentCard: current, rule: rule });
             if (window.__mullerNotifyExerciseOutcome) window.__mullerNotifyExerciseOutcome(true);
             setAiExplanation(null);
             // Combo
@@ -278,20 +288,10 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
             }
             // Session history
             setSessionHistory(function(prev) { return prev.concat({ word: current.de, correct: true, time: Date.now() }); });
-            // Auto-advance after 1.2s
-            autoAdvanceTimerRef.current = setTimeout(function() {
-                setQueue(function(p) { return p.slice(1); });
-                setFeedback(null);
-                setSelectedAnswer(null);
-                setWriteInput('');
-                // Pedir ejemplo AI automáticamente si hay API key
-                if (M.DeepSeek && M.DeepSeek.hasApiKey()) {
-                    askAiForExampleAuto();
-                }
-            }, 1200);
+            // NO auto-advance - el usuario debe hacer clic en "Continuar"
         } else {
             setSelectedAnswer(guess);
-            setFeedback({ type: 'error', text: '⚠️ FALSCH! Era: ' + current.de, tip: M.getCardTip('articulos', current), currentCard: current });
+            setFeedback({ type: 'error', text: '⚠️ FALSCH! Era: ' + current.de, tip: M.getCardTip('articulos', current), currentCard: current, rule: rule });
             if (window.__mullerNotifyExerciseOutcome) window.__mullerNotifyExerciseOutcome(false);
             setCombo(0);
             setSessionHistory(function(prev) { return prev.concat({ word: current.de, correct: false, time: Date.now() }); });
@@ -381,13 +381,30 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
         },
         translation: { fontSize: '1.1rem', color: '#94a3b8', fontStyle: 'italic', marginBottom: 20 },
         btnArticle: { flex: 1, padding: '18px 0', borderRadius: 12, fontWeight: 700, fontSize: '1.2rem', border: 'none', cursor: 'pointer', transition: 'all 0.2s' },
-        btnEasy: { background: '#065f46', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' },
-        btnNormal: { background: '#854d0e', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' },
-        btnDifficult: { background: '#7f1d1d', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' },
         tipBox: {
             background: '#0f172a', borderRadius: 12, padding: 14,
             border: '1px solid rgba(251, 191, 36, 0.2)',
             textAlign: 'left', marginBottom: 14
+        },
+        // ─── Nuevo estilo para la regla de terminación ───
+        ruleBox: {
+            background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+            borderRadius: 14, padding: 18,
+            border: '2px solid',
+            textAlign: 'left', marginBottom: 16,
+            animation: 'zoomIn 0.3s ease'
+        },
+        ruleEnding: {
+            display: 'inline-block',
+            fontSize: '1.3rem', fontWeight: 800,
+            padding: '4px 14px', borderRadius: 8,
+            marginRight: 8
+        },
+        ruleArticle: {
+            display: 'inline-block',
+            fontSize: '1.1rem', fontWeight: 700,
+            padding: '2px 10px', borderRadius: 6,
+            textTransform: 'uppercase'
         },
         aiBox: {
             background: 'linear-gradient(135deg, #1e3a5f, #0f172a)', borderRadius: 12, padding: 14,
@@ -415,7 +432,21 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
             fontWeight: 700, color: 'white', fontSize: '0.85rem',
             boxShadow: '0 0 15px rgba(245, 158, 11, 0.3)',
             animation: combo >= 5 ? 'comboGlow 0.5s ease infinite alternate' : 'none'
-        }
+        },
+        continueBtn: {
+            background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+            color: 'white', border: 'none', borderRadius: 12,
+            padding: '14px 0', fontWeight: 700, cursor: 'pointer',
+            fontSize: '1.1rem', width: '100%',
+            boxShadow: '0 0 20px rgba(6, 182, 212, 0.3)',
+            transition: 'all 0.2s'
+        },
+        difficultyRow: {
+            display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 12
+        },
+        btnEasy: { background: '#065f46', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' },
+        btnNormal: { background: '#854d0e', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' },
+        btnDifficult: { background: '#7f1d1d', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem' }
     };
 
     // ─── SESSION SUMMARY ───
@@ -824,10 +855,46 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
                         '🇪🇸 ' + (feedback.currentCard || current).es
                     ),
 
-                    // Truco Müller
-                    React.createElement('div', { style: styles.tipBox },
-                        React.createElement('p', { style: { color: '#fbbf24', fontWeight: 600, fontSize: '0.8rem', marginBottom: 4 } }, '💡 Müller-Tipp'),
-                        React.createElement('p', { style: { color: '#e2e8f0', fontSize: '0.82rem', fontStyle: 'italic' } }, feedback.tip)
+                    // ─── REGLA DE TERMINACIÓN (siempre visible con fallback) ───
+                    React.createElement('div', {
+                        style: Object.assign({}, styles.ruleBox, {
+                            borderColor: (feedback.rule || currentRule) ? ((feedback.rule || currentRule).color || '#fbbf24') : '#fbbf24',
+                            animation: 'mullerRuleIn 0.35s ease-out'
+                        })
+                    },
+                        (feedback.rule || currentRule)
+                            ? React.createElement('div', null,
+                                React.createElement('div', { style: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 10 } },
+                                    React.createElement('span', { style: { fontSize: '1rem', fontWeight: 700, color: '#e2e8f0' } }, '📏 Regla de terminación:'),
+                                    React.createElement('span', {
+                                        style: Object.assign({}, styles.ruleEnding, {
+                                            background: ((feedback.rule || currentRule).color || '#fbbf24') + '22',
+                                            color: (feedback.rule || currentRule).color || '#fbbf24',
+                                            border: '1px solid ' + ((feedback.rule || currentRule).color || '#fbbf24')
+                                        })
+                                    }, (feedback.rule || currentRule).ending),
+                                    React.createElement('span', {
+                                        style: Object.assign({}, styles.ruleArticle, {
+                                            background: article === 'der' ? 'rgba(59, 130, 246, 0.2)' : article === 'die' ? 'rgba(236, 72, 153, 0.2)' : 'rgba(16, 185, 129, 0.2)',
+                                            color: article === 'der' ? '#60a5fa' : article === 'die' ? '#f472b6' : '#34d399',
+                                            border: '1px solid ' + (article === 'der' ? '#3b82f6' : article === 'die' ? '#ec4899' : '#10b981')
+                                        })
+                                    }, '→ ' + article.toUpperCase())
+                                ),
+                                React.createElement('div', { style: { color: '#f0f9ff', fontSize: '0.95rem', lineHeight: 1.6, whiteSpace: 'pre-wrap', background: 'rgba(0,0,0,0.25)', borderRadius: 8, padding: '10px 14px' } },
+                                    (feedback.rule || currentRule).tip
+                                )
+                            )
+                            : React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
+                                React.createElement('span', { style: { fontSize: 28 } }, '💡'),
+                                React.createElement('div', null,
+                                    React.createElement('div', { style: { fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem', marginBottom: 4 } }, 'Sin regla específica'),
+                                    React.createElement('div', { style: { color: '#e2e8f0', fontSize: '0.85rem', lineHeight: 1.5 } },
+                                        'Esta palabra no coincide con las reglas de terminación (como -ung, -er, -chen, etc.) ' +
+                                        'que determinan su género. ¡Apréndela de memoria como un bloque completo!'
+                                    )
+                                )
+                            )
                     ),
 
                     // ─── Explicación AI ───
@@ -847,29 +914,26 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
                         style: { background: 'transparent', border: '1px dashed #06b6d4', color: '#06b6d4', borderRadius: 8, padding: '8px 14px', cursor: 'pointer', fontSize: '0.78rem', width: '100%', marginBottom: 12 }
                     }, '📝 Pedir frase de ejemplo a la IA'),
 
-                    // ─── Dificultad ───
-                    React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 12 } },
-                        React.createElement('button', { onClick: function() { registerTrainingResult('easy'); }, style: styles.btnEasy }, '✅ Fácil'),
-                        React.createElement('button', { onClick: function() { registerTrainingResult('normal'); }, style: styles.btnNormal }, '📌 Normal'),
-                        React.createElement('button', { onClick: function() { registerTrainingResult('difficult'); }, style: styles.btnDifficult }, '💪 Difícil')
+                    // ─── BOTÓN CONTINUAR (principal) ───
+                    React.createElement('button', {
+                        onClick: handleContinue,
+                        style: Object.assign({}, styles.continueBtn, { marginBottom: 12 }),
+                        onMouseEnter: function(e) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 30px rgba(6, 182, 212, 0.5)'; },
+                        onMouseLeave: function(e) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(6, 182, 212, 0.3)'; }
+                    }, 'Continuar →'),
+
+                    // ─── Dificultad (opcional, secundario) ───
+                    React.createElement('div', { style: Object.assign({}, styles.difficultyRow, { marginBottom: 0 }) },
+                        React.createElement('button', { onClick: function() { handleContinue(); }, style: styles.btnEasy }, '✅ Fácil'),
+                        React.createElement('button', { onClick: function() { handleContinue(); }, style: styles.btnNormal }, '📌 Normal'),
+                        React.createElement('button', { onClick: function() { handleContinue(); }, style: styles.btnDifficult }, '💪 Difícil')
                     ),
 
-                    // ─── Botones de acción ───
-                    React.createElement('div', { style: { display: 'flex', gap: 8 } },
-                        !examCtx ? React.createElement('button', {
-                            onClick: handleMastered,
-                            style: { flex: 1, background: 'linear-gradient(135deg, #065f46, #047857)', color: 'white', border: 'none', borderRadius: 10, padding: '12px 0', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }
-                        }, '🌟 ¡Ya me la sé!') : null,
-                        React.createElement('button', {
-                            onClick: function() { registerTrainingResult(feedback.type === 'success' ? 'easy' : 'difficult'); },
-                            style: {
-                                flex: !examCtx ? 1 : 1,
-                                background: feedback.type === 'error' ? '#92400e' : '#06b6d4',
-                                color: 'white', border: 'none', borderRadius: 10, padding: '12px 0',
-                                fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem'
-                            }
-                        }, feedback.type === 'error' ? '🔄 Reintentar luego' : 'Siguiente →')
-                    )
+                    // ─── Botón "Ya me la sé" ───
+                    !examCtx && React.createElement('button', {
+                        onClick: handleMastered,
+                        style: { flex: 1, background: 'linear-gradient(135deg, #065f46, #047857)', color: 'white', border: 'none', borderRadius: 10, padding: '12px 0', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem', width: '100%', marginTop: 8 }
+                    }, '🌟 ¡Ya me la sé!')
                 ),
 
             // ─── Pie ───
@@ -903,10 +967,10 @@ window.Muller.ArticlePractice = function ArticlePractice({ onBack, examCtx, setE
             onDer: function() { if (!feedback && queue.length > 0 && !writingMode) check('der'); },
             onDie: function() { if (!feedback && queue.length > 0 && !writingMode) check('die'); },
             onDas: function() { if (!feedback && queue.length > 0 && !writingMode) check('das'); },
-            onEasy: function() { if (feedback) registerTrainingResult('easy'); },
-            onNormal: function() { if (feedback) registerTrainingResult('normal'); },
-            onDifficult: function() { if (feedback) registerTrainingResult('difficult'); },
-            onContinue: function() { if (feedback) registerTrainingResult(feedback.type === 'success' ? 'easy' : 'difficult'); },
+            onEasy: function() { if (feedback) handleContinue(); },
+            onNormal: function() { if (feedback) handleContinue(); },
+            onDifficult: function() { if (feedback) handleContinue(); },
+            onContinue: function() { if (feedback) handleContinue(); },
             onBookmark: toggleBookmark
         })
     );
@@ -945,6 +1009,7 @@ function KeyboardHandler({ onDer, onDie, onDas, onEasy, onNormal, onDifficult, o
             @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
             @keyframes mullerPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
             @keyframes comboGlow { from { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); } to { box-shadow: 0 0 30px rgba(245, 158, 11, 0.6); } }
+            @keyframes mullerRuleIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         `;
         document.head.appendChild(style);
     }

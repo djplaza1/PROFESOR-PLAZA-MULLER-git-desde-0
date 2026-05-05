@@ -80,7 +80,6 @@
         var [feedback, setFeedback] = React.useState(null); // { correct: bool, answer: string }
         var [stats, setStats] = React.useState({ total: 0, correct: 0, wrong: 0, streak: 0, bestStreak: 0 });
         var [finished, setFinished] = React.useState(false);
-        var [showTip, setShowTip] = React.useState(false);
         var audioCtxRef = React.useRef(null);
         var [started, setStarted] = React.useState(false);
         
@@ -261,16 +260,7 @@
             window.Muller.registerTrainingAttempt('articulos', isCorrect);
             window.dispatchEvent(new Event('advancedProgressUpdated'));
 
-            // Siguiente con delay
-            setTimeout(function() {
-                if (currentIndex + 1 >= cards.length) {
-                    setFinished(true);
-                } else {
-                    setCurrentIndex(currentIndex + 1);
-                    setFeedback(null);
-                    setShowTip(false);
-                }
-            }, isCorrect ? 600 : 1200);
+            // No auto-advance: user must click "Continuar" to see next word
         }
 
         function handleKeyDown(e) {
@@ -380,7 +370,7 @@
                 // Nivel
                 currentCard.level && React.createElement('div', { style: Object.assign({}, S.tag, { background: '#1e3a5f', color: '#60a5fa', marginBottom: 16 }) }, currentCard.level),
 
-                // Input de respuesta
+                // Input de respuesta (botones DER/DIE/DAS)
                 !feedback && React.createElement('div', { style: { maxWidth: 300, margin: '0 auto' } },
                     React.createElement('div', { style: { fontSize: '0.78rem', color: '#64748b', marginBottom: 8 } }, '¿Cuál es el artículo?'),
                     React.createElement('div', { style: { display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 12 } },
@@ -414,7 +404,7 @@
                     )
                 ),
 
-                // Feedback
+                // Feedback + Reglas automáticas (se muestran justo después de responder)
                 feedback && React.createElement('div', { style: { marginTop: 10 } },
                     React.createElement('div', {
                         style: {
@@ -427,29 +417,26 @@
                     !feedback.correct && React.createElement('div', { style: { fontSize: '0.85rem', color: '#94a3b8' } },
                         'La respuesta correcta es: ',
                         React.createElement('span', { style: { color: '#10b981', fontWeight: 600 } }, feedback.answer.toUpperCase())
+                    ),
+                    // Reglas automáticas (siempre visibles después de responder)
+                    React.createElement('div', { style: { marginTop: 12 } },
+                        getArticleTipComponent(currentCard)
+                    ),
+                    // Botón Continuar
+                    React.createElement('div', { style: { textAlign: 'center', marginTop: 16 } },
+                        React.createElement('button', {
+                            onClick: function() {
+                                if (currentIndex + 1 >= cards.length) {
+                                    setFinished(true);
+                                } else {
+                                    setCurrentIndex(currentIndex + 1);
+                                    setFeedback(null);
+                                }
+                            },
+                            style: Object.assign({}, S.btnPrimary, { padding: '12px 36px', fontSize: '0.95rem' })
+                        }, 'Continuar →')
                     )
                 )
-            ),
-
-            // Botón tip
-            React.createElement('div', { style: { textAlign: 'center', marginTop: 10 } },
-                React.createElement('button', {
-                    onClick: function() { setShowTip(!showTip); },
-                    style: { background: 'transparent', border: 'none', color: '#06b6d4', cursor: 'pointer', fontSize: '0.78rem', textDecoration: 'underline' }
-                }, showTip ? 'Ocultar truco' : '💡 Mostrar truco'),
-                showTip && React.createElement('div', {
-                    style: {
-                        marginTop: 8,
-                        maxWidth: 400,
-                        margin: '8px auto 0',
-                        background: '#0f172a',
-                        borderRadius: 8,
-                        padding: 10,
-                        fontSize: '0.8rem',
-                        color: '#fbbf24',
-                        border: '1px solid rgba(251, 191, 36, 0.2)'
-                    }
-                }, getArticleTip(currentCard))
             )
         );
     }
@@ -672,7 +659,7 @@
                 !feedback && React.createElement('div', { style: { maxWidth: 400, margin: '0 auto' } },
                     React.createElement('div', { style: { fontSize: '0.78rem', color: '#64748b', marginBottom: 8 } }, promptText),
 
-                    // Opciones como botones (para preposiciones: caso; para verbos: preps disponibles)
+                    // Opciones como botones
                     React.createElement('div', { style: { display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 } },
                         options.map(function(opt) {
                             return React.createElement('button', {
@@ -818,31 +805,237 @@
         return Object.keys(preps).sort();
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // REGLAS COMPLETAS DE ARTÍCULOS SEGÚN TERMINACIÓN/COM-ENZO
+    // ═══════════════════════════════════════════════════════════════
+    var ARTICLE_RULES = [
+        // ─── DER (masculino) ───
+        { article: 'der', suffix: 'er', label: '-er',    desc: 'Sustantivos que terminan en -er (profesiones, personas, objetos): der Lehrer, der Computer' },
+        { article: 'der', suffix: 'ler', label: '-ler',  desc: 'Sustantivos que terminan en -ler (personas que hacen algo): der Künstler, der Sportler' },
+        { article: 'der', suffix: 'ner', label: '-ner',  desc: 'Sustantivos que terminan en -ner (personas, oficios): der Rentner, der Redner' },
+        { article: 'der', suffix: 'ling', label: '-ling', desc: 'Sustantivos que terminan en -ling (personas, cosas): der Lehrling, der Schmetterling' },
+        { article: 'der', suffix: 'or', label: '-or',    desc: 'Sustantivos que terminan en -or (extranjerismos): der Motor, der Professor' },
+        { article: 'der', suffix: 'us', label: '-us',    desc: 'Sustantivos que terminan en -us (extranjerismos): der Bus, der Kurs' },
+        { article: 'der', suffix: 'ich', label: '-ich',  desc: 'Sustantivos que terminan en -ich: der Teppich, der Appetitlich' },
+        { article: 'der', suffix: 'ig', label: '-ig',    desc: 'Sustantivos que terminan en -ig: der Honig, der König' },
+        { article: 'der', suffix: 'ist', label: '-ist',  desc: 'Sustantivos que terminan en -ist (personas): der Polizist, der Tourist' },
+        { article: 'der', suffix: 'ant', label: '-ant',  desc: 'Sustantivos que terminan en -ant: der Elefant, der Praktikant' },
+        { article: 'der', suffix: 'ent', label: '-ent',  desc: 'Sustantivos que terminan en -ent (personas): der Student, der Präsident' },
+        { article: 'der', suffix: 'loge', label: '-loge', desc: 'Sustantivos que terminan en -loge (personas, ciencias): der Psychologe, der Biologe' },
+        { article: 'der', suffix: 'ismus', label: '-ismus', desc: 'Sustantivos que terminan en -ismus (corrientes/doctrinas): der Kapitalismus, der Tourismus' },
+        // Meses, días, estaciones, puntos cardinales
+        { article: 'der', matchMonths: true, label: 'meses/días/estaciones', desc: 'Los meses (der Januar), días (der Montag) y estaciones (der Sommer) son masculinos' },
+        
+        // ─── DIE (femenino) ───
+        { article: 'die', suffix: 'ung', label: '-ung',  desc: 'Sustantivos que terminan en -ung (acción/proceso): die Zeitung, die Bedeutung' },
+        { article: 'die', suffix: 'heit', label: '-heit',  desc: 'Sustantivos que terminan en -heit (cualidad abstracta): die Freiheit, die Gesundheit' },
+        { article: 'die', suffix: 'keit', label: '-keit',  desc: 'Sustantivos que terminan en -keit (cualidad abstracta): die Möglichkeit, die Freundlichkeit' },
+        { article: 'die', suffix: 'schaft', label: '-schaft', desc: 'Sustantivos que terminan en -schaft (relación/colectivo): die Freundschaft, die Mannschaft' },
+        { article: 'die', suffix: 'ion', label: '-ion',  desc: 'Sustantivos que terminan en -ion (extranjerismo): die Nation, die Station' },
+        { article: 'die', suffix: 'tät', label: '-tät',  desc: 'Sustantivos que terminan en -tät (cualidad): die Universität, die Qualität' },
+        { article: 'die', suffix: 'ik', label: '-ik',    desc: 'Sustantivos que terminan en -ik (disciplinas/ciencias): die Musik, die Mathematik' },
+        { article: 'die', suffix: 'ur', label: '-ur',    desc: 'Sustantivos que terminan en -ur: die Kultur, die Natur' },
+        { article: 'die', suffix: 'ei', label: '-ei',    desc: 'Sustantivos que terminan en -ei (lugar/profesión): die Bäckerei, die Polizei' },
+        { article: 'die', suffix: 'enz', label: '-enz',  desc: 'Sustantivos que terminan en -enz: die Toleranz, die Existenz' },
+        { article: 'die', suffix: 'anz', label: '-anz',  desc: 'Sustantivos que terminan en -anz: die Toleranz, die Distanz' },
+        { article: 'die', suffix: 'in', label: '-in',    desc: 'Forma femenina de personas/profesiones: die Lehrerin, die Freundin' },
+        { article: 'die', suffix: 'e', label: '-e',      desc: 'Muchos sustantivos bisílabos terminados en -e: die Lampe, die Katze, die Blume' },
+        
+        // ─── DAS (neutro) ───
+        { article: 'das', suffix: 'chen', label: '-chen',  desc: 'Diminutivos -chen: das Mädchen, das Häuschen (SIEMPRE neutro)' },
+        { article: 'das', suffix: 'lein', label: '-lein',  desc: 'Diminutivos -lein: das Büchlein, das Tischlein (SIEMPRE neutro)' },
+        { article: 'das', suffix: 'ment', label: '-ment',  desc: 'Sustantivos que terminan en -ment: das Experiment, das Fundament' },
+        { article: 'das', suffix: 'um', label: '-um',    desc: 'Sustantivos que terminan en -um (neutro en latín): das Museum, das Zentrum' },
+        { article: 'das', suffix: 'tum', label: '-tum',  desc: 'Sustantivos que terminan en -tum: das Eigentum, das Wachstum' },
+        { article: 'das', suffix: 'ma', label: '-ma',    desc: 'Sustantivos que terminan en -ma (griego): das Thema, das Drama' },
+        { article: 'das', suffix: 'o', label: '-o',      desc: 'Muchos extranjerismos terminados en -o: das Auto, das Büro, das Kino' },
+        { article: 'das', prefixGe: true, label: 'ge-',  desc: 'Sustantivos con prefijo ge- (neutro): das Gebäude, das Geschenk, das Gemüse' },
+        { article: 'das', suffix: 'nis', label: '-nis',  desc: 'Sustantivos que terminan en -nis: das Ergebnis, das Verständnis' },
+        { article: 'das', suffix: 'sal', label: '-sal',  desc: 'Sustantivos que terminan en -sal: das Schicksal, das Scheusal' },
+        { article: 'das', infinitiveNoun: true, label: 'infinitivo sustantivado', desc: 'Verbos en infinitivo como sustantivo: das Lesen, das Schwimmen, das Lernen' },
+        { article: 'das', matchColors: true, label: 'colores como sustantivo', desc: 'Los colores como sustantivo son neutros: das Rot, das Blau, das Schwarz' },
+    ];
+    
+    function findMatchingRules(word) {
+        var rules = [];
+        var wordLower = word.toLowerCase().trim();
+        
+        for (var i = 0; i < ARTICLE_RULES.length; i++) {
+            var rule = ARTICLE_RULES[i];
+            
+            // Regla por sufijo
+            if (rule.suffix && wordLower.endsWith(rule.suffix)) {
+                // Evitar duplicados: la regla más larga (más específica) prevalece
+                var existing = false;
+                for (var j = 0; j < rules.length; j++) {
+                    if (rules[j].article === rule.article) {
+                        if (rule.suffix && rules[j].suffix && rule.suffix.length > rules[j].suffix.length) {
+                            rules[j] = rule;
+                        }
+                        existing = true;
+                        break;
+                    }
+                }
+                if (!existing) {
+                    rules.push(rule);
+                }
+            }
+            
+            // Regla por prefijo ge-
+            if (rule.prefixGe && wordLower.startsWith('ge')) {
+                rules.push(rule);
+            }
+            
+            // Regla por infinitivo sustantivado (palabras que terminan en -en y pueden ser verbos)
+            if (rule.infinitiveNoun && wordLower.endsWith('en') && wordLower.length > 4) {
+                rules.push(rule);
+            }
+            
+            // Regla por colores
+            if (rule.matchColors && ['rot', 'blau', 'grün', 'gelb', 'schwarz', 'weiß', 'grau', 'braun', 'lila', 'pink', 'orange'].indexOf(wordLower) !== -1) {
+                rules.push(rule);
+            }
+            
+            // Regla por meses/días
+            if (rule.matchMonths) {
+                var monthDays = ['januar', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember',
+                                 'montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag', 'sonntag',
+                                 'frühling', 'sommer', 'herbst', 'winter'];
+                if (monthDays.indexOf(wordLower) !== -1) {
+                    rules.push(rule);
+                }
+            }
+        }
+        
+        return rules;
+    }
+
     function getArticleTip(card) {
-        var word = (card.de || '').toLowerCase();
-        var tips = [];
+        var word = getNounOnly(card).toLowerCase();
+        var rules = findMatchingRules(word);
+        
+        if (rules.length === 0) {
+            // Regla general de último recurso: terminación en -e suele ser die
+            if (word.endsWith('e') && !word.endsWith('er') && !word.endsWith('ist') && !word.endsWith('ling') && !word.endsWith('or')) {
+                return '💡 Pista: Muchas palabras que terminan en -e son femeninas (die).';
+            }
+            return '';
+        }
+        
+        var tip = '';
+        var articles = {};
+        for (var i = 0; i < rules.length; i++) {
+            var r = rules[i];
+            if (!articles[r.article]) {
+                articles[r.article] = [];
+            }
+            articles[r.article].push(r);
+        }
+        
+        for (var art in articles) {
+            if (articles.hasOwnProperty(art)) {
+                tip += '📌 ' + art.toUpperCase() + ' → ';
+                var labels = [];
+                for (var j = 0; j < articles[art].length; j++) {
+                    if (labels.indexOf(articles[art][j].label) === -1) {
+                        labels.push(articles[art][j].label);
+                    }
+                }
+                tip += labels.join(', ') + '\n';
+                for (var k = 0; k < articles[art].length; k++) {
+                    tip += '   • ' + articles[art][k].desc + '\n';
+                }
+            }
+        }
+        
+        return tip.trim();
+    }
 
-        // Reglas generales según terminación
-        if (word.endsWith('ung') || word.endsWith('heit') || word.endsWith('keit') || word.endsWith('schaft') || word.endsWith('ion') || word.endsWith('tät') || word.endsWith('ur')) {
-            tips.push('🔵 Palabras con -ung, -heit, -keit, -schaft, -ion suelen ser femeninas (die)');
+    function getArticleTipComponent(card) {
+        var word = (getNounOnly(card) || '').toLowerCase();
+        var rules = findMatchingRules(word);
+        var tipLines = [];
+        var articleColor = '#6366f1';
+        var articleLabel = '';
+        var colorMap = { die: '#ec4899', der: '#3b82f6', das: '#10b981' };
+        
+        if (rules.length > 0) {
+            // Agrupar reglas por artículo
+            var articles = {};
+            for (var i = 0; i < rules.length; i++) {
+                var r = rules[i];
+                if (!articles[r.article]) {
+                    articles[r.article] = [];
+                }
+                articles[r.article].push(r);
+            }
+            
+            for (var art in articles) {
+                if (articles.hasOwnProperty(art)) {
+                    articleLabel = art;
+                    articleColor = colorMap[articleLabel] || '#6366f1';
+                    var labels = [];
+                    for (var j = 0; j < articles[art].length; j++) {
+                        if (labels.indexOf(articles[art][j].label) === -1) {
+                            labels.push(articles[art][j].label);
+                        }
+                    }
+                    tipLines.push(
+                        React.createElement('div', { key: 'header-' + art, style: { fontWeight: 700, color: articleColor, marginBottom: 4, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px' } },
+                            '📌 ' + art.toUpperCase() + ' → ' + labels.join(', ')
+                        )
+                    );
+                    for (var k = 0; k < articles[art].length; k++) {
+                        tipLines.push(
+                            React.createElement('div', { key: 'desc-' + art + '-' + k, style: { fontSize: '0.82rem', color: '#cbd5e1', marginBottom: 3, marginLeft: 4, lineHeight: '1.4' } },
+                                '• ' + articles[art][k].desc
+                            )
+                        );
+                    }
+                }
+            }
+        } else {
+            // Reglas generales de último recurso
+            var fallback = null;
+            if (word.endsWith('e') && !word.endsWith('er') && !word.endsWith('ist') && !word.endsWith('ling') && !word.endsWith('or')) {
+                fallback = { label: 'die', text: 'Muchas palabras que terminan en -e son femeninas (die).', color: '#ec4899' };
+            } else if (word.endsWith('er') || word.endsWith('ling') || word.endsWith('ismus') || word.endsWith('or')) {
+                fallback = { label: 'der', text: 'Palabras con -er, -ling, -ismus son masculinas (der).', color: '#3b82f6' };
+            } else if (word.endsWith('chen') || word.endsWith('lein') || word.endsWith('ment')) {
+                fallback = { label: 'das', text: 'Palabras con -chen, -lein son neutras (das).', color: '#10b981' };
+            } else {
+                return null;
+            }
+            articleLabel = fallback.label;
+            articleColor = fallback.color;
+            tipLines.push(
+                React.createElement('div', { key: 'header', style: { fontWeight: 700, color: articleColor, marginBottom: 4, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px' } },
+                    '📌 ' + fallback.label.toUpperCase()
+                ),
+                React.createElement('div', { key: 'desc', style: { fontSize: '0.82rem', color: '#cbd5e1', lineHeight: '1.4' } },
+                    '• ' + fallback.text
+                )
+            );
         }
-        if (word.endsWith('chen') || word.endsWith('lein') || word.endsWith('ment') || word.endsWith('nis')) {
-            tips.push('🟢 Palabras con -chen, -lein suelen ser neutras (das)');
-        }
-        if (word.endsWith('er') || word.endsWith('ismus') || word.endsWith('ling') || word.endsWith('or')) {
-            tips.push('🔴 Palabras con -er, -ismus, -ling suelen ser masculinas (der)');
-        }
-
-        // Días, meses, estaciones → masculino
-        if (/montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag|januar|februar|märz|april|mai|juni|juli|august|september|oktober|november|dezember|frühling|sommer|herbst|winter/i.test(word)) {
-            tips.push('🔴 Días, meses y estaciones son masculinos (der)');
-        }
-
-        if (tips.length === 0) {
-            tips.push('💡 Memoriza: cada sustantivo tiene su género. ¡La práctica constante ayuda!');
-        }
-
-        return tips[0];
+        
+        return React.createElement('div', {
+            style: {
+                marginTop: 14,
+                padding: '14px 16px',
+                borderRadius: 12,
+                background: articleColor + '12',
+                border: '2px solid ' + articleColor + '35',
+                textAlign: 'left'
+            }
+        },
+            React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 } },
+                React.createElement('span', { style: { fontSize: '1.2rem' } }, '📖'),
+                React.createElement('span', { style: { fontSize: '0.78rem', fontWeight: 600, color: '#94a3b8' } }, 
+                    'Regla de terminación:'
+                )
+            ),
+            tipLines
+        );
     }
 
     function getCloudPracticeTip(card, isVerbPrep) {
@@ -856,7 +1049,6 @@
     // DASHBOARD SECTION
     // ═══════════════════════════════════════════════════════════════
     function DashboardSection({ dashboard, onStartPractice, onStartExam, onViewPlan, onViewChallenge }) {
-        // ... (everything that was there before)
         var quote = window.Muller.getDailyMotivation ? window.Muller.getDailyMotivation() : null;
         
         return React.createElement('div', null,
@@ -1016,7 +1208,6 @@
 
         function generatePlan() {
             setLoading(true);
-            // Small delay to show loading
             setTimeout(function() {
                 var p = window.Muller.generateStudyPlan ? window.Muller.generateStudyPlan() : null;
                 setPlan(p);
@@ -1340,7 +1531,6 @@
                 else if (currentIndex < Math.floor(numCards * 2 / 3)) stats.normal = (stats.normal || 0) + 1;
                 else stats.difficult = (stats.difficult || 0) + 1;
                 
-                // Verificar logro de racha perfecta
                 if (newStreak >= 10) window.Muller.unlockAchievement('perfect_10');
             } else {
                 stats.errors = (stats.errors || 0) + 1;
@@ -1348,7 +1538,6 @@
                 stats.consecutiveCorrect = 0;
                 stats.lastSeenAt = new Date().toISOString();
                 
-                // Verificar logro de remontada
                 if (stats.consecutiveErrors >= 5) window.Muller.unlockAchievement('comeback_king');
             }
             progress[key] = stats;
@@ -1546,7 +1735,7 @@
             return function() { window.removeEventListener('advancedProgressUpdated', handler); };
         }, []);
         
-        // Verificar DeepSeek (defensivo: si DeepSeek aún no se ha cargado, esperar)
+        // Verificar DeepSeek
         React.useEffect(function() {
             var ds = window.Muller && window.Muller.DeepSeek;
             setDeepseekReady(ds && typeof ds.hasApiKey === 'function' && ds.hasApiKey());
@@ -1697,4 +1886,192 @@
     window.Muller.CloudPractice = CloudPractice;
     
     console.log('✅ EntrenamientoPanel v3 cargado (con ArticlePractice & CloudPractice)');
-})();
+})();               React.createElement('input', {
+                        type: 'text',
+                        value: inputValue,
+                        onChange: function(e) { setInputValue(e.target.value); },
+                        onKeyDown: handleKeyDown,
+                        placeholder: 'Escribe aquí...',
+                        autoFocus: true,
+                        style: S.input
+                    }),
+                    React.createElement('div', { style: { display: 'flex', gap: 10, justifyContent: 'center', marginTop: 12 } },
+                        React.createElement('button', {
+                            onClick: function() { answerCurrent(inputValue); },
+                            disabled: !inputValue.trim(),
+                            style: Object.assign({}, S.btnPrimary, { opacity: inputValue.trim() ? 1 : 0.5 })
+                        }, '✓ Comprobar'),
+                        React.createElement('button', {
+                            onClick: handleSkip,
+                            style: S.btnSecondary
+                        }, 'Saltar →')
+                    )
+                )
+            )
+        );
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // COMPONENTE PRINCIPAL
+    // ═══════════════════════════════════════════════════════════════
+    function EntrenamientoPanel({ session }) {
+        var [dashboard, setDashboard] = React.useState(window.Muller.getAdvancedDashboard());
+        var [activeSection, setActiveSection] = React.useState('dashboard');
+        var [deepseekReady, setDeepseekReady] = React.useState(false);
+        
+        // Actualizar dashboard cuando cambia
+        React.useEffect(function() {
+            var handler = function() { setDashboard(window.Muller.getAdvancedDashboard()); };
+            window.addEventListener('advancedProgressUpdated', handler);
+            window.addEventListener('achievementsUpdated', handler);
+            window.addEventListener('dailyProgressUpdated', handler);
+            return function() { window.removeEventListener('advancedProgressUpdated', handler); };
+        }, []);
+        
+        // Verificar DeepSeek
+        React.useEffect(function() {
+            var ds = window.Muller && window.Muller.DeepSeek;
+            setDeepseekReady(ds && typeof ds.hasApiKey === 'function' && ds.hasApiKey());
+            var handler = function() { 
+                var ds2 = window.Muller && window.Muller.DeepSeek;
+                setDeepseekReady(ds2 && typeof ds2.hasApiKey === 'function' && ds2.hasApiKey()); 
+            };
+            window.addEventListener('deepseekKeyChanged', handler);
+            return function() { window.removeEventListener('deepseekKeyChanged', handler); };
+        }, []);
+
+        function handleStartPractice() { setActiveSection('practice'); }
+        function handleStartExam() { setActiveSection('exam'); }
+        function handleViewPlan() { setActiveSection('plan'); }
+        function handleViewChallenge() { setActiveSection('challenge'); }
+        function handleBack() { setActiveSection('dashboard'); }
+        
+        // ─── Nav tabs ───
+        var sections = [
+            { id: 'dashboard', icon: '📊', label: 'Dashboard' },
+            { id: 'practice', icon: '🏋️', label: 'Entrenar' },
+            { id: 'exam', icon: '📝', label: 'Examen' },
+            { id: 'plan', icon: '📋', label: 'Plan' },
+            { id: 'challenge', icon: '🎯', label: 'Desafío' },
+            { id: 'ai', icon: '🤖', label: 'Tutor AI' },
+            { id: 'api', icon: '🔑', label: 'API Key' }
+        ];
+
+        return React.createElement('div', { style: { maxWidth: 800, margin: '0 auto', padding: '12px 16px' } },
+            // ─── Header ───
+            React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 } },
+                React.createElement('span', { style: { fontSize: 28 } }, '⚡'),
+                React.createElement('div', null,
+                    React.createElement('div', { style: { fontWeight: 700, fontSize: '1.1rem', color: '#e2e8f0' } }, 'Entrenamiento TELC'),
+                    React.createElement('div', { style: { fontSize: '0.75rem', color: '#94a3b8' } }, 'Domina artículos, verbos+prep y preposiciones')
+                )
+            ),
+            
+            // ─── Tabs de navegación ───
+            React.createElement('div', { style: { display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' } },
+                sections.map(function(s) {
+                    var active = activeSection === s.id;
+                    return React.createElement('button', {
+                        key: s.id,
+                        onClick: function() { setActiveSection(s.id); },
+                        style: Object.assign({
+                            padding: '8px 14px',
+                            borderRadius: 10,
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            fontSize: '0.78rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            border: '1px solid ' + (active ? '#06b6d4' : '#334155'),
+                            transition: 'all 0.2s ease',
+                            whiteSpace: 'nowrap'
+                        }, active ? { background: '#06b6d4', color: 'white' } : { background: '#1e293b', color: '#94a3b8' })
+                    },
+                        React.createElement('span', null, s.icon),
+                        s.label
+                    );
+                })
+            ),
+
+            // ─── Contenido según sección ───
+            activeSection === 'dashboard' && React.createElement('div', null,
+                React.createElement(DashboardSection, {
+                    dashboard: dashboard,
+                    onStartPractice: handleStartPractice,
+                    onStartExam: handleStartExam,
+                    onViewPlan: handleViewPlan,
+                    onViewChallenge: handleViewChallenge
+                })
+            ),
+
+            activeSection === 'practice' && React.createElement('div', null,
+                React.createElement(PracticeSelector, { onBack: handleBack, dashboard: dashboard })
+            ),
+
+            activeSection === 'exam' && React.createElement('div', null,
+                React.createElement(ExamRunner, { onBack: handleBack, dashboard: dashboard })
+            ),
+
+            activeSection === 'plan' && React.createElement('div', null,
+                React.createElement(StudyPlanSection, { onBack: handleBack })
+            ),
+
+            activeSection === 'challenge' && React.createElement('div', null,
+                React.createElement(DailyChallengeSection, { onBack: handleBack, dashboard: dashboard })
+            ),
+
+            activeSection === 'ai' && React.createElement('div', null,
+                React.createElement('div', { style: Object.assign({}, S.card, { marginBottom: 16 }) },
+                    React.createElement('div', { style: { fontWeight: 600, fontSize: '0.95rem', color: '#e2e8f0', marginBottom: 12 } }, '🤖 Tutor AI — DeepSeek'),
+                    React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginBottom: 12 } },
+                        'Pregunta cualquier duda sobre alemán, gramática, vocabulario, estrategias TELC... El AI te responde al instante.'
+                    ),
+                    React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget ? window.Muller.DeepSeek.ChatWidget : 'div', null,
+                        !window.Muller.DeepSeek && React.createElement('div', { style: { color: '#f87171', fontSize: '0.85rem' } }, 'Módulo DeepSeek no disponible')
+                    )
+                )
+            ),
+
+            activeSection === 'api' && React.createElement('div', null,
+                React.createElement('div', { style: Object.assign({}, S.card, { marginBottom: 16 }) },
+                    React.createElement('div', { style: { fontWeight: 600, fontSize: '0.95rem', color: '#e2e8f0', marginBottom: 8 } }, '🔑 Configuración DeepSeek AI'),
+                    React.createElement('div', { style: { fontSize: '0.8rem', color: '#94a3b8', marginBottom: 14 } },
+                        'Introduce tu API Key de DeepSeek para activar el tutor AI. Consíguela gratis en platform.deepseek.com'
+                    ),
+                    React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ApiKeySetup ? window.Muller.DeepSeek.ApiKeySetup : 'div')
+                ),
+                // Stats extra
+                React.createElement('div', { style: Object.assign({}, S.card, { marginBottom: 16 }) },
+                    React.createElement('div', { style: { fontWeight: 600, fontSize: '0.9rem', color: '#e2e8f0', marginBottom: 10 } }, '📊 Estadísticas globales'),
+                    React.createElement('div', { style: { display: 'flex', gap: 10, flexWrap: 'wrap' } },
+                        [
+                            { label: 'Total intentos', value: dashboard.totalAttempts, icon: '🎯' },
+                            { label: 'Precisión', value: dashboard.accuracy + '%', icon: '📊' },
+                            { label: 'Tarjetas débiles', value: dashboard.weak, icon: '⚠️' },
+                            { label: 'Días de racha', value: dashboard.streakDays, icon: '🔥' },
+                            { label: 'Dominadas', value: dashboard.mastered, icon: '👑' },
+                            { label: 'Nuevas', value: dashboard.newCount, icon: '🆕' }
+                        ].map(function(stat) {
+                            return React.createElement('div', {
+                                key: stat.label,
+                                style: Object.assign({}, S.statBox, { flex: 1, minWidth: 85 })
+                            },
+                                React.createElement('div', { style: { fontSize: 18 } }, stat.icon),
+                                React.createElement('div', { style: { fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0' } }, stat.value),
+                                React.createElement('div', { style: { fontSize: '0.68rem', color: '#64748b' } }, stat.label)
+                            );
+                        })
+                    )
+                )
+            )
+        );
+    }
+
+    // ─── Exponer componentes ───
+    window.Muller = window.Muller || {};
+    window.Muller.Panels = window.Muller.Panels || {};
+    window.Muller.Panels.entrenamiento = EntrenamientoPanel;
+    window.Muller.EntrenamientoPanel = EntrenamientoPanel;
+    
+    // ✨ EXPONER LOS COMPONENTES DE PRÁCTICA QUE FALTABAN ✨

@@ -722,22 +722,239 @@ window.Muller.loadPrepositionData = function() {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 10. TIPS – Cartas con trucos TELC
+// 10. REGLAS DE GÉNERO – Sistema completo de pistas automáticas
 // ═══════════════════════════════════════════════════════════════
+
+window.Muller.findArticleRule = function(item) {
+    const fullWord = (item.de || '').toLowerCase();
+    const noun = fullWord.split(' ').slice(1).join(' ');
+    const article = fullWord.split(' ')[0] || '';
+
+    if (!noun) return null;
+
+    // ─── REGLAS DIE (femenino) ───
+    if (noun.endsWith('ung')) return {
+        ending: '-ung',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -ung son SIEMPRE DIE.\nEj: die Zeitung, die Bedeutung, die Übung.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('heit')) return {
+        ending: '-heit',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -heit son SIEMPRE DIE.\nEj: die Freiheit, die Gesundheit, die Wahrheit.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('keit')) return {
+        ending: '-keit',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -keit son SIEMPRE DIE.\nEj: die Möglichkeit, die Freundlichkeit.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('schaft')) return {
+        ending: '-schaft',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -schaft son SIEMPRE DIE.\nEj: die Gesellschaft, die Freundschaft, die Mannschaft.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('ion')) return {
+        ending: '-ion',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -ion son SIEMPRE DIE.\nEj: die Station, die Nation, die Diskussion.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('tät')) return {
+        ending: '-tät',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -tät son SIEMPRE DIE.\nEj: die Universität, die Aktivität, die Qualität.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('ur')) return {
+        ending: '-ur',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -ur suelen ser DIE.\nEj: die Kultur, die Natur, die Frisur.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('ik')) return {
+        ending: '-ik',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras terminadas en -ik suelen ser DIE.\nEj: die Musik, die Politik, die Fantasie.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('e') && noun.length > 2 && !noun.endsWith('er') && !noun.endsWith('ee') && !noun.endsWith('ie') && !noun.endsWith('te')) return {
+        ending: '-e',
+        article: 'die',
+        tip: '🔵 REGLA: Muchas palabras terminadas en -e (no -er) son DIE.\nEj: die Lampe, die Blume, die Katze, die Frage.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('enz')) return {
+        ending: '-enz',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras en -enz son SIEMPRE DIE.\nEj: die Toleranz, die Intelligenz, die Existenz.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('anz')) return {
+        ending: '-anz',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras en -anz son SIEMPRE DIE.\nEj: die Distanz, die Bedeutung, die Toleranz.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('ie')) return {
+        ending: '-ie',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras en -ie suelen ser DIE.\nEj: die Melodie, die Theorie, die Batterie.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('ei')) return {
+        ending: '-ei',
+        article: 'die',
+        tip: '🔵 REGLA: Palabras en -ei suelen ser DIE.\nEj: die Bäckerei, die Polizei, die Partei.',
+        color: '#ec4899'
+    };
+    if (noun.endsWith('in') && noun.length > 4) return {
+        ending: '-in',
+        article: 'die',
+        tip: '🔵 REGLA: Profesiones femeninas en -in son DIE.\nEj: die Lehrerin, die Studentin, die Ärztin.',
+        color: '#ec4899'
+    };
+
+    // ─── REGLAS DER (masculino) ───
+    if (noun.endsWith('er') && !noun.endsWith('ier') && noun.length > 3) return {
+        ending: '-er',
+        article: 'der',
+        tip: '🔵 REGLA: Muchas palabras terminadas en -er (profesiones, personas) son DER.\nEj: der Lehrer, der Computer, der Fehler.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('ling')) return {
+        ending: '-ling',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -ling son SIEMPRE DER.\nEj: der Schmetterling, der Frühling, der Lehrling.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('ismus')) return {
+        ending: '-ismus',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -ismus son SIEMPRE DER.\nEj: der Kapitalismus, der Tourismus, der Journalismus.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('or')) return {
+        ending: '-or',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -or suelen ser DER.\nEj: der Motor, der Professor, der Direktor.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('ich') && noun.length > 3) return {
+        ending: '-ich',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -ich suelen ser DER.\nEj: der Teppich, der Strich, der Bereich.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('ig') && noun.length > 3) return {
+        ending: '-ig',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -ig suelen ser DER.\nEj: der Honig, der König, der Pfennig.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('us') && noun.length > 3) return {
+        ending: '-us',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -us suelen ser DER.\nEj: der Bus, der Kurs, der Zirkus.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('ent') && noun.length > 4 && !noun.endsWith('ment')) return {
+        ending: '-ent',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -ent suelen ser DER (personas).\nEj: der Student, der Präsident, der Patient.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('ist') && noun.length > 4) return {
+        ending: '-ist',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -ist son DER (profesiones).\nEj: der Polizist, der Journalist, der Künstler.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('ant') && noun.length > 4) return {
+        ending: '-ant',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -ant suelen ser DER.\nEj: der Praktikant, der Elefant, der Diamant.',
+        color: '#3b82f6'
+    };
+    if (noun.endsWith('loge')) return {
+        ending: '-loge',
+        article: 'der',
+        tip: '🔵 REGLA: Palabras en -loge son DER (profesiones científicas).\nEj: der Psychologe, der Biologe, der Soziologe.',
+        color: '#3b82f6'
+    };
+
+    // ─── REGLAS DAS (neutro) ───
+    if (noun.endsWith('chen')) return {
+        ending: '-chen',
+        article: 'das',
+        tip: '🔵 REGLA: Diminutivos en -chen son SIEMPRE DAS.\nEj: das Mädchen, das Häuschen, das Brötchen.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('lein')) return {
+        ending: '-lein',
+        article: 'das',
+        tip: '🔵 REGLA: Diminutivos en -lein son SIEMPRE DAS.\nEj: das Büchlein, das Tischlein, das Fräulein.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('nis')) return {
+        ending: '-nis',
+        article: 'das',
+        tip: '🔵 REGLA: Palabras en -nis suelen ser DAS.\nEj: das Ergebnis, das Verhältnis, das Erlebnis.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('um')) return {
+        ending: '-um',
+        article: 'das',
+        tip: '🔵 REGLA: Palabras en -um son SIEMPRE DAS.\nEj: das Museum, das Studium, das Zentrum.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('ment') && noun.length > 4) return {
+        ending: '-ment',
+        article: 'das',
+        tip: '🔵 REGLA: Palabras en -ment suelen ser DAS.\nEj: das Testament, das Experiment, das Argument.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('tum')) return {
+        ending: '-tum',
+        article: 'das',
+        tip: '🔵 REGLA: Palabras en -tum son SIEMPRE DAS.\nEj: das Eigentum, das Wachstum, das Christentum.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('o') && noun.length > 2) return {
+        ending: '-o',
+        article: 'das',
+        tip: '🔵 REGLA: Muchas palabras en -o (préstamos) son DAS.\nEj: das Auto, das Kino, das Büro.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('ma') && noun.length > 3) return {
+        ending: '-ma',
+        article: 'das',
+        tip: '🔵 REGLA: Palabras en -ma (griego) son DAS.\nEj: das Klima, das Drama, das Thema, das Koma.',
+        color: '#10b981'
+    };
+    if (noun.endsWith('ett') && noun.length > 4) return {
+        ending: '-ett',
+        article: 'das',
+        tip: '🔵 REGLA: Palabras en -ett suelen ser DAS.\nEj: das Ballett, das Etikett, das Duett.',
+        color: '#10b981'
+    };
+    if (noun.startsWith('Ge') && noun.length > 4 && !noun.endsWith('e') && !noun.endsWith('er')) return {
+        ending: 'Ge-',
+        article: 'das',
+        tip: '🔵 REGLA: Palabras que empiezan con Ge- suelen ser DAS.\nEj: das Geschenk, das Gemüse, das Gebäude.',
+        color: '#10b981'
+    };
+
+    return null;
+};
+
 window.Muller.getCardTip = function(type, item) {
     if (type === 'articulos') {
-        const fullWord = (item.de || '').toLowerCase();
-        const noun = fullWord.split(' ').slice(1).join(' ');
-        if (noun.endsWith('ung') || noun.endsWith('heit') || noun.endsWith('keit') || noun.endsWith('schaft')) return "Truco: muchas palabras en -ung/-heit/-keit/-schaft son DIE.";
-        if (noun.endsWith('chen') || noun.endsWith('lein')) return "Truco: diminutivos en -chen/-lein casi siempre son DAS.";
-        if (noun.endsWith('er') || noun.endsWith('ling') || noun.endsWith('ismus')) return "Truco: muchos sustantivos en -er/-ling/-ismus son DER.";
-        if (noun.endsWith('e')) return "Truco: muchas palabras en -e son DIE (die Lampe, die Blume...).";
-        if (noun.endsWith('ion') || noun.endsWith('tät') || noun.endsWith('ur')) return "Truco: palabras en -ion/-tät/-ur suelen ser DIE.";
-        if (noun.endsWith('ik')) return "Truco: palabras en -ik suelen ser DIE (die Musik, die Politik).";
-        if (noun.endsWith('or') || noun.endsWith('ich') || noun.endsWith('ig')) return "Truco: palabras en -or/-ich/-ig suelen ser DER.";
-        if (noun.endsWith('nis')) return "Truco: palabras en -nis suelen ser DAS (das Ergebnis, das Verhältnis).";
-        if (noun.endsWith('um')) return "Truco: palabras en -um suelen ser DAS (das Museum, das Studium).";
-        return "Truco: aprende cada palabra junto a su artículo (DER/DIE/DAS) como un bloque.";
+        const rule = window.Muller.findArticleRule(item);
+        return rule ? rule.tip : "Truco: aprende cada palabra junto a su artículo (DER/DIE/DAS) como un bloque.";
     }
     const prep = (item.answer || '').toLowerCase();
     const tips = {
