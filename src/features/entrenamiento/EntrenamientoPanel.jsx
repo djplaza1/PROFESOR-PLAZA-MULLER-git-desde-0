@@ -78,11 +78,19 @@
     // ═══════════════════════════════════════════════════════════════
     function PluralPractice({ onBack }) {
         var [cards, setCards] = React.useState([]);
+        var [options, setOptions] = React.useState([]);
         var [currentIndex, setCurrentIndex] = React.useState(0);
         var [feedback, setFeedback] = React.useState(null);
         var [finished, setFinished] = React.useState(false);
         var [stats, setStats] = React.useState({ total: 0, correct: 0, wrong: 0 });
+        var [editingCard, setEditingCard] = React.useState(null);
+        var [editForm, setEditForm] = React.useState({ plural: '', type: '' });
         var pluralTypes = ['-e', '-e+Umlaut', '-er', '-en', '-n', '-nen', '-s', '= (cero)', '= (+Umlaut)'];
+        var colors = {
+            '-e': '#3b82f6', '-e+Umlaut': '#8b5cf6', '-er': '#ef4444',
+            '-en': '#10b981', '-n': '#06b6d4', '-nen': '#f59e0b',
+            '-s': '#ec4899', '= (cero)': '#64748b', '= (+Umlaut)': '#f97316'
+        };
         
         function shuffleArray(arr) {
             var a = arr.slice();
@@ -91,6 +99,50 @@
                 var t = a[i]; a[i] = a[j]; a[j] = t;
             }
             return a;
+        }
+        
+        // Genera 4 opciones: 1 correcta + 3 plausibles
+        function generateOptions(card) {
+            var correctForm = card.pluralForm;
+            var correctType = card.pluralType;
+            var noun = card.noun;
+            var article = card.article;
+            
+            // Generar distractores plausibles según el tipo correcto
+            var distractors = [];
+            var possible = [
+                { plural: 'die ' + noun + 'e', type: '-e' },
+                { plural: 'die ' + noun + 'en', type: '-en' },
+                { plural: 'die ' + noun + 'n', type: '-n' },
+                { plural: 'die ' + noun + 'er', type: '-er' },
+                { plural: 'die ' + noun + 's', type: '-s' },
+                { plural: 'die ' + window.Muller._applyPluralUmlaut(noun) + 'e', type: '-e+Umlaut' },
+                { plural: 'die ' + window.Muller._applyPluralUmlaut(noun) + 'er', type: '-er' }
+            ];
+            
+            // Filtrar el correcto y duplicados
+            var unique = [];
+            possible.forEach(function(p) {
+                if (p.plural !== correctForm && !unique.some(function(u) { return u.plural === p.plural; })) {
+                    unique.push(p);
+                }
+            });
+            
+            // Barajar y coger 3
+            var shuffled = shuffleArray(unique);
+            distractors = shuffled.slice(0, 3);
+            
+            // Si no hay suficientes, rellenar
+            while (distractors.length < 3) {
+                var fallback = { plural: 'die ' + noun + (['-e', '-en', '-er'][distractors.length]), type: ['-e', '-en', '-er'][distractors.length] };
+                if (fallback.plural !== correctForm && !distractors.some(function(d) { return d.plural === fallback.plural; })) {
+                    distractors.push(fallback);
+                } else { break; }
+            }
+            
+            // Combinar correcta + distractores y barajar
+            var all = [{ plural: correctForm, type: correctType, correct: true }].concat(distractors.map(function(d) { return { plural: d.plural, type: d.type, correct: false }; }));
+            return shuffleArray(all);
         }
         
         function startPractice() {
@@ -106,10 +158,25 @@
         
         React.useEffect(startPractice, []);
         
-        function handleAnswer(selectedType) {
+        // Regenerar opciones al cambiar de tarjeta
+        React.useEffect(function() {
+            if (cards.length > 0 && currentIndex < cards.length) {
+                setOptions(generateOptions(cards[currentIndex]));
+            }
+        }, [cards, currentIndex]);
+        
+        function handleAnswer(selectedOption) {
             var card = cards[currentIndex];
-            var correct = selectedType === card.pluralType;
-            setFeedback({ correct: correct, rule: card.rule, pluralForm: card.pluralForm, selectedType: selectedType, card: card });
+            var correct = selectedOption.correct;
+            setFeedback({ 
+                correct: correct, 
+                rule: card.rule, 
+                pluralForm: card.pluralForm, 
+                pluralType: card.pluralType,
+                selectedPlural: selectedOption.plural, 
+                card: card, 
+                options: options 
+            });
             setStats(function(prev) {
                 return { total: prev.total + 1, correct: prev.correct + (correct ? 1 : 0), wrong: prev.wrong + (correct ? 0 : 1) };
             });
@@ -124,12 +191,34 @@
             }
         }
         
+        function openEditor(card) {
+            setEditingCard(card);
+            setEditForm({ plural: card.pluralForm, type: card.pluralType });
+        }
+        
+        function saveOverride() {
+            var key = editingCard.article + '::' + editingCard.noun;
+            var override = { plural: editForm.plural, type: editForm.type, rule: '✏️ Modificado por usuario', hasUmlaut: /[äöü]/.test(editForm.plural) };
+            var stored = {};
+            try { var s = localStorage.getItem('muller_plural_overrides_v1'); if (s) { stored = JSON.parse(s); } } catch(e) {}
+            stored[key] = override;
+            localStorage.setItem('muller_plural_overrides_v1', JSON.stringify(stored));
+            // Recargar tarjeta actualizada
+            var updatedCard = Object.assign({}, editingCard, { pluralForm: editForm.plural, pluralType: editForm.type, rule: override.rule, isOverridden: true });
+            var newCards = cards.slice();
+            newCards[currentIndex] = updatedCard;
+            setCards(newCards);
+            setOptions(generateOptions(updatedCard));
+            setEditingCard(null);
+            setFeedback(null);
+        }
+        
         if (finished) {
             var pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
             return React.createElement('div', null,
                 React.createElement('button', { onClick: onBack, style: Object.assign({}, S.btnSecondary, { marginBottom: 14 }) }, '← Volver'),
                 React.createElement('div', { style: Object.assign({}, S.glowCard, { textAlign: 'center', padding: 24 }) },
-                    React.createElement('div', { style: { fontSize: 48, marginBottom: 8 } }, pct >= 80 ? '🎉' : pct >= 50 ? '👍' : '💪'),
+                    React.createElement('div', { style: { fontSize: 64, marginBottom: 8 } }, pct >= 90 ? '🏆' : pct >= 60 ? '🎉' : '💪'),
                     React.createElement('div', { style: { fontSize: '1.3rem', fontWeight: 700, color: '#e2e8f0', marginBottom: 4 } }, '¡Práctica completada!'),
                     React.createElement('div', { style: { fontSize: '0.9rem', color: '#94a3b8', marginBottom: 12 } }, stats.correct + '/' + stats.total + ' (' + pct + '%)'),
                     React.createElement('div', { style: { display: 'flex', gap: 10, justifyContent: 'center' } },
@@ -144,6 +233,44 @@
             return React.createElement('div', { style: Object.assign({}, S.glowCard, { textAlign: 'center', padding: 24 }) },
                 React.createElement('div', { style: { fontSize: '0.9rem', color: '#94a3b8', marginBottom: 12 } }, 'No hay datos de plural disponibles.'),
                 React.createElement('button', { onClick: onBack, style: S.btnSecondary }, '← Volver')
+            );
+        }
+        
+        if (editingCard) {
+            return React.createElement('div', { style: Object.assign({}, S.glowCard, { textAlign: 'center', padding: 24, maxWidth: 500, margin: '0 auto' }) },
+                React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 700, color: '#f59e0b', marginBottom: 12 } }, '✏️ Modificar plural'),
+                React.createElement('div', { style: { fontSize: '1.5rem', color: '#e2e8f0', marginBottom: 16 } }, editingCard.de),
+                React.createElement('div', { style: { marginBottom: 12 } },
+                    React.createElement('label', { style: { fontSize: '0.78rem', color: '#94a3b8', display: 'block', marginBottom: 4 } }, 'Forma plural:'),
+                    React.createElement('input', {
+                        value: editForm.plural,
+                        onChange: function(e) { setEditForm(Object.assign({}, editForm, { plural: e.target.value })); },
+                        style: { width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #334155', background: '#0f172a', color: '#e2e8f0', fontSize: '1rem', textAlign: 'center', boxSizing: 'border-box' }
+                    })
+                ),
+                React.createElement('div', { style: { marginBottom: 16 } },
+                    React.createElement('label', { style: { fontSize: '0.78rem', color: '#94a3b8', display: 'block', marginBottom: 4 } }, 'Tipo de plural:'),
+                    React.createElement('div', { style: { display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' } },
+                        pluralTypes.map(function(t) {
+                            return React.createElement('button', {
+                                key: t,
+                                onClick: function() { setEditForm(Object.assign({}, editForm, { type: t })); },
+                                style: {
+                                    padding: '6px 10px', borderRadius: 6, fontSize: '0.72rem', border: 'none',
+                                    cursor: 'pointer', fontWeight: 600,
+                                    background: editForm.type === t ? (colors[t] || '#f59e0b') : '#1e293b',
+                                    color: editForm.type === t ? '#fff' : '#94a3b8',
+                                    border: editForm.type === t ? 'none' : '1px solid #334155',
+                                    transition: 'all 0.15s ease'
+                                }
+                            }, t);
+                        })
+                    )
+                ),
+                React.createElement('div', { style: { display: 'flex', gap: 10, justifyContent: 'center' } },
+                    React.createElement('button', { onClick: saveOverride, style: Object.assign({}, S.btnPrimary, { padding: '10px 24px' }) }, '💾 Guardar'),
+                    React.createElement('button', { onClick: function() { setEditingCard(null); }, style: Object.assign({}, S.btnSecondary, { padding: '10px 24px' }) }, 'Cancelar')
+                )
             );
         }
         
@@ -162,35 +289,49 @@
                 )
             ),
             
-            // Tarjeta
+            // Tarjeta principal
             React.createElement('div', { style: Object.assign({}, S.glowCard, { textAlign: 'center', padding: 24 }) },
-                React.createElement('div', { style: { fontSize: '0.78rem', color: '#64748b', marginBottom: 4 } }, 'Singular → ¿Plural?'),
-                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 700, color: '#e2e8f0', marginBottom: 4 } }, card.de || card.singular),
-                React.createElement('div', { style: { fontSize: '1.5rem', color: '#94a3b8', marginBottom: 20 } }, '... → die _____'),
+                React.createElement('div', { style: { fontSize: '0.78rem', color: '#64748b', marginBottom: 4 } }, 
+                    (card.article || '') + ' ' + card.noun + ' → ¿Plural?'
+                ),
+                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 700, color: '#e2e8f0', marginBottom: 4 } }, 
+                    (card.article || '') + ' ' + card.noun
+                ),
+                React.createElement('div', { style: { fontSize: '1.5rem', color: '#94a3b8', marginBottom: 12 } }, 
+                    '→ die _____'
+                ),
                 
-                // Opciones de tipo de plural
-                !feedback && React.createElement('div', { style: { display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center', maxWidth: 450, margin: '0 auto' } },
-                    pluralTypes.map(function(t) {
-                        var colors = {
-                            '-e': '#3b82f6', '-e+Umlaut': '#8b5cf6', '-er': '#ef4444',
-                            '-en': '#10b981', '-n': '#06b6d4', '-nen': '#f59e0b',
-                            '-s': '#ec4899', '= (cero)': '#64748b', '= (+Umlaut)': '#f97316'
-                        };
+                // Mostrar tipo correcto si es override
+                card.isOverridden && React.createElement('div', { style: { fontSize: '0.7rem', color: '#f59e0b', marginBottom: 10, background: '#f59e0b15', padding: '4px 10px', borderRadius: 6, display: 'inline-block' } },
+                    '✏️ Modificado: ' + card.pluralType
+                ),
+                
+                // 4 opciones de plural concreto (no tipo)
+                !feedback && React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 400, margin: '0 auto' } },
+                    options.map(function(opt, idx) {
                         return React.createElement('button', {
-                            key: t,
-                            onClick: function() { handleAnswer(t); },
+                            key: idx,
+                            onClick: function() { handleAnswer(opt); },
                             style: {
-                                padding: '8px 14px', borderRadius: 8, fontWeight: 600, cursor: 'pointer',
-                                fontSize: '0.78rem', border: 'none', background: '#1e293b', color: '#e2e8f0',
-                                transition: 'all 0.2s ease', borderLeft: '3px solid ' + (colors[t] || '#64748b')
+                                padding: '12px 16px', borderRadius: 10, fontWeight: 600, cursor: 'pointer',
+                                fontSize: '1rem', border: '2px solid #334155', 
+                                background: '#1e293b', color: '#e2e8f0',
+                                transition: 'all 0.2s ease', textAlign: 'left',
+                                display: 'flex', alignItems: 'center', gap: 10
                             },
-                            onMouseEnter: function(e) { e.currentTarget.style.background = '#334155'; },
-                            onMouseLeave: function(e) { e.currentTarget.style.background = '#1e293b'; }
-                        }, t);
+                            onMouseEnter: function(e) { e.currentTarget.style.background = '#263548'; e.currentTarget.style.borderColor = '#f59e0b55'; },
+                            onMouseLeave: function(e) { e.currentTarget.style.background = '#1e293b'; e.currentTarget.style.borderColor = '#334155'; }
+                        }, 
+                            React.createElement('span', { style: { width: 24, height: 24, borderRadius: 12, border: '2px solid #475569', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', color: '#64748b', flexShrink: 0 } }, String.fromCharCode(65 + idx)),
+                            React.createElement('span', null, opt.plural),
+                            opt.type && React.createElement('span', { style: { fontSize: '0.65rem', color: colors[opt.type] || '#64748b', marginLeft: 'auto', padding: '2px 6px', borderRadius: 4, background: '#0f172a', whiteSpace: 'nowrap' } }, 
+                                (opt.type.includes('Umlaut') ? 'Ä/Ö/Ü ' : '') + opt.type
+                            )
+                        );
                     })
                 ),
                 
-                // Feedback
+                // Feedback con botón modificar
                 feedback && React.createElement('div', { style: { marginTop: 16 } },
                     React.createElement('div', {
                         style: Object.assign({}, S.card, {
@@ -201,12 +342,20 @@
                         React.createElement('div', { style: { fontSize: '1.1rem', fontWeight: 700, marginBottom: 6, color: feedback.correct ? '#10b981' : '#ef4444' } },
                             feedback.correct ? '✅ ¡Correcto!' : '❌ Incorrecto'
                         ),
-                        React.createElement('div', { style: { fontSize: '0.9rem', color: '#e2e8f0', marginBottom: 4 } },
-                            'Plural: ' + feedback.pluralForm
+                        React.createElement('div', { style: { fontSize: '0.9rem', color: '#e2e8f0', marginBottom: 6 } },
+                            'Respuesta: ' + feedback.selectedPlural
                         ),
-                        React.createElement('div', { style: { fontSize: '0.82rem', color: '#94a3b8', padding: 10, background: '#0f172a', borderRadius: 8, lineHeight: 1.5 } },
+                        React.createElement('div', { style: { fontSize: '0.9rem', color: '#10b981', marginBottom: 6 } },
+                            'Correcto: ' + feedback.pluralForm + ' (' + feedback.pluralType + ')'
+                        ),
+                        React.createElement('div', { style: { fontSize: '0.82rem', color: '#94a3b8', padding: 10, background: '#0f172a', borderRadius: 8, lineHeight: 1.5, marginBottom: 10 } },
                             '📖 ' + feedback.rule
-                        )
+                        ),
+                        // Botón modificar
+                        React.createElement('button', {
+                            onClick: function() { openEditor(feedback.card); },
+                            style: Object.assign({}, S.btnSecondary, { padding: '6px 14px', fontSize: '0.75rem' })
+                        }, '✏️ Modificar plural')
                     ),
                     React.createElement('button', {
                         onClick: handleContinue,

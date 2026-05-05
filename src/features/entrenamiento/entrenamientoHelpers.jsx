@@ -1,139 +1,295 @@
 // ═══════════════════════════════════════════════════════════════
-// ENTRENAMIENTO HELPERS – Super Premium Ultra Edition v4
-// ═══════════════════════════════════════════════════════════════
-// Algoritmo adaptativo, filtros (smart/failed/difficult/weak/new),
-// dashboard avanzado, tips TELC, logros, racha, meta diaria,
-// SRS mejorado, analítica predictiva, generador de planes de estudio,
-// detector de patrones de error, gamificación, desafíos diarios.
+// 17. PLURALES - Generados automáticamente desde articulos.json
 // ═══════════════════════════════════════════════════════════════
 
-(function() {
-
-// ═══════════════════════════════════════════════════════════════
-// 1. CONSTANTES – Claves localStorage, config, etc.
-// ═══════════════════════════════════════════════════════════════
-var KEYS = {
-    PROGRESS: 'muller_training_progress_v4',
-    DAILY: 'muller_daily_v2',
-    STREAK: 'muller_streak_v2',
-    EXAM_HISTORY: 'muller_exam_history_v2',
-    DAILY_GOAL: 'muller_daily_goal_v2',
-    ACHIEVEMENTS: 'muller_achievements_v3',
-    CHALLENGE: 'muller_challenge_v1',
-    STUDY_PLAN: 'muller_study_plan_v1',
-    ERROR_PATTERNS: 'muller_error_patterns_v1',
-    REVIEW_CALENDAR: 'muller_review_calendar_v1',
-    SRS_DATA: 'muller_srs_data_v1',
-    LAST_ACTIVE_DATE: 'muller_last_active_date',
-    TRAINING_SETTINGS: 'muller_training_settings_v1'
+// Algoritmo de generación de plurales desde palabras del diccionario
+window.Muller._applyPluralUmlaut = function(noun) {
+    // Aplica Umlaut a la primera vocal a, o, u → ä, ö, ü (si es vocalizable)
+    return noun.replace(/a(?=[^aeiouäöü]*(?:$|\s))/i, 'ä')
+               .replace(/o(?=[^aeiouäöü]*(?:$|\s))/i, 'ö')
+               .replace(/u(?=[^aeiouäöü]*(?:$|\s))/i, 'ü')
+               .replace(/A(?=[^aeiouäöü]*(?:$|\s))/, 'Ä')
+               .replace(/O(?=[^aeiouäöü]*(?:$|\s))/, 'Ö')
+               .replace(/U(?=[^aeiouäöü]*(?:$|\s))/, 'Ü');
 };
-window.Muller.KEYS = Object.assign(window.Muller.KEYS || {}, KEYS);
-window.Muller.TRAINING_KEYS = KEYS;
 
-// Metas diarias disponibles
-window.Muller.DAILY_GOALS_DEFAULT = [15, 30, 50, 100];
-
-// ═══════════════════════════════════════════════════════════════
-// 2. DEFINICIONES DE LOGROS (10 logros TELC + extras)
-// ═══════════════════════════════════════════════════════════════
-window.Muller.ACHIEVEMENT_DEFS = window.Muller.ACHIEVEMENT_DEFS || [
-    { id: 'first_steps', icon: '👣', title: 'Primeros Pasos', desc: 'Completa tu primer entrenamiento' },
-    { id: 'streak_3', icon: '🔥', title: 'Racha 3', desc: 'Mantén 3 días seguidos de entrenamiento' },
-    { id: 'streak_7', icon: '🔥', title: 'Racha 7', desc: 'Mantén 7 días seguidos de entrenamiento' },
-    { id: 'streak_30', icon: '💎', title: 'Racha 30', desc: 'Un mes entero entrenando sin parar' },
-    { id: 'perfect_10', icon: '🎯', title: '10 Perfecto', desc: 'Acierta 10 seguidas en cualquier modalidad' },
-    { id: 'exam_5', icon: '📝', title: 'Examinador', desc: 'Completa 5 exámenes TELC' },
-    { id: 'exam_25', icon: '🏆', title: 'TELC Master', desc: 'Completa 25 exámenes TELC' },
-    { id: 'articles_100', icon: '📖', title: '100 Artículos', desc: 'Practica 100 artículos diferentes' },
-    { id: 'verbs_50', icon: '🔗', title: '50 Verbos+Prep', desc: 'Practica 50 verbos con preposición' },
-    { id: 'preps_30', icon: '📍', title: '30 Preposiciones', desc: 'Practica 30 preposiciones diferentes' },
-    // EXTRA PREMIUM
-    { id: 'golden_brain', icon: '🧠', title: 'Cerebro de Oro', desc: '100% de aciertos en un examen de 45 tarjetas' },
-    { id: 'speed_demon', icon: '⚡', title: 'Demonio de la Velocidad', desc: 'Completa un examen en menos de 3 minutos' },
-    { id: 'comeback_king', icon: '♻️', title: 'Rey de la Remontada', desc: 'Corrige 5 errores consecutivos' },
-    { id: 'level_b1', icon: '📈', title: 'Nivel B1', desc: 'Domina todas las tarjetas de nivel B1' },
-    { id: 'level_c1', icon: '👑', title: 'Nivel C1', desc: 'Domina todas las tarjetas de nivel C1' },
-    { id: 'ai_tutor', icon: '🤖', title: 'Tutor IA', desc: 'Usa el tutor DeepSeek 10 veces' },
-    { id: 'daily_champion', icon: '🏅', title: 'Campeón Diario', desc: 'Completa tu meta diaria 7 días seguidos' },
-    { id: 'ultra_streak_100', icon: '🌟', title: 'Leyenda', desc: 'Alcanza 100 días de racha' },
-    { id: 'exam_perfect', icon: '💯', title: 'Examen Perfecto', desc: '100% en un examen mixto TELC' },
-    { id: 'all_rounder', icon: '🎯', title: 'Completo', desc: 'Practica artículos, verbos y preposiciones en un mismo día' },
-];
-
-// ═══════════════════════════════════════════════════════════════
-// 3. PROGRESO DIARIO Y RACHA
-// ═══════════════════════════════════════════════════════════════
-window.Muller.registerDailyAttempt = function() {
-    var today = new Date().toISOString().split('T')[0];
-    var daily = {};
-    try { daily = JSON.parse(localStorage.getItem(KEYS.DAILY) || '{}'); } catch(e) {}
+window.Muller._generatePluralForWord = function(noun, gender) {
+    var result = { plural: '', type: '', rule: '', hasUmlaut: false };
+    var lower = noun.toLowerCase();
+    var monosyllabic = noun.split(/[^a-zäöüß]/i).filter(Boolean).length <= 1 && noun.length <= 8;
     
-    if (daily.date !== today) {
-        // Resetear contador diario si es nuevo día
-        daily = { date: today, attempts: 0, art: 0, verb: 0, prep: 0, correct: 0, errors: 0, lastActivity: new Date().toISOString() };
-        // Incrementar racha
-        var streak = { days: 0, lastDate: '' };
-        try { streak = JSON.parse(localStorage.getItem(KEYS.STREAK) || '{"days":0,"lastDate":""}'); } catch(e) {}
-        var yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-        if (streak.lastDate === yesterday) {
-            streak.days++;
-        } else if (streak.lastDate !== today) {
-            streak.days = 1;
+    // --- FEMENINOS ---
+    if (gender === 'die') {
+        // -in → -innen
+        if (/in$/.test(lower)) {
+            result.plural = noun + 'nen';
+            result.type = '-nen';
+            result.rule = 'Femeninos -in → plural -innen (duplica n)';
         }
-        streak.lastDate = today;
-        localStorage.setItem(KEYS.STREAK, JSON.stringify(streak));
+        // -ung, -heit, -keit, -schaft, -tion, -tät → -en
+        else if (/(ung|heit|keit|schaft|tion|tät)$/i.test(lower)) {
+            result.plural = noun + 'en';
+            result.type = '-en';
+            result.rule = 'Femeninos -' + lower.match(/(ung|heit|keit|schaft|tion|tät)$/i)[0] + ' → plural -en';
+        }
+        // -e → -n
+        else if (/e$/.test(lower)) {
+            result.plural = noun + 'n';
+            result.type = '-n';
+            result.rule = 'Femeninos terminados en -e → plural -n';
+        }
+        // -er, -el → -n
+        else if (/(er|el)$/i.test(lower)) {
+            result.plural = noun + 'n';
+            result.type = '-n';
+            result.rule = 'Femeninos -' + (/(er|el)$/i.exec(lower)[0]) + ' → plural -n';
+        }
+        // -ik → -en
+        else if (/ik$/.test(lower)) {
+            result.plural = noun + 'en';
+            result.type = '-en';
+            result.rule = 'Femeninos -ik → plural -en';
+        }
+        // monosílabas habituales con Umlaut: Hand, Nacht, Stadt, Kuh, Maus, Wand, Kraft, etc
+        else if (monosyllabic) {
+            var withUmlaut = window.Muller._applyPluralUmlaut(noun);
+            result.plural = withUmlaut + 'e';
+            result.hasUmlaut = true;
+            result.type = '-e+Umlaut';
+            result.rule = 'Plural -e con Umlaut (femenino monosílabo)';
+        }
+        // resto → -en
+        else {
+            result.plural = noun + 'en';
+            result.type = '-en';
+            result.rule = 'Plural -en para femeninos';
+        }
+    }
+    // --- MASCULINOS ---
+    else if (gender === 'der') {
+        // -er, -el, -en → plural cero (con posible Umlaut)
+        if (/(er|el|en)$/i.test(lower)) {
+            var suffix = (/(er|el|en)$/i.exec(lower)[0]).toLowerCase();
+            // Monosílabos o palabras con vocal a/o/u que llevan Umlaut (Vater→Väter, Apfel→Äpfel)
+            if (monosyllabic && /[aou]/i.test(noun)) {
+                var withUmlaut = window.Muller._applyPluralUmlaut(noun);
+                result.plural = withUmlaut;
+                result.hasUmlaut = true;
+                result.type = '= (+Umlaut)';
+                result.rule = 'Plural sin cambio + Umlaut (masculino -' + suffix + ' monosílabo vocal a/o/u)';
+            } else {
+                result.plural = noun;
+                result.type = '= (cero)';
+                result.rule = 'Masculinos -' + suffix + ' → plural sin cambio';
+            }
+        }
+        // -ling, -ich, -ig → -e
+        else if (/(ling|ich|ig)$/i.test(lower)) {
+            result.plural = noun + 'e';
+            result.type = '-e';
+            result.rule = 'Masculinos -' + (/(ling|ich|ig)$/i.exec(lower)[0]) + ' → plural -e';
+        }
+        // -eur, -ier, -ar, -or → -e
+        else if (/(eur|ier|ar|or)$/i.test(lower)) {
+            result.plural = noun + 'e';
+            result.type = '-e';
+            result.rule = 'Masculinos -' + (/(eur|ier|ar|or)$/i.exec(lower)[0]) + ' → plural -e';
+        }
+        // -ent, -ist, -ant, -at, -oge, -nom → -en (débiles)
+        else if (/(ent|ist|ant|at|oge|nom|loge)$/i.test(lower)) {
+            result.plural = noun + 'en';
+            result.type = '-en';
+            result.rule = 'Masculino débil → plural -en';
+        }
+        // -e (persona/animal) → -n (débil)
+        else if (/e$/.test(lower)) {
+            result.plural = noun + 'n';
+            result.type = '-n';
+            result.rule = 'Masculino débil -e → plural -n';
+        }
+        // Monosílabo → -e (con Umlaut si vocal a/o/u)
+        else if (monosyllabic) {
+            if (/[aou]/i.test(noun)) {
+                var withUmlaut2 = window.Muller._applyPluralUmlaut(noun);
+                result.plural = withUmlaut2 + 'e';
+                result.hasUmlaut = true;
+                result.type = '-e+Umlaut';
+                result.rule = 'Plural -e con Umlaut (masculino monosílabo)';
+            } else {
+                result.plural = noun + 'e';
+                result.type = '-e';
+                result.rule = 'Plural -e (masculino monosílabo)';
+            }
+        }
+        // -s, -sch, -ß, -x, -z → -e (con Umlaut posible)
+        else if (/(s|sch|ß|x|z)$/i.test(lower)) {
+            if (/[aou]/i.test(noun) && monosyllabic) {
+                var withUmlaut3 = window.Muller._applyPluralUmlaut(noun);
+                result.plural = withUmlaut3 + 'e';
+                result.hasUmlaut = true;
+                result.type = '-e+Umlaut';
+                result.rule = 'Plural -e con Umlaut';
+            } else {
+                result.plural = noun + 'e';
+                result.type = '-e';
+                result.rule = 'Plural -e';
+            }
+        }
+        // Resto → -e
+        else {
+            result.plural = noun + 'e';
+            result.type = '-e';
+            result.rule = 'Plural -e para masculinos';
+        }
+    }
+    // --- NEUTROS ---
+    else if (gender === 'das') {
+        // -chen, -lein → cero
+        if (/(chen|lein)$/i.test(lower)) {
+            result.plural = noun;
+            result.type = '= (cero)';
+            result.rule = 'Diminutivos -' + (/(chen|lein)$/i.exec(lower)[0]) + ' → plural sin cambio';
+        }
+        // -er, -el, -en → cero
+        else if (/(er|el|en)$/i.test(lower)) {
+            result.plural = noun;
+            result.type = '= (cero)';
+            result.rule = 'Neutros -' + (/(er|el|en)$/i.exec(lower)[0]).toLowerCase() + ' → plural sin cambio';
+        }
+        // -nis → -nisse
+        else if (/nis$/.test(lower)) {
+            result.plural = noun + 'se';
+            result.type = '-e';
+            result.rule = 'Neutros -nis → plural -nisse (dobla s)';
+        }
+        // -um → -en
+        else if (/um$/.test(lower)) {
+            result.plural = noun.slice(0, -2) + 'en';
+            result.type = '-en';
+            result.rule = 'Neutros -um → plural -en (pierde -um)';
+        }
+        // -ium → -ien
+        else if (/ium$/.test(lower)) {
+            result.plural = noun.slice(0, -2) + 'en';
+            result.type = '-en';
+            result.rule = 'Neutros -ium → plural -ien';
+        }
+        // -a → -en (temas, dramen, etc)
+        else if (/a$/.test(lower)) {
+            result.plural = noun + 'en';
+            result.type = '-en';
+            result.rule = 'Neutros -a → plural -en';
+        }
+        // -o → -s (extranjerismo)
+        else if (/o$/.test(lower)) {
+            result.plural = noun + 's';
+            result.type = '-s';
+            result.rule = 'Neutros -o → plural -s (extranjerismo)';
+        }
+        // -i, -y → -s
+        else if (/(i|y)$/i.test(lower)) {
+            result.plural = noun + 's';
+            result.type = '-s';
+            result.rule = 'Neutros -' + (/(i|y)$/i.exec(lower)[0]) + ' → plural -s (extranjerismo)';
+        }
+        // Monosílabo → -er (con Umlaut si vocal a/o/u)
+        else if (monosyllabic) {
+            if (/[aou]/i.test(noun)) {
+                var withUmlaut4 = window.Muller._applyPluralUmlaut(noun);
+                result.plural = withUmlaut4 + 'er';
+                result.hasUmlaut = true;
+                result.type = '-er';
+                result.rule = 'Plural -er con Umlaut (neutro monosílabo)';
+            } else {
+                result.plural = noun + 'er';
+                result.type = '-er';
+                result.rule = 'Plural -er (neutro monosílabo)';
+            }
+        }
+        // Resto → -e
+        else {
+            result.plural = noun + 'e';
+            result.type = '-e';
+            result.rule = 'Plural -e para neutros';
+        }
+    }
+    
+    return result;
+};
+
+// Genera 3 opciones incorrectas plausibles para una palabra
+window.Muller._generateWrongPluralOptions = function(noun, gender, correctType) {
+    var allTypes = ['die' + ' ' + noun + 'e', 'die' + ' ' + noun + 'en', 'die' + ' ' + noun + 'n', 'die' + ' ' + noun + 'er', 
+                    'die' + ' ' + noun + 's', 'die' + ' ' + window.Muller._applyPluralUmlaut(noun) + 'e', 
+                    'die' + ' ' + window.Muller._applyPluralUmlaut(noun) + 'er'];
+    // Filter unique ones different from correct
+    return allTypes.filter(function(t) { 
+        return t !== correctType; 
+    }).slice(0, 3);
+};
+
+// Carga datos de plurales GENERADOS desde articulos.json
+window.Muller.loadPluralData = function() {
+    // Intentar cargar articulos.json data
+    var articles = window.Muller.loadArticlesData();
+    if (!articles || articles.length < 5) {
+        // Fallback mínimo inline
+        articles = [
+            { de: 'der Mann', article: 'der' }, { de: 'die Frau', article: 'die' },
+            { de: 'das Kind', article: 'das' }, { de: 'der Tisch', article: 'der' },
+            { de: 'die Lampe', article: 'die' }, { de: 'das Buch', article: 'das' },
+            { de: 'der Stuhl', article: 'der' }, { de: 'die Hand', article: 'die' },
+            { de: 'der Lehrer', article: 'der' }, { de: 'das Haus', article: 'das' },
+            { de: 'der Vater', article: 'der' }, { de: 'die Mutter', article: 'die' }
+        ];
+    }
+    
+    // Cargar overrides guardados en localStorage
+    var overrides = {};
+    try {
+        var stored = localStorage.getItem('muller_plural_overrides_v1');
+        if (stored) { overrides = JSON.parse(stored); }
+    } catch(e) {}
+    
+    return articles.map(function(item) {
+        var full = item.de || '';
+        var parts = full.split(' ');
+        var article = item.article || (parts.length > 1 ? parts[0] : 'der');
+        var noun = item.article ? full.substring(article.length).trim() : (parts.length > 1 ? parts.slice(1).join(' ') : parts[0]);
+        var gender = article;
+        var key = article + '::' + noun;
         
-        // Verificar logro de racha
-        window.Muller.checkStreakAchievements(streak.days);
-    }
-    
-    daily.attempts = (daily.attempts || 0) + 1;
-    daily.lastActivity = new Date().toISOString();
-    localStorage.setItem(KEYS.DAILY, JSON.stringify(daily));
-    
-    // Guardar última fecha activa
-    localStorage.setItem(KEYS.LAST_ACTIVE_DATE, today);
-    
-    // Disparar evento de actualización
-    window.dispatchEvent(new Event('dailyProgressUpdated'));
-};
-
-window.Muller.registerTrainingAttempt = function(type, correct) {
-    var today = new Date().toISOString().split('T')[0];
-    var daily = {};
-    try { daily = JSON.parse(localStorage.getItem(KEYS.DAILY) || '{}'); } catch(e) {}
-    
-    if (daily.date !== today) {
-        window.Muller.registerDailyAttempt();
-        try { daily = JSON.parse(localStorage.getItem(KEYS.DAILY) || '{}'); } catch(e) {}
-    }
-    
-    if (type === 'articulos') daily.art = (daily.art || 0) + 1;
-    else if (type === 'verbos') daily.verb = (daily.verb || 0) + 1;
-    else daily.prep = (daily.prep || 0) + 1;
-    
-    if (correct) daily.correct = (daily.correct || 0) + 1;
-    else daily.errors = (daily.errors || 0) + 1;
-    
-    localStorage.setItem(KEYS.DAILY, JSON.stringify(daily));
-    window.dispatchEvent(new Event('dailyProgressUpdated'));
-};
-
-window.Muller.setDailyGoalCount = function(count) {
-    localStorage.setItem(KEYS.DAILY_GOAL, String(count));
-    window.dispatchEvent(new Event('dailyGoalChanged'));
-};
-
-window.Muller.getDailyGoalCount = function() {
-    return parseInt(localStorage.getItem(KEYS.DAILY_GOAL) || '30');
-};
-
-window.Muller.getStreak = function() {
-    try { return JSON.parse(localStorage.getItem(KEYS.STREAK) || '{"days":0,"lastDate":""}'); } catch(e) { return { days: 0, lastDate: '' }; }
-};
-
-window.Muller.getDailyStats = function() {
-    try { return JSON.parse(localStorage.getItem(KEYS.DAILY) || '{}'); } catch(e) { return {}; }
+        // Usar override si existe
+        if (overrides[key]) {
+            return {
+                de: full,
+                es: item.es || '',
+                article: article,
+                noun: noun,
+                pluralForm: overrides[key].plural,
+                pluralType: overrides[key].type,
+                rule: overrides[key].rule || '✏️ Modificado por usuario',
+                hasUmlaut: overrides[key].hasUmlaut || /[äöü]/.test(overrides[key].plural),
+                gender: gender,
+                isOverridden: true
+            };
+        }
+        
+        // Generar plural automático
+        var gen = window.Muller._generatePluralForWord(noun, article);
+        return {
+            de: full,
+            es: item.es || '',
+            article: article,
+            noun: noun,
+            pluralForm: 'die ' + gen.plural,
+            pluralType: gen.type,
+            rule: gen.rule || '',
+            hasUmlaut: gen.hasUmlaut || /[äöü]/.test(gen.plural),
+            gender: gender,
+            isOverridden: false
+        };
+    });
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -1508,135 +1664,6 @@ window.Muller.getReviewRecommendations = function(limit) {
     return recommendations.slice(0, limit || 20);
 };
 
-// ═══════════════════════════════════════════════════════════════
-// 17. DATOS Y REGLAS DE PLURAL
-// ═══════════════════════════════════════════════════════════════
-var PLURAL_DATA = [
-    // ── PLURAL EN -e ──
-    { singular: 'der Tag', plural: 'die Tage', type: '-e', rule: 'Plural en -e: la mayoría de masculinos (no -er/-el/-en) → die + palabra + e', gender: 'der' },
-    { singular: 'der Tisch', plural: 'die Tische', type: '-e', rule: 'Plural en -e: masculinos añaden -e', gender: 'der' },
-    { singular: 'der Stuhl', plural: 'die Stühle', type: '-e+Umlaut', rule: 'Plural en -e con Umlaut: ~50% de masculinos monosílabos', gender: 'der' },
-    { singular: 'der Gast', plural: 'die Gäste', type: '-e+Umlaut', rule: 'Plural en -e con Umlaut', gender: 'der' },
-    { singular: 'der Sohn', plural: 'die Söhne', type: '-e+Umlaut', rule: 'Plural en -e con Umlaut', gender: 'der' },
-    { singular: 'der König', plural: 'die Könige', type: '-e', rule: 'Masculinos -ich/-ig → plural -e (sin Umlaut generalmente)', gender: 'der' },
-    { singular: 'der Teppich', plural: 'die Teppiche', type: '-e', rule: 'Masculinos -ich/-ig → plural -e', gender: 'der' },
-    { singular: 'der Schmetterling', plural: 'die Schmetterlinge', type: '-e', rule: 'Masculinos -ling → plural -e', gender: 'der' },
-    { singular: 'der Fuchs', plural: 'die Füchse', type: '-e+Umlaut', rule: 'Masculinos -s a veces con Umlaut', gender: 'der' },
-    { singular: 'der Friseur', plural: 'die Friseure', type: '-e', rule: 'Masculinos -eur → plural -e', gender: 'der' },
-    { singular: 'der Offizier', plural: 'die Offiziere', type: '-e', rule: 'Masculinos -ier → plural -e', gender: 'der' },
-    { singular: 'der Bibliothekar', plural: 'die Bibliothekare', type: '-e', rule: 'Masculinos -ar → plural -e', gender: 'der' },
-    { singular: 'das Jahr', plural: 'die Jahre', type: '-e', rule: 'Muchos neutros → plural -e (sin Umlaut)', gender: 'das' },
-    { singular: 'das Heft', plural: 'die Hefte', type: '-e', rule: 'Neutros bisílabos → plural -e', gender: 'das' },
-    { singular: 'das Floß', plural: 'die Flöße', type: '-e+Umlaut', rule: 'Neutros monosílabos → -e con Umlaut posible', gender: 'das' },
-    { singular: 'das Ergebnis', plural: 'die Ergebnisse', type: '-e', rule: 'Neutros -nis → plural -nisse (dobla s)', gender: 'das' },
-    // Femeninos excepcionales -e
-    { singular: 'die Maus', plural: 'die Mäuse', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo con plural -e+Umlaut (grupo cerrado)', gender: 'die' },
-    { singular: 'die Hand', plural: 'die Hände', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
-    { singular: 'die Nacht', plural: 'die Nächte', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
-    { singular: 'die Stadt', plural: 'die Städte', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
-    { singular: 'die Kuh', plural: 'die Kühe', type: '-e+Umlaut', rule: 'EXCEPCIÓN: Femenino monosílabo + Umlaut', gender: 'die' },
-    // ── PLURAL EN -er ──
-    { singular: 'das Kind', plural: 'die Kinder', type: '-er', rule: 'Neutros → plural -er + Umlaut si la vocal lo permite', gender: 'das' },
-    { singular: 'das Bild', plural: 'die Bilder', type: '-er', rule: 'Plural -er (neutros típicos)', gender: 'das' },
-    { singular: 'das Buch', plural: 'die Bücher', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
-    { singular: 'das Haus', plural: 'die Häuser', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
-    { singular: 'das Glas', plural: 'die Gläser', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
-    { singular: 'das Rad', plural: 'die Räder', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
-    { singular: 'das Dach', plural: 'die Dächer', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
-    { singular: 'das Wort', plural: 'die Wörter', type: '-er', rule: 'Neutro con plural -er (Worte = poético)', gender: 'das' },
-    { singular: 'das Land', plural: 'die Länder', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
-    { singular: 'das Volk', plural: 'die Völker', type: '-er', rule: 'Plural -er con Umlaut', gender: 'das' },
-    { singular: 'das Eigentum', plural: 'die Eigentümer', type: '-er', rule: 'Neutros -tum → pierden -um + -tümer', gender: 'das' },
-    { singular: 'der Mann', plural: 'die Männer', type: '-er', rule: 'EXCEPCIÓN: Masculino con plural -er + Umlaut', gender: 'der' },
-    { singular: 'der Wald', plural: 'die Wälder', type: '-er', rule: 'EXCEPCIÓN: Masculino con plural -er + Umlaut', gender: 'der' },
-    { singular: 'der Gott', plural: 'die Götter', type: '-er', rule: 'EXCEPCIÓN: Masculino con plural -er + Umlaut', gender: 'der' },
-    // ── PLURAL EN -n/-en ──
-    { singular: 'die Lampe', plural: 'die Lampen', type: '-n', rule: 'Femeninos -e → plural -n', gender: 'die' },
-    { singular: 'die Mauer', plural: 'die Mauern', type: '-n', rule: 'Femeninos -er → plural -n', gender: 'die' },
-    { singular: 'die Kartoffel', plural: 'die Kartoffeln', type: '-n', rule: 'Femeninos -el → plural -n', gender: 'die' },
-    { singular: 'die Zeitung', plural: 'die Zeitungen', type: '-en', rule: 'Femeninos -ung → plural -en', gender: 'die' },
-    { singular: 'die Freiheit', plural: 'die Freiheiten', type: '-en', rule: 'Femeninos -heit → plural -en', gender: 'die' },
-    { singular: 'die Möglichkeit', plural: 'die Möglichkeiten', type: '-en', rule: 'Femeninos -keit → plural -en', gender: 'die' },
-    { singular: 'die Mannschaft', plural: 'die Mannschaften', type: '-en', rule: 'Femeninos -schaft → plural -en', gender: 'die' },
-    { singular: 'die Nation', plural: 'die Nationen', type: '-en', rule: 'Femeninos -tion → plural -en', gender: 'die' },
-    { singular: 'die Universität', plural: 'die Universitäten', type: '-en', rule: 'Femeninos -tät → plural -en', gender: 'die' },
-    { singular: 'die Musik', plural: 'die Musiken', type: '-en', rule: 'Femeninos -ik → plural -en', gender: 'die' },
-    { singular: 'die Frau', plural: 'die Frauen', type: '-en', rule: 'Femeninos terminados en vocal → plural -en', gender: 'die' },
-    // Masculinos débiles (n-Deklination)
-    { singular: 'der Junge', plural: 'die Jungen', type: '-n', rule: 'Masculino débil (-e, ser vivo) → plural -n', gender: 'der' },
-    { singular: 'der Kollege', plural: 'die Kollegen', type: '-n', rule: 'Masculino débil → plural -n', gender: 'der' },
-    { singular: 'der Student', plural: 'die Studenten', type: '-en', rule: 'Masculino débil (-ent) → plural -en', gender: 'der' },
-    { singular: 'der Polizist', plural: 'die Polizisten', type: '-en', rule: 'Masculino débil (-ist) → plural -en', gender: 'der' },
-    { singular: 'der Biologe', plural: 'die Biologen', type: '-n', rule: 'Masculino débil (-oge) → plural -n', gender: 'der' },
-    { singular: 'der Mensch', plural: 'die Menschen', type: '-en', rule: 'Masculino débil monosílabo → plural -en', gender: 'der' },
-    { singular: 'der Held', plural: 'die Helden', type: '-en', rule: 'Masculino débil monosílabo → plural -en', gender: 'der' },
-    { singular: 'der Herr', plural: 'die Herren', type: '-en', rule: 'Masculino débil → plural -en (duplica r)', gender: 'der' },
-    // Neutros especiales
-    { singular: 'das Museum', plural: 'die Museen', type: '-en', rule: 'Neutros -um → plural -en (caída de -um)', gender: 'das' },
-    { singular: 'das Zentrum', plural: 'die Zentren', type: '-en', rule: 'Neutros -um → plural -en', gender: 'das' },
-    { singular: 'das Studium', plural: 'die Studien', type: '-en', rule: 'Neutros -ium → plural -ien', gender: 'das' },
-    { singular: 'das Konto', plural: 'die Konten', type: '-en', rule: 'Neutros -o → plural -en (o -s)', gender: 'das' },
-    { singular: 'das Drama', plural: 'die Dramen', type: '-en', rule: 'Neutros -a → plural -en', gender: 'das' },
-    { singular: 'das Thema', plural: 'die Themen', type: '-en', rule: 'Neutros -a → plural -en', gender: 'das' },
-    { singular: 'das Auge', plural: 'die Augen', type: '-n', rule: 'Único neutro débil → plural -n', gender: 'das' },
-    { singular: 'das Herz', plural: 'die Herzen', type: '-en', rule: 'El único neutro con declinación débil', gender: 'das' },
-    // ── PLURAL EN -s ──
-    { singular: 'das Auto', plural: 'die Autos', type: '-s', rule: 'Extranjerismos en -o → plural -s', gender: 'das' },
-    { singular: 'der Opa', plural: 'die Opas', type: '-s', rule: 'Palabras en -a → plural -s', gender: 'der' },
-    { singular: 'die Oma', plural: 'die Omas', type: '-s', rule: 'Palabras en -a → plural -s', gender: 'die' },
-    { singular: 'das Kino', plural: 'die Kinos', type: '-s', rule: 'Neutros en -o → plural -s', gender: 'das' },
-    { singular: 'das Handy', plural: 'die Handys', type: '-s', rule: 'Palabras en -y → plural -s', gender: 'das' },
-    { singular: 'die Kamera', plural: 'die Kameras', type: '-s', rule: 'Femeninos en -a → plural -s', gender: 'die' },
-    { singular: 'das Taxi', plural: 'die Taxis', type: '-s', rule: 'Palabras en -i → plural -s', gender: 'das' },
-    { singular: 'der Zoo', plural: 'die Zoos', type: '-s', rule: 'Palabras en -o → plural -s', gender: 'der' },
-    { singular: 'das Team', plural: 'die Teams', type: '-s', rule: 'Préstamos inglés → plural -s', gender: 'das' },
-    { singular: 'der Computer', plural: 'die Computers', type: '-s', rule: 'Préstamos inglés → plural -s', gender: 'der' },
-    { singular: 'die Party', plural: 'die Partys', type: '-s', rule: 'Préstamos inglés en -y → plural -s', gender: 'die' },
-    { singular: 'der Job', plural: 'die Jobs', type: '-s', rule: 'Préstamos inglés → plural -s', gender: 'der' },
-    // ── PLURAL CERO (sin cambio, con/sin Umlaut) ──
-    { singular: 'der Lehrer', plural: 'die Lehrer', type: '= (cero)', rule: 'Masculinos -er → plural sin cambio (sin Umlaut)', gender: 'der' },
-    { singular: 'der Schlüssel', plural: 'die Schlüssel', type: '= (cero)', rule: 'Masculinos -el → plural sin cambio', gender: 'der' },
-    { singular: 'der Wagen', plural: 'die Wagen', type: '= (cero)', rule: 'Masculinos -en → plural sin cambio', gender: 'der' },
-    { singular: 'der Vater', plural: 'die Väter', type: '= (+Umlaut)', rule: 'Masculinos -er → plural sin cambio + Umlaut', gender: 'der' },
-    { singular: 'der Apfel', plural: 'die Äpfel', type: '= (+Umlaut)', rule: 'Masculinos -el → plural sin cambio + Umlaut', gender: 'der' },
-    { singular: 'der Bruder', plural: 'die Brüder', type: '= (+Umlaut)', rule: 'Masculinos -er → plural sin cambio + Umlaut', gender: 'der' },
-    { singular: 'der Ofen', plural: 'die Öfen', type: '= (+Umlaut)', rule: 'Masculinos -en → plural sin cambio + Umlaut', gender: 'der' },
-    { singular: 'der Garten', plural: 'die Gärten', type: '= (+Umlaut)', rule: 'Masculinos -en → plural sin cambio + Umlaut', gender: 'der' },
-    { singular: 'der Mantel', plural: 'die Mäntel', type: '= (+Umlaut)', rule: 'Masculinos -el → plural sin cambio + Umlaut', gender: 'der' },
-    { singular: 'das Fenster', plural: 'die Fenster', type: '= (cero)', rule: 'Neutros -er → plural sin cambio (sin Umlaut)', gender: 'das' },
-    { singular: 'das Kissen', plural: 'die Kissen', type: '= (cero)', rule: 'Neutros -en → plural sin cambio', gender: 'das' },
-    { singular: 'das Mittel', plural: 'die Mittel', type: '= (cero)', rule: 'Neutros -el → plural sin cambio', gender: 'das' },
-    { singular: 'das Mädchen', plural: 'die Mädchen', type: '= (cero)', rule: 'Diminutivos -chen → plural siempre sin cambio', gender: 'das' },
-    { singular: 'das Büchlein', plural: 'die Büchlein', type: '= (cero)', rule: 'Diminutivos -lein → plural siempre sin cambio', gender: 'das' },
-    { singular: 'die Mutter', plural: 'die Mütter', type: '= (+Umlaut)', rule: 'EXCEPCIÓN: Femenino con plural cero + Umlaut (solo 2)', gender: 'die' },
-    { singular: 'die Tochter', plural: 'die Töchter', type: '= (+Umlaut)', rule: 'EXCEPCIÓN: Femenino con plural cero + Umlaut (solo 2)', gender: 'die' },
-    // ── PLURALES DOBLES (cambio de significado) ──
-    { singular: 'das Wort', plural: 'die Wörter', type: '-er', rule: 'Wörter = palabras sueltas (diccionario); Worte = discurso', gender: 'das' },
-    { singular: 'die Bank', plural: 'die Bänke', type: '-e+Umlaut', rule: 'Bänke = bancos (asiento); Banken = bancos (financiero)', gender: 'die' },
-    { singular: 'der Strauß', plural: 'die Sträuße', type: '-e+Umlaut', rule: 'Sträuße = ramos; Strauße = avestruces', gender: 'der' },
-    // ── Femeninos -in → -innen ──
-    { singular: 'die Lehrerin', plural: 'die Lehrerinnen', type: '-nen', rule: 'Femeninos -in → plural -innen (duplica n)', gender: 'die' },
-    { singular: 'die Schülerin', plural: 'die Schülerinnen', type: '-nen', rule: 'Femeninos -in → plural -innen', gender: 'die' }
-];
-
-window.Muller.loadPluralData = function() {
-    return PLURAL_DATA.map(function(item) {
-        // Extraer solo el sustantivo sin artículo
-        var parts = item.singular.split(' ');
-        var noun = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
-        var art = parts[0];
-        return {
-            de: item.singular,
-            es: item.plural,
-            article: art,
-            noun: noun,
-            pluralForm: item.plural,
-            pluralType: item.type,
-            rule: item.rule,
-            gender: item.gender
-        };
-    });
-};
 
 // ═══════════════════════════════════════════════════════════════
 // 18. EXPORTAR AL MÓDULO PRINCIPAL
