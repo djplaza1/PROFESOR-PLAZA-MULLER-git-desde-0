@@ -73,6 +73,150 @@
     // ═══════════════════════════════════════════════════════════════
     // ARTICLE PRACTICE — Práctica de artículos (DER/DIE/DAS)
     // ═══════════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
+    // PLURAL PRACTICE – Práctica de plurales
+    // ═══════════════════════════════════════════════════════════════
+    function PluralPractice({ onBack }) {
+        var [cards, setCards] = React.useState([]);
+        var [currentIndex, setCurrentIndex] = React.useState(0);
+        var [feedback, setFeedback] = React.useState(null);
+        var [finished, setFinished] = React.useState(false);
+        var [stats, setStats] = React.useState({ total: 0, correct: 0, wrong: 0 });
+        var pluralTypes = ['-e', '-e+Umlaut', '-er', '-en', '-n', '-nen', '-s', '= (cero)', '= (+Umlaut)'];
+        
+        function shuffleArray(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+        
+        function startPractice() {
+            var data = window.Muller.loadPluralData();
+            if (!data || data.length === 0) { setFinished(true); return; }
+            var shuffled = shuffleArray(data);
+            setCards(shuffled);
+            setCurrentIndex(0);
+            setFeedback(null);
+            setStats({ total: 0, correct: 0, wrong: 0 });
+            setFinished(false);
+        }
+        
+        React.useEffect(startPractice, []);
+        
+        function handleAnswer(selectedType) {
+            var card = cards[currentIndex];
+            var correct = selectedType === card.pluralType;
+            setFeedback({ correct: correct, rule: card.rule, pluralForm: card.pluralForm, selectedType: selectedType, card: card });
+            setStats(function(prev) {
+                return { total: prev.total + 1, correct: prev.correct + (correct ? 1 : 0), wrong: prev.wrong + (correct ? 0 : 1) };
+            });
+        }
+        
+        function handleContinue() {
+            if (currentIndex + 1 >= cards.length) {
+                setFinished(true);
+            } else {
+                setCurrentIndex(currentIndex + 1);
+                setFeedback(null);
+            }
+        }
+        
+        if (finished) {
+            var pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            return React.createElement('div', null,
+                React.createElement('button', { onClick: onBack, style: Object.assign({}, S.btnSecondary, { marginBottom: 14 }) }, '← Volver'),
+                React.createElement('div', { style: Object.assign({}, S.glowCard, { textAlign: 'center', padding: 24 }) },
+                    React.createElement('div', { style: { fontSize: 48, marginBottom: 8 } }, pct >= 80 ? '🎉' : pct >= 50 ? '👍' : '💪'),
+                    React.createElement('div', { style: { fontSize: '1.3rem', fontWeight: 700, color: '#e2e8f0', marginBottom: 4 } }, '¡Práctica completada!'),
+                    React.createElement('div', { style: { fontSize: '0.9rem', color: '#94a3b8', marginBottom: 12 } }, stats.correct + '/' + stats.total + ' (' + pct + '%)'),
+                    React.createElement('div', { style: { display: 'flex', gap: 10, justifyContent: 'center' } },
+                        React.createElement('button', { onClick: startPractice, style: S.btnPrimary }, '🔄 Repetir'),
+                        React.createElement('button', { onClick: onBack, style: S.btnSecondary }, '← Volver')
+                    )
+                )
+            );
+        }
+        
+        if (!cards.length) {
+            return React.createElement('div', { style: Object.assign({}, S.glowCard, { textAlign: 'center', padding: 24 }) },
+                React.createElement('div', { style: { fontSize: '0.9rem', color: '#94a3b8', marginBottom: 12 } }, 'No hay datos de plural disponibles.'),
+                React.createElement('button', { onClick: onBack, style: S.btnSecondary }, '← Volver')
+            );
+        }
+        
+        var card = cards[currentIndex];
+        var progressPct = cards.length > 0 ? Math.round(((currentIndex) / cards.length) * 100) : 0;
+        
+        return React.createElement('div', null,
+            // Barra de progreso
+            React.createElement('div', { style: Object.assign({}, S.card, { marginBottom: 10, padding: 10 }) },
+                React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.75rem', color: '#94a3b8' } },
+                    React.createElement('span', null, '📚 ' + (currentIndex + 1) + ' / ' + cards.length),
+                    React.createElement('span', null, '✅ ' + stats.correct + ' ❌ ' + stats.wrong)
+                ),
+                React.createElement('div', { style: { height: 6, background: '#0f172a', borderRadius: 3, overflow: 'hidden' } },
+                    React.createElement('div', { style: { height: '100%', width: progressPct + '%', background: 'linear-gradient(90deg, #f59e0b, #f97316)', borderRadius: 3, transition: 'width 0.3s ease' } })
+                )
+            ),
+            
+            // Tarjeta
+            React.createElement('div', { style: Object.assign({}, S.glowCard, { textAlign: 'center', padding: 24 }) },
+                React.createElement('div', { style: { fontSize: '0.78rem', color: '#64748b', marginBottom: 4 } }, 'Singular → ¿Plural?'),
+                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 700, color: '#e2e8f0', marginBottom: 4 } }, card.de || card.singular),
+                React.createElement('div', { style: { fontSize: '1.5rem', color: '#94a3b8', marginBottom: 20 } }, '... → die _____'),
+                
+                // Opciones de tipo de plural
+                !feedback && React.createElement('div', { style: { display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center', maxWidth: 450, margin: '0 auto' } },
+                    pluralTypes.map(function(t) {
+                        var colors = {
+                            '-e': '#3b82f6', '-e+Umlaut': '#8b5cf6', '-er': '#ef4444',
+                            '-en': '#10b981', '-n': '#06b6d4', '-nen': '#f59e0b',
+                            '-s': '#ec4899', '= (cero)': '#64748b', '= (+Umlaut)': '#f97316'
+                        };
+                        return React.createElement('button', {
+                            key: t,
+                            onClick: function() { handleAnswer(t); },
+                            style: {
+                                padding: '8px 14px', borderRadius: 8, fontWeight: 600, cursor: 'pointer',
+                                fontSize: '0.78rem', border: 'none', background: '#1e293b', color: '#e2e8f0',
+                                transition: 'all 0.2s ease', borderLeft: '3px solid ' + (colors[t] || '#64748b')
+                            },
+                            onMouseEnter: function(e) { e.currentTarget.style.background = '#334155'; },
+                            onMouseLeave: function(e) { e.currentTarget.style.background = '#1e293b'; }
+                        }, t);
+                    })
+                ),
+                
+                // Feedback
+                feedback && React.createElement('div', { style: { marginTop: 16 } },
+                    React.createElement('div', {
+                        style: Object.assign({}, S.card, {
+                            borderColor: feedback.correct ? '#10b98144' : '#ef444444',
+                            borderWidth: 2, borderStyle: 'solid', padding: 16, marginBottom: 12
+                        })
+                    },
+                        React.createElement('div', { style: { fontSize: '1.1rem', fontWeight: 700, marginBottom: 6, color: feedback.correct ? '#10b981' : '#ef4444' } },
+                            feedback.correct ? '✅ ¡Correcto!' : '❌ Incorrecto'
+                        ),
+                        React.createElement('div', { style: { fontSize: '0.9rem', color: '#e2e8f0', marginBottom: 4 } },
+                            'Plural: ' + feedback.pluralForm
+                        ),
+                        React.createElement('div', { style: { fontSize: '0.82rem', color: '#94a3b8', padding: 10, background: '#0f172a', borderRadius: 8, lineHeight: 1.5 } },
+                            '📖 ' + feedback.rule
+                        )
+                    ),
+                    React.createElement('button', {
+                        onClick: handleContinue,
+                        style: Object.assign({}, S.btnPrimary, { padding: '12px 32px' })
+                    }, currentIndex + 1 >= cards.length ? '🎉 Ver resultados' : 'Continuar →')
+                )
+            )
+        );
+    }
+
     function ArticlePractice({ mode, level, practiceType, onBack }) {
         var [cards, setCards] = React.useState([]);
         var [currentIndex, setCurrentIndex] = React.useState(0);
@@ -1434,6 +1578,7 @@
         
         var practiceTypes = [
             { id: 'articles', icon: '📖', title: 'Artículos (DER/DIE/DAS)', desc: 'Aprende el género de los sustantivos alemanes con algoritmo adaptativo.', color: '#06b6d4', component: 'ArticlePractice' },
+            { id: 'plural', icon: '📚', title: 'Plurales (Singular → Plural)', desc: 'Domina la formación del plural en alemán con 9 tipos diferentes.', color: '#f59e0b', component: 'PluralPractice' },
             { id: 'verbprep', icon: '🔗', title: 'Verbos + Preposición', desc: 'Domina las colocaciones verbo-preposición imprescindibles para TELC.', color: '#8b5cf6', component: 'CloudPractice' },
             { id: 'prepositions', icon: '📍', title: 'Preposiciones + Caso', desc: 'Practica qué caso rige cada preposición (Akkusativ, Dativ, Genitiv).', color: '#10b981', component: 'CloudPractice' }
         ];
@@ -1983,9 +2128,10 @@
     window.Muller.Panels.entrenamiento = EntrenamientoPanel;
     window.Muller.EntrenamientoPanel = EntrenamientoPanel;
     
-    // ✨ EXPONER LOS COMPONENTES DE PRÁCTICA QUE FALTABAN ✨
+    // ✨ EXPONER LOS COMPONENTES DE PRÁCTICA ✨
     window.Muller.ArticlePractice = ArticlePractice;
     window.Muller.CloudPractice = CloudPractice;
+    window.Muller.PluralPractice = PluralPractice;
     
-    console.log('✅ EntrenamientoPanel v3 cargado (con ArticlePractice & CloudPractice)');
+    console.log('✅ EntrenamientoPanel v3 cargado (con ArticlePractice, CloudPractice & PluralPractice)');
 })();

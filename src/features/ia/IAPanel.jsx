@@ -1,4 +1,4 @@
-// ==================================================
+﻿// ==================================================
 // src/features/ia/IAPanel.jsx
 // Panel IA – Asistente Herr Müller (con soporte API real)
 // ==================================================
@@ -294,4 +294,15 @@ window.Muller.Panels.IaPanel = {
       }
     }
   }
+};
+
+// Wrapper React para PanelRouter (tab === "ia")
+window.Muller.Panels.ia = function IaPanelWrapper(props) {
+  React.useEffect(function() {
+    var panel = window.Muller.Panels.IaPanel;
+    if (panel && typeof panel.init === "function") {
+      panel.init();
+    }
+  }, []);
+  return React.createElement("div", { id: "panel-content", className: "w-full h-full" });
 };
