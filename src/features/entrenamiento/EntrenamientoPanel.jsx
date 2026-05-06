@@ -351,6 +351,9 @@
                         React.createElement('div', { style: { fontSize: '0.82rem', color: '#94a3b8', padding: 10, background: '#0f172a', borderRadius: 8, lineHeight: 1.5, marginBottom: 10 } },
                             '📖 ' + feedback.rule
                         ),
+                        React.createElement('div', { style: { fontSize: '0.9rem', color: '#f59e0b', marginBottom: 10, fontWeight: 600 } },
+                            '🇪🇸 ' + feedback.card.es
+                        ),
                         // Botón modificar
                         React.createElement('button', {
                             onClick: function() { openEditor(feedback.card); },
