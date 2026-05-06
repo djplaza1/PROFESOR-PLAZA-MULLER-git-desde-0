@@ -12,7 +12,21 @@ window.Muller.Comunidad = window.Muller.Comunidad || {};
 
   function getClubs() {
     try {
-      return JSON.parse(localStorage.getItem(CLUBS_KEY)) || [];
+      var clubs = JSON.parse(localStorage.getItem(CLUBS_KEY)) || [];
+      // Normalizar: añadir miembrosArr y ranking si no existen
+      clubs.forEach(function(c) {
+        if (!c.miembrosArr) {
+          var miembros = getMiembros(c.id);
+          c.miembrosArr = miembros.length > 0 ? miembros : [{ id: c.creadorId || 'yo', nombre: c.creadorNombre || 'Yo', rol: 'lider' }];
+        }
+        if (!c.ranking) {
+          c.ranking = getRankingClub(c.id);
+        }
+        if (typeof c.miembros === 'number') {
+          c.miembros = (c.miembrosArr || []).map(function(m) { return m.id; });
+        }
+      });
+      return clubs;
     } catch(e) { return []; }
   }
 
@@ -165,8 +179,10 @@ window.Muller.Comunidad = window.Muller.Comunidad || {};
   }
 
   window.Muller.Comunidad.Clubs = {
+    // ─── Funciones básicas (alias compatibles con panel) ───
     getClubs: getClubs,
     getMiembros: getMiembros,
+    getMensajes: getChat, // alias: getMensajes → getChat
     getChat: getChat,
     getDesafiosSemanales: getDesafiosSemanales,
     getPuntosClub: getPuntosClub,
@@ -174,12 +190,14 @@ window.Muller.Comunidad = window.Muller.Comunidad || {};
     responderDesafio: responderDesafio,
     getRankingClub: getRankingClub,
 
-    crearClub: function(nombre, descripcion, creadorId, creadorNombre) {
+    // ─── crearClub: versión simplificada (sin creadorId/Nombre, usa 'yo') ───
+    crearClub: function(nombre, descripcion) {
       var clubs = getClubs();
-      // Verificar nombre único
       for (var i = 0; i < clubs.length; i++) {
         if (clubs[i].nombre.toLowerCase() === nombre.toLowerCase()) return { ok: false, msg: 'Ya existe un club con ese nombre' };
       }
+      var creadorId = 'yo';
+      var creadorNombre = 'Yo';
       var club = {
         id: 'club_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
         nombre: nombre,
@@ -187,14 +205,32 @@ window.Muller.Comunidad = window.Muller.Comunidad || {};
         creadorId: creadorId,
         creadorNombre: creadorNombre,
         fechaCreacion: Date.now(),
-        miembros: 1
+        miembros: 1,
+        miembrosArr: [{ id: creadorId, nombre: creadorNombre, rol: 'lider', fechaIngreso: Date.now() }],
+        ranking: []
       };
       clubs.push(club);
       saveClubs(clubs);
-      // Añadir creador como miembro
       var miembros = [{ id: creadorId, nombre: creadorNombre, rol: 'lider', fechaIngreso: Date.now() }];
       saveMiembros(club.id, miembros);
       return { ok: true, club: club };
+    },
+
+    // ─── unirseClub: alias simplificado ───
+    unirseClub: function(clubId) {
+      return window.Muller.Comunidad.Clubs.unirseAClub(clubId, 'yo', 'Yo');
+    },
+
+    // ─── salirClub: alias simplificado ───
+    salirClub: function(clubId) {
+      var r = window.Muller.Comunidad.Clubs.salirDeClub(clubId, 'yo');
+      return r;
+    },
+
+    // ─── enviarMensaje: alias simplificado ───
+    enviarMensaje: function(clubId, texto) {
+      var msg = window.Muller.Comunidad.Clubs.enviarMensajeChat(clubId, 'yo', 'Yo', texto);
+      return msg ? { ok: true, msg: msg } : { ok: false };
     },
 
     unirseAClub: function(clubId, usuarioId, usuarioNombre) {
