@@ -527,7 +527,7 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
               <p className="text-gray-500 text-sm text-center">No hay mensajes aún. ¡Saluda!</p>
             ) : (
               mensajes.map((m) => (
-                <div key={m.id} className="lex ">
+                <div key={m.id} className="flex ">
                   <div className="max-w-[80%] px-3 py-2 rounded-lg text-sm ">
                     {m.texto}
                     <div className="text-[10px] opacity-70 mt-1">{new Date(m.timestamp).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}</div>
