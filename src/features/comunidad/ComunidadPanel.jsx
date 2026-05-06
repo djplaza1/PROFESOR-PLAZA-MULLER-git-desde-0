@@ -85,8 +85,8 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   };
 
   return (
-    <div className="p-4 max-w-2xl mx-auto space-y-6">
-      <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">🏆 Comunidad <span className="text-sm text-gray-500">Liga {liga.nombre}</span></h2>
+    <div className="p-4 max-w-2xl mx-auto space-y-6 text-gray-200">
+      <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2 text-white">🏆 Comunidad <span className="text-sm text-gray-300">Liga {liga.nombre}</span></h2>
 
       {/* Liga actual */}
       <div className={`p-4 rounded-xl text-white shadow ${liga.color || "bg-gray-500"}`}>
@@ -95,11 +95,11 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
       </div>
 
       {/* Ranking */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow">
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
         <h3 className="text-xl font-semibold mb-2">Ranking</h3>
         <ul className="divide-y">
           {ranking.map((entry, idx) => (
-            <li key={idx} className={`py-2 flex justify-between ${entry.esUsuario ? "bg-blue-100 dark:bg-blue-900 font-bold" : ""}`}>
+            <li key={idx} className={`py-2 flex justify-between ${entry.esUsuario ? "bg-blue-900 font-bold text-white" : ""}`}>
               <span>{idx + 1}. {entry.nombre} {entry.esUsuario ? "(Tú)" : ""}</span>
               <span>{entry.puntos} pts</span>
             </li>
@@ -108,10 +108,10 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
       </div>
 
       {/* Desafío contra bot */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow">
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
         <h3 className="text-xl font-semibold mb-2">Desafío contra Bot</h3>
         {!desafio ? (
-          <button onClick={iniciarDesafio} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+          <button onClick={iniciarDesafio} className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded font-bold">
             ¡Retar a un bot!
           </button>
         ) : (
@@ -124,7 +124,7 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
                   type="text"
                   id={`respuesta-${idx}`}
                   placeholder="Tu respuesta"
-                  className="border rounded px-2 py-1 w-full"
+                  className="border border-gray-600 rounded px-2 py-1 w-full bg-gray-700 text-white"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       manejarRespuesta(idx, e.target.value);
@@ -134,7 +134,7 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
                 />
               </div>
             ))}
-            <p className="text-sm text-gray-500">Aciertos: {(desafio.respuestas || []).length}/{desafio.preguntas.length} | Recompensa máx: {desafio.recompensa} pts</p>
+            <p className="text-sm text-gray-300">Aciertos: {(desafio.respuestas || []).length}/{desafio.preguntas.length} | Recompensa máx: {desafio.recompensa} pts</p>
           </div>
         )}
       </div>
