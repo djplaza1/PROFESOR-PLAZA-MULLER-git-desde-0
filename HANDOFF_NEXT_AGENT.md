@@ -1,110 +1,106 @@
-# HANDOFF — Continuar implementación RUTA NG
+# 🚀 HANDOFF: FASES 4.5, 4.6, 4.7 - COMUNIDAD
 
-## ⚠️ LÉEME PRIMERO
+## ⚠️ REGLA DE ORO: NO LEER NINGÚN ARCHIVO COMPLETO
+Usa **regex search** y **líneas específicas** con `start_line`/`end_line`. No leas archivos enteros.
 
-El usuario abrirá un **nuevo chat** y quiere que tú (el nuevo agente) continúes sin que él tenga que explicar nada. Este documento es tu reemplazo de contexto. NO leas SUPER_RESUMEN_CHAT.md ni APP_MAP.md, ya está todo aquí.
+## 📂 ARCHIVOS A TOCAR (SOLO ESTOS)
 
----
+### 1. `src/features/comunidad/ComunidadPanel.jsx` (1156 líneas)
+**DONDE INSERTAR**: Al final del return, justo ANTES del cierre `</div>` (línea 1154) y ANTES del cierre `);` (línea 1156). Entre la sección `{/* Modal de perfil de bot */}` que termina en línea 1153 y el `</div>` de línea 1154.
 
-## 🧠 Contexto mínimo necesario
+#### 4.5 REPOSITORIO DE GUIONES (insertar entre línea 1153 y 1154)
+- Añadir estado: `const [guionesCompartidos, setGuionesCompartidos] = React.useState([]);`
+- Añadir handler: subirGuion, votarGuion
+- JSX: entre `{/* Modal de perfil de bot */}` y `</div>`
 
-### ¿Qué es esto?
-App React 18 (CDN + Babel standalone + Tailwind CSS CDN) para aprender alemán. Namespace global `window.Muller`. Sin bundlers. Sin imports/exports. GitHub Pages en `main`.
+#### 4.6 MENTOR/TÁNDEM (insertar entre 4.5 y </div>)
+- Añadir estado: mentorModal, mentorMatches, mentorChat
+- JSX sección tándem
 
-### ¿Qué ha pasado hasta ahora?
-- RutaHelpers: 2,718 palabras en 18 niveles A1→C1, 8 tipos de ejercicio (fill, choose, plural, translateDE, translateES, conjugate, order, correct), SRS SM-2 con intervalos (1,2,4,7,14,30,60 días), matriz de errores por palabra+tipo, streak, XP, monedas, 9 rangos.
-- RutaPanel: UI con mapa de niveles (grid 3×6), progreso por lección, debilidades visibles, 8 tipos de ejercicio implementados.
-- **Problema actual**: Solo muestra traducciones DE↔ES constantemente. No varía los tipos de ejercicio automáticamente.
+#### 4.7 HISTORIAS COLABORATIVAS (insertar entre 4.6 y </div>)
+- Estado: historiaColaborativa, historiaVotacion
+- JSX sección historias
 
-### DeepSeek API
-Ya integrada en `src/features/entrenamiento/deepSeekAi.jsx`. Funciones:
-- `window.Muller.DeepSeek.hasApiKey()` → bool
-- `window.Muller.DeepSeek.chat(messages, temperature?)` → `{ content, usage: { input, output } }`
-- `window.Muller.DeepSeek.freeChat(messages, temperature?)` → mismo formato
+### 2. CREAR ARCHIVOS NUEVOS
 
----
+#### `src/features/comunidad/comunidadGuiones.jsx`
+- window.Muller.Comunidad.Guiones = { subir, getGuiones, votar, getMasDescargados, getMejorValorados }
+- localStorage key: `muller_comunidad_guiones`
 
-## 📂 Archivos clave (los únicos que tocarás)
+#### `src/features/comunidad/comunidadMentor.jsx`
+- window.Muller.Comunidad.Mentor = { buscarMatch, getMatches, enviarMensaje, getChat, aceptarMatch }
+- localStorage keys: `muller_comunidad_mentor_matches`, `muller_comunidad_mentor_chat`
 
-| Archivo | Líneas | Qué contiene |
-|---------|--------|-------------|
-| `src/features/ruta/rutaHelpers.jsx` | ~1,348 | Vocabulario completo, SRS, generación de ejercicios, streak, rangos |
-| `src/features/ruta/RutaPanel.jsx` | ~421 | UI del panel Ruta, renderizado de ejercicios, navegación niveles |
-| `PLAN_RUTA_NG.md` | ~100 | Plan de 6 fases (leer rápido para entender visión) |
+#### `src/features/comunidad/comunidadHistorias.jsx`
+- window.Muller.Comunidad.Historias = { iniciarHistoria, continuarHistoria, getHistorias, votarContinuacion, getMejorContinuacion }
+- localStorage key: `muller_comunidad_historias`
 
----
-
-## 🎯 PRIORIDADES (orden exacto al abrir nuevo chat)
-
-### ⭐ PRIORIDAD 1: Rotar los 8 tipos de ejercicio (AHORA)
-El usuario se queja de que **solo salen traducciones DE↔ES**. El problema está en `rutaHelpers.jsx`, función `generateExercise()`.
-
-**Problema raíz**: La función `generateExercise()` prioriza `fill` y `choose`. No rota.
-
-**Solución** (en rutaHelpers.jsx):
-1. Localizar `function generateExercise()` (≈línea 900-1100)
-2. Añadir contador en localStorage 'muller_ruta_exercise_counter' (0→7)
-3. Array rotatorio: `['fill', 'choose', 'translateDE', 'translateES', 'conjugate', 'plural', 'order', 'correct']`
-4. Al llegar al 8º, reiniciar
-5. Si tipo no aplica a la palabra, skip al siguiente
-
-**En RutaPanel.jsx**: Verificar que `exerciseType` se recibe y renderiza bien.
-
-### ⭐ PRIORIDAD 2: DeepSeek generando vocabulario extra (DESPUÉS)
-Esto va **después** de la prioridad 1. No ahora.
-
-**Contexto**: Ya hay 2,718 palabras en rutaHelpers.jsx. DeepSeek se usará para:
-1. **Generar más palabras** cuando el usuario haya completado las existentes
-2. **Generar frases de ejemplo únicas** por palabra (contenido infinito)
-3. **Explicar errores** cuando el usuario falle
-
-**NO hacer DeepSeek primero** porque:
-- Sin la rotación de tipos, DeepSeek generaría más traducciones aburridas
-- El usuario necesita ver VARIEDAD antes que CANTIDAD
-- DeepSeek es el turbo, no el motor base
-
-**Cuándo implementar DeepSeek**: Solo después de que la prioridad 1 funcione perfectamente. Entonces se implementa:
-- `src/features/ruta/IA_FraseGenerator.jsx` — por cada palabra, llama a DeepSeek y genera 3-5 frases
-- Fallback a templates si no hay API Key
-- Las frases se cachean solo para la sesión actual
-
-### En RutaPanel.jsx
-- Asegurar que el estado `exerciseType` se recibe bien
-- El renderizado ya soporta los 8 tipos (están en el switch), pero si no llega variación, no se ve
-
----
-
-## 🔧 TODO list para el próximo agente (orden estricto)
-
+### 3. MODIFICAR `index.html`
+Añadir 3 scripts NUEVOS justo ANTES de `ComunidadPanel.jsx` (línea 964 actual):
 ```
-[ ] FIX: Hacer rotar los 8 tipos de ejercicio en generateExercise()
-    → Archivo: rutaHelpers.jsx
-    → Detalle: Añadir contador localStorage 'muller_ruta_exercise_counter'
-      que avanza 0→7 y elige tipo según array rotatorio.
-    → Si tipo no aplica a la palabra, skip.
-
-[ ] TEST: Abrir index.html y verificar que cada nuevo ejercicio
-    cambia de tipo (fill, choose, translateDE, conjugate, etc.)
-
-[ ] COMMIT + PUSH: git add . && git commit -m "fix(ruta): rotar
-    8 tipos de ejercicio automaticamente" && git push
-
-[ ] OPCIONAL SI SOBRA TIEMPO: Implementar Fase 3 del plan
-    (SRS con EF dinámico en lugar de tabla fija de intervalos)
+<script type="text/babel" src="src/features/comunidad/comunidadGuiones.jsx"></script>
+<script type="text/babel" src="src/features/comunidad/comunidadMentor.jsx"></script>
+<script type="text/babel" src="src/features/comunidad/comunidadHistorias.jsx"></script>
 ```
 
----
+## 🎯 QUÉ HACE CADA FEATURE
 
-## ⚠️ Reglas para no romper nada
+### 4.5 Repositorio de guiones
+- Sección en ComunidadPanel para compartir guiones de Biblioteca
+- Cada guión tiene: titulo, autor, texto, votos (up/down), descargas
+- Botones: "Compartir guión actual" (desde Biblioteca), votar, "más descargados", "mejor valorados"
+- Toast al compartir
 
-1. **NO** toques `index.html` a menos que añadas nuevos scripts
-2. **NO** uses `&&` en cmd.exe (Windows no lo soporta). Comandos separados.
-3. **NO** crees archivos nuevos sin necesidad. Solo toca `rutaHelpers.jsx` y quizás `RutaPanel.jsx`.
-4. **SÍ** usa `replace_in_file` para cambios localizados, no reescribas archivos enteros.
-5. Después de cambiar `rutaHelpers.jsx`, fuerza redeploy añadiendo `?v=N+1` en el script tag de `index.html`.
+### 4.6 Mentor/Tándem automático
+- Empareja usuarios por nivel (B2-C1 con A1-A2)
+- Modal con lista de matches disponibles
+- Chat simple (localStorage, no realtime)
+- Mentor gana puntos extra al ayudar
 
----
+### 4.7 Historias colaborativas
+- Un usuario empieza frase en alemán
+- Otros continúan (máximo 10 contribuciones)
+- Votar mejor continuación
+- Las historias completadas se muestran en el feed social
 
-## 📐 Cómo probar
+## 🔧 COMANDOS ÚTILES (NO LEER ARCHIVOS)
 
-Abre `index.html` en navegador. Ve a pestaña RUTA. Selecciona un nivel. Inicia una lección. Cada nuevo ejercicio debería mostrar un tipo diferente (no solo translateDE/translateES). Asegúrate de que conjugación de verbos y plurales de sustantivos aparecen cuando toca.
+```powershell
+# Ver SOLO líneas finales del panel (donde insertar)
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $f = "src/features/comunidad/ComunidadPanel.jsx"; $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); Write-Host $txt.Substring([Math]::Max(0, $txt.Length - 4000))
+
+# Ver sección de scripts en index.html
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $f = "index.html"; $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); Write-Host $txt.Substring($txt.IndexOf('comunidadBloqueos'), 400)
+
+# Verificar balance
+$ob = ($txt.ToCharArray() | Where-Object { $_ -eq '{' }).Count; $cb = ($txt.ToCharArray() | Where-Object { $_ -eq '}' }).Count; $op = ($txt.ToCharArray() | Where-Object { $_ -eq '(' }).Count; $cp = ($txt.ToCharArray() | Where-Object { $_ -eq ')' }).Count; $obr = ($txt.ToCharArray() | Where-Object { $_ -eq '[' }).Count; $cbr = ($txt.ToCharArray() | Where-Object { $_ -eq ']' }).Count; if ($ob -eq $cb) { Write-Host "Llaves: OK ($ob)" } else { Write-Host "Llaves: DESBALANCE ({ = $ob, } = $cb)" }; if ($op -eq $cp) { Write-Host "Parentesis: OK ($op)" } else { Write-Host "Parentesis: DESBALANCE (( = $op, ) = $cp)" }; if ($obr -eq $cbr) { Write-Host "Corchetes: OK ($obr)" } else { Write-Host "Corchetes: DESBALANCE ([ = $obr, ] = $cbr)" }
+```
+
+## 📋 COMMIT FINAL
+```bash
+git add . && git commit -m "FASE 4.5-4.7: Guiones colaborativos, mentor/tandem e historias" && git push origin main
+```
+
+## 🧩 PATRÓN DE CÓDIGO (usar este para todo)
+```jsx
+// No imports/exports. Solo patron IIFE
+window.Muller = window.Muller || {};
+window.Muller.Comunidad = window.Muller.Comunidad || {};
+
+(function() {
+  var KEY = 'muller_comunidad_mimodulo';
+  
+  function getDatos() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; }
+  }
+  
+  function saveDatos(datos) {
+    localStorage.setItem(KEY, JSON.stringify(datos));
+  }
+  
+  // API expuesta
+  window.Muller.Comunidad.MiModulo = {
+    getDatos: getDatos,
+    hacerAlgo: function() { ... }
+  };
+})();
