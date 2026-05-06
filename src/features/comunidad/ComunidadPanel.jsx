@@ -432,7 +432,138 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
             <p className="text-sm text-gray-300">Aciertos: {(desafio.respuestas || []).length}/{desafio.preguntas.length} | Recompensa máx: {desafio.recompensa} pts</p>
           </div>
         )}
+      {/* Amigos */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <h3 className="text-xl font-semibold mb-2">👥 Amigos ({amigos.length})</h3>
+        <div className="flex gap-2 mb-3">
+          <input type="text" placeholder="Buscar usuario por nombre..." value={buscarTermino} onChange={(e) => setBuscarTermino(e.target.value)} onKeyDown={handleKeyDownBuscar} className="flex-1 border border-gray-600 rounded px-3 py-2 bg-gray-700 text-white" />
+          <button onClick={buscarUsuarios} className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-bold">Buscar</button>
+        </div>
+        {resultadosBusqueda.length > 0 && (
+          <ul className="mb-3 divide-y divide-gray-700">
+            {resultadosBusqueda.map((u) => (
+              <li key={u.id} className="py-2 flex justify-between items-center">
+                <span>{u.nombre} ({u.email})</span>
+                <button onClick={() => handleAgregarAmigo(u)} className="bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded text-sm font-bold">Agregar</button>
+              </li>
+            ))}
+          </ul>
+        )}
+        {amigos.length === 0 ? (
+          <p className="text-gray-400 text-sm">No tienes amigos aún. Busca usuarios para agregar.</p>
+        ) : (
+          <ul className="divide-y divide-gray-700">
+            {amigos.map((a) => (
+              <li key={a.id} className="py-2 flex justify-between items-center">
+                <span>{a.nombre} {amigosOnline && a.online ? '🟢' : '⚫'}</span>
+                <div className="flex gap-2">
+                  <button onClick={() => abrirChat(a)} className="text-blue-400 hover:text-blue-300 text-sm">💬</button>
+                  <select value={dueloInvitacionTipo} onChange={(e) => setDueloInvitacionTipo(e.target.value)} className="bg-gray-700 text-white text-xs rounded px-1 py-0.5">
+                    <option value="vocabulario">Vocabulario</option>
+                    <option value="gramatica">Gramática</option>
+                    <option value="articulos">Artículos</option>
+                  </select>
+                  <button onClick={() => invitarADuelo(a)} className="text-yellow-400 hover:text-yellow-300 text-sm">⚔️ Retar</button>
+                  <button onClick={() => handleEliminarAmigo(a.id)} className="text-red-400 hover:text-red-300 text-sm">Eliminar</button>
+                  <button onClick={() => handleBloquear(a.id, a.nombre)} className="text-gray-400 hover:text-white text-sm">🚫</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
+      {/* Invitaciones pendientes */}
+      {invitaciones.filter(i => i.estado === 'pendiente').length > 0 && (
+        <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-yellow-700">
+          <h3 className="text-lg font-semibold mb-2">📨 Invitaciones pendientes</h3>
+          {invitaciones.filter(i => i.estado === 'pendiente').map((inv) => (
+            <div key={inv.id} className="flex justify-between items-center py-2">
+              <span>{inv.nombre} te reta a un duelo de {inv.tipo}</span>
+              <div className="flex gap-2">
+                <button onClick={() => responderInvitacion(inv.id, true)} className="bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded text-sm">Aceptar</button>
+                <button onClick={() => responderInvitacion(inv.id, false)} className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-sm">Rechazar</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {/* Duelos activos */}
+      {duelos.filter(d => d.estado === 'activo').length > 0 && (
+        <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-yellow-700">
+          <h3 className="text-lg font-semibold mb-2">⚔️ Duelos activos</h3>
+          {duelos.filter(d => d.estado === 'activo').map((d) => (
+            <div key={d.id} className="py-2">
+              <p>Contra <strong>{d.rivalNombre}</strong> - {d.tipo}</p>
+              <div className="flex justify-between text-sm mt-1">
+                <span>Tú: {d.miPuntuacion} pts</span>
+                <span>{d.rivalNombre}: {d.rivalPuntuacion} pts</span>
+              </div>
+              <p className="text-xs text-gray-400">Finaliza: {new Date(d.fin).toLocaleString('es-ES')}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {/* Usuarios bloqueados */}
+      {bloqueos.length > 0 && (
+        <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-red-700">
+          <h3 className="text-lg font-semibold mb-2">🚫 Usuarios bloqueados ({bloqueos.length})</h3>
+          {bloqueos.map((b) => (
+            <div key={b.id} className="py-2 flex justify-between items-center">
+              <span>{b.nombre}</span>
+              <button onClick={() => handleDesbloquear(b.id)} className="text-green-400 hover:text-green-300 text-sm">Desbloquear</button>
+            </div>
+          ))}
+        </div>
+      )}
+      {/* Chat privado */}
+      {chatAbierto && (
+        <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-lg font-semibold">💬 Chat con {chatAbierto.nombre}</h3>
+            <button onClick={cerrarChat} className="text-gray-400 hover:text-white">✕</button>
+          </div>
+          <div className="h-48 overflow-y-auto mb-3 space-y-2 bg-gray-900 p-3 rounded">
+            {mensajes.length === 0 ? (
+              <p className="text-gray-500 text-sm text-center">No hay mensajes aún. ¡Saluda!</p>
+            ) : (
+              mensajes.map((m) => (
+                <div key={m.id} className={lex }>
+                  <div className={max-w-[80%] px-3 py-2 rounded-lg text-sm }>
+                    {m.texto}
+                    <div className="text-[10px] opacity-70 mt-1">{new Date(m.timestamp).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}</div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="flex gap-2">
+            <input type="text" placeholder="Escribe un mensaje..." value={mensajeTexto} onChange={(e) => setMensajeTexto(e.target.value)} onKeyDown={handleKeyDownMensaje} className="flex-1 border border-gray-600 rounded px-3 py-2 bg-gray-700 text-white" />
+            <button onClick={enviarMensaje} className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-bold">Enviar</button>
+          </div>
+        </div>
+      )}
+      {/* Modal de perfil de bot */}
+      {perfilAbierto && (
+        <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setPerfilAbierto(null)}>
+          <div className="bg-gray-800 p-6 rounded-xl shadow-2xl border border-gray-600 max-w-sm w-full" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">{perfilAbierto.nombre}</h3>
+              <button onClick={() => setPerfilAbierto(null)} className="text-gray-400 hover:text-white text-lg">✕</button>
+            </div>
+            <div className="space-y-3 mb-4">
+              <p className="text-gray-300">🏆 <strong>{perfilAbierto.puntos}</strong> puntos semanales</p>
+              <p className="text-gray-300">📊 Liga simulada: {perfilAbierto.puntos > 5000 ? 'Diamante' : perfilAbierto.puntos > 3000 ? 'Oro' : perfilAbierto.puntos > 1000 ? 'Plata' : 'Bronce'}</p>
+              <p className="text-gray-300">🔥 Racha simulada: {Math.floor(Math.random() * 30) + 1} días</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => { handleAgregarAmigoDesdeRanking(perfilAbierto.nombre); setPerfilAbierto(null); }} className="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm font-bold">👋 Agregar</button>
+              <button onClick={() => { handleMensajeDesdeRanking(perfilAbierto.nombre); setPerfilAbierto(null); }} className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm font-bold">💬 Mensaje</button>
+              <button onClick={() => { handleRetarDesdeRanking(perfilAbierto.nombre); setPerfilAbierto(null); }} className="bg-yellow-600 hover:bg-yellow-500 text-white px-3 py-2 rounded text-sm font-bold">⚔️ Retar</button>
+              <button onClick={() => { handleBloquear('bot_' + perfilAbierto.nombre.replace(/\s/g, '_'), perfilAbierto.nombre); setPerfilAbierto(null); }} className="bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded text-sm font-bold">🚫 Bloquear</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
