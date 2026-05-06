@@ -128,6 +128,22 @@ window.Muller.Maestros.LECCIONES = [
   }
 ];
 
+// getAllLevels: fusiona todos los niveles A1.1 a C1
+window.Muller.Maestros.getAllLevels = function() {
+  var niveles = [
+    { id: "A1_1", nombre: "A1.1", descripcion: "Principiante completo", modulos: window.Muller.Maestros.contenido.A1_1 || [] },
+    { id: "A1_2", nombre: "A1.2", descripcion: "Principiante avanzado", modulos: window.Muller.Maestros.contenido.A1_2 || [] },
+    { id: "A2_1", nombre: "A2.1", descripcion: "Básico", modulos: window.Muller.Maestros.contenido.A2_1 || [] },
+    { id: "A2_2", nombre: "A2.2", descripcion: "Básico avanzado", modulos: window.Muller.Maestros.contenido.A2_2 || [] },
+    { id: "B1_1", nombre: "B1.1", descripcion: "Intermedio bajo", modulos: window.Muller.Maestros.contenido.B1_1 || [] },
+    { id: "B1_2", nombre: "B1.2", descripcion: "Intermedio", modulos: window.Muller.Maestros.contenido.B1_2 || [] },
+    { id: "B2_1", nombre: "B2.1", descripcion: "Intermedio alto", modulos: window.Muller.Maestros.contenido.B2_1 || [] },
+    { id: "B2_2", nombre: "B2.2", descripcion: "Avanzado", modulos: window.Muller.Maestros.contenido.B2_2 || [] },
+    { id: "C1", nombre: "C1", descripcion: "Dominio profesional", modulos: window.Muller.Maestros.contenido.C1 || [] }
+  ];
+  return niveles;
+};
+
 // Progreso de lecciones (localStorage)
 window.Muller.Maestros.getProgress = () => {
   try {
