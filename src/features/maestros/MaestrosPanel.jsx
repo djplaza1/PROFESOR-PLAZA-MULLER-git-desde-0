@@ -23,8 +23,10 @@ window.Muller.Panels['maestros'] = ({ session }) => {
   const [estadisticas, setEstadisticas] = useState(null);
   const [mostrarEjercicios, setMostrarEjercicios] = useState(false);
   const [mostrarIA, setMostrarIA] = useState(false);
+  const [mostrarHistoria, setMostrarHistoria] = useState(false);
+  const [pestanaActiva, setPestanaActiva] = useState('lecciones'); // 'lecciones' | 'historia'
 
-  // Niveles disponibles para las pestañas
+  // Niveles disponibles para las pestañas de nivel
   const nivelesDisponibles = [
     { id: null, nombre: "Todos", color: "text-white" },
     { id: "A1", nombre: "A1", color: "text-blue-400", bg: "bg-blue-500/20", border: "border-blue-500" },
@@ -112,6 +114,15 @@ window.Muller.Panels['maestros'] = ({ session }) => {
     });
   }
 
+  // Mostrar panel de historia si se activó
+  if (pestanaActiva === 'historia' && window.Muller.Panels['historiaMaestros']) {
+    var HistoriaComp = window.Muller.Panels['historiaMaestros'];
+    return React.createElement(HistoriaComp, {
+      nivel: nivelActivo || "A1",
+      onVolver: function() { setPestanaActiva('lecciones'); }
+    });
+  }
+
   return (
     <div className="flex-1 flex flex-col p-4 md:p-8 max-w-4xl mx-auto w-full animate-in fade-in duration-500 overflow-y-auto pb-24 space-y-6">
       {/* Cabecera con botón Practicar e IA */}
@@ -143,7 +154,30 @@ window.Muller.Panels['maestros'] = ({ session }) => {
         Lecciones de gramática alemana explicadas por nuestros <strong className="text-white">maestros virtuales</strong>. Estudia cada tema, marca tu progreso y domina el idioma.
       </p>
 
+      {/* Pestañas principales: Lecciones | Historia */}
+      <div className="flex flex-wrap gap-1.5 border-b border-white/10 pb-3">
+        <button
+          onClick={() => setPestanaActiva('lecciones')}
+          className={`px-4 py-2 rounded-lg text-xs font-bold border transition-all ${
+            pestanaActiva === 'lecciones'
+              ? 'bg-indigo-500/30 border-indigo-400 text-white'
+              : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
+          }`}>
+          📚 Lecciones
+        </button>
+        <button
+          onClick={() => setPestanaActiva('historia')}
+          className={`px-4 py-2 rounded-lg text-xs font-bold border transition-all ${
+            pestanaActiva === 'historia'
+              ? 'bg-purple-500/30 border-purple-400 text-white'
+              : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
+          }`}>
+          📖 Historia
+        </button>
+      </div>
+
       {/* Pestañas de nivel (FASE 2) */}
+      {pestanaActiva === 'lecciones' && (
       <div className="flex flex-wrap gap-1.5">
         {nivelesDisponibles.map(function(nivel) {
           var activo = nivelActivo === nivel.id;
@@ -166,8 +200,10 @@ window.Muller.Panels['maestros'] = ({ session }) => {
           );
         })}
       </div>
+      )}
 
-      {/* Buscador */}
+      {/* Buscador - solo en modo lecciones */}
+      {pestanaActiva === 'lecciones' && (
       <div className="relative">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 inline-block" dangerouslySetInnerHTML={{ __html: SvgSearch }} />
         <input
@@ -178,8 +214,10 @@ window.Muller.Panels['maestros'] = ({ session }) => {
           className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-indigo-500/25 text-white text-sm outline-none focus:border-indigo-400 transition-colors"
         />
       </div>
+      )}
 
-      {/* Grid de lecciones (FASE 2) */}
+      {/* Grid de lecciones (FASE 2) - solo en modo lecciones */}
+      {pestanaActiva === 'lecciones' && (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {filtered.map(function(leccion) {
           var isExpanded = expanded === leccion.id;
@@ -246,7 +284,10 @@ window.Muller.Panels['maestros'] = ({ session }) => {
         )}
       </div>
 
-      {/* Progreso general y estadísticas (FASE 2 + FASE 3) */}
+      )}
+
+      {/* Progreso general y estadísticas (FASE 2 + FASE 3) - solo en modo lecciones */}
+      {pestanaActiva === 'lecciones' && (
       <div className="rounded-xl bg-indigo-950/25 border border-indigo-500/25 p-4 space-y-4">
         <h3 className="text-sm font-black text-indigo-200 flex items-center gap-2">
           <span className="w-4 h-4 inline-block" dangerouslySetInnerHTML={{ __html: SvgBookOpen }} /> Tu progreso en Maestros
@@ -316,6 +357,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 };

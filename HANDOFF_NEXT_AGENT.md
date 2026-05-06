@@ -1,276 +1,364 @@
-# 🚀 HANDOFF: FASES 2, 3, 4 y 5 — MAESTROS (completar hasta Fase 5 y DETENERSE)
+# 🚀 SUPER PROMPT — IMPLEMENTAR FASES 6, 7, 8 EN PESTAÑA MAESTROS
 
-## ════════════════════════════════
-## 🎭 TU ROL (ASUME ESTO AHORA)
-## ════════════════════════════════
+Copia TODO esto y pégalo en un NUEVO CHAT como prompt único. No necesita contexto adicional.
 
-Eres un **ingeniero senior experto en React 18 vanilla, Tailwind CSS y diseño modular SIN bundlers**. Trabajas en la SPA "PROFESOR PLAZA MÜLLER" para aprender alemán.
+═════════════════════════════════════════════════════════════════════
 
-### REGLAS ESTRICTAS (NUNCA LAS ROMPAS):
-1. **NUNCA uses imports/exports.** Todo va en `window.Muller.*`
-2. **NUNCA uses CDN de Lucide ni `lucide.createIcons()`.** Los iconos son SVG inline con `dangerouslySetInnerHTML`
-3. **NUNCA definas componentes dentro de otros componentes.** Cada archivo define su propio componente función.
-4. **NUNCA uses bundlers.** Es HTML vanilla + React 18 CDN + Babel standalone + Tailwind CDN.
-5. **Verifica balance {} () [] tras CADA cambio** antes de hacer commit.
-6. **Commit y push tras cada funcionalidad completada** (por paso, no acumules).
-7. **Usa siempre `Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"`** al inicio de cada comando PowerShell.
-8. **NUNCA uses `exit`** en scripts PowerShell.
-9. **Archivos < 300 líneas.** Divide si es necesario.
-10. **Un cambio → verificar → commit → siguiente.**
-11. **Si ves DESBALANCE, PARA. NO AVANCES.**
+## 🎭 ROL
 
----
+Eres un **ingeniero senior experto en React 18 vanilla + Babel standalone + Tailwind CSS**. Trabajas en la SPA "PROFESOR PLAZA MÜLLER" para aprender alemán.
 
-## ════════════════════════════════
-## ✅ ESTADO ACTUAL DEL PROYECTO
-## ════════════════════════════════
+### REGLAS ESTRICTAS (VIOLARLAS = ERROR GRAVE):
 
-### ✅ COMPLETADO (NO TOCAR):
-- **FASE 0:** Diagnóstico y preparación
-- **FASE 1 COMPLETA (Pasos 1.1 → 1.10):** Todo el contenido gramatical de A1.1 a C1 creado y funcionando
-- **Comunidad:** Panel de comunidad completo con guiones, mentor, historias, feed, arena, clubs, tienda, bloqueos
+1. **NUNCA uses `import`/`export`** → todo va en `window.Muller.*`
+2. **NUNCA uses CDN de Lucide ni `lucide.createIcons()`** → SVG inline con `dangerouslySetInnerHTML`
+3. **NUNCA definas componentes dentro de otros componentes** → cada archivo = 1 componente función
+4. **NUNCA uses bundlers, npm, package.json** → la app es HTML + CDNs (React 18, Babel standalone, Tailwind)
+5. **Siempre verifica balance `{}()` `[]` tras CADA cambio** antes de commit
+6. **Commit + push tras CADA funcionalidad completada**, no acumules
+7. **Usa `Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"`** al inicio de cada comando PowerShell
+8. **NUNCA uses `exit`** en scripts PowerShell
+9. **Archivos < 300 líneas máximo.** Si un archivo crece, divídelo
+10. **1 cambio → verificar balance → commit → siguiente**
+11. **Si ves DESBALANCE de llaves/parentesis/corchetes, PARA INMEDIATAMENTE**
 
-### 📋 ARCHIVOS EXISTENTES DE MAESTROS (NO MODIFICAR ESTRUCTURA):
+═════════════════════════════════════════════════════════════════════
 
-| Archivo | Ruta | Estado |
+## ✅ ESTADO ACTUAL DEL PROYECTO (FASES 0→5 COMPLETADAS)
+
+### Archivos de Maestros que YA EXISTEN (no crearlos de nuevo):
+
+| Archivo | Ruta | Líneas |
 |---------|------|--------|
-| ✅ Helpers | `src/features/maestros/maestrosHelpers.jsx` | 163 líneas. Tiene `LECCIONES` (6 originales), `getAllLevels()`, `getProgress()`, `toggleComplete()`, `isComplete()` |
-| ✅ Panel | `src/features/maestros/MaestrosPanel.jsx` | 159 líneas. Renderiza lecciones con expandible, progreso, búsqueda |
-| ✅ A1.1 | `src/features/maestros/contenido/contenidoA1_1.jsx` | 6 módulos |
-| ✅ A1.2 | `src/features/maestros/contenido/contenidoA1_2.jsx` | 6 módulos |
-| ✅ A2.1 | `src/features/maestros/contenido/contenidoA2_1.jsx` | 6 módulos |
-| ✅ A2.2 | `src/features/maestros/contenido/contenidoA2_2.jsx` | 6 módulos |
-| ✅ B1.1 | `src/features/maestros/contenido/contenidoB1_1.jsx` | 6 módulos |
-| ✅ B1.2 | `src/features/maestros/contenido/contenidoB1_2.jsx` | 6 módulos |
-| ✅ B2.1 | `src/features/maestros/contenido/contenidoB2_1.jsx` | 6 módulos (lime) |
-| ✅ B2.2 | `src/features/maestros/contenido/contenidoB2_2.jsx` | 6 módulos (lime) |
-| ✅ C1 | `src/features/maestros/contenido/contenidoC1.jsx` | 6 módulos (violet) |
+| Helpers | `src/features/maestros/maestrosHelpers.jsx` | 324 |
+| Panel | `src/features/maestros/MaestrosPanel.jsx` | 321 |
+| Profesor IA | `src/features/maestros/MaestroIA.jsx` | 221 |
+| Práctica | `src/features/maestros/EjerciciosMaestros.jsx` | 262 |
+| Contenido A1.1-2 | `src/features/maestros/contenido/contenidoA1_1.jsx` (y A1_2) | ~90 c/u |
+| Contenido A2.1-2 | `src/features/maestros/contenido/contenidoA2_1.jsx` (y A2_2) | ~90 c/u |
+| Contenido B1.1-2 | `src/features/maestros/contenido/contenidoB1_1.jsx` (y B1_2) | ~90 c/u |
+| Contenido B2.1-2 | `src/features/maestros/contenido/contenidoB2_1.jsx` (y B2_2) | ~90 c/u |
+| Contenido C1 | `src/features/maestros/contenido/contenidoC1.jsx` | ~90 |
 
-### 📋 APIs GLOBALES DISPONIBLES:
-- `window.Muller.Maestros.LECCIONES` → array de 6 lecciones originales
-- `window.Muller.Maestros.contenido.A1_1` → array de módulos
-- `window.Muller.Maestros.contenido.A1_2` → etc.
-- `window.Muller.Maestros.getAllLevels()` → fusiona todos los niveles
-- `window.Muller.Maestros.getProgress() / toggleComplete() / isComplete()`
-- `window.Muller.DeepSeek` → IA (existe en src/features/entrenamiento/deepSeekAi.jsx)
-- `window.Muller.Toast` → notificaciones (src/core/toast.jsx)
-- `window.Muller.Achievements` → logros (src/core/achievements.jsx)
-- `window.Muller.Progreso?.getNivel?.()` → nivel del usuario
-- `window.Muller.Comunidad.*` → puntos, logros, ranking, guiones, mentor, historias
+═════════════════════════════════════════════════════════════════════
 
-### 📋 ORDEN EN INDEX.HTML (líneas 968-979):
+## 📡 APIs GLOBALES DISPONIBLES (úsalas SIN import)
+
+### window.Muller.Maestros (helpers):
 ```
-969: maestrosHelpers.jsx
-970: contenidoA1_1.jsx
-971: contenidoA1_2.jsx
-972: contenidoA2_1.jsx
-973: contenidoA2_2.jsx
-974: contenidoB1_1.jsx
-975: contenidoB1_2.jsx
-976: contenidoB2_1.jsx
-977: contenidoB2_2.jsx
-978: contenidoC1.jsx
-979: MaestrosPanel.jsx
+LECCIONES                    → array de 6 objetos (id, titulo, descripcion, nivel)
+contenido.A1_1, A1_2, A2_1, A2_2, B1_1, B1_2, B2_1, B2_2, C1  → arrays de módulos
+
+getAllLevels()               → UN SOLO array con todos los módulos de todos los niveles fusionados, cada uno con nivelId
+getProgress()                → objeto { id_modulo: { completado: bool, timestamp: ms } }
+toggleComplete(id)           → marca/desmarca módulo como completado (guarda en localStorage "maestros_progress")
+isComplete(id)               → true/false
+getRacha()                   → número: días consecutivos estudiando
+getUltimoEstudio()           → timestamp del último estudio
+getPuntosNivel(nivelId)      → suma de puntos de un nivel
+getTotalPuntos()             → suma total de todos los niveles
+getNivelCompleto(nivelId)    → true si todos los módulos de ese nivel están completos
+getEstadisticas()            → { completados, total, porcentaje, racha, ultimoEstudio, puntosTotal }
 ```
 
-### 🗺️ MAPA DEL PROYECTO (estructura de carpetas):
+### window.Muller.DeepSeek (IA):
 ```
-c:\PROFESOR-PLAZA-MULLER-git-desde-0\
-├── index.html                          ← Archivo principal. CDNs + todos los scripts
-├── src/
-│   ├── app.jsx                         ← Router principal (window.Muller.Panels)
-│   ├── core/
-│   │   ├── toast.jsx                   ← window.Muller.Toast
-│   │   └── achievements.jsx            ← window.Muller.Achievements
-│   ├── features/
-│   │   ├── maestros/                   ← ← ← TU TRABAJO ESTÁ AQUÍ
-│   │   │   ├── maestrosHelpers.jsx     ← Helpers + LECCIONES + getAllLevels()
-│   │   │   ├── MaestrosPanel.jsx       ← Componente principal
-│   │   │   └── contenido/             ← Módulos de contenido gramatical
-│   │   ├── entrenamiento/             ← DeepSeek AI, helpers de entrenamiento
-│   │   ├── comunidad/                 ← Panel de comunidad completo
-│   │   ├── ia/                        ← Floating chat + IAPanel
-│   │   ├── biblioteca/               ← BibliotecaPanel
-│   │   ├── telc/                      ← TelcPanel
-│   │   ├── navegacion/               ← TopBar + BottomBar
-│   │   ├── splash/                    ← Splash screen
-│   │   └── ...otros paneles
-│   ├── data/
-│   │   └── diccionario/              ← Diccionario de datos
-│   └── hooks/                         ← Custom hooks
-├── assets/
-│   └── icons/                        ← Iconos SVG
-├── audio/                            ← Archivos de audio
-├── verify_balance.ps1               ← Script de verificación de balance
-├── fix_index.ps1 / fix_index_end.ps1 ← Scripts auxiliares
-└── SUPER_RESUMEN_CHAT.md            ← Resumen extenso del proyecto
+preguntar(prompt)            → envía prompt a DeepSeek y devuelve respuesta
+hasApiKey()                  → true/false
 ```
 
----
+### Otras:
+```
+window.Muller.Toast.mostrar(texto)    → notificación toast
+window.Muller.Achievements            → logros (window.Muller.Achievements)
+window.Muller.Progreso.getNivel()     → nivel del usuario (A1, A2, B1, etc.)
+```
 
-## ════════════════════════════════════════
-## 🎯 TU MISIÓN: Implementar FASES 2, 3, 4 y 5
-## ════════════════════════════════════════
+═════════════════════════════════════════════════════════════════════
 
-## ⛔ CUANDO TERMINES FASE 5, DETENTE. NO HAGAS FASES 6, 7 NI 8.
+## 📋 ORDEN EXACTO de scripts en index.html (líneas 969-981):
+```
+969  maestrosHelpers.jsx
+970  contenidoA1_1.jsx
+971  contenidoA1_2.jsx
+972  contenidoA2_1.jsx
+973  contenidoA2_2.jsx
+974  contenidoB1_1.jsx
+975  contenidoB1_2.jsx
+976  contenidoB2_1.jsx
+977  contenidoB2_2.jsx
+978  contenidoC1.jsx
+979  MaestroIA.jsx
+980  EjerciciosMaestros.jsx
+981  MaestrosPanel.jsx
+```
 
----
+**REGLAS para añadir scripts nuevos:**
+- Los scripts de maestros deben ir **entre la línea 980 y 981** (ANTES de MaestrosPanel.jsx, DESPUÉS de EjerciciosMaestros.jsx)
+- Usar formato: `<script type="text/babel" src="src/features/maestros/NUEVO_ARCHIVO.jsx"></script>`
 
-### 🔵 FASE 2: REDISEÑO DE LA UI DE MAESTROS
+═════════════════════════════════════════════════════════════════════
 
-**Archivo a modificar:** `src/features/maestros/MaestrosPanel.jsx` (solo 159 líneas actualmente)
+## 🎯 IMPLEMENTAR FASES 6 → 7 → 8 (EN ORDEN)
 
-Lee el archivo con PowerShell para ver SOLO las últimas 4000 caracteres:
+═════════════════════════════════════════════════════════════════════
+
+### 🔷 FASE 6: MODO HISTORIA INTERACTIVO DENTRO DE MAESTROS
+
+#### Archivos a crear y modificar
+- **CREAR:** `src/features/maestros/HistoriaMaestros.jsx` ← COMPONENTE historias dentro de Maestros
+- **MODIFICAR:** `src/features/maestros/MaestrosPanel.jsx` ← añadir pestaña "Historia"
+
+#### Pasos exactos:
+
+**PASO 6.1:** Crear `src/features/maestros/HistoriaMaestros.jsx`
+
+Este componente debe:
+1. Recibir `props.nivel` (string: "A1", "A2", "B1", "B2", "C1")
+2. Usar `window.Muller.Maestros.contenido[nivel.replace('.','_')]` para obtener módulos de ese nivel
+3. Por ahora, mostrar una UI placeholder simple:
+   - Título: "📖 Historias para {nivel}"
+   - Lista de módulos con botón "🎭 Practicar con Historia"
+   - Al hacer clic en "Practicar", mostrar modo Huecos (rellenar palabra correcta)
+   - Generar huecos: tomar el `titulo` del módulo y ocultar palabras aleatorias
+4. El modo práctica debe ser inline (dentro del mismo componente), no redirigir a otro panel
+5. Estilo Tailwind: `bg-gray-800/90`, texto blanco, inputs `bg-gray-700 border-gray-600`
+
+**PASO 6.2:** Modificar `MaestrosPanel.jsx`:
+1. Añadir una pestaña "📖 Historia" en el array de pestañas (después de "📝 Práctica")
+2. Cuando se selecciona "📖 Historia", renderizar `<HistoriaMaestros nivel={nivelActual} />` en lugar del grid de tarjetas
+3. Importante: el componente HistoriaMaestros se renderiza en lugar del contenido normal, no como overlay
+
+**PASO 6.3:** Añadir script a index.html:
+- Insertar `<script type="text/babel" src="src/features/maestros/HistoriaMaestros.jsx"></script>` entre línea 980 y 981
+
+**PASO 6.4:** Verificar balance y commit:
 ```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $f = "src/features/maestros/MaestrosPanel.jsx"; $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); Write-Host $txt.Substring([Math]::Max(0, $txt.Length - 4000))
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $archivos = @("src/features/maestros/HistoriaMaestros.jsx","src/features/maestros/MaestrosPanel.jsx","index.html"); foreach($f in $archivos) { $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); $ob = ($txt.ToCharArray() | Where-Object { $_ -eq '{' }).Count; $cb = ($txt.ToCharArray() | Where-Object { $_ -eq '}' }).Count; $op = ($txt.ToCharArray() | Where-Object { $_ -eq '(' }).Count; $cp = ($txt.ToCharArray() | Where-Object { $_ -eq ')' }).Count; $obr = ($txt.ToCharArray() | Where-Object { $_ -eq '[' }).Count; $cbr = ($txt.ToCharArray() | Where-Object { $_ -eq ']' }).Count; Write-Host "$f : {}=$ob/$cb ()=$op/$cp []=$obr/$cbr"; if($ob -ne $cb -or $op -ne $cp -or $obr -ne $cbr){Write-Host "DESBALANCE!"} }
 ```
-
-**NO leas el archivo completo.** Solo lo último para ver el return.
-
-**Qué hacer:**
-1. Añadir **pestañas de nivel** (A1, A2, B1, B2, C1) que filtren los módulos por nivel usando `getAllLevels()`
-2. Añadir un **selector visual de nivel** con colores: A1=blue, A2=green, B1=yellow, B2=lime, C1=violet
-3. Mostrar el **progreso por nivel** (ej: "A1: 3/12 módulos completados")
-4. Añadir **tarjetas de nivel con diseño tipo grid** (no solo lista lineal)
-5. Mantener la funcionalidad actual (búsqueda, expandible, marcar completado, barra de progreso general)
-
-**Estados a añadir:**
-```jsx
-const [nivelActivo, setNivelActivo] = React.useState(null); // null = todos
-```
-
-**Commit:**
 ```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "FASE 2: UI rediseñada con tabs de nivel A1-C1 y grid" && git push origin main
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "FASE 6: modo Historia interactivo integrado en Maestros" && git push origin main
 ```
 
----
+═════════════════════════════════════════════════════════════════════
 
-### 🔵 FASE 3: MEJORAR SISTEMA DE PROGRESO Y RACHAS
+### 🔷 FASE 7: PROGRESIÓN AUTOMÁTICA Y RECOMENDACIONES
 
-**Archivo a modificar:** `src/features/maestros/maestrosHelpers.jsx`
+#### Archivos a modificar y crear
+- **MODIFICAR:** `src/features/maestros/maestrosHelpers.jsx` ← añadir funciones
+- **CREAR:** `src/features/maestros/ProgresionMaestros.jsx` ← componente UI
+- **MODIFICAR:** `src/features/maestros/MaestrosPanel.jsx` ← integrar componente
+- **MODIFICAR:** `index.html` ← añadir script
 
-**Qué añadir a `window.Muller.Maestros`:**
-1. **getRacha()** → días consecutivos estudiando (basado en timestamps de cuando se marca una lección como completada)
-2. **getUltimoEstudio()** → timestamp del último estudio
-3. **getPuntosNivel(nivelId)** → puntos acumulados (cada módulo completado = 10 pts)
-4. **getTotalPuntos()** → suma de todos los puntos
-5. **getNivelCompleto(nivelId)** → boolean si todos los módulos de un nivel están completados
-6. **getEstadisticas()** → objeto con: totalLecciones, completadas, porcentaje, racha, puntos, nivelActual
+#### Pasos exactos:
 
-**Cambiar `toggleComplete`** para que también guarde el timestamp:
-```js
-window.Muller.Maestros.toggleComplete = (id) => {
+**PASO 7.1:** Modificar `maestrosHelpers.jsx` - Añadir al objeto window.Muller.Maestros:
+
+```javascript
+// Dentro de window.Muller.Maestros, añadir:
+
+getSiguienteModulo: function() {
+  // Orden lógico de niveles: A1_1, A1_2, A2_1, A2_2, B1_1, B1_2, B2_1, B2_2, C1
+  var orden = ["A1_1","A1_2","A2_1","A2_2","B1_1","B1_2","B2_1","B2_2","C1"];
   var progress = window.Muller.Maestros.getProgress();
-  if (!progress[id]) {
-    progress[id] = { completado: true, timestamp: Date.now() };
-  } else if (typeof progress[id] === 'object' && progress[id].completado) {
-    delete progress[id];
-  } else {
-    progress[id] = { completado: true, timestamp: Date.now() };
+  var todos = window.Muller.Maestros.getAllLevels();
+  // Encontrar el primer módulo NO completado siguiendo el orden lógico
+  for (var i = 0; i < orden.length; i++) {
+    var nivel = orden[i];
+    var modulosDeNivel = todos.filter(function(m) { return m.nivelId === nivel; });
+    for (var j = 0; j < modulosDeNivel.length; j++) {
+      if (!progress[modulosDeNivel[j].id] || !progress[modulosDeNivel[j].id].completado) {
+        return modulosDeNivel[j];
+      }
+    }
   }
-  localStorage.setItem('muller_maestros_progress', JSON.stringify(progress));
-  return progress;
-};
+  return null; // todo completado
+},
+
+getModulosDebiles: function() {
+  // Leer localStorage "maestros_fallos" -> {"id_modulo": numero_fallos}
+  // Devolver array de módulos con más de 2 fallos, ordenados por más fallos primero
+  var fallos = JSON.parse(localStorage.getItem("maestros_fallos") || "{}");
+  var todos = window.Muller.Maestros.getAllLevels();
+  var resultado = [];
+  for (var id in fallos) {
+    if (fallos[id] > 2) {
+      var modulo = todos.filter(function(m) { return m.id === id; })[0];
+      if (modulo) {
+        modulo.fallos = fallos[id];
+        resultado.push(modulo);
+      }
+    }
+  }
+  resultado.sort(function(a,b) { return b.fallos - a.fallos; });
+  return resultado;
+},
+
+getTiempoEstudioHoy: function() {
+  // De localStorage "maestros_progress", sumar timestamps de HOY
+  // Un timestamp = 5 minutos de estudio (aproximación)
+  var progress = window.Muller.Maestros.getProgress();
+  var hoy = new Date();
+  var hoyStr = hoy.getFullYear() + "-" + (hoy.getMonth()+1) + "-" + hoy.getDate();
+  var minutos = 0;
+  for (var id in progress) {
+    if (progress[id].completado) {
+      var d = new Date(progress[id].timestamp);
+      var dStr = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+      if (dStr === hoyStr) {
+        minutos += 5;
+      }
+    }
+  }
+  return minutos;
+},
+
+getMetaDiaria: function() {
+  // true si al menos 1 módulo completado hoy
+  return window.Muller.Maestros.getTiempoEstudioHoy() >= 5;
+}
 ```
 
-**Adaptar MaestrosPanel.jsx** para que use la nueva estructura de progreso (objeto en lugar de boolean).
+**PASO 7.2:** Crear `src/features/maestros/ProgresionMaestros.jsx`
 
-**Commit:**
-```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "FASE 3: sistema de progreso con rachas, puntos y estadísticas" && git push origin main
-```
+Componente función `ProgresionMaestros` que recibe `props.onCerrar` (opcional).
 
----
+Debe mostrar:
+1. **Tarjeta "Siguiente lección recomendada"** - usar `getSiguienteModulo()`, mostrar título del módulo y nivel, botón "Ir a la lección"
+2. **Tarjetas de módulos débiles** - usar `getModulosDebiles()`, mostrar hasta 3 con botón "Repasar"
+3. **Estadísticas de hoy** - tiempo de estudio (getTiempoEstudioHoy), módulos completados hoy, racha actual (getRacha)
+4. **Barra de progreso** - porcentaje meta diaria (getMetaDiaria → 100% si true)
 
-### 🔵 FASE 4: INTEGRACIÓN DE DEEPSEEK EN MAESTROS
+Estilo: cards con `bg-gray-800`, bordes redondeados, texto blanco.
+Usar `window.Muller.Maestros.getEstadisticas()` para datos generales.
 
-La API de DeepSeek ya existe en `window.Muller.DeepSeek`. Revisa cómo funciona:
-```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $f = "src/features/entrenamiento/deepSeekAi.jsx"; $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); Write-Host $txt.Substring(0, [Math]::Min(500, $txt.Length))
-```
+**PASO 7.3:** Modificar `MaestrosPanel.jsx` - Añadir sección de progresión:
+1. Debajo del header (título + búsqueda), añadir un botón "📊 Recomendaciones"
+2. Al hacer clic, mostrar componente `<ProgresionMaestros>` en un modal overlay o expandible
+3. Alternativa: mostrar siempre la progresión como una barra compacta arriba
 
-**Qué hacer:**
-1. Crear `src/features/maestros/MaestroIA.jsx` con un **chat flotante dentro del panel Maestros**
-2. El profesor IA debe:
-   - Saber qué nivel está viendo el usuario
-   - Responder preguntas de gramática alemana en alemán simplificado
-   - Dar ejemplos personalizados según el módulo activo
-   - Usar `window.Muller.DeepSeek.preguntar(prompt)` para las respuestas
-3. Añadir **botón flotante** en MaestrosPanel.jsx que abre/cierra el chat
-4. El chat debe tener: input de texto, historial, botón de cerrar
-
-**No toques deepSeekAi.jsx.** Úsalo como API.
-
-**Añadir a index.html** ANTES de MaestrosPanel.jsx:
+**PASO 7.4:** Añadir script a index.html entre línea 980 y 981:
 ```html
-    <script type="text/babel" src="src/features/maestros/MaestroIA.jsx"></script>
+<script type="text/babel" src="src/features/maestros/ProgresionMaestros.jsx"></script>
 ```
 
-**Commit:**
+**PASO 7.5:** Verificar balance y commit:
 ```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "FASE 4: profesor IA integrado con DeepSeek en Maestros" && git push origin main
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $archivos = @("src/features/maestros/maestrosHelpers.jsx","src/features/maestros/ProgresionMaestros.jsx","src/features/maestros/MaestrosPanel.jsx","index.html"); foreach($f in $archivos) { $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); $ob = ($txt.ToCharArray() | Where-Object { $_ -eq '{' }).Count; $cb = ($txt.ToCharArray() | Where-Object { $_ -eq '}' }).Count; $op = ($txt.ToCharArray() | Where-Object { $_ -eq '(' }).Count; $cp = ($txt.ToCharArray() | Where-Object { $_ -eq ')' }).Count; $obr = ($txt.ToCharArray() | Where-Object { $_ -eq '[' }).Count; $cbr = ($txt.ToCharArray() | Where-Object { $_ -eq ']' }).Count; Write-Host "$f : {}=$ob/$cb ()=$op/$cp []=$obr/$cbr"; if($ob -ne $cb -or $op -ne $cp -or $obr -ne $cbr){Write-Host "DESBALANCE!"} }
+```
+```powershell
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "FASE 7: progresión automática y recomendaciones de estudio" && git push origin main
 ```
 
----
+═════════════════════════════════════════════════════════════════════
 
-### 🔵 FASE 5: PRÁCTICA INTERACTIVA (ejercicios gamificados sin IA)
+### 🔷 FASE 8: MODO COMPETICIÓN (OPCIONAL — solo si sobra tiempo)
 
-**Crear** `src/features/maestros/EjerciciosMaestros.jsx`
+#### Archivos a crear y modificar
+- **CREAR:** `src/features/maestros/CompetenciaMaestros.jsx` ← componente
+- **MODIFICAR:** `src/features/maestros/MaestrosPanel.jsx` ← añadir botón
+- **MODIFICAR:** `index.html` ← añadir script
 
-**Qué debe tener:**
-1. **Flip cards** (tarjetas que giran al hacer clic): muestra una palabra alemana atrás, el usuario intenta recordar la traducción
-2. **Tipo test**: pregunta con 4 opciones, feedback inmediato (verde/rojo)
-3. **Ordenar palabras**: arrastrar o hacer clic en orden correcto para formar oración (sin drag, usar clics)
-4. **Contador de aciertos/fallos** con racha actual
-5. **Niveles de dificultad** según el nivel del usuario (A1=vocabulario simple, C1=oraciones complejas)
+#### Pasos exactos:
 
-**Cómo obtener datos:**
-- Usar `getAllLevels()` para tener acceso a todos los módulos
-- Cada módulo tiene `ejemplos` y `ejercicioBase` con frases
-- Aleatorizar las preguntas de los ejercicios disponibles
+**PASO 8.1:** Crear `src/features/maestros/CompetenciaMaestros.jsx`
 
-**Añadir botón "Practicar"** en MaestrosPanel.jsx (en la cabecera o en el progreso) que abre el panel de ejercicios.
+Componente función `CompetenciaMaestros` que recibe `props.onCerrar`.
 
-**Añadir a index.html** ANTES de MaestrosPanel.jsx:
+Debe implementar:
+1. **Estado del juego:**
+   - `pregunta` actual (objeto con `pregunta`, `respuesta`, `opciones[]`)
+   - `puntaje` (número)
+   - `racha` (aciertos consecutivos)
+   - `tiempoRestante` (60 segundos)
+   - `preguntasRespondidas` (número)
+   - `juegoActivo` (true/false)
+   - `ranking` (array del localStorage "maestros_ranking")
+
+2. **Generar preguntas:**
+   - Usar `window.Muller.Maestros.getAllLevels()` para obtener todos los módulos
+   - De cada módulo usar `titulo` como pregunta: "¿Qué significa '{titulo}'?"
+   - La respuesta correcta es la `descripcion` del módulo
+   - Generar 3 opciones falsas mezclando descripciones de otros módulos
+   - Usar `opciones.sort(() => Math.random() - 0.5)` para mezclar
+
+3. **Lógica del juego:**
+   - Al empezar: `juegoActivo = true`, `tiempoRestante = 60`, `puntaje = 0`
+   - Usar `setInterval` para decrementar tiempo cada segundo
+   - Al responder: si correcta, sumar `10 * (1 + racha * 0.5)` puntos, incrementar racha
+   - Si incorrecta: racha vuelve a 0, mostrar feedback rojo
+   - Al acabar tiempo: guardar puntuación en ranking si es top 10
+
+4. **Ranking local:**
+   - Guardar en localStorage "maestros_ranking" como array de `{ nombre, puntaje, fecha }`
+   - Mostrar top 10 ordenado por puntaje descendente
+   - Preguntar nombre al usuario la primera vez, guardar en localStorage "maestros_nombre"
+
+5. **UI:**
+   - Pantalla grande con overlay oscuro (`fixed inset-0 bg-black/80 flex items-center justify-center z-50`)
+   - Tarjeta blanca/oscura con la pregunta y 4 opciones (botones)
+   - Timer grande arriba, puntaje y racha visibles
+   - Animación de acierto (verde) / fallo (rojo) en los botones
+   - Al final: mostrar puntuación y ranking
+   - Botón "Volver" llama a `props.onCerrar()`
+
+**PASO 8.2:** Modificar `MaestrosPanel.jsx`:
+1. Añadir botón "🏆 Competencia" en el header (junto al botón IA)
+2. Al hacer clic, renderizar `<CompetenciaMaestros onCerrar={function(){ setMostrarCompetencia(false); }} />`
+3. Controlar visibilidad con estado `mostrarCompetencia`
+
+**PASO 8.3:** Añadir script a index.html entre línea 980 y 981:
 ```html
-    <script type="text/babel" src="src/features/maestros/EjerciciosMaestros.jsx"></script>
+<script type="text/babel" src="src/features/maestros/CompetenciaMaestros.jsx"></script>
 ```
 
-**Commit:**
+**PASO 8.4:** Verificar balance y commit:
 ```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "FASE 5: práctica interactiva con flip cards, test y ordenar palabras" && git push origin main
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $archivos = @("src/features/maestros/CompetenciaMaestros.jsx","src/features/maestros/MaestrosPanel.jsx","index.html"); foreach($f in $archivos) { $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); $ob = ($txt.ToCharArray() | Where-Object { $_ -eq '{' }).Count; $cb = ($txt.ToCharArray() | Where-Object { $_ -eq '}' }).Count; $op = ($txt.ToCharArray() | Where-Object { $_ -eq '(' }).Count; $cp = ($txt.ToCharArray() | Where-Object { $_ -eq ')' }).Count; $obr = ($txt.ToCharArray() | Where-Object { $_ -eq '[' }).Count; $cbr = ($txt.ToCharArray() | Where-Object { $_ -eq ']' }).Count; Write-Host "$f : {}=$ob/$cb ()=$op/$cp []=$obr/$cbr"; if($ob -ne $cb -or $op -ne $cp -or $obr -ne $cbr){Write-Host "DESBALANCE!"} }
+```
+```powershell
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "FASE 8: modo competencia con temporizador y ranking local" && git push origin main
 ```
 
----
+═════════════════════════════════════════════════════════════════════
 
 ## ⛔ ¡DETENTE AQUÍ!
 
-**CUANDO TERMINES FASE 5, DILE AL USUARIO EXACTAMENTE ESTO:**
+**CUANDO TERMINES FASE 8 (o la última fase que implementes), DILE AL USUARIO EXACTAMENTE ESTO:**
 
-"He completado las FASES 2, 3, 4 y 5 del panel Maestros. El rediseño UI con pestañas de nivel, el sistema de progreso con rachas y puntos, el profesor IA integrado con DeepSeek, y la práctica interactiva con flip cards/test/ordenar palabras están listos y commiteados. Fases 6, 7 y 8 quedan pendientes para el próximo agente."
+"Panel Maestros completado al 100%. Fases 0-8 implementadas. La aplicación sigue funcionando con React 18 CDN + Babel standalone, sin bundlers. Todos los cambios están commiteados y pusheados a GitHub."
 
-**NO SIGAS TRABAJANDO. NO EMPIECES FASES 6, 7 NI 8.**
+**NO SIGAS TRABAJANDO. NO EMPIECES NUEVAS FASES. NO HAGAS MEJORAS ADICIONALES.**
 
----
+═════════════════════════════════════════════════════════════════════
 
-## ⚠️ ATAJOS DE VERIFICACIÓN RÁPIDA
+## ⚠️ ATAJOS RÁPIDOS
 
-### Verificar balance de archivo:
+### Ver archivo completo (sin paginación):
 ```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $f = "RUTA/DEL/ARCHIVO"; $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); $ob = ($txt.ToCharArray() | Where-Object { $_ -eq '{' }).Count; $cb = ($txt.ToCharArray() | Where-Object { $_ -eq '}' }).Count; $op = ($txt.ToCharArray() | Where-Object { $_ -eq '(' }).Count; $cp = ($txt.ToCharArray() | Where-Object { $_ -eq ')' }).Count; $obr = ($txt.ToCharArray() | Where-Object { $_ -eq '[' }).Count; $cbr = ($txt.ToCharArray() | Where-Object { $_ -eq ']' }).Count; if ($ob -eq $cb) { Write-Host "Llaves: OK ($ob)" } else { Write-Host "Llaves: DESBALANCE ({ = $ob, } = $cb)" }; if ($op -eq $cp) { Write-Host "Parentesis: OK ($op)" } else { Write-Host "Parentesis: DESBALANCE (( = $op, ) = $cp)" }; if ($obr -eq $cbr) { Write-Host "Corchetes: OK ($obr)" } else { Write-Host "Corchetes: DESBALANCE ([ = $obr, ] = $cbr)" }
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; Get-Content "src/features/maestros/ARCHIVO.jsx" -Raw
 ```
 
-### Para ver final de un archivo (sin leerlo entero):
+### Ver SOLO final de un archivo (últimas 50 líneas):
 ```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $f = "src/features/maestros/ARCHIVO.jsx"; $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $f), [System.Text.UTF8Encoding]::new($true)); Write-Host $txt.Substring([Math]::Max(0, $txt.Length - 4000))
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; (Get-Content "src/features/maestros/ARCHIVO.jsx")[-50..-1]
 ```
 
-### Para buscar algo en el proyecto:
+### Buscar texto en archivos de maestros:
 ```powershell
-Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; Select-String -Path "src\features\maestros\*.jsx" -Pattern "TEXTO_A_BUSCAR"
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; Select-String -Path "src\features\maestros\*.jsx" -Pattern "LO QUE BUSCAS"
 ```
 
-### Commit y push:
+### Ver balance de TODOS los archivos de maestros de una sola vez:
+```powershell
+Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; $archivos = Get-ChildItem "src\features\maestros\*.jsx" -Name; foreach($f in $archivos) { $ruta = "src\features\maestros\$f"; $txt = [System.IO.File]::ReadAllText((Join-Path $PWD $ruta), [System.Text.UTF8Encoding]::new($true)); $ob = ($txt.ToCharArray() | Where-Object { $_ -eq '{' }).Count; $cb = ($txt.ToCharArray() | Where-Object { $_ -eq '}' }).Count; $op = ($txt.ToCharArray() | Where-Object { $_ -eq '(' }).Count; $cp = ($txt.ToCharArray() | Where-Object { $_ -eq ')' }).Count; $obr = ($txt.ToCharArray() | Where-Object { $_ -eq '[' }).Count; $cbr = ($txt.ToCharArray() | Where-Object { $_ -eq ']' }).Count; if($ob -eq $cb -and $op -eq $cp -and $obr -eq $cbr){$ok="OK"}else{$ok="❌"}; Write-Host "$ok $f : {$ob/$cb} ($op/$cp) [$obr/$cbr]" }
+```
+
+### Commit y push rápido:
 ```powershell
 Set-Location "C:\PROFESOR-PLAZA-MULLER-git-desde-0"; git add . && git commit -m "MENSAJE" && git push origin main
+```
+
+═════════════════════════════════════════════════════════════════════
+FIN DEL PROMPT — CÓPIALO Y PÉGALO EN UN NUEVO CHAT
+═════════════════════════════════════════════════════════════════════
