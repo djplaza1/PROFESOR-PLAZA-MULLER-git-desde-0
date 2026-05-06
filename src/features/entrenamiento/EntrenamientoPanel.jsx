@@ -2227,6 +2227,10 @@
         var [dashboard, setDashboard] = React.useState(window.Muller.getAdvancedDashboard ? window.Muller.getAdvancedDashboard() : {});
         var [activeSection, setActiveSection] = React.useState('dashboard');
         var [deepseekReady, setDeepseekReady] = React.useState(false);
+        var [showFloatingChat, setShowFloatingChat] = React.useState(false);
+        var [chatMinimized, setChatMinimized] = React.useState(true);
+        // Clave única para forzar recreación del ChatWidget si se cierra del todo
+        var [chatKey, setChatKey] = React.useState(0);
         
         // Actualizar dashboard cuando cambia
         React.useEffect(function() {
@@ -2371,6 +2375,72 @@
                                 React.createElement('div', { style: { fontSize: '0.68rem', color: '#64748b' } }, stat.label)
                             );
                         })
+                    )
+                )
+            ),
+
+            // ─── Botón flotante del Tutor AI (siempre visible) ───
+            React.createElement('button', {
+                onClick: function() { setShowFloatingChat(!showFloatingChat); setChatMinimized(false); },
+                style: {
+                    position: 'fixed',
+                    bottom: 20,
+                    right: 20,
+                    zIndex: 9999,
+                    width: 56,
+                    height: 56,
+                    borderRadius: 28,
+                    border: 'none',
+                    background: 'linear-gradient(135deg, #0ea5e9, #3b82f6)',
+                    color: 'white',
+                    fontSize: 24,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 20px rgba(14, 165, 233, 0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'transform 0.2s ease',
+                    transform: showFloatingChat ? 'rotate(45deg)' : 'rotate(0deg)'
+                },
+                title: 'Tutor AI'
+            }, showFloatingChat ? '✕' : '🤖'),
+
+            // ─── Panel flotante del Chat AI ───
+            showFloatingChat && React.createElement('div', {
+                style: {
+                    position: 'fixed',
+                    bottom: 86,
+                    right: 20,
+                    zIndex: 9998,
+                    maxWidth: 400,
+                    width: '90vw',
+                    background: '#1e293b',
+                    borderRadius: 16,
+                    border: '1px solid #334155',
+                    boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
+                    overflow: 'hidden'
+                }
+            },
+                React.createElement('div', {
+                    style: {
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px 16px',
+                        background: '#0ea5e9',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        cursor: 'pointer'
+                    },
+                    onClick: function() { setChatMinimized(!chatMinimized); }
+                },
+                    React.createElement('span', null, '🤖 Tutor AI'),
+                    React.createElement('span', null, chatMinimized ? '▲' : '▼')
+                ),
+                !chatMinimized && React.createElement('div', { key: chatKey },
+                    React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget ? window.Muller.DeepSeek.ChatWidget : 'div', null,
+                        !window.Muller.DeepSeek && React.createElement('div', { style: { color: '#f87171', fontSize: '0.85rem', padding: 16, textAlign: 'center' } }, 'Módulo DeepSeek no disponible')
                     )
                 )
             )
