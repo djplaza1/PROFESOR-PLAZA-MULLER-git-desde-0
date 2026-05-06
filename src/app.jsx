@@ -13,12 +13,7 @@ function App() {
       return s.theme || 'dark';
     } catch(e) { return 'dark'; }
   });
-  const [theme, setTheme] = React.useState(() => {
-    try {
-      const s = window.Muller.Ajustes ? window.Muller.Ajustes.getAll() : {};
-      return s.theme || 'dark';
-    } catch(e) { return 'dark'; }
-  });
+  
   const [activeTab, setActiveTab] = useLocalStorage('muller_active_tab_v1', 'inicio');
   const [session, setSession] = React.useState(null);
   React.useEffect(() => { async function init() { const s = await getActiveSession(); if (s) setSession(s); } init(); }, []);
