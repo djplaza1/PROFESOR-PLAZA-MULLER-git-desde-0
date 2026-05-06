@@ -70,7 +70,7 @@ window.Muller.Comunidad.sumarPuntos = (cantidad) => {
 // Obtener puntos totales del usuario (combinando persistente + progreso)
 window.Muller.Comunidad.getPuntosUsuario = () => {
   const ptsPersistentes = window.Muller.Comunidad.getPuntosPersistentes();
-  const progreso = window.Muller.getAdvancedProgress ? window.Muller.getAdvancedProgress() : {};
+  const progreso = (window.Muller.Storage && window.Muller.Storage.loadProgress) ? window.Muller.Storage.loadProgress() : (window.Muller.Progreso && window.Muller.Progreso.getAdvancedProgress ? window.Muller.Progreso.getAdvancedProgress() : {});
   const racha = progreso.streak || 0;
   const logros = progreso.achievements ? progreso.achievements.length : 0;
   const diario = progreso.dailyActivity ? Object.keys(progreso.dailyActivity).length : 0;
@@ -86,7 +86,7 @@ window.Muller.Comunidad.LIGAS = [
 
 // Obtener puntos totales del usuario (de rachas, logros, etc.)
 window.Muller.Comunidad.getPuntosUsuario = () => {
-  const progreso = window.Muller.getAdvancedProgress ? window.Muller.getAdvancedProgress() : {};
+  const progreso = (window.Muller.Storage && window.Muller.Storage.loadProgress) ? window.Muller.Storage.loadProgress() : (window.Muller.Progreso && window.Muller.Progreso.getAdvancedProgress ? window.Muller.Progreso.getAdvancedProgress() : {});
   const racha = progreso.streak || 0;
   const logros = progreso.achievements ? progreso.achievements.length : 0;
   const diario = progreso.dailyActivity ? Object.keys(progreso.dailyActivity).length : 0;
@@ -104,7 +104,8 @@ window.Muller.Comunidad.getLigaUsuario = (puntos) => {
 
 // Generar ranking con bots
 window.Muller.Comunidad.generarRanking = () => {
-  const usuario = window.Muller.getUser ? window.Muller.getUser() : { name: "Tú" };
+  const userStats = (window.Muller.Storage && window.Muller.Storage.loadProgress) ? window.Muller.Storage.loadProgress() : {};
+const usuario = { name: userStats.username || (userStats.email ? userStats.email.split("@")[0] : "Tú") };
   const puntosUsuario = window.Muller.Comunidad.getPuntosUsuario();
   const nombreUsuario = usuario.name || usuario.email || "Tú";
 
