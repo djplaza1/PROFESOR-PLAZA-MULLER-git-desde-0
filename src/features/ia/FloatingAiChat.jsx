@@ -228,11 +228,14 @@ window.Muller.FloatingAiChat.Component = function() {
         zIndex: 99998,
         maxWidth: 420,
         width: '90vw',
+        maxHeight: 'calc(100vh - 110px)',
         background: '#1e293b',
         borderRadius: 16,
         border: '1px solid #334155',
         boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column'
     };
     
     var headerStyle = {
@@ -442,7 +445,7 @@ window.Muller.FloatingAiChat.Component = function() {
             ),
             
             // ─── Chat ───
-            !chatMinimized && !showSettings && !showHistoryStats && React.createElement('div', { key: chatKey },
+            !chatMinimized && !showSettings && !showHistoryStats && React.createElement('div', { key: chatKey, style: { overflowY: 'auto', flex: 1 } },
                 React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget ? window.Muller.DeepSeek.ChatWidget : 'div', { 
                     initialMinimized: false,
                     temperature: temperature,
