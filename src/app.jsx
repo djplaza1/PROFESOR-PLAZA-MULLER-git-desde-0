@@ -43,7 +43,6 @@ function App() {
         </div>
       </div>
       {React.createElement(window.Muller.BottomBar, { activeTab, onTabChange: setActiveTab })}
-      {React.createElement(window.Muller.FloatingAiChat.Component)}
     </div>
   );
 }

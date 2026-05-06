@@ -547,6 +547,17 @@ window.Muller.Panels.AjustesPanel = {
       };
     });
 
+    // 🌅 Slider de luz cálida
+    const warmSlider = document.getElementById('warm-light-slider');
+    const warmLabel = document.getElementById('warm-light-label');
+    if (warmSlider && warmLabel) {
+      warmSlider.addEventListener('input', () => {
+        const val = parseFloat(warmSlider.value).toFixed(1);
+        warmLabel.textContent = Math.round(val * 100) + '%';
+        localStorage.setItem('muller_warm_light', val);
+        window.dispatchEvent(new Event('warmLightChanged'));
+      });
+    }
     // Reset settings
     const resetBtn = document.getElementById('reset-settings-btn');
     if (resetBtn) {
