@@ -34,6 +34,15 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [arenaHistorial, setArenaHistorial] = useState([]);
   const [arenaStats, setArenaStats] = useState({ total: 0, aciertos: 0, fallos: 0, precision: 0 });
   const [arenaBuscando, setArenaBuscando] = useState(false);
+  // ─── CLUBS ───
+  const [showClubForm, setShowClubForm] = useState(false);
+  const [clubNombre, setClubNombre] = useState('');
+  const [clubDescripcion, setClubDescripcion] = useState('');
+  const [clubs, setClubs] = useState([]);
+  const [clubChatActual, setClubChatActual] = useState(null);
+  const [clubMensajes, setClubMensajes] = useState([]);
+  const [clubMensajeTexto, setClubMensajeTexto] = useState('');
+  const [yoEnClubs, setYoEnClubs] = useState('yo');
 
   useEffect(() => {
     const pts = window.Muller.Comunidad.getPuntosUsuario();
@@ -282,6 +291,65 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
       iniciarArenaLocal();
     });
   };
+
+  // ─── CLUBS HANDLERS ───
+  const crearClub = function() {
+    if (!clubNombre.trim()) return;
+    var C = window.Muller.Comunidad.Clubs;
+    if (!C) return alert('Clubs no disponible');
+    var r = C.crearClub(clubNombre.trim(), clubDescripcion.trim());
+    if (r.ok) {
+      setClubs(C.getClubs());
+      setClubNombre('');
+      setClubDescripcion('');
+      setShowClubForm(false);
+      if (window.Muller.Toast) window.Muller.Toast.show('Club creado!', 'success', 2000);
+    } else {
+      alert(r.msg);
+    }
+  };
+
+  const unirseClub = function(clubId) {
+    var C = window.Muller.Comunidad.Clubs;
+    if (!C) return;
+    var r = C.unirseClub(clubId);
+    if (r.ok) {
+      setClubs(C.getClubs());
+      if (window.Muller.Toast) window.Muller.Toast.show('Te has unido al club', 'success', 2000);
+    } else {
+      alert(r.msg);
+    }
+  };
+
+  const salirClub = function(clubId) {
+    if (!confirm('¿Salir del club?')) return;
+    var C = window.Muller.Comunidad.Clubs;
+    if (!C) return;
+    C.salirClub(clubId);
+    setClubs(C.getClubs());
+    if (window.Muller.Toast) window.Muller.Toast.show('Has salido del club', 'success', 2000);
+  };
+
+  const enviarClubMensaje = function() {
+    if (!clubMensajeTexto.trim() || !clubChatActual) return;
+    var C = window.Muller.Comunidad.Clubs;
+    if (!C) return;
+    var r = C.enviarMensaje(clubChatActual.id, clubMensajeTexto.trim());
+    if (r.ok) {
+      setClubMensajeTexto('');
+      // Recargar mensajes
+      var msgs = C.getMensajes(clubChatActual.id);
+      setClubMensajes(msgs);
+    }
+  };
+
+  // Cargar clubs al montar
+  useEffect(function() {
+    var C = window.Muller.Comunidad.Clubs;
+    if (C) {
+      setClubs(C.getClubs());
+    }
+  }, []);
 
   // Actualizar historial/stats al montar
   useEffect(function() {
@@ -674,6 +742,172 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
                 })}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* 🏰 CLUBS DE ESTUDIO */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xl font-semibold">🏰 Clubs de estudio</h3>
+          <button
+            onClick={() => setShowClubForm(!showClubForm)}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded text-sm font-bold"
+          >
+            {showClubForm ? '✕ Cerrar' : '➕ Crear club'}
+          </button>
+        </div>
+
+        {/* Formulario crear club */}
+        {showClubForm && (
+          <div className="bg-gray-700 p-3 rounded-lg mb-3 space-y-2">
+            <input
+              type="text"
+              value={clubNombre}
+              onChange={(e) => setClubNombre(e.target.value)}
+              placeholder="Nombre del club"
+              className="w-full border border-gray-600 rounded px-2 py-1 bg-gray-800 text-white text-sm"
+            />
+            <textarea
+              value={clubDescripcion}
+              onChange={(e) => setClubDescripcion(e.target.value)}
+              placeholder="Descripción del club"
+              className="w-full border border-gray-600 rounded px-2 py-1 bg-gray-800 text-white text-sm h-16"
+            />
+            <button
+              onClick={crearClub}
+              disabled={!clubNombre.trim()}
+              className="w-full bg-green-600 hover:bg-green-500 text-white py-2 rounded font-bold text-sm disabled:opacity-50"
+            >
+              🏰 Crear club
+            </button>
+          </div>
+        )}
+
+        {/* Lista de clubs */}
+        {clubs.length === 0 ? (
+          <p className="text-gray-400 text-sm">No hay clubs aún. ¡Crea el primero!</p>
+        ) : (
+          <ul className="divide-y divide-gray-700">
+            {clubs.map((club, idx) => (
+              <li key={club.id || idx} className="py-3">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <p className="font-semibold">{club.nombre}</p>
+                    <p className="text-xs text-gray-400">{club.descripcion}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      👥 {club.miembros ? club.miembros.length : 0} miembros
+                      {club.ranking && club.ranking.length > 0 && ` | 🏆 ${club.ranking.reduce(function(a, m) { return a + (m.puntos || 0); }, 0)} pts totales`}
+                    </p>
+                    {/* Mini ranking */}
+                    {club.ranking && club.ranking.length > 0 && (
+                      <div className="mt-1">
+                        <p className="text-xs text-gray-400">Ranking interno:</p>
+                        {club.ranking.sort(function(a, b) { return (b.puntos || 0) - (a.puntos || 0); }).slice(0, 5).map(function(m, i) {
+                          return (
+                            <p key={m.nombre || i} className="text-xs text-gray-500 ml-2">
+                              {i + 1}. {m.nombre}: {m.puntos || 0} pts
+                            </p>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-1 ml-2">
+                    {club.miembros && club.miembros.includes(yoEnClubs ? yoEnClubs : 'yo') ? (
+                      <>
+                        <button
+                          onClick={() => { setClubChatActual(club); }}
+                          className="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded text-xs"
+                        >
+                          💬 Chat
+                        </button>
+                        <button
+                          onClick={() => salirClub(club.id)}
+                          className="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-xs"
+                        >
+                          🚪 Salir
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => unirseClub(club.id)}
+                        className="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded text-xs"
+                      >
+                        ➕ Unirse
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* Desafíos semanales del club */}
+        {clubs.filter(function(c) { return c.miembros && c.miembros.includes(yoEnClubs ? yoEnClubs : 'yo'); }).length > 0 && (
+          <div className="mt-3 pt-3 border-t border-gray-700">
+            <p className="text-sm font-semibold mb-2">🎯 Desafíos semanales del club</p>
+            {clubs.filter(function(c) { return c.miembros && c.miembros.includes(yoEnClubs ? yoEnClubs : 'yo'); }).map(function(club) {
+              if (!club.desafiosSemanales || club.desafiosSemanales.length === 0) {
+                return <p key={club.id} className="text-xs text-gray-400">No hay desafíos esta semana</p>;
+              }
+              return (
+                <div key={club.id} className="space-y-1">
+                  {club.desafiosSemanales.map(function(d, i) {
+                    return (
+                      <div key={d.id || i} className="bg-gray-700 p-2 rounded text-sm">
+                        <p className="font-medium">{d.titulo}</p>
+                        <p className="text-xs text-gray-400">{d.descripcion}</p>
+                        <p className="text-xs text-yellow-400 mt-1">🏆 {d.recompensa} pts | Estado: {d.completado ? '✅ Completado' : '⏳ Pendiente'}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Modal chat de club */}
+      {clubChatActual && (
+        <div className="fixed inset-0 z-[270] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setClubChatActual(null)}>
+          <div className="bg-gray-800 p-6 rounded-xl shadow-2xl border border-gray-600 max-w-lg w-full max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xl font-bold">💬 {clubChatActual.nombre}</h3>
+              <button onClick={() => setClubChatActual(null)} className="text-gray-400 hover:text-white text-lg">&times;</button>
+            </div>
+            <div className="flex-1 overflow-y-auto bg-gray-900 rounded p-3 mb-3 space-y-2" style={{maxHeight: '40vh'}}>
+              {clubMensajes.length === 0 ? (
+                <p className="text-gray-500 text-sm text-center">No hay mensajes en el club</p>
+              ) : (
+                clubMensajes.map(function(msg, idx) {
+                  return (
+                    <div key={msg.id || idx} className={`flex ${msg.de === 'yo' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[80%] p-2 rounded-lg text-sm ${msg.de === 'yo' ? 'bg-indigo-700 text-white' : 'bg-gray-700 text-gray-200'}`}>
+                        <p className="text-xs text-gray-400 mb-1">{msg.de !== 'yo' ? (msg.nombre || 'Miembro') : 'Tú'}</p>
+                        <p>{msg.texto}</p>
+                        <p className="text-xs text-gray-500 mt-1">{new Date(msg.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={clubMensajeTexto}
+                onChange={(e) => setClubMensajeTexto(e.target.value)}
+                onKeyDown={function(e) { if (e.key === 'Enter') enviarClubMensaje(); }}
+                placeholder="Escribe un mensaje al club..."
+                className="flex-1 border border-gray-600 rounded px-3 py-2 bg-gray-700 text-white text-sm"
+              />
+              <button onClick={enviarClubMensaje} className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded text-sm font-bold">
+                Enviar
+              </button>
+            </div>
           </div>
         </div>
       )}
