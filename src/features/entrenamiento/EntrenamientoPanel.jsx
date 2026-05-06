@@ -82,9 +82,93 @@
         var [currentIndex, setCurrentIndex] = React.useState(0);
         var [feedback, setFeedback] = React.useState(null);
         var [finished, setFinished] = React.useState(false);
-        var [stats, setStats] = React.useState({ total: 0, correct: 0, wrong: 0 });
+        var [stats, setStats] = React.useState({ total: 0, correct: 0, wrong: 0, streak: 0, bestStreak: 0 });
         var [editingCard, setEditingCard] = React.useState(null);
         var [editForm, setEditForm] = React.useState({ plural: '', type: '' });
+        var audioCtxRef = React.useRef(null);
+        
+        // 🔊 Sistema de sonidos con Web Audio API (sin archivos externos)
+        function playSound(type) {
+            try {
+                if (!audioCtxRef.current) {
+                    audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                var ctx = audioCtxRef.current;
+                var osc = ctx.createOscillator();
+                var gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                
+                if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08);
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.16);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.25);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(311.13, ctx.currentTime);
+                    osc.frequency.setValueAtTime(233.08, ctx.currentTime + 0.12);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.25);
+                } else if (type === 'streak3') {
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.4);
+                    setTimeout(function() {
+                        var osc2 = ctx.createOscillator();
+                        var gain2 = ctx.createGain();
+                        osc2.connect(gain2);
+                        gain2.connect(ctx.destination);
+                        gain2.gain.setValueAtTime(0.1, ctx.currentTime);
+                        gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                        osc2.frequency.setValueAtTime(1046.5, ctx.currentTime);
+                        osc2.start(ctx.currentTime);
+                        osc2.stop(ctx.currentTime + 0.2);
+                    }, 150);
+                } else if (type === 'streak5') {
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08);
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.16);
+                    osc.frequency.setValueAtTime(1046.5, ctx.currentTime + 0.24);
+                    gain.gain.setValueAtTime(0.25, ctx.currentTime);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.35);
+                } else if (type === 'streak10') {
+                    var notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+                    notes.forEach(function(freq, i) {
+                        var o = ctx.createOscillator();
+                        var g = ctx.createGain();
+                        o.connect(g);
+                        g.connect(ctx.destination);
+                        g.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.2);
+                        o.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+                        o.start(ctx.currentTime + i * 0.1);
+                        o.stop(ctx.currentTime + i * 0.1 + 0.2);
+                    });
+                } else if (type === 'finished') {
+                    var fNotes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5, 1318.5];
+                    fNotes.forEach(function(freq, i) {
+                        var o = ctx.createOscillator();
+                        var g = ctx.createGain();
+                        o.connect(g);
+                        g.connect(ctx.destination);
+                        g.gain.setValueAtTime(0.18, ctx.currentTime + i * 0.12);
+                        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.25);
+                        o.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
+                        if (i % 2 === 0) o.type = 'triangle';
+                        o.start(ctx.currentTime + i * 0.12);
+                        o.stop(ctx.currentTime + i * 0.12 + 0.25);
+                    });
+                }
+            } catch(e) { /* Silently fail */ }
+        }
         var pluralTypes = ['-e', '-e+Umlaut', '-er', '-en', '-n', '-nen', '-s', '= (cero)', '= (+Umlaut)'];
         var colors = {
             '-e': '#3b82f6', '-e+Umlaut': '#8b5cf6', '-er': '#ef4444',

@@ -27,8 +27,8 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     const resultado = window.Muller.Comunidad.verificarCambioLiga(pts);
     if (resultado.cambio && resultado.anterior) {
       setLigaMsg(resultado.subio
-        ? ¡ASCENDISTE a !  +50 monedas
-        : Descendiste a . ¡Sigue practicando!);
+        ? `¡ASCENDISTE a ${resultado.liga.nombre}! ${resultado.liga.emoji} +50 monedas`
+        : `Descendiste a ${resultado.liga.nombre}. ¡Sigue practicando!`);
       if (resultado.subio) {
         window.Muller.Comunidad.sumarPuntos(50);
         setPuntos(p => p + 50);
