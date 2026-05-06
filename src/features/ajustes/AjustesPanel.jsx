@@ -176,6 +176,19 @@ window.Muller.Panels.AjustesPanel = {
           </div>
         </div>
 
+        <!-- Luz cálida -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
+          <h4 class="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg> Luz cálida (filtro ocular)
+          </h4>
+          <p class="text-[11px] text-gray-500 mb-2">Reduce la fatiga visual con un filtro amarillento ajustable. 0% = apagado, 100% = máximo.</p>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-500">0%</span>
+            <input type="range" id="warm-light-slider" min="0" max="1" step="0.1" value="0.0" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-amber-400" />
+            <span class="text-xs text-gray-500">100%</span>
+          </div>
+          <p id="warm-light-label" class="text-xs text-amber-400 text-center font-mono">0%</p>
+        </div>
         <!-- Audio y voz -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-fuchsia-300 flex items-center gap-2">
