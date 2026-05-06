@@ -164,6 +164,26 @@ window.Muller.FloatingAiChat.Component = function() {
     var showHistoryStats = _e[0];
     var setShowHistoryStats = _e[1];
     
+    // ─── Atajo de teclado Ctrl+Space ───
+    React.useEffect(function() {
+        function handleKeyDown(e) {
+            if (e.ctrlKey && e.code === 'Space') {
+                e.preventDefault();
+                setShowFloatingChat(function(prev) {
+                    var next = !prev;
+                    if (next) {
+                        setChatMinimized(false);
+                        setShowSettings(false);
+                        setShowHistoryStats(false);
+                    }
+                    return next;
+                });
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown);
+        return function() { window.removeEventListener('keydown', handleKeyDown); };
+    }, []);
+    
     // Temperatura por defecto
     var _f = React.useState(0.1);
     var temperature = _f[0];

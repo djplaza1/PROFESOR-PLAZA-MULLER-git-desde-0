@@ -1,232 +1,163 @@
 // ═══════════════════════════════════════════════════
 // DeepSeek AI Integration – Profesor Plaza Müller
 // ═══════════════════════════════════════════════════
-// Proporciona explicaciones, tips y asistencia IA
-// usando la API de DeepSeek (modelo deepseek-chat)
-// ═══════════════════════════════════════════════════
 
 window.Muller = window.Muller || {};
 window.Muller.DeepSeek = window.Muller.DeepSeek || {};
 
-// ─── Config ───
-window.Muller.DeepSeek.API_ENDPOINT = 'https://api.deepseek.com/v1/chat/completions';
-window.Muller.DeepSeek.MODEL = 'deepseek-chat';
-window.Muller.DeepSeek.API_KEY_KEY = 'muller_deepseek_api_key_v1';
-
-// ─── Get/Set API Key ───
-window.Muller.DeepSeek.getApiKey = function() {
-    return localStorage.getItem(window.Muller.DeepSeek.API_KEY_KEY) || '';
-};
-
-window.Muller.DeepSeek.setApiKey = function(k) {
-    localStorage.setItem(window.Muller.DeepSeek.API_KEY_KEY, k);
-    window.dispatchEvent(new CustomEvent('deepseekKeyChanged', { detail: { key: k } }));
-};
+// ─── API Key management ───
+var STORAGE_KEY = 'muller_deepseek_apikey';
 
 window.Muller.DeepSeek.hasApiKey = function() {
-    var k = window.Muller.DeepSeek.getApiKey();
-    return k && k.length > 10;
+    return !!localStorage.getItem(STORAGE_KEY);
 };
 
-// ─── Chat Completion ───
-window.Muller.DeepSeek.chat = async function(messages, options) {
-    options = options || {};
+window.Muller.DeepSeek.getApiKey = function() {
+    return localStorage.getItem(STORAGE_KEY) || '';
+};
+
+window.Muller.DeepSeek.setApiKey = function(key) {
+    if (key) {
+        localStorage.setItem(STORAGE_KEY, key);
+    } else {
+        localStorage.removeItem(STORAGE_KEY);
+    }
+};
+
+// ─── Free chat (single call) ───
+// messages: array de { role: 'user' | 'assistant', content: string }
+// opts: { temperature?: number, maxTokens?: number }
+// Returns: string (respuesta del assistant)
+window.Muller.DeepSeek.freeChat = async function(userMessage, history, opts) {
+    opts = opts || {};
     var apiKey = window.Muller.DeepSeek.getApiKey();
-    if (!apiKey || apiKey.length < 10) {
-        throw new Error('❌ No hay clave API de DeepSeek configurada.');
-    }
-var body = {
-    model: options.model || window.Muller.DeepSeek.MODEL,
-    messages: messages,
-    temperature: options.temperature != null ? options.temperature : 0.7,
-    max_tokens: options.maxTokens || 600,
-    stream: false
-};
-if (options.topP != null) body.top_p = options.topP;
+    if (!apiKey) throw new Error('No API Key configured');
 
-try {
-    var resp = await fetch(window.Muller.DeepSeek.API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + apiKey
-        },
-        body: JSON.stringify(body)
-    });
-    if (!resp.ok) {
-        var errText = await resp.text();
-        throw new Error('DeepSeek API error ' + resp.status + ': ' + errText);
-    }
-    var json = await resp.json();
-    if (!json.choices || json.choices.length === 0) {
-        throw new Error('Respuesta vacía de DeepSeek');
-    }
-    // Track token usage
-    var usage = json.usage || {};
-    var inputTokens = usage.prompt_tokens || 0;
-    var outputTokens = usage.completion_tokens || 0;
-    if (inputTokens > 0 || outputTokens > 0) {
-        var tracker = window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.TokenTracker;
-        if (tracker) tracker.addUsage(inputTokens, outputTokens);
-    }
-    return {
-        content: json.choices[0].message.content,
-        usage: { input: inputTokens, output: outputTokens }
-    };
-} catch (err) {
-    console.error('[DeepSeek] Error:', err);
-    throw err;
-}
-};
-
-// ─── Explicación de error ───
-window.Muller.DeepSeek.explainError = async function(question, userAnswer, correctAnswer, context) {
-    var systemPrompt = 'Eres un tutor de alemán experto en TELC. Explica de forma breve y clara por qué la respuesta es incorrecta, da una pista para recordarlo y un ejemplo corto. Responde en español. Máximo 4 frases.';
-    var userMsg = 'Pregunta: "' + question + '"\nRespuesta del estudiante: "' + userAnswer + '"\nRespuesta correcta: "' + correctAnswer + '"';
-    if (context) userMsg += '\nContexto adicional: ' + context;
-    
-    try {
-        var result = await window.Muller.DeepSeek.chat([
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userMsg }
-        ], { maxTokens: 300 });
-        return result.content || result;
-    } catch (e) {
-        return '❌ ' + e.message;
-    }
-};
-
-// ─── Generar ejercicio relacionado ───
-window.Muller.DeepSeek.generateRelatedExercise = async function(topic, level) {
-    var systemPrompt = 'Eres un profesor de alemán. Genera un ejercicio corto (máximo 3 frases) relacionado con el tema indicado para nivel ' + (level || 'B1') + '. Incluye la respuesta correcta entre paréntesis al final. Usa formato: [Ejercicio] → (Respuesta)';
-    
-    try {
-        var result = await window.Muller.DeepSeek.chat([
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: 'Tema: ' + topic }
-        ], { maxTokens: 200 });
-        return result && (result.content || result);
-    } catch (e) {
-        return null;
-    }
-};
-
-// ─── Explicación de gramática ───
-window.Muller.DeepSeek.grammarExplanation = async function(topic, userLevel) {
-    var systemPrompt = 'Eres un profesor de alemán especializado en TELC. Explica de forma clara y concisa el tema de gramática indicado, adaptado al nivel ' + (userLevel || 'B1') + '. Incluye 1 o 2 ejemplos. Responde en español. Máximo 6 frases.';
-    
-    try {
-        var result = await window.Muller.DeepSeek.chat([
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: 'Explica: ' + topic }
-        ], { maxTokens: 400 });
-        return result && (result.content || result);
-    } catch (e) {
-        return null;
-    }
-};
-
-// ─── Chat libre con IA ───
-window.Muller.DeepSeek.freeChat = async function(userMessage, history, options) {
-    options = options || {};
-    var systemPrompt = 'Eres un tutor de alemán llamado "Profesor Plaza Müller AI". Ayudas a estudiantes de alemán (niveles A1-C1). Respondes siempre en español, de forma AMABLE pero MUY CONCISA (máximo 4-5 frases). Prioriza ejemplos cortos y directos. Nada de rollo.';
-    var messages = [{ role: 'system', content: systemPrompt }];
-    if (Array.isArray(history)) {
-        for (var i = Math.max(0, history.length - 6); i < history.length; i++) {
-            messages.push(history[i]);
+    // Construir mensajes: system prompt + historial + mensaje actual
+    var messages = [
+        {
+            role: 'system',
+            content: 'Eres el profesor Plaza Müller, un tutor nativo alemán paciente y motivador que enseña alemán a hispanohablantes. Responde SIEMPRE en español. Tus instrucciones son: 1) Explica conceptos de alemán de forma clara y práctica. 2) Pon ejemplos reales de uso cotidiano. 3) Corrige errores con amabilidad. 4) Da consejos para el examen TELC. 5) Sé conciso: máximo 4-5 frases, nada de rollo. 6) Si preguntan por gramática, estructura la explicación paso a paso. 7) Mantén un tono cercano pero profesional, como un profe particular.'
         }
+    ];
+
+    // Añadir historial
+    if (history && history.length > 0) {
+        // Filtrar solo los últimos 10 mensajes para no exceder el contexto
+        var recentHistory = history.slice(-10);
+        messages = messages.concat(recentHistory.map(function(m) {
+            return { role: m.role, content: m.content };
+        }));
     }
+
+    // Añadir mensaje actual
     messages.push({ role: 'user', content: userMessage });
-    
+
     try {
-        var result = await window.Muller.DeepSeek.chat(messages, { 
-            maxTokens: options.maxTokens != null ? options.maxTokens : 200,
-            temperature: options.temperature != null ? options.temperature : 0.7
+        var response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + apiKey
+            },
+            body: JSON.stringify({
+                model: 'deepseek-chat',
+                messages: messages,
+                temperature: opts.temperature != null ? opts.temperature : 0.1,
+                max_tokens: opts.maxTokens != null ? opts.maxTokens : 200,
+                stream: false
+            })
         });
-        return result.content || result;
-    } catch (e) {
-        return '❌ ' + e.message;
+
+        if (!response.ok) {
+            var errorData;
+            try { errorData = await response.json(); } catch(e) { errorData = {}; }
+            throw new Error(errorData.error && errorData.error.message ? errorData.error.message : 'HTTP ' + response.status);
+        }
+
+        var data = await response.json();
+        var reply = data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : '';
+
+        // ─── Trackear tokens ───
+        if (data.usage && window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.TokenTracker) {
+            window.Muller.FloatingAiChat.TokenTracker.addUsage(
+                data.usage.prompt_tokens || 0,
+                data.usage.completion_tokens || 0
+            );
+        }
+
+        return reply;
+    } catch (err) {
+        throw err;
     }
 };
 
-// ─── Componente de configuración de API Key ───
-window.Muller.DeepSeek.ApiKeySetup = function() {
+// ─── API Key Panel ───
+window.Muller.DeepSeek.ApiKeyPanel = function() {
     var [key, setKey] = React.useState(window.Muller.DeepSeek.getApiKey());
-    var [show, setShow] = React.useState(false);
+    var [showKey, setShowKey] = React.useState(false);
     var [saved, setSaved] = React.useState(false);
-    
+
     var handleSave = function() {
-        if (key && key.length > 10) {
-            window.Muller.DeepSeek.setApiKey(key);
-            setSaved(true);
-            setTimeout(function() { setSaved(false); }, 2000);
-        }
+        window.Muller.DeepSeek.setApiKey(key.trim());
+        setSaved(true);
+        setTimeout(function() { setSaved(false); }, 2000);
     };
-    
+
     var handleClear = function() {
         window.Muller.DeepSeek.setApiKey('');
         setKey('');
+        setSaved(false);
     };
-    
-    return React.createElement('div', {
-        style: {
-            background: '#1e293b',
-            borderRadius: 16,
-            padding: 20,
-            border: '1px solid #334155',
-            maxWidth: 500
-        }
-    },
-        React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 } },
-            React.createElement('span', { style: { fontSize: 20 } }, '🤖'),
-            React.createElement('div', null,
-                React.createElement('div', { style: { fontWeight: 600, color: '#e2e8f0', fontSize: '0.95rem' } }, 'DeepSeek AI'),
-                React.createElement('div', { style: { fontSize: '0.78rem', color: '#94a3b8' } }, window.Muller.DeepSeek.hasApiKey() ? '✅ Conectado' : '🔑 Necesita API Key')
-            )
-        ),
-        React.createElement('div', { style: { display: 'flex', gap: 8, alignItems: 'center' } },
+
+    return React.createElement('div', { style: { padding: 16, background: '#0f172a', borderRadius: 12, border: '1px solid #334155' } },
+        React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 600, color: '#e2e8f0', marginBottom: 12 } }, '🔑 API Key de DeepSeek'),
+        React.createElement('div', { style: { display: 'flex', gap: 8, marginBottom: 8 } },
             React.createElement('input', {
-                type: show ? 'text' : 'password',
+                type: showKey ? 'text' : 'password',
                 value: key,
-                onChange: function(e) { setKey(e.target.value); setSaved(false); },
+                onChange: function(e) { setKey(e.target.value); },
                 placeholder: 'sk-...',
                 style: {
                     flex: 1,
-                    padding: '10px 12px',
+                    padding: '8px 12px',
                     borderRadius: 8,
                     border: '1px solid #334155',
-                    background: '#0f172a',
+                    background: '#1e293b',
                     color: '#e2e8f0',
                     fontSize: '0.85rem',
                     outline: 'none'
                 }
             }),
             React.createElement('button', {
-                onClick: function() { setShow(!show); },
+                onClick: function() { setShowKey(!showKey); },
                 style: {
-                    background: '#334155',
-                    color: '#e2e8f0',
-                    border: 'none',
+                    padding: '8px 12px',
                     borderRadius: 8,
-                    padding: '10px 12px',
+                    border: '1px solid #475569',
+                    background: 'transparent',
+                    color: '#94a3b8',
                     cursor: 'pointer',
                     fontSize: '0.85rem'
                 }
-            }, show ? '🙈' : '👁️'),
+            }, showKey ? '🙈' : '👁️')
+        ),
+        React.createElement('div', { style: { display: 'flex', gap: 8 } },
             React.createElement('button', {
                 onClick: handleSave,
                 style: {
-                    background: saved ? '#10b981' : '#06b6d4',
-                    color: 'white',
-                    border: 'none',
+                    flex: 1,
+                    padding: '8px 12px',
                     borderRadius: 8,
-                    padding: '10px 16px',
-                    cursor: 'pointer',
+                    border: 'none',
+                    background: saved ? '#16a34a' : '#06b6d4',
+                    color: 'white',
                     fontWeight: 600,
+                    cursor: 'pointer',
                     fontSize: '0.85rem'
                 }
-            }, saved ? '✅ Guardada' : 'Guardar'),
-            React.createElement('button', {
+            }, saved ? '✅ Guardada' : '💾 Guardar'),
+            key ? React.createElement('button', {
                 onClick: handleClear,
                 style: {
                     background: '#dc2626',
@@ -237,7 +168,7 @@ window.Muller.DeepSeek.ApiKeySetup = function() {
                     cursor: 'pointer',
                     fontSize: '0.85rem'
                 }
-            }, '🗑️')
+            }, '🗑️') : null
         ),
         React.createElement('div', { style: { marginTop: 10, fontSize: '0.75rem', color: '#64748b' } },
             'Conseguir API Key: ',
@@ -250,14 +181,139 @@ window.Muller.DeepSeek.ApiKeySetup = function() {
     );
 };
 
+// ─── Función auxiliar: leer texto en voz alta ───
+// Detecta si el texto parece alemán o español y usa la voz adecuada
+function speakText(text, callback) {
+    if (!window.speechSynthesis) {
+        if (callback) callback();
+        return;
+    }
+
+    // Cancelar cualquier voz anterior
+    window.speechSynthesis.cancel();
+
+    // Detectar idioma: si contiene palabras alemanas comunes (der, die, das, ich, du, etc.) asumir alemán
+    var esAleman = /\b(der|die|das|ich|du|sie|wir|ihr|und|oder|aber|nicht|kein|eine|ein|ist|sind|hat|hast|haben|wird|wirst|werden|kann|kannst|können|muss|musst|müssen|soll|sollst|sollen|darf|darfst|dürfen|mit|von|aus|nach|bei|seit|zu|um|für|durch|gegen|ohne|bis|zum|zur|deutsch|Deutsch|Deutschland)\b/i.test(text);
+    
+    var utterance = new SpeechSynthesisUtterance(text);
+    
+    // Configurar idioma y voz
+    if (esAleman) {
+        utterance.lang = 'de-DE';
+        utterance.rate = 0.85; // Un poco más lento para aprender
+        utterance.pitch = 1.0;
+    } else {
+        utterance.lang = 'es-ES';
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+    }
+
+    // Intentar encontrar una voz nativa adecuada
+    var voicelist = window.speechSynthesis.getVoices();
+    if (voicelist.length > 0) {
+        if (esAleman) {
+            // Buscar voz alemana nativa
+            var deVoz = voicelist.find(function(v) { return v.lang.startsWith('de') && v.localService; })
+                     || voicelist.find(function(v) { return v.lang.startsWith('de'); });
+            if (deVoz) utterance.voice = deVoz;
+        } else {
+            // Buscar voz española de España
+            var esVoz = voicelist.find(function(v) { return v.lang === 'es-ES' && v.localService; })
+                     || voicelist.find(function(v) { return v.lang.startsWith('es'); });
+            if (esVoz) utterance.voice = esVoz;
+        }
+    }
+
+    if (callback) {
+        utterance.onend = callback;
+    }
+
+    window.speechSynthesis.speak(utterance);
+}
+
 // ─── Chat Widget Component ───
-// Acepta props: { initialMinimized: false, temperature: 0.7 }
+// Acepta props: { initialMinimized: false, temperature: 0.7, maxTokens: 200 }
 window.Muller.DeepSeek.ChatWidget = function(props) {
     props = props || {};
     var [messages, setMessages] = React.useState([]);
     var [input, setInput] = React.useState('');
     var [loading, setLoading] = React.useState(false);
     var [minimized, setMinimized] = React.useState(props.initialMinimized === false ? false : true);
+    var [listening, setListening] = React.useState(false);
+    var [recognitionLang, setRecognitionLang] = React.useState('auto'); // 'auto', 'de-DE', 'es-ES'
+    var [speakingIndex, setSpeakingIndex] = React.useState(-1); // índice del mensaje que se está leyendo
+    
+    // ─── Reconocimiento de voz ───
+    var recognitionRef = React.useRef(null);
+    
+    var startListening = function() {
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert('🎤 Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.');
+            return;
+        }
+        
+        if (listening) {
+            // Ya está escuchando, detener
+            if (recognitionRef.current) {
+                recognitionRef.current.stop();
+            }
+            setListening(false);
+            return;
+        }
+        
+        var recognition = new SpeechRecognition();
+        recognitionRef.current = recognition;
+        
+        // Configurar idioma según selección
+        if (recognitionLang === 'de-DE') {
+            recognition.lang = 'de-DE';
+        } else if (recognitionLang === 'es-ES') {
+            recognition.lang = 'es-ES';
+        } else {
+            // 'auto' - intentar con español (la API de Chrome detecta automáticamente)
+            recognition.lang = 'es-ES'; // fallback, pero Chrome detecta si hablas alemán igual
+        }
+        
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        
+        recognition.onstart = function() {
+            setListening(true);
+        };
+        
+        recognition.onresult = function(event) {
+            var transcript = event.results[0][0].transcript;
+            // Añadir el texto transcrito al input
+            setInput(function(prev) {
+                return prev ? prev + ' ' + transcript : transcript;
+            });
+            setListening(false);
+        };
+        
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error', event.error);
+            setListening(false);
+            if (event.error !== 'no-speech' && event.error !== 'aborted') {
+                alert('🎤 Error de reconocimiento: ' + event.error);
+            }
+        };
+        
+        recognition.onend = function() {
+            setListening(false);
+        };
+        
+        recognition.start();
+    };
+    
+    // Cargar voces disponibles al montar el componente
+    React.useEffect(function() {
+        if (window.speechSynthesis) {
+            // Forzar carga de voces
+            window.speechSynthesis.getVoices();
+        }
+    }, []);
     
     var handleSend = async function() {
         if (!input.trim() || loading) return;
@@ -283,12 +339,8 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
     };
     
     var style = {
-        container: {
-            background: '#1e293b',
-            borderRadius: 16,
-            border: '1px solid #334155',
-            overflow: 'hidden',
-            maxWidth: 400
+        wrapper: {
+            // Sin wrapper extra, es un div normal que se adapta al contenedor padre
         },
         header: {
             padding: '12px 16px',
@@ -313,10 +365,13 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
             padding: '8px 12px',
             borderTop: '1px solid #334155',
             display: 'flex',
-            gap: 8
+            gap: 6,
+            flexWrap: 'wrap',
+            alignItems: 'center'
         },
         input: {
             flex: 1,
+            minWidth: 120,
             padding: '8px 12px',
             borderRadius: 8,
             border: '1px solid #334155',
@@ -341,30 +396,102 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
             borderRadius: '12px 12px 12px 4px',
             alignSelf: 'flex-start',
             fontSize: '0.85rem',
-            maxWidth: '85%'
+            maxWidth: '85%',
+            position: 'relative'
         }
     };
     
-    return React.createElement('div', { style: style.container },
+    return React.createElement('div', { style: style.wrapper },
         React.createElement('div', { style: style.header, onClick: function() { setMinimized(!minimized); } },
             React.createElement('span', null, '🤖 Tutor AI'),
-            React.createElement('span', null, minimized ? '▼' : '▲')
+            React.createElement('span', { style: { display: 'flex', gap: 6, alignItems: 'center' } },
+                listening && React.createElement('span', {
+                    style: { fontSize: '0.7rem', color: '#fbbf24', animation: 'pulse 1s infinite' }
+                }, '🔴 Grabando...'),
+                React.createElement('span', null, minimized ? '▼' : '▲')
+            )
         ),
         React.createElement('div', { style: style.body },
             messages.length === 0 && React.createElement('div', {
                 style: { color: '#64748b', fontSize: '0.8rem', textAlign: 'center', padding: 16 }
-            }, 'Pregúntame cualquier cosa sobre alemán o TELC...'),
+            }, 'Pregúntame cualquier cosa sobre alemán o TELC...\nUsa el 🎤 para hablar en vez de escribir.'),
             messages.map(function(msg, i) {
                 return React.createElement('div', {
                     key: i,
                     style: msg.role === 'user' ? style.userBubble : style.aiBubble
-                }, msg.content);
+                },
+                    msg.content,
+                    // Botón de leer en voz alta solo en mensajes del assistant
+                    msg.role === 'assistant' && React.createElement('button', {
+                        onClick: function(e) {
+                            e.stopPropagation();
+                            if (speakingIndex === i) {
+                                // Si ya se está leyendo este, detener
+                                window.speechSynthesis.cancel();
+                                setSpeakingIndex(-1);
+                            } else {
+                                window.speechSynthesis.cancel(); // Detener cualquier otro
+                                setSpeakingIndex(i);
+                                speakText(msg.content, function() {
+                                    setSpeakingIndex(-1);
+                                });
+                            }
+                        },
+                        title: 'Escuchar en voz alta',
+                        style: {
+                            display: 'block',
+                            marginTop: 6,
+                            padding: '3px 8px',
+                            borderRadius: 4,
+                            border: '1px solid #475569',
+                            background: speakingIndex === i ? '#3b82f6' : 'transparent',
+                            color: speakingIndex === i ? 'white' : '#94a3b8',
+                            cursor: 'pointer',
+                            fontSize: '0.7rem'
+                        }
+                    }, speakingIndex === i ? '⏹️ Detener' : '🔊 Escuchar')
+                );
             }),
             loading && React.createElement('div', {
                 style: { color: '#64748b', fontSize: '0.8rem', textAlign: 'center', padding: 4 }
             }, '🤔 Pensando...')
         ),
         React.createElement('div', { style: style.footer },
+            // Selector de idioma para el micrófono
+            React.createElement('select', {
+                value: recognitionLang,
+                onChange: function(e) { setRecognitionLang(e.target.value); },
+                style: {
+                    padding: '6px 8px',
+                    borderRadius: 6,
+                    border: '1px solid #475569',
+                    background: '#0f172a',
+                    color: '#e2e8f0',
+                    fontSize: '0.75rem',
+                    cursor: 'pointer',
+                    outline: 'none'
+                }
+            },
+                React.createElement('option', { value: 'auto' }, '🌐 Auto'),
+                React.createElement('option', { value: 'es-ES' }, '🇪🇸 Español'),
+                React.createElement('option', { value: 'de-DE' }, '🇩🇪 Deutsch')
+            ),
+            // Botón de micrófono
+            React.createElement('button', {
+                onClick: startListening,
+                title: listening ? 'Detener grabación' : 'Hablar por micrófono',
+                style: {
+                    padding: '8px 10px',
+                    borderRadius: 8,
+                    border: 'none',
+                    background: listening ? '#dc2626' : '#1e293b',
+                    color: 'white',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    border: '1px solid ' + (listening ? '#ef4444' : '#475569'),
+                    animation: listening ? 'pulse 1s infinite' : 'none'
+                }
+            }, listening ? '🔴' : '🎤'),
             React.createElement('input', {
                 value: input,
                 onChange: function(e) { setInput(e.target.value); },
