@@ -33,6 +33,36 @@ function App() {
       window.removeEventListener('themeChanged', themeHandler);
     };
   }, []);
+  // Inyectar CSS global según tema
+  React.useEffect(() => {
+    let styleEl = document.getElementById('muller-theme-style');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'muller-theme-style';
+      document.head.appendChild(styleEl);
+    }
+    if (theme === 'light') {
+      styleEl.textContent = `
+        .bg-white, [class*="bg-white"] { background-color: #1e293b !important; }
+        .text-gray-900, .text-slate-900 { color: #e2e8f0 !important; }
+        .text-gray-800, .text-slate-800 { color: #cbd5e1 !important; }
+        .text-gray-700, .text-slate-700 { color: #94a3b8 !important; }
+        .border-gray-200, .border-gray-300 { border-color: #334155 !important; }
+        .shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+        .shadow-lg { box-shadow: 0 4px 15px rgba(0,0,0,0.6) !important; }
+        input, textarea, select { background-color: #0f172a !important; color: #e2e8f0 !important; border-color: #334155 !important; }
+        .bg-gray-50 { background-color: #1e293b !important; }
+      `;
+    } else if (theme === 'hc') {
+      styleEl.textContent = `
+        body { filter: contrast(1.5) grayscale(1); }
+      `;
+    } else {
+      styleEl.textContent = '';
+    }
+  }, [theme]);
+    };
+  }, []);
   window.Muller.setWarmLight = (val) => {
     localStorage.setItem('muller_warm_light', val.toString());
     window.dispatchEvent(new Event('warmLightChanged'));
