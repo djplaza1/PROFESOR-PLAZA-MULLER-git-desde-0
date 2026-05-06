@@ -118,5 +118,23 @@ function PanelRouter({ tab, session }) {
   );
 }
 
-// ─── Montaje ───
+// ─── Montaje principal App ───
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+
+// ─── Montaje global del Floating AI Chat (fuera del árbol de App) ───
+// Crea su propio root para ser visible siempre: splash, login, cualquier pestaña
+(function() {
+    var containerId = 'muller-floating-ai-chat-root';
+    if (!document.getElementById(containerId)) {
+        var container = document.createElement('div');
+        container.id = containerId;
+        document.body.appendChild(container);
+    }
+    var container = document.getElementById(containerId);
+    // Si el componente ya está definido, lo montamos directamente
+    if (window.Muller && window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.Component) {
+        ReactDOM.createRoot(container).render(
+            React.createElement(window.Muller.FloatingAiChat.Component)
+        );
+    }
+})();

@@ -269,24 +269,5 @@ window.Muller.FloatingAiChat.Component = function() {
     );
 };
 
-// ─── Auto-montaje global (FUERA del árbol de App) ───
-// Crea un div contenedor y monta el componente con su propio createRoot.
-// Así el botón es visible SIEMPRE: splash, login, cualquier pestaña.
-(function() {
-    var containerId = 'muller-floating-ai-chat-root';
-    if (document.getElementById(containerId)) return; // ya montado
-    var container = document.createElement('div');
-    container.id = containerId;
-    document.body.appendChild(container);
-    // esperar a que React esté listo y el componente definido
-    function tryMount() {
-        if (typeof ReactDOM === 'undefined' || !ReactDOM.createRoot || !window.Muller.FloatingAiChat.Component) {
-            setTimeout(tryMount, 100);
-            return;
-        }
-        ReactDOM.createRoot(container).render(
-            React.createElement(window.Muller.FloatingAiChat.Component)
-        );
-    }
-    tryMount();
-})();
+// NOTA: El montaje global se realiza desde app.jsx con un createRoot propio.
+// Así el chat flotante es independiente del árbol de App (splash, login, cualquier pestaña).
