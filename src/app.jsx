@@ -61,8 +61,6 @@ function App() {
       styleEl.textContent = '';
     }
   }, [theme]);
-    };
-  }, []);
   window.Muller.setWarmLight = (val) => {
     localStorage.setItem('muller_warm_light', val.toString());
     window.dispatchEvent(new Event('warmLightChanged'));
