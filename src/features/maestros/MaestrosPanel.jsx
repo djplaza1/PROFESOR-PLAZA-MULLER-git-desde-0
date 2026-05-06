@@ -94,6 +94,15 @@ window.Muller.Panels['maestros'] = ({ session }) => {
     return map[nivel] || map.A1;
   };
 
+  // Mostrar panel de IA si se activó
+  if (mostrarIA && window.Muller.Panels['maestroIA']) {
+    var MaestroIAComp = window.Muller.Panels['maestroIA'];
+    return React.createElement(MaestroIAComp, {
+      session: session,
+      onVolver: function() { setMostrarIA(false); }
+    });
+  }
+
   // Mostrar panel de ejercicios si se activó
   if (mostrarEjercicios && window.Muller.Panels['ejerciciosMaestros']) {
     var EjerciciosComp = window.Muller.Panels['ejerciciosMaestros'];
@@ -116,6 +125,12 @@ window.Muller.Panels['maestros'] = ({ session }) => {
               className="px-3 py-1.5 rounded-xl text-xs font-bold bg-orange-600/30 border border-orange-500/40 text-orange-200 hover:bg-orange-600/50 transition-all">
               <span className="w-3.5 h-3.5 inline-block align-middle mr-1" dangerouslySetInnerHTML={{ __html: SvgZap }} />
               Practicar
+            </button>
+          )}
+          {window.Muller.Panels['maestroIA'] && (
+            <button onClick={() => setMostrarIA(true)}
+              className="px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600/30 border border-purple-500/40 text-purple-200 hover:bg-purple-600/50 transition-all">
+              🤖 Preguntar IA
             </button>
           )}
           <div className="bg-indigo-900/40 border border-indigo-500/30 rounded-full px-4 py-1.5 text-sm font-bold text-indigo-200 flex items-center gap-2">
