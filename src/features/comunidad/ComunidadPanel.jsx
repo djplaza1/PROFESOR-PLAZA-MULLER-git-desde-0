@@ -48,6 +48,17 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   // ─── TIENDA ───
   const [showTienda, setShowTienda] = useState(false);
   const [tiendaProductos, setTiendaProductos] = useState([]);
+  // ─── GUIONES ───
+  const [guionesCompartidos, setGuionesCompartidos] = useState([]);
+  const [muestrameMasDescargados, setMuMasDescargados] = useState(false);
+  // ─── MENTOR ───
+  const [mentorModal, setMentorModal] = useState(null);
+  const [mentorMatches, setMentorMatches] = useState([]);
+  const [mentorChat, setMentorChat] = useState({ mensajes: [], matchId: null });
+  // ─── HISTORIAS ───
+  const [historias, setHistorias] = useState([]);
+  const [historiaInput, setHistoriaInput] = useState('');
+  const [historiaActual, setHistoriaActual] = useState(null);
   const [tiendaCompras, setTiendaCompras] = useState([]);
 
   useEffect(() => {
@@ -1151,6 +1162,413 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
           </div>
         </div>
       )}
+
+      {/* 📜 Repositorio de guiones */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xl font-semibold">📜 Repositorio de guiones</h3>
+          <div className="flex gap-2">
+            <button
+              onClick={function() {
+                setMuMasDescargados(false);
+                var G = window.Muller.Comunidad.Guiones;
+                if (G) setGuionesCompartidos(G.getGuiones());
+              }}
+              className={`text-xs px-2 py-1 rounded ${!muestrameMasDescargados ? 'bg-cyan-600 text-white' : 'bg-gray-600 text-gray-300'}`}
+            >
+              Todos
+            </button>
+            <button
+              onClick={function() {
+                setMuMasDescargados(true);
+                var G = window.Muller.Comunidad.Guiones;
+                if (G) setGuionesCompartidos(G.getMasDescargados(10));
+              }}
+              className={`text-xs px-2 py-1 rounded ${muestrameMasDescargados ? 'bg-cyan-600 text-white' : 'bg-gray-600 text-gray-300'}`}
+            >
+              Más descargados
+            </button>
+          </div>
+        </div>
+
+        {/* Subir guión */}
+        <div className="bg-gray-700/50 p-3 rounded-lg mb-3">
+          <button
+            onClick={function() {
+              var titulo = prompt('Título del guión:');
+              if (!titulo) return;
+              var texto = prompt('Contenido del guión (texto en alemán):');
+              if (!texto) return;
+              var G = window.Muller.Comunidad.Guiones;
+              if (G) {
+                G.subirGuion(titulo, texto);
+                setGuionesCompartidos(muestrameMasDescargados ? G.getMasDescargados(10) : G.getGuiones());
+                if (window.Muller.Toast) window.Muller.Toast.show('Guión compartido!', 'success', 2000);
+              }
+            }}
+            className="w-full bg-cyan-600 hover:bg-cyan-500 text-white py-2 rounded font-bold text-sm"
+          >
+            📤 Compartir guión actual
+          </button>
+        </div>
+
+        {/* Lista de guiones */}
+        {guionesCompartidos.length === 0 ? (
+          <p className="text-gray-400 text-sm">No hay guiones compartidos aún. ¡Sé el primero!</p>
+        ) : (
+          <div className="space-y-2 max-h-80 overflow-y-auto">
+            {guionesCompartidos.map(function(g) {
+              return (
+                <div key={g.id} className="bg-gray-700 p-3 rounded-lg">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <p className="font-semibold text-white">{g.titulo}</p>
+                      <p className="text-xs text-gray-400">por {g.autor} · {new Date(g.timestamp).toLocaleDateString()}</p>
+                      <p className="text-sm text-gray-300 mt-1 truncate">{g.texto}</p>
+                    </div>
+                    <div className="flex flex-col items-end gap-1 ml-2">
+                      <button
+                        onClick={function() {
+                          var G = window.Muller.Comunidad.Guiones;
+                          if (G) {
+                            G.votarGuion(g.id, 'up');
+                            setGuionesCompartidos(muestrameMasDescargados ? G.getMasDescargados(10) : G.getGuiones());
+                          }
+                        }}
+                        className="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded text-xs"
+                      >
+                        ▲ {g.votos}
+                      </button>
+                      <button
+                        onClick={function() {
+                          var G = window.Muller.Comunidad.Guiones;
+                          if (G) {
+                            G.descargarGuion(g.id);
+                            setGuionesCompartidos(muestrameMasDescargados ? G.getMasDescargados(10) : G.getGuiones());
+                            if (window.Muller.Toast) window.Muller.Toast.show('Contenido copiado!', 'success', 2000);
+                            navigator.clipboard.writeText(g.texto).catch(function(){});
+                          }
+                        }}
+                        className="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded text-xs"
+                      >
+                        ⬇️ {g.descargas}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* 👥 Mentor/Tándem */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xl font-semibold">👥 Mentor/Tándem</h3>
+          <button
+            onClick={function() {
+              var nivel = prompt('Tu nivel de alemán (A1, A2, B1, B2, C1):') || 'A2';
+              var M = window.Muller.Comunidad.Mentor;
+              if (M) {
+                var r = M.registrarMatch(nivel.toUpperCase());
+                if (r) {
+                  setMentorMatches(M.getMatches());
+                  if (r.aceptado) {
+                    if (window.Muller.Toast) window.Muller.Toast.show(r.mentor ? 'Eres mentor!' : 'Match encontrado!', 'success', 2000);
+                  } else {
+                    if (window.Muller.Toast) window.Muller.Toast.show('Registrado, esperando match...', 'success', 2000);
+                  }
+                }
+              }
+            }}
+            className="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded text-sm font-bold"
+          >
+            🔍 Buscar tándem
+          </button>
+        </div>
+
+        {/* Puntos extra como mentor */}
+        <div className="bg-gray-700/50 p-2 rounded-lg mb-3">
+          <p className="text-sm text-gray-300">
+            🏆 Puntos como mentor: <strong className="text-yellow-400">{window.Muller.Comunidad.Mentor ? window.Muller.Comunidad.Mentor.getPuntosExtra() : 0}</strong>
+          </p>
+        </div>
+
+        {/* Lista de matches */}
+        {mentorMatches.length === 0 ? (
+          <p className="text-gray-400 text-sm">No hay matches activos. ¡Regístrate para encontrar un tándem!</p>
+        ) : (
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {mentorMatches.map(function(m) {
+              var esMentor = m.mentor === (window.Muller && window.Muller.session ? window.Muller.session.user?.nombre : 'yo') || m.mentor === 'yo';
+              var esAprendiz = m.aprendiz === (window.Muller && window.Muller.session ? window.Muller.session.user?.nombre : 'yo') || m.aprendiz === 'yo';
+              return (
+                <div key={m.id} className={`bg-gray-700 p-3 rounded-lg ${m.aceptado ? 'border-l-4 border-green-500' : 'border-l-4 border-yellow-500'}`}>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-semibold text-sm text-white">
+                        {m.aceptado ? '✅ Match activo' : '⏳ Pendiente'}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {m.mentor ? `Mentor: ${m.mentor}` : 'Esperando mentor...'} | {m.aprendiz ? `Aprendiz: ${m.aprendiz}` : 'Esperando aprendiz...'}
+                      </p>
+                      <p className="text-xs text-gray-500">{m.nivel} · {new Date(m.timestamp).toLocaleDateString()}</p>
+                    </div>
+                    {m.aceptado && (esMentor || esAprendiz) && (
+                      <button
+                        onClick={function() {
+                          setMentorModal(m.id);
+                          var M = window.Muller.Comunidad.Mentor;
+                          if (M) {
+                            var chat = M.getChat(m.id);
+                            setMentorChat({ mensajes: chat, matchId: m.id });
+                          }
+                        }}
+                        className="bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-1 rounded text-xs"
+                      >
+                        💬 Chat
+                      </button>
+                    )}
+                    {!m.aceptado && (
+                      <button
+                        onClick={function() {
+                          var M = window.Muller.Comunidad.Mentor;
+                          if (M) {
+                            M.aceptarMatch(m.id);
+                            setMentorMatches(M.getMatches());
+                            if (window.Muller.Toast) window.Muller.Toast.show('Match aceptado!', 'success', 2000);
+                          }
+                        }}
+                        className="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded text-xs"
+                      >
+                        ✅ Aceptar
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Modal chat de mentor */}
+      {mentorModal && (function() {
+        var matchId = mentorModal;
+        return (
+          <div className="fixed inset-0 z-[290] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => { setMentorModal(null); setMentorChat({ mensajes: [], matchId: null }); }}>
+            <div className="bg-gray-800 p-6 rounded-xl shadow-2xl border border-gray-600 max-w-lg w-full max-h-[80vh] flex flex-col" onClick={function(e) { e.stopPropagation(); }}>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-xl font-bold text-white">💬 Chat tándem</h3>
+                <button onClick={() => { setMentorModal(null); setMentorChat({ mensajes: [], matchId: null }); }} className="text-gray-400 hover:text-white text-lg">&times;</button>
+              </div>
+              <div className="flex-1 overflow-y-auto bg-gray-900 rounded p-3 mb-3 space-y-2" style={{maxHeight: '40vh'}}>
+                {(!mentorChat.mensajes || mentorChat.mensajes.length === 0) ? (
+                  <p className="text-gray-500 text-sm text-center">No hay mensajes aún</p>
+                ) : (
+                  mentorChat.mensajes.map(function(msg, idx) {
+                    return (
+                      <div key={msg.id || idx} className={`flex ${msg.autor === 'yo' || msg.autor === (window.Muller && window.Muller.session ? window.Muller.session.user?.nombre : null) ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[80%] p-2 rounded-lg text-sm ${msg.autor === 'yo' || msg.autor === (window.Muller && window.Muller.session ? window.Muller.session.user?.nombre : null) ? 'bg-purple-700 text-white' : 'bg-gray-700 text-gray-200'}`}>
+                          <p className="text-xs text-gray-400 mb-1">{msg.autor}</p>
+                          <p>{msg.texto}</p>
+                          <p className="text-xs text-gray-500 mt-1">{new Date(msg.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</p>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  id="mentorChatInput"
+                  placeholder="Escribe un mensaje..."
+                  className="flex-1 border border-gray-600 rounded px-3 py-2 bg-gray-700 text-white text-sm"
+                  onKeyDown={function(e) {
+                    if (e.key === 'Enter') {
+                      var M = window.Muller.Comunidad.Mentor;
+                      if (M) {
+                        M.enviarMensaje(matchId, e.target.value);
+                        setMentorChat({ mensajes: M.getChat(matchId), matchId: matchId });
+                        e.target.value = '';
+                      }
+                    }
+                  }}
+                />
+                <button
+                  onClick={function() {
+                    var input = document.getElementById('mentorChatInput');
+                    if (!input) return;
+                    var M = window.Muller.Comunidad.Mentor;
+                    if (M) {
+                      M.enviarMensaje(matchId, input.value);
+                      setMentorChat({ mensajes: M.getChat(matchId), matchId: matchId });
+                      input.value = '';
+                    }
+                  }}
+                  className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded text-sm font-bold"
+                >
+                  Enviar
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* 📝 Historias colaborativas */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <h3 className="text-xl font-semibold mb-3">📝 Historias colaborativas</h3>
+
+        {/* Iniciar nueva historia */}
+        <div className="bg-gray-700/50 p-3 rounded-lg mb-3">
+          <textarea
+            value={historiaInput}
+            onChange={function(e) { setHistoriaInput(e.target.value); }}
+            placeholder="Escribe la primera frase de tu historia en alemán..."
+            className="w-full border border-gray-600 rounded px-3 py-2 bg-gray-800 text-white text-sm h-16 resize-none mb-2"
+          />
+          <button
+            onClick={function() {
+              if (!historiaInput.trim()) return;
+              var H = window.Muller.Comunidad.Historias;
+              if (H) {
+                var r = H.iniciarHistoria(historiaInput.trim());
+                if (r) {
+                  setHistorias(H.getHistorias());
+                  setHistoriaInput('');
+                  if (window.Muller.Toast) window.Muller.Toast.show('Historia iniciada!', 'success', 2000);
+                }
+              }
+            }}
+            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded font-bold text-sm"
+          >
+            🆕 Iniciar historia
+          </button>
+        </div>
+
+        {/* Lista de historias */}
+        {historias.length === 0 ? (
+          <p className="text-gray-400 text-sm">No hay historias aún. ¡Empieza una!</p>
+        ) : (
+          <div className="space-y-3 max-h-80 overflow-y-auto">
+            {historias.filter(function(h) { return !h.completada; }).map(function(h) {
+              return (
+                <div key={h.id} className="bg-gray-700 p-3 rounded-lg">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <p className="text-xs text-gray-400">por {h.autor} · {h.frases.length}/10 frases</p>
+                    </div>
+                    <button
+                      onClick={function() {
+                        setHistoriaActual(h.id === historiaActual ? null : h.id);
+                      }}
+                      className={`text-xs px-2 py-1 rounded ${h.id === historiaActual ? 'bg-emerald-600 text-white' : 'bg-gray-600 text-gray-300'}`}
+                    >
+                      {h.id === historiaActual ? '✕ Cerrar' : '📝 Continuar'}
+                    </button>
+                  </div>
+                  <div className="bg-gray-800 p-2 rounded text-sm text-gray-300 italic">
+                    {h.frases.map(function(f, i) {
+                      return <p key={f.id} className="mb-1">({i + 1}) {f.texto}</p>;
+                    })}
+                  </div>
+                  {h.id === historiaActual && (
+                    <div className="mt-2 flex gap-2">
+                      <input
+                        type="text"
+                        id={'historiaContinuar_' + h.id}
+                        placeholder="Continúa la historia..."
+                        className="flex-1 border border-gray-600 rounded px-2 py-1 bg-gray-800 text-white text-sm"
+                        onKeyDown={function(e) {
+                          if (e.key === 'Enter') {
+                            var H = window.Muller.Comunidad.Historias;
+                            if (H) {
+                              H.continuarHistoria(h.id, e.target.value);
+                              setHistorias(H.getHistorias());
+                              e.target.value = '';
+                            }
+                          }
+                        }}
+                      />
+                      <button
+                        onClick={function() {
+                          var input = document.getElementById('historiaContinuar_' + h.id);
+                          if (!input || !input.value.trim()) return;
+                          var H = window.Muller.Comunidad.Historias;
+                          if (H) {
+                            H.continuarHistoria(h.id, input.value);
+                            setHistorias(H.getHistorias());
+                            input.value = '';
+                          }
+                        }}
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded text-sm font-bold"
+                      >
+                        ➕ Añadir
+                      </button>
+                    </div>
+                  )}
+                  {/* Votar frases */}
+                  <div className="mt-2 flex gap-1 flex-wrap">
+                    {h.frases.map(function(f) {
+                      return (
+                        <button
+                          key={f.id}
+                          onClick={function() {
+                            var H = window.Muller.Comunidad.Historias;
+                            if (H) {
+                              H.votarContinuacion(h.id, f.id);
+                              setHistorias(H.getHistorias());
+                            }
+                          }}
+                          className="text-xs bg-gray-600 hover:bg-yellow-600 rounded px-1.5 py-0.5"
+                        >
+                          {f.texto.substring(0, 20)}... 👍 {f.votos}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Historias completadas */}
+            {historias.filter(function(h) { return h.completada; }).length > 0 && (
+              <div className="mt-3 pt-3 border-t border-gray-700">
+                <p className="text-sm font-semibold mb-2">✅ Historias completadas:</p>
+                {historias.filter(function(h) { return h.completada; }).slice(-3).reverse().map(function(h) {
+                  return (
+                    <div key={h.id} className="bg-gray-700/50 p-2 rounded-lg mb-2">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-xs text-gray-400">por {h.autor} · {h.frases.length} frases</p>
+                          <p className="text-sm text-gray-300 truncate mt-1">
+                            {h.frases.map(function(f) { return f.texto; }).join(' ... ')}
+                          </p>
+                        </div>
+                        <button
+                          onClick={function() {
+                            var H = window.Muller.Comunidad.Historias;
+                            if (H) {
+                              H.publicarEnFeed(h.id);
+                              if (window.Muller.Toast) window.Muller.Toast.show('Publicado en feed!', 'success', 2000);
+                            }
+                          }}
+                          className="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded text-xs"
+                        >
+                          📰 Publicar
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
