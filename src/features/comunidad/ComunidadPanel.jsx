@@ -16,6 +16,9 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [buscarTermino, setBuscarTermino] = useState('');
   const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
   const [amigosOnline, setAmigosOnline] = useState(false);
+  const [chatAbierto, setChatAbierto] = useState(null);
+  const [mensajeTexto, setMensajeTexto] = useState('');
+  const [mensajes, setMensajes] = useState([]);
 
   useEffect(() => {
     const pts = window.Muller.Comunidad.getPuntosUsuario();
@@ -101,6 +104,30 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setAmigos(window.Muller.Comunidad.getAmigos());
   };
 
+
+  const abrirChat = (amigo) => {
+    setChatAbierto(amigo);
+    const conversacion = window.Muller.Comunidad.getConversacion(amigo.id);
+    setMensajes(conversacion);
+    setMensajeTexto('');
+  };
+
+  const cerrarChat = () => {
+    setChatAbierto(null);
+    setMensajes([]);
+    setMensajeTexto('');
+  };
+
+  const enviarMensaje = () => {
+    if (!mensajeTexto.trim() || !chatAbierto) return;
+    const nuevo = window.Muller.Comunidad.enviarMensaje(chatAbierto.id, mensajeTexto.trim());
+    setMensajes(prev => [...prev, nuevo]);
+    setMensajeTexto('');
+  };
+
+  const handleKeyDownMensaje = (e) => {
+    if (e.key === 'Enter') enviarMensaje();
+  };
   const handleKeyDownBuscar = (e) => {
     if (e.key === 'Enter') buscarUsuarios();
   };
