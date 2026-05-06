@@ -4,7 +4,13 @@ window.Muller.Panels = window.Muller.Panels || {};
 
 window.Muller.Panels['maestros'] = ({ session }) => {
   const { useState, useEffect } = React;
-  const { Lucide: { GraduationCap, Search, ChevronDown, CheckCircle, BookOpen, ArrowRight } } = window;
+
+  // SVG icons inline (no Lucide dependency)
+  const SvgGraduationCap = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>';
+  const SvgSearch = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>';
+  const SvgChevronDown = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+  const SvgCheckCircle = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+  const SvgBookOpen = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>';
 
   const [lecciones, setLecciones] = useState(window.Muller.Maestros?.LECCIONES || []);
   const [expanded, setExpanded] = useState(null);
@@ -42,7 +48,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
       {/* Cabecera */}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl md:text-4xl font-black text-indigo-100 flex items-center gap-2 md:gap-3">
-          <GraduationCap className="w-8 h-8 md:w-10 md:h-10" /> Maestros
+          <span className="w-8 h-8 md:w-10 md:h-10 inline-block" dangerouslySetInnerHTML={{ __html: SvgGraduationCap }} /> Maestros
         </h1>
         <div className="bg-indigo-900/40 border border-indigo-500/30 rounded-full px-4 py-1.5 text-sm font-bold text-indigo-200">
           {completedCount}/{lecciones.length} lecciones
@@ -54,7 +60,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
 
       {/* Buscador */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 inline-block" dangerouslySetInnerHTML={{ __html: SvgSearch }} />
         <input
           type="text"
           value={search}
@@ -80,11 +86,11 @@ window.Muller.Panels['maestros'] = ({ session }) => {
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm md:text-base font-black text-white flex items-center gap-2">
                     {leccion.titulo}
-                    {isComplete && <CheckCircle className="w-4 h-4 text-emerald-400" />}
+                    {isComplete && <span className="w-4 h-4 text-emerald-400 inline-block" dangerouslySetInnerHTML={{ __html: SvgCheckCircle }} />}
                   </h3>
                   <p className="text-[11px] text-gray-400 truncate">{leccion.resumen}</p>
                 </div>
-                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                <span className={`w-5 h-5 text-gray-400 transition-transform inline-block ${isExpanded ? 'rotate-180' : ''}`} dangerouslySetInnerHTML={{ __html: SvgChevronDown }} />
               </button>
               {/* Contenido expandible */}
               {isExpanded && (
@@ -127,7 +133,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
       {/* Progreso general */}
       <div className="rounded-xl bg-indigo-950/25 border border-indigo-500/25 p-4">
         <h3 className="text-sm font-black text-indigo-200 mb-2 flex items-center gap-2">
-          <BookOpen className="w-4 h-4" /> Tu progreso en Maestros
+          <span className="w-4 h-4 inline-block" dangerouslySetInnerHTML={{ __html: SvgBookOpen }} /> Tu progreso en Maestros
         </h3>
         <div className="w-full bg-gray-800 rounded-full h-2.5 mb-2">
           <div
