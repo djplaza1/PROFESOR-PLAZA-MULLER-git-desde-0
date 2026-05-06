@@ -1,4 +1,4 @@
-﻿// src/features/comunidad/ComunidadPanel.jsx
+// src/features/comunidad/ComunidadPanel.jsx
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 
@@ -82,7 +82,6 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setDesafio({ oponente, preguntas, recompensa: preguntas.length * 10, respuestas: [] });
   };
 
-
   const buscarUsuarios = async () => {
     if (!buscarTermino.trim()) return;
     const resultados = await window.Muller.Comunidad.buscarUsuarios(buscarTermino);
@@ -107,7 +106,6 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setAmigos(window.Muller.Comunidad.getAmigos());
   };
 
-
   const abrirChat = (amigo) => {
     setChatAbierto(amigo);
     const conversacion = window.Muller.Comunidad.getConversacion(amigo.id);
@@ -127,7 +125,6 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setMensajes(prev => [...prev, nuevo]);
     setMensajeTexto('');
   };
-
 
   const invitarADuelo = (amigo) => {
     const result = window.Muller.Comunidad.invitarADuelo(amigo.id, amigo.nombre, dueloInvitacionTipo);
@@ -153,6 +150,7 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setDuelos(window.Muller.Comunidad.getDuelos());
     setInvitaciones(window.Muller.Comunidad.getInvitaciones());
   }, []);
+
   const handleKeyDownMensaje = (e) => {
     if (e.key === 'Enter') enviarMensaje();
   };
@@ -181,28 +179,227 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     <div className="p-4 max-w-2xl mx-auto space-y-6 text-gray-200">
       <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2 text-white">🏆 Comunidad <span className="text-sm text-gray-300">Liga {liga.nombre}</span></h2>
 
+      {/* Mensaje de cambio de liga */}
+      {ligaMsg && (
+        <div className="bg-yellow-600 p-3 rounded-xl text-center text-white font-bold animate-pulse">
+          {ligaMsg}
+        </div>
+      )}
+
       {/* Liga actual */}
       <div className={`p-4 rounded-xl text-white shadow ${liga.color || "bg-gray-500"}`}>
-        <p className="text-lg">Tu liga: <strong>{liga.nombre}</strong> {liga.emoji}</p>
-        <p className="text-2xl font-bold">{puntos} puntos</p>
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-lg">Tu liga: <strong>{liga.nombre}</strong> {liga.emoji}</p>
+            <p className="text-2xl font-bold">{puntos} puntos</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm">Progreso</p>
+            <div className="w-20 h-2 bg-white/30 rounded-full mt-1">
+              <div className="h-full bg-white rounded-full" style={{width: progresoLiga + '%'}}></div>
+            </div>
+            <p className="text-xs mt-1">{progresoLiga}%</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bonus diario */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700 flex justify-between items-center">
+        <div>
+          <p className="font-semibold">🎁 Bonus diario</p>
+          <p className="text-sm text-gray-400">+20 puntos cada día</p>
+        </div>
+        <button
+          onClick={reclamarBonus}
+          disabled={bonusReclamado}
+          className={`px-4 py-2 rounded font-bold ${bonusReclamado ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-400 text-black'}`}
+        >
+          {bonusReclamado ? '✅ Reclamado' : '¡Reclamar!'}
+        </button>
       </div>
 
       {/* Ranking */}
       <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
-        <h3 className="text-xl font-semibold mb-2">Ranking</h3>
-        <ul className="divide-y">
+        <h3 className="text-xl font-semibold mb-2">🏅 Ranking semanal</h3>
+        <ul className="divide-y divide-gray-700">
           {ranking.map((entry, idx) => (
-            <li key={idx} className={`py-2 flex justify-between ${entry.esUsuario ? "bg-blue-900 font-bold text-white" : ""}`}>
-              <span>{idx + 1}. {entry.nombre} {entry.esUsuario ? "(Tú)" : ""}</span>
+            <li key={idx} className={`py-2 flex justify-between items-center ${entry.esUsuario ? "bg-blue-900/50 font-bold text-white rounded px-2 -mx-2" : ""}`}>
+              <span>
+                {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}.`}
+                {' '}{entry.nombre} {entry.esUsuario ? "(Tú)" : ""}
+              </span>
               <span>{entry.puntos} pts</span>
             </li>
           ))}
         </ul>
       </div>
 
+      {/* 👥 AMIGOS */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <h3 className="text-xl font-semibold mb-3">👥 Amigos</h3>
+
+        {/* Buscar usuarios */}
+        <div className="flex gap-2 mb-3">
+          <input
+            type="text"
+            value={buscarTermino}
+            onChange={(e) => setBuscarTermino(e.target.value)}
+            onKeyDown={handleKeyDownBuscar}
+            placeholder="Buscar usuarios..."
+            className="flex-1 border border-gray-600 rounded px-3 py-2 bg-gray-700 text-white text-sm"
+          />
+          <button onClick={buscarUsuarios} className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm font-semibold">
+            Buscar
+          </button>
+        </div>
+
+        {/* Resultados de búsqueda */}
+        {resultadosBusqueda.length > 0 && (
+          <div className="mb-3 bg-gray-700 rounded p-2">
+            <p className="text-xs text-gray-400 mb-1">Resultados:</p>
+            {resultadosBusqueda.map((u, idx) => (
+              <div key={idx} className="flex justify-between items-center py-1">
+                <span>{u.nombre}</span>
+                <button onClick={() => handleAgregarAmigo(u)} className="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded text-xs">
+                  + Agregar
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Lista de amigos */}
+        {amigos.length === 0 ? (
+          <p className="text-gray-400 text-sm">No tienes amigos aún. Busca usuarios para agregar.</p>
+        ) : (
+          <ul className="divide-y divide-gray-700">
+            {amigos.map((amigo) => (
+              <li key={amigo.id} className="py-2 flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${amigo.online ? 'bg-green-400' : 'bg-gray-500'}`}></span>
+                  <span>{amigo.nombre}</span>
+                  <span className="text-xs text-gray-400">{amigo.online ? '🟢 online' : '⚫ offline'}</span>
+                </div>
+                <div className="flex gap-1">
+                  <button onClick={() => abrirChat(amigo)} className="bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-1 rounded text-xs">
+                    💬 Chat
+                  </button>
+                  <button onClick={() => { setDueloInvitacionTipo('vocabulario'); invitarADuelo(amigo); }} className="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-xs">
+                    ⚔️ Duelo
+                  </button>
+                  <button onClick={() => handleEliminarAmigo(amigo.id)} className="bg-gray-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs">
+                    ✕
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* 💬 CHAT PRIVADO */}
+      {chatAbierto && (
+        <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-xl font-semibold">💬 Chat con {chatAbierto.nombre}</h3>
+            <button onClick={cerrarChat} className="text-gray-400 hover:text-white text-xl">&times;</button>
+          </div>
+
+          {/* Mensajes */}
+          <div className="bg-gray-900 rounded p-3 mb-3 max-h-60 overflow-y-auto space-y-2">
+            {mensajes.length === 0 ? (
+              <p className="text-gray-500 text-sm text-center">No hay mensajes aún. Escribe algo.</p>
+            ) : (
+              mensajes.map((msg, idx) => (
+                <div key={msg.id || idx} className={`flex ${msg.de === 'yo' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] p-2 rounded-lg text-sm ${msg.de === 'yo' ? 'bg-blue-700 text-white' : 'bg-gray-700 text-gray-200'}`}>
+                    <p>{msg.texto}</p>
+                    <p className="text-xs text-gray-400 mt-1">{new Date(msg.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Input de mensaje */}
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={mensajeTexto}
+              onChange={(e) => setMensajeTexto(e.target.value)}
+              onKeyDown={handleKeyDownMensaje}
+              placeholder="Escribe un mensaje..."
+              className="flex-1 border border-gray-600 rounded px-3 py-2 bg-gray-700 text-white text-sm"
+            />
+            <button onClick={enviarMensaje} className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded text-sm font-semibold">
+              Enviar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ⚔️ DUELOS ACTIVOS */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <h3 className="text-xl font-semibold mb-3">⚔️ Duelos activos</h3>
+
+        {/* Invitaciones pendientes */}
+        {invitaciones.filter(inv => inv.estado === 'pendiente').length > 0 && (
+          <div className="mb-3">
+            <p className="text-sm text-yellow-400 mb-2">Invitaciones pendientes:</p>
+            {invitaciones.filter(inv => inv.estado === 'pendiente').map((inv, idx) => (
+              <div key={inv.id || idx} className="flex justify-between items-center bg-gray-700 rounded p-2 mb-1">
+                <span>⚔️ {inv.nombre} te reta a duelo ({inv.tipo})</span>
+                <div className="flex gap-1">
+                  <button onClick={() => responderInvitacion(inv.id, true)} className="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded text-xs">
+                    ✅ Aceptar
+                  </button>
+                  <button onClick={() => responderInvitacion(inv.id, false)} className="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-xs">
+                    ❌ Rechazar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Lista de duelos activos */}
+        {duelos.filter(d => d.estado === 'activo').length === 0 ? (
+          <p className="text-gray-400 text-sm">No hay duelos activos. Invita a tus amigos a un duelo desde la sección de Amigos.</p>
+        ) : (
+          <ul className="divide-y divide-gray-700">
+            {duelos.filter(d => d.estado === 'activo').map((d, idx) => (
+              <li key={d.id || idx} className="py-2 flex justify-between items-center">
+                <div>
+                  <p className="font-semibold">vs {d.rivalNombre}</p>
+                  <p className="text-xs text-gray-400">Tipo: {d.tipo} | {new Date(d.fin).toLocaleDateString()}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm">{d.miPuntuacion} - {d.rivalPuntuacion}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* Duelos finalizados */}
+        {duelos.filter(d => d.estado === 'finalizado').length > 0 && (
+          <div className="mt-3 pt-3 border-t border-gray-700">
+            <p className="text-sm text-gray-400 mb-2">Historial:</p>
+            {duelos.filter(d => d.estado === 'finalizado').slice(-5).reverse().map((d, idx) => (
+              <div key={d.id || idx} className="flex justify-between items-center py-1 text-sm">
+                <span>vs {d.rivalNombre}</span>
+                <span className={d.ganador === 'yo' ? 'text-green-400' : d.ganador === 'rival' ? 'text-red-400' : 'text-yellow-400'}>
+                  {d.miPuntuacion} - {d.rivalPuntuacion} {d.ganador === 'yo' ? '✅ Victoria' : d.ganador === 'rival' ? '❌ Derrota' : '🤝 Empate'}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Desafío contra bot */}
       <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
-        <h3 className="text-xl font-semibold mb-2">Desafío contra Bot</h3>
+        <h3 className="text-xl font-semibold mb-2">🤖 Desafío contra Bot</h3>
         {!desafio ? (
           <button onClick={iniciarDesafio} className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded font-bold">
             ¡Retar a un bot!
