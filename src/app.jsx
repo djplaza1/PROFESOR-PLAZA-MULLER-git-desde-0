@@ -110,5 +110,24 @@ function PanelRouter({ tab, session }) {
   );
 }
 
-// ─── Montaje ───
+// ─── Montaje del FloatingAiChat (independiente del árbol de App) ───
+(function mountFloatingAiChat() {
+  try {
+    var floatRoot = document.getElementById('floating-ai-chat-root');
+    if (!floatRoot) {
+      floatRoot = document.createElement('div');
+      floatRoot.id = 'floating-ai-chat-root';
+      document.body.appendChild(floatRoot);
+    }
+    if (window.Muller && window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.Component) {
+      ReactDOM.createRoot(floatRoot).render(React.createElement(window.Muller.FloatingAiChat.Component));
+    } else {
+      console.warn('[FloatingAiChat] Componente no disponible para montar');
+    }
+  } catch(e) {
+    console.error('[FloatingAiChat] Error al montar:', e);
+  }
+})();
+
+// ─── Montaje principal ───
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
