@@ -1,4 +1,4 @@
-// src/features/comunidad/ComunidadPanel.jsx
+﻿// src/features/comunidad/ComunidadPanel.jsx
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 
@@ -223,7 +223,7 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
         <h3 className="text-xl font-semibold mb-2">🏅 Ranking semanal</h3>
         <ul className="divide-y divide-gray-700">
           {ranking.map((entry, idx) => (
-            <li key={idx} className={`py-2 flex justify-between items-center ${entry.esUsuario ? "bg-blue-900/50 font-bold text-white rounded px-2 -mx-2" : ""}`}>
+            <li key={idx} className={`py-2 flex justify-between items-center ${entry.esUsuario ? "bg-blue-900/50 font-bold text-white rounded px-2 -mx-2" : "cursor-pointer hover:bg-gray-700/50 rounded px-2 -mx-2 transition-colors"}`} onClick={() => !entry.esUsuario && setPerfilAbierto(entry)}>
               <span>
                 {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}.`}
                 {' '}{entry.nombre} {entry.esUsuario ? "(Tú)" : ""}
