@@ -24,6 +24,16 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [dueloInvitacionTipo, setDueloInvitacionTipo] = useState('vocabulario');
   const [bloqueos, setBloqueos] = useState([]);
   const [perfilAbierto, setPerfilAbierto] = useState(null);
+  // ─── ARENA ───
+  const [showArena, setShowArena] = useState(false);
+  const [arenaPartida, setArenaPartida] = useState(null);
+  const [arenaPreguntaActual, setArenaPreguntaActual] = useState(null);
+  const [arenaRespuesta, setArenaRespuesta] = useState('');
+  const [arenaTiempo, setArenaTiempo] = useState(60);
+  const [arenaResultado, setArenaResultado] = useState(null);
+  const [arenaHistorial, setArenaHistorial] = useState([]);
+  const [arenaStats, setArenaStats] = useState({ total: 0, aciertos: 0, fallos: 0, precision: 0 });
+  const [arenaBuscando, setArenaBuscando] = useState(false);
 
   useEffect(() => {
     const pts = window.Muller.Comunidad.getPuntosUsuario();
@@ -194,6 +204,93 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
       alert(`❌ Incorrecto. Era: ${correcta}\n📚 ${pregunta.explicacion || ''}`);
     }
   };
+
+  // ─── ARENA HANDLERS ───
+  const arenaRefs = { timer: null };
+
+  const iniciarArenaLocal = () => {
+    var A = window.Muller.Comunidad.Arena;
+    if (!A) return alert('Arena no disponible');
+    var p = A.iniciarPartida('local', 'vocabulario', arenaTiempo);
+    setArenaPartida(p);
+    setArenaPreguntaActual(p.preguntas[0]);
+    setArenaRespuesta('');
+    setArenaResultado(null);
+    if (arenaRefs.timer) clearInterval(arenaRefs.timer);
+    arenaRefs.timer = setInterval(function() {
+      var partida = A.getPartidaActiva();
+      if (partida && Date.now() >= partida.fin) {
+        A.abandonarPartida(partida.id);
+        setArenaPartida(prev => prev ? { ...prev, estado: 'tiempo' } : null);
+        setArenaPreguntaActual(null);
+        setArenaResultado('⏰ Se acabó el tiempo!');
+        if (arenaRefs.timer) { clearInterval(arenaRefs.timer); arenaRefs.timer = null; }
+        setArenaHistorial(A.getHistorial());
+        setArenaStats(A.getStats());
+      }
+    }, 1000);
+  };
+
+  const enviarRespuestaArena = () => {
+    var A = window.Muller.Comunidad.Arena;
+    if (!A || !arenaPartida) return;
+    var res = A.enviarRespuesta(arenaPartida.id, arenaRespuesta);
+    if (res.ok) {
+      setArenaRespuesta('');
+      if (res.siguiente) {
+        setArenaPreguntaActual(A.getPreguntaActual(arenaPartida.id));
+        setArenaPartida(prev => prev ? { ...prev, aciertos: res.partida.aciertos, fallos: res.partida.fallos, indiceActual: res.partida.indiceActual } : null);
+      } else {
+        // Partida completada
+        if (arenaRefs.timer) { clearInterval(arenaRefs.timer); arenaRefs.timer = null; }
+        setArenaPreguntaActual(null);
+        var pFinal = A.getPartidas().filter(function(pp) { return pp.id === arenaPartida.id; })[0];
+        if (pFinal) setArenaPartida(pFinal);
+        setArenaResultado('🎉 Partida completada!');
+        var puntosGanados = res.partida.aciertos * 10;
+        window.Muller.Comunidad.sumarPuntos(puntosGanados);
+        setPuntos(prev => prev + puntosGanados);
+        setArenaHistorial(A.getHistorial());
+        setArenaStats(A.getStats());
+      }
+    }
+  };
+
+  const handleKeyArena = function(e) {
+    if (e.key === 'Enter') enviarRespuestaArena();
+  };
+
+  const cerrarArena = function() {
+    if (arenaRefs.timer) { clearInterval(arenaRefs.timer); arenaRefs.timer = null; }
+    if (arenaPartida && arenaPartida.estado === 'jugando') {
+      window.Muller.Comunidad.Arena.abandonarPartida(arenaPartida.id);
+    }
+    setShowArena(false);
+    setArenaPartida(null);
+    setArenaPreguntaActual(null);
+    setArenaResultado(null);
+  };
+
+  const buscarRivalArena = function() {
+    setArenaBuscando(true);
+    var A = window.Muller.Comunidad.Arena;
+    if (!A) { setArenaBuscando(false); return; }
+    var nivel = liga.nombre === 'Diamante' ? 'C1' : liga.nombre === 'Oro' || liga.nombre === 'Plata' ? 'B1' : 'A2';
+    A.buscarRival(nivel, function(rival) {
+      setArenaBuscando(false);
+      alert('Rival encontrado: ' + rival.nombre + ' (nivel ' + rival.nivel + '). Partida iniciada!');
+      iniciarArenaLocal();
+    });
+  };
+
+  // Actualizar historial/stats al montar
+  useEffect(function() {
+    var A = window.Muller.Comunidad.Arena;
+    if (A) {
+      setArenaHistorial(A.getHistorial());
+      setArenaStats(A.getStats());
+    }
+  }, []);
 
   return (
     <div className="p-4 max-w-2xl mx-auto space-y-6 text-gray-200">
@@ -448,6 +545,138 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
           </div>
         )}
       </div>
+
+      {/* ⚔️ ARENA DE DUELOS */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xl font-semibold">⚔️ Arena de duelos</h3>
+          <div className="flex gap-2">
+            <button
+              onClick={() => { setShowArena(true); setArenaTiempo(60); }}
+              className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded font-bold text-sm"
+            >
+              🎮 Jugar local
+            </button>
+            <button
+              onClick={buscarRivalArena}
+              disabled={arenaBuscando}
+              className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded font-bold text-sm disabled:opacity-50"
+            >
+              {arenaBuscando ? '🔍 Buscando...' : '🌐 Online'}
+            </button>
+          </div>
+        </div>
+
+        {/* Stats rápidas */}
+        {arenaStats.total > 0 && (
+          <div className="flex gap-4 text-sm text-gray-300 mb-2">
+            <span>📊 {arenaStats.total} partidas</span>
+            <span>✅ {arenaStats.aciertos} aciertos</span>
+            <span>❌ {arenaStats.fallos} fallos</span>
+            <span>🎯 {arenaStats.precision}% precisión</span>
+          </div>
+        )}
+      </div>
+
+      {/* MODAL ARENA */}
+      {showArena && (
+        <div className="fixed inset-0 z-[260] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-gray-800 p-6 rounded-xl shadow-2xl border border-gray-600 max-w-lg w-full" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">⚔️ Arena de duelos</h3>
+              <button onClick={cerrarArena} className="text-gray-400 hover:text-white text-lg">&times;</button>
+            </div>
+
+            {!arenaPartida ? (
+              /* Configuración inicial */
+              <div className="space-y-4">
+                <p className="text-gray-300">Responde preguntas de alemán contra el reloj!</p>
+                <div>
+                  <label className="text-sm text-gray-400">Tiempo límite (segundos):</label>
+                  <input
+                    type="range"
+                    min="30"
+                    max="120"
+                    step="10"
+                    value={arenaTiempo}
+                    onChange={(e) => setArenaTiempo(parseInt(e.target.value))}
+                    className="w-full"
+                  />
+                  <p className="text-center text-lg font-bold text-yellow-400">{arenaTiempo}s</p>
+                </div>
+                <button onClick={iniciarArenaLocal} className="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded font-bold text-lg">
+                  🎮 ¡Comenzar partida!
+                </button>
+              </div>
+            ) : arenaPreguntaActual ? (
+              /* Juego activo */
+              <div className="space-y-4">
+                <div className="flex justify-between text-sm text-gray-400">
+                  <span>Pregunta {(arenaPartida.indiceActual || 0) + 1}/{arenaPartida.preguntas.length}</span>
+                  <span>✅ {arenaPartida.aciertos || 0} | ❌ {arenaPartida.fallos || 0}</span>
+                  <span className="text-yellow-400">⏱️ {Math.max(0, Math.floor((arenaPartida.fin - Date.now()) / 1000))}s</span>
+                </div>
+                <div className="bg-gray-900 p-4 rounded-lg text-center">
+                  <p className="text-xl font-bold text-white mb-2">{arenaPreguntaActual.pregunta}</p>
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={arenaRespuesta}
+                    onChange={(e) => setArenaRespuesta(e.target.value)}
+                    onKeyDown={handleKeyArena}
+                    placeholder="Escribe tu respuesta..."
+                    className="flex-1 border border-gray-600 rounded px-3 py-2 bg-gray-700 text-white text-lg"
+                    autoFocus
+                  />
+                  <button onClick={enviarRespuestaArena} className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-bold">
+                    Enviar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* Resultado */
+              <div className="space-y-4 text-center">
+                <p className="text-xl font-bold">
+                  {arenaResultado || '🎉 Partida completada!'}
+                </p>
+                {arenaPartida && (
+                  <div className="bg-gray-900 p-4 rounded-lg">
+                    <p className="text-2xl font-bold text-yellow-400">{arenaPartida.aciertos || 0}/{arenaPartida.preguntas.length}</p>
+                    <p className="text-sm text-gray-400">preguntas correctas</p>
+                    <p className="text-lg font-bold text-green-400 mt-2">+{(arenaPartida.aciertos || 0) * 10} puntos</p>
+                  </div>
+                )}
+                <div className="flex gap-2 justify-center">
+                  <button onClick={() => { setArenaPartida(null); setArenaResultado(null); iniciarArenaLocal(); }} className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded font-bold">
+                    🔄 Otra partida
+                  </button>
+                  <button onClick={cerrarArena} className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded font-bold">
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Historial rápido */}
+            {arenaHistorial.length > 0 && (
+              <div className="mt-4 pt-3 border-t border-gray-700">
+                <p className="text-sm text-gray-400 mb-2">Últimas partidas:</p>
+                {arenaHistorial.slice(0, 5).map(function(h, idx) {
+                  return (
+                    <div key={h.id || idx} className="flex justify-between text-xs text-gray-400 py-1">
+                      <span>{h.tema} ({h.tiempoLimite}s)</span>
+                      <span className={h.aciertos >= h.preguntas.length / 2 ? 'text-green-400' : 'text-red-400'}>
+                        {h.aciertos}/{h.preguntas.length} {h.estado === 'completado' ? '✅' : '⏰'}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* 🚫 Usuarios bloqueados */}
       {bloqueos.length > 0 && (
