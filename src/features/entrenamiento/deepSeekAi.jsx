@@ -33,11 +33,19 @@ window.Muller.DeepSeek.freeChat = async function(userMessage, history, opts) {
     var apiKey = window.Muller.DeepSeek.getApiKey();
     if (!apiKey) throw new Error('No API Key configured');
 
+    // Elegir system prompt según modo
+    var systemPrompt;
+    if (opts.tutorMode) {
+        systemPrompt = 'Eres el profesor Plaza Müller, un tutor nativo alemán que evalúa a estudiantes hispanohablantes. AHORA ESTÁS EN MODO TUTOR. El estudiante escribirá frases en ALEMÁN. Tu trabajo es: 1) Evaluar si la frase es correcta gramaticalmente. 2) Si tiene errores, corregirlos y explicar por qué está mal (en español). 3) Si está perfecta, felicitar al estudiante. 4) Dar una nota: A (perfecto), B (pequeños errores), C (varios errores), D (muy mal). 5) Ser conciso: máximo 4-5 frases. 6) Mantén tono cercano pero profesional. 7) Responde SIEMPRE en español excepto los ejemplos correctos en alemán. IMPORTANTE: Si el estudiante escribe en español, recuérdale amablemente que debe escribir en alemán para ser evaluado.';
+    } else {
+        systemPrompt = 'Eres el profesor Plaza Müller, un tutor nativo alemán paciente y motivador que enseña alemán a hispanohablantes. Responde SIEMPRE en español. Tus instrucciones son: 1) Explica conceptos de alemán de forma clara y práctica. 2) Pon ejemplos reales de uso cotidiano. 3) Corrige errores con amabilidad. 4) Da consejos para el examen TELC. 5) Sé conciso: máximo 4-5 frases, nada de rollo. 6) Si preguntan por gramática, estructura la explicación paso a paso. 7) Mantén un tono cercano pero profesional, como un profe particular.';
+    }
+
     // Construir mensajes: system prompt + historial + mensaje actual
     var messages = [
         {
             role: 'system',
-            content: 'Eres el profesor Plaza Müller, un tutor nativo alemán paciente y motivador que enseña alemán a hispanohablantes. Responde SIEMPRE en español. Tus instrucciones son: 1) Explica conceptos de alemán de forma clara y práctica. 2) Pon ejemplos reales de uso cotidiano. 3) Corrige errores con amabilidad. 4) Da consejos para el examen TELC. 5) Sé conciso: máximo 4-5 frases, nada de rollo. 6) Si preguntan por gramática, estructura la explicación paso a paso. 7) Mantén un tono cercano pero profesional, como un profe particular.'
+            content: systemPrompt
         }
     ];
 
@@ -63,7 +71,7 @@ window.Muller.DeepSeek.freeChat = async function(userMessage, history, opts) {
             body: JSON.stringify({
                 model: 'deepseek-chat',
                 messages: messages,
-                temperature: opts.temperature != null ? opts.temperature : 0.1,
+                temperature: opts.temperature != null ? opts.temperature : (opts.tutorMode ? 0.3 : 0.1),
                 max_tokens: opts.maxTokens != null ? opts.maxTokens : 200,
                 stream: false
             })
@@ -239,6 +247,7 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
     var [input, setInput] = React.useState('');
     var [loading, setLoading] = React.useState(false);
     var [minimized, setMinimized] = React.useState(props.initialMinimized === false ? false : true);
+    var [tutorMode, setTutorMode] = React.useState(props.initialTutorMode || false);
     var [listening, setListening] = React.useState(false);
     var [recognitionLang, setRecognitionLang] = React.useState('auto'); // 'auto', 'de-DE', 'es-ES'
     var [speakingIndex, setSpeakingIndex] = React.useState(-1); // índice del mensaje que se está leyendo
@@ -329,7 +338,8 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
         try {
             var reply = await window.Muller.DeepSeek.freeChat(input.trim(), messages, {
                 temperature: props.temperature != null ? props.temperature : 0.7,
-                maxTokens: props.maxTokens != null ? props.maxTokens : 200
+                maxTokens: props.maxTokens != null ? props.maxTokens : 200,
+                tutorMode: tutorMode
             });
             setMessages(newMsgs.concat([{ role: 'assistant', content: reply }]));
         } catch(e) {
@@ -403,13 +413,39 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
     
     return React.createElement('div', { style: style.wrapper },
         React.createElement('div', { style: style.header, onClick: function() { setMinimized(!minimized); } },
+        React.createElement('span', { style: { display: 'flex', alignItems: 'center', gap: 8 } },
             React.createElement('span', null, '🤖 Tutor AI'),
-            React.createElement('span', { style: { display: 'flex', gap: 6, alignItems: 'center' } },
-                listening && React.createElement('span', {
-                    style: { fontSize: '0.7rem', color: '#fbbf24', animation: 'pulse 1s infinite' }
-                }, '🔴 Grabando...'),
-                React.createElement('span', null, minimized ? '▼' : '▲')
+            // Toggle Modo Tutor
+            React.createElement('label', {
+                style: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: '0.7rem',
+                    cursor: 'pointer',
+                    padding: '2px 8px',
+                    borderRadius: 4,
+                    background: tutorMode ? '#16a34a' : '#1e293b',
+                    border: '1px solid ' + (tutorMode ? '#22c55e' : '#475569'),
+                    color: tutorMode ? 'white' : '#94a3b8',
+                    userSelect: 'none'
+                }
+            },
+                React.createElement('input', {
+                    type: 'checkbox',
+                    checked: tutorMode,
+                    onChange: function(e) { setTutorMode(e.target.checked); },
+                    style: { display: 'none' }
+                }),
+                tutorMode ? '🎯 Tutor ON' : '📝 Tutor OFF'
             )
+        ),
+        React.createElement('span', { style: { display: 'flex', gap: 6, alignItems: 'center' } },
+            listening && React.createElement('span', {
+                style: { fontSize: '0.7rem', color: '#fbbf24', animation: 'pulse 1s infinite' }
+            }, '🔴 Grabando...'),
+            React.createElement('span', null, minimized ? '▼' : '▲')
+        )
         ),
         React.createElement('div', { style: style.body },
             messages.length === 0 && React.createElement('div', {
