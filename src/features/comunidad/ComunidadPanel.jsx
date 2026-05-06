@@ -22,6 +22,8 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [duelos, setDuelos] = useState([]);
   const [invitaciones, setInvitaciones] = useState([]);
   const [dueloInvitacionTipo, setDueloInvitacionTipo] = useState('vocabulario');
+  const [bloqueos, setBloqueos] = useState([]);
+  const [perfilAbierto, setPerfilAbierto] = useState(null);
 
   useEffect(() => {
     const pts = window.Muller.Comunidad.getPuntosUsuario();
@@ -126,6 +128,9 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setMensajeTexto('');
   };
 
+  const handleAgregarAmigoDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\\s/g, '_'); const r = window.Muller.Comunidad.agregarAmigo(id, nombre, nombre.toLowerCase() + '@bot.local'); if (r.ok) { setAmigos(window.Muller.Comunidad.getAmigos()); if (window.Muller.Toast) window.Muller.Toast.showCustom('Amigo agregado', nombre, '👋', 0); alert('✅ Ahora ' + nombre + ' es tu amigo.'); } else { alert(r.msg); } };
+  const handleMensajeDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\\s/g, '_'); const yaAmigo = amigos.find(a => a.id === id); if (!yaAmigo) { handleAgregarAmigoDesdeRanking(nombre); } const amigo = { id: id, nombre: nombre }; abrirChat(amigo); };
+  const handleRetarDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\\s/g, '_'); const yaAmigo = amigos.find(a => a.id === id); if (!yaAmigo) { handleAgregarAmigoDesdeRanking(nombre); } const amigo = { id: id, nombre: nombre }; invitarADuelo(amigo); };
   const invitarADuelo = (amigo) => {
     const result = window.Muller.Comunidad.invitarADuelo(amigo.id, amigo.nombre, dueloInvitacionTipo);
     if (result.ok) {
