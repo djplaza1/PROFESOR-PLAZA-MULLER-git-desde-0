@@ -8,6 +8,34 @@ window.Muller.Comunidad.STORAGE_KEY = 'muller_comunidad_puntos';
 window.Muller.Comunidad.HISTORIAL_KEY = 'muller_comunidad_historial';
 window.Muller.Comunidad.SEMANA_KEY = 'muller_comunidad_semana';
 
+
+// ─── BONUS DIARIO ───
+window.Muller.Comunidad.BONUS_KEY = 'muller_comunidad_bonus_diario';
+
+window.Muller.Comunidad.reclamarBonusDiario = () => {
+  const hoy = new Date().toISOString().slice(0, 10);
+  const ultimoBonus = localStorage.getItem(window.Muller.Comunidad.BONUS_KEY) || '';
+  if (ultimoBonus === hoy) return { ok: false, msg: 'Ya reclamaste tu bonus hoy. Vuelve mañana.' };
+  localStorage.setItem(window.Muller.Comunidad.BONUS_KEY, hoy);
+  const nuevosPts = window.Muller.Comunidad.sumarPuntos(20);
+  return { ok: true, msg: '¡+20 puntos de bonus diario!', puntos: nuevosPts };
+};
+
+// ─── DETECCIÓN DE CAMBIO DE LIGA ───
+window.Muller.Comunidad.LIGA_ANTERIOR_KEY = 'muller_comunidad_liga_anterior';
+
+window.Muller.Comunidad.verificarCambioLiga = (puntosActuales) => {
+  const ligaActual = window.Muller.Comunidad.getLigaUsuario(puntosActuales);
+  const ligaAnteriorNombre = localStorage.getItem(window.Muller.Comunidad.LIGA_ANTERIOR_KEY) || '';
+  if (ligaActual.nombre !== ligaAnteriorNombre) {
+    localStorage.setItem(window.Muller.Comunidad.LIGA_ANTERIOR_KEY, ligaActual.nombre);
+    const subio = window.Muller.Comunidad.LIGAS.findIndex(l => l.nombre === ligaActual.nombre) >
+                 window.Muller.Comunidad.LIGAS.findIndex(l => l.nombre === ligaAnteriorNombre);
+    return { cambio: true, liga: ligaActual, subio, anterior: ligaAnteriorNombre };
+  }
+  return { cambio: false, liga: ligaActual };
+};
+
 // Obtener número de semana ISO
 window.Muller.Comunidad.getSemanaISO = () => {
   const now = new Date();
