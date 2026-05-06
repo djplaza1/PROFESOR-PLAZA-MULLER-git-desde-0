@@ -129,7 +129,7 @@ window.Muller.DeepSeek.grammarExplanation = async function(topic, userLevel) {
 // ─── Chat libre con IA ───
 window.Muller.DeepSeek.freeChat = async function(userMessage, history, options) {
     options = options || {};
-    var systemPrompt = 'Eres un tutor de alemán llamado "Profesor Plaza Müller AI". Ayudas a estudiantes de alemán (niveles A1-C1). Respondes siempre en español, de forma amable, didáctica y práctica. Ofreces ejemplos, trucos mnemotécnicos y consejos para el examen TELC.';
+    var systemPrompt = 'Eres un tutor de alemán llamado "Profesor Plaza Müller AI". Ayudas a estudiantes de alemán (niveles A1-C1). Respondes siempre en español, de forma AMABLE pero MUY CONCISA (máximo 4-5 frases). Prioriza ejemplos cortos y directos. Nada de rollo.';
     var messages = [{ role: 'system', content: systemPrompt }];
     if (Array.isArray(history)) {
         for (var i = Math.max(0, history.length - 6); i < history.length; i++) {
@@ -140,7 +140,7 @@ window.Muller.DeepSeek.freeChat = async function(userMessage, history, options) 
     
     try {
         var result = await window.Muller.DeepSeek.chat(messages, { 
-            maxTokens: 800,
+            maxTokens: options.maxTokens != null ? options.maxTokens : 200,
             temperature: options.temperature != null ? options.temperature : 0.7
         });
         return result.content || result;
@@ -272,7 +272,8 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
         setLoading(true);
         try {
             var reply = await window.Muller.DeepSeek.freeChat(input.trim(), messages, {
-                temperature: props.temperature != null ? props.temperature : 0.7
+                temperature: props.temperature != null ? props.temperature : 0.7,
+                maxTokens: props.maxTokens != null ? props.maxTokens : 200
             });
             setMessages(newMsgs.concat([{ role: 'assistant', content: reply }]));
         } catch(e) {

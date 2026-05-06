@@ -75,14 +75,19 @@ window.Muller.FloatingAiChat.Component = function() {
     var setShowSettings = _d[1];
     
     // Temperatura por defecto
-    var _e = React.useState(0.7);
+    var _e = React.useState(0.1);
     var temperature = _e[0];
     var setTemperature = _e[1];
     
+    // Max tokens (longitud máxima de respuesta)
+    var _f = React.useState(200);
+    var maxTokens = _f[0];
+    var setMaxTokens = _f[1];
+    
     // Token stats
-    var _f = React.useState(window.Muller.FloatingAiChat.TokenTracker.getStats());
-    var tokenStats = _f[0];
-    var setTokenStats = _f[1];
+    var _g = React.useState(window.Muller.FloatingAiChat.TokenTracker.getStats());
+    var tokenStats = _g[0];
+    var setTokenStats = _g[1];
     
     React.useEffect(function() {
         var unsubscribe = window.Muller.FloatingAiChat.TokenTracker.onChange(function() {
@@ -197,12 +202,32 @@ window.Muller.FloatingAiChat.Component = function() {
                 )
             ),
             
-            // ─── Panel de ajustes (temperatura, tokens) ───
+            // ─── Panel de ajustes (longitud, temperatura, tokens) ───
             showSettings && !chatMinimized && React.createElement('div', { style: settingsPanelStyle },
-                // Temperatura
-                React.createElement('div', { style: { marginBottom: 8 } },
+                // Longitud máxima
+                React.createElement('div', { style: { marginBottom: 10 } },
                     React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: '#cbd5e1', marginBottom: 4 } },
-                        React.createElement('span', null, '🌡️ Temperatura (creatividad)'),
+                        React.createElement('span', null, '📏 Longitud máxima'),
+                        React.createElement('span', null, maxTokens + ' tokens')
+                    ),
+                    React.createElement('input', {
+                        type: 'range',
+                        min: 50,
+                        max: 800,
+                        step: 50,
+                        value: maxTokens,
+                        onChange: function(e) { setMaxTokens(parseInt(e.target.value)); },
+                        style: { width: '100%', accentColor: '#0ea5e9' }
+                    }),
+                    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: '#64748b' } },
+                        React.createElement('span', null, 'Corto'),
+                        React.createElement('span', null, 'Largo')
+                    )
+                ),
+                // Temperatura
+                React.createElement('div', { style: { marginBottom: 10 } },
+                    React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: '#cbd5e1', marginBottom: 4 } },
+                        React.createElement('span', null, '🌡️ Creatividad'),
                         React.createElement('span', null, temperature.toFixed(1))
                     ),
                     React.createElement('input', {
@@ -215,7 +240,7 @@ window.Muller.FloatingAiChat.Component = function() {
                         style: { width: '100%', accentColor: '#0ea5e9' }
                     }),
                     React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: '#64748b' } },
-                        React.createElement('span', null, 'Preciso'),
+                        React.createElement('span', null, 'Literal'),
                         React.createElement('span', null, 'Creativo')
                     )
                 ),
@@ -260,7 +285,8 @@ window.Muller.FloatingAiChat.Component = function() {
             !chatMinimized && React.createElement('div', { key: chatKey },
                 React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget ? window.Muller.DeepSeek.ChatWidget : 'div', { 
                     initialMinimized: false,
-                    temperature: temperature
+                    temperature: temperature,
+                    maxTokens: maxTokens
                 },
                     !window.Muller.DeepSeek && React.createElement('div', { style: { color: '#f87171', fontSize: '0.85rem', padding: 16, textAlign: 'center' } }, 'Módulo DeepSeek no disponible')
                 )
