@@ -104,6 +104,56 @@ window.Muller.Comunidad.generarRanking = () => {
   return ranking;
 };
 
+// ─── Generar preguntas con IA (DeepSeek) o fallback offline ───
+window.Muller.Comunidad.generarPreguntasIA = async (nivel, cantidad) => {
+  const apiKey = window.Muller?.IA?.getApiKey?.() || window.Muller?.DeepSeek?.getApiKey?.() || '';
+  if (apiKey && window.Muller.IA && typeof window.Muller.IA.callRealAI === 'function') {
+    try {
+      const prompt = `Genera exactamente ${cantidad || 3} preguntas de alemán nivel ${nivel || 'B1'} en formato JSON.
+Cada pregunta debe tener: "pregunta" (en español), "respuesta" (en alemán, una palabra o frase corta), "explicacion" (breve regla gramatical en español).
+Responde SOLO con un array JSON válido, sin explicaciones adicionales. Ejemplo:
+[{"pregunta":"¿Cuál es el artículo de Haus?","respuesta":"das Haus","explicacion":"Haus es neutro (das). La terminación no da pistas, hay que memorizarlo."}]`;
+      const respuesta = await window.Muller.IA.callRealAI(prompt);
+      const match = respuesta.match(/\[\s*\{[\s\S]*\}\s*\]/);
+      if (match) return JSON.parse(match[0]);
+    } catch (e) {
+      console.warn('[Comunidad] IA falló, usando preguntas offline:', e.message);
+    }
+  }
+  // Fallback offline con preguntas variadas por nivel
+  return window.Muller.Comunidad.getPreguntasOffline(nivel, cantidad);
+};
+
+// Preguntas offline por nivel (fallback si no hay IA)
+window.Muller.Comunidad.getPreguntasOffline = (nivel, cantidad) => {
+  const banco = {
+    A1: [
+      { pregunta: "¿Cuál es el artículo de 'Haus'?", respuesta: "das Haus", explicacion: "Haus es neutro. La terminación no da pistas." },
+      { pregunta: "¿Cómo se dice 'mesa' en alemán?", respuesta: "der Tisch", explicacion: "Tisch es masculino (der)." },
+      { pregunta: "¿Qué significa 'trinken'?", respuesta: "beber", explicacion: "Verbo regular: ich trinke, du trinkst." },
+      { pregunta: "Traduce: 'Yo soy estudiante'", respuesta: "Ich bin Student", explicacion: "Ich = yo, bin = soy, Student = estudiante." },
+      { pregunta: "¿Cuál es el plural de 'der Hund'?", respuesta: "die Hunde", explicacion: "La mayoría de masculinos añaden -e en plural." },
+    ],
+    A2: [
+      { pregunta: "¿Qué preposición rige 'mit'?", respuesta: "Dativ", explicacion: "Mit SIEMPRE rige dativo: mit dem Auto." },
+      { pregunta: "Forma el Perfekt de 'gehen'", respuesta: "ist gegangen", explicacion: "Gehen usa 'sein' porque es movimiento." },
+      { pregunta: "¿Cuál es el artículo de 'Mädchen'?", respuesta: "das Mädchen", explicacion: "Todos los diminutivos en -chen son neutros." },
+    ],
+    B1: [
+      { pregunta: "Forma el Konjunktiv II de 'haben'", respuesta: "hätte", explicacion: "Haben → hätte (ich hätte gern...)." },
+      { pregunta: "¿Qué preposición: 'Ich warte ___ den Bus'?", respuesta: "auf", explicacion: "Warten auf + Akkusativ: Ich warte auf den Bus." },
+      { pregunta: "Forma una oración con 'obwohl'", respuesta: "Obwohl es regnet, gehe ich spazieren", explicacion: "Obwohl envía el verbo al final de la subordinada." },
+    ],
+    B2: [
+      { pregunta: "¿Qué caso rige 'trotz'?", respuesta: "Genitiv", explicacion: "Trotz + Genitiv: trotz des Regens. En lenguaje coloquial a veces se usa dativo." },
+      { pregunta: "Transforma a pasiva: 'Man baut ein Haus'", respuesta: "Ein Haus wird gebaut", explicacion: "Pasiva werden + Partizip II: wird ... gebaut." },
+    ],
+  };
+  const pool = banco[nivel] || banco['B1'];
+  const shuffled = pool.sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, cantidad || 3);
+};
+
 // Simular desafío contra un bot aleatorio
 window.Muller.Comunidad.iniciarDesafioBot = () => {
   const bots = ["LingüistaBot", "GramáticaBot", "VocabMaster", "Konjunktiv3000", "Artikeltron", "PrepoBot", "A1-Bot"];

@@ -17,24 +17,28 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setRanking(window.Muller.Comunidad.generarRanking());
   }, []);
 
-  const iniciarDesafio = () => {
-    setDesafio(window.Muller.Comunidad.iniciarDesafioBot());
+  const iniciarDesafio = async () => {
+    const nivel = window.Muller.Progreso?.getNivel?.() || 'B1';
+    const preguntas = await window.Muller.Comunidad.generarPreguntasIA(nivel, 5);
+    const oponente = "Bot " + ["Lingüista","Gramática","Vocab","Konjunktiv","Artikel"][Math.floor(Math.random()*5)];
+    setDesafio({ oponente, preguntas, recompensa: preguntas.length * 10, respuestas: [] });
   };
 
   const manejarRespuesta = (indice, respuestaUsuario) => {
     if (!desafio) return;
-    const correcta = desafio.preguntas[indice].respuesta.toLowerCase().trim();
-    const resultado = respuestaUsuario.toLowerCase().trim() === correcta;
-    // Aquí podríamos sumar puntos, guardar en progreso, etc.
-    if (resultado) {
-      alert("¡Correcto! +10 puntos");
-      setPuntos(p => p + 10);
+    const pregunta = desafio.preguntas[indice];
+    const correcta = pregunta.respuesta.toLowerCase().trim();
+    const usuario = respuestaUsuario.toLowerCase().trim();
+    const acierto = usuario === correcta;
+    const ptsGanados = acierto ? 10 : 0;
+    if (acierto) {
+      const nuevosPts = window.Muller.Comunidad.sumarPuntos(ptsGanados);
+      setPuntos(nuevosPts);
+      const nuevasRespuestas = [...(desafio.respuestas || []), indice];
+      setDesafio(prev => ({ ...prev, respuestas: nuevasRespuestas }));
+      alert("✅ ¡Correcto! +10 pts");
     } else {
-      alert(`Incorrecto. La respuesta era: ${correcta}`);
-    }
-    // Eliminar desafío tras última pregunta
-    if (indice === desafio.preguntas.length - 1) {
-      setDesafio(null);
+      alert(`❌ Incorrecto. Era: ${correcta}\n📚 ${pregunta.explicacion || ''}`);
     }
   };
 
@@ -88,7 +92,7 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
                 />
               </div>
             ))}
-            <p className="text-sm text-gray-500">Recompensa: {desafio.recompensa} puntos</p>
+            <p className="text-sm text-gray-500">Aciertos: {(desafio.respuestas || []).length}/{desafio.preguntas.length} | Recompensa máx: {desafio.recompensa} pts</p>
           </div>
         )}
       </div>
