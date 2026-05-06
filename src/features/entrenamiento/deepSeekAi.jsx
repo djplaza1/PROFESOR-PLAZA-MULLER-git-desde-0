@@ -35,37 +35,48 @@ window.Muller.DeepSeek.chat = async function(messages, options) {
     if (!apiKey || apiKey.length < 10) {
         throw new Error('❌ No hay clave API de DeepSeek configurada.');
     }
-    var body = {
-        model: options.model || window.Muller.DeepSeek.MODEL,
-        messages: messages,
-        temperature: options.temperature != null ? options.temperature : 0.7,
-        max_tokens: options.maxTokens || 600,
-        stream: false
-    };
-    if (options.topP != null) body.top_p = options.topP;
-    
-    try {
-        var resp = await fetch(window.Muller.DeepSeek.API_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + apiKey
-            },
-            body: JSON.stringify(body)
-        });
-        if (!resp.ok) {
-            var errText = await resp.text();
-            throw new Error('DeepSeek API error ' + resp.status + ': ' + errText);
-        }
-        var json = await resp.json();
-        if (!json.choices || json.choices.length === 0) {
-            throw new Error('Respuesta vacía de DeepSeek');
-        }
-        return json.choices[0].message.content;
-    } catch (err) {
-        console.error('[DeepSeek] Error:', err);
-        throw err;
+var body = {
+    model: options.model || window.Muller.DeepSeek.MODEL,
+    messages: messages,
+    temperature: options.temperature != null ? options.temperature : 0.7,
+    max_tokens: options.maxTokens || 600,
+    stream: false
+};
+if (options.topP != null) body.top_p = options.topP;
+
+try {
+    var resp = await fetch(window.Muller.DeepSeek.API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+        },
+        body: JSON.stringify(body)
+    });
+    if (!resp.ok) {
+        var errText = await resp.text();
+        throw new Error('DeepSeek API error ' + resp.status + ': ' + errText);
     }
+    var json = await resp.json();
+    if (!json.choices || json.choices.length === 0) {
+        throw new Error('Respuesta vacía de DeepSeek');
+    }
+    // Track token usage
+    var usage = json.usage || {};
+    var inputTokens = usage.prompt_tokens || 0;
+    var outputTokens = usage.completion_tokens || 0;
+    if (inputTokens > 0 || outputTokens > 0) {
+        var tracker = window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.TokenTracker;
+        if (tracker) tracker.addUsage(inputTokens, outputTokens);
+    }
+    return {
+        content: json.choices[0].message.content,
+        usage: { input: inputTokens, output: outputTokens }
+    };
+} catch (err) {
+    console.error('[DeepSeek] Error:', err);
+    throw err;
+}
 };
 
 // ─── Explicación de error ───
@@ -75,10 +86,11 @@ window.Muller.DeepSeek.explainError = async function(question, userAnswer, corre
     if (context) userMsg += '\nContexto adicional: ' + context;
     
     try {
-        return await window.Muller.DeepSeek.chat([
+        var result = await window.Muller.DeepSeek.chat([
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userMsg }
         ], { maxTokens: 300 });
+        return result.content || result;
     } catch (e) {
         return '❌ ' + e.message;
     }
@@ -89,10 +101,11 @@ window.Muller.DeepSeek.generateRelatedExercise = async function(topic, level) {
     var systemPrompt = 'Eres un profesor de alemán. Genera un ejercicio corto (máximo 3 frases) relacionado con el tema indicado para nivel ' + (level || 'B1') + '. Incluye la respuesta correcta entre paréntesis al final. Usa formato: [Ejercicio] → (Respuesta)';
     
     try {
-        return await window.Muller.DeepSeek.chat([
+        var result = await window.Muller.DeepSeek.chat([
             { role: 'system', content: systemPrompt },
             { role: 'user', content: 'Tema: ' + topic }
         ], { maxTokens: 200 });
+        return result && (result.content || result);
     } catch (e) {
         return null;
     }
@@ -103,17 +116,19 @@ window.Muller.DeepSeek.grammarExplanation = async function(topic, userLevel) {
     var systemPrompt = 'Eres un profesor de alemán especializado en TELC. Explica de forma clara y concisa el tema de gramática indicado, adaptado al nivel ' + (userLevel || 'B1') + '. Incluye 1 o 2 ejemplos. Responde en español. Máximo 6 frases.';
     
     try {
-        return await window.Muller.DeepSeek.chat([
+        var result = await window.Muller.DeepSeek.chat([
             { role: 'system', content: systemPrompt },
             { role: 'user', content: 'Explica: ' + topic }
         ], { maxTokens: 400 });
+        return result && (result.content || result);
     } catch (e) {
         return null;
     }
 };
 
 // ─── Chat libre con IA ───
-window.Muller.DeepSeek.freeChat = async function(userMessage, history) {
+window.Muller.DeepSeek.freeChat = async function(userMessage, history, options) {
+    options = options || {};
     var systemPrompt = 'Eres un tutor de alemán llamado "Profesor Plaza Müller AI". Ayudas a estudiantes de alemán (niveles A1-C1). Respondes siempre en español, de forma amable, didáctica y práctica. Ofreces ejemplos, trucos mnemotécnicos y consejos para el examen TELC.';
     var messages = [{ role: 'system', content: systemPrompt }];
     if (Array.isArray(history)) {
@@ -124,7 +139,11 @@ window.Muller.DeepSeek.freeChat = async function(userMessage, history) {
     messages.push({ role: 'user', content: userMessage });
     
     try {
-        return await window.Muller.DeepSeek.chat(messages, { maxTokens: 800 });
+        var result = await window.Muller.DeepSeek.chat(messages, { 
+            maxTokens: 800,
+            temperature: options.temperature != null ? options.temperature : 0.7
+        });
+        return result.content || result;
     } catch (e) {
         return '❌ ' + e.message;
     }
@@ -232,7 +251,7 @@ window.Muller.DeepSeek.ApiKeySetup = function() {
 };
 
 // ─── Chat Widget Component ───
-// Acepta props: { initialMinimized: false } para arrancar abierto
+// Acepta props: { initialMinimized: false, temperature: 0.7 }
 window.Muller.DeepSeek.ChatWidget = function(props) {
     props = props || {};
     var [messages, setMessages] = React.useState([]);
@@ -252,7 +271,9 @@ window.Muller.DeepSeek.ChatWidget = function(props) {
         setInput('');
         setLoading(true);
         try {
-            var reply = await window.Muller.DeepSeek.freeChat(input.trim(), messages);
+            var reply = await window.Muller.DeepSeek.freeChat(input.trim(), messages, {
+                temperature: props.temperature != null ? props.temperature : 0.7
+            });
             setMessages(newMsgs.concat([{ role: 'assistant', content: reply }]));
         } catch(e) {
             setMessages(newMsgs.concat([{ role: 'assistant', content: '❌ Error: ' + e.message }]));

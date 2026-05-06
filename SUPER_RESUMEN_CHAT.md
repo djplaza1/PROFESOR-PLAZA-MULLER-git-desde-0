@@ -160,6 +160,19 @@ Este proyecto requiere que el agente adopte **DOS ROLES SIMULTÁNEAMENTE**:
   4. **Negro real (no gris)**: La opacidad del canvas subió de `0.5` a `1.0` en modo pen y eraser. El color negro `#000000` se ve ahora como negro auténtico.
    5. **Coordenadas escaladas con zoom**: `handleCanvasClick` ahora divide por `scale = zoom/100` para que el texto aparezca exactamente donde se hace clic, independientemente del zoom actual.
 
+### ✅ [05/05/2026] Botón flotante AI global + ajustes + contador de tokens
+**Archivos creados** (1):
+- `src/features/ia/FloatingAiChat.jsx` — Botón flotante global (fixed bottom-right, z-index 99999, visible en TODA la app). Incluye: panel de chat DeepSeek, ⚙️ ajustes (temperatura 0.1-1.5), 📊 contador de tokens en tiempo real (input/output/total), 💵 costo estimado USD, contador de mensajes. Usa `window.Muller.FloatingAiChat.TokenTracker` singleton.
+
+**Archivos modificados** (2):
+- `src/features/entrenamiento/deepSeekAi.jsx` — `chat()` ahora registra tokens en TokenTracker. Devuelve `{ content, usage: { input, output } }`. `freeChat()` propaga temperatura.
+- `src/features/entrenamiento/EntrenamientoPanel.jsx` — Eliminados estados antiguos del chat flotante (`showFloatingChat`, `chatMinimized`, `chatKey`). El botón flotante ya no está limitado a pestaña entrenamiento.
+
+**Archivos ya actualizados previamente**:
+- `src/app.jsx` — Ya montaba `window.Muller.FloatingAiChat.Component` globalmente.
+
+**Commit**: `(pendiente)`
+
 ### ✅ [04/05/2026] Fix CRÍTICO: coordenadas dibujo y borrador precisos a cualquier zoom
 **Archivos modificados**:
 - `PdfstudyPanel.jsx` — **2 bugs corregidos**:
