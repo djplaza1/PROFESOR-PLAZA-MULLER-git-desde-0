@@ -231,8 +231,10 @@ Usa ejemplos bilingües. Sé motivador y cercano.`,
 };
 
 // DeepSeek integrado para análisis de pronunciación (usado por LecturaPanel)
-window.Muller.DeepSeek = {
-  analyze: function(opts) {
+// EXTENDEMOS el objeto DeepSeek existente en lugar de SOBRESCRIBIRLO
+// (para no matar ChatWidget, hasApiKey, getApiKey, etc.)
+window.Muller.DeepSeek = window.Muller.DeepSeek || {};
+window.Muller.DeepSeek.analyze = function(opts) {
     // Usar el motor IA real si está disponible, con fallback offline
     if (window.Muller.IA && window.Muller.IA.isRealIAReady()) {
       var prompt = 'Analiza la siguiente lectura en alemán:\n\n';
@@ -258,8 +260,7 @@ window.Muller.DeepSeek = {
       });
     }
     return Promise.resolve(fallbackAnalysis(opts));
-  }
-};
+  };
 
 function fallbackAnalysis(opts) {
   var errors = opts.errors || [];
