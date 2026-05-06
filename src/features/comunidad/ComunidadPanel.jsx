@@ -186,9 +186,9 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setMensajeTexto('');
   };
 
-  const handleAgregarAmigoDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\s/g, '_'); const r = window.Muller.Comunidad.agregarAmigo(id, nombre, nombre.toLowerCase() + '@bot.local'); if (r.ok) { setAmigos(window.Muller.Comunidad.getAmigos()); if (window.Muller.Toast) window.Muller.Toast.showCustom('Amigo agregado', nombre, '👋', 0); alert('✅ Ahora ' + nombre + ' es tu amigo.'); } else { alert(r.msg); } };
-  const handleMensajeDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\s/g, '_'); const yaAmigo = amigos.find(a => a.id === id); if (!yaAmigo) { handleAgregarAmigoDesdeRanking(nombre); } const amigo = { id: id, nombre: nombre }; abrirChat(amigo); };
-  const handleRetarDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\s/g, '_'); const yaAmigo = amigos.find(a => a.id === id); if (!yaAmigo) { handleAgregarAmigoDesdeRanking(nombre); } const amigo = { id: id, nombre: nombre }; invitarADuelo(amigo); };
+  const handleAgregarAmigoDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\s/g, '_'); const r = window.Muller.Comunidad.agregarAmigo(id, nombre, nombre.toLowerCase() + '@bot.local'); if (r.ok) { setAmigos(window.Muller.Comunidad.getAmigos()); if (window.Muller.Toast) window.Muller.Toast.showCustom('Amigo agregado', nombre, '👋', 0); } else { alert(r.msg); } };
+  const handleMensajeDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\s/g, '_'); const yaAmigo = amigos.find(a => a.id === id); if (!yaAmigo) { var r = window.Muller.Comunidad.agregarAmigo(id, nombre, nombre.toLowerCase() + '@bot.local'); if (r.ok) setAmigos(window.Muller.Comunidad.getAmigos()); } const amigo = { id: id, nombre: nombre }; abrirChat(amigo); };
+  const handleRetarDesdeRanking = (nombre) => { const id = 'bot_' + nombre.replace(/\s/g, '_'); const yaAmigo = amigos.find(a => a.id === id); if (!yaAmigo) { var r = window.Muller.Comunidad.agregarAmigo(id, nombre, nombre.toLowerCase() + '@bot.local'); if (r.ok) setAmigos(window.Muller.Comunidad.getAmigos()); } const amigo = { id: id, nombre: nombre }; invitarADuelo(amigo); };
 
   const invitarADuelo = (amigo) => {
     const result = window.Muller.Comunidad.invitarADuelo(amigo.id, amigo.nombre, dueloInvitacionTipo);
@@ -444,15 +444,19 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
       <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
         <h3 className="text-xl font-semibold mb-2">🏅 Ranking semanal</h3>
         <ul className="divide-y divide-gray-700">
-          {ranking.map((entry, idx) => (
-            <li key={idx} className={`py-2 flex justify-between items-center ${entry.esUsuario ? "bg-blue-900/50 font-bold text-white rounded px-2 -mx-2" : "cursor-pointer hover:bg-gray-700/50 rounded px-2 -mx-2 transition-colors"}`} onClick={() => !entry.esUsuario && setPerfilAbierto(entry)}>
+          {ranking.map((entry, idx) => {
+            var bloqueadoId = 'bot_' + entry.nombre.replace(/\s/g, '_');
+            var estaBloqueado = bloqueos.some(function(b) { return b.id === bloqueadoId; });
+            return (
+            <li key={idx} className={`py-2 flex justify-between items-center ${entry.esUsuario ? "bg-blue-900/50 font-bold text-white rounded px-2 -mx-2" : "cursor-pointer hover:bg-gray-700/50 rounded px-2 -mx-2 transition-colors"} ${estaBloqueado ? 'opacity-50' : ''}`} onClick={() => !entry.esUsuario && !estaBloqueado && setPerfilAbierto(entry)}>
               <span>
                 {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}.`}
-                {' '}{entry.nombre} {entry.esUsuario ? "(Tú)" : ""}
+                {' '}{entry.nombre} {entry.esUsuario ? "(Tú)" : ""} {estaBloqueado ? '🚫' : ''}
               </span>
               <span>{entry.puntos} pts</span>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
 
