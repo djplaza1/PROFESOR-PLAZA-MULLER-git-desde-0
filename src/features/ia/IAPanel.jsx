@@ -19,14 +19,35 @@ window.Muller.Panels.IaPanel = {
 
 // Wrapper React para PanelRouter (tab === "ia")
 window.Muller.Panels.ia = function IaPanelWrapper(props) {
-  // ─── Estados ───
-  var _a = React.useState(0.1);
+  // ─── Estados (con persistencia en localStorage) ───
+  function _loadSettings() {
+    try {
+      var raw = localStorage.getItem('muller_ai_settings');
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        return { temperature: parsed.temperature != null ? parsed.temperature : 0.1, maxTokens: parsed.maxTokens != null ? parsed.maxTokens : 200 };
+      }
+    } catch(e) {}
+    return { temperature: 0.1, maxTokens: 200 };
+  }
+  
+  function _saveSettings(temp, tokens) {
+    try {
+      localStorage.setItem('muller_ai_settings', JSON.stringify({ temperature: temp, maxTokens: tokens }));
+    } catch(e) {}
+  }
+  
+  var _initial = _loadSettings();
+  var _a = React.useState(_initial.temperature);
   var temperature = _a[0];
   var setTemperature = _a[1];
   
-  var _b = React.useState(200);
+  var _b = React.useState(_initial.maxTokens);
   var maxTokens = _b[0];
   var setMaxTokens = _b[1];
+  
+  // Persistir cambios en localStorage
+  React.useEffect(function() { _saveSettings(temperature, maxTokens); }, [temperature, maxTokens]);
   
   var _c = React.useState(true);
   var showSettings = _c[0];

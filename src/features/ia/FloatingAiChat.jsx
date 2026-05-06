@@ -184,15 +184,35 @@ window.Muller.FloatingAiChat.Component = function() {
         return function() { window.removeEventListener('keydown', handleKeyDown); };
     }, []);
     
-    // Temperatura por defecto
-    var _f = React.useState(0.1);
+    // ─── Temperatura y maxTokens con persistencia en localStorage ───
+    function _loadFloatSettings() {
+        try {
+            var raw = localStorage.getItem('muller_ai_settings');
+            if (raw) {
+                var parsed = JSON.parse(raw);
+                return { temperature: parsed.temperature != null ? parsed.temperature : 0.1, maxTokens: parsed.maxTokens != null ? parsed.maxTokens : 200 };
+            }
+        } catch(e) {}
+        return { temperature: 0.1, maxTokens: 200 };
+    }
+    function _saveFloatSettings(temp, tokens) {
+        try {
+            localStorage.setItem('muller_ai_settings', JSON.stringify({ temperature: temp, maxTokens: tokens }));
+        } catch(e) {}
+    }
+    
+    var _floatInit = _loadFloatSettings();
+    var _f = React.useState(_floatInit.temperature);
     var temperature = _f[0];
     var setTemperature = _f[1];
     
     // Max tokens (longitud máxima de respuesta)
-    var _g = React.useState(200);
+    var _g = React.useState(_floatInit.maxTokens);
     var maxTokens = _g[0];
     var setMaxTokens = _g[1];
+    
+    // Persistir cambios
+    React.useEffect(function() { _saveFloatSettings(temperature, maxTokens); }, [temperature, maxTokens]);
     
     // Token stats
     var _h = React.useState(window.Muller.FloatingAiChat.TokenTracker.getStats());
