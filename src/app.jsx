@@ -13,6 +13,12 @@ function App() {
       return s.theme || 'dark';
     } catch(e) { return 'dark'; }
   });
+  const [theme, setTheme] = React.useState(() => {
+    try {
+      const s = window.Muller.Ajustes ? window.Muller.Ajustes.getAll() : {};
+      return s.theme || 'dark';
+    } catch(e) { return 'dark'; }
+  });
   const [activeTab, setActiveTab] = useLocalStorage('muller_active_tab_v1', 'inicio');
   const [session, setSession] = React.useState(null);
   React.useEffect(() => { async function init() { const s = await getActiveSession(); if (s) setSession(s); } init(); }, []);
@@ -22,7 +28,15 @@ function App() {
       setWarmLight(val);
     };
     window.addEventListener('warmLightChanged', handler);
-    return () => window.removeEventListener('warmLightChanged', handler);
+    const themeHandler = () => {
+      const s = window.Muller.Ajustes ? window.Muller.Ajustes.getAll() : {};
+      setTheme(s.theme || 'dark');
+    };
+    window.addEventListener('themeChanged', themeHandler);
+    return () => {
+      window.removeEventListener('warmLightChanged', handler);
+      window.removeEventListener('themeChanged', themeHandler);
+    };
   }, []);
   window.Muller.setWarmLight = (val) => {
     localStorage.setItem('muller_warm_light', val.toString());
@@ -38,7 +52,7 @@ function App() {
   }
 
   return (
-    <div id="app-main" style={{ position: "relative", fontFamily: 'Outfit, sans-serif', background: '#0f172a', color: '#e2e8f0', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div id="app-main" style={{ position: "relative", filter: theme === 'light' ? 'sepia(0.35) brightness(1.1)' : 'none', fontFamily: 'Outfit, sans-serif', background: '#0f172a', color: '#e2e8f0', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       {warmLight > 0 && React.createElement("div", { style: { position: "fixed", inset: 0, pointerEvents: "none", zIndex: 999, background: `rgba(255,200,100,${warmLight * 0.5})`, mixBlendMode: "lighten", transition: "background 0.5s" } })}
       {React.createElement(window.Muller.TopBar, { activeTab, onTabChange: setActiveTab, session })}
       <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
