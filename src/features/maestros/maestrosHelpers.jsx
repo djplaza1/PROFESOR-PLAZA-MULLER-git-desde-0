@@ -177,7 +177,13 @@ window.Muller.Maestros.getNivelRaizFromId = function(nivelId) {
 
 // getTodasLasLecciones: fusiona LECCIONES antiguas + módulos de contenido A1.1âC1
 window.Muller.Maestros.getTodasLasLecciones = function() {
-  var lecciones = window.Muller.Maestros.LECCIONES ? window.Muller.Maestros.LECCIONES.slice() : [];
+  var omitir = { artikel: true, verbos: true, pronombres: true };
+  var lecciones = [];
+  if (window.Muller.Maestros.LECCIONES) {
+    window.Muller.Maestros.LECCIONES.forEach(function(mod) {
+      if (!omitir[mod.id]) lecciones.push(mod);
+    });
+  }
   var niveles = window.Muller.Maestros.getAllLevels();
   niveles.forEach(function(nivel) {
     nivel.modulos.forEach(function(mod) {
