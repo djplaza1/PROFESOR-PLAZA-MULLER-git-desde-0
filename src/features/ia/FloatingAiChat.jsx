@@ -302,7 +302,11 @@ window.Muller.FloatingAiChat.Component = function() {
                 React.createElement('span', null, data.messages)
             ),
             showReset && data.totalTokens > 0 && React.createElement('button', {
-                onClick: function() { window.Muller.FloatingAiChat.TokenTracker.resetAll(); },
+                onClick: function() { 
+                    if (confirm('¿Estás seguro de borrar todo el historial de tokens? Esta acción no se puede deshacer.')) {
+                        window.Muller.FloatingAiChat.TokenTracker.resetAll(); 
+                    }
+                },
                 style: {
                     marginTop: 8,
                     padding: '6px 12px',
