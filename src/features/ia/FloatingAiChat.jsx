@@ -253,7 +253,9 @@ window.Muller.FloatingAiChat.Component = function() {
     var settingsPanelStyle = {
         padding: 12,
         borderBottom: '1px solid #334155',
-        background: '#0f172a'
+        background: '#0f172a',
+        overflowY: 'auto',
+        flex: 1
     };
     
     var tokenDisplayStyle = {
