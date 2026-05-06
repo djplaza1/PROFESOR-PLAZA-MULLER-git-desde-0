@@ -405,6 +405,7 @@ window.Muller.Panels.AjustesPanel = {
       btn.onclick = () => {
         const theme = btn.dataset.theme;
         window.Muller.Ajustes.set('THEME', theme);
+        window.dispatchEvent(new Event('themeChanged'));
         this.settings.theme = theme;
         this.refreshSection('ajustes');
       };
