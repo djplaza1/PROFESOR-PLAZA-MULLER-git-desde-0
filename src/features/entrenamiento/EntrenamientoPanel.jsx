@@ -236,7 +236,7 @@
             setCards(shuffled);
             setCurrentIndex(0);
             setFeedback(null);
-            setStats({ total: 0, correct: 0, wrong: 0 });
+            setStats({ total: 0, correct: 0, wrong: 0, streak: 0, bestStreak: 0 });
             setFinished(false);
         }
         
@@ -262,12 +262,31 @@
                 options: options 
             });
             setStats(function(prev) {
-                return { total: prev.total + 1, correct: prev.correct + (correct ? 1 : 0), wrong: prev.wrong + (correct ? 0 : 1) };
+                var newStreak = correct ? (prev.streak || 0) + 1 : 0;
+                var newBestStreak = Math.max(prev.bestStreak || 0, newStreak);
+                var newStats = { 
+                    total: prev.total + 1, 
+                    correct: prev.correct + (correct ? 1 : 0), 
+                    wrong: prev.wrong + (correct ? 0 : 1),
+                    streak: newStreak,
+                    bestStreak: newBestStreak
+                };
+                // 🔊 Reproducir sonido según resultado
+                if (correct) {
+                    if (newStreak >= 10) playSound('streak10');
+                    else if (newStreak >= 5) playSound('streak5');
+                    else if (newStreak >= 3) playSound('streak3');
+                    else playSound('correct');
+                } else {
+                    playSound('wrong');
+                }
+                return newStats;
             });
         }
         
         function handleContinue() {
             if (currentIndex + 1 >= cards.length) {
+                playSound('finished');
                 setFinished(true);
             } else {
                 setCurrentIndex(currentIndex + 1);
