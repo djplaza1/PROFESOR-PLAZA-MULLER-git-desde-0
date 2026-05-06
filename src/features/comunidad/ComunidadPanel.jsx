@@ -12,6 +12,10 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [bonusReclamado, setBonusReclamado] = useState(false);
   const [ligaMsg, setLigaMsg] = useState(null);
   const [progresoLiga, setProgresoLiga] = useState(0);
+  const [amigos, setAmigos] = useState([]);
+  const [buscarTermino, setBuscarTermino] = useState('');
+  const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
+  const [amigosOnline, setAmigosOnline] = useState(false);
 
   useEffect(() => {
     const pts = window.Muller.Comunidad.getPuntosUsuario();
@@ -47,6 +51,12 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
       setProgresoLiga(100);
     }
   }, [puntos]);
+  useEffect(() => {
+    setAmigos(window.Muller.Comunidad.getAmigos());
+    window.Muller.Comunidad.actualizarOnline(true);
+    setAmigosOnline(true);
+    return () => { window.Muller.Comunidad.actualizarOnline(false); };
+  }, []);
 
   const reclamarBonus = () => {
     const resultado = window.Muller.Comunidad.reclamarBonusDiario();
@@ -66,6 +76,34 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setDesafio({ oponente, preguntas, recompensa: preguntas.length * 10, respuestas: [] });
   };
 
+
+  const buscarUsuarios = async () => {
+    if (!buscarTermino.trim()) return;
+    const resultados = await window.Muller.Comunidad.buscarUsuarios(buscarTermino);
+    setResultadosBusqueda(resultados);
+  };
+
+  const handleAgregarAmigo = (usuario) => {
+    const result = window.Muller.Comunidad.agregarAmigo(usuario.id, usuario.nombre, usuario.email);
+    if (result.ok) {
+      setAmigos(window.Muller.Comunidad.getAmigos());
+      setResultadosBusqueda([]);
+      setBuscarTermino('');
+      if (window.Muller.Toast) window.Muller.Toast.showCustom('Amigo agregado', usuario.nombre, '👋', 0);
+    } else {
+      alert(result.msg);
+    }
+  };
+
+  const handleEliminarAmigo = (usuarioId) => {
+    if (!confirm('¿Eliminar este amigo?')) return;
+    window.Muller.Comunidad.eliminarAmigo(usuarioId);
+    setAmigos(window.Muller.Comunidad.getAmigos());
+  };
+
+  const handleKeyDownBuscar = (e) => {
+    if (e.key === 'Enter') buscarUsuarios();
+  };
   const manejarRespuesta = (indice, respuestaUsuario) => {
     if (!desafio) return;
     const pregunta = desafio.preguntas[indice];
