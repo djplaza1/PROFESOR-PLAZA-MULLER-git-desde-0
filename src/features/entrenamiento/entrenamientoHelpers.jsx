@@ -296,7 +296,7 @@ window.Muller.loadPluralData = function() {
 // 4. VERIFICACIÓN DE LOGROS
 // ═══════════════════════════════════════════════════════════════
 window.Muller.getAchievementsUnlocked = function() {
-    try { return JSON.parse(localStorage.getItem(KEYS.ACHIEVEMENTS) || '{}'); } catch(e) { return {}; }
+    try { return JSON.parse(localStorage.getItem(window.Muller.KEYS.ACHIEVEMENTS) || '{}'); } catch(e) { return {}; }
 };
 
 window.Muller.unlockAchievement = function(id) {
@@ -305,7 +305,7 @@ window.Muller.unlockAchievement = function(id) {
     unlocked[id] = true;
     unlocked['_unlockedAt'] = unlocked['_unlockedAt'] || {};
     unlocked['_unlockedAt'][id] = new Date().toISOString();
-    localStorage.setItem(KEYS.ACHIEVEMENTS, JSON.stringify(unlocked));
+    localStorage.setItem(window.Muller.KEYS.ACHIEVEMENTS, JSON.stringify(unlocked));
     window.dispatchEvent(new Event('achievementsUpdated'));
     window.dispatchEvent(new CustomEvent('achievementUnlocked', { detail: { id: id } }));
     return true;
@@ -344,14 +344,14 @@ window.Muller.checkAchievements = function(stats) {
 // ═══════════════════════════════════════════════════════════════
 window.Muller.getAdvancedProgress = function() {
     try {
-        var raw = localStorage.getItem(KEYS.PROGRESS);
+        var raw = localStorage.getItem(window.Muller.KEYS.PROGRESS);
         if (raw) return JSON.parse(raw);
     } catch(e) {}
     return {};
 };
 
 window.Muller.saveAdvancedProgress = function(progress) {
-    localStorage.setItem(KEYS.PROGRESS, JSON.stringify(progress));
+    localStorage.setItem(window.Muller.KEYS.PROGRESS, JSON.stringify(progress));
     window.dispatchEvent(new Event('advancedProgressUpdated'));
 };
 
@@ -1176,7 +1176,7 @@ window.Muller.mergeArticleSources = function(sources) {
 // 12. HISTORIAL DE EXÁMENES
 // ═══════════════════════════════════════════════════════════════
 window.Muller.getExamHistory = function() {
-    try { return JSON.parse(localStorage.getItem(KEYS.EXAM_HISTORY) || '[]'); } catch(e) { return []; }
+    try { return JSON.parse(localStorage.getItem(window.Muller.KEYS.EXAM_HISTORY) || '[]'); } catch(e) { return []; }
 };
 
 window.Muller.saveExamToHistory = function(exam) {
@@ -1185,7 +1185,7 @@ window.Muller.saveExamToHistory = function(exam) {
     exam.id = 'exam_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
     history.unshift(exam);
     if (history.length > 100) history = history.slice(0, 100);
-    localStorage.setItem(KEYS.EXAM_HISTORY, JSON.stringify(history));
+    localStorage.setItem(window.Muller.KEYS.EXAM_HISTORY, JSON.stringify(history));
     
     // Verificar logros relacionados con exámenes
     var count = history.length;
@@ -1212,7 +1212,7 @@ window.Muller.getLastExamResult = function() {
 };
 
 window.Muller.clearExamHistory = function() {
-    localStorage.setItem(KEYS.EXAM_HISTORY, '[]');
+    localStorage.setItem(window.Muller.KEYS.EXAM_HISTORY, '[]');
     localStorage.setItem('muller_exam_count', '0');
     window.dispatchEvent(new Event('examHistoryChanged'));
 };
@@ -1478,7 +1478,7 @@ window.Muller.generateStudyPlan = function() {
 // === DESAFÍO DIARIO ===
 window.Muller.generateDailyChallenge = function() {
     var today = new Date().toISOString().split('T')[0];
-    var challengeKey = KEYS.CHALLENGE;
+    var challengeKey = window.Muller.KEYS.CHALLENGE;
     var stored = {};
     try { stored = JSON.parse(localStorage.getItem(challengeKey) || '{}'); } catch(e) {}
     
@@ -1505,7 +1505,7 @@ window.Muller.generateDailyChallenge = function() {
 };
 
 window.Muller.updateDailyChallenge = function(progress) {
-    var challengeKey = KEYS.CHALLENGE;
+    var challengeKey = window.Muller.KEYS.CHALLENGE;
     var stored = {};
     try { stored = JSON.parse(localStorage.getItem(challengeKey) || '{}'); } catch(e) {}
     if (!stored.date || stored.completed) return;
@@ -1668,8 +1668,39 @@ window.Muller.getReviewRecommendations = function(limit) {
 // ═══════════════════════════════════════════════════════════════
 // 18. EXPORTAR AL MÓDULO PRINCIPAL
 // ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// FUNCIONES AUXILIARES DE ESTADÍSTICA DIARIA (definidas aquí para evitar errores)
+// ═══════════════════════════════════════════════════════════════
+window.Muller.getDailyStats = function() {
+    try {
+        var stored = localStorage.getItem('muller_daily_stats_v3');
+        if (stored) return JSON.parse(stored);
+    } catch(e) {}
+    return { date: '', attempts: 0, correct: 0, wrong: 0, art: 0, verb: 0, prep: 0, examCount: 0, streak: 0 };
+};
+
+window.Muller.saveDailyStats = function(stats) {
+    try { localStorage.setItem('muller_daily_stats_v3', JSON.stringify(stats)); } catch(e) {}
+};
+
+window.Muller.getDailyGoalCount = function() {
+    try {
+        var val = localStorage.getItem('muller_daily_goal_v1');
+        if (val) return parseInt(val, 10);
+    } catch(e) {}
+    return 20; // default
+};
+
+window.Muller.getStreak = function() {
+    try {
+        var stored = localStorage.getItem('muller_streak_v2');
+        if (stored) return JSON.parse(stored);
+    } catch(e) {}
+    return { days: 0, lastDate: '' };
+};
+
 window.Muller.EntrenamientoHelpers = {
-    KEYS: KEYS,
+    KEYS: window.Muller.KEYS,
     analyzeErrorPatterns: window.Muller.analyzeErrorPatterns,
     generateStudyPlan: window.Muller.generateStudyPlan,
     generateDailyChallenge: window.Muller.generateDailyChallenge,

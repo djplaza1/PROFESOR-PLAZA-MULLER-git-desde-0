@@ -3,6 +3,52 @@ window.Muller = window.Muller || {};
 window.Muller.Comunidad = window.Muller.Comunidad || {};
 
 // Definición de ligas
+// ─── CLAVES DE ALMACENAMIENTO ───
+window.Muller.Comunidad.STORAGE_KEY = 'muller_comunidad_puntos';
+window.Muller.Comunidad.HISTORIAL_KEY = 'muller_comunidad_historial';
+window.Muller.Comunidad.SEMANA_KEY = 'muller_comunidad_semana';
+
+// Obtener número de semana ISO
+window.Muller.Comunidad.getSemanaISO = () => {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const days = Math.floor((now - start) / (24 * 60 * 60 * 1000));
+  return Math.ceil((days + start.getDay() + 1) / 7);
+};
+
+// Puntos persistentes (se acumulan con desafíos, rachas, etc.)
+window.Muller.Comunidad.getPuntosPersistentes = () => {
+  try {
+    const data = JSON.parse(localStorage.getItem(window.Muller.Comunidad.STORAGE_KEY) || '{}');
+    const semana = window.Muller.Comunidad.getSemanaISO();
+    return data[semana] || 0;
+  } catch (e) { return 0; }
+};
+
+window.Muller.Comunidad.sumarPuntos = (cantidad) => {
+  try {
+    const data = JSON.parse(localStorage.getItem(window.Muller.Comunidad.STORAGE_KEY) || '{}');
+    const semana = window.Muller.Comunidad.getSemanaISO();
+    data[semana] = (data[semana] || 0) + cantidad;
+    localStorage.setItem(window.Muller.Comunidad.STORAGE_KEY, JSON.stringify(data));
+    // Guardar historial de transacciones
+    const hist = JSON.parse(localStorage.getItem(window.Muller.Comunidad.HISTORIAL_KEY) || '[]');
+    hist.push({ fecha: new Date().toISOString(), puntos: cantidad, semana });
+    localStorage.setItem(window.Muller.Comunidad.HISTORIAL_KEY, JSON.stringify(hist.slice(-50)));
+    return data[semana];
+  } catch (e) { return 0; }
+};
+
+// Obtener puntos totales del usuario (combinando persistente + progreso)
+window.Muller.Comunidad.getPuntosUsuario = () => {
+  const ptsPersistentes = window.Muller.Comunidad.getPuntosPersistentes();
+  const progreso = window.Muller.getAdvancedProgress ? window.Muller.getAdvancedProgress() : {};
+  const racha = progreso.streak || 0;
+  const logros = progreso.achievements ? progreso.achievements.length : 0;
+  const diario = progreso.dailyActivity ? Object.keys(progreso.dailyActivity).length : 0;
+  return ptsPersistentes + racha * 10 + logros * 50 + diario * 5;
+};
+
 window.Muller.Comunidad.LIGAS = [
   { nombre: "Bronce", minPuntos: 0, color: "bg-amber-700", emoji: "🥉" },
   { nombre: "Plata", minPuntos: 1000, color: "bg-gray-300", emoji: "🥈" },
@@ -34,14 +80,22 @@ window.Muller.Comunidad.generarRanking = () => {
   const puntosUsuario = window.Muller.Comunidad.getPuntosUsuario();
   const nombreUsuario = usuario.name || usuario.email || "Tú";
 
+  const semana = window.Muller.Comunidad.getSemanaISO();
+  const seed = semana * 7 + 2024; // semilla determinista para la semana
+  const pseudoRandom = (min, max, offset) => {
+    const x = Math.sin(seed + offset) * 10000;
+    return Math.floor((x - Math.floor(x)) * (max - min + 1) + min);
+  };
   const bots = [
-    { nombre: "LingüistaBot", puntos: 8500 },
-    { nombre: "GramáticaBot", puntos: 6200 },
-    { nombre: "VocabMaster", puntos: 4900 },
-    { nombre: "Konjunktiv3000", puntos: 3700 },
-    { nombre: "Artikeltron", puntos: 2500 },
-    { nombre: "PrepoBot", puntos: 1500 },
-    { nombre: "A1-Bot", puntos: 800 },
+    { nombre: "LingüistaBot", puntos: pseudoRandom(7500, 9500, 1) },
+    { nombre: "GramáticaBot", puntos: pseudoRandom(5500, 7000, 2) },
+    { nombre: "VocabMaster", puntos: pseudoRandom(4200, 5500, 3) },
+    { nombre: "Konjunktiv3000", puntos: pseudoRandom(3200, 4500, 4) },
+    { nombre: "Artikeltron", puntos: pseudoRandom(2000, 3500, 5) },
+    { nombre: "PrepoBot", puntos: pseudoRandom(1200, 2200, 6) },
+    { nombre: "A1-Bot", puntos: pseudoRandom(500, 1200, 7) },
+    { nombre: "B1-Bot", puntos: pseudoRandom(1800, 2800, 8) },
+    { nombre: "GenitivBot", puntos: pseudoRandom(3800, 5000, 9) },
   ];
 
   const ranking = bots.map(b => ({ nombre: b.nombre, puntos: b.puntos, esUsuario: false }));
