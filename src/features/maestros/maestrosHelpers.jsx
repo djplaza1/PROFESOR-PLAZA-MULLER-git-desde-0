@@ -1,4 +1,4 @@
-﻿// src/features/maestros/maestrosHelpers.jsx
+// src/features/maestros/maestrosHelpers.jsx
 window.Muller = window.Muller || {};
 window.Muller.Maestros = window.Muller.Maestros || {};
 
@@ -174,7 +174,20 @@ window.Muller.Maestros.getNivelRaizFromId = function(nivelId) {
   return map[nivelId] || "A1";
 };
 
-// ─── PROGRESO CON TIMESTAMPS (FASE 3) ───
+
+// getTodasLasLecciones: fusiona LECCIONES antiguas + módulos de contenido A1.1âC1
+window.Muller.Maestros.getTodasLasLecciones = function() {
+  var lecciones = window.Muller.Maestros.LECCIONES ? window.Muller.Maestros.LECCIONES.slice() : [];
+  var niveles = window.Muller.Maestros.getAllLevels();
+  niveles.forEach(function(nivel) {
+    nivel.modulos.forEach(function(mod) {
+      if (!lecciones.some(function(l) { return l.id === mod.id; })) {
+        lecciones.push(mod);
+      }
+    });
+  });
+  return lecciones;
+};// ─── PROGRESO CON TIMESTAMPS (FASE 3) ───
 
 // getProgress: objeto con { [id]: { completado: true, timestamp: number } }
 window.Muller.Maestros.getProgress = function() {

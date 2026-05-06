@@ -1,4 +1,4 @@
-﻿// src/features/maestros/MaestrosPanel.jsx
+// src/features/maestros/MaestrosPanel.jsx
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 
@@ -15,7 +15,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
   const SvgStar = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
   const SvgZap = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
 
-  const [lecciones, setLecciones] = useState(window.Muller.Maestros?.LECCIONES || []);
+  const [lecciones, setLecciones] = useState((window.Muller.Maestros?.getTodasLasLecciones ? window.Muller.Maestros.getTodasLasLecciones() : window.Muller.Maestros?.LECCIONES || []));
   const [expanded, setExpanded] = useState(null);
   const [search, setSearch] = useState('');
   const [progress, setProgress] = useState({});
@@ -62,7 +62,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
   const filtered = useMemo(() => {
     var result = lecciones;
     if (nivelActivo) {
-      result = result.filter(function(l) { return l.nivel === nivelActivo; });
+      result = result.filter(function(l) { return l.nivel === nivelActivo || (l.nivel && l.nivel.startsWith && l.nivel.startsWith(nivelActivo + '.')); });
     }
     if (search.trim()) {
       var s = search.toLowerCase();
@@ -78,7 +78,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
     var total = 0;
     var comp = 0;
     lecciones.forEach(function(l) {
-      if (l.nivel === nivelId) {
+      if (l.nivel === nivelId || (l.nivel && l.nivel.startsWith && l.nivel.startsWith(nivelId + '.'))) {
         total++;
         if (window.Muller.Maestros.isComplete(l.id)) comp++;
       }
@@ -88,14 +88,14 @@ window.Muller.Panels['maestros'] = ({ session }) => {
 
   // Colores de nivel para las tarjetas
   const getNivelColor = function(nivel) {
-    var map = {
+    var nivelRaiz = nivel && nivel.startsWith && nivel.includes('.') ? nivel.split('.')[0] : nivel; var map = {
       A1: { borde: "border-blue-500/30", bg: "bg-blue-950/20", texto: "text-blue-300", badge: "bg-blue-600/30 text-blue-200" },
       A2: { borde: "border-green-500/30", bg: "bg-green-950/20", texto: "text-green-300", badge: "bg-green-600/30 text-green-200" },
       B1: { borde: "border-yellow-500/30", bg: "bg-yellow-950/20", texto: "text-yellow-300", badge: "bg-yellow-600/30 text-yellow-200" },
       B2: { borde: "border-lime-500/30", bg: "bg-lime-950/20", texto: "text-lime-300", badge: "bg-lime-600/30 text-lime-200" },
       C1: { borde: "border-violet-500/30", bg: "bg-violet-950/20", texto: "text-violet-300", badge: "bg-violet-600/30 text-violet-200" }
     };
-    return map[nivel] || map.A1;
+    return map[nivelRaiz] || map.A1;
   };
 
   // Mostrar panel de IA si se activó
