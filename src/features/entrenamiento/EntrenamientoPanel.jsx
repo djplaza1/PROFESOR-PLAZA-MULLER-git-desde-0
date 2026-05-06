@@ -2439,7 +2439,7 @@
                     React.createElement('span', null, chatMinimized ? '▲' : '▼')
                 ),
                 !chatMinimized && React.createElement('div', { key: chatKey },
-                    React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget ? window.Muller.DeepSeek.ChatWidget : 'div', null,
+                    React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget ? window.Muller.DeepSeek.ChatWidget : 'div', { initialMinimized: false },
                         !window.Muller.DeepSeek && React.createElement('div', { style: { color: '#f87171', fontSize: '0.85rem', padding: 16, textAlign: 'center' } }, 'Módulo DeepSeek no disponible')
                     )
                 )

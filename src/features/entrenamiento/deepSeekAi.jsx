@@ -232,11 +232,13 @@ window.Muller.DeepSeek.ApiKeySetup = function() {
 };
 
 // ─── Chat Widget Component ───
-window.Muller.DeepSeek.ChatWidget = function() {
+// Acepta props: { initialMinimized: false } para arrancar abierto
+window.Muller.DeepSeek.ChatWidget = function(props) {
+    props = props || {};
     var [messages, setMessages] = React.useState([]);
     var [input, setInput] = React.useState('');
     var [loading, setLoading] = React.useState(false);
-    var [minimized, setMinimized] = React.useState(true);
+    var [minimized, setMinimized] = React.useState(props.initialMinimized === false ? false : true);
     
     var handleSend = async function() {
         if (!input.trim() || loading) return;

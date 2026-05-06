@@ -14,6 +14,7 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [progresoLiga, setProgresoLiga] = useState(0);
 
   useEffect(() => {
+    alert("ComunidadPanel montado - puntos: " + window.Muller.Comunidad.getPuntosUsuario());
     const pts = window.Muller.Comunidad.getPuntosUsuario();
     setPuntos(pts);
     const ligaActual = window.Muller.Comunidad.getLigaUsuario(pts);
