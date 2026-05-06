@@ -1,309 +1,381 @@
-﻿// ==================================================
+﻿// ═══════════════════════════════════════════════════
 // src/features/ia/IAPanel.jsx
-// Panel IA – Asistente Herr Müller (con soporte API real)
-// ==================================================
+// Panel IA Principal – Con TODO lo que tiene el botón flotante:
+// - ChatWidget DeepSeek (con 🎤 voz y 🔊 escuchar)
+// - API Key panel
+// - Ajustes: temperatura, longitud máxima
+// - Token stats: sesión, hoy, semana, mes, total
+// ═══════════════════════════════════════════════════
+
 window.Muller.Panels = window.Muller.Panels || {};
 window.Muller.Panels.IaPanel = {
   name: "ia",
   title: "IA",
   icon: "🤖",
-
   init() {
-    const IA = window.Muller.IA;
-    if (!IA.conversationId) IA.startConversation();
-    this.mode = "normal";
-    this.render();
-    this.bindEvents();
-    this.updateApiBadge();
-  },
-
-  render() {
-    const container = document.getElementById("panel-content");
-    if (!container) return;
-    container.innerHTML = this.getHTML();
-    this.chatBody = document.getElementById("ia-chat-body");
-    this.inputField = document.getElementById("ia-user-input");
-    this.suggestionsEl = document.getElementById("ia-suggestions");
-    this.modeBadge = document.getElementById("ia-mode-badge");
-    this.apiBadge = document.getElementById("ia-api-badge");
-    this.renderMessages();
-  },
-
-  getHTML() {
-    return `
-      <div class="flex flex-col h-full bg-gray-900 text-white">
-        <!-- Header -->
-        <div class="flex-shrink-0 px-4 py-3 border-b border-gray-700 bg-gradient-to-r from-indigo-900 to-gray-900 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-xl">🤖</div>
-          <div class="flex-1">
-            <h2 class="text-lg font-bold">Herr Müller</h2>
-            <p class="text-xs text-gray-400">Dein persönlicher Deutschlehrer</p>
-          </div>
-          <span id="ia-api-badge" class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-400">Local</span>
-          <button id="ia-mode-badge" class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-300 hover:bg-gray-600 border-none cursor-pointer transition" title="Cambiar modo de IA">Normal ▾</button>
-          <button id="ia-clear-btn" title="Neuen Chat starten" class="p-2 hover:bg-gray-700 rounded-lg transition">
-            <i data-lucide="trash-2" class="w-5 h-5 text-gray-400"></i>
-          </button>
-        </div>
-
-        <!-- Chat Body -->
-        <div id="ia-chat-body" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth"></div>
-
-        <!-- Suggestions -->
-        <div id="ia-suggestions" class="flex-shrink-0 px-4 py-2 flex gap-2 overflow-x-auto"></div>
-
-        <!-- Input -->
-        <div class="flex-shrink-0 px-4 py-3 border-t border-gray-700 bg-gray-800">
-          <div class="flex items-center gap-2">
-            <button id="ia-mode-btn" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition" title="Modo especial">
-              <i data-lucide="sliders" class="w-5 h-5"></i>
-            </button>
-            <textarea id="ia-user-input" rows="1" placeholder="Schreib deine Frage... / Escribe tu pregunta..."
-              class="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 resize-none"
-              style="max-height: 120px;"></textarea>
-            <button id="ia-send-btn" class="p-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition text-white">
-              <i data-lucide="send" class="w-5 h-5"></i>
-            </button>
-          </div>
-          <div id="ia-mode-hint" class="text-xs text-gray-500 mt-1 hidden"></div>
-        </div>
-      </div>
-    `;
-  },
-
-  bindEvents() {
-    const sendBtn = document.getElementById("ia-send-btn");
-    const clearBtn = document.getElementById("ia-clear-btn");
-    const modeBtn = document.getElementById("ia-mode-btn");
-    this.inputField = document.getElementById("ia-user-input");
-
-    sendBtn?.addEventListener("click", () => this.sendMessage());
-    clearBtn?.addEventListener("click", () => this.confirmClear());
-    modeBtn?.addEventListener("click", () => this.toggleModeMenu());
-    this.modeBadge?.addEventListener("click", () => this.toggleModeMenu());
-
-    this.inputField?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        this.sendMessage();
-      }
-    });
-    this.inputField?.addEventListener("input", () => {
-      this.inputField.style.height = "auto";
-      this.inputField.style.height = Math.min(this.inputField.scrollHeight, 120) + "px";
-    });
-
-    this.renderSuggestions();
-  },
-
-  renderMessages() {
-    if (!this.chatBody) return;
-    const IA = window.Muller.IA;
-    let msgs = IA.loadHistory();
-    if (msgs.length === 0) {
-      const greeting = IA.getGreeting();
-      IA.addMessage("assistant", greeting);
-      msgs = IA.loadHistory();
-    }
-    this.chatBody.innerHTML = msgs.map(m => this.formatMessage(m)).join("");
-    this.scrollToBottom();
-  },
-
-  formatMessage(msg) {
-    const isUser = msg.role === "user";
-    const bubbleClass = isUser ? "bg-indigo-600 ml-auto max-w-[80%]" : "bg-gray-700 mr-auto max-w-[80%]";
-    const html = (msg.content || "")
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\n/g, "<br>");
-    const time = new Date(msg.timestamp).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
-    return `
-      <div class="flex gap-2 ${isUser ? "justify-end" : "justify-start"} animate-fade-in">
-        ${!isUser ? '<div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-sm shrink-0 mt-1">🤖</div>' : ""}
-        <div class="px-3 py-2 rounded-2xl text-sm leading-relaxed ${bubbleClass} break-words whitespace-pre-wrap">
-          ${html}
-          <div class="text-xs text-gray-400 mt-1 text-right">${time}</div>
-        </div>
-        ${isUser ? '<div class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs shrink-0 mt-1">Du</div>' : ""}
-      </div>
-    `;
-  },
-
-  renderSuggestions() {
-    if (!this.suggestionsEl) return;
-    const suggestions = window.Muller.IA.getSuggestions();
-    this.suggestionsEl.innerHTML = suggestions.map(s => `
-      <button class="suggestion-chip whitespace-nowrap px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-full text-xs transition flex items-center gap-1 text-gray-300 hover:text-white" data-text="${s.text}">
-        <span>${s.icon}</span> ${s.text}
-      </button>
-    `).join("");
-    this.suggestionsEl.querySelectorAll(".suggestion-chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        if (this.inputField) {
-          this.inputField.value = chip.dataset.text;
-          this.inputField.focus();
-          this.sendMessage();
-        }
-      });
-    });
-  },
-
-  async sendMessage() {
-    const text = this.inputField?.value.trim();
-    if (!text) return;
-
-    this.addMessageBubble("user", text);
-    this.inputField.value = "";
-    this.inputField.style.height = "auto";
-    this.showTyping();
-
-    try {
-      const { reply, source } = await window.Muller.IA.sendMessage(text);
-      this.hideTyping();
-      this.addMessageBubble("assistant", reply);
-      this.updateApiBadge();
-      this.checkAchievements();
-    } catch (e) {
-      this.hideTyping();
-      this.addMessageBubble("assistant", "❌ Error: " + e.message);
-    }
-  },
-
-  addMessageBubble(role, content) {
-    const msg = { role, content, timestamp: Date.now() };
-    if (this.chatBody) {
-      const div = document.createElement("div");
-      div.innerHTML = this.formatMessage(msg);
-      this.chatBody.appendChild(div.firstElementChild);
-      this.scrollToBottom();
-    }
-  },
-
-  showTyping() {
-    if (!this.chatBody) return;
-    const el = document.createElement("div");
-    el.id = "ia-typing-indicator";
-    el.className = "flex gap-2 justify-start animate-fade-in";
-    el.innerHTML = `
-      <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-sm shrink-0 mt-1">🤖</div>
-      <div class="px-4 py-2 rounded-2xl bg-gray-700 flex items-center gap-1">
-        <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
-        <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0.15s"></span>
-        <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0.3s"></span>
-      </div>
-    `;
-    this.chatBody.appendChild(el);
-    this.scrollToBottom();
-  },
-
-  hideTyping() {
-    document.getElementById("ia-typing-indicator")?.remove();
-  },
-
-  scrollToBottom() {
-    if (this.chatBody) {
-      this.chatBody.scrollTop = this.chatBody.scrollHeight;
-    }
-  },
-
-  updateApiBadge() {
-    const badge = document.getElementById("ia-api-badge");
-    if (badge) {
-      if (window.Muller.IA.isRealIAReady()) {
-        badge.textContent = "IA real";
-        badge.className = "px-2 py-1 rounded-full text-xs font-semibold bg-emerald-600 text-emerald-100";
-      } else {
-        badge.textContent = "Local";
-        badge.className = "px-2 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-400";
-      }
-    }
-  },
-
-  toggleModeMenu() {
-    // Mantengo los modos para enviar comandos al chat
-    const modes = [
-      { id: "normal", label: "Normal", emoji: "💬" },
-      { id: "corrige", label: "Korrektur", emoji: "🔍" },
-      { id: "gramatica", label: "Grammatik", emoji: "📚" },
-      { id: "vocabulario", label: "Vokabeln", emoji: "📖" },
-      { id: "examen", label: "Prüfung", emoji: "📝" },
-      { id: "rol", label: "Rollenspiel", emoji: "🎭" }
-    ];
-    const existing = document.getElementById("ia-mode-dropdown");
-    if (existing) { existing.remove(); return; }
-
-    const dropdown = document.createElement("div");
-    dropdown.id = "ia-mode-dropdown";
-    dropdown.className = "absolute bottom-full mb-2 left-0 bg-gray-800 border border-gray-700 rounded-xl shadow-2xl p-2 z-50 w-48";
-    dropdown.innerHTML = modes.map(m => `
-      <button class="mode-option w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-gray-700 flex items-center gap-2 ${m.id === this.mode ? "bg-indigo-600 text-white" : "text-gray-300"}" data-mode="${m.id}">
-        <span>${m.emoji}</span> ${m.label}
-      </button>
-    `).join("");
-
-    const modeBtn = document.getElementById("ia-mode-btn");
-    const wrapper = document.createElement("div");
-    wrapper.style.position = "relative";
-    wrapper.appendChild(dropdown);
-    modeBtn?.parentNode?.insertBefore(wrapper, modeBtn);
-    wrapper.appendChild(modeBtn);
-
-    dropdown.querySelectorAll(".mode-option").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const mode = btn.dataset.mode;
-        this.mode = mode;
-        const labels = { normal: "Normal", corrige: "Korrektur", gramatica: "Grammatik", vocabulario: "Vokabeln", examen: "Prüfung", rol: "Rollenspiel" };
-        const badge = document.getElementById("ia-mode-badge");
-        if (badge) badge.textContent = labels[mode] || mode;
-        // Si el modo no es normal, mandamos el comando al chat
-        if (mode !== "normal") {
-          const prefix = "/" + mode;
-          if (this.inputField) {
-            this.inputField.value = prefix + " ";
-            this.inputField.focus();
-          }
-        }
-        dropdown.remove();
-      });
-    });
-
-    setTimeout(() => {
-      const close = (e) => {
-        if (!dropdown.contains(e.target) && e.target !== modeBtn) {
-          dropdown.remove();
-          document.removeEventListener("click", close);
-        }
-      };
-      document.addEventListener("click", close);
-    }, 10);
-  },
-
-  confirmClear() {
-    if (confirm("¿Nuevo chat? El historial se borrará.")) {
-      window.Muller.IA.clearHistory();
-      window.Muller.IA.startConversation();
-      this.render();
-    }
-  },
-
-  checkAchievements() {
-    const userMsgs = window.Muller.IA.loadHistory().filter(m => m.role === "user").length;
-    const newAch = window.Muller.IA.checkAchievements(userMsgs);
-    if (newAch.length > 0) {
-      const last = newAch[newAch.length - 1];
-      if (window.Muller.Training?.addAchievement) {
-        window.Muller.Training.addAchievement(last.id, last.title, last.desc);
-      }
-    }
+    // Ya no necesitamos init manual porque ahora es React puro
   }
 };
 
 // Wrapper React para PanelRouter (tab === "ia")
 window.Muller.Panels.ia = function IaPanelWrapper(props) {
+  // ─── Estados ───
+  var _a = React.useState(0.1);
+  var temperature = _a[0];
+  var setTemperature = _a[1];
+  
+  var _b = React.useState(200);
+  var maxTokens = _b[0];
+  var setMaxTokens = _b[1];
+  
+  var _c = React.useState(true);
+  var showSettings = _c[0];
+  var setShowSettings = _c[1];
+  
+  var _d = React.useState(false);
+  var showHistoryStats = _d[0];
+  var setShowHistoryStats = _d[1];
+  
+  var _e = React.useState(false);
+  var showApiKeyPanel = _e[0];
+  var setShowApiKeyPanel = _e[1];
+  
+  // Token stats
+  var _f = React.useState(
+    window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.TokenTracker
+      ? window.Muller.FloatingAiChat.TokenTracker.getStats()
+      : { session: { totalTokens: 0, inputTokens: 0, outputTokens: 0, cost: 0, messages: 0 },
+          today: { totalTokens: 0, inputTokens: 0, outputTokens: 0, cost: 0, messages: 0 },
+          week: { totalTokens: 0, inputTokens: 0, outputTokens: 0, cost: 0, messages: 0 },
+          month: { totalTokens: 0, inputTokens: 0, outputTokens: 0, cost: 0, messages: 0 },
+          all: { totalTokens: 0, inputTokens: 0, outputTokens: 0, cost: 0, messages: 0 } }
+  );
+  var tokenStats = _f[0];
+  var setTokenStats = _f[1];
+  
+  var _g = React.useState(0);
+  var chatKey = _g[0];
+  var setChatKey = _g[1];
+  
+  // Suscribirse a cambios de tokens
   React.useEffect(function() {
-    var panel = window.Muller.Panels.IaPanel;
-    if (panel && typeof panel.init === "function") {
-      panel.init();
+    if (window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.TokenTracker) {
+      var unsubscribe = window.Muller.FloatingAiChat.TokenTracker.onChange(function() {
+        setTokenStats(Object.assign({}, window.Muller.FloatingAiChat.TokenTracker.getStats()));
+      });
+      return unsubscribe;
     }
   }, []);
-  return React.createElement("div", { id: "panel-content", className: "w-full h-full" });
+  
+  // ─── Helpers ───
+  function formatDate(ts) {
+    var d = new Date(ts);
+    return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  
+  function renderStatsBlock(label, data, showReset) {
+    if (!data || data.totalTokens <= 0) return null;
+    return React.createElement('div', { key: label, style: { marginBottom: 8 } },
+      React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 600, color: '#e2e8f0', marginTop: 10, marginBottom: 4, paddingTop: 8, borderTop: '1px solid #334155' } }, label),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '📊 Total tokens:'),
+        React.createElement('span', { style: { fontWeight: 600, color: '#e2e8f0' } }, data.totalTokens.toLocaleString())
+      ),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '📝 Input:'),
+        React.createElement('span', null, (data.inputTokens || 0).toLocaleString())
+      ),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '💬 Output:'),
+        React.createElement('span', null, (data.outputTokens || 0).toLocaleString())
+      ),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '💵 Costo:'),
+        React.createElement('span', null, '$' + (data.cost || 0).toFixed(5))
+      ),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '🔄 Mensajes:'),
+        React.createElement('span', null, (data.messages || 0))
+      ),
+      showReset && React.createElement('button', {
+        onClick: function() {
+          if (confirm('¿Estás seguro de borrar todo el historial de tokens? Esta acción no se puede deshacer.')) {
+            window.Muller.FloatingAiChat.TokenTracker.resetAll();
+          }
+        },
+        style: {
+          marginTop: 8,
+          padding: '6px 12px',
+          borderRadius: 6,
+          border: '1px solid #475569',
+          background: 'transparent',
+          color: '#94a3b8',
+          cursor: 'pointer',
+          fontSize: '0.75rem',
+          width: '100%'
+        }
+      }, '🗑️ Borrar todo el historial')
+    );
+  }
+  
+  // ─── Render ───
+  return React.createElement('div', {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      background: '#0f172a',
+      color: '#e2e8f0',
+      overflow: 'hidden'
+    }
+  },
+    // ─── Header ───
+    React.createElement('div', {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '14px 20px',
+        background: 'linear-gradient(135deg, #0ea5e9, #3b82f6)',
+        color: 'white',
+        fontWeight: 600,
+        fontSize: '1rem',
+        flexShrink: 0
+      }
+    },
+      React.createElement('span', null, '🤖 Tutor AI — Profesor Plaza Müller'),
+      React.createElement('span', { style: { display: 'flex', gap: 10, alignItems: 'center' } },
+        // Badge de tokens en sesión
+        tokenStats.session.totalTokens > 0 && React.createElement('span', {
+          style: {
+            fontSize: '0.75rem',
+            background: 'rgba(255,255,255,0.15)',
+            padding: '4px 10px',
+            borderRadius: 12
+          }
+        },
+          (tokenStats.session.totalTokens > 1000
+            ? Math.round(tokenStats.session.totalTokens / 1000) + 'K'
+            : tokenStats.session.totalTokens) + ' tokens'
+        ),
+        // Botón API Key
+        React.createElement('button', {
+          onClick: function() { setShowApiKeyPanel(!showApiKeyPanel); setShowSettings(false); setShowHistoryStats(false); },
+          style: {
+            background: 'transparent',
+            border: 'none',
+            color: 'white',
+            fontSize: '1rem',
+            cursor: 'pointer',
+            opacity: showApiKeyPanel ? 1 : 0.7,
+            padding: '4px'
+          },
+          title: 'API Key'
+        }, '🔑'),
+        // Botón ajustes
+        React.createElement('button', {
+          onClick: function() { setShowSettings(!showSettings); setShowApiKeyPanel(false); setShowHistoryStats(false); },
+          style: {
+            background: 'transparent',
+            border: 'none',
+            color: 'white',
+            fontSize: '1rem',
+            cursor: 'pointer',
+            opacity: showSettings ? 1 : 0.7,
+            padding: '4px'
+          },
+          title: 'Ajustes'
+        }, '⚙️'),
+        // Botón estadísticas
+        React.createElement('button', {
+          onClick: function() { setShowHistoryStats(!showHistoryStats); setShowApiKeyPanel(false); setShowSettings(false); },
+          style: {
+            background: 'transparent',
+            border: 'none',
+            color: 'white',
+            fontSize: '1rem',
+            cursor: 'pointer',
+            opacity: showHistoryStats ? 1 : 0.7,
+            padding: '4px'
+          },
+          title: 'Estadísticas'
+        }, '📊')
+      )
+    ),
+    
+    // ─── Panel de API Key ───
+    showApiKeyPanel && React.createElement('div', {
+      style: {
+        padding: 16,
+        borderBottom: '1px solid #334155',
+        background: '#0f172a',
+        flexShrink: 0
+      }
+    },
+      React.createElement(window.Muller.DeepSeek && window.Muller.DeepSeek.ApiKeyPanel
+        ? window.Muller.DeepSeek.ApiKeyPanel
+        : 'div', null,
+        !window.Muller.DeepSeek && React.createElement('div', { style: { color: '#f87171' } }, 'Módulo API Key no disponible')
+      )
+    ),
+    
+    // ─── Panel de ajustes ───
+    showSettings && React.createElement('div', {
+      style: {
+        padding: 16,
+        borderBottom: '1px solid #334155',
+        background: '#0f172a',
+        flexShrink: 0,
+        overflowY: 'auto',
+        maxHeight: '40vh'
+      }
+    },
+      // Longitud máxima
+      React.createElement('div', { style: { marginBottom: 14 } },
+        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#cbd5e1', marginBottom: 4 } },
+          React.createElement('span', null, '📏 Longitud máxima'),
+          React.createElement('span', null, maxTokens + ' tokens')
+        ),
+        React.createElement('input', {
+          type: 'range',
+          min: 50,
+          max: 800,
+          step: 50,
+          value: maxTokens,
+          onChange: function(e) { setMaxTokens(parseInt(e.target.value)); },
+          style: { width: '100%', accentColor: '#0ea5e9' }
+        }),
+        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#64748b' } },
+          React.createElement('span', null, 'Corto'),
+          React.createElement('span', null, 'Largo')
+        )
+      ),
+      // Temperatura
+      React.createElement('div', { style: { marginBottom: 14 } },
+        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#cbd5e1', marginBottom: 4 } },
+          React.createElement('span', null, '🌡️ Creatividad'),
+          React.createElement('span', null, temperature.toFixed(1))
+        ),
+        React.createElement('input', {
+          type: 'range',
+          min: 0.1,
+          max: 1.5,
+          step: 0.1,
+          value: temperature,
+          onChange: function(e) { setTemperature(parseFloat(e.target.value)); },
+          style: { width: '100%', accentColor: '#0ea5e9' }
+        }),
+        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#64748b' } },
+          React.createElement('span', null, 'Literal'),
+          React.createElement('span', null, 'Creativo')
+        )
+      ),
+      // Stats de sesión
+      React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 600, color: '#e2e8f0', marginTop: 10, marginBottom: 4, paddingTop: 8, borderTop: '1px solid #334155' } }, '⚡ Sesión actual'),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '📊 Tokens:'),
+        React.createElement('span', { style: { fontWeight: 600, color: '#e2e8f0' } }, (tokenStats.session.totalTokens || 0).toLocaleString())
+      ),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '💵 Costo:'),
+        React.createElement('span', null, '$' + (tokenStats.session.cost || 0).toFixed(5))
+      ),
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.78rem', color: '#94a3b8' } },
+        React.createElement('span', null, '🔄 Mensajes:'),
+        React.createElement('span', null, (tokenStats.session.messages || 0))
+      ),
+      (tokenStats.session.totalTokens || 0) > 0 && React.createElement('button', {
+        onClick: function() {
+          if (window.Muller.FloatingAiChat && window.Muller.FloatingAiChat.TokenTracker) {
+            window.Muller.FloatingAiChat.TokenTracker.resetSession();
+          }
+        },
+        style: {
+          marginTop: 8,
+          padding: '6px 12px',
+          borderRadius: 6,
+          border: '1px solid #475569',
+          background: 'transparent',
+          color: '#94a3b8',
+          cursor: 'pointer',
+          fontSize: '0.75rem',
+          width: '100%'
+        }
+      }, '🔄 Resetear sesión')
+    ),
+    
+    // ─── Panel de estadísticas históricas ───
+    showHistoryStats && React.createElement('div', {
+      style: {
+        padding: 16,
+        borderBottom: '1px solid #334155',
+        background: '#0f172a',
+        flexShrink: 0,
+        overflowY: 'auto',
+        maxHeight: '50vh'
+      }
+    },
+      React.createElement('div', { style: { fontSize: '0.85rem', fontWeight: 600, color: '#e2e8f0', marginBottom: 8 } }, '📊 Historial de tokens'),
+      renderStatsBlock('📅 Hoy (' + formatDate(Date.now()) + ')', tokenStats.today),
+      renderStatsBlock('📅 Esta semana', tokenStats.week),
+      renderStatsBlock('📅 Este mes', tokenStats.month),
+      renderStatsBlock('📅 Total histórico', tokenStats.all, true)
+    ),
+    
+    // ─── ChatWidget (DeepSeek) ───
+    React.createElement('div', {
+      key: chatKey,
+      style: {
+        flex: 1,
+        overflowY: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        background: '#1e293b'
+      }
+    },
+      window.Muller.DeepSeek && window.Muller.DeepSeek.ChatWidget
+        ? React.createElement(window.Muller.DeepSeek.ChatWidget, {
+            initialMinimized: false,
+            temperature: temperature,
+            maxTokens: maxTokens
+          })
+        : React.createElement('div', {
+            style: {
+              color: '#f87171',
+              fontSize: '1rem',
+              padding: 32,
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 12,
+              marginTop: 40
+            }
+          },
+            React.createElement('span', { style: { fontSize: '3rem' } }, '⚠️'),
+            React.createElement('div', null,
+              React.createElement('p', { style: { margin: '0 0 8px 0', fontWeight: 600 } }, 'Módulo DeepSeek no disponible'),
+              React.createElement('p', { style: { margin: 0, fontSize: '0.85rem', color: '#94a3b8' } }, 'Asegúrate de que deepSeekAi.jsx se haya cargado correctamente.')
+            )
+          )
+    ),
+    
+    // ─── Footer info ───
+    React.createElement('div', {
+      style: {
+        padding: '8px 16px',
+        borderTop: '1px solid #334155',
+        background: '#0f172a',
+        fontSize: '0.7rem',
+        color: '#64748b',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexShrink: 0
+      }
+    },
+      React.createElement('span', null, '🎤 Usa el micrófono para hablar · 🔊 Tus respuestas se pueden leer en voz alta'),
+      React.createElement('span', null, 'Ctrl+Space para abrir/cerrar chat flotante')
+    )
+  );
 };
