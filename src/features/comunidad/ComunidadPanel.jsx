@@ -43,6 +43,12 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [clubMensajes, setClubMensajes] = useState([]);
   const [clubMensajeTexto, setClubMensajeTexto] = useState('');
   const [yoEnClubs, setYoEnClubs] = useState('yo');
+  // ─── FEED SOCIAL ───
+  const [feed, setFeed] = useState([]);
+  // ─── TIENDA ───
+  const [showTienda, setShowTienda] = useState(false);
+  const [tiendaProductos, setTiendaProductos] = useState([]);
+  const [tiendaCompras, setTiendaCompras] = useState([]);
 
   useEffect(() => {
     const pts = window.Muller.Comunidad.getPuntosUsuario();
@@ -86,6 +92,10 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setBloqueos(window.Muller.Comunidad.getBloqueos());
     setDuelos(window.Muller.Comunidad.getDuelos());
     setInvitaciones(window.Muller.Comunidad.getInvitaciones());
+    // Cargar feed social
+    if (window.Muller.Comunidad.Feed) {
+      setFeed(window.Muller.Comunidad.Feed.getFeed(30));
+    }
     return () => { window.Muller.Comunidad.actualizarOnline(false); };
   }, []);
 
@@ -399,7 +409,23 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
           disabled={bonusReclamado}
           className={`px-4 py-2 rounded font-bold ${bonusReclamado ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-400 text-black'}`}
         >
-          {bonusReclamado ? '✅ Reclamado' : '¡Reclamar!'}
+        {bonusReclamado ? '✅ Reclamado' : '¡Reclamar!'}
+        </button>
+      </div>
+
+      {/* 🏪 Tienda de puntos */}
+      <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+        <h3 className="text-xl font-semibold mb-2">🏪 Mercado de puntos</h3>
+        <p className="text-sm text-gray-400 mb-3">Canjea tus puntos por comodines, temas y textos exclusivos</p>
+        <button
+          onClick={function() {
+            setShowTienda(true);
+            setTiendaProductos(window.Muller.Comunidad.Tienda ? window.Muller.Comunidad.Tienda.getProductos() : []);
+            setTiendaCompras(window.Muller.Comunidad.Tienda ? window.Muller.Comunidad.Tienda.getCompras() : []);
+          }}
+          className="w-full bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-white font-bold py-2 px-4 rounded-lg"
+        >
+          🛒 Abrir tienda
         </button>
       </div>
 
@@ -746,6 +772,101 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
         </div>
       )}
 
+      {/* 📰 FEED SOCIAL */}
+      {feed.length > 0 && (
+        <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-xl font-semibold">📰 Feed social</h3>
+            <button
+              onClick={() => {
+                if (window.Muller.Comunidad.Feed) {
+                  setFeed(window.Muller.Comunidad.Feed.getFeed(30));
+                }
+              }}
+              className="text-xs text-gray-400 hover:text-white"
+            >
+              🔄 Actualizar
+            </button>
+          </div>
+          <div className="space-y-2 max-h-80 overflow-y-auto">
+            {feed.length === 0 ? (
+              <p className="text-gray-500 text-sm">No hay actividad aún. Participa en la comunidad para generar entradas.</p>
+            ) : (
+              feed.map(function(entry, idx) {
+                var emoji = '📌';
+                if (entry.tipo === 'logro') emoji = '🏆';
+                else if (entry.tipo === 'ascenso') emoji = '⬆️';
+                else if (entry.tipo === 'hito') emoji = '🎯';
+                else if (entry.tipo === 'duelo') emoji = '⚔️';
+                else if (entry.tipo === 'club') emoji = '🏰';
+                else if (entry.tipo === 'desafio') emoji = '🤖';
+                return (
+                  <div key={entry.id || idx} className="bg-gray-700/50 p-2 rounded-lg">
+                    <div className="flex items-start gap-2">
+                      <span className="text-lg">{emoji}</span>
+                      <div className="flex-1">
+                        <p className="text-sm">{entry.texto || entry.mensaje || ''}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {entry.usuario || entry.nombre || 'Alguien'} · {new Date(entry.timestamp || entry.fecha || Date.now()).toLocaleDateString()}
+                        </p>
+                        {/* Reacciones */}
+                        {entry.reacciones && Object.keys(entry.reacciones).length > 0 && (
+                          <div className="flex gap-2 mt-1 flex-wrap">
+                            {Object.entries(entry.reacciones).map(function([emojiR, count]) {
+                              return (
+                                <span key={emojiR} className="text-xs bg-gray-600 rounded px-1.5 py-0.5 cursor-pointer hover:bg-gray-500"
+                                  onClick={function() {
+                                    if (window.Muller.Comunidad.Feed) {
+                                      window.Muller.Comunidad.Feed.reaccionar(entry.id, emojiR);
+                                      setFeed(window.Muller.Comunidad.Feed.getFeed(30));
+                                    }
+                                  }}>
+                                  {emojiR} {count}
+                                </span>
+                              );
+                            })}
+                            <span className="text-xs text-gray-500 cursor-pointer hover:text-white"
+                              onClick={function() {
+                                var nuevosEmojis = ['👏', '🔥', '💪', '🎉', '❤️'];
+                                var r = nuevosEmojis[Math.floor(Math.random() * nuevosEmojis.length)];
+                                if (window.Muller.Comunidad.Feed) {
+                                  window.Muller.Comunidad.Feed.reaccionar(entry.id, r);
+                                  setFeed(window.Muller.Comunidad.Feed.getFeed(30));
+                                }
+                              }}>
+                              ➕
+                            </span>
+                          </div>
+                        )}
+                        {(!entry.reacciones || Object.keys(entry.reacciones).length === 0) && (
+                          <div className="flex gap-1 mt-1">
+                            {['👏', '🔥', '💪'].map(function(r) {
+                              return (
+                                <button key={r}
+                                  onClick={function() {
+                                    if (window.Muller.Comunidad.Feed) {
+                                      window.Muller.Comunidad.Feed.reaccionar(entry.id, r);
+                                      setFeed(window.Muller.Comunidad.Feed.getFeed(30));
+                                    }
+                                  }}
+                                  className="text-xs bg-gray-600 hover:bg-gray-500 rounded px-1.5 py-0.5"
+                                >
+                                  {r}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </div>
+      )}
+
       {/* 🏰 CLUBS DE ESTUDIO */}
       <div className="bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
         <div className="flex justify-between items-center mb-3">
@@ -922,6 +1043,89 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
               <button onClick={() => handleDesbloquear(b.id)} className="text-green-400 hover:text-green-300 text-sm">Desbloquear</button>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* 🏪 MODAL TIENDA */}
+      {showTienda && (
+        <div className="fixed inset-0 z-[280] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setShowTienda(false)}>
+          <div className="bg-gray-800 p-6 rounded-xl shadow-2xl border border-gray-600 max-w-lg w-full max-h-[85vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">🏪 Mercado de puntos</h3>
+              <button onClick={() => setShowTienda(false)} className="text-gray-400 hover:text-white text-lg">&times;</button>
+            </div>
+            
+            {/* Puntos actuales */}
+            <div className="bg-gray-900 p-3 rounded-lg mb-4 text-center">
+              <p className="text-sm text-gray-400">Tus puntos</p>
+              <p className="text-3xl font-bold text-yellow-400">{puntos} 🪙</p>
+            </div>
+
+            {/* Productos disponibles */}
+            <div className="flex-1 overflow-y-auto space-y-3 mb-4">
+              <p className="text-sm font-semibold text-gray-300">Productos disponibles:</p>
+              {tiendaProductos.filter(function(p) { return p.activo; }).map(function(producto) {
+                return (
+                  <div key={producto.id} className="bg-gray-700 p-3 rounded-lg flex justify-between items-center">
+                    <div className="flex-1">
+                      <p className="font-semibold text-white">{producto.icono || '🛒'} {producto.nombre}</p>
+                      <p className="text-xs text-gray-400">{producto.descripcion}</p>
+                      <p className="text-sm text-yellow-400 mt-1">{producto.precio} pts</p>
+                    </div>
+                    <button
+                      onClick={function() {
+                        var resultado = window.Muller.Comunidad.Tienda ? window.Muller.Comunidad.Tienda.comprar(producto.id) : null;
+                        if (!resultado) { alert('Tienda no disponible'); return; }
+                        if (resultado.ok) {
+                          setPuntos(resultado.puntos);
+                          setTiendaCompras(window.Muller.Comunidad.Tienda ? window.Muller.Comunidad.Tienda.getCompras() : []);
+                          if (resultado.msg) alert(resultado.msg);
+                          if (window.Muller.Toast) window.Muller.Toast.show('Compra realizada!', 'success', 2000);
+                        } else {
+                          alert(resultado.msg);
+                        }
+                      }}
+                      disabled={puntos < producto.precio}
+                      className={`px-3 py-2 rounded text-xs font-bold ${puntos >= producto.precio ? 'bg-green-600 hover:bg-green-500 text-white' : 'bg-gray-600 text-gray-400 cursor-not-allowed'}`}
+                    >
+                      {puntos >= producto.precio ? 'Comprar' : '❌'}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Compras anteriores */}
+            {tiendaCompras.filter(function(c) { return !c.usado; }).length > 0 && (
+              <div className="border-t border-gray-700 pt-3">
+                <p className="text-sm font-semibold text-gray-300 mb-2">Tus comodines:</p>
+                {tiendaCompras.filter(function(c) { return !c.usado; }).map(function(compra) {
+                  return (
+                    <div key={compra.id} className="bg-gray-700/50 p-2 rounded-lg mb-2 flex justify-between items-center">
+                      <div>
+                        <p className="text-sm text-white">{compra.nombre}</p>
+                        <p className="text-xs text-gray-400">{new Date(compra.fecha).toLocaleDateString()}</p>
+                      </div>
+                      <button
+                        onClick={function() {
+                          var r = window.Muller.Comunidad.Tienda ? window.Muller.Comunidad.Tienda.aplicarComodin(compra.id) : null;
+                          if (r && r.ok) {
+                            setTiendaCompras(window.Muller.Comunidad.Tienda.getCompras());
+                            alert(r.msg);
+                          } else if (r) {
+                            alert(r.msg);
+                          }
+                        }}
+                        className="bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-1 rounded text-xs font-bold"
+                      >
+                        Usar
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
