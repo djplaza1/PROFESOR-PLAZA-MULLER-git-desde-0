@@ -322,3 +322,63 @@ window.Muller.Maestros.getNivelActual = function() {
   }
   return "C1";
 };
+
+// ─── FASE 7: PROGRESIÓN AUTOMÁTICA ───
+
+// getSiguienteModulo: primer módulo NO completado siguiendo orden lógico
+window.Muller.Maestros.getSiguienteModulo = function() {
+  var orden = ["A1_1","A1_2","A2_1","A2_2","B1_1","B1_2","B2_1","B2_2","C1"];
+  var progress = window.Muller.Maestros.getProgress();
+  var todos = window.Muller.Maestros.getAllLevels();
+  for (var i = 0; i < orden.length; i++) {
+    var nivel = orden[i];
+    var modulosDeNivel = todos.filter(function(m) { return m.nivelId === nivel; });
+    for (var j = 0; j < modulosDeNivel.length; j++) {
+      if (!progress[modulosDeNivel[j].id] || !progress[modulosDeNivel[j].id].completado) {
+        return modulosDeNivel[j];
+      }
+    }
+  }
+  return null;
+};
+
+// getModulosDebiles: módulos con más de 2 fallos, ordenados por más fallos primero
+window.Muller.Maestros.getModulosDebiles = function() {
+  var fallos = JSON.parse(localStorage.getItem("maestros_fallos") || "{}");
+  var todos = window.Muller.Maestros.getAllLevels();
+  var resultado = [];
+  for (var id in fallos) {
+    if (fallos[id] > 2) {
+      var modulo = todos.filter(function(m) { return m.id === id; })[0];
+      if (modulo) {
+        modulo.fallos = fallos[id];
+        resultado.push(modulo);
+      }
+    }
+  }
+  resultado.sort(function(a,b) { return b.fallos - a.fallos; });
+  return resultado;
+};
+
+// getTiempoEstudioHoy: minutos estimados de estudio hoy
+window.Muller.Maestros.getTiempoEstudioHoy = function() {
+  var progress = window.Muller.Maestros.getProgress();
+  var hoy = new Date();
+  var hoyStr = hoy.getFullYear() + "-" + (hoy.getMonth()+1) + "-" + hoy.getDate();
+  var minutos = 0;
+  for (var id in progress) {
+    if (progress[id].completado) {
+      var d = new Date(progress[id].timestamp);
+      var dStr = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+      if (dStr === hoyStr) {
+        minutos += 5;
+      }
+    }
+  }
+  return minutos;
+};
+
+// getMetaDiaria: true si al menos 1 módulo completado hoy
+window.Muller.Maestros.getMetaDiaria = function() {
+  return window.Muller.Maestros.getTiempoEstudioHoy() >= 5;
+};

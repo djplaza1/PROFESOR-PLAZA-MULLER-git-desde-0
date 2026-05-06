@@ -24,6 +24,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
   const [mostrarEjercicios, setMostrarEjercicios] = useState(false);
   const [mostrarIA, setMostrarIA] = useState(false);
   const [mostrarHistoria, setMostrarHistoria] = useState(false);
+  const [mostrarProgresion, setMostrarProgresion] = useState(false);
   const [pestanaActiva, setPestanaActiva] = useState('lecciones'); // 'lecciones' | 'historia'
 
   // Niveles disponibles para las pestañas de nivel
@@ -114,6 +115,19 @@ window.Muller.Panels['maestros'] = ({ session }) => {
     });
   }
 
+  // Mostrar modal de progresión si se activó
+  if (mostrarProgresion) {
+    var ProgresionComp = window.Muller.Panels['progresionMaestros'] || ProgresionMaestros;
+    if (typeof ProgresionComp !== 'function' && typeof ProgresionComp !== 'object') {
+      ProgresionComp = ProgresionMaestros;
+    }
+    return React.createElement('div', null,
+      React.createElement(ProgresionComp, {
+        onCerrar: function() { setMostrarProgresion(false); }
+      })
+    );
+  }
+
   // Mostrar panel de historia si se activó
   if (pestanaActiva === 'historia' && window.Muller.Panels['historiaMaestros']) {
     var HistoriaComp = window.Muller.Panels['historiaMaestros'];
@@ -144,6 +158,10 @@ window.Muller.Panels['maestros'] = ({ session }) => {
               🤖 Preguntar IA
             </button>
           )}
+          <button onClick={() => setMostrarProgresion(true)}
+            className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600/30 border border-emerald-500/40 text-emerald-200 hover:bg-emerald-600/50 transition-all">
+            📊 Recomendaciones
+          </button>
           <div className="bg-indigo-900/40 border border-indigo-500/30 rounded-full px-4 py-1.5 text-sm font-bold text-indigo-200 flex items-center gap-2">
             <span dangerouslySetInnerHTML={{ __html: SvgStar }} className="w-4 h-4 inline-block" />
             {estadisticas ? estadisticas.puntos : 0} pts
