@@ -19,6 +19,9 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
   const [chatAbierto, setChatAbierto] = useState(null);
   const [mensajeTexto, setMensajeTexto] = useState('');
   const [mensajes, setMensajes] = useState([]);
+  const [duelos, setDuelos] = useState([]);
+  const [invitaciones, setInvitaciones] = useState([]);
+  const [dueloInvitacionTipo, setDueloInvitacionTipo] = useState('vocabulario');
 
   useEffect(() => {
     const pts = window.Muller.Comunidad.getPuntosUsuario();
@@ -125,6 +128,31 @@ window.Muller.Panels['comunidad'] = ({ session }) => {
     setMensajeTexto('');
   };
 
+
+  const invitarADuelo = (amigo) => {
+    const result = window.Muller.Comunidad.invitarADuelo(amigo.id, amigo.nombre, dueloInvitacionTipo);
+    if (result.ok) {
+      setInvitaciones(window.Muller.Comunidad.getInvitaciones());
+      if (window.Muller.Toast) window.Muller.Toast.showCustom('Invitación enviada', amigo.nombre, '⚔️', 0);
+      alert('✅ Invitación enviada a ' + amigo.nombre);
+    } else {
+      alert(result.msg);
+    }
+  };
+
+  const responderInvitacion = (invitacionId, aceptar) => {
+    const result = window.Muller.Comunidad.responderInvitacion(invitacionId, aceptar);
+    if (result.ok) {
+      setInvitaciones(window.Muller.Comunidad.getInvitaciones());
+      setDuelos(window.Muller.Comunidad.getDuelos());
+      if (window.Muller.Toast) window.Muller.Toast.showCustom(aceptar ? 'Duelo aceptado' : 'Invitación rechazada', '', aceptar ? '⚔️' : '✕', 0);
+    }
+  };
+
+  React.useEffect(() => {
+    setDuelos(window.Muller.Comunidad.getDuelos());
+    setInvitaciones(window.Muller.Comunidad.getInvitaciones());
+  }, []);
   const handleKeyDownMensaje = (e) => {
     if (e.key === 'Enter') enviarMensaje();
   };
