@@ -25,6 +25,7 @@ window.Muller.Panels['maestros'] = ({ session }) => {
   const [mostrarIA, setMostrarIA] = useState(false);
   const [mostrarHistoria, setMostrarHistoria] = useState(false);
   const [mostrarProgresion, setMostrarProgresion] = useState(false);
+  const [mostrarCompetencia, setMostrarCompetencia] = useState(false);
   const [pestanaActiva, setPestanaActiva] = useState('lecciones'); // 'lecciones' | 'historia'
 
   // Niveles disponibles para las pestañas de nivel
@@ -115,6 +116,19 @@ window.Muller.Panels['maestros'] = ({ session }) => {
     });
   }
 
+  // Mostrar modal de competencia si se activó
+  if (mostrarCompetencia) {
+    var CompetenciaComp = window.Muller.Panels['competenciaMaestros'] || CompetenciaMaestros;
+    if (typeof CompetenciaComp !== 'function' && typeof CompetenciaComp !== 'object') {
+      CompetenciaComp = CompetenciaMaestros;
+    }
+    return React.createElement('div', null,
+      React.createElement(CompetenciaComp, {
+        onCerrar: function() { setMostrarCompetencia(false); }
+      })
+    );
+  }
+
   // Mostrar modal de progresión si se activó
   if (mostrarProgresion) {
     var ProgresionComp = window.Muller.Panels['progresionMaestros'] || ProgresionMaestros;
@@ -158,6 +172,10 @@ window.Muller.Panels['maestros'] = ({ session }) => {
               🤖 Preguntar IA
             </button>
           )}
+          <button onClick={() => setMostrarCompetencia(true)}
+            className="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-600/30 border border-amber-500/40 text-amber-200 hover:bg-amber-600/50 transition-all">
+            🏆 Competencia
+          </button>
           <button onClick={() => setMostrarProgresion(true)}
             className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600/30 border border-emerald-500/40 text-emerald-200 hover:bg-emerald-600/50 transition-all">
             📊 Recomendaciones
