@@ -1028,46 +1028,131 @@ R.pickExerciseType = function (word, levelId) {
   return 'fill';
 };
 
-// Generar una frase ejemplo para una palabra según nivel
+// Conjugación en presente de indicativo (alemán)
+R.conjugateVerb = function (infinitive, pronoun) {
+  const stem = infinitive.endsWith('en') ? infinitive.slice(0, -2)
+    : infinitive.endsWith('n') ? infinitive.slice(0, -1)
+    : infinitive;
+  // Reglas de efügung (e) antes de st/t cuando stem acaba en t/d/chn/fn/tm/gn/dm
+  const needsE = /[tdchnfngmß]$/i.test(stem);
+  const conjMap = {
+    'ich': stem + 'e',
+    'du': stem + (needsE ? 'est' : 'st'),
+    'er': stem + (needsE ? 'et' : 't'),
+    'sie': stem + (needsE ? 'et' : 't'),
+    'es': stem + (needsE ? 'et' : 't'),
+    'wir': stem + 'en',
+    'ihr': stem + 't',
+    'sie': stem + 'en',
+    'Sie': stem + 'en'
+  };
+  const key = pronoun.toLowerCase();
+  return conjMap[key] || stem + 'en';
+};
+
+// Generar una frase ejemplo con sentido real + conjugación correcta
 R.generateExample = function (word, levelId) {
   const [de, es, art, plural, tipo] = word;
   const lvl = parseInt(levelId.replace('A','').replace('B','').replace('C','').replace('.',''))||1;
-  const subj = art === 'die' ? 'Die' : art === 'das' ? 'Das' : 'Der';
-  const subj2 = ['Ich','Du','Er','Sie','Wir'][Math.floor(Math.random()*5)];
-  const subj3 = ['Mein','Dein','Sein','Ihr','Unser'][Math.floor(Math.random()*5)];
+  const artNom = art === 'die' ? 'Die' : art === 'das' ? 'Das' : art === 'der' ? 'Der' : 'Der';
+  const artAkku = art === 'die' ? 'die' : art === 'das' ? 'das' : 'den';
+  const artDat = art === 'die' ? 'der' : art === 'das' ? 'dem' : 'dem';
+  // Pronombres
+  const subjArr = ['ich','du','er','wir','sie'];
+  const subj = subjArr[Math.floor(Math.random()*subjArr.length)];
+  const subjCap = subj.charAt(0).toUpperCase() + subj.slice(1);
+  // Adjetivos comunes por nivel
+  const adjA1 = ['groß','klein','neu','schön','gut','alt','jung','schnell','langsam','warm','kalt'];
+  const adjA2 = ['interessant','wichtig','toll','billig','teuer','sauber','schmutzig','freundlich','möglich'];
+  const adjB1 = ['schwierig','einfach','notwendig','erfolgreich','gefährlich','berühmt','gemeinsam','ehrlich'];
+  const adjB2 = ['unterhaltsam','umfangreich','gründlich','verantwortlich','beeindruckend','anspruchsvoll'];
+  const advA1 = ['heute','gerne','oft','hier','dort','jetzt'];
+  const advA2 = ['manchmal','täglich','meistens','deshalb','trotzdem','inzwischen'];
+  const locA1 = ['zu Hause','im Park','in der Schule','im Büro','auf dem Tisch','in der Stadt'];
+  const locA2 = ['im Restaurant','am Bahnhof','im Krankenhaus','auf der Arbeit','im Supermarkt','im Garten'];
 
+  const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+
+  // ===== NIVEL A1 (lvl 1-2) =====
   if (lvl <= 2) {
-    if (tipo === 'adj') return `${subj2} ist ${de}.`;
-    if (tipo === 'num') return `Das ist ${de}.`;
-    if (tipo === 'v') return `Ich ${de} gern.`;
-    if (tipo === 'n') return `${subj} ${de} ist ${['groß','klein','neu','schön','gut'][Math.floor(Math.random()*5)]}.`;
+    if (tipo === 'v') {
+      const conj = R.conjugateVerb(de, subj);
+      const adv = pick(advA1);
+      if (Math.random() < 0.5) return `${subjCap} ${conj} ${adv}.`;          // "Ich gehe gerne."
+      const obj = pick(['ein Buch','Wasser','Kaffee','Musik','Fußball']);
+      return `${subjCap} ${conj} ${adv} ${obj}.`;                            // "Er spielt gerne Fußball."
+    }
+    if (tipo === 'n') {
+      const adj = pick(adjA1);
+      return `${artNom} ${de} ist ${adj}.`;                                   // "Der Hund ist klein."
+    }
+    if (tipo === 'adj') {
+      const noun = pick(['das Wetter','der Film','das Essen','der Tag','die Musik']);
+      return `${noun.charAt(0).toUpperCase()+noun.slice(1)} ist ${de}.`;     // "Das Wetter ist schön."
+    }
+    if (tipo === 'num') return `Das kostet ${de} Euro.`;                     // "Das kostet drei Euro."
     return `Das ist ${de}.`;
   }
+
+  // ===== NIVEL A2 (lvl 3-4) =====
   if (lvl <= 4) {
-    if (tipo === 'v') return `${subj2} ${de} jeden Tag.`;
-    if (tipo === 'n') return `${subj3} ${de} ist kaputt.`;
-    if (tipo === 'adj') return `Das Wetter ist heute ${de}.`;
-    return `${subj2} hat ${['einen','eine','ein'][Math.floor(Math.random()*3)]} ${de}.`;
+    if (tipo === 'v') {
+      const conj = R.conjugateVerb(de, subj);
+      const adv = pick(advA2);
+      if (Math.random() < 0.5) return `${subjCap} ${conj} ${adv}.`;
+      return `${subjCap} ${conj} ${adv} ${pick(locA1)}.`;
+    }
+    if (tipo === 'n') {
+      const adj = pick(adjA2);
+      return `Ich finde ${artAkku} ${de} ${adj}.`;                          // "Ich finde den Film interessant."
+    }
+    if (tipo === 'adj') return `Das Wetter ist heute ${de}.`;               // "Das Wetter ist heute regnerisch."
+    const habenConj = subj === 'ich' ? 'habe' : subj === 'du' ? 'hast' : 'hat';
+    const indf = art === 'die' ? 'eine' : 'einen';
+    return `${subjCap} ${habenConj} ${indf} ${de}.`;                        // "Er hat einen Hund."
   }
+
+  // ===== NIVEL B1 (lvl 5-8) =====
   if (lvl <= 8) {
-    if (tipo === 'v') return `Gestern ${['habe','hat','haben'][Math.floor(Math.random()*3)]} ${subj2} ${de}.`;
-    if (tipo === 'n') return `Ich habe ${art||'den'} ${de} im ${['Park','Zimmer','Auto','Büro'][Math.floor(Math.random()*4)]} gesehen.`;
-    return `Das ${de} ist wirklich ${['interessant','wichtig','toll','schwierig'][Math.floor(Math.random()*4)]}.`;
+    if (tipo === 'v') {
+      // Pretérito perfecto: haben/sein + Partizip
+      const part = de.endsWith('en') ? 'ge' + de.slice(0,-2) + 't' : 'ge' + de + 't';
+      const has = pick(['hat','hat','haben','hast']);
+      return `${subjCap} ${has} ${part}, ${pick(['weil','obwohl','wenn'])} ${subj} ${R.conjugateVerb(de,subj)}.`; // "Er hat gelernt, weil er lernt."
+    }
+    if (tipo === 'n') {
+      return `Kannst du mir ${artDat} ${de} ${pick(['geben','zeigen','bringen'])}?`; // "Kannst du mir dem Freund zeigen?"
+    }
+    if (tipo === 'adj') return `Diese Entscheidung ist ${de}.`;
+    const conj2 = subj === 'ich' ? 'muss' : subj === 'du' ? 'musst' : 'muss';
+    return `${subjCap} ${conj2} ${artAkku} ${de} ${pick(['kaufen','lesen','verstehen','finden'])}.`;
   }
+
+  // ===== NIVEL B2 (lvl 9-12) =====
   if (lvl <= 12) {
-    if (tipo === 'v') return `Obwohl ${subj2} ${de}, ist es ${['schwierig','einfach','wichtig'][Math.floor(Math.random()*3)]}.`;
-    if (tipo === 'n') return `${subj} ${de}, ${['der','die','das'][Math.floor(Math.random()*3)]} auf dem Tisch liegt, gehört mir.`;
-    if (tipo === 'adj') return `Diese Entscheidung ist äußerst ${de}.`;
-    return `Ich bin der Meinung, dass ${de} ${['wichtig','notwendig','richtig'][Math.floor(Math.random()*3)]} ist.`;
+    if (tipo === 'v') {
+      const conj = R.conjugateVerb(de, subj);
+      const kl = pick(['obwohl','weil','wenn','dass']);
+      return `${subjCap} ${conj}, ${kl} ${subj} ${['viel','wenig','oft','nie'][Math.floor(Math.random()*4)]} ${['Zeit','Geld','Lust'][Math.floor(Math.random()*3)]} hat.`;
+    }
+    if (tipo === 'n') {
+      return `In Bezug auf ${artDat} ${de} bin ich ${['anderer Meinung','optimistisch','skeptisch'][Math.floor(Math.random()*3)]}.`;
+    }
+    if (tipo === 'adj') return `Die Lage ist äußerst ${de}, ${pick(['was alle überrascht','wie erwartet','leider'])}.`;
+    const conjSub = ['dass','ob','was'][Math.floor(Math.random()*3)];
+    return `Ich bin mir nicht sicher, ${conjSub} ${de} ${['wichtig','richtig','möglich'][Math.floor(Math.random()*3)]} ist.`;
   }
-  // B2+ y C1: Frases con conectores complejos
-  const connectors = ['Insofern','Demzufolge','Nichtsdestotrotz','Hinsichtlich','Angesichts','Infolgedessen'];
-  const con = connectors[Math.floor(Math.random()*connectors.length)];
-  if (tipo === 'conj') return `${con} muss man ${de} berücksichtigen.`;
-  if (tipo === 'v') return `${con} ${['haben','hat','hätten'][Math.floor(Math.random()*3)]} wir ${de}.`;
-  if (tipo === 'n') return `${con} spielt ${art||'die'} ${de} eine entscheidende Rolle.`;
-  if (tipo === 'adj') return `Die Lage ist ${con.toLowerCase() !== 'insofern' ? '' : 'insofern'} ${de}, als dass...`;
-  return `${con} ist ${de} von großer Bedeutung.`;
+
+  // ===== NIVEL C1 (lvl 13-18) =====
+  const connectors = ['Insofern','Demzufolge','Nichtsdestotrotz','Hinsichtlich','Angesichts','Infolgedessen','Dementsprechend'];
+  const con = pick(connectors);
+  if (tipo === 'v') {
+    const conj = R.conjugateVerb(de, subj);
+    return `${con} ${subjCap} ${conj}, ${pick(['sodass','wodurch','woraufhin'])} alles ${['klappt','funktioniert','passt'][Math.floor(Math.random()*3)]}.`;
+  }
+  if (tipo === 'n') return `${con} spielt ${artNom} ${de} eine entscheidende Rolle im ${pick(['Prozess','System','Projekt','Alltag'])}.`;
+  if (tipo === 'adj') return `Die Entwicklung ist ${con.toLowerCase()} ${de} ${['verlaufen','gewesen','geblieben'][Math.floor(Math.random()*3)]}.`;
+  return `${con} ist ${de} von großer ${['Bedeutung','Relevanz','Wichtigkeit'][Math.floor(Math.random()*3)]}.`;
 };
 
 // Generar ejercicio completo
@@ -1129,11 +1214,28 @@ R.generateExercise = function (word, levelId) {
       return R.generateExercise(word, 'fill');
     }
     case 'order': {
+      // Verificar que la palabra de aparezca intacta en la frase
+      // (verbos separables como 'aufstehen' se conjugan separados)
+      const wordAppears = example.includes(de);
+      if (!wordAppears) {
+        // Fallback a fill si la palabra no aparece literal en la frase
+        const blank = '___';
+        // Buscar la parte conjugada que corresponda
+        const stem = de.endsWith('en') ? de.slice(0,-2) : de;
+        const regex = new RegExp(stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[a-z]*', 'i');
+        const match = example.match(regex);
+        if (match) {
+          const prompt = example.replace(match[0], blank);
+          return { type:'fill', prompt, answer: match[0], hint: `Infinitivo: ${de} (${es})`, word };
+        }
+        return R.generateExercise(word, 'fill');
+      }
       const words = example.split(' ');
       const shuffled = [...words].sort(()=>Math.random()-0.5);
       return { type, prompt: 'Ordena las palabras:', answer: example, words: shuffled, hint: `es: ${es}`, word };
     }
     case 'correct': {
+      if (!example.includes(de)) return R.generateExercise(word, 'fill');
       const wrongExample = example.replace(de, de.split('').sort(()=>Math.random()-0.5).join(''));
       return { type, prompt: `Corrige: "${wrongExample}"`, answer: example.replace(de,'***'+de+'***'), hint: `Palabra correcta: ${de} (${es})`, word };
     }
