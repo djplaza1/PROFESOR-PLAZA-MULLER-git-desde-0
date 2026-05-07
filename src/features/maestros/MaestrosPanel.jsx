@@ -27,6 +27,10 @@ window.Muller.Panels['maestros'] = ({ session }) => {
   const [mostrarProgresion, setMostrarProgresion] = useState(false);
   const [mostrarCompetencia, setMostrarCompetencia] = useState(false);
   const [pestanaActiva, setPestanaActiva] = useState('lecciones'); // 'lecciones' | 'historia'
+  const [pestanaModulo, setPestanaModulo] = useState('teoria'); // 'teoria' | 'practica' | 'flashcards'
+  const [flashcardIndex, setFlashcardIndex] = useState(0);
+  const [preguntasRespondidas, setPreguntasRespondidas] = useState({});
+  const [mostrarTraduccion, setMostrarTraduccion] = useState({});
 
   // Niveles disponibles para las pestañas de nivel
   const nivelesDisponibles = [
@@ -49,6 +53,30 @@ window.Muller.Panels['maestros'] = ({ session }) => {
     setExpanded(expanded === id ? null : id);
   };
 
+  
+  // Funciones para práctica de ejercicios
+  const responderPregunta = function(moduloId, preguntaIdx, respuestaUsuario) {
+    var key = moduloId + '_' + preguntaIdx;
+    var nuevasRespuestas = Object.assign({}, preguntasRespondidas);
+    nuevasRespuestas[key] = respuestaUsuario;
+    setPreguntasRespondidas(nuevasRespuestas);
+    var nuevaTraduccion = Object.assign({}, mostrarTraduccion);
+    nuevaTraduccion[key] = true;
+    setMostrarTraduccion(nuevaTraduccion);
+  };
+
+  const esRespuestaCorrecta = function(moduloId, preguntaIdx, respuestaCorrecta) {
+    var key = moduloId + '_' + preguntaIdx;
+    var respuestaUsuario = preguntasRespondidas[key];
+    if (!respuestaUsuario) return null;
+    return respuestaUsuario.toLowerCase().trim() === respuestaCorrecta.toLowerCase().trim();
+  };
+
+  const obtenerColorBoton = function(moduloId, preguntaIdx, respuestaUsuario, respuestaCorrecta) {
+    if (!respuestaUsuario) return 'bg-white/10 border-white/20 text-gray-300 hover:bg-white/20';
+    var esCorrecta = respuestaUsuario.toLowerCase().trim() === respuestaCorrecta.toLowerCase().trim();
+    return esCorrecta ? 'bg-emerald-600/40 border-emerald-400 text-emerald-200' : 'bg-red-600/40 border-red-400 text-red-200';
+  };
   const markComplete = (id) => {
     const newProgress = window.Muller.Maestros?.toggleComplete(id);
     if (newProgress) {
