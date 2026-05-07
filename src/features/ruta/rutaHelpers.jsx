@@ -1001,7 +1001,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'c1-2-l4', title:'Ensayo', topic:'ensayo', rewardCoins:35, rewardXp:48,
       grammarTip:'Satzgefüge mit mehrfacher Einbettung: Verschachtelung von Nebensätzen.',
       phrases:[{de:'die Spezifizierung spielt eine zentrale Rolle.',es:'El/la especificación juega un papel central.'},{de:'Die Bedeutung der Spezifizierungs ist offensichtlich.',es:'La importancia de especificación es obvia.'},{de:'Wir müssen die Spezifizierung berücksichtigen.',es:'Debemos considerar especificación.'},{de:'die Generalisierung spielt eine zentrale Rolle.',es:'El/la generalización juega un papel central.'},{de:'Die Bedeutung der Generalisierungs ist offensichtlich.',es:'La importancia de generalización es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Spezifizierung ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Spezifizierung ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'c1-2-l5', title:'Crítica literaria', topic:'critica-literaria', rewardCoins:35, rewardXp:48,
       grammarTip:'Cleft-Sätze: Was mich betrifft, so...; Was...angeht, so...',
@@ -1026,7 +1026,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'c1-1-l4', title:'Contraste', topic:'contraste', rewardCoins:30, rewardXp:42,
       grammarTip:'Module Angaben: erwartungsgemäß, planmäßig, notfalls, gegebenenfalls, erforderlichenfalls.',
       phrases:[{de:'die Bedingung spielt eine zentrale Rolle.',es:'El/la condición juega un papel central.'},{de:'Die Bedeutung der Bedingungs ist offensichtlich.',es:'La importancia de condición es obvia.'},{de:'Wir müssen die Bedingung berücksichtigen.',es:'Debemos considerar condición.'},{de:'die Grundlage spielt eine zentrale Rolle.',es:'El/la base juega un papel central.'},{de:'Die Bedeutung der Grundlages ist offensichtlich.',es:'La importancia de base es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Bedingung ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Bedingung ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'c1-1-l5', title:'Causalidad', topic:'causalidad', rewardCoins:30, rewardXp:42,
       grammarTip:'Abstrakte Nomen-Verb-Verbindungen: in Abrede stellen, zur Diskussion stellen.',
@@ -1051,7 +1051,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b2-4-l3', title:'Publicación', topic:'publicacion', rewardCoins:25, rewardXp:36,
       grammarTip:'Zusammengesetzte Substantive: die Forschungseinrichtung, der Wissenschaftsbetrieb.',
       phrases:[{de:'die Technologie spielt eine zentrale Rolle.',es:'El/la tecnología juega un papel central.'},{de:'Die Bedeutung der Technologies ist offensichtlich.',es:'La importancia de tecnología es obvia.'},{de:'Wir müssen die Technologie berücksichtigen.',es:'Debemos considerar tecnología.'},{de:'der Fortschritt spielt eine zentrale Rolle.',es:'El/la progreso juega un papel central.'},{de:'Die Bedeutung des Fortschritts ist offensichtlich.',es:'La importancia de progreso es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Technologie ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Technologie ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'b2-4-l4', title:'Congreso', topic:'congreso', rewardCoins:25, rewardXp:36,
       grammarTip:'Fachsprache nominal: Die Durchführung der Analyse erfolgte... (en lugar de analizar)',
@@ -1080,7 +1080,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b2-3-l3', title:'Redes sociales', topic:'redes', rewardCoins:25, rewardXp:36,
       grammarTip:'Modalpartikel "doch" para énfasis: Das ist doch klar! Das weiß doch jeder!',
       phrases:[{de:'das Fernsehen spielt eine zentrale Rolle.',es:'El/la televisión juega un papel central.'},{de:'Die Bedeutung des Fernsehens ist offensichtlich.',es:'La importancia de televisión es obvia.'},{de:'Wir müssen das Fernsehen berücksichtigen.',es:'Debemos considerar televisión.'},{de:'die Nachrichten spielt eine zentrale Rolle.',es:'El/la noticias juega un papel central.'},{de:'Die Bedeutung der Nachrichtens ist offensichtlich.',es:'La importancia de noticias es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Fernsehen ist gut.', exerciseA:'Das'
+      exerciseType:'choose', exerciseQ:'___ Fernsehen ist gut.', exerciseA:'Das',
       options:['Der','Die','Das'], },
     { id:'b2-3-l4', title:'Opinión pública', topic:'opinion-publica', rewardCoins:25, rewardXp:36,
       grammarTip:'Modalpartikel "eigentlich": Was machst du eigentlich? (suaviza/curiosidad)',
@@ -1109,7 +1109,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b2-2-l4', title:'Conflicto', topic:'conflicto', rewardCoins:25, rewardXp:36,
       grammarTip:'irrealer Wunschsatz (GEGENWART): Wenn ich doch Zeit hätte! (ojalá tuviera tiempo)',
       phrases:[{de:'die Angewohnheit spielt eine zentrale Rolle.',es:'El/la vicio juega un papel central.'},{de:'Die Bedeutung der Angewohnheits ist offensichtlich.',es:'La importancia de vicio es obvia.'},{de:'Wir müssen die Angewohnheit berücksichtigen.',es:'Debemos considerar vicio.'},{de:'der Lebensstil spielt eine zentrale Rolle.',es:'El/la estilo de vida juega un papel central.'},{de:'Die Bedeutung des Lebensstils ist offensichtlich.',es:'La importancia de estilo de vida es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Angewohnheit ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Angewohnheit ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'b2-2-l5', title:'Acuerdo', topic:'acuerdo', rewardCoins:25, rewardXp:36,
       grammarTip:'irrealer Wunschsatz (VERGANGENHEIT): Wenn ich doch gekommen wäre! (ojalá hubiera venido)',
@@ -1134,7 +1134,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b2-1-l4', title:'Inversión', topic:'inversion', rewardCoins:22, rewardXp:32,
       grammarTip:'Nominalisierung con -ung: vorbereiten → die Vorbereitung, verbinden → die Verbindung.',
       phrases:[{de:'die Industrie spielt eine zentrale Rolle.',es:'El/la industria juega un papel central.'},{de:'Die Bedeutung der Industries ist offensichtlich.',es:'La importancia de industria es obvia.'},{de:'Wir müssen die Industrie berücksichtigen.',es:'Debemos considerar industria.'},{de:'die Produktion spielt eine zentrale Rolle.',es:'El/la producción juega un papel central.'},{de:'Die Bedeutung der Produktions ist offensichtlich.',es:'La importancia de producción es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Industrie ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Industrie ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'b2-1-l5', title:'Análisis', topic:'analisis', rewardCoins:22, rewardXp:32,
       grammarTip:'Nominalisierung con -heit/-keit: frei → die Freiheit, möglich → die Möglichkeit.',
@@ -1159,7 +1159,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b1-4-l3', title:'Crítica', topic:'critica', rewardCoins:18, rewardXp:26,
       grammarTip:'Nachdem + Plusquamperfekt → Präteritum: Secuencia temporal en pasado.',
       phrases:[{de:'die Herausforderung spielt eine zentrale Rolle.',es:'El/la desafío juega un papel central.'},{de:'Die Bedeutung der Herausforderungs ist offensichtlich.',es:'La importancia de desafío es obvia.'},{de:'Wir müssen die Herausforderung berücksichtigen.',es:'Debemos considerar desafío.'},{de:'die Möglichkeit spielt eine zentrale Rolle.',es:'El/la posibilidad juega un papel central.'},{de:'Die Bedeutung der Möglichkeits ist offensichtlich.',es:'La importancia de posibilidad es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Herausforderung ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Herausforderung ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'b1-4-l4', title:'Comparación', topic:'comparacion', rewardCoins:18, rewardXp:26,
       grammarTip:'Konjunktiv I presente: er habe, er sei, er werde. Para discurso indirecto.',
@@ -1188,7 +1188,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b1-3-l3', title:'Naturaleza', topic:'naturaleza', rewardCoins:18, rewardXp:26,
       grammarTip:'Nebensätze con "sodass" (consecuencia): Er lernte viel, sodass er die Prüfung bestand.',
       phrases:[{de:'der Sportart spielt eine zentrale Rolle.',es:'El/la deporte juega un papel central.'},{de:'Die Bedeutung des Sportarts ist offensichtlich.',es:'La importancia de deporte es obvia.'},{de:'Wir müssen den Sportart berücksichtigen.',es:'Debemos considerar deporte.'},{de:'das Training spielt eine zentrale Rolle.',es:'El/la entrenamiento juega un papel central.'},{de:'Die Bedeutung des Trainings ist offensichtlich.',es:'La importancia de entrenamiento es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Sportart ist gut.', exerciseA:'Der'
+      exerciseType:'choose', exerciseQ:'___ Sportart ist gut.', exerciseA:'Der',
       options:['Der','Die','Das'], },
     { id:'b1-3-l4', title:'Eventos', topic:'eventos', rewardCoins:18, rewardXp:26,
       grammarTip:'Nebensätze con "damit" (finalidad): Ich erkläre es, damit du es verstehst.',
@@ -1217,7 +1217,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b1-2-l4', title:'Noticias', topic:'noticias', rewardCoins:18, rewardXp:26,
       grammarTip:'Konjunktiv II mit Modalverben: ich könnte, ich müsste, ich sollte, ich dürfte, ich wollte.',
       phrases:[{de:'die Regierung spielt eine zentrale Rolle.',es:'El/la gobierno juega un papel central.'},{de:'Die Bedeutung der Regierungs ist offensichtlich.',es:'La importancia de gobierno es obvia.'},{de:'Wir müssen die Regierung berücksichtigen.',es:'Debemos considerar gobierno.'},{de:'das Gesetz spielt eine zentrale Rolle.',es:'El/la ley juega un papel central.'},{de:'Die Bedeutung des Gesetzs ist offensichtlich.',es:'La importancia de ley es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Regierung ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Regierung ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'b1-2-l5', title:'Debate', topic:'debate', rewardCoins:18, rewardXp:26,
       grammarTip:'Passiv Präsens: werden + Partizip. Das Haus wird gebaut.',
@@ -1242,7 +1242,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'b1-1-l4', title:'La empresa', topic:'empresa', rewardCoins:18, rewardXp:26,
       grammarTip:'Adjektivdeklination nach bestimmtem Artikel: der gute Mann, die gute Frau, das gute Kind.',
       phrases:[{de:'das Vorstellungsgespräch spielt eine zentrale Rolle.',es:'El/la entrevista juega un papel central.'},{de:'Die Bedeutung des Vorstellungsgesprächs ist offensichtlich.',es:'La importancia de entrevista es obvia.'},{de:'Wir müssen das Vorstellungsgespräch berücksichtigen.',es:'Debemos considerar entrevista.'},{de:'die Ausbildung spielt eine zentrale Rolle.',es:'El/la formación juega un papel central.'},{de:'Die Bedeutung der Ausbildungs ist offensichtlich.',es:'La importancia de formación es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Vorstellungsgespräch ist gut.', exerciseA:'Das'
+      exerciseType:'choose', exerciseQ:'___ Vorstellungsgespräch ist gut.', exerciseA:'Das',
       options:['Der','Die','Das'], },
     { id:'b1-1-l5', title:'Reuniones', topic:'reuniones', rewardCoins:18, rewardXp:26,
       grammarTip:'Adjektivdeklination nach unbestimmtem Artikel: ein guter Mann, eine gute Frau, ein gutes Kind.',
@@ -1267,7 +1267,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a2-4-l3', title:'Tema: general2', topic:'general2', rewardCoins:10, rewardXp:15,
       grammarTip:'El verbo conjugado va en segunda posición.',
       phrases:[{de:'die Liebe spielt eine zentrale Rolle.',es:'El/la amor juega un papel central.'},{de:'Die Bedeutung der Liebes ist offensichtlich.',es:'La importancia de amor es obvia.'},{de:'Wir müssen die Liebe berücksichtigen.',es:'Debemos considerar amor.'},{de:'die Angst spielt eine zentrale Rolle.',es:'El/la miedo juega un papel central.'},{de:'Die Bedeutung der Angsts ist offensichtlich.',es:'La importancia de miedo es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Liebe ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Liebe ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'a2-4-l4', title:'Tema: general3', topic:'general3', rewardCoins:10, rewardXp:15,
       grammarTip:'Practica el vocabulario nuevo en contexto.',
@@ -1296,7 +1296,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a2-3-l4', title:'Tema: general2', topic:'general2', rewardCoins:10, rewardXp:15,
       grammarTip:'El verbo conjugado va en segunda posición.',
       phrases:[{de:'die Sonne spielt eine zentrale Rolle.',es:'El/la sol juega un papel central.'},{de:'Die Bedeutung der Sonnes ist offensichtlich.',es:'La importancia de sol es obvia.'},{de:'Wir müssen die Sonne berücksichtigen.',es:'Debemos considerar sol.'},{de:'die Wolke spielt eine zentrale Rolle.',es:'El/la nube juega un papel central.'},{de:'Die Bedeutung der Wolkes ist offensichtlich.',es:'La importancia de nube es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Sonne ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Sonne ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'a2-3-l5', title:'Tema: general3', topic:'general3', rewardCoins:10, rewardXp:15,
       grammarTip:'Practica el vocabulario nuevo en contexto.',
@@ -1321,7 +1321,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a2-2-l4', title:'Deportes', topic:'deportes', rewardCoins:15, rewardXp:22,
       grammarTip:'Reflexivos con Dativ: ich wasche mir die Hände. El reflexivo en Dativ, el objeto en Akkusativ.',
       phrases:[{de:'der Zahn ist praktisch.',es:'El/la diente es práctico/a.'},{de:'Ich habe einen Zahn.',es:'Tengo un/una diente.'},{de:'Das Zahn ist neu.',es:'El/la diente es nuevo/a.'},{de:'die Zunge ist praktisch.',es:'El/la lengua es práctico/a.'},{de:'Ich habe eine Zunge.',es:'Tengo un/una lengua.'}],
-      exerciseType:'choose', exerciseQ:'___ Zahn ist gut.', exerciseA:'Der'
+      exerciseType:'choose', exerciseQ:'___ Zahn ist gut.', exerciseA:'Der',
       options:['Der','Die','Das'], },
     { id:'a2-2-l5', title:'Bienestar', topic:'bienestar', rewardCoins:15, rewardXp:22,
       grammarTip:'Pronombres personales: Nominativ → Dativ → Akkusativ: ich → mir → mich, du → dir → dich...',
@@ -1346,7 +1346,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a2-1-l4', title:'Billetes y monedas', topic:'billetes', rewardCoins:15, rewardXp:22,
       grammarTip:'Preposiciones de lugar con Akkusativ (movimiento): Ich gehe in die Stadt (Wohin?).',
       phrases:[{de:'der Kollege ist praktisch.',es:'El/la compañero es práctico/a.'},{de:'Ich habe einen Kollege.',es:'Tengo un/una compañero.'},{de:'Das Kollege ist neu.',es:'El/la compañero es nuevo/a.'},{de:'die Firma ist praktisch.',es:'El/la empresa es práctico/a.'},{de:'Ich habe eine Firma.',es:'Tengo un/una empresa.'}],
-      exerciseType:'choose', exerciseQ:'___ Kollege ist gut.', exerciseA:'Der'
+      exerciseType:'choose', exerciseQ:'___ Kollege ist gut.', exerciseA:'Der',
       options:['Der','Die','Das'], },
     { id:'a2-1-l5', title:'Reservas', topic:'reserva', rewardCoins:15, rewardXp:22,
       grammarTip:'Preposiciones Wechselpräpositionen: in, auf, unter... Dativ (Wo?) / Akkusativ (Wohin?).',
@@ -1371,7 +1371,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a1-4-l3', title:'Tema: general2', topic:'general2', rewardCoins:10, rewardXp:15,
       grammarTip:'El verbo conjugado va en segunda posición.',
       phrases:[{de:'die Suppe spielt eine zentrale Rolle.',es:'El/la sopa juega un papel central.'},{de:'Die Bedeutung der Suppes ist offensichtlich.',es:'La importancia de sopa es obvia.'},{de:'Wir müssen die Suppe berücksichtigen.',es:'Debemos considerar sopa.'},{de:'der Salat spielt eine zentrale Rolle.',es:'El/la ensalada juega un papel central.'},{de:'Die Bedeutung des Salats ist offensichtlich.',es:'La importancia de ensalada es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Suppe ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Suppe ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'a1-4-l4', title:'Tema: general3', topic:'general3', rewardCoins:10, rewardXp:15,
       grammarTip:'Practica el vocabulario nuevo en contexto.',
@@ -1400,7 +1400,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a1-3-l4', title:'Tema: general2', topic:'general2', rewardCoins:10, rewardXp:15,
       grammarTip:'El verbo conjugado va en segunda posición.',
       phrases:[{de:'der Arm spielt eine zentrale Rolle.',es:'El/la brazo juega un papel central.'},{de:'Die Bedeutung des Arms ist offensichtlich.',es:'La importancia de brazo es obvia.'},{de:'Wir müssen den Arm berücksichtigen.',es:'Debemos considerar brazo.'},{de:'das Bein spielt eine zentrale Rolle.',es:'El/la pierna juega un papel central.'},{de:'Die Bedeutung des Beins ist offensichtlich.',es:'La importancia de pierna es obvia.'}],
-      exerciseType:'choose', exerciseQ:'___ Arm ist gut.', exerciseA:'Der'
+      exerciseType:'choose', exerciseQ:'___ Arm ist gut.', exerciseA:'Der',
       options:['Der','Die','Das'], },
     { id:'a1-3-l5', title:'Tema: general3', topic:'general3', rewardCoins:10, rewardXp:15,
       grammarTip:'Practica el vocabulario nuevo en contexto.',
@@ -1425,7 +1425,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a1-2-l4', title:'Calendario', topic:'calendario', rewardCoins:12, rewardXp:18,
       grammarTip:'Campo: El verbo conjugado siempre en segunda posición en oraciones enunciativas.',
       phrases:[{de:'die Stadt ist praktisch.',es:'El/la ciudad es práctico/a.'},{de:'Ich habe eine Stadt.',es:'Tengo un/una ciudad.'},{de:'Das Stadt ist neu.',es:'El/la ciudad es nuevo/a.'},{de:'das Land ist praktisch.',es:'El/la país es práctico/a.'},{de:'Ich habe ein Land.',es:'Tengo un/una país.'}],
-      exerciseType:'choose', exerciseQ:'___ Stadt ist gut.', exerciseA:'Die'
+      exerciseType:'choose', exerciseQ:'___ Stadt ist gut.', exerciseA:'Die',
       options:['Der','Die','Das'], },
     { id:'a1-2-l5', title:'El clima', topic:'clima', rewardCoins:12, rewardXp:18,
       grammarTip:'Präteritum de sein/haben: ich war/hatte, du warst/hattest, er war/hatte...',
@@ -1450,7 +1450,7 @@ window.MULLER_RUTA_LEVELS = [
     { id:'a1-1-l5', title:'Números y cantidades', topic:'numeros', rewardCoins:10, rewardXp:15,
       grammarTip:'Plural en -e, -en, -er: der Tisch → die Tische, die Frau → die Frauen, das Kind → die Kinder.',
       phrases:[{de:'das Kind ist praktisch.',es:'El/la niño es práctico/a.'},{de:'Ich habe ein Kind.',es:'Tengo un/una niño.'},{de:'Das Kind ist neu.',es:'El/la niño es nuevo/a.'},{de:'der Tisch ist praktisch.',es:'El/la mesa es práctico/a.'},{de:'Ich habe einen Tisch.',es:'Tengo un/una mesa.'}],
-      exerciseType:'choose', exerciseQ:'___ Kind ist gut.', exerciseA:'Das'
+      exerciseType:'choose', exerciseQ:'___ Kind ist gut.', exerciseA:'Das',
       options:['Der','Die','Das'], },
     { id:'a1-1-l6', title:'Colores', topic:'colores', rewardCoins:10, rewardXp:15,
       grammarTip:'Nominativo vs Acusativo: Der Hund ist braun (Nom). Ich sehe den Hund (Akk).',
