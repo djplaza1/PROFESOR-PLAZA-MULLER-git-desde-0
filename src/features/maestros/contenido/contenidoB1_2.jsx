@@ -1,4 +1,4 @@
-// src/features/maestros/contenido/contenidoB1_2.jsx
+﻿// src/features/maestros/contenido/contenidoB1_2.jsx
 window.Muller = window.Muller || {};
 window.Muller.Maestros = window.Muller.Maestros || {};
 window.Muller.Maestros.contenido = window.Muller.Maestros.contenido || {};
@@ -54,17 +54,17 @@ window.Muller.Maestros.contenido.B1_2 = [
     ejercicioBase: {
       tipo: "mixto",
       preguntas: [
-        { tipo: "hueco", frase: "Der ___ Hund liegt auf dem Sofa. (schlafende)", respuesta: "schlafende", opciones: null, traduccion: "El perro durmiente está en el sofá.", pista: "Partizip I de schlafen", explicacion: "schlafend + e = schlafende (declinación débil)." },
+        { tipo: "hueco", frase: "Der ___ Hund liegt auf dem Sofa.", respuesta: "schlafende", opciones: null, traduccion: "El perro durmiente está en el sofá.", pista: "Partizip I de schlafen", explicacion: "schlafend + e = schlafende (declinación débil)." },
         { tipo: "opcion", frase: "Die ___ Nudeln sind fertig.", respuesta: "gekochten", opciones: ["gekochten", "kochenden", "kochen", "gekochte"], traduccion: "Los fideos cocinados están listos.", pista: null, explicacion: "gekocht + en = Partizip II como adjetivo en plural." },
-        { tipo: "hueco", frase: "Eine ___ Verkäuferin half mir. (lächelnde)", respuesta: "lächelnde", opciones: null, traduccion: "Una dependienta sonriente me ayudó.", pista: "Partizip I de lächeln", explicacion: "lächelnd + e = lächelnde, femenino Nominativ." },
+        { tipo: "hueco", frase: "Eine ___ Verkäuferin half mir.", respuesta: "lächelnde", opciones: null, traduccion: "Una dependienta sonriente me ayudó.", pista: "Partizip I de lächeln", explicacion: "lächelnd + e = lächelnde, femenino Nominativ." },
         { tipo: "opcion", frase: "Das ___ Portemonnaie wurde gefunden.", respuesta: "verlorene", opciones: ["verlorene", "verlierende", "verlor", "verloren"], traduccion: "La cartera perdida fue encontrada.", pista: null, explicacion: "verloren + e = verlorene (Partizip II de verlieren)." },
-        { tipo: "hueco", frase: "Der ___ Junge fiel hin. (rennende)", respuesta: "rennende", opciones: null, traduccion: "El niño corredor se cayó.", pista: "Partizip I de rennen", explicacion: "rennend + e = rennende (acción en curso)." },
+        { tipo: "hueco", frase: "Der ___ Junge fiel hin.", respuesta: "rennende", opciones: null, traduccion: "El niño corredor se cayó.", pista: "Partizip I de rennen", explicacion: "rennend + e = rennende (acción en curso)." },
         { tipo: "opcion", frase: "Das ___ Wasser ist gefährlich.", respuesta: "fließende", opciones: ["fließende", "geflossene", "fließen", "fließte"], traduccion: "El agua que fluye es peligrosa.", pista: null, explicacion: "fließend + e = fließende (Partizip I)." },
-        { tipo: "hueco", frase: "Die ___ Tür muss repariert werden. (geschlossene)", respuesta: "geschlossene", opciones: null, traduccion: "La puerta cerrada debe ser reparada.", pista: "Partizip II de schließen", explicacion: "geschlossen + e = geschlossene." },
+        { tipo: "hueco", frase: "Die ___ Tür muss repariert werden.", respuesta: "geschlossene", opciones: null, traduccion: "La puerta cerrada debe ser reparada.", pista: "Partizip II de schließen", explicacion: "geschlossen + e = geschlossene." },
         { tipo: "opcion", frase: "Ein ___ Auto kostet viel Geld.", respuesta: "repariertes", opciones: ["repariertes", "reparierendes", "reparatur", "repariert"], traduccion: "Un coche reparado cuesta mucho dinero.", pista: null, explicacion: "repariert + es = repariertes (neutro Nominativ/Akkusativ)." },
-        { tipo: "hueco", frase: "Die ___ Blumen sind schön. (blühenden)", respuesta: "blühenden", opciones: null, traduccion: "Las flores florecientes son hermosas.", pista: "Partizip I de blühen", explicacion: "blühend + en = blühenden (plural Dativ)." },
+        { tipo: "hueco", frase: "Die ___ Blumen sind schön.", respuesta: "blühenden", opciones: null, traduccion: "Las flores florecientes son hermosas.", pista: "Partizip I de blühen", explicacion: "blühend + en = blühenden (plural Dativ)." },
         { tipo: "opcion", frase: "Der ___ Brief kam gestern an.", respuesta: "erwartete", opciones: ["erwartete", "erwartende", "erwarten", "erwartet"], traduccion: "La carta esperada llegó ayer.", pista: null, explicacion: "erwartet + e = erwartete (Partizip II)." },
-        { tipo: "hueco", frase: "Das ___ Kind weint laut. (weinende)", respuesta: "weinende", opciones: null, traduccion: "El niño que llora llora fuerte.", pista: "Partizip I de weinen", explicacion: "weinend + e = weinende." },
+        { tipo: "hueco", frase: "Das ___ Kind weint laut.", respuesta: "weinende", opciones: null, traduccion: "El niño que llora llora fuerte.", pista: "Partizip I de weinen", explicacion: "weinend + e = weinende." },
         { tipo: "opcion", frase: "Die ___ Milch ist schlecht.", respuesta: "gekaufte", opciones: ["gekaufte", "kaufende", "kaufen", "kauft"], traduccion: "La leche comprada está mala.", pista: null, explicacion: "gekauft + e = gekaufte (Partizip II de kaufen)." }
       ]
     }
@@ -115,17 +115,17 @@ window.Muller.Maestros.contenido.B1_2 = [
     ejercicioBase: {
       tipo: "mixto",
       preguntas: [
-        { tipo: "hueco", frase: "Ich kenne ___ Studenten. (den)", respuesta: "den", opciones: null, traduccion: "Conozco al estudiante.", pista: "Akkusativ masculino", explicacion: "den + Student + en = Akkusativ con N-Deklination." },
+        { tipo: "hueco", frase: "Ich kenne ___ Studenten.", respuesta: "den", opciones: null, traduccion: "Conozco al estudiante.", pista: "Akkusativ masculino", explicacion: "den + Student + en = Akkusativ con N-Deklination." },
         { tipo: "opcion", frase: "Das Auto ___ Herrn Müller ist neu.", respuesta: "des", opciones: ["des", "dem", "den", "der"], traduccion: "El coche del Sr. Müller es nuevo.", pista: null, explicacion: "des Herrn = Genitiv singular (Herr → Herrn)." },
-        { tipo: "hueco", frase: "Wir danken ___ Kunden. (dem)", respuesta: "dem", opciones: null, traduccion: "Agradecemos al cliente.", pista: "Dativ masculino", explicacion: "dem + Kunde + n = Dativ." },
+        { tipo: "hueco", frase: "Wir danken ___ Kunden.", respuesta: "dem", opciones: null, traduccion: "Agradecemos al cliente.", pista: "Dativ masculino", explicacion: "dem + Kunde + n = Dativ." },
         { tipo: "opcion", frase: "Sie geht mit ___ Jungen spazieren.", respuesta: "dem", opciones: ["dem", "den", "der", "des"], traduccion: "Ella pasea con el niño.", pista: null, explicacion: "mit + Dativ → dem Jungen." },
-        { tipo: "hueco", frase: "Ich sehe ___ Löwen im Zoo. (den)", respuesta: "den", opciones: null, traduccion: "Veo al león en el zoológico.", pista: "Akkusativ", explicacion: "den Löwen = Akkusativ (Löwe → Löwen)." },
+        { tipo: "hueco", frase: "Ich sehe ___ Löwen im Zoo.", respuesta: "den", opciones: null, traduccion: "Veo al león en el zoológico.", pista: "Akkusativ", explicacion: "den Löwen = Akkusativ (Löwe → Löwen)." },
         { tipo: "opcion", frase: "Er spricht mit ___ Franzosen.", respuesta: "dem", opciones: ["dem", "den", "der", "das"], traduccion: "Él habla con el francés.", pista: null, explicacion: "mit + Dativ → dem Franzosen." },
-        { tipo: "hueco", frase: "Die Tasche ___ Polizisten ist schwer. (des)", respuesta: "des", opciones: null, traduccion: "La bolsa del policía es pesada.", pista: "Genitiv masculino", explicacion: "des Polizisten = Genitiv (Polizist → Polizisten)." },
+        { tipo: "hueco", frase: "Die Tasche ___ Polizisten ist schwer.", respuesta: "des", opciones: null, traduccion: "La bolsa del policía es pesada.", pista: "Genitiv masculino", explicacion: "des Polizisten = Genitiv (Polizist → Polizisten)." },
         { tipo: "opcion", frase: "Ich helfe ___ Nachbarn beim Umzug.", respuesta: "dem", opciones: ["dem", "den", "der", "das"], traduccion: "Ayudo al vecino con la mudanza.", pista: null, explicacion: "helfen + Dativ → dem Nachbarn." },
-        { tipo: "hueco", frase: "Sie besucht ___ Prinzen im Schloss. (den)", respuesta: "den", opciones: null, traduccion: "Ella visita al príncipe en el castillo.", pista: "Akkusativ", explicacion: "den Prinzen = Akkusativ (Prinz → Prinzen)." },
+        { tipo: "hueco", frase: "Sie besucht ___ Prinzen im Schloss.", respuesta: "den", opciones: null, traduccion: "Ella visita al príncipe en el castillo.", pista: "Akkusativ", explicacion: "den Prinzen = Akkusativ (Prinz → Prinzen)." },
         { tipo: "opcion", frase: "Die Antwort ___ Kunden war freundlich.", respuesta: "des", opciones: ["des", "dem", "den", "der"], traduccion: "La respuesta del cliente fue amable.", pista: null, explicacion: "des Kunden = Genitiv singular." },
-        { tipo: "hueco", frase: "Er vertraut ___ Kollegen nicht. (dem)", respuesta: "dem", opciones: null, traduccion: "Él no confía en el colega.", pista: "Dativ con vertrauen", explicacion: "vertrauen + Dativ → dem Kollegen." },
+        { tipo: "hueco", frase: "Er vertraut ___ Kollegen nicht.", respuesta: "dem", opciones: null, traduccion: "Él no confía en el colega.", pista: "Dativ con vertrauen", explicacion: "vertrauen + Dativ → dem Kollegen." },
         { tipo: "opcion", frase: "Die Geschichte ___ Helden ist bekannt.", respuesta: "des", opciones: ["des", "dem", "den", "die"], traduccion: "La historia del héroe es conocida.", pista: null, explicacion: "des Helden = Genitiv (Held → Helden)." }
       ]
     }
@@ -176,17 +176,17 @@ window.Muller.Maestros.contenido.B1_2 = [
       tipo: "mixto",
       preguntas: [
         { tipo: "opcion", frase: "___ Anna ___ Peter kommen zur Party.", respuesta: "Sowohl ... als auch", opciones: ["Sowohl ... als auch", "Entweder ... oder", "Weder ... noch", "Je ... desto"], traduccion: "Tanto Anna como Peter vienen a la fiesta.", pista: null, explicacion: "sowohl...als auch = tanto...como." },
-        { tipo: "hueco", frase: "___ gehst du ___ bleibst du? (Entweder ... oder)", respuesta: "Entweder ... oder", opciones: null, traduccion: "O te vas o te quedas?", pista: "conector de alternativa", explicacion: "entweder...oder = o...o." },
+        { tipo: "hueco", frase: "___ gehst du ___ bleibst du?", respuesta: "Entweder ... oder", opciones: null, traduccion: "O te vas o te quedas?", pista: "conector de alternativa", explicacion: "entweder...oder = o...o." },
         { tipo: "opcion", frase: "Ich habe ___ Zeit ___ Geld.", respuesta: "weder ... noch", opciones: ["sowohl ... als auch", "entweder ... oder", "weder ... noch", "je ... desto"], traduccion: "No tengo ni tiempo ni dinero.", pista: null, explicacion: "weder...noch = ni...ni." },
-        { tipo: "hueco", frase: "___ mehr man reist, ___ mehr lernt man. (Je ... desto)", respuesta: "Je ... desto", opciones: null, traduccion: "Cuanto más se viaja, más se aprende.", pista: "relación proporcional", explicacion: "je...desto = cuanto más...más." },
+        { tipo: "hueco", frase: "___ mehr man reist, ___ mehr lernt man.", respuesta: "Je ... desto", opciones: null, traduccion: "Cuanto más se viaja, más se aprende.", pista: "relación proporcional", explicacion: "je...desto = cuanto más...más." },
         { tipo: "opcion", frase: "Er kann ___ singen ___ tanzen.", respuesta: "sowohl ... als auch", opciones: ["sowohl ... als auch", "entweder ... oder", "weder ... noch", "je ... desto"], traduccion: "Él sabe tanto cantar como bailar.", pista: null, explicacion: "sowohl...als auch une dos habilidades." },
-        { tipo: "hueco", frase: "___ du kommst ___ ich gehe. (Entweder ... oder)", respuesta: "Entweder ... oder", opciones: null, traduccion: "O vienes tú o me voy yo.", pista: "alternativa exclusiva", explicacion: "entweder...oder presenta dos opciones." },
+        { tipo: "hueco", frase: "___ du kommst ___ ich gehe.", respuesta: "Entweder ... oder", opciones: null, traduccion: "O vienes tú o me voy yo.", pista: "alternativa exclusiva", explicacion: "entweder...oder presenta dos opciones." },
         { tipo: "opcion", frase: "___ Regen ___ Schnee hält uns auf.", respuesta: "Weder ... noch", opciones: ["Sowohl ... als auch", "Entweder ... oder", "Weder ... noch", "Je ... desto"], traduccion: "Ni la lluvia ni la nieve nos detiene.", pista: null, explicacion: "weder...noch = negación de ambos." },
-        { tipo: "hueco", frase: "___ älter ich werde, ___ weiser bin ich. (Je ... desto)", respuesta: "Je ... desto", opciones: null, traduccion: "Cuanto mayor me hago, más sabio soy.", pista: "proporcionalidad", explicacion: "je...desto para cambios progresivos." },
+        { tipo: "hueco", frase: "___ älter ich werde, ___ weiser bin ich.", respuesta: "Je ... desto", opciones: null, traduccion: "Cuanto mayor me hago, más sabio soy.", pista: "proporcionalidad", explicacion: "je...desto para cambios progresivos." },
         { tipo: "opcion", frase: "Ich trinke ___ Bier ___ Wein, nur Wasser.", respuesta: "weder ... noch", opciones: ["sowohl ... als auch", "entweder ... oder", "weder ... noch", "je ... desto"], traduccion: "No bebo ni cerveza ni vino, solo agua.", pista: null, explicacion: "weder...noch niega ambas bebidas." },
-        { tipo: "hueco", frase: "___ ich ___ du hast recht. (Weder ... noch)", respuesta: "Weder ... noch", opciones: null, traduccion: "Ni tú ni yo tenemos razón.", pista: "negación doble", explicacion: "weder...noch con sujetos diferentes." },
+        { tipo: "hueco", frase: "___ ich ___ du hast recht.", respuesta: "Weder ... noch", opciones: null, traduccion: "Ni tú ni yo tenemos razón.", pista: "negación doble", explicacion: "weder...noch con sujetos diferentes." },
         { tipo: "opcion", frase: "___ kalt ___ warm ist mir angenehm.", respuesta: "Weder ... noch", opciones: ["Sowohl ... als auch", "Entweder ... oder", "Weder ... noch", "Je ... desto"], traduccion: "Ni frío ni calor me resulta agradable.", pista: null, explicacion: "weder...noch para dos extremos." },
-        { tipo: "hueco", frase: "___ schneller du fährst, ___ gefährlicher wird es. (Je ... desto)", respuesta: "Je ... desto", opciones: null, traduccion: "Cuanto más rápido conduces, más peligroso se vuelve.", pista: "relación causal proporcional", explicacion: "je...desto expresa consecuencia proporcional." }
+        { tipo: "hueco", frase: "___ schneller du fährst, ___ gefährlicher wird es.", respuesta: "Je ... desto", opciones: null, traduccion: "Cuanto más rápido conduces, más peligroso se vuelve.", pista: "relación causal proporcional", explicacion: "je...desto expresa consecuencia proporcional." }
       ]
     }
   },
@@ -232,17 +232,17 @@ window.Muller.Maestros.contenido.B1_2 = [
       tipo: "mixto",
       preguntas: [
         { tipo: "opcion", frase: "Er sagt, er ___ keine Zeit.", respuesta: "habe", opciones: ["habe", "hat", "hätte", "haben"], traduccion: "Él dice que no tiene tiempo.", pista: null, explicacion: "habe = Konjunktiv I de haben (3ª persona)." },
-        { tipo: "hueco", frase: "Sie meint, sie ___ müde. (sei)", respuesta: "sei", opciones: null, traduccion: "Ella opina que está cansada.", pista: "K.I de sein", explicacion: "sei = Konjunktiv I de sein (3ª persona)." },
+        { tipo: "hueco", frase: "Sie meint, sie ___ müde.", respuesta: "sei", opciones: null, traduccion: "Ella opina que está cansada.", pista: "K.I de sein", explicacion: "sei = Konjunktiv I de sein (3ª persona)." },
         { tipo: "opcion", frase: "Er fragt, ob ich kommen ___.", respuesta: "könne", opciones: ["könne", "kann", "konnte", "könnte"], traduccion: "Pregunta si puedo venir.", pista: null, explicacion: "könne = K.I de können (3ª persona)." },
-        { tipo: "hueco", frase: "Die Zeitung schreibt, der Minister ___ zurück. (trete)", respuesta: "trete", opciones: null, traduccion: "El periódico escribe que el ministro dimite.", pista: "K.I de treten", explicacion: "trete = Konjunktiv I de treten (retirarse/dimitir)." },
+        { tipo: "hueco", frase: "Die Zeitung schreibt, der Minister ___ zurück.", respuesta: "trete", opciones: null, traduccion: "El periódico escribe que el ministro dimite.", pista: "K.I de treten", explicacion: "trete = Konjunktiv I de treten (retirarse/dimitir)." },
         { tipo: "opcion", frase: "Man sagt, sie ___ verheiratet.", respuesta: "sei", opciones: ["sei", "ist", "wäre", "seid"], traduccion: "Se dice que ella está casada.", pista: null, explicacion: "sei = K.I de sein (rumor)." },
-        { tipo: "hueco", frase: "Er behauptet, er ___ Geld. (habe)", respuesta: "habe", opciones: null, traduccion: "Él afirma que tiene dinero.", pista: "K.I de haben", explicacion: "habe = K.I, usado en afirmaciones no verificadas." },
+        { tipo: "hueco", frase: "Er behauptet, er ___ Geld.", respuesta: "habe", opciones: null, traduccion: "Él afirma que tiene dinero.", pista: "K.I de haben", explicacion: "habe = K.I, usado en afirmaciones no verificadas." },
         { tipo: "opcion", frase: "Sie sagt, sie ___ morgen kommen.", respuesta: "wolle", opciones: ["wolle", "will", "wollte", "würde"], traduccion: "Ella dice que quiere venir mañana.", pista: null, explicacion: "wolle = K.I de wollen." },
-        { tipo: "hueco", frase: "Der Professor sagt, die Prüfung ___ schwer. (sei)", respuesta: "sei", opciones: null, traduccion: "El profesor dice que el examen es difícil.", pista: "K.I de sein", explicacion: "sei = estilo indirecto para 'ist'." },
+        { tipo: "hueco", frase: "Der Professor sagt, die Prüfung ___ schwer.", respuesta: "sei", opciones: null, traduccion: "El profesor dice que el examen es difícil.", pista: "K.I de sein", explicacion: "sei = estilo indirecto para 'ist'." },
         { tipo: "opcion", frase: "Man munkelt, sie ___ sich getrennt.", respuesta: "hätten", opciones: ["hätten", "haben", "hatten", "habe"], traduccion: "Se rumorea que se han separado.", pista: null, explicacion: "hätten = K.I de haben en plural (pasado)." },
-        { tipo: "hueco", frase: "Er fragt, ob wir ihm ___ können. (helfen)", respuesta: "helfen", opciones: null, traduccion: "Pregunta si podemos ayudarle.", pista: "Infinitivo con können", explicacion: "können + Infinitiv = estructura modal." },
+        { tipo: "hueco", frase: "Er fragt, ob wir ihm ___ können.", respuesta: "helfen", opciones: null, traduccion: "Pregunta si podemos ayudarle.", pista: "Infinitivo con können", explicacion: "können + Infinitiv = estructura modal." },
         { tipo: "opcion", frase: "Sie schreibt, sie ___ unterwegs.", respuesta: "sei", opciones: ["sei", "ist", "war", "wäre"], traduccion: "Ella escribe que está de viaje.", pista: null, explicacion: "sei = K.I para reportar por escrito." },
-        { tipo: "hueco", frase: "Er sagt, er ___ alles verstanden. (habe)", respuesta: "habe", opciones: null, traduccion: "Él dice que lo ha entendido todo.", pista: "K.I Perfekt", explicacion: "habe + Partizip II = Perfekt en K.I." }
+        { tipo: "hueco", frase: "Er sagt, er ___ alles verstanden.", respuesta: "habe", opciones: null, traduccion: "Él dice que lo ha entendido todo.", pista: "K.I Perfekt", explicacion: "habe + Partizip II = Perfekt en K.I." }
       ]
     }
   },
@@ -289,17 +289,17 @@ window.Muller.Maestros.contenido.B1_2 = [
     ejercicioBase: {
       tipo: "mixto",
       preguntas: [
-        { tipo: "hueco", frase: "___ des Regens bleibe ich zu Hause. (Wegen)", respuesta: "Wegen", opciones: null, traduccion: "Debido a la lluvia me quedo en casa.", pista: "preposición causal", explicacion: "wegen + Genitiv = a causa de." },
+        { tipo: "hueco", frase: "___ des Regens bleibe ich zu Hause.", respuesta: "Wegen", opciones: null, traduccion: "Debido a la lluvia me quedo en casa.", pista: "preposición causal", explicacion: "wegen + Genitiv = a causa de." },
         { tipo: "opcion", frase: "___ der Ferien haben wir frei.", respuesta: "Während", opciones: ["Wegen", "Während", "Trotz", "Statt"], traduccion: "Durante las vacaciones tenemos libre.", pista: null, explicacion: "während + Genitiv = durante." },
-        { tipo: "hueco", frase: "___ des Lärms konnte ich nicht schlafen. (Trotz)", respuesta: "Trotz", opciones: null, traduccion: "A pesar del ruido no podía dormir.", pista: "preposición concesiva", explicacion: "trotz + Genitiv = a pesar de." },
+        { tipo: "hueco", frase: "___ des Lärms konnte ich nicht schlafen.", respuesta: "Trotz", opciones: null, traduccion: "A pesar del ruido no podía dormir.", pista: "preposición concesiva", explicacion: "trotz + Genitiv = a pesar de." },
         { tipo: "opcion", frase: "___ der Stadt gibt es einen großen Park.", respuesta: "Innerhalb", opciones: ["Wegen", "Während", "Innerhalb", "Außerhalb"], traduccion: "Dentro de la ciudad hay un gran parque.", pista: null, explicacion: "innerhalb + Genitiv = dentro de." },
-        { tipo: "hueco", frase: "___ des Geldes kauft er ein neues Auto. (Wegen)", respuesta: "Wegen", opciones: null, traduccion: "Gracias al dinero compra un coche nuevo.", pista: "causa positiva", explicacion: "wegen + Genitiv (des Geldes)." },
+        { tipo: "hueco", frase: "___ des Geldes kauft er ein neues Auto.", respuesta: "Wegen", opciones: null, traduccion: "Gracias al dinero compra un coche nuevo.", pista: "causa positiva", explicacion: "wegen + Genitiv (des Geldes)." },
         { tipo: "opcion", frase: "___ des Buches las er die Zeitung.", respuesta: "Statt", opciones: ["Wegen", "Während", "Statt", "Trotz"], traduccion: "En lugar del libro, leyó el periódico.", pista: null, explicacion: "statt + Genitiv = en lugar de." },
-        { tipo: "hueco", frase: "___ der Schule gibt es einen Sportplatz. (Außerhalb)", respuesta: "Außerhalb", opciones: null, traduccion: "Fuera de la escuela hay un campo de deportes.", pista: "preposición locativa", explicacion: "außerhalb + Genitiv = fuera de." },
+        { tipo: "hueco", frase: "___ der Schule gibt es einen Sportplatz.", respuesta: "Außerhalb", opciones: null, traduccion: "Fuera de la escuela hay un campo de deportes.", pista: "preposición locativa", explicacion: "außerhalb + Genitiv = fuera de." },
         { tipo: "opcion", frase: "___ des Termins müssen wir warten.", respuesta: "Wegen", opciones: ["Wegen", "Während", "Trotz", "Statt"], traduccion: "Debido a la cita tenemos que esperar.", pista: null, explicacion: "wegen = causa/razón." },
-        { tipo: "hueco", frase: "___ der Prüfung lernt sie viel. (Wegen)", respuesta: "Wegen", opciones: null, traduccion: "A causa del examen ella estudia mucho.", pista: "causa/examen", explicacion: "wegen der Prüfung = motivo del estudio." },
+        { tipo: "hueco", frase: "___ der Prüfung lernt sie viel.", respuesta: "Wegen", opciones: null, traduccion: "A causa del examen ella estudia mucho.", pista: "causa/examen", explicacion: "wegen der Prüfung = motivo del estudio." },
         { tipo: "opcion", frase: "___ der Kälte tragen wir warme Jacken.", respuesta: "Wegen", opciones: ["Wegen", "Während", "Trotz", "Innerhalb"], traduccion: "Debido al frío llevamos chaquetas cálidas.", pista: null, explicacion: "wegen + Genitiv = causa (der Kälte)." },
-        { tipo: "hueco", frase: "___ des Parks ist ein Fluss. (Unweit)", respuesta: "Unweit", opciones: null, traduccion: "No lejos del parque hay un río.", pista: "preposición de distancia", explicacion: "unweit + Genitiv = no lejos de." },
+        { tipo: "hueco", frase: "___ des Parks ist ein Fluss.", respuesta: "Unweit", opciones: null, traduccion: "No lejos del parque hay un río.", pista: "preposición de distancia", explicacion: "unweit + Genitiv = no lejos de." },
         { tipo: "opcion", frase: "___ des Vertrages unterschrieb er.", respuesta: "Statt", opciones: ["Wegen", "Während", "Statt", "Trotz"], traduccion: "En lugar del contrato, él firmó.", pista: null, explicacion: "statt + Genitiv indica sustitución." }
       ]
     }
@@ -345,17 +345,17 @@ window.Muller.Maestros.contenido.B1_2 = [
     ejercicioBase: {
       tipo: "mixto",
       preguntas: [
-        { tipo: "hueco", frase: "Ich versuche, das Buch ___ lesen. (zu)", respuesta: "zu", opciones: null, traduccion: "Intento leer el libro.", pista: "Infinitiv con zu", explicacion: "versuchen + zu + Infinitiv." },
+        { tipo: "hueco", frase: "Ich versuche, das Buch ___ lesen.", respuesta: "zu", opciones: null, traduccion: "Intento leer el libro.", pista: "Infinitiv con zu", explicacion: "versuchen + zu + Infinitiv." },
         { tipo: "opcion", frase: "Er hofft, sie ___ treffen.", respuesta: "zu", opciones: ["zu", "—", "um zu", "an"], traduccion: "Él espera encontrarse con ella.", pista: null, explicacion: "hoffen + zu + Infinitiv." },
-        { tipo: "hueco", frase: "Wir planen, morgen ___ fahren. (abzufahren)", respuesta: "abzufahren", opciones: null, traduccion: "Planeamos salir mañana.", pista: "verbo separable + zu", explicacion: "abzufahren = ab + zu + fahren (separable)." },
+        { tipo: "hueco", frase: "Wir planen, morgen ___ fahren.", respuesta: "abzufahren", opciones: null, traduccion: "Planeamos salir mañana.", pista: "verbo separable + zu", explicacion: "abzufahren = ab + zu + fahren (separable)." },
         { tipo: "opcion", frase: "Es ist wichtig, genug ___ schlafen.", respuesta: "zu", opciones: ["zu", "—", "um zu", "zum"], traduccion: "Es importante dormir suficiente.", pista: null, explicacion: "Adjetivo + zu + Infinitiv." },
-        { tipo: "hueco", frase: "Sie hat vergessen, das Fenster ___ schließen. (zu)", respuesta: "zu", opciones: null, traduccion: "Ella olvidó cerrar la ventana.", pista: "nach vergessen", explicacion: "vergessen + zu + Infinitiv." },
+        { tipo: "hueco", frase: "Sie hat vergessen, das Fenster ___ schließen.", respuesta: "zu", opciones: null, traduccion: "Ella olvidó cerrar la ventana.", pista: "nach vergessen", explicacion: "vergessen + zu + Infinitiv." },
         { tipo: "opcion", frase: "Er scheint alles ___ verstehen.", respuesta: "zu", opciones: ["zu", "—", "um zu", "ver-"], traduccion: "Él parece entenderlo todo.", pista: null, explicacion: "scheinen + zu + Infinitiv." },
-        { tipo: "hueco", frase: "Ich brauche nicht ___ kommen. (zu)", respuesta: "zu", opciones: null, traduccion: "No necesito venir.", pista: "brauchen + zu (negativo)", explicacion: "nicht brauchen + zu = no necesitar." },
+        { tipo: "hueco", frase: "Ich brauche nicht ___ kommen.", respuesta: "zu", opciones: null, traduccion: "No necesito venir.", pista: "brauchen + zu (negativo)", explicacion: "nicht brauchen + zu = no necesitar." },
         { tipo: "opcion", frase: "Hör endlich auf, mich ___ nerven!", respuesta: "zu", opciones: ["zu", "—", "um zu", "an"], traduccion: "¡Deja ya de molestarme!", pista: null, explicacion: "aufhören + zu + Infinitiv." },
-        { tipo: "hueco", frase: "Es ist verboten, hier ___ rauchen. (zu)", respuesta: "zu", opciones: null, traduccion: "Está prohibido fumar aquí.", pista: "nach verboten", explicacion: "verboten + zu + Infinitiv." },
+        { tipo: "hueco", frase: "Es ist verboten, hier ___ rauchen.", respuesta: "zu", opciones: null, traduccion: "Está prohibido fumar aquí.", pista: "nach verboten", explicacion: "verboten + zu + Infinitiv." },
         { tipo: "opcion", frase: "Sie empfiehlt mir, das Buch ___ lesen.", respuesta: "zu", opciones: ["zu", "—", "um zu", "vor"], traduccion: "Ella me recomienda leer el libro.", pista: null, explicacion: "empfehlen + Dativ + zu + Infinitiv." },
-        { tipo: "hueco", frase: "Er begann, Deutsch ___ lernen. (zu)", respuesta: "zu", opciones: null, traduccion: "Él empezó a aprender alemán.", pista: "nach beginnen", explicacion: "beginnen + zu + Infinitiv." },
+        { tipo: "hueco", frase: "Er begann, Deutsch ___ lernen.", respuesta: "zu", opciones: null, traduccion: "Él empezó a aprender alemán.", pista: "nach beginnen", explicacion: "beginnen + zu + Infinitiv." },
         { tipo: "opcion", frase: "Es ist besser, früh ___ kommen.", respuesta: "zu", opciones: ["zu", "—", "um zu", "früh"], traduccion: "Es mejor venir temprano.", pista: null, explicacion: "besser + zu + Infinitiv (ES + adj + zu)." }
       ]
     }
