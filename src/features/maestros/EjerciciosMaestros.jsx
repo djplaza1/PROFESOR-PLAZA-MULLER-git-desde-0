@@ -34,7 +34,7 @@ window.Muller.Panels['ejerciciosMaestros'] = ({ session, onVolver }) => {
     var nivelInfo = window.Muller.Maestros.getAllLevels().filter(function(n) { return n.nivelRaiz === nivelSeleccionado; });
     var mods = []; nivelInfo.forEach(function(n) { mods = mods.concat(n.modulos || []); });
     return mods;
-  }, [nivelSeleccionado, nivelesDisponibles]);
+  }, [nivelSeleccionado, nivelesUnicos]);
 
   // Obtener preguntas de un módulo específico
   const obtenerPreguntasModulo = function(modulo) {
