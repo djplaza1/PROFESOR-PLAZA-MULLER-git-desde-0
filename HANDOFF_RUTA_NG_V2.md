@@ -11,6 +11,7 @@
 ### ✅ YA ESTÁ HECHO (no lo repitas)
 - **31 → 144 lecciones** generadas automáticamente con `tools/expandir_ruta.js`
 - **Sintaxis corregida**: 18 comas faltantes en `exerciseA:'Der/Die/Das'` (choose-type lessons) arregladas — `rutaHelpers.jsx` YA tiene sintaxis válida ✅
+- **Bug fix: getOverallProgress** — error "Cannot read properties of undefined (reading 'length')" corregido con guards `(levels || [])` y `if (l && l.lessons)` en el bucle `forEach`. Previene crash cuando un nivel no tiene lecciones o es undefined.
 - **HANDOFF actualizado** con plan de 6 fases
 - **Versión incrementada** en `index.html`
 - **Commit y push** realizados (último commit: `e57261d`)

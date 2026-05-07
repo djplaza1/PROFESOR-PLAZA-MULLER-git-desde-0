@@ -1916,11 +1916,13 @@ R.getLevelProgress = function (progress, level) {
 R.getOverallProgress = function (levels, progress) {
   const completed = progress.completed || {};
   let totalLessons = 0, doneLessons = 0;
-  levels.forEach(l => {
-    l.lessons.forEach(lesson => {
-      totalLessons++;
-      if (completed[lesson.id]) doneLessons++;
-    });
+  (levels || []).forEach(l => {
+    if (l && l.lessons) {
+      l.lessons.forEach(lesson => {
+        totalLessons++;
+        if (completed[lesson.id]) doneLessons++;
+      });
+    }
   });
   return { totalLessons, doneLessons, pct: totalLessons > 0 ? Math.round((doneLessons/totalLessons)*100) : 0 };
 };
