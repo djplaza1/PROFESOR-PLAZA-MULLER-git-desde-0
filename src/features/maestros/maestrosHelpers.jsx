@@ -138,7 +138,7 @@ window.Muller.Maestros.LECCIONES = [
 window.Muller.Maestros.getAllLevels = function() {
   var niveles = [
     { id: "A1_1", nombre: "A1.1", descripcion: "Principiante completo", nivelRaiz: "A1", modulos: window.Muller.Maestros.contenido.A1_1 || [] },
-    { id: "A1_2", nombre: "A1.2", descripcion: "Principiante avanzado", nivelRaiz: "A1", modulos: window.Muller.Maestros.contenido.A1_2 || [] },
+    { id: "A1_2", nombre: "A1.2", descripcion: "Principiante avanzado", nivelRaiz: "A1", modulos: window.Muller.Maestros.contenido.A1_2 || window.Muller.Maestros.A1_2 || [] },
     { id: "A2_1", nombre: "A2.1", descripcion: "Básico", nivelRaiz: "A2", modulos: window.Muller.Maestros.contenido.A2_1 || window.Muller.Maestros.A2_1 || [] },
     { id: "A2_2", nombre: "A2.2", descripcion: "Básico avanzado", nivelRaiz: "A2", modulos: window.Muller.Maestros.contenido.A2_2 || window.Muller.Maestros.A2_2 || [] },
     { id: "B1_1", nombre: "B1.1", descripcion: "Intermedio bajo", nivelRaiz: "B1", modulos: window.Muller.Maestros.contenido.B1_1 || window.Muller.Maestros.B1_1 || [] },
