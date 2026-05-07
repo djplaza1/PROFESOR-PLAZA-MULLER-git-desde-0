@@ -1,121 +1,68 @@
 // src/features/maestros/contenido/contenidoB1_1.jsx
-// Contenido gramatical nivel B1.1 - Intermedio inicial
 window.Muller = window.Muller || {};
 window.Muller.Maestros = window.Muller.Maestros || {};
+window.Muller.Maestros.contenido = window.Muller.Maestros.contenido || {};
 
-window.Muller.Maestros.B1_1 = [
+window.Muller.Maestros.contenido.B1_1 = [
+  // ============================================================
+  // 1) KONJUNKTIV II GEGENWART
+  // ============================================================
   {
-    id: "b1_1_perfekt_avanzado",
+    id: "b1_1_konjunktiv2_gegenwart",
     nivel: "B1.1",
-    titulo: "Perfekt Avanzado (gemischt, trembare, untrennbare Verben)",
-    icono: "⏳",
-    colorBorde: "border-violet-500",
-    bg: "bg-violet-950/30",
-    resumen: "Perfekt avanzado con verbos mixtos, separables e inseparables. El Partizip II en toda su complejidad.",
+    titulo: "Konjunktiv II Gegenwart (würde + Infinitiv)",
+    icono: "💭",
+    colorBorde: "border-purple-500",
+    bg: "bg-purple-950/30",
+    resumen: "El condicional alemán para expresar cortesía, deseos y situaciones irreales en el presente: würde + Infinitiv / Formas especiales (wäre, hätte, könnte...).",
     explicacion: `
-      <h3 class="text-lg font-bold text-violet-400 mb-2">Perfekt: Verbos mixtos, separables e inseparables</h3>
-      <p class="mb-2">El Perfekt es el tiempo pasado más usado en alemán hablado. Ya conoces la estructura básica: <em>haben/sein + Partizip II</em>. Ahora profundizamos en los casos complejos.</p>
-      <h4 class="font-bold text-violet-300 mt-2 mb-1">1. Verbos mixtos (gemischte Verben)</h4>
-      <p class="mb-2">Combinan cambio de vocal (como fuertes) + terminación -t (como débiles):</p>
-      <table class="w-full border-collapse mb-3 text-sm">
-        <thead><tr class="bg-violet-900/50"><th class="border p-1">Infinitivo</th><th class="border p-1">Partizip II</th><th class="border p-1">Cambio</th></tr></thead>
-        <tbody>
-        <tr><td class="border p-1">denken</td><td class="border p-1">gedacht</td><td class="border p-1">e → a</td></tr>
-        <tr><td class="border p-1">bringen</td><td class="border p-1">gebracht</td><td class="border p-1">i → a</td></tr>
-        <tr><td class="border p-1">kennen</td><td class="border p-1">gekannt</td><td class="border p-1">e → a</td></tr>
-        <tr><td class="border p-1">nennen</td><td class="border p-1">genannt</td><td class="border p-1">e → a</td></tr>
-        <tr><td class="border p-1">rennen</td><td class="border p-1">gerannt</td><td class="border p-1">e → a</td></tr>
-        <tr><td class="border p-1">brennen</td><td class="border p-1">gebrannt</td><td class="border p-1">e → a</td></tr>
-        <tr><td class="border p-1">wissen</td><td class="border p-1">gewusst</td><td class="border p-1">i → u</td></tr>
-        </tbody>
-      </table>
-      <h4 class="font-bold text-violet-300 mt-2 mb-1">2. Verbos separables (trennbare)</h4>
-      <p>El prefijo va al final: <em>aufmachen → aufgemacht</em>. La <strong>-ge-</strong> va entre prefijo y raíz.</p>
-      <h4 class="font-bold text-violet-300 mt-2 mb-1">3. Verbos inseparables (untrennbare)</h4>
-      <p>Los prefijos <em>be-, ge-, er-, ver-, zer-, ent-, emp-, miss-</em> NO llevan <strong>ge-</strong> en Partizip II: <em>verstehen → verstanden</em>.</p>
+      <h3 class="text-lg font-bold text-purple-400 mb-2">Konjunktiv II Gegenwart (Condicional presente)</h3>
+      <p class="mb-2">El Konjunktiv II se usa para expresar <strong>cortesía</strong>, <strong>deseos irreales</strong> y <strong>situaciones hipotéticas</strong> en el presente.</p>
+      <h4 class="font-bold text-purple-300 mt-2 mb-1">Forma principal: würde + Infinitiv</h4>
+      <pre class="bg-gray-900 p-2 rounded text-xs mb-2">würde + Infinitiv (al final de la oración)</pre>
+      <p class="mb-2"><strong>Ejemplo:</strong> Ich <strong>würde</strong> gern ein Bier <strong>trinken</strong>. (Me gustaría beber una cerveza).</p>
+      <h4 class="font-bold text-purple-300 mt-2 mb-1">Formas especiales (verbos auxiliares y modales)</h4>
+      <ul class="list-disc pl-5 mb-2 space-y-1 text-sm">
+        <li><strong>wäre</strong> (ser/estar): Ich wäre gern in Berlin. (Me gustaría estar en Berlín).</li>
+        <li><strong>hätte</strong> (haber/tener): Ich hätte gern mehr Zeit. (Me gustaría tener más tiempo).</li>
+        <li><strong>könnte</strong> (poder): Könntest du mir helfen? (¿Podrías ayudarme?).</li>
+        <li><strong>müsste</strong> (deber/tener que): Ich müsste mehr lernen. (Debería estudiar más).</li>
+        <li><strong>wüsste</strong> (saber): Ich wüsste gern, ob... (Me gustaría saber si...).</li>
+      </ul>
     `,
     ejemplos: [
-      "Ich habe gestern meinen Schlüssel verlegt. (Perdí mis llaves ayer - verlegen, inseparable)",
-      "Sie hat mich gestern angerufen. (Ella me llamó ayer - anrufen, separable)",
-      "Er hat den Film nicht gekannt. (Él no conocía la película - kennen, mixto)",
-      "Wir haben das Fenster aufgemacht. (Abrimos la ventana - aufmachen, separable)",
-      "Hast du das gewusst? (¿Sabías eso? - wissen, mixto)"
+      "Ich würde gern nach Deutschland reisen. (Me gustaría viajar a Alemania)",
+      "Würdest du mir bitte helfen? (¿Te importaría ayudarme?)",
+      "Wenn ich Zeit hätte, würde ich Sport machen. (Si tuviera tiempo, haría deporte)",
+      "Ich wäre gern bei dir. (Me gustaría estar contigo)",
+      "Könntest du das Fenster öffnen? (¿Podrías abrir la ventana?)"
     ],
     tips: [
-      "Verbos que empiezan por <em>be-, ge-, er-, ver-, zer-, ent-, emp-, miss-</em> NUNCA llevan ge- en Partizip II.",
-      "Los verbos separables siempre ponen <em>ge-</em> entre el prefijo y la raíz: an-ge-rufen.",
-      "Los 7 verbos mixtos son pocos: apréndelos de memoria (denken/bringen/kennen/nennen/rennen/brennen/wissen)."
+      "Usa würde + Infinitiv para la mayoría de verbos. Las formas especiales (wäre, hätte) son más elegantes.",
+      "Para cortesía: Könnten Sie...? / Würden Sie...? son más educados que können/werden.",
+      "Nunca digas 'ich würde sein' - usa 'ich wäre' directamente."
     ],
     ejercicioBase: {
-      tipo: "huecos",
-      enunciado: "Completa con el Partizip II correcto",
-      datos: [
-        { pista: "Ich habe nicht (denken) ___.", respuesta: "gedacht" },
-        { pista: "Sie hat mich (anrufen) ___.", respuesta: "angerufen" },
-        { pista: "Er hat das Buch (verstehen) ___.", respuesta: "verstanden" },
-        { pista: "Wir haben das Fenster (aufmachen) ___.", respuesta: "aufgemacht" },
-        { pista: "Hast du das (wissen) ___?", respuesta: "gewusst" }
+      tipo: "mixto",
+      preguntas: [
+        { tipo: "hueco", frase: "Ich ___ gern ein Bier trinken. (würde)", respuesta: "würde", opciones: null, traduccion: "Me gustaría beber una cerveza.", pista: "condicional de werden", explicacion: "würde + Infinitiv forma el condicional." },
+        { tipo: "opcion", frase: "___ du mir bitte helfen?", respuesta: "Würdest", opciones: ["Würdest", "Wirst", "Wurdest", "Werdest"], traduccion: "¿Te importaría ayudarme?", pista: null, explicacion: "Würdest du = forma cortés de pregunta." },
+        { tipo: "hueco", frase: "Ich ___ gern in Berlin. (wäre)", respuesta: "wäre", opciones: null, traduccion: "Me gustaría estar en Berlín.", pista: "Konjunktiv II de sein", explicacion: "wäre = condicional de sein (ser/estar)." },
+        { tipo: "hueco", frase: "Wenn ich Zeit ___, würde ich kommen. (hätte)", respuesta: "hätte", opciones: null, traduccion: "Si tuviera tiempo, vendría.", pista: "Konjunktiv II de haben", explicacion: "hätte = condicional de haben (tener)." },
+        { tipo: "opcion", frase: "Ich ___ gern mehr Geld.", respuesta: "hätte", opciones: ["hätte", "habe", "hatte", "haben würde"], traduccion: "Me gustaría tener más dinero.", pista: null, explicacion: "hätte gern = me gustaría tener." },
+        { tipo: "hueco", frase: "___ Sie mir sagen, wo der Bahnhof ist? (Könnten)", respuesta: "Könnten", opciones: null, traduccion: "¿Podría decirme dónde está la estación?", pista: "cortesía formal", explicacion: "Könnten Sie = forma de cortesía muy educada." },
+        { tipo: "opcion", frase: "Er ___ gern Arzt werden.", respuesta: "würde", opciones: ["würde", "wird", "wurde", "wäre"], traduccion: "A él le gustaría ser médico.", pista: null, explicacion: "würde + werden (Infinitiv) = sería." },
+        { tipo: "hueco", frase: "Wir ___ gern ins Kino gehen. (würden)", respuesta: "würden", opciones: null, traduccion: "Nos gustaría ir al cine.", pista: "plural de würde", explicacion: "würden = 1ª persona plural (nosotros)." },
+        { tipo: "opcion", frase: "___ ich Ihnen helfen?", respuesta: "Könnte", opciones: ["Könnte", "Kann", "Konnte", "Könne"], traduccion: "¿Podría ayudarle?", pista: null, explicacion: "Könnte ich = ofrecimiento cortés." },
+        { tipo: "hueco", frase: "Er ___ gern, ob das stimmt. (wüsste)", respuesta: "wüsste", opciones: null, traduccion: "Le gustaría saber si eso es cierto.", pista: "Konjunktiv II de wissen", explicacion: "wüsste = condicional de wissen (saber)." },
+        { tipo: "opcion", frase: "Ich ___ mehr schlafen, aber ich muss arbeiten.", respuesta: "würde", opciones: ["würde", "hätte", "wäre", "könnte"], traduccion: "Me gustaría dormir más, pero tengo que trabajar.", pista: null, explicacion: "würde + Infinitiv expresa un deseo." },
+        { tipo: "hueco", frase: "Wenn ich reich ___, würde ich um die Welt reisen. (wäre)", respuesta: "wäre", opciones: null, traduccion: "Si fuera rico, viajaría alrededor del mundo.", pista: "condicional de sein", explicacion: "wäre = condicional de sein con situación irreal." }
       ]
-    },
-    corrigeNovato: [
-      { frase: "Ich habe gestern nicht gedenkt.", error: "gedenkt", correccion: "Ich habe gestern nicht gedacht. (denken → denken → gedacht)." },
-      { frase: "Sie hat mir geholft.", error: "geholft", correccion: "Sie hat mir geholfen. (helfen → helfen → geholfen, cambio de vocal)." },
-      { frase: "Er hat verstanden die Frage.", error: "verstanden die Frage", correccion: "Er hat die Frage verstanden. (Partizip II al final)." }
-    ]
+    }
   },
-  {
-    id: "b1_1_plusquamperfekt",
-    nivel: "B1.1",
-    titulo: "Plusquamperfekt",
-    icono: "⏮️",
-    colorBorde: "border-indigo-500",
-    bg: "bg-indigo-950/30",
-    resumen: "El pasado perfecto alemán: una acción anterior a otra en el pasado. hatten/waren + Partizip II.",
-    explicacion: `
-      <h3 class="text-lg font-bold text-indigo-400 mb-2">Plusquamperfekt: El pasado anterior al pasado</h3>
-      <p class="mb-2">El <strong>Plusquamperfekt</strong> expresa una acción que ocurrió <strong>antes</strong> de otra acción en el pasado. Se usa principalmente con <em>nachdem</em> (después de que) o para narrar eventos previos.</p>
-      <h4 class="font-bold text-indigo-300 mt-2 mb-1">Estructura</h4>
-      <pre class="bg-gray-900 p-2 rounded text-xs mb-2">hatte/waren (Präteritum) + Partizip II + ... + (Satzende)</pre>
-      <p class="mb-2"><strong>Ejemplo:</strong> Nachdem ich gegessen <strong>hatte</strong>, ging ich spazieren. (Después de que hube comido, fui a pasear).</p>
-      <h4 class="font-bold text-indigo-300 mt-2 mb-1">Comparación de tiempos pasados</h4>
-      <table class="w-full border-collapse mb-3 text-sm">
-        <thead><tr class="bg-indigo-900/50"><th class="border p-1">Tiempo</th><th class="border p-1">Uso</th><th class="border p-1">Ejemplo</th></tr></thead>
-        <tbody>
-        <tr><td class="border p-1">Perfekt</td><td class="border p-1">Pasado general (hablado)</td><td class="border p-1">Ich habe gegessen.</td></tr>
-        <tr><td class="border p-1">Präteritum</td><td class="border p-1">Pasado narrativo (escrito)</td><td class="border p-1">Ich aß.</td></tr>
-        <tr><td class="border p-1"><strong>Plusquamperfekt</strong></td><td class="border p-1">Anterior a otra acción pasada</td><td class="border p-1">Ich hatte gegessen.</td></tr>
-        </tbody>
-      </table>
-      <p class="text-yellow-300 text-xs">⚠️ La elección de <em>hatte</em> o <em>war</em> sigue las mismas reglas que Perfekt: verbos de movimiento y cambio de estado usan <em>war</em>.</p>
-    `,
-    ejemplos: [
-      "Nachdem ich die Hausaufgaben gemacht hatte, sah ich fern. (Después de hacer los deberes, vi la tele)",
-      "Er war schon gegangen, als ich ankam. (Ya se había ido cuando llegué)",
-      "Wir hatten das Essen bestellt, bevor wir Platz nahmen. (Habíamos pedido la comida antes de sentarnos)",
-      "Sie hatte Deutsch gelernt, bevor sie nach Berlin zog. (Había aprendido alemán antes de mudarse a Berlín)",
-      "Hattest du das Buch schon gelesen, als der Film herauskam? (¿Ya habías leído el libro cuando salió la película?)"
-    ],
-    tips: [
-      "<em>Nachdem</em> + Plusquamperfekt en la subordinada, <em>Präteritum/Perfekt</em> en la principal.",
-      "Si no estás seguro, usa Perfekt. El Plusquamperfekt solo es necesario para dejar clara la anterioridad.",
-      "Los mismos auxiliares que Perfekt: haben para transitivos/reflexivos, sein para movimiento/cambio."
-    ],
-    ejercicioBase: {
-      tipo: "huecos",
-      enunciado: "Completa con Plusquamperfekt (hatte/war + Partizip II)",
-      datos: [
-        { pista: "Nachdem ich (essen) ___, ging ich spazieren.", respuesta: "gegessen hatte" },
-        { pista: "Er (gehen) ___, bevor sie kam.", respuesta: "war gegangen" },
-        { pista: "Wir (bestellen) ___ das Essen.", respuesta: "hatten bestellt" },
-        { pista: "Sie (lernen) ___ Deutsch, bevor sie reiste.", respuesta: "hatte gelernt" },
-        { pista: "Nachdem der Film (enden) ___, gingen wir nach Hause.", respuesta: "geendet war" }
-      ]
-    },
-    corrigeNovato: [
-      { frase: "Nachdem ich gegessen habe, ging ich spazieren.", error: "gegessen habe", correccion: "Nachdem ich gegessen hatte, ging ich spazieren. (Plusquamperfekt, no Perfekt, porque es anterior)." },
-      { frase: "Er war schon gehen, als ich kam.", error: "war gehen", correccion: "Er war schon gegangen, als ich kam. (Partizip II, no infinitivo)." }
-    ]
-  },
+  // ============================================================
+  // 2) KONJUNKTIV II VERGANGENHEIT
+  // ============================================================
   {
     id: "b1_1_konjunktiv2_vergangenheit",
     nivel: "B1.1",
@@ -151,21 +98,26 @@ window.Muller.Maestros.B1_1 = [
       "<em>fast</em> + KII pasado = 'por poco': 'Ich hätte fast den Bus verpasst.'"
     ],
     ejercicioBase: {
-      tipo: "construir",
-      enunciado: "Transforma estas frases a Konjunktiv II Vergangenheit",
-      datos: [
-        { pista: "Ich habe keine Zeit → Wenn ich ___", respuesta: "Zeit gehabt hätte" },
-        { pista: "Er kommt nicht → Er ___ (kommen) können", respuesta: "hätte kommen" },
-        { pista: "Wir fahren nach Berlin → Wir ___ gern nach Berlin gefahren", respuesta: "wären" },
-        { pista: "Sie ruft an → Sie ___ anrufen sollen", respuesta: "hätte" },
-        { pista: "Du lernst mehr → Du ___ mehr lernen sollen", respuesta: "hättest" }
+      tipo: "mixto",
+      preguntas: [
+        { tipo: "hueco", frase: "Wenn ich mehr Geld gehabt ___, wäre ich gereist. (hätte)", respuesta: "hätte", opciones: null, traduccion: "Si hubiera tenido más dinero, habría viajado.", pista: "KII de haben", explicacion: "hätte + Partizip II = condicional compuesto." },
+        { tipo: "opcion", frase: "Ich ___ anrufen sollen, aber ich habe es vergessen.", respuesta: "hätte", opciones: ["hätte", "habe", "hatte", "würde"], traduccion: "Habría debido llamar, pero lo olvidé.", pista: null, explicacion: "hätte + sollen = debería haber." },
+        { tipo: "hueco", frase: "___ du früher gekommen, hätten wir den Zug erwischt. (Wärst)", respuesta: "Wärst", opciones: null, traduccion: "Si hubieras venido antes, habríamos cogido el tren.", pista: "KII de sein (tú)", explicacion: "Wärst = condicional de sein (2ª persona)." },
+        { tipo: "opcion", frase: "Er ___ die Prüfung bestehen können, wenn er gelernt hätte.", respuesta: "hätte", opciones: ["hätte", "wäre", "würde", "könnte"], traduccion: "Él habría podido aprobar el examen si hubiera estudiado.", pista: null, explicacion: "hätte + Infinitiv + können = habría podido." },
+        { tipo: "hueco", frase: "Wir ___ gern gekommen, aber wir hatten keine Zeit. (wären)", respuesta: "wären", opciones: null, traduccion: "Nos habría gustado venir, pero no teníamos tiempo.", pista: "KII de sein (plural)", explicacion: "wären = condicional de sein en plural." },
+        { tipo: "opcion", frase: "Du ___ früher kommen sollen.", respuesta: "hättest", opciones: ["hättest", "hast", "hattest", "würdest"], traduccion: "Deberías haber venido antes.", pista: null, explicacion: "hättest = KII de haben (2ª persona)." },
+        { tipo: "hueco", frase: "Ich ___ gern mitgemacht, aber ich war krank. (hätte)", respuesta: "hätte", opciones: null, traduccion: "Me habría gustado participar, pero estaba enfermo.", pista: "deseo no cumplido", explicacion: "hätte gern = me habría gustado." },
+        { tipo: "opcion", frase: "Wenn ich das gewusst ___, wäre ich zu Hause geblieben.", respuesta: "hätte", opciones: ["hätte", "wäre", "habe", "hatte"], traduccion: "Si lo hubiera sabido, me habría quedado en casa.", pista: null, explicacion: "gewusst hätte = hubiera sabido (Plusquamperfekt KII)." },
+        { tipo: "hueco", frase: "Sie ___ gern nach Berlin fahren, aber der Zug war zu teuer. (wäre)", respuesta: "wäre", opciones: null, traduccion: "A ella le habría gustado ir a Berlín, pero el tren era demasiado caro.", pista: "KII de sein (ella)", explicacion: "wäre gern = le habría gustado (con fahren se usa sein)." },
+        { tipo: "opcion", frase: "Ich ___ fast den Bus verpasst.", respuesta: "hätte", opciones: ["hätte", "wäre", "habe", "würde"], traduccion: "Por poco pierdo el autobús.", pista: null, explicacion: "hätte fast + Partizip II = por poco." },
+        { tipo: "hueco", frase: "Wir ___ mehr lernen sollen, aber wir waren zu faul. (hätten)", respuesta: "hätten", opciones: null, traduccion: "Deberíamos haber estudiado más, pero éramos demasiado perezosos.", pista: "plural de hätte", explicacion: "hätten = KII de haben (nosotros)." },
+        { tipo: "opcion", frase: "___ ich das nur gewusst!", respuesta: "Hätte", opciones: ["Hätte", "Wäre", "Habe", "Würde"], traduccion: "¡Si solo lo hubiera sabido!", pista: null, explicacion: "Hätte ich nur gewusst = expresión de deseo/arrepentimiento." }
       ]
-    },
-    corrigeNovato: [
-      { frase: "Wenn ich Zeit gehabe hätte, würde ich gekommen.", error: "gehabe", correccion: "Wenn ich Zeit gehabt hätte, wäre ich gekommen. (Partizip II: gehabt, no gehabe)." },
-      { frase: "Ich wurde gern kommen, wenn ich Zeit hätte.", error: "wurde", correccion: "Ich wäre gern gekommen, wenn ich Zeit gehabt hätte. (wäre en pasado, no würde)." }
-    ]
+    }
   },
+  // ============================================================
+  // 3) PASSIV PERFEKT
+  // ============================================================
   {
     id: "b1_1_passiv_perfekt",
     nivel: "B1.1",
@@ -203,21 +155,26 @@ window.Muller.Maestros.B1_1 = [
       "La pasiva es más común en alemán que en español. Úsala naturalmente."
     ],
     ejercicioBase: {
-      tipo: "construir",
-      enunciado: "Transforma de activa a pasiva en Perfekt",
-      datos: [
-        { pista: "Ich habe den Brief geschrieben. → Der Brief ___", respuesta: "ist geschrieben worden" },
-        { pista: "Sie hat das Haus gebaut. → Das Haus ___", respuesta: "ist gebaut worden" },
-        { pista: "Er hat das Fenster geöffnet. → Das Fenster ___", respuesta: "ist geöffnet worden" },
-        { pista: "Der Lehrer hat die Prüfung korrigiert. → Die Prüfung ___", respuesta: "ist korrigiert worden" },
-        { pista: "Man hat viel Deutsch gesprochen. → Viel Deutsch ___", respuesta: "ist gesprochen worden" }
+      tipo: "mixto",
+      preguntas: [
+        { tipo: "hueco", frase: "Der Brief ist gestern ___ worden. (geschrieben)", respuesta: "geschrieben", opciones: null, traduccion: "La carta fue escrita ayer.", pista: "Partizip II de schreiben", explicacion: "geschrieben es el Partizip II de schreiben." },
+        { tipo: "opcion", frase: "Das Haus ___ 2020 gebaut worden.", respuesta: "ist", opciones: ["ist", "hat", "wird", "war"], traduccion: "La casa fue construida en 2020.", pista: null, explicacion: "La pasiva Perfekt usa 'ist' como auxiliar." },
+        { tipo: "hueco", frase: "Die Fenster sind schon ___ worden. (geputzt)", respuesta: "geputzt", opciones: null, traduccion: "Las ventanas ya han sido limpiadas.", pista: "Partizip II de putzen", explicacion: "geputzt = Partizip II de putzen (limpiar)." },
+        { tipo: "opcion", frase: "Das Essen ist von der Mutter ___ worden.", respuesta: "gekocht", opciones: ["gekocht", "kocht", "kochen", "gekochtet"], traduccion: "La comida fue cocinada por la madre.", pista: null, explicacion: "gekocht = Partizip II de kochen." },
+        { tipo: "hueco", frase: "Die Prüfung ist ___ worden. (korrigiert)", respuesta: "korrigiert", opciones: null, traduccion: "El examen ha sido corregido.", pista: "Partizip II de korrigieren", explicacion: "korrigiert = Partizip II (regular, terminación -t)." },
+        { tipo: "opcion", frase: "Die Tür ___ gestern geöffnet worden.", respuesta: "ist", opciones: ["ist", "hat", "wird", "wurde"], traduccion: "La puerta fue abierta ayer.", pista: null, explicacion: "Pasiva Perfekt siempre con 'ist'." },
+        { tipo: "hueco", frase: "Der Hund ___ schon gefüttert worden. (ist)", respuesta: "ist", opciones: null, traduccion: "El perro ya ha sido alimentado.", pista: "verbo auxiliar sein", explicacion: "ist + gefüttert worden = pasiva Perfekt." },
+        { tipo: "opcion", frase: "Die Bücher sind alle ___ worden.", respuesta: "verkauft", opciones: ["verkauft", "verkaufen", "verkauftet", "verkauften"], traduccion: "Los libros han sido todos vendidos.", pista: null, explicacion: "verkauft = Partizip II de verkaufen." },
+        { tipo: "hueco", frase: "Das Auto ist repariert ___. (worden)", respuesta: "worden", opciones: null, traduccion: "El coche ha sido reparado.", pista: "NO ge- al inicio", explicacion: "worden (sin ge-) es la forma correcta en pasiva Perfekt." },
+        { tipo: "opcion", frase: "Die Blumen ___ gegossen worden.", respuesta: "sind", opciones: ["sind", "haben", "werden", "wurden"], traduccion: "Las flores han sido regadas.", pista: null, explicacion: "sind = 3ª persona plural de sein." },
+        { tipo: "hueco", frase: "Der Kuchen ___ von der Oma gebacken worden. (ist)", respuesta: "ist", opciones: null, traduccion: "El pastel fue horneado por la abuela.", pista: "verbo auxiliar 3ª sg", explicacion: "ist + gebacken worden = pasiva Perfekt con 'von'." },
+        { tipo: "opcion", frase: "Die Aufgaben ___ schon erledigt worden.", respuesta: "sind", opciones: ["sind", "haben", "werden", "hat"], traduccion: "Las tareas ya han sido realizadas.", pista: null, explicacion: "sind = plural (die Aufgaben)." }
       ]
-    },
-    corrigeNovato: [
-      { frase: "Der Brief ist gestern geschrieben geworden.", error: "geworden", correccion: "Der Brief ist geschrieben worden. (Pasiva Perfekt usa 'worden', no 'geworden')." },
-      { frase: "Der Brief hat gestern geschrieben worden.", error: "hat", correccion: "Der Brief ist gestern geschrieben worden. (Pasiva usa sein, no haben)." }
-    ]
+    }
   },
+  // ============================================================
+  // 4) SUBORDINADAS CON OBWOHL / TROTZDEM
+  // ============================================================
   {
     id: "b1_1_subordinadas_obwohl_trotzdem",
     nivel: "B1.1",
@@ -255,22 +212,26 @@ window.Muller.Maestros.B1_1 = [
       "También existe <em>obgleich</em> (formal) y <em>obschon</em> (literario), pero obwohl es la forma más común."
     ],
     ejercicioBase: {
-      tipo: "opciones",
-      enunciado: "Selecciona obwohl o trotzdem según corresponda",
-      datos: [
-        { pista: "Ich gehe zur Arbeit, ___ ich krank bin.", opciones: ["obwohl", "trotzdem", "weil", "denn"], respuesta: "obwohl" },
-        { pista: "Es regnet. ___ gehen wir spazieren.", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], respuesta: "Trotzdem" },
-        { pista: "___ es teuer ist, kaufe ich es.", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], respuesta: "Obwohl" },
-        { pista: "Sie ist müde. ___ macht sie Sport.", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], respuesta: "Trotzdem" },
-        { pista: "___ ich kein Geld habe, bin ich glücklich.", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], respuesta: "Obwohl" }
+      tipo: "mixto",
+      preguntas: [
+        { tipo: "opcion", frase: "Ich gehe spazieren, ___ es regnet.", respuesta: "obwohl", opciones: ["obwohl", "trotzdem", "weil", "denn"], traduccion: "Salgo a pasear aunque llueve.", pista: null, explicacion: "obwohl introduce subordinada (verbo al final)." },
+        { tipo: "opcion", frase: "Es regnet. ___ gehen wir spazieren.", respuesta: "Trotzdem", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], traduccion: "Llueve. A pesar de eso paseamos.", pista: null, explicacion: "trotzdem como conector, verbo en 2ª posición." },
+        { tipo: "hueco", frase: "___ es teuer ist, kaufe ich es. (Obwohl)", respuesta: "Obwohl", opciones: null, traduccion: "Aunque es caro, lo compro.", pista: "conjunción concesiva", explicacion: "Obwohl + verbo al final (ist)." },
+        { tipo: "opcion", frase: "Sie ist müde. ___ macht sie Sport.", respuesta: "Trotzdem", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], traduccion: "Está cansada. A pesar de eso hace deporte.", pista: null, explicacion: "trotzdem inicia oración principal." },
+        { tipo: "hueco", frase: "___ ich kein Geld habe, bin ich glücklich. (Obwohl)", respuesta: "Obwohl", opciones: null, traduccion: "Aunque no tengo dinero, soy feliz.", pista: "conjunción subordinante", explicacion: "Obwohl + Satz (verbo al final: habe)." },
+        { tipo: "opcion", frase: "Er hat wenig Geld. ___ reist er gern.", respuesta: "Trotzdem", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], traduccion: "Tiene poco dinero. A pesar de eso viaja mucho.", pista: null, explicacion: "trotzdem = 'a pesar de eso' como conector." },
+        { tipo: "hueco", frase: "Ich komme mit, ___ ich müde bin. (obwohl)", respuesta: "obwohl", opciones: null, traduccion: "Vengo con ustedes aunque estoy cansado.", pista: "subordinada concesiva", explicacion: "obwohl + Subjekt + ... + bin (verbo al final)." },
+        { tipo: "opcion", frase: "___ der Film lang war, hat er mir gefallen.", respuesta: "Obwohl", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], traduccion: "Aunque la película fue larga, me gustó.", pista: null, explicacion: "Obwohl al inicio con verbo al final (war)." },
+        { tipo: "hueco", frase: "Meine Mutter ist streng. ___ liebe ich sie sehr. (Trotzdem)", respuesta: "Trotzdem", opciones: null, traduccion: "Mi madre es estricta. A pesar de eso la quiero mucho.", pista: "conector de contraste", explicacion: "trotzdem = 'sin embargo' / 'a pesar de eso'." },
+        { tipo: "opcion", frase: "___ das Wetter schlecht ist, fahren wir ans Meer.", respuesta: "Obwohl", opciones: ["Obwohl", "Trotzdem", "Weil", "Denn"], traduccion: "Aunque el tiempo está malo, vamos al mar.", pista: null, explicacion: "Obwohl + verbo al final (ist)." },
+        { tipo: "hueco", frase: "Er hat viel Arbeit. ___ hilft er mir. (Trotzdem)", respuesta: "Trotzdem", opciones: null, traduccion: "Tiene mucho trabajo. A pesar de eso me ayuda.", pista: "oración independiente", explicacion: "Trotzdem + Verb (hilft) + Subjekt (er)." },
+        { tipo: "opcion", frase: "Ich mag ihn, ___ er manchmal nervig ist.", respuesta: "obwohl", opciones: ["obwohl", "trotzdem", "weil", "denn"], traduccion: "Me gusta, aunque a veces es molesto.", pista: null, explicacion: "obwohl + er ... ist (verbo al final)." }
       ]
-    },
-    corrigeNovato: [
-      { frase: "Obwohl es regnet, trotzdem gehe ich spazieren.", error: "trotzdem", correccion: "Obwohl es regnet, gehe ich spazieren. O bien: 'Es regnet. Trotzdem gehe ich spazieren.' No mezclar ambas." },
-      { frase: "Trotzdem ich krank bin, gehe ich zur Arbeit.", error: "Trotzdem + subordinada", correccion: "Obwohl ich krank bin, gehe ich zur Arbeit. (trotzdem no es conjunción subordinante)." },
-      { frase: "Ich gehe aus obwohl ich bin müde.", error: "ich bin müde", correccion: "Ich gehe aus, obwohl ich müde bin. (Verbo al final con obwohl)." }
-    ]
+    }
   },
+  // ============================================================
+  // 5) ADJEKTIVE OHNE ARTIKEL
+  // ============================================================
   {
     id: "b1_1_adjektive_ohne_artikel",
     nivel: "B1.1",
@@ -313,22 +274,26 @@ window.Muller.Maestros.B1_1 = [
       "Pista visual: si NO ves artículo, el adjetivo 'hace de artículo' con terminaciones -er/-e/-es/-em/-en."
     ],
     ejercicioBase: {
-      tipo: "huecos",
-      enunciado: "Completa con la terminación correcta del adjetivo (sin artículo)",
-      datos: [
-        { pista: "Gut___ Wein ist teuer. (er)", respuesta: "er" },
-        { pista: "Ich trinke kalt___ Bier. (es)", respuesta: "es" },
-        { pista: "Mit frisch___ Brot schmeckt es besser. (em)", respuesta: "em" },
-        { pista: "Sie trägt rot___ Schuhe. (e)", respuesta: "e" },
-        { pista: "Ich sehe schön___ Frauen. (e)", respuesta: "e" }
+      tipo: "mixto",
+      preguntas: [
+        { tipo: "hueco", frase: "Gut___ Wein ist teuer. (-er)", respuesta: "er", opciones: null, traduccion: "El vino bueno es caro.", pista: "Nominativ masculino", explicacion: "Sin artículo → -er (como der)." },
+        { tipo: "opcion", frase: "Ich trinke kalt___ Bier.", respuesta: "es", opciones: ["en", "e", "es", "em"], traduccion: "Bebo cerveza fría.", pista: null, explicacion: "Bier es neutro, Akkusativ → -es." },
+        { tipo: "hueco", frase: "Mit frisch___ Brot schmeckt es besser. (-em)", respuesta: "em", opciones: null, traduccion: "Con pan fresco sabe mejor.", pista: "Dativ neutro", explicacion: "Brot neutro, Dativ → -em." },
+        { tipo: "opcion", frase: "Sie trägt rot___ Schuhe.", respuesta: "e", opciones: ["e", "en", "er", "es"], traduccion: "Ella lleva zapatos rojos.", pista: null, explicacion: "Plural Akkusativ → -e." },
+        { tipo: "hueco", frase: "Ich sehe schön___ Frauen. (-e)", respuesta: "e", opciones: null, traduccion: "Veo mujeres hermosas.", pista: "Plural Akkusativ", explicacion: "Frauen plural, Akkusativ → -e." },
+        { tipo: "opcion", frase: "Mit kalt___ Milch schmeckt der Kaffee nicht.", respuesta: "er", opciones: ["er", "e", "en", "em"], traduccion: "Con leche fría el café no sabe bien.", pista: null, explicacion: "Milch femenino, Dativ → -er." },
+        { tipo: "hueco", frase: "Ich trinke heiß___ Tee. (-en)", respuesta: "en", opciones: null, traduccion: "Bebo té caliente.", pista: "Akkusativ masculino", explicacion: "Tee masculino, Akkusativ → -en." },
+        { tipo: "opcion", frase: "Alt___ Wein wird besser mit der Zeit.", respuesta: "er", opciones: ["er", "e", "en", "es"], traduccion: "El vino añejo mejora con el tiempo.", pista: null, explicacion: "Wein masculino, Nominativ → -er." },
+        { tipo: "hueco", frase: "Sie wohnt in klein___ Stadt. (-er)", respuesta: "er", opciones: null, traduccion: "Ella vive en una ciudad pequeña.", pista: "Dativ femenino", explicacion: "Stadt femenino, Dativ → -er." },
+        { tipo: "opcion", frase: "Neu___ Kleider sind teuer.", respuesta: "e", opciones: ["e", "en", "er", "es"], traduccion: "Los vestidos nuevos son caros.", pista: null, explicacion: "Kleider plural, Nominativ → -e." },
+        { tipo: "hueco", frase: "Er trinkt gern rot___ Wein. (-en)", respuesta: "en", opciones: null, traduccion: "A él le gusta beber vino tinto.", pista: "Akkusativ masculino", explicacion: "Wein Akkusativ → -en." },
+        { tipo: "opcion", frase: "Mit warm___ Wasser wäscht man besser.", respuesta: "em", opciones: ["er", "e", "em", "en"], traduccion: "Con agua caliente se lava mejor.", pista: null, explicacion: "Wasser neutro, Dativ → -em." }
       ]
-    },
-    corrigeNovato: [
-      { frase: "Guter Wein ist teuer. → correcto", error: "ninguno", correccion: "¡Correcto! Pero asegúrate: Guter Wein (nominativo, masculino, fuerte → -er)." },
-      { frase: "Ich trinke kalten Bier.", error: "kalten", correccion: "Ich trinke kaltes Bier. (Bier es neutro, Akkusativ → -es)." },
-      { frase: "Mit frischen Brot schmeckt es besser.", error: "frischen", correccion: "Mit frischem Brot. (Brot es neutro, Dativ → -em)." }
-    ]
+    }
   },
+  // ============================================================
+  // 6) SATZKLAMMER ERWEITERT
+  // ============================================================
   {
     id: "b1_1_satzklammer_erweitert",
     nivel: "B1.1",
@@ -366,19 +331,21 @@ window.Muller.Maestros.B1_1 = [
       "La 'Satzklammer' es la esencia de la sintaxis alemana. Practica con frases largas."
     ],
     ejercicioBase: {
-      tipo: "construir",
-      enunciado: "Completa con el orden correcto (Satzklammer)",
-      datos: [
-        { pista: "Ich (können) nicht (kommen) gestern. → Ich ___", respuesta: "habe gestern nicht kommen können" },
-        { pista: "Er (werden) morgen (anrufen). → Er ___", respuesta: "wird morgen anrufen" },
-        { pista: "Wir (sollen) früher (gehen) → Wir ___", respuesta: "hätten früher gehen sollen" },
-        { pista: "Sie (müssen) das Buch (lesen) → Sie ___", respuesta: "hat das Buch lesen müssen" },
-        { pista: "Ich (können) ihm (helfen) → Ich ___", respuesta: "habe ihm helfen können" }
+      tipo: "mixto",
+      preguntas: [
+        { tipo: "hueco", frase: "Ich ___ gestern nicht kommen können. (habe)", respuesta: "habe", opciones: null, traduccion: "No pude venir ayer.", pista: "Perfekt + modal", explicacion: "habe + ... + kommen können = Perfekt con modal." },
+        { tipo: "opcion", frase: "Sie ___ morgen anrufen müssen.", respuesta: "wird", opciones: ["wird", "hat", "ist", "kann"], traduccion: "Ella tendrá que llamar mañana.", pista: null, explicacion: "wird + anrufen müssen = Futur con modal." },
+        { tipo: "hueco", frase: "Er ___ sie kommen sehen. (hat)", respuesta: "hat", opciones: null, traduccion: "Él la vio venir.", pista: "Perfekt con sehen", explicacion: "hat + sie kommen sehen = verbo de percepción." },
+        { tipo: "opcion", frase: "Wir ___ früher gehen sollen.", respuesta: "hätten", opciones: ["hätten", "haben", "hatten", "würden"], traduccion: "Deberíamos haber ido antes.", pista: null, explicacion: "hätten + ... + gehen sollen = KII + sollen." },
+        { tipo: "hueco", frase: "___ du mir bitte helfen? (Kannst)", respuesta: "Kannst", opciones: null, traduccion: "¿Puedes ayudarme por favor?", pista: "modal simple", explicacion: "Kannst + helfen = estructura de marco simple." },
+        { tipo: "opcion", frase: "Ich habe ihn kommen ___.", respuesta: "sehen", opciones: ["sehen", "gesehen", "sah", "geseht"], traduccion: "Lo vi venir.", pista: null, explicacion: "Nach 'kommen' kommt Infinitiv 'sehen' (kein Partizip II)." },
+        { tipo: "hueco", frase: "Sie ___ das Buch lesen müssen. (hat)", respuesta: "hat", opciones: null, traduccion: "Ella ha tenido que leer el libro.", pista: "Perfekt con müssen", explicacion: "hat + ... + lesen müssen = Perfekt + modal." },
+        { tipo: "opcion", frase: "Wir ___ euch helfen können.", respuesta: "haben", opciones: ["haben", "sind", "werden", "hätten"], traduccion: "Hemos podido ayudaros.", pista: null, explicacion: "haben + ... + helfen können = Perfekt con können." },
+        { tipo: "hueco", frase: "Er ___ gestern kommen sollen, aber er war krank. (hätte)", respuesta: "hätte", opciones: null, traduccion: "Él debería haber venido ayer, pero estaba enfermo.", pista: "KII pasado", explicacion: "hätte + kommen sollen = condicional compuesto con sollen." },
+        { tipo: "opcion", frase: "Ich ___ dich später anrufen.", respuesta: "werde", opciones: ["werde", "habe", "bin", "kann"], traduccion: "Te llamaré más tarde.", pista: null, explicacion: "werde + anrufen = Futur con verbo separable." },
+        { tipo: "hueco", frase: "Er ___ nicht kommen können, weil er krank war. (hat)", respuesta: "hat", opciones: null, traduccion: "Él no ha podido venir porque estaba enfermo.", pista: "Perfekt + können", explicacion: "hat + ... + kommen können = causa-efecto en pasado." },
+        { tipo: "opcion", frase: "___ du mich bitte morgen anrufen?", respuesta: "Kannst", opciones: ["Kannst", "Wirst", "Hast", "Bist"], traduccion: "¿Puedes llamarme mañana por favor?", pista: null, explicacion: "Kannst + anrufen = pregunta con modal separable." }
       ]
-    },
-    corrigeNovato: [
-      { frase: "Ich habe nicht gekonnt kommen.", error: "gekonnt", correccion: "Ich habe nicht kommen können. (Modal en infinitivo, no Partizip II)." },
-      { frase: "Ich kann nicht gekommen.", error: "gekommen", correccion: "Ich kann nicht kommen. (Con modal se usa infinitivo, no Partizip II)." }
-    ]
+    }
   }
 ];
