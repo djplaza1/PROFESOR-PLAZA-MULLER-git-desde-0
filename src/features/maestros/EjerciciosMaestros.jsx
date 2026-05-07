@@ -61,7 +61,7 @@ window.Muller.Panels['ejerciciosMaestros'] = ({ session, onVolver }) => {
     }
     // Mezclar y limitar a 15
     var mezcladas = pool.slice().sort(function() { return Math.random() - 0.5; });
-    setPreguntas(mezcladas.slice(0, Math.min(15, mezcladas.length)));
+    setPreguntas(mezcladas.slice(0, Math.min(30, mezcladas.length)));
     setIndice(0);
     setRespuesta(null);
     setMostrarFeedback(false);
