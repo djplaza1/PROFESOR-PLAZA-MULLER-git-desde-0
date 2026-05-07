@@ -1907,7 +1907,7 @@ R.isLessonUnlocked = function (levels, levelIdx, lessonIdx, completed) {
 };
 
 R.getLevelProgress = function (progress, level) {
-  if (!level || !level.lessons) return { total: 0, done: 0, pct: 0 };
+  if (!progress || !level || !level.lessons) return { total: 0, done: 0, pct: 0 };
   const completed = progress.completed || {};
   const total = level.lessons.length;
   const done = level.lessons.filter(l => completed[l.id]).length;
@@ -1915,6 +1915,7 @@ R.getLevelProgress = function (progress, level) {
 };
 
 R.getOverallProgress = function (levels, progress) {
+  if (!progress) return { total: 0, done: 0, pct: 0 };
   const completed = progress.completed || {};
   let totalLessons = 0, doneLessons = 0;
   (levels || []).forEach(l => {

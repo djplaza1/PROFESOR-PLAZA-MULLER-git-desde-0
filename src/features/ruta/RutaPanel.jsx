@@ -393,7 +393,7 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
         {levels.map((level, lvlIdx) => {
           if (!level || !level.lessons) return null;
           const lp = Ruta.getLevelProgress(progress, level);
-          const isUnlocked = lvlIdx === 0 || (levels[lvlIdx-1]?.lessons?.every(l => progress.completed[l.id]) ?? false);
+          const isUnlocked = lvlIdx === 0 || (levels[lvlIdx-1]?.lessons?.every(l => progress?.completed?.[l.id]) ?? false);
           return (
             <div key={level.id} style={{
               background:'#1e293b', borderRadius:16, border:`1px solid ${isUnlocked ? '#334155' : '#1e293b'}`,
@@ -416,8 +416,8 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
               {isUnlocked && (
                 <div style={{ marginTop:12, display:'flex', flexDirection:'column', gap:8 }}>
                   {level.lessons.map((lesson, lesIdx) => {
-                    const isCompleted = !!progress.completed[lesson.id];
-                    const isUnlockedLesson = Ruta.isLessonUnlocked(levels, lvlIdx, lesIdx, progress.completed);
+                    const isCompleted = !!progress?.completed?.[lesson.id];
+                    const isUnlockedLesson = Ruta.isLessonUnlocked(levels, lvlIdx, lesIdx, progress?.completed || {});
                     return (
                       <div key={lesson.id}
                         onClick={() => isUnlockedLesson && openLesson(lesson, lvlIdx)}
