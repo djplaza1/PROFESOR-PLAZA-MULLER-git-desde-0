@@ -20,6 +20,8 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
   const [showStats, setShowStats] = useState(false);
   const [showRank, setShowRank] = useState(false);
   const [animKey, setAnimKey] = useState(0);
+  const [orderedWords, setOrderedWords] = useState([]);
+  const [remainingWords, setRemainingWords] = useState([]);
   const inputRef = useRef(null);
 
   useEffect(() => { Ruta.saveProgress(progress); }, [progress]);
@@ -31,6 +33,8 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
     setFillInput('');
     setFillFeedback(null);
     setExerciseGenerated(null);
+    setOrderedWords([]);
+    setRemainingWords([]);
     setPracticeExs([]);
     setCurrentEx(0);
     setView('lesson');
@@ -107,6 +111,8 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
     const ex = Ruta.generateExercise(word, levelBadge);
     setFillFeedback(null);
     setFillInput('');
+    setOrderedWords([]);
+    setRemainingWords(ex?.type === 'order' ? [...(ex.words || [])] : []);
     setExerciseGenerated(ex);
   };
 
@@ -119,7 +125,11 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
     setCurrentEx(0);
     setFillInput('');
     setFillFeedback(null);
-    if (exs.length > 0) setExerciseGenerated(exs[0]);
+    if (exs.length > 0) {
+      setOrderedWords([]);
+      setRemainingWords(exs[0]?.type === 'order' ? [...(exs[0].words || [])] : []);
+      setExerciseGenerated(exs[0]);
+    }
   };
 
   const checkSelectedAnswer = (selected) => {
@@ -136,6 +146,49 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
       setTimeout(() => generateNewExercise(), 500);
     }
   };
+
+  // ── Order exercise handlers ──
+  const addOrderedWord = (word, idx) => {
+    if (fillFeedback !== null) return;
+    setOrderedWords(prev => [...prev, word]);
+    setRemainingWords(prev => {
+      const next = [...prev];
+      next.splice(idx, 1);
+      return next;
+    });
+  };
+
+  const removeOrderedWord = (word, idx) => {
+    if (fillFeedback !== null) return;
+    setOrderedWords(prev => {
+      const next = [...prev];
+      next.splice(idx, 1);
+      return next;
+    });
+    setRemainingWords(prev => [...prev, word]);
+  };
+
+  // Auto-validate order when all words placed
+  useEffect(() => {
+    if (!exerciseGenerated || exerciseGenerated.type !== 'order') return;
+    if (remainingWords.length > 0) return;
+    const userAnswer = orderedWords.join(' ').toLowerCase().trim();
+    const correctAnswer = exerciseGenerated.answer.toLowerCase().trim();
+    const isCorrect = userAnswer === correctAnswer;
+    setFillFeedback(isCorrect ? 'correct' : 'incorrect');
+
+    if (exerciseGenerated.word) {
+      Ruta.updateSRS(exerciseGenerated.word, exerciseGenerated.type, isCorrect, progress);
+      setProgress(Ruta.loadProgress());
+    }
+
+    if (isCorrect) {
+      setTimeout(() => {
+        setOrderedWords([]);
+        generateNewExercise();
+      }, 800);
+    }
+  }, [remainingWords]);
 
   // ── Render ejercicio según tipo ──
   const renderExercise = () => {
@@ -191,18 +244,54 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
             </div>
           )}
 
-          {/* TYPE: order */}
+          {/* TYPE: order - interactive click-to-order */}
           {ex.type === 'order' && ex.words && (
-            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
-              {ex.words.map((w, i) => (
-                <span key={i} style={{ background:'#1e293b', borderRadius:8, padding:'8px 12px', color:'#e2e8f0', border:'1px solid #475569' }}>{w}</span>
-              ))}
+            <div>
+              {/* Selected words area */}
+              <div style={{
+                minHeight:48, background:'#1e293b', borderRadius:12, padding:12,
+                border:'2px dashed #475569', marginBottom:16, display:'flex', flexWrap:'wrap', gap:8, alignItems:'center'
+              }}>
+                {orderedWords.length === 0 && (
+                  <span style={{ color:'#64748b', fontSize:'0.85rem' }}>Haz clic en las palabras en el orden correcto...</span>
+                )}
+                {orderedWords.map((w, i) => (
+                  <span key={i} onClick={() => removeOrderedWord(w, i)}
+                    style={{
+                      background:'#3b82f6', borderRadius:8, padding:'8px 14px',
+                      color:'white', cursor:'pointer', fontSize:'1rem',
+                      border:'1px solid #60a5fa', transition:'all 0.2s',
+                      userSelect:'none'
+                    }}>
+                    {w} ✕
+                  </span>
+                ))}
+              </div>
+              {/* Remaining words to click */}
+              <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
+                {remainingWords.map((w, i) => (
+                  <span key={i} onClick={() => addOrderedWord(w, i)}
+                    style={{
+                      background:'#334155', borderRadius:8, padding:'8px 14px',
+                      color:'#e2e8f0', cursor:'pointer', fontSize:'1rem',
+                      border:'1px solid #475569', transition:'all 0.2s',
+                      userSelect:'none'
+                    }}>
+                    {w}
+                  </span>
+                ))}
+              </div>
+              {fillFeedback === 'incorrect' && (
+                <div style={{ marginTop:12, padding:'12px 16px', background:'#ef444420', borderRadius:12, border:'1px solid #ef4444' }}>
+                  <span style={{ color:'#f87171', fontWeight:600 }}>❌ Inténtalo de nuevo.</span>
+                  <div style={{ color:'#94a3b8', marginTop:4 }}>Respuesta correcta: <strong style={{color:'#e2e8f0'}}>{ex.answer}</strong></div>
+                </div>
+              )}
             </div>
           )}
 
-          {/* TYPE: fill, translate */
-          }
-          {ex.type !== 'choose' && (
+          {/* TYPE: fill, translate, plural, conjugate, translateDE, translateES, correct */}
+          {ex.type !== 'choose' && ex.type !== 'order' && (
             <div style={{ display:'flex', gap:8 }}>
               <input ref={inputRef}
                 value={fillInput}
@@ -224,13 +313,13 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
             </div>
           )}
 
-          {fillFeedback === 'correct' && (
+          {fillFeedback === 'correct' && ex.type !== 'order' && (
             <div style={{ marginTop:12, padding:'12px 16px', background:'#22c55e20', borderRadius:12, border:'1px solid #22c55e' }}>
               <span style={{ color:'#4ade80', fontWeight:700, fontSize:'1.1rem' }}>🌟 ¡Correcto! +5 XP</span>
               {ex.answer && <div style={{ color:'#94a3b8', marginTop:4 }}>Respuesta: {ex.answer}</div>}
             </div>
           )}
-          {fillFeedback === 'incorrect' && (
+          {fillFeedback === 'incorrect' && ex.type !== 'order' && (
             <div style={{ marginTop:12, padding:'12px 16px', background:'#ef444420', borderRadius:12, border:'1px solid #ef4444' }}>
               <span style={{ color:'#f87171', fontWeight:600 }}>❌ Inténtalo de nuevo.</span>
               {ex.answer && <div style={{ color:'#94a3b8', marginTop:4 }}>Respuesta correcta: <strong style={{color:'#e2e8f0'}}>{ex.answer}</strong></div>}
