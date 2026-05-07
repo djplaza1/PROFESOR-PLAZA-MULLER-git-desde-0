@@ -103,9 +103,22 @@ const levelsSectionEnd = content.indexOf('// ===================================
 // Or better: find the start of R.IRRVERBS section
 const irrverbsStart = content.indexOf('// 2. IRRREGULÄRE VERBEN nach Niveau');
 
-// Extract the levels array text
-const levelsTextEnd = content.indexOf('\n];\n\n// ===========================================================', levelsStart);
-const levelsText = content.substring(levelsStart, levelsTextEnd + 3); // include ];
+// Extract the levels array text - find the closing ]; by bracket counting
+let bracketCount = 0;
+let levelsTextEnd = levelsStart;
+for (let i = levelsStart; i < content.length; i++) {
+  if (content[i] === '[') bracketCount++;
+  if (content[i] === ']') {
+    bracketCount--;
+    if (bracketCount === 0) {
+      levelsTextEnd = i + 1; // include the ]
+      // Check if next char is ;
+      if (content[i+1] === ';') levelsTextEnd = i + 2;
+      break;
+    }
+  }
+}
+const levelsText = content.substring(levelsStart, levelsTextEnd);
 const levelsLines = levelsText.split('\n');
 
 // Parse levels manually
@@ -642,7 +655,7 @@ parsedLevels.forEach(level => {
     const grammarTip = grammarTips[Math.min(i, grammarTips.length - 1)];
     
     // Create exercise from the first word
-    const exercise = createExerciseForWord(wordsForLesson[0] || [de, es, '', '', 'n'], i);
+    const exercise = createExerciseForWord(wordsForLesson[0] || ['wort', 'palabra', '', '', 'n'], i);
     
     // Build the lesson object as a string (to insert later)
     newLessons.push({
