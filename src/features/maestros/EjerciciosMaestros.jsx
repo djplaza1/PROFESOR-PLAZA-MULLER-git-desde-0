@@ -13,9 +13,9 @@ window.Muller.Panels['ejerciciosMaestros'] = ({ session, onVolver }) => {
   const SvgChevronDown = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
 
   // Obtener niveles con contenido
-  const nivelesDisponibles = useMemo(() => {
+  const nivelesUnicos = useMemo(() => {
     var todos = window.Muller.Maestros.getAllLevels ? window.Muller.Maestros.getAllLevels() : [];
-    return todos.filter(function(n) { return n.modulos && n.modulos.length > 0; });
+    var mapa = {}; todos.forEach(function(n) { if (n.modulos && n.modulos.length > 0 && !mapa[n.nivelRaiz]) { mapa[n.nivelRaiz] = n; } }); return Object.values(mapa);
   }, []);
 
   // Estado
@@ -31,9 +31,9 @@ window.Muller.Panels['ejerciciosMaestros'] = ({ session, onVolver }) => {
 
   // Módulos del nivel seleccionado
   const modulosDisponibles = useMemo(() => {
-    var nivelInfo = nivelesDisponibles.find(function(n) { return n.nivelRaiz === nivelSeleccionado; });
-    if (!nivelInfo) return [];
-    return nivelInfo.modulos;
+    var nivelInfo = window.Muller.Maestros.getAllLevels().filter(function(n) { return n.nivelRaiz === nivelSeleccionado; });
+    var mods = []; nivelInfo.forEach(function(n) { mods = mods.concat(n.modulos || []); });
+    return mods;
   }, [nivelSeleccionado, nivelesDisponibles]);
 
   // Obtener preguntas de un módulo específico
@@ -124,7 +124,7 @@ window.Muller.Panels['ejerciciosMaestros'] = ({ session, onVolver }) => {
               onChange={function(e) { setNivelSeleccionado(e.target.value); setModuloSeleccionado('todos'); }}
               className="w-full bg-black/40 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-400"
             >
-              {nivelesDisponibles.map(function(n) {
+              {nivelesUnicos.map(function(n) {
                 return <option key={n.nivelRaiz} value={n.nivelRaiz}>{n.nombre} {n.descripcion ? '- ' + n.descripcion : ''}</option>;
               })}
             </select>
