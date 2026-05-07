@@ -1000,14 +1000,32 @@ window.MULLER_RUTA_LEVELS = [
 // ===========================================================
 R.EXERCISE_TYPES = ['fill','choose','plural','translateDE','translateES','conjugate','order','correct'];
 
-// Elegir tipo según nivel
-R.pickExerciseType = function (levelId) {
-  const idx = parseInt(levelId.replace('A','').replace('B','').replace('C','').replace('.',''))||1;
-  if (idx <= 2) return 'fill';
-  if (idx <= 4) return R.EXERCISE_TYPES[Math.floor(Math.random()*2)];
-  if (idx <= 8) return R.EXERCISE_TYPES[Math.floor(Math.random()*3)];
-  if (idx <= 12) return R.EXERCISE_TYPES[Math.floor(Math.random()*5)];
-  return R.EXERCISE_TYPES[Math.floor(Math.random()*R.EXERCISE_TYPES.length)];
+// Elegir tipo ROTATORIO: fuerza variación entre los 8 tipos
+R.pickExerciseType = function (word, levelId) {
+  const [de, es, art, plural, tipo] = word || [];
+  const ROTATION_KEY = 'muller_ruta_exercise_counter';
+  let counter = parseInt(localStorage.getItem(ROTATION_KEY)) || 0;
+  const allTypes = R.EXERCISE_TYPES; // ['fill','choose','plural','translateDE','translateES','conjugate','order','correct']
+  const maxAttempts = allTypes.length * 2; // dar 2 vueltas completas para encontrar uno
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const type = allTypes[counter % allTypes.length];
+    counter = (counter + 1) % allTypes.length;
+
+    // Verificar si este tipo de ejercicio aplica para esta palabra
+    let applies = true;
+    if (type === 'plural' && (!plural || plural === '')) applies = false;
+    if (type === 'conjugate' && tipo !== 'v') applies = false;
+
+    if (applies) {
+      localStorage.setItem(ROTATION_KEY, String(counter));
+      return type;
+    }
+    // Si no aplica, continuar al siguiente tipo sin avanzar realmente
+    // (ya avanzamos counter arriba, pero no lo guardamos hasta encontrar uno válido)
+  }
+  // Si ningún tipo aplica (muy raro), volver a fill
+  return 'fill';
 };
 
 // Generar una frase ejemplo para una palabra según nivel
@@ -1055,7 +1073,7 @@ R.generateExample = function (word, levelId) {
 // Generar ejercicio completo
 R.generateExercise = function (word, levelId) {
   const [de, es, art, plural, tipo] = word;
-  const type = R.pickExerciseType(levelId);
+  const type = R.pickExerciseType(word, levelId);
   const example = R.generateExample(word, levelId);
 
   switch(type) {
