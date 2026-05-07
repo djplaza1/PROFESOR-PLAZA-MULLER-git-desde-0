@@ -1054,6 +1054,30 @@ R.conjugateVerb = function (infinitive, pronoun) {
 R.generateExample = function (word, levelId) {
   const [de, es, art, plural, tipo] = word;
   const lvl = parseInt(levelId.replace('A','').replace('B','').replace('C','').replace('.',''))||1;
+  
+  // ===== PRIORIZAR FRASES REALES del banco (FASE 2) =====
+  var phrasesBank = R.EXAMPLE_PHRASES;
+  if (phrasesBank) {
+    // Mapear levelId a nivel CEFR
+    var niveauMap = { 'a1': 'A1', 'a2': 'A2', 'b1': 'B1', 'b2': 'B2', 'c1': 'C1' };
+    var cefrPrefix = (levelId || '').match(/^([abc])(\d)/i);
+    var cefrLevel = cefrPrefix ? niveauMap[cefrPrefix[1].toLowerCase() + cefrPrefix[2]] || niveauMap[cefrPrefix[1].toLowerCase()] : null;
+    if (cefrLevel && phrasesBank[cefrLevel]) {
+      var pool = [];
+      // Buscar frases que contengan la palabra alemana (o su stem)
+      var stem = de.endsWith('en') ? de.slice(0,-2) : de;
+      var wordReg = new RegExp('\\b' + stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+      Object.keys(phrasesBank[cefrLevel]).forEach(function(t) {
+        phrasesBank[cefrLevel][t].forEach(function(f) {
+          if (wordReg.test(f)) pool.push(f);
+        });
+      });
+      if (pool.length >= 2) {
+        return pool[Math.floor(Math.random() * pool.length)];
+      }
+    }
+  }
+  // ===== FALLBACK: generación algorítmica (FASE 3) =====
   const artNom = art === 'die' ? 'Die' : art === 'das' ? 'Das' : art === 'der' ? 'Der' : 'Der';
   const artAkku = art === 'die' ? 'die' : art === 'das' ? 'das' : 'den';
   const artDat = art === 'die' ? 'der' : art === 'das' ? 'dem' : 'dem';
@@ -1164,8 +1188,11 @@ R.generateExercise = function (word, levelId) {
   switch(type) {
     case 'fill': {
       const blank = '___';
-      const prompt = example.replace(de, blank);
-      return { type, prompt, answer: de, hint: `Traducción: ${es}`, word };
+      const stem = de.endsWith('en') ? de.slice(0,-2) : de;
+      const wordRegex = new RegExp('\\b' + stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[a-z]*\\b', 'i');
+      const match = example.match(wordRegex);
+      const prompt = match ? example.replace(match[0], blank) : example + ' ' + blank;
+      return { type, prompt, answer: match ? match[0] : de, hint: `Traducción: ${es}`, word };
     }
     case 'choose': {
       if (tipo === 'n' && art) {
@@ -1214,30 +1241,23 @@ R.generateExercise = function (word, levelId) {
       return R.generateExercise(word, 'fill');
     }
     case 'order': {
-      // Verificar que la palabra de aparezca intacta en la frase
-      // (verbos separables como 'aufstehen' se conjugan separados)
-      const wordAppears = example.includes(de);
-      if (!wordAppears) {
-        // Fallback a fill si la palabra no aparece literal en la frase
-        const blank = '___';
-        // Buscar la parte conjugada que corresponda
-        const stem = de.endsWith('en') ? de.slice(0,-2) : de;
-        const regex = new RegExp(stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[a-z]*', 'i');
-        const match = example.match(regex);
-        if (match) {
-          const prompt = example.replace(match[0], blank);
-          return { type:'fill', prompt, answer: match[0], hint: `Infinitivo: ${de} (${es})`, word };
-        }
-        return R.generateExercise(word, 'fill');
-      }
+      // Verificar si la palabra aparece literal o conjugada en la frase
+      const stem = de.endsWith('en') ? de.slice(0,-2) : de;
+      const wordRegex = new RegExp('\\b' + stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[a-z]*\\b', 'i');
+      const wordAppears = wordRegex.test(example);
+      if (!wordAppears) return R.generateExercise(word, 'fill');
+      
       const words = example.split(' ');
       const shuffled = [...words].sort(()=>Math.random()-0.5);
       return { type, prompt: 'Ordena las palabras:', answer: example, words: shuffled, hint: `es: ${es}`, word };
     }
     case 'correct': {
-      if (!example.includes(de)) return R.generateExercise(word, 'fill');
-      const wrongExample = example.replace(de, de.split('').sort(()=>Math.random()-0.5).join(''));
-      return { type, prompt: `Corrige: "${wrongExample}"`, answer: example.replace(de,'***'+de+'***'), hint: `Palabra correcta: ${de} (${es})`, word };
+      const stem = de.endsWith('en') ? de.slice(0,-2) : de;
+      const wordRegex = new RegExp('\\b' + stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[a-z]*\\b', 'i');
+      const match = example.match(wordRegex);
+      if (!match) return R.generateExercise(word, 'fill');
+      const wrongExample = example.replace(match[0], match[0].split('').sort(()=>Math.random()-0.5).join(''));
+      return { type, prompt: `Corrige: "${wrongExample}"`, answer: example, hint: `Palabra: ${de} (${es})`, word };
     }
     default:
       return { type:'fill', prompt: example.replace(de, '___'), answer: de, hint: `es: ${es}`, word };
@@ -1464,5 +1484,163 @@ R.generatePracticeLesson = function (levelId) {
 R.totalWords = function () {
   return Object.values(R.VOCAB).reduce((sum, arr) => sum + arr.length, 0);
 };
+
+// ========== BANCO DE FRASES REALES (cargadas de Maestros contenido) ==========
+R.EXAMPLE_PHRASES = null; // se rellena al arrancar
+
+R.loadExamplePhrases = function() {
+  var PHRASES = {
+    A1: { v: [], n: [], adj: [], adv: [], prep: [], num: [], andere: [] },
+    A2: { v: [], n: [], adj: [], adv: [], prep: [], num: [], andere: [] },
+    B1: { v: [], n: [], adj: [], adv: [], prep: [], num: [], andere: [] },
+    B2: { v: [], n: [], adj: [], adv: [], prep: [], num: [], andere: [] },
+    C1: { v: [], n: [], adj: [], adv: [], prep: [], num: [], andere: [] }
+  };
+
+  try {
+    var c = window.Muller && window.Muller.Maestros && window.Muller.Maestros.contenido;
+    if (!c) { R.EXAMPLE_PHRASES = PHRASES; return PHRASES; }
+
+    var levelMap = { A1_1: 'A1', A1_2: 'A1', A2_1: 'A2', A2_2: 'A2',
+                     B1_1: 'B1', B1_2: 'B1', B2_1: 'B2', B2_2: 'B2', C1: 'C1' };
+
+    Object.keys(levelMap).forEach(function(key) {
+      var nivel = levelMap[key];
+      var modules = c[key];
+      if (!modules) return;
+      modules.forEach(function(mod) {
+        // Extraer frases de ejemplos[]
+        if (mod.ejemplos && Array.isArray(mod.ejemplos)) {
+          mod.ejemplos.forEach(function(ej) {
+            if (typeof ej === 'string' && ej.length > 5) {
+              PHRASES[nivel].v.push(ej);
+            }
+          });
+        }
+        // Extraer frases de ejercicioBase.preguntas[].frase
+        if (mod.ejercicioBase && mod.ejercicioBase.preguntas) {
+          mod.ejercicioBase.preguntas.forEach(function(p) {
+            if (p.frase && typeof p.frase === 'string') {
+              var cleaned = p.frase.replace(/___/g, p.respuesta || '___');
+              cleaned = cleaned.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+              if (cleaned.length > 5) {
+                var tipo = 'v';
+                if (p.respuesta && ['der','die','das','den','dem','des','ein','eine','einen','einem','eines'].indexOf(p.respuesta.toLowerCase()) !== -1) {
+                  tipo = 'n';
+                }
+                PHRASES[nivel][tipo].push(cleaned);
+              }
+            }
+          });
+        }
+        // Extraer de flashcards
+        if (mod.flashcards && Array.isArray(mod.flashcards)) {
+          mod.flashcards.forEach(function(fc) {
+            if (fc.dorso && typeof fc.dorso === 'string' && fc.dorso.length > 5) {
+              PHRASES[nivel].v.push(fc.dorso);
+            }
+          });
+        }
+      });
+    });
+
+    // Añadir frases manuales de calidad para garantizar cobertura
+    PHRASES.A1.n = PHRASES.A1.n.concat([
+      "Das ist ein Tisch.", "Der Hund ist braun.", "Die Katze ist süß.",
+      "Das Kind spielt im Garten.", "Die Blume ist schön.", "Der Stuhl ist alt.",
+      "Das Auto ist neu.", "Die Lampe leuchtet.", "Der Mann arbeitet viel.",
+      "Die Frau kocht gern.", "Das ist ein Buch.", "Die Tür ist offen.",
+      "Der Junge ist klein.", "Das Mädchen ist nett.", "Der Tisch ist rund."
+    ]);
+    PHRASES.A1.v = PHRASES.A1.v.concat([
+      "Ich heiße Juan.", "Du kommst aus Spanien.", "Er wohnt in Berlin.",
+      "Wir lernen Deutsch.", "Sie spielen Fußball.", "Ich habe einen Bruder.",
+      "Er ist mein Freund.", "Sie heißt Anna.", "Ich bin Ana.",
+      "Ich komme aus Spanien.", "Ich lerne Deutsch."
+    ]);
+    PHRASES.A1.adj = PHRASES.A1.adj.concat([
+      "Das Wetter ist schön.", "Der Film ist gut.", "Die Stadt ist groß.",
+      "Das Haus ist klein.", "Der Kaffee ist heiß."
+    ]);
+    PHRASES.A2.n = PHRASES.A2.n.concat([
+      "Ich lese die Zeitung.", "Er trägt den Mantel.", "Sie öffnet die Tür.",
+      "Wir sehen den Film.", "Kannst du mir das Buch geben?",
+      "Ich fahre mit dem Zug nach Berlin."
+    ]);
+    PHRASES.A2.v = PHRASES.A2.v.concat([
+      "Ich muss nach Hause gehen.", "Kannst du mir helfen?",
+      "Sie will Ärztin werden.", "Wir dürfen hier parken.",
+      "Er möchte ein Eis essen.", "Ich habe gestern Fußball gespielt.",
+      "Sie ist nach Berlin gefahren.", "Ich möchte einen Kaffee.",
+      "Ich stehe um sieben Uhr auf."
+    ]);
+    PHRASES.B1.v = PHRASES.B1.v.concat([
+      "Wenn ich Zeit hätte, würde ich verreisen.",
+      "Könntest du mir bitte helfen?",
+      "Ich würde gern nach Deutschland reisen.",
+      "Er hat gesagt, dass er morgen kommt.",
+      "Weil es geregnet hat, bleiben wir zu Hause.",
+      "Ich lerne, weil ich reisen möchte.",
+      "Obwohl es regnet, gehe ich spazieren.",
+      "Ich hätte gern einen Kaffee."
+    ]);
+    PHRASES.B1.n = PHRASES.B1.n.concat([
+      "Die Bedeutung dieses Wortes ist wichtig.",
+      "Der Fortschritt in der Technik ist enorm."
+    ]);
+    PHRASES.B2.v = PHRASES.B2.v.concat([
+      "Ich hätte gern mehr Freizeit gehabt.",
+      "Er wäre lieber zu Hause geblieben.",
+      "Nachdem er gegessen hatte, ging er spazieren.",
+      "Obwohl es teuer war, hat er es gekauft.",
+      "Das Haus wird gebaut.",
+      "Der Vertrag wurde unterschrieben."
+    ]);
+    PHRASES.B2.n = PHRASES.B2.n.concat([
+      "Die Einführung des neuen Systems war kompliziert.",
+      "Die Forschung auf diesem Gebiet ist fortschrittlich."
+    ]);
+    PHRASES.C1.v = PHRASES.C1.v.concat([
+      "Angesichts der aktuellen Lage müssen wir umdenken.",
+      "Insofern die Entwicklung fortschreitet, bleibt alles im Fluss.",
+      "Demzufolge lässt sich der Sachverhalt nicht einfach erklären.",
+      "Demzufolge müssen wir handeln."
+    ]);
+    PHRASES.C1.n = PHRASES.C1.n.concat([
+      "Die Globalisierung hat die Weltwirtschaft grundlegend verändert.",
+      "Die Digitalisierung schreitet in allen Bereichen voran."
+    ]);
+    PHRASES.C1.adj = PHRASES.C1.adj.concat([
+      "Diese Entwicklung ist äußerst bemerkenswert.",
+      "Die wirtschaftliche Lage ist angespannt."
+    ]);
+
+    // Deduplicar
+    Object.keys(PHRASES).forEach(function(lvl) {
+      Object.keys(PHRASES[lvl]).forEach(function(t) {
+        var arr = PHRASES[lvl][t];
+        PHRASES[lvl][t] = arr.filter(function(f, i, a) { return a.indexOf(f) === i; });
+      });
+    });
+  } catch(e) {
+    console.warn('Ruta: error cargando frases de Maestros:', e);
+  }
+
+  R.EXAMPLE_PHRASES = PHRASES;
+  return PHRASES;
+};
+
+// Inicializar frases al cargar el script
+if (window.Muller && window.Muller.Maestros && window.Muller.Maestros.contenido) {
+  R.loadExamplePhrases();
+} else {
+  var _checkPhrases = setInterval(function() {
+    if (window.Muller && window.Muller.Maestros && window.Muller.Maestros.contenido) {
+      R.loadExamplePhrases();
+      clearInterval(_checkPhrases);
+    }
+  }, 500);
+  setTimeout(function() { clearInterval(_checkPhrases); }, 10000);
+}
 
 })(window.Muller.Ruta);
