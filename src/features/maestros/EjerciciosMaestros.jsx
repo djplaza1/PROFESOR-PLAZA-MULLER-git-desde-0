@@ -61,7 +61,7 @@ window.Muller.Panels['ejerciciosMaestros'] = ({ session, onVolver }) => {
     }
     // Mezclar y limitar a 15
     var mezcladas = pool.slice().sort(function() { return Math.random() - 0.5; });
-    setPreguntas(mezcladas.slice(0, Math.min(30, mezcladas.length)));
+    setPreguntas(mezcladas.slice(0, mezcladas.length));
     setIndice(0);
     setRespuesta(null);
     setMostrarFeedback(false);
@@ -125,7 +125,7 @@ window.Muller.Panels['ejerciciosMaestros'] = ({ session, onVolver }) => {
               className="w-full bg-black/40 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-indigo-400"
             >
               {nivelesUnicos.map(function(n) {
-                return <option key={n.nivelRaiz} value={n.nivelRaiz}>{n.nombre} {n.descripcion ? '- ' + n.descripcion : ''}</option>;
+                return <option key={n.nivelRaiz} value={n.nivelRaiz}>{n.nivelRaiz}</option>;
               })}
             </select>
           </div>
