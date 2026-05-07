@@ -6,14 +6,22 @@
 
 ---
 
-## 🧠 RESUMEN DEL PROBLEMA
+## 🧠 ESTADO ACTUAL (commit: e57261d — 5/7/2026)
 
-La ruta de aprendizaje se expandió de **31 → 144 lecciones** automáticamente mediante `tools/expandir_ruta.js`. Pero el resultado es **insuficiente**:
+### ✅ YA ESTÁ HECHO (no lo repitas)
+- **31 → 144 lecciones** generadas automáticamente con `tools/expandir_ruta.js`
+- **Sintaxis corregida**: 18 comas faltantes en `exerciseA:'Der/Die/Das'` (choose-type lessons) arregladas — `rutaHelpers.jsx` YA tiene sintaxis válida ✅
+- **HANDOFF actualizado** con plan de 6 fases
+- **Versión incrementada** en `index.html`
+- **Commit y push** realizados (último commit: `e57261d`)
+
+### ❌ LO QUE FALTA (todo el resto)
 
 - **1.449 palabras** para 18 niveles → unas **80 palabras/nivel** → ridículo para un C1
 - **Sin contenido didáctico real** → solo ejercicios simples (test + frases)
 - **Sin integración** con Maestros, SRS, logros, mapas visuales
 - **Sin gamificación, sin audio, sin personalización**
+- **Sin UI premium** (RutaPanel.jsx es básico)
 
 ### Objetivo final: Ruta PREMIUM funcional
 
