@@ -9,7 +9,16 @@ window.Muller.Ruta = window.Muller.Ruta || {};
 // tipo: n=sust, v=verbo, adj=adj, adv=adv, prep=prep, conj=conj, pron=pron
 // ===========================================================
 R.VOCAB = {};
-function addLevel(id, words) { if (!R.VOCAB[id]) R.VOCAB[id] = []; R.VOCAB[id] = R.VOCAB[id].concat(words); }
+function addLevel(id, words) {
+  if (!R.VOCAB[id]) R.VOCAB[id] = [];
+  var existing = R.VOCAB[id];
+  var existingGerman = existing.map(function(w) { return w[0]; });
+  var newWords = [];
+  for (var j = 0; j < words.length; j++) {
+    if (existingGerman.indexOf(words[j][0]) === -1) { newWords.push(words[j]); }
+  }
+  if (newWords.length > 0) { R.VOCAB[id] = existing.concat(newWords); }
+}
 window.addLevel = addLevel;
 
 // ── A1.1 (60 palabras) ──
