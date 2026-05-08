@@ -332,10 +332,18 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
 
   // ── VISTA PRINCIPAL: MAPA DE NIVELES ──
   const renderMap = () => {
-    const total = Ruta.getOverallProgress(levels, progress);
-    const rank = Ruta.getRank(progress.totalXp || 0);
-    const streak = Ruta.getStreak();
-    const weak = Ruta.getWeaknessAnalysis();
+    const total = typeof Ruta.getOverallProgress === 'function'
+      ? Ruta.getOverallProgress(levels, progress)
+      : { totalLessons: 0, doneLessons: 0, pct: 0 };
+    const rank = typeof Ruta.getRank === 'function'
+      ? Ruta.getRank(progress.totalXp || 0)
+      : { name: 'Principiante', emoji: '🌱', minXp: 0 };
+    const streak = typeof Ruta.getStreak === 'function'
+      ? Ruta.getStreak()
+      : 0;
+    const weak = typeof Ruta.getWeaknessAnalysis === 'function'
+      ? Ruta.getWeaknessAnalysis()
+      : [];
 
     return (
       <div>

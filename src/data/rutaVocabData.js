@@ -8813,6 +8813,19 @@ R.loadExamplePhrases = function() {
     Object.keys(PHRASES).forEach(function(lvl) {
       Object.keys(PHRASES[lvl]).forEach(function(t) {
         var arr = PHRASES[lvl][t];
-        PHRASES[lvl][t] =
+        PHRASES[lvl][t] = arr.filter(function(item, idx, self) {
+          return self.indexOf(item) === idx;
+        });
+      });
+    });
 
-})(window.Muller ? window.Muller.Ruta : null);
+    R.EXAMPLE_PHRASES = PHRASES;
+    return PHRASES;
+  } catch(e) {
+    console.warn('Ruta.loadExamplePhrases error', e);
+    R.EXAMPLE_PHRASES = PHRASES;
+    return PHRASES;
+  }
+};
+
+})((window.Muller = window.Muller || {}).Ruta = window.Muller.Ruta || {});
