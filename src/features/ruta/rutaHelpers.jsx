@@ -10,6 +10,7 @@ window.Muller.Ruta = window.Muller.Ruta || {};
 // ===========================================================
 R.VOCAB = {};
 function addLevel(id, words) { R.VOCAB[id] = words; }
+window.addLevel = addLevel;
 
 // ── A1.1 (60 palabras) ──
 addLevel('A1.1',[

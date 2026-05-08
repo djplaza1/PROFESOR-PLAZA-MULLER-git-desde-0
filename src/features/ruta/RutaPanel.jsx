@@ -8,7 +8,7 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
   const { useState, useEffect, useCallback, useRef } = React;
   const { Ruta } = window.Muller;
   const levels = window.MULLER_RUTA_LEVELS || [];
-  const [progress, setProgress] = useState(Ruta.loadProgress());
+  const [progress, setProgress] = useState((window.Muller.Storage?.loadProgress?.() || window.Muller.Progreso?.getAdvancedProgress?.() || {}));
   const [view, setView] = useState('levels');
   const [activeLesson, setActiveLesson] = useState(null);
   const [activeLevelIdx, setActiveLevelIdx] = useState(null);
@@ -76,7 +76,7 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
     if (exerciseGenerated && exerciseGenerated.word) {
       const exType = exerciseGenerated.type || 'fill';
       Ruta.updateSRS(exerciseGenerated.word, exType, isCorrect, progress);
-      const newP = Ruta.loadProgress();
+      const newP = (window.Muller.Storage?.loadProgress?.() || window.Muller.Progreso?.getAdvancedProgress?.() || {});
       setProgress(newP);
     }
 
@@ -139,7 +139,7 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
 
     if (exerciseGenerated.word) {
       Ruta.updateSRS(exerciseGenerated.word, exerciseGenerated.type, isCorrect, progress);
-      setProgress(Ruta.loadProgress());
+      setProgress((window.Muller.Storage?.loadProgress?.() || window.Muller.Progreso?.getAdvancedProgress?.() || {}));
     }
 
     if (isCorrect) {
@@ -179,7 +179,7 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
 
     if (exerciseGenerated.word) {
       Ruta.updateSRS(exerciseGenerated.word, exerciseGenerated.type, isCorrect, progress);
-      setProgress(Ruta.loadProgress());
+      setProgress((window.Muller.Storage?.loadProgress?.() || window.Muller.Progreso?.getAdvancedProgress?.() || {}));
     }
 
     if (isCorrect) {
