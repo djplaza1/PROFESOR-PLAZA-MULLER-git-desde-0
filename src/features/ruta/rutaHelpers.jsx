@@ -9,7 +9,7 @@ window.Muller.Ruta = window.Muller.Ruta || {};
 // tipo: n=sust, v=verbo, adj=adj, adv=adv, prep=prep, conj=conj, pron=pron
 // ===========================================================
 R.VOCAB = {};
-function addLevel(id, words) { R.VOCAB[id] = words; }
+function addLevel(id, words) { if (!R.VOCAB[id]) R.VOCAB[id] = []; R.VOCAB[id] = R.VOCAB[id].concat(words); }
 window.addLevel = addLevel;
 
 // ── A1.1 (60 palabras) ──
