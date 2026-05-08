@@ -8,17 +8,8 @@ const sec = c.substring(s, e);
 const levels = sec.match(/addLevel\('[A-Z0-9.]+'/g) || [];
 console.log('Niveles:', levels.length);
 
-// Count word arrays: pattern ['word','trans',...]
-const words = sec.match(/\[('[^']+','[^']+'[^\]]*)\]/g) || [];
-// Filter out addLevel() calls and lesson arrays
-const realWords = words.filter(w => {
-  // A word has at minimum: ['de','es','type']
-  const parts = w.match(/'[^']+'/g);
-  return parts && parts.length >= 3 && parts[2] !== 'A1' && !parts[0].includes('A') && !parts[0].includes('B') && !parts[0].includes('C');
-});
-
-// More accurate: count arrays that start with a German word
-const wordEntries = sec.match(/\[\s*'[A-Za-zäöüßÄÖÜ][A-Za-zäöüßÄÖÜ -]+'\s*,\s*'[^']+'\s*,\s*('[^']*'|'')\s*,\s*('[^']*'|'')\s*,\s*'[nva]'\s*\]/g) || [];
+// Count word arrays with all possible types: n, v, adj, adv, prep, conj, pron, num
+const wordEntries = sec.match(/\[\s*'[A-Za-zäöüßÄÖÜ][A-Za-zäöüßÄÖÜ \-]+'\s*,\s*'[^']+'\s*,\s*('[^']*'|'')\s*,\s*('[^']*'|'')\s*,\s*'[a-z]+'\s*\]/g) || [];
 console.log('Palabras reales:', wordEntries.length);
 
 // Count per level
@@ -29,8 +20,8 @@ sec.split('\n').forEach(line => {
   if (lm) currentLevel = lm[1];
   if (!levelCounts[currentLevel]) levelCounts[currentLevel] = 0;
   
-  // Count word arrays in this line
-  const matches = line.match(/\[\s*'[A-Za-zäöüßÄÖÜ][^']*'\s*,\s*'[^']+'\s*,\s*('[^']*'|'')\s*,\s*('[^']*'|'')\s*,\s*'[^']+'\s*\]/g);
+  // Count word arrays in this line - match any word type
+  const matches = line.match(/\[\s*'[A-Za-zäöüßÄÖÜ][^']*'\s*,\s*'[^']+'\s*,\s*('[^']*'|'')\s*,\s*('[^']*'|'')\s*,\s*'[a-z]+'\s*\]/g);
   if (matches && currentLevel) levelCounts[currentLevel] += matches.length;
 });
 
