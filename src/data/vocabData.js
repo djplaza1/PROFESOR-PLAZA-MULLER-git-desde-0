@@ -14,18 +14,18 @@ addLevel('A1.1',[
   ['Bruder','hermano','der','Brüder','n'],['Mädchen','chica','das','Mädchen','n'],
   ['Straßenbahn','el tranvía','die','','n'],
     ['acht','ocho','die','Achten','n'],
-    ['der 
+    ['der Enkel','nieto','der','Enkel','n'],
     ['dann','entonces','-','-','adv'],
-    ['der 
+    ['der Kreis','círculo','der','Kreise','n'],
   ['Ticket','el billete','das','','n'],
-    ['der 
+    ['der Mittwoch','miércoles','der','Mittwoche','n'],
   ['Bäckerei','la panadería','die','','n'],
     ['immer','siempre','-','-','adv'],
   ['schnell','rápido','','','adv'],['langsam','lento','','','adv'],
     ['Maus','[Maus]','der','Mausen','n'],
   ['Hausnummer','el número de la casa','die','','n'],
   ['Cousine','la prima','die','','n'],
-    ['der 
+    ['der November','noviembre','der','November','n'],
   ['Taxi','el taxi','das','','n'],
   ['geschickt','hábil','','','adj'],
   ['noch','todavía','','','adv'],
@@ -39,8 +39,8 @@ addLevel('A1.1',[
   ['Zoo','el zoo','der','','n'],
   ['ungefährlich','inofensivo','','','adj'],
     ['heute','hoy','-','-','adv'],
-    ['der 
-    ['die 
+    ['der Juni','junio','der','Junie','n'],
+    ['die Kugel','esfera','die','Kugeln','n'],
     ['Geburt','[Geburt]','das','Geburten','n'],
   ['Klasse','la clase / el aula','die','','n'],
   ['Klavier','el piano','das','','n'],
@@ -57,7 +57,7 @@ addLevel('A1.1',[
   ['faul','perezoso','','','adj'],
   ['glatt','liso','','','adj'],
     ['pink','[pink]','das','pinken','n'],
-    ['der 
+    ['der Donnerstag','jueves','der','Donnerstage','n'],
     ['Hund','[Hund]','die','Hunden','n'],
   ['sanft','suave','','','adj'],
     ['Mutter','[Mutter]','der','Mutter','n'],
@@ -77,20 +77,20 @@ addLevel('A1.1',[
     ['Scheidung','[Scheidung]','die','Scheidungen','n'],
   ['Gruß','el saludo','der','','n'],
     ['kennen','conocer','-','-','v'],
-    ['der 
+    ['der März','marzo','der','Märze','n'],
   ['Bett','cama','das','Betten','n'],['Lampe','lámpara','die','Lampen','n'],
   ['Mehrheit','la mayoría','die','','n'],
     ['Rindfleisch','carne vaca','das','','n'],
   ['Verkauf','la venta','der','','n'],
   ['essen','comer','','','v'],['trinken','beber','','','v'],
-    ['der 
-    ['die 
-    ['der 
+    ['der Juli','julio','der','Julie','n'],
+    ['die Linie','línea','die','Linien','n'],
+    ['der Nachbar','vecino','der','Nachbarn','n'],
   ['Natur','la naturaleza','die','','n'],
   ['kalt','frío','','','adj'],['heiß','caluroso','','','adj'],
   ['alt','viejo','','','adj'],['warm','caliente','','','adj'],
   ['Januar','el enero','der','','n'],
-    ['die 
+    ['die Oma','abuela','die','Omas','n'],
   ['Tisch','mesa','der','Tische','n'],['Buch','libro','das','Bücher','n'],
     ['sondern','sino','-','-','conj'],
   ['nüchtern','sobrio','','','adj'],
@@ -100,42 +100,42 @@ addLevel('A1.1',[
   ['prep','[prep]','','','n'],
   ['Brötchen','el panecillo','das','','n'],
   ['Name','nombre','der','Namen','n'],['Tag','día','der','Tage','n'],
-    ['der 
+    ['der Sonntag','domingo','der','Sonntage','n'],
   ['das Handtuch','la toalla','das','Handtücher','n'],
   ['sieben','siete','','','num'],['acht','ocho','','','num'],
   ['eins','uno','','','num'],['zwei','dos','','','num'],
-    ['der 
+    ['der Neffe','sobrino','der','Neffen','n'],
   ['geöffnet','abierto','','','adj'],
   ['heftig','violento','','','adj'],
   ['das Frühstück','el desayuno','das','Frühstücke','n'],
   ['sehr','muy','','','adv'],['viel','mucho','','','adv'],
   ['Schreibtisch','el escritorio','der','','n'],
-    ['der 
+    ['der August','agosto','der','Auguste','n'],
   ['Schiff','el barco','das','','n'],
-    ['das 
+    ['das Herz','corazón','das','Herzen','n'],
   ['sorgfältig','cuidadoso','','','adj'],
   ['Nummer','el número','die','','n'],
-    ['der 
+    ['der Gast','invitado','der','Gäste','n'],
   ['biegsam','flexible','','','adj'],
-    ['die 
+    ['die Frau','mujer/esposa','die','Frauen','n'],
   ['Hausaufgabe','los deberes','die','','n'],
   ['angenehm','agradable','','','adj'],
     ['farbig','de color','-','-','adj'],
-    ['die 
+    ['die Cousine','prima','die','Cousinen','n'],
   ['das Abendessen','la cena','das','Abendessen','n'],
-    ['die 
+    ['die Schwester','hermana','die','Schwestern','n'],
   ['Bild','el cuadro / la foto','das','','n'],
     ['hören','oír','-','-','v'],
-    ['der 
+    ['der Herbst','otoño','der','Herbste','n'],
   ['Experto','[Experto]','','','n'],
-    ['der 
-    ['der 
+    ['der Verlobte','prometido','der','Verlobten','n'],
+    ['der Onkel','tío','der','Onkel','n'],
   ['der Buntstift','el lápiz de color','der','Buntstifte','n'],
   ['abhängig','dependiente','','','adj'],
   ['wer','quién','','','pron'],['wie','cómo','','','adv'],
   ['dumm','tonto','','','adj'],
     ['kommen','venir','-','-','v'],
-    ['die 
+    ['die Mutter','madre','die','Mütter','n'],
   ['echt','auténtico','','','adj'],
   ['Information','la información','die','','n'],
   ['Großeltern','los abuelos','die','','n'],
@@ -161,12 +161,12 @@ addLevel('A1.1',[
   ['unten','abajo','','','adv'],['links','izquierda','','','adv'],
   ['Kissen','la almohada / cojín','das','','n'],
     ['weiß','[weiß]','der','weißen','n'],
-    ['der 
-    ['der 
-    ['der 
+    ['der September','septiembre','der','September','n'],
+    ['der Sommer','verano','der','Sommer','n'],
+    ['der Mann','marido','der','Männer','n'],
     ['Großmutter','[Großmutter]','der','Großmutter','n'],
-    ['der 
-    ['der 
+    ['der Samstag','sábado','der','Samstage','n'],
+    ['der Vater','padre','der','Väter','n'],
   ['Autobahn','la autopista','die','','n'],
   ['Vorname','el nombre de pila','der','','n'],
     ['zehn','diez','die','Zehnen','n'],
@@ -177,18 +177,18 @@ addLevel('A1.1',[
   ['Sport','el deporte','der','','n'],
   ['sehen','ver','','','v'],['hören','oír','','','v'],
   ['grausam','cruel','','','adj'],
-    ['die 
+    ['die Nichte','sobrina','die','Nichten','n'],
     ['Schnaps','licor','der','Schnäpse','n'],
     ['machen','hacer','-','-','v'],
   ['dicht','denso','','','adj'],
     ['Fisch','[Fisch]','der','Fischen','n'],
   ['der Taschenrechner','la calculadora','der','Taschenrechner','n'],
     ['Stiefmutter','[Stiefmutter]','der','Stiefmutter','n'],
-    ['der 
+    ['der Dienstag','martes','der','Dienstage','n'],
   ['Eingang','la entrada','der','','n'],
   ['rund','redondo','','','adj'],
   ['Teil','la parte','der','','n'],
-    ['die 
+    ['die Verlobte','prometida','die','Verlobten','n'],
     ['Sekt','cava','der','Sekte','n'],
   ['Schnitzel','el filete empanado','das','','n'],
     ['Delfin','[Delfin]','das','Delfinnen','n'],
@@ -207,7 +207,7 @@ addLevel('A1.1',[
   ['Herd','la cocina (fuego/fogón)','der','','n'],
     ['oft','a menudo','-','-','adv'],
   ['langweilig','aburrido','','','adj'],
-    ['der 
+    ['der Februar','febrero','der','Februare','n'],
   ['warum','por qué','','','adv'],['vorne','delante','','','adv'],
   ['Zahl','la cifra / número','die','','n'],
   ['gern','con gusto','','','adv'],
@@ -218,32 +218,32 @@ addLevel('A1.1',[
   ['eifersüchtig','celoso','','','adj'],
     ['wenn','si/cuando','-','-','conj'],
   ['werden','volverse','','','v'],['können','poder','','','v'],
-    ['der 
+    ['der Würfel','cubo','der','Würfel','n'],
   ['Tourist','el turista','der','','n'],
   ['ungeduldig','impaciente','','','adj'],
     ['Wüste','desierto','die','Wüsten','n'],
-    ['der 
+    ['der Bekannte','conocido','der','Bekannten','n'],
   ['fünf','cinco','','','num'],['sechs','seis','','','num'],
   ['Orange','la naranja','die','','n'],
   ['Boot','el bote / barca','das','','n'],
-    ['die 
+    ['die Kante','borde','die','Kanten','n'],
   ['Nachmittag','la tarde','der','','n'],
   ['zart','tierno','','','adj'],
   ['Rathaus','el ayuntamiento','das','','n'],
   ['sein','ser/estar','','','v'],['haben','haber/tener','','','v'],
   ['der Wecker','el despertador','der','Wecker','n'],
-    ['die 
+    ['die Tochter','hija','die','Töchter','n'],
   ['Fehler','el error','der','','n'],
   ['Bahnsteig','el andén','der','','n'],
   ['die Zahnbürste','el cepillo de dientes','die','Zahnbürsten','n'],
     ['nie','nunca','-','-','adv'],
   ['Kasten','la caja / cajón','der','','n'],
-    ['der 
+    ['der Dezember','diciembre','der','Dezember','n'],
   ['wach','despierto','','','adj'],
   ['sprechen','hablar','','','v'],['lernen','aprender','','','v'],
   ['Nachbar','el vecino','der','','n'],
   ['fein','fino','','','adj'],
-    ['der 
+    ['der Sohn','hijo','der','Söhne','n'],
     ['salbei','[salbei]','die','salbeien','n'],
   ['Stern','la estrella','der','','n'],
   ['Spaß','la diversión','der','','n'],
@@ -251,8 +251,8 @@ addLevel('A1.1',[
   ['sicher','seguro','','','adj'],
   ['danke','gracias','','','adv'],['hallo','hola','','','adv'],
   ['Geschwister','los hermanos (en general)','die','','n'],
-    ['die 
-    ['das 
+    ['die Enkelin','nieta','die','Enkelinnen','n'],
+    ['das Rechteck','rectángulo','das','Rechtecke','n'],
     ['türkis','[türkis]','das','türkisen','n'],
   ['der Rucksack','la mochila','der','Rucksäcke','n'],
     ['rot','[rot]','der','roten','n'],
@@ -260,16 +260,16 @@ addLevel('A1.1',[
     ['silbern','plateado','-','-','adj'],
   ['Ding','la cosa','das','','n'],
   ['groß','grande','','','adj'],['klein','pequeño','','','adj'],
-    ['der 
+    ['der Zylinder','cilindro','der','Zylinder','n'],
   ['Speisekarte','la carta (restaurante)','die','','n'],
   ['Mal','la vez','das','','n'],
-    ['der 
+    ['der Montag','lunes','der','Montage','n'],
   ['Welt','el mundo','die','','n'],
     ['Schwiegermutter','[Schwiegermutter]','der','Schwiegermutter','n'],
   ['Geschirr','la vajilla','das','','n'],
   ['Kiosk','el quiosco','der','','n'],
-    ['der 
-    ['der 
+    ['der Oktober','octubre','der','Oktober','n'],
+    ['der Opa','abuelo','der','Opas','n'],
   ['Wanderung','la caminata','die','','n'],
   ['Gitarre','la guitarra','die','','n'],
   ['kosten','costar','','','v'],
@@ -283,16 +283,16 @@ addLevel('A1.1',[
   ['spielen','jugar','','','v'],['sitzen','estar sentado','','','v'],
   ['Licht','la luz','das','','n'],
   ['neun','nueve','','','num'],['zehn','diez','','','num'],
-    ['der 
+    ['der Mai','mayo','der','Maie','n'],
   ['Etage','la planta / piso','die','','n'],
   ['bleiben','quedarse','','','v'],['heißen','llamarse','','','v'],
     ['braun','[braun]','die','braunen','n'],
   ['Beispiel','el ejemplo','das','','n'],
   ['Seite','la página / lado','die','','n'],
     ['Wal','ballena','der','Wale','n'],
-    ['der 
+    ['der Cousin','primo','der','Cousins','n'],
     ['Schwester','[Schwester]','der','Schwester','n'],
-    ['der 
+    ['der April','abril','der','Aprile','n'],
   ['oder','o','','','conj'],['aber','pero','','','conj'],
   ['Auskunft','la información','die','','n'],
     ['Regenbogen','arcoíris','der','Regenbogen','n'],
@@ -311,8 +311,8 @@ addLevel('A1.1',[
     ['zitron','[zitron]','das','zitronen','n'],
   ['klar','claro','','','adj'],
   ['learning','[learning]','','','n'],
-    ['die 
-    ['das 
+    ['die Nachbarin','vecina','die','Nachbarinnen','n'],
+    ['das Viereck','cuadrilátero','das','Vierecke','n'],
   ['tüchtig','competente','','','adj'],
   ['Papier','el papel','das','','n'],
     ['blau','[blau]','der','blauen','n'],
@@ -329,14 +329,14 @@ addLevel('A1.1',[
   ['das Heft','el cuaderno','das','Hefte','n'],
     ['Kind','[Kind]','die','Kinden','n'],
   ['Kollegin','la compañera de trabajo','die','','n'],
-    ['der 
+    ['der Winter','invierno','der','Winter','n'],
     ['Taufe','[Taufe]','das','Taufen','n'],
-    ['der 
-    ['der 
+    ['der Bruder','hermano','der','Brüder','n'],
+    ['der Freitag','viernes','der','Freitage','n'],
     ['silber','[silber]','der','silber','n'],
   ['wenig','poco','','','adv'],['ja','sí','','','adv'],
   ['Banane','el plátano','die','','n'],
-    ['die 
+    ['die Pyramide','pirámide','die','Pyramiden','n'],
   ['Meinung','la opinión','die','','n'],
   ['Traum','el sueño','der','','n'],
   ['Absender','el remitente','der','','n'],
@@ -347,7 +347,7 @@ addLevel('A1.1',[
   ['März','el marzo','der','','n'],
     ['marine','[marine]','die','marinen','n'],
   ['abwaschen','fregar','','','v'],
-    ['das 
+    ['das Dreieck','triángulo','das','Dreiecke','n'],
   ['weak','[weak]','','','n'],
   ['trocken','seco','','','adj'],
   ['Lied','canción','das','Lieder','n'],['Milch','leche','die','','n'],
@@ -363,21 +363,21 @@ addLevel('A1.1',[
   ['Erdgeschoss','la planta baja','das','','n'],
   ['ernst','serio','','','adj'],
   ['erst','sólo','','','adv'],
-    ['die 
+    ['die Tante','tía','die','Tanten','n'],
   ['locker','suelto','','','adj'],
     ['oliv','[oliv]','die','oliven','n'],
     ['Freund','[Freund]','die','Freunden','n'],
   ['Juni','el junio','der','','n'],
   ['Kugelschreiber','el bolígrafo','der','','n'],
   ['sagen','decir','','','v'],['machen','hacer','','','v'],
-    ['der 
+    ['der Frühling','primavera','der','Frühlinge','n'],
   ['Baby','el bebé','das','','n'],
     ['Kollege','[Kollege]','die','Kollegen','n'],
   ['entschlossen','decidido','','','adj'],
   ['Küche','cocina','die','Küchen','n'],['Schule','escuela','die','Schulen','n'],
   ['Kaffee','café','der','Kaffees','n'],['Tee','té','der','Tees','n'],
     ['denn','porque','-','-','conj'],
-    ['das 
+    ['das Quadrat','cuadrado','das','Quadrate','n'],
   ['schrecklich','terrible','','','adj'],
   ['wünschen','desear','','','v'],
   ['edel','noble','','','adj'],
@@ -398,7 +398,7 @@ addLevel('A1.1',[
   ['hinten','detrás','','','adv'],['oben','arriba','','','adv'],
   ['Pause','la pausa','die','','n'],
   ['Test','el test / prueba','der','','n'],
-    ['der 
+    ['der Punkt','punto','der','Punkte','n'],
   ['Februar','el febrero','der','','n'],
   ['köstlich','delicioso','','','adj'],
     ['magenta','[magenta]','das','magentaen','n'],
@@ -410,7 +410,7 @@ addLevel('A1.1',[
   ['Hunger','el hambre','der','','n'],
   ['November','el noviembre','der','','n'],
   ['string','[string]','','','n'],
-    ['der 
+    ['der Januar','enero','der','Januare','n'],
   ['Koch','el cocinero','der','','n'],
     ['grau','[grau]','das','grauen','n'],
     ['beige','[beige]','die','beigen','n'],
@@ -429,7 +429,7 @@ addLevel('A1.1',[
 
 addLevel('A1.2',[
   ['Rasierer','afeitadora','der','Rasierer','n'],
-    ['das 
+    ['das Dorf','pueblo','das','Dörfer','n'],
   ['Zahnseide','hilo dental','die','-','n'],
   ['nähen','coser','','','v'],['reparieren','reparar','','','v'],
   ['Kaninchen','conejo','das','Kaninchen','n'],
@@ -448,13 +448,13 @@ addLevel('A1.2',[
     ['fünfzig','cincuenta','die','Fünfzigen','n'],
   ['Fluss','río','der','Flüsse','n'],['See','lago','der','Seen','n'],
   ['wandern','senderismo','','','v'],
-    ['das 
-    ['die 
+    ['das Glas','vaso','das','Gläser','n'],
+    ['die Sieben','siete','die','Siebnen','n'],
   ['Fristverlängerung','prórroga','die','Fristverlängerungen','n'],
   ['natürlich','natural','','','adj'],
   ['zeichnen','dibujar','','','v'],
     ['Zeitalter','[Zeitalter]','der','Zeitalter','n'],
-    ['die 
+    ['die Torte','tarta','die','Torten','n'],
   ['Schinken','el jamón','der','','n'],
   ['starr','rígido','','','adj'],
     ['einsetzen','emplear','','','v'],
@@ -462,38 +462,38 @@ addLevel('A1.2',[
   ['Zettel','la nota / papelito','der','','n'],
   ['schwer','pesado/difícil','','','adj'],['leicht','ligero/fácil','','','adj'],
   ['Montag','lunes','der','Montage','n'],['Dienstag','martes','der','Dienstage','n'],
-    ['die 
-    ['der 
+    ['die Dusche','ducha','die','Duschen','n'],
+    ['der Abend','tarde/noche','der','Abende','n'],
     ['beschränken','limitar','','','v'],
     ['vermehren','multiplicar','','','v'],
   ['kaputt','roto','','','adj'],['fertig','listo','','','adj'],
-    ['der 
+    ['der Spiegel','espejo','der','Spiegel','n'],
   ['Rasen','césped','der','Rasen','n'],
-    ['die 
+    ['die Buchhandlung','librería','die','Buchhandlungen','n'],
   ['Giraffe','joroba','die','Giraffen','n'],
   ['Muskel','músculo','der','Muskeln','n'],
     ['staubsaugen','aspirar','-','-','v'],
   ['Arbeitslosengeld','prestación por desempleo','das','-','n'],
-    ['das 
+    ['das Bier','cerveza','das','Biere','n'],
   ['Föhn','secador','der','Föhne','n'],
   ['Gast','invitado','der','Gäste','n'],['Einladung','invitación','die','Einladungen','n'],
     ['Treppenhaus','[Treppenhaus]','der','Treppenhausen','n'],
   ['Wange','mejilla','die','Wangen','n'],
   ['abtrocknen','secar','','','v'],
   ['Zimt','canela','der','-','n'],
-    ['das 
+    ['das Jahr','año','das','Jahre','n'],
   ['Puder','polvos','der','Puder','n'],
   ['Praktikant','becario','der','Praktikanten','n'],
   ['Geruch','olor','der','Gerüche','n'],
-    ['der 
+    ['der Muffin','magdalena','der','Muffins','n'],
   ['Kantine','cantina','die','Kantinen','n'],
   ['Schwan','cisne','der','Schwäne','n'],
     ['wahrnehmen','percibir','','','v'],
   ['die Abfahrt','la salida','die','Abfahrten','n'],
-    ['die 
+    ['die Soße','salsa','die','Soßen','n'],
   ['Flasche','botella','die','Flaschen','n'],['Tasse','taza','die','Tassen','n'],
   ['Himbeere','frambuesa','die','Himbeeren','n'],
-    ['der 
+    ['der Rock','falda','der','Röcke','n'],
   ['Geschäftsführer','gerente','der','Geschäftsführer','n'],
   ['Serviette','servilleta','die','Servietten','n'],
   ['Reh','corzo','das','Rehe','n'],
@@ -506,14 +506,14 @@ addLevel('A1.2',[
   ['Konzern','grupo empresarial','der','Konzerne','n'],
     ['Wettervorhersage','[Wettervorhersage]','die','Wettervorhersagen','n'],
   ['Seil','cuerda','das','Seile','n'],
-    ['der 
+    ['der Feiertag','día festivo','der','Feiertage','n'],
   ['Teich','estanque','der','Teiche','n'],
   ['Gelenk','articulación','das','Gelenke','n'],
   ['Gabel','tenedor','die','Gabeln','n'],['Tasse','taza','die','Tassen','n'],
-    ['der 
+    ['der Weg','camino','der','Wege','n'],
   ['scharf','afilado/picante','','','adj'],
   ['öffnen','abrir','','','v'],
-    ['die 
+    ['die Wassermelone','sandía','die','Wassermelonen','n'],
   ['Igel','erizo','der','Igel','n'],
   ['Fuß','pie','der','Füße','n'],['Arm','brazo','der','Arme','n'],
   ['Eingangstür','puerta de entrada','die','Eingangstüren','n'],
@@ -522,20 +522,20 @@ addLevel('A1.2',[
   ['abwischen','limpiar','','','v'],
   ['Kohl','col','der','Kohle','n'],
     ['Umstände','circunstancias','die','Umstände','n'],
-    ['der 
+    ['der Besen','escoba','der','Besen','n'],
   ['einschenken','servir','','','v'],
   ['readonly','[readonly]','','','n'],
   ['Mandel','almendra','die','Mandeln','n'],
-    ['der 
+    ['der Kühlschrank','nevera','der','Kühlschränke','n'],
   ['reißen','rasgar','','','v'],
   ['Video','el vídeo','das','','n'],
   ['Schädel','cráneo','der','Schädel','n'],
   ['Mond','luna','der','Monde','n'],['Regen','lluvia','der','','n'],
   ['Schnurrbart','bigote','der','Schnurrbärte','n'],
-    ['der 
+    ['der Pinguin','pingüino','der','Pinguine','n'],
   ['Geburtsort','el lugar de nacimiento','der','','n'],
   ['Kehle','garganta','die','Kehlen','n'],
-    ['der 
+    ['der Stiefel','bota','der','Stiefel','n'],
   ['Pflanze','la planta','die','','n'],
   ['müde','cansado','','','adj'],['krank','enfermo','','','adj'],
   ['der Flughafen','el aeropuerto','der','Flughäfen','n'],
@@ -543,7 +543,7 @@ addLevel('A1.2',[
   ['Hausschuh','zapatilla','der','Hausschuhe','n'],
   ['Sessel','el sillón','der','','n'],
   ['la silla','[la silla]','','','n'],
-    ['das 
+    ['das Armband','pulsera','das','Armbänder','n'],
     ['zurückgeben','devolver','-','-','v'],
   ['laut','[laut]','','','n'],
   ['Pferd','el caballo','das','','n'],
@@ -554,17 +554,17 @@ addLevel('A1.2',[
     ['Handgelenk','[Handgelenk]','die','Handgelenken','n'],
     ['Geldbörse','[Geldbörse]','das','Geldbörsen','n'],
   ['Familie','familia','die','Familien','n'],['Freund','amigo','der','Freunde','n'],
-    ['das 
+    ['das Badezimmer','baño','das','Badezimmer','n'],
     ['Abneigung','aversión','die','Abneigungen','n'],
-    ['das 
+    ['das Shampoo','champú','das','Shampoos','n'],
   ['dick','grueso/gordo','','','adj'],['dünn','delgado','','','adj'],
   ['August','el agosto','der','','n'],
-    ['das 
+    ['das Salz','sal','das','Salze','n'],
     ['Lachs','[Lachs]','der','Lachsen','n'],
-    ['die 
+    ['die Nuss','nuez','die','Nüsse','n'],
   ['preposiciones','[preposiciones]','','','n'],
   ['aufheben','recoger','','','v'],
-    ['die 
+    ['die Himbeere','frambuesa','die','Himbeeren','n'],
     ['Limonade','[Limonade]','der','Limonaden','n'],
     ['Lampe','[Lampe]','der','Lampen','n'],
   ['der Ausflug','la excursión','der','Ausflüge','n'],
@@ -576,7 +576,7 @@ addLevel('A1.2',[
     ['Uhr','[Uhr]','die','Uhren','n'],
     ['beziehen','referirse','','','v'],
   ['Bude','puesto','die','Buden','n'],
-    ['der 
+    ['der Ohrring','pendiente','der','Ohrringe','n'],
   ['aufräumen','ordenar','','','v'],['bügeln','planchar','','','v'],
     ['Eintopf','[Eintopf]','die','Eintopfen','n'],
   ['Einbahnstraße','dirección única','die','Einbahnstraßen','n'],
@@ -586,16 +586,16 @@ addLevel('A1.2',[
   ['Pausenraum','sala de descanso','der','Pausenräume','n'],
     ['siebzig','setenta','die','Siebzigen','n'],
   ['Rezeptionist','recepcionista','der','Rezeptionisten','n'],
-    ['der 
+    ['der Koffer','maleta','der','Koffer','n'],
   ['Pyjama','pijama','der','Pyjamas','n'],
   ['Stellvertreter','suplente','der','Stellvertreter','n'],
     ['rufen','llamar','','','v'],
   ['Schaufensterbummel','escaparatismo','der','-','n'],
   ['verhasst','odiado','','','adj'],
-    ['der 
+    ['der Herd','cocina','der','Herde','n'],
   ['Ellbogen','codo','der','Ellbogen','n'],
-    ['die 
-    ['der 
+    ['die Krähe','cuervo','die','Krähen','n'],
+    ['der Kakao','cacao','der','Kakaos','n'],
   ['Ente','pato','die','Enten','n'],
   ['Strauch','arbusto','der','Sträucher','n'],
   ['der Garten','el jardín','der','Gärten','n'],
@@ -605,13 +605,13 @@ addLevel('A1.2',[
   ['schneiden','cortar','','','v'],
   ['unehrlich','deshonesto','','','adj'],
   ['Staubsauger','aspiradora','der','Staubsauger','n'],
-    ['der 
+    ['der Wind','viento','der','Winde','n'],
     ['sammeln','coleccionar','','','v'],
-    ['die 
+    ['die Kette','cadena/collar','die','Ketten','n'],
   ['ausrutschen','resbalarse','','','v'],
-    ['die 
+    ['die Eule','búho','die','Eulen','n'],
   ['Supermarkt','supermercado','der','Supermärkte','n'],['Bäcker','panadería','der','Bäcker','n'],
-    ['die 
+    ['die Erdbeere','fresa','die','Erdbeeren','n'],
   ['Schlüsseldienst','cerrajero','der','Schlüsseldienste','n'],
   ['werfen','lanzar','','','v'],
   ['abstauben','quitar el polvo','','','v'],
@@ -621,7 +621,7 @@ addLevel('A1.2',[
     ['neunzehn','diecinueve','die','Neunzehnen','n'],
   ['Flug','el vuelo','der','','n'],
     ['Kleid','[Kleid]','das','Kleiden','n'],
-    ['die 
+    ['die Apotheke','farmacia','die','Apotheken','n'],
     ['Schneeanzug','[Schneeanzug]','die','Schneeanzugen','n'],
     ['wirken','actuar','','','v'],
     ['Essig','[Essig]','der','Essigen','n'],
@@ -640,7 +640,7 @@ addLevel('A1.2',[
   ['Linse','lenteja','die','Linsen','n'],
   ['stolpern','tropezar','','','v'],
     ['wehren','defenderse','','','v'],
-    ['die 
+    ['die Banane','plátano','die','Bananen','n'],
     ['neunzig','noventa','die','Neunzigen','n'],
   ['vorsichtig','cauteloso','','','adj'],
     ['zwölf','doce','die','Zwölfen','n'],
@@ -649,32 +649,32 @@ addLevel('A1.2',[
   ['hinlegen','tumbar','','','v'],
   ['statt','[statt]','','','n'],
   ['Nachtschicht','turno de noche','die','Nachtschichten','n'],
-    ['der 
+    ['der Garten','jardín','der','Gärten','n'],
   ['auspacken','desempaquetar','','','v'],
   ['die Sauna','la sauna','die','Saunen','n'],
     ['täuschen','engañar','','','v'],
     ['versorgen','abastecer','','','v'],
   ['April','el abril','der','','n'],
-    ['die 
+    ['die Kirche','iglesia','die','Kirchen','n'],
   ['Heimat','la patria / tierra natal','die','','n'],
-    ['der 
+    ['der Fluss','río','der','Flüsse','n'],
   ['Arbeitsvertrag','contrato laboral','der','Arbeitsverträge','n'],
-    ['die 
+    ['die Kuh','vaca','die','Kühe','n'],
   ['zu Mittag essen','comer','','','v'],
   ['Minijob','miniempleo','der','Minijobs','n'],
   ['schlafen','dormir','','','v'],['aufstehen','levantarse','','','v'],
     ['Bikini','[Bikini]','der','Bikinien','n'],
-    ['der 
+    ['der Affe','mono','der','Affen','n'],
   ['Gewächshaus','invernadero','das','Gewächshäuser','n'],
-    ['die 
+    ['die Walnuss','nuez','die','Walnüsse','n'],
   ['Oktober','el octubre','der','','n'],
     ['Regenschirm','[Regenschirm]','der','Regenschirmen','n'],
     ['Sandale','[Sandale]','der','Sandalen','n'],
   ['Sonntag','domingo','der','Sonntage','n'],['Wochenende','finde semana','das','Wochenenden','n'],
   ['der Dachboden','el ático','der','Dachböden','n'],
-    ['das 
+    ['das Schnitzel','escalope','das','Schnitzel','n'],
   ['Polizeiwache','comisaría','die','Polizeiwachen','n'],
-    ['der 
+    ['der Tag','día','der','Tage','n'],
     ['Bauch','[Bauch]','das','Bauchen','n'],
   ['Oma','la abuela','die','','n'],
     ['Mittag','[Mittag]','das','Mittagen','n'],
@@ -684,25 +684,25 @@ addLevel('A1.2',[
   ['Pferdeschwanz','cola de caballo','der','Pferdeschwänze','n'],
     ['Paprika','[Paprika]','der','Paprikaen','n'],
     ['Weste','[Weste]','das','Westen','n'],
-    ['der 
+    ['der Orangensaft','zumo de naranja','der','Orangensäfte','n'],
     ['handeln','actuar','','','v'],
   ['traurig','triste','','','adj'],['freundlich','amable','','','adj'],
-    ['der 
-    ['die 
-    ['die 
+    ['der Teller','plato','der','Teller','n'],
+    ['die Badewanne','bañera','die','Badewannen','n'],
+    ['die Waffel','gofre','die','Waffeln','n'],
   ['einteilen','dividir','','','v'],
-    ['der 
+    ['der Saft','zumo','der','Säfte','n'],
   ['Hals','el cuello / garganta','der','','n'],
   ['betrunken','borracho','','','adj'],
-    ['die 
-    ['die 
+    ['die Toilette','inodoro','die','Toiletten','n'],
+    ['die Straße','calle','die','Straßen','n'],
   ['Brett','tabla','das','Bretter','n'],
   ['rutschen','resbalar','','','v'],
   ['Post','correo','die','','n'],['Telefon','teléfono','das','Telefone','n'],
-    ['die 
+    ['die Kirsche','cereza','die','Kirschen','n'],
     ['Eiscreme','[Eiscreme]','das','Eiscremen','n'],
-    ['die 
-    ['die 
+    ['die Uhr','reloj','die','Uhren','n'],
+    ['die Spülmaschine','lavavajillas','die','Spülmaschinen','n'],
   ['Auszubildende','aprendiz','der','Auszubildenden','n'],
     ['Mund','[Mund]','der','Munden','n'],
   ['bescheiden','modesto','','','adj'],
@@ -713,24 +713,24 @@ addLevel('A1.2',[
   ['Regenwurm','lombriz','der','Regenwürmer','n'],
   ['künstlich','artificial','','','adj'],
   ['Strohhalm','pajita','der','Strohhalme','n'],
-    ['die 
+    ['die Milch','leche','die','Milche','n'],
   ['einräumen','colocar','','','v'],
   ['Pinsel','pincel','der','Pinsel','n'],
-    ['der 
-    ['das 
+    ['der Reis','arroz','der','Reis','n'],
+    ['das Öl','aceite','das','Öle','n'],
     ['garantieren','garantizar','','','v'],
   ['Gans','ganso','die','Gänse','n'],
-    ['das 
-    ['der 
+    ['das Jahrzehnt','década','das','Jahrzehnte','n'],
+    ['der Bademantel','albornoz','der','Bademäntel','n'],
     ['siebzehn','diecisiete','die','Siebzehnen','n'],
   ['mastered','[mastered]','','','n'],
   ['nach','[nach]','','','n'],
-    ['das 
+    ['das Ei','huevo','das','Eier','n'],
     ['Reis','[Reis]','das','Reisen','n'],
   ['Schürze','delantal','die','Schürzen','n'],
-    ['der 
+    ['der Gürtel','cinturón','der','Gürtel','n'],
   ['bestreuen','espolvorear','','','v'],
-    ['der 
+    ['der Wolf','lobo','der','Wölfe','n'],
   ['Pudding','pudín','der','Puddings','n'],
   ['Lineal','regla','das','Lineale','n'],
   ['klettern','trepar','','','v'],
@@ -743,20 +743,20 @@ addLevel('A1.2',[
   ['bestellen','pedir','','','v'],['schenken','regular','','','v'],
   ['Zahnpasta','pasta dentífrica','die','Zahnpasten','n'],
   ['Armband','pulsera','das','Armbänder','n'],
-    ['die 
+    ['die Suppe','sopa','die','Suppen','n'],
   ['Fußgängerzone','zona peatonal','die','Fußgängerzonen','n'],
-    ['die 
+    ['die Jacke','chaqueta','die','Jacken','n'],
     ['Halskette','[Halskette]','der','Halsketten','n'],
   ['Geschenkpapier','papel de regalo','das','Geschenkpapiere','n'],
   ['Mutterschutz','protección maternal','der','-','n'],
   ['Korb','cesta','der','Körbe','n'],
-    ['die 
+    ['die Praxis','consultorio','die','Praxen','n'],
   ['unbekannt','desconocido','','','adj'],
   ['Waldrand','borde del bosque','der','Waldränder','n'],
   ['articulos','[articulos]','','','n'],
   ['sich schminken','maquillarse','','','v'],
   ['klug','inteligente','','','adj'],
-    ['das 
+    ['das Meer','mar','das','Meere','n'],
     ['probieren','probar','-','-','v'],
     ['Wendung','giro','die','Wendungen','n'],
   ['fern','lejano','','','adj'],
@@ -768,24 +768,24 @@ addLevel('A1.2',[
   ['Haselnuss','avellana','die','Haselnüsse','n'],
   ['Kreisel','rotonda','der','Kreisel','n'],
   ['gesund','sano','','','adj'],['froh','contento','','','adj'],
-    ['die 
+    ['die Kiwi','kiwi','die','Kiwis','n'],
   ['Kindergeld','prestación por hijo','das','-','n'],
   ['hinter','[hinter]','','','n'],
     ['zwanzig','veinte','die','Zwanzigen','n'],
   ['Zentimeter','el centímetro','der','','n'],
-    ['die 
+    ['die Gabel','tenedor','die','Gabeln','n'],
   ['Salat','ensalada','der','Salate','n'],['Obst','fruta','das','','n'],
-    ['das 
+    ['das Schwein','cerdo','das','Schweine','n'],
   ['einfach','sencillo','','','adj'],['schwierig','difícil','','','adj'],
   ['Lunge','pulmón','die','Lungen','n'],
-    ['der 
+    ['der Wal','ballena','der','Wale','n'],
     ['stärken','fortalecer','','','v'],
   ['säen','sembrar','','','v'],
   ['Löwe','león','der','Löwen','n'],
   ['Werkstatt','el taller','die','','n'],
   ['Nelke','clavo','die','Nelken','n'],
   ['abschmecken','sazonar','','','v'],
-    ['die 
+    ['die Schnecke','caracol','die','Schnecken','n'],
   ['bezahlen','pagar','','','v'],
   ['Fahne','bandera','die','Fahnen','n'],
   ['der Balkon','el balcón','der','Balkone','n'],
@@ -802,27 +802,27 @@ addLevel('A1.2',[
   ['Knoblauch','ajo','der','','n'],['Pilz','champiñón','der','Pilze','n'],
   ['Duschgel','gel de ducha','das','Duschgele','n'],
   ['Hähnchen','el pollo','das','','n'],
-    ['der 
-    ['der 
+    ['der Monat','mes','der','Monate','n'],
+    ['der Falke','halcón','der','Falken','n'],
     ['Regenjacke','[Regenjacke]','das','Regenjacken','n'],
-    ['die 
+    ['die Bürste','cepillo','die','Bürsten','n'],
   ['Huhn','gallina','das','Hühner','n'],
     ['Kuchen','[Kuchen]','das','Kuchen','n'],
   ['Shampoo','champú','das','Shampoos','n'],
     ['bügeln','planchar','-','-','v'],
-    ['die 
+    ['die Weintraube','uva','die','Weintrauben','n'],
   ['die Turnhalle','el gimnasio','die','Turnhallen','n'],
   ['readwrite','[readwrite]','','','n'],
     ['Tau','[Tau]','der','Tauen','n'],
   ['Wolf','lobo','der','Wölfe','n'],
     ['Minute','[Minute]','das','Minuten','n'],
-    ['die 
+    ['die Spinne','araña','die','Spinnen','n'],
   ['Land','país','das','Länder','n'],['Straße','calle','die','Straßen','n'],
   ['Saft','el zumo','der','','n'],
   ['Gehaltsabrechnung','nómina','die','Gehaltsabrechnungen','n'],
   ['trocknen','secar','','','v'],
   ['Scheune','granero','die','Scheunen','n'],
-    ['die 
+    ['die Ananas','piña','die','Ananas','n'],
   ['la mujer','[la mujer]','','','n'],
     ['verfügen','disponer','','','v'],
     ['Ring','[Ring]','das','Ringen','n'],
@@ -830,7 +830,7 @@ addLevel('A1.2',[
     ['Woche','[Woche]','das','Wochen','n'],
   ['putzen','limpiar','','','v'],['waschen','lavar','','','v'],
     ['lügen','mentir','','','v'],
-    ['die 
+    ['die Traube','uva','die','Trauben','n'],
   ['Eichhörnchen','ardilla','das','Eichhörnchen','n'],
   ['schwach','débil','','','adj'],
     ['komisch','gracioso','','','adj'],
@@ -842,35 +842,35 @@ addLevel('A1.2',[
     ['Gürtel','[Gürtel]','das','Gürtel','n'],
     ['beschützen','proteger','','','v'],
     ['Veränderung','cambio','die','Veränderungen','n'],
-    ['das 
+    ['das Kleid','vestido','das','Kleider','n'],
   ['über','[über]','','','n'],
-    ['das 
+    ['das Museum','museo','das','Museen','n'],
   ['Melone','melón','die','Melonen','n'],
   ['der Campingplatz','el camping','der','Campingplätze','n'],
   ['sich legen','acostarse','','','v'],
-    ['der 
+    ['der See','lago','der','Seen','n'],
   ['Versicherungskarte','tarjeta sanitaria','die','Versicherungskarten','n'],
-    ['der 
-    ['der 
+    ['der Jahrestag','aniversario','der','Jahrestage','n'],
+    ['der Brownie','brownie','der','Brownies','n'],
   ['Frühstück','desayuno','das','Frühstücke','n'],['Mittagessen','comida','das','Mittagessen','n'],
-    ['der 
+    ['der Park','parque','der','Parks','n'],
   ['Besprechungsraum','sala de reuniones','der','Besprechungsräume','n'],
   ['Rauchmelder','detector de humo','der','Rauchmelder','n'],
   ['frisch','fresco','','','adj'],
     ['Curry','[Curry]','der','Curryen','n'],
   ['aufstehen','levantarse','','','v'],
-    ['der 
+    ['der Eimer','cubo','der','Eimer','n'],
   ['Blutdruck','presión arterial','der','Blutdrucke','n'],
   ['zwischen','[zwischen]','','','n'],
-    ['der 
-    ['die 
-    ['das 
+    ['der Wein','vino','der','Weine','n'],
+    ['die Ziege','cabra','die','Ziegen','n'],
+    ['das Eis','helado','das','Eis','n'],
   ['Mitternacht','medianoche','die','-','n'],
   ['ungeordnet','desordenado','','','adj'],
-    ['der 
+    ['der Löwe','león','der','Löwen','n'],
   ['Hintertür','puerta trasera','die','Hintertüren','n'],
   ['Abend','tarde','der','Abende','n'],['Frühling','primavera','der','Frühlinge','n'],
-    ['der 
+    ['der Schmetterling','mariposa','der','Schmetterlinge','n'],
   ['Lippenstift','pintalabios','der','Lippenstifte','n'],
   ['Münze','moneda','die','Münzen','n'],
   ['Bucht','bahía','die','Buchten','n'],
@@ -878,11 +878,11 @@ addLevel('A1.2',[
     ['Thermometer','[Thermometer]','der','Thermometer','n'],
   ['Hubschrauber','helicóptero','der','Hubschrauber','n'],
     ['veranstalten','organizar','','','v'],
-    ['die 
+    ['die Fünf','cinco','die','Fünfen','n'],
   ['Mücke','mosquito','die','Mücken','n'],
     ['Wind','[Wind]','die','Winden','n'],
     ['fünfzehn','quince','die','Fünfzehnen','n'],
-    ['die 
+    ['die Biene','abeja','die','Bienen','n'],
     ['sechzig','sesenta','die','Sechzigen','n'],
   ['Euro','el euro','der','','n'],
     ['hundert','cien','die','Hunderte','n'],
@@ -891,11 +891,11 @@ addLevel('A1.2',[
   ['Bluse','blusa','die','Blusen','n'],
   ['zerbrechen','romper','','','v'],
     ['erhöhen','aumentar','','','v'],
-    ['der 
+    ['der Käfer','escarabajo','der','Käfer','n'],
   ['Heidelbeere','arándano','die','Heidelbeeren','n'],
   ['Samen','semilla','der','Samen','n'],
   ['Ratte','rata','die','Ratten','n'],
-    ['das 
+    ['das Handtuch','toalla','das','Handtücher','n'],
   ['leise','silencioso','','','adj'],
   ['Lotion','loción','die','Lotionen','n'],
     ['erfinden','inventar','','','v'],
@@ -911,7 +911,7 @@ addLevel('A1.2',[
     ['vierzehn','catorce','die','Vierzehnen','n'],
   ['durch','[durch]','','','n'],
     ['bekämpfen','combatir','','','v'],
-    ['die 
+    ['die Ecke','esquina','die','Ecken','n'],
   ['Wäscherei','lavandería','die','Wäschereien','n'],
   ['Nudeln','pasta','die','','n'],['Kartoffel','patata','die','Kartoffeln','n'],
   ['Rückmeldung','respuesta','die','Rückmeldungen','n'],
@@ -919,23 +919,23 @@ addLevel('A1.2',[
   ['Fliege','mosca','die','Fliegen','n'],
   ['wichtig','importante','','','adj'],['richtig','correcto','','','adj'],
   ['Zentrale','la central','die','','n'],
-    ['die 
+    ['die Post','correo','die','Posten','n'],
   ['schmecken','saber a','','','v'],['einladen','invitar','','','v'],
     ['auswählen','seleccionar','','','v'],
   ['Fehlzeit','ausencia','die','Fehlzeiten','n'],
-    ['die 
+    ['die Mayonnaise','mayonesa','die','Mayonnaisen','n'],
   ['Standort','ubicación','der','Standorte','n'],
     ['Jeans','[Jeans]','die','Jeansen','n'],
     ['kochen','cocinar','-','-','v'],
-    ['das 
+    ['das Hemd','camisa','das','Hemden','n'],
   ['sich anziehen','vestirse','','','v'],
   ['Arbeitszeugnis','certificado laboral','das','Arbeitszeugnisse','n'],
-    ['die 
+    ['die Kartoffel','patata','die','Kartoffeln','n'],
   ['Nacken','nuca','der','Nacken','n'],
     ['Temperatur','[Temperatur]','die','Temperaturen','n'],
   ['Apotheke','farmacia','die','Apotheken','n'],['Medikament','medicamento','das','Medikamente','n'],
-    ['die 
-    ['die 
+    ['die Handschuhe','guantes','die','Handschuhe','n'],
+    ['die Mango','mango','die','Mangos','n'],
     ['heuteNacht','esta noche','-','-','adv'],
   ['Mensch','el ser humano','der','','n'],
   ['Hirsch','ciervo','der','Hirsche','n'],
@@ -943,38 +943,38 @@ addLevel('A1.2',[
   ['finden','encontrar','','','v'],
   ['Briefkasten','el buzón','der','','n'],
   ['das Gleis','la vía','das','Gleise','n'],
-    ['die 
+    ['die Nacht','noche','die','Nächte','n'],
   ['sauber','limpio','','','adj'],['schmutzig','sucio','','','adj'],
   ['Geldbeutel','monedero','der','Geldbeutel','n'],
     ['Handlung','acción','die','Handlungen','n'],
   ['Sprechzimmer','consultorio','das','Sprechzimmer','n'],
   ['der Bahnsteig','el andén','der','Bahnsteige','n'],
-    ['der 
+    ['der Senf','mostaza','der','Senfe','n'],
   ['Klempner','fontanero','der','Klempner','n'],
-    ['der 
+    ['der Milchkaffee','café con leche','der','Milchkaffees','n'],
     ['stammen','provenir','','','v'],
   ['nah','cerca','','','adj'],
-    ['die 
+    ['die Zitrone','limón','die','Zitronen','n'],
   ['sich waschen','lavarse','','','v'],
   ['Computer','ordenador','der','Computer','n'],['Fernseher','televisor','der','Fernseher','n'],
   ['Notausgang','salida de emergencia','der','Notausgänge','n'],
   ['Stunde','hora','die','Stunden','n'],['Minute','minuto','die','Minuten','n'],
-    ['das 
-    ['der 
+    ['das Pferd','caballo','das','Pferde','n'],
+    ['der Schinken','jamón','der','Schinken','n'],
     ['Sonne','[Sonne]','die','Sonnen','n'],
   ['Blase','vejiga','die','Blasen','n'],
-    ['der 
+    ['der Vormittag','mañana temprano','der','Vormittage','n'],
     ['Jahrzehnt','[Jahrzehnt]','das','Jahrzehnten','n'],
   ['Obstbaum','árbol frutal','der','Obstbäume','n'],
   ['hinstellen','colocar','','','v'],
-    ['der 
+    ['der Joghurt','yogur','der','Joghurts','n'],
   ['bringen','traer','','','v'],
   ['Ananas','piña','die','Ananas','n'],
-    ['der 
+    ['der Bär','oso','der','Bären','n'],
   ['Möwe','gaviota','die','Möwen','n'],
   ['Locke','rizo','die','Locken','n'],
-    ['der 
-    ['der 
+    ['der Käse','queso','der','Käse','n'],
+    ['der Ketchup','kétchup','der','Ketchups','n'],
   ['Stein','piedra','der','Steine','n'],
   ['Pony','flequillo','der','Ponys','n'],
   ['Waage','báscula','die','Waagen','n'],
@@ -987,15 +987,15 @@ addLevel('A1.2',[
   ['spülen','enjuagar','','','v'],
   ['Café','cafetería','das','Cafés','n'],['Kino','cine','das','Kinos','n'],
     ['Kartoffel','[Kartoffel]','der','Kartoffel','n'],
-    ['der 
+    ['der Schwan','cisne','der','Schwäne','n'],
   ['Wunderkerze','bengala','die','Wunderkerzen','n'],
   ['la pizarra','[la pizarra]','','','n'],
     ['Arm','[Arm]','das','Armen','n'],
   ['Sozialversicherung','seguridad social','die','Sozialversicherungen','n'],
-    ['der 
+    ['der Apfel','manzana','der','Äpfel','n'],
   ['Krankenversicherung','seguro médico','die','Krankenversicherungen','n'],
     ['Sauce','[Sauce]','die','Saucen','n'],
-    ['der 
+    ['der Tee','té','der','Tees','n'],
   ['Verkäufer','el vendedor','der','','n'],
   ['Müllbeutel','bolsa de basura','der','Müllbeutel','n'],
     ['weitermachen','continuar','-','-','v'],
@@ -1003,7 +1003,7 @@ addLevel('A1.2',[
     ['Umsicht','prudencia','die','','n'],
     ['Verfolgung','persecución','die','Verfolgungen','n'],
     ['Kälte','[Kälte]','das','Kälten','n'],
-    ['der 
+    ['der Pfeffer','pimienta','der','Pfeffer','n'],
   ['Tomate','tomate','die','Tomaten','n'],['Gurke','pepino','die','Gurken','n'],
   ['Wischmopp','fregona','der','Wischmopps','n'],
     ['Sühne','expiación','die','Sühnen','n'],
@@ -1013,22 +1013,22 @@ addLevel('A1.2',[
   ['Pfirsich','melocotón','der','Pfirsiche','n'],
     ['tausend','mil','die','Tausende','n'],
   ['streng','estricto','','','adj'],
-    ['die 
+    ['die Mücke','mosquito','die','Mücken','n'],
   ['Portemonnaie','cartera','das','Portemonnaies','n'],
-    ['die 
+    ['die Salami','salami','die','Salamis','n'],
   ['Postleitzahl','el código postal','die','','n'],
-    ['der 
+    ['der Morgen','mañana','der','Morgen','n'],
   ['Fleischer','carnicería','der','Fleischer','n'],['Restaurant','restaurante','das','Restaurants','n'],
   ['Konfetti','confeti','das','-','n'],
   ['Meldeadresse','dirección registrada','die','Meldeadressen','n'],
   ['Süßigkeit','dulce','die','Süßigkeiten','n'],
   ['Urlaubstag','día de vacaciones','der','Urlaubstage','n'],
-    ['der 
-    ['die 
-    ['die 
+    ['der Zucker','azúcar','der','Zucker','n'],
+    ['die Zwölf','doce','die','Zwölfen','n'],
+    ['die Mikrowelle','microondas','die','Mikrowellen','n'],
   ['Parkbank','banco','die','Parkbänke','n'],
   ['fangen','atrapar','','','v'],
-    ['die 
+    ['die Tasse','taza','die','Tassen','n'],
   ['weich','suave','','','adj'],
   ['recordings','[recordings]','','','n'],
   ['Wein','el vino','der','','n'],
@@ -1039,11 +1039,11 @@ addLevel('A1.2',[
   ['Nase','nariz','die','Nasen','n'],['Haar','pelo','das','Haare','n'],
     ['unterlassen','omitir','','','v'],
   ['Pflaume','ciruela','die','Pflaumen','n'],
-    ['die 
-    ['die 
-    ['der 
+    ['die Wurst','salchicha','die','Würste','n'],
+    ['die Rosine','pasa','die','Rosine','n'],
+    ['der Flughafen','aeropuerto','der','Flughäfen','n'],
   ['Genitiv','[Genitiv]','','','n'],
-    ['der 
+    ['der Essig','vinagre','der','Essige','n'],
     ['Anstrengung','esfuerzo','die','Anstrengungen','n'],
   ['Knie','la rodilla','das','','n'],
     ['sechzehn','dieciséis','die','Sechzehnen','n'],
@@ -1053,34 +1053,34 @@ addLevel('A1.2',[
   ['Rasierwasser','loción de afeitar','das','Rasierwässer','n'],
   ['Muskat','nuez moscada','der','-','n'],
   ['Wetter','clima','das','','n'],['Zimmer','habitación','das','Zimmer','n'],
-    ['die 
+    ['die Melone','melón','die','Melonen','n'],
   ['taub','sordo','','','adj'],
-    ['der 
+    ['der Esel','burro','der','Esel','n'],
   ['Freiberufler','profesional liberal','der','Freiberufler','n'],
   ['Zone','la zona','die','','n'],
   ['Reisebüro','la agencia de viajes','das','','n'],
   ['Arzt','médico','der','Ärzte','n'],['Krankenhaus','hospital','das','Krankenhäuser','n'],
-    ['die 
-    ['der 
+    ['die Tasche','bolso','die','Taschen','n'],
+    ['der Himmel','cielo','der','Himmel','n'],
   ['Nagellack','esmalte de uñas','der','Nagellacke','n'],
-    ['der 
+    ['der Cappuccino','capuchino','der','Cappuccinos','n'],
   ['Mundwasser','enjuague','das','Mundwässer','n'],
-    ['die 
-    ['das 
+    ['die Erde','tierra','die','Erden','n'],
+    ['das Hähnchen','pollo','das','Hähnchen','n'],
   ['Sprache','idioma','die','Sprachen','n'],['Wort','palabra','das','Wörter','n'],
-    ['der 
+    ['der Pullover','jersey','der','Pullover','n'],
   ['Schuster','zapatero','der','Schuster','n'],
   ['Vertrag','el contrato','der','','n'],
     ['Zahn','[Zahn]','die','Zahnen','n'],
-    ['der 
+    ['der Zoo','zoológico','der','Zoohäuser','n'],
   ['Badekappe','gorro de baño','die','Badekappen','n'],
   ['Stille','silencio','die','-','n'],
   ['Kinn','barbilla','das','Kinne','n'],
-    ['der 
+    ['der Staubsauger','aspiradora','der','Staubsauger','n'],
   ['telefonieren','telefonear','','','v'],
   ['Wassermelone','sandía','die','Wassermelonen','n'],
-    ['die 
-    ['die 
+    ['die Socke','calcetín','die','Socken','n'],
+    ['die Flasche','botella','die','Flaschen','n'],
     ['frei','libre','','','adj'],
   ['Wohnung','apartamento','die','Wohnungen','n'],['Garten','jardín','der','Gärten','n'],
   ['reisen','viajar','','','v'],['wandern','senderismo','','','v'],
@@ -1088,8 +1088,8 @@ addLevel('A1.2',[
   ['Erdbeere','fresa','die','Erdbeeren','n'],
   ['falten','doblar','','','v'],
   ['mähen','segur','','','v'],
-    ['der 
-    ['das 
+    ['der Backofen','horno','der','Backöfen','n'],
+    ['das Schaf','oveja','das','Schafe','n'],
   ['Eimer','cubo','der','Eimer','n'],
   ['Wegrand','borde del camino','der','Wegränder','n'],
   ['die Wanderung','la caminata','die','Wanderungen','n'],
@@ -1102,7 +1102,7 @@ addLevel('A1.2',[
     ['Zeh','[Zeh]','der','Zehen','n'],
   ['Elternzeit','permiso parental','die','-','n'],
   ['tragen','llevar puesto','','','v'],['passen','quedar bien','','','v'],
-    ['die 
+    ['die Nudeln','pasta','die','Nudeln','n'],
   ['Zahnstocher','palillo','der','Zahnstocher','n'],
   ['Pinguin','pingüino','der','Pinguine','n'],
   ['Bestellung','pedido','die','Bestellungen','n'],
@@ -1110,25 +1110,25 @@ addLevel('A1.2',[
   ['Sommer','verano','der','Sommer','n'],['Herbst','otoño','der','Herbste','n'],
   ['trotz','[trotz]','','','n'],
   ['die Fahrkarte','el billete','die','Fahrkarten','n'],
-    ['die 
+    ['die Brille','gafas','die','Brillen','n'],
   ['Mittwoch','miércoles','der','Mittwoche','n'],['Donnerstag','jueves','der','Donnerstage','n'],
   ['verkaufen','vender','','','v'],['öffnen','abrir','','','v'],
   ['Kinderarzt','pediatra','der','Kinderärzte','n'],
   ['feiern','celebrar','','','v'],['backen','hornear','','','v'],
     ['ordnen','ordenar','','','v'],
-    ['die 
-    ['die 
+    ['die Bank','banco','die','Banken','n'],
+    ['die Mitternacht','medianoche','die','Mitternächte','n'],
   ['Platz','plaza','der','Plätze','n'],['Zug','tren','der','Züge','n'],
   ['Ast','rama','der','Äste','n'],
   ['Schüssel','cuenco','die','Schüsseln','n'],
     ['Speck','[Speck]','die','Specken','n'],
   ['die Garage','el garaje','die','Garagen','n'],
-    ['der 
+    ['der Platz','plaza','der','Plätze','n'],
     ['Blut','[Blut]','die','Bluten','n'],
-    ['die 
+    ['die Marmelade','mermelada','die','Marmeladen','n'],
   ['Bahnhof','estación','der','Bahnhöfe','n'],['Flughafen','aeropuerto','der','Flughäfen','n'],
   ['Lockenstab','rizador','der','Lockenstäbe','n'],
-    ['die 
+    ['die Ente','pato','die','Enten','n'],
   ['Aufenthaltstitel','permiso de residencia','der','Aufenthaltstitel','n'],
     ['gelten','valer','','','v'],
   ['Krankschreibung','baja médica','die','Krankschreibungen','n'],
@@ -1141,40 +1141,40 @@ addLevel('A1.2',[
   ['Kaubonbon','caramelo masticable','das','Kaubonbons','n'],
   ['Blutabnahme','extracción de sangre','die','Blutabnahmen','n'],
   ['kaputtmachen','estropear','','','v'],
-    ['der 
+    ['der Anzug','traje','der','Anzüge','n'],
   ['Korken','corcho','der','Korken','n'],
-    ['der 
+    ['der Wald','bosque','der','Wälder','n'],
   ['Luftballon','globo','der','Luftballons','n'],
   ['Wirbelsäule','columna','die','Wirbelsäulen','n'],
   ['Hüfte','cadera','die','Hüften','n'],
-    ['die 
-    ['die 
+    ['die Zahnpasta','pasta de dientes','die','Zahnpasten','n'],
+    ['die Elf','once','die','Elfen','n'],
   ['Flyer','panfleto','der','Flyer','n'],
   ['Dativ','[Dativ]','','','n'],
   ['ohne','[ohne]','','','n'],
     ['Stuhl','[Stuhl]','die','Stuhlen','n'],
   ['Klo','retrete','das','Klos','n'],
     ['wegwerfen','tirar','-','-','v'],
-    ['die 
+    ['die Krawatte','corbata','die','Krawatten','n'],
     ['Schloss','[Schloss]','der','Schlossen','n'],
     ['vergeben','perdonar','','','v'],
   ['Zitrone','el limón','die','','n'],
   ['kehren','barrer','','','v'],
-    ['der 
-    ['die 
+    ['der Mittag','mediodía','der','Mittage','n'],
+    ['die Ferien','vacaciones','die','Ferien','n'],
   ['Daumen','pulgar','der','Daumen','n'],
     ['Handschuh','[Handschuh]','der','Handschuhen','n'],
-    ['der 
-    ['das 
+    ['der Regenschirm','paraguas','der','Regenschirme','n'],
+    ['das Brot','pan','das','Brote','n'],
     ['Finger','[Finger]','der','Finger','n'],
   ['Lohnsteuer','impuesto sobre salarios','die','Lohnsteuern','n'],
-    ['der 
+    ['der Kuchen','pastel','der','Kuchen','n'],
   ['Fahrstuhl','ascensor','der','Fahrstühle','n'],
-    ['der 
+    ['der Hai','tiburón','der','Haie','n'],
   ['Frühschicht','turno de mañana','die','Frühschichten','n'],
   ['Oberschenkel','muslo','der','Oberschenkel','n'],
     ['Ersparnis','ahorro','die','Ersparnisse','n'],
-    ['der 
+    ['der Schlafanzug','pijama','der','Schlafanzüge','n'],
   ['die Terrasse','la terraza','die','Terrassen','n'],
   ['jung','joven','','','adj'],['fleißig','trabajador','','','adj'],
     ['vorgestern','anteayer','-','-','adv'],
@@ -1187,27 +1187,27 @@ addLevel('A1.2',[
   ['Feueralarm','alarma de incendios','der','Feueralarme','n'],
   ['eingießen','verter','','','v'],
   ['Vanille','vainilla','die','-','n'],
-    ['der 
-    ['das 
-    ['der 
+    ['der Tiger','tigre','der','Tiger','n'],
+    ['das Steak','filete','das','Steaks','n'],
+    ['der Löffel','cuchara','der','Löffel','n'],
     ['Blitz','[Blitz]','das','Blitzen','n'],
     ['stören','molestar','','','v'],
-    ['die 
+    ['die Vier','cuatro','die','Vieren','n'],
   ['Löffel','cuchara','der','Löffel','n'],['Messer','cuchillo','das','Messer','n'],
   ['einkaufen','comprar','','','v'],['bezahlen','pagar','','','v'],
   ['Freitag','viernes','der','Freitage','n'],['Samstag','sábado','der','Samstage','n'],
   ['Tiger','tigre','der','Tiger','n'],
   ['Schmerz','dolor','der','Schmerzen','n'],['Fieber','fiebre','das','','n'],
   ['Metzgerei','la carnicería','die','','n'],
-    ['der 
+    ['der Fuchs','zorro','der','Füchse','n'],
   ['teuer','caro','','','adj'],['billig','barato','','','adj'],
   ['Buchhalter','contable','der','Buchhalter','n'],
   ['Bonbon','caramelo','das','Bonbons','n'],
-    ['die 
+    ['die Bibliothek','biblioteca','die','Bibliotheken','n'],
   ['Fuchs','zorro','der','Füchse','n'],
   ['Vogel','el pájaro','der','','n'],
-    ['der 
-    ['der 
+    ['der Pfirsich','melocotón','der','Pfirsiche','n'],
+    ['der Schuh','zapato','der','Schuhe','n'],
   ['sich putzen','limpiarse','','','v'],
   ['Glas','vaso','das','Gläser','n'],['Teller','plato','der','Teller','n'],
   ['pflanzen','plantar','','','v'],
@@ -1216,25 +1216,25 @@ addLevel('A1.2',[
     ['Verteidigung','defensa','die','Verteidigungen','n'],
   ['Feuerwache','parque de bomberos','die','Feuerwachen','n'],
   ['Augenarzt','oculista','der','Augenärzte','n'],
-    ['das 
+    ['das Rathaus','ayuntamiento','das','Rathäuser','n'],
   ['trüb','turbio','','','adj'],
-    ['die 
-    ['die 
-    ['das 
+    ['die nen','servir','','','v'],
+    ['die Bluse','blusa','die','Blusen','n'],
+    ['das Huhn','gallina','das','Hühner','n'],
   ['Empfänger','el destinatario','der','','n'],
   ['Quark','requesón','der','-','n'],
-    ['der 
+    ['der Nachmittag','tarde','der','Nachmittage','n'],
   ['Ummeldung','cambio de registro','die','Ummeldungen','n'],
   ['Nebeneingang','entrada lateral','der','Nebeneingänge','n'],
   ['Sportplatz','la pista deportiva','der','','n'],
   ['Karte','tarjeta/mapa','die','Karten','n'],['Fahrkarte','billete','die','Fahrkarten','n'],
-    ['die 
+    ['die Strümpfe','medias','die','Strümpfe','n'],
   ['Hocker','taburete','der','Hocker','n'],
   ['Frosch','rana','der','Frösche','n'],
   ['Fön','secador','der','Föne','n'],
     ['Wetterbericht','[Wetterbericht]','die','Wetterberichten','n'],
   ['el libro','[el libro]','','','n'],
-    ['das 
+    ['das Schloss','castillo','das','Schlösser','n'],
   ['Faden','hilo','der','Fäden','n'],
   ['eigen','propio','','','adj'],
     ['anpassen','adaptar','','','v'],
@@ -1242,17 +1242,17 @@ addLevel('A1.2',[
     ['falsch','incorrecto','','','adj'],
   ['Tischler','carpintero','der','Tischler','n'],
   ['Papierkorb','papelera','der','Papierkörbe','n'],
-    ['die 
+    ['die Schokolade','chocolate','die','Schokoladen','n'],
   ['Pass','el pasaporte','der','','n'],
     ['Hagel','[Hagel]','das','Hagel','n'],
   ['das Ferienhaus','la casa de vacaciones','das','Ferienhäuser','n'],
   ['Kleidung','la ropa','die','','n'],
   ['Rabe','cuervo','der','Raben','n'],
-    ['der 
+    ['der Apfelsaft','zumo de manzana','der','Apfelsäfte','n'],
   ['Bademantel','bata','der','Bademäntel','n'],
   ['Rucksack','la mochila','der','','n'],
     ['hinweisen','señalar','','','v'],
-    ['die 
+    ['die Brücke','puente','die','Brücken','n'],
   ['Eidechse','lagartija','die','Eidechsen','n'],
     ['Jacke','[Jacke]','die','Jacken','n'],
     ['streben','esforzarse','','','v'],
@@ -1261,10 +1261,10 @@ addLevel('A1.2',[
     ['stimmen','tener razón','','','v'],
   ['Kübel','cubeta','der','Kübel','n'],
   ['aussteigen','bajarse','','','v'],
-    ['der 
+    ['der Schal','bufanda','der','Schals','n'],
   ['sich baden','bañarse','','','v'],
     ['Sonnencreme','[Sonnencreme]','die','Sonnencremen','n'],
-    ['die 
+    ['die Zahnbürste','cepillo de dientes','die','Zahnbürsten','n'],
   ['Krankheitstag','día de enfermedad','der','Krankheitstage','n'],
   ['Sonderangebot','oferta especial','das','Sonderangebote','n'],
     ['Flur','[Flur]','die','Fluren','n'],
@@ -1272,72 +1272,72 @@ addLevel('A1.2',[
   ['abholen','recoger','','','v'],
   ['Drüse','glándula','die','Drüsen','n'],
     ['Tag','[Tag]','der','Tagen','n'],
-    ['der 
+    ['der Hirsch','ciervo','der','Hirsche','n'],
     ['erziehen','educar','','','v'],
     ['Garten','[Garten]','das','Garten','n'],
-    ['der 
+    ['der Fisch','pescado','der','Fische','n'],
   ['Hose','pantalón','die','Hosen','n'],['Schuh','zapato','der','Schuhe','n'],
-    ['die 
+    ['die Limonade','limonada','die','Limonaden','n'],
   ['hinsetzen','sentar','','','v'],
   ['Theater','teatro','das','Theater','n'],['Museum','museo','das','Museen','n'],
   ['dunkel','oscuro','','','adj'],
   ['gegen','[gegen]','','','n'],
   ['Kürbis','calabaza','der','Kürbisse','n'],
   ['Treppe','escalera','die','Treppen','n'],['Kleid','vestido','das','Kleider','n'],
-    ['die 
+    ['die Eins','uno','die','Einsen','n'],
     ['Haar','[Haar]','die','Haaren','n'],
-    ['der 
+    ['der Elefant','elefante','der','Elefanten','n'],
     ['vollenden','completar','','','v'],
-    ['der 
+    ['der Nebel','niebla','der','Nebel','n'],
   ['Sohle','suela','die','Sohlen','n'],
   ['Termin','cita','der','Termine','n'],['Besuch','visita','der','Besuche','n'],
-    ['der 
-    ['der 
+    ['der Frosch','rana','der','Frösche','n'],
+    ['der Bahnhof','estación','der','Bahnhöfe','n'],
   ['Abteilungsleiter','jefe de departamento','der','Abteilungsleiter','n'],
     ['verwirren','confundir','','','v'],
-    ['die 
-    ['die 
+    ['die Mütze','gorro','die','Mützen','n'],
+    ['die Drei','tres','die','Dreien','n'],
   ['leer','vacío','','','adj'],['voll','lleno','','','adj'],
-    ['die 
-    ['die 
+    ['die Schlange','serpiente','die','Schlangen','n'],
+    ['die Orange','naranja','die','Orangen','n'],
   ['wegräumen','guardar','','','v'],
     ['betrügen','engañar','','','v'],
   ['Zucker','azúcar','der','','n'],['Salz','sal','das','','n'],
   ['Ankündigung','anuncio','die','Ankündigungen','n'],
-    ['der 
+    ['der Kaffee','café','der','Kaffees','n'],
   ['harken','rastrillar','','','v'],
   ['Waschmaschine','la lavadora','die','','n'],
   ['Bär','oso','der','Bären','n'],
   ['verbos','[verbos]','','','n'],
   ['Badehose','bañador','die','Badehosen','n'],
     ['Garnele','[Garnele]','der','Garnelen','n'],
-    ['der 
-    ['das 
+    ['der Papagei','loro','der','Papageien','n'],
+    ['das Messer','cuchillo','das','Messer','n'],
   ['Wiese','prado','die','Wiesen','n'],
   ['bekannt','conocido','','','adj'],
   ['Topf','olla','der','Töpfe','n'],['Pfanne','sartén','die','Pfannen','n'],
     ['achtzig','ochenta','die','Achtzigen','n'],
     ['hungrig','hambriento','','','adj'],
-    ['der 
+    ['der Ring','anillo','der','Ringe','n'],
   ['schließen','cerrar','','','v'],['anfangen','empezar','','','v'],
   ['Freundin','amiga','die','Freundinnen','n'],['Stadt','ciudad','die','Städte','n'],
     ['TShirt','[TShirt]','der','TShirten','n'],
   ['Geld','dinero','das','','n'],['Preis','precio','der','Preise','n'],
   ['Meer','el mar','das','','n'],
     ['Hand','[Hand]','die','Handen','n'],
-    ['der 
-    ['die 
+    ['der Hase','liebre','der','Hasen','n'],
+    ['die Pfanne','sartén','die','Pfannen','n'],
   ['Bauernhof','granja','der','Bauernhöfe','n'],
-    ['die 
+    ['die Zehn','diez','die','Zehnen','n'],
     ['trinken','beber','-','-','v'],
-    ['das 
+    ['das Jahrtausend','milenio','das','Jahrtausende','n'],
   ['Leuchtturm','faro','der','Leuchttürme','n'],
   ['Nuss','nuez','die','Nüsse','n'],
   ['heben','levantar','','','v'],
   ['Lichtung','claro','die','Lichtungen','n'],
     ['verlieben','enamorarse','','','v'],
   ['die Eisenbahn','el ferrocarril','die','Eisenbahnen','n'],
-    ['die 
+    ['die Turnschuhe','zapatillas','die','Turnschuhe','n'],
   ['Höhle','cueva','die','Höhlen','n'],
   ['Brombeere','mora','die','Brombeeren','n'],
   ['rau','áspero','','','adj'],
@@ -1345,19 +1345,19 @@ addLevel('A1.2',[
   ['sich rasieren','afeitarse','','','v'],
     ['bearbeiten','editar','','','v'],
     ['Disco','discoteca','die','Discos','n'],
-    ['die 
+    ['die Birne','pera','die','Birnen','n'],
   ['Schleife','lazo','die','Schleifen','n'],
-    ['das 
-    ['der 
+    ['das Theater','teatro','das','Theater','n'],
+    ['der Mantel','abrigo','der','Mäntel','n'],
   ['Nagel','clavo','der','Nägel','n'],
   ['parken','aparcar','','','v'],
-    ['die 
+    ['die Acht','ocho','die','Achten','n'],
   ['Mai','el mayo','der','','n'],
   ['Küste','costa','die','Küsten','n'],
-    ['die 
+    ['die Taube','paloma','die','Tauben','n'],
   ['Fund','el hallazgo','der','','n'],
     ['Regen','[Regen]','der','Regen','n'],
-    ['die 
+    ['die Hose','pantalón','die','Hosen','n'],
   ['Waschbecken','lavabo','das','Waschbecken','n'],
   ['pfeffern','pimentar','','','v'],
     ['bereiten','preparar','','','v'],
@@ -1370,7 +1370,7 @@ addLevel('A1.2',[
   ['el hombre','[el hombre]','','','n'],
     ['gemein','malo/mezquino','','','adj'],
     ['offen','abierto','','','adj'],
-    ['der 
+    ['der Kamm','peine','der','Kämme','n'],
   ['Sonnenbrille','gafas de sol','die','Sonnenbrillen','n'],
   ['Wohnort','lugar de residencia','der','Wohnorte','n'],
   ['Versand','envío','der','Versande','n'],
@@ -1384,33 +1384,33 @@ addLevel('A1.2',[
   ['Krug','jarra','der','Krüge','n'],
   ['springen','saltar','','','v'],
   ['Schildkröte','tortuga','die','Schildkröten','n'],
-    ['der 
+    ['der Schnee','nieve','der','Schnee','n'],
     ['wegbringen','llevarse','-','-','v'],
   ['weise','sabio','','','adj'],
     ['heilen','curar','','','v'],
   ['Radio','la radio','das','','n'],
   ['laufen','correr','','','v'],
   ['Darm','intestino','der','Därme','n'],
-    ['der 
-    ['der 
+    ['der Eistee','té frío','der','Eistees','n'],
+    ['der Salat','ensalada','der','Salate','n'],
   ['Brief','carta','der','Briefe','n'],['Paket','paquete','das','Pakete','n'],
-    ['die 
+    ['die Grapefruit','pomelo','die','Grapefruits','n'],
     ['liefern','entregar','','','v'],
-    ['die 
+    ['die Margarine','margarina','die','Margarinen','n'],
   ['sich ausziehen','desvestirse','','','v'],
   ['Weizen','trigo','der','-','n'],
   ['unglücklich','infeliz','','','adj'],
   ['Kaugummi','chicle','der','Kaugummis','n'],
   ['guion','[guion]','','','n'],
-    ['das 
-    ['die 
+    ['das TShirt','camiseta','das','TShirts','n'],
+    ['die Sechs','seis','die','Sechsen','n'],
   ['Wartezimmer','sala de espera','das','Wartezimmer','n'],
   ['hell','claro','','','adj'],
   ['gießen','verter','','','v'],
   ['Wirbel','vértebra','der','Wirbel','n'],
   ['Erbse','guisante','die','Erbsen','n'],
   ['Taube','paloma','die','Tauben','n'],
-    ['das 
+    ['das Krankenhaus','hospital','das','Krankenhäuser','n'],
   ['Badeanzug','bañador','der','Badeanzüge','n'],
   ['Teddybär','oso de peluche','der','Teddybären','n'],
   ['Pförtner','portero','der','Pförtner','n'],
@@ -1418,12 +1418,12 @@ addLevel('A1.2',[
   ['die Sporthalle','el polideportivo','die','Sporthallen','n'],
     ['überwinden','superar','','','v'],
   ['neben','[neben]','','','n'],
-    ['der 
+    ['der Keks','galleta','der','Kekse','n'],
     ['Gewürz','[Gewürz]','das','Gewürzen','n'],
     ['werben','anunciar','','','v'],
   ['Park','parque','der','Parks','n'],['Strand','playa','der','Strände','n'],
   ['unwichtig','sin importancia','','','adj'],
-    ['die 
+    ['die Woche','semana','die','Wochen','n'],
   ['Kopf','cabeza','der','Köpfe','n'],['Hand','mano','die','Hände','n'],
   ['lieb','querido','','','adj'],
     ['achtzehn','dieciocho','die','Achtzehnen','n'],
@@ -1432,11 +1432,11 @@ addLevel('A1.2',[
   ['Rentenversicherung','seguro de pensiones','die','Rentenversicherungen','n'],
   ['Glätteisen','alisador','das','Glätteisen','n'],
   ['articles','[articles]','','','n'],
-    ['die 
+    ['die Haselnuss','avellana','die','Haselnüsse','n'],
   ['holen','ir a buscar','','','v'],['bringen','traer','','','v'],
   ['Spatz','gorrión','der','Spatzen','n'],
   ['Kühlschrank','la nevera','der','','n'],
-    ['der 
+    ['der Honig','miel','der','Honige','n'],
   ['biegen','doblar','','','v'],
   ['malen','pintar','','','v'],['zeigen','mostrar','','','v'],
   ['Wohnzimmer','el salón','das','','n'],
@@ -1444,20 +1444,20 @@ addLevel('A1.2',[
   ['Schrank','el armario','der','','n'],
   ['Wäschetrockner','secadora','der','Wäschetrockner','n'],
   ['Spinne','araña','die','Spinnen','n'],
-    ['der 
-    ['der 
+    ['der Hund','perro','der','Hunde','n'],
+    ['der Regen','lluvia','der','Regen','n'],
   ['Hautarzt','dermatólogo','der','Hautärzte','n'],
   ['Rasiermesser','cuchilla','das','Rasiermesser','n'],
   ['Verschiebung','aplazamiento','die','Verschiebungen','n'],
-    ['die 
+    ['die Ameise','hormiga','die','Ameisen','n'],
   ['Pfeffer','pimienta','der','','n'],['Essig','vinagre','der','Essige','n'],
     ['Gummistiefel','[Gummistiefel]','das','Gummistiefel','n'],
   ['das Schwimmbad','la piscina','das','Schwimmbäder','n'],
-    ['der 
+    ['der Bikini','bikini','der','Bikinis','n'],
     ['umgehen','evitar','','','v'],
   ['Zahnbürste','cepillo de dientes','die','Zahnbürsten','n'],
     ['heuteMorgen','esta mañana','-','-','adv'],
-    ['die 
+    ['die Stadt','ciudad','die','Städte','n'],
   ['Tablet','la tablet','das','','n'],
   ['loslassen','soltar','','','v'],
     ['sorgen','preocuparse','','','v'],
@@ -1466,7 +1466,7 @@ addLevel('A1.2',[
   ['Gärtner','jardinero','der','Gärtner','n'],
   ['Mütze','gorro','die','Mützen','n'],['Rock','falda','der','Röcke','n'],
     ['Rock','[Rock]','das','Rocken','n'],
-    ['die 
+    ['die Butter','mantequilla','die','Butter','n'],
   ['Deckel','tapa','der','Deckel','n'],
   ['decken','poner la mesa','','','v'],['abwaschen','fregar','','','v'],
   ['suchen','buscar','','','v'],
@@ -1483,24 +1483,24 @@ addLevel('A1.2',[
   ['abfahren','salir','','','v'],
     ['übernehmen','asumir','','','v'],
     ['Zeitpunkt','[Zeitpunkt]','der','Zeitpunkten','n'],
-    ['die 
+    ['die Insel','isla','die','Inseln','n'],
     ['Wurst','[Wurst]','das','Wursten','n'],
     ['dreißig','treinta','die','Dreißigen','n'],
   ['Kommode','cómoda','die','Kommoden','n'],
-    ['die 
+    ['die Waschmaschine','lavadora','die','Waschmaschinen','n'],
     ['Brot','[Brot]','die','Broten','n'],
   ['la mesa','[la mesa]','','','n'],
   ['Bad','el baño','das','','n'],
     ['satt','lleno/comido','','','adj'],
-    ['die 
+    ['die Blaubeere','arándano','die','Blaubeeren','n'],
     ['werten','valorar','','','v'],
   ['unter','[unter]','','','n'],
   ['Picknick','el picnic','das','','n'],
   ['Ader','vena','die','Adern','n'],
     ['Unterhose','[Unterhose]','die','Unterhosen','n'],
   ['Zopf','trenza','der','Zöpfe','n'],
-    ['die 
-    ['der 
+    ['die Neun','nueve','die','Neunen','n'],
+    ['der Berg','montaña','der','Berge','n'],
   ['Eltern','los padres','die','','n'],
     ['leisten','realizar','','','v'],
     ['scheiden','separar','','','v'],
@@ -1517,8 +1517,8 @@ addLevel('A1.2',[
   ['Käfer','escarabajo','der','Käfer','n'],
   ['der Schaffner','el revisor','der','Schaffner','n'],
   ['hacken','picar','','','v'],
-    ['der 
-    ['das 
+    ['der Hut','sombrero','der','Hüte','n'],
+    ['das Mineralwasser','agua mineral','das','Mineralwasser','n'],
   ['Galle','bilis','die','-','n'],
   ['Einkaufszentrum','centro comercial','das','Einkaufszentren','n'],
     ['Verabredung','[Verabredung]','die','Verabredungen','n'],
@@ -1526,11 +1526,11 @@ addLevel('A1.2',[
   ['Vormittag','la mañana (temprano)','der','','n'],
   ['Handfläche','palma','die','Handflächen','n'],
   ['Notiz','la nota / apunte','die','','n'],
-    ['der 
+    ['der Delfin','delfín','der','Delfine','n'],
     ['gedenken','conmemorar','','','v'],
   ['Bus','autobús','der','Busse','n'],['Auto','coche','das','Autos','n'],
     ['versammeln','reunir','','','v'],
-    ['die 
+    ['die Zwei','dos','die','Zweien','n'],
   ['Niederlassung','sucursal','die','Niederlassungen','n'],
     ['erregen','excitar','','','v'],
   ['Bein','pierna','das','Beine','n'],['Auge','ojo','das','Augen','n'],
@@ -1539,11 +1539,11 @@ addLevel('A1.2',[
   ['breit','ancho','','','adj'],['eng','estrecho','','','adj'],
   ['Schraubglas','frasco','das','Schraubgläser','n'],
   ['berühmt','famoso','','','adj'],
-    ['die 
+    ['die Hauptstadt','capital','die','Hauptstädte','n'],
   ['Vorhang','cortina','der','Vorhänge','n'],
   ['Selbstständigkeit','autónomo','die','-','n'],
     ['Nebel','[Nebel]','das','Nebel','n'],
-    ['der 
+    ['der Föhn','secador','der','Föhne','n'],
     ['betragen','ascender a','','','v'],
   ['aufdecken','destapar','','','v'],
   ['Biene','abeja','die','Bienen','n'],
@@ -1552,7 +1552,7 @@ addLevel('A1.2',[
     ['Auge','[Auge]','der','Augen','n'],
   ['Rolltreppe','escalera mecánica','die','Rolltreppen','n'],
   ['Brille','las gafas','die','','n'],
-    ['die 
+    ['die Seife','jabón','die','Seifen','n'],
   ['Becher','vaso','der','Becher','n'],
   ['stumpf','romo','','','adj'],
   ['Winter','invierno','der','Winter','n'],['Sonne','sol','die','Sonnen','n'],
@@ -1566,50 +1566,50 @@ addLevel('A1.2',[
   ['Nachbarin','la vecina','die','','n'],
   ['Fahrrad','bicicleta','das','Fahrräder','n'],['Flugzeug','avión','das','Flugzeuge','n'],
     ['heuteAbend','esta tarde','-','-','adv'],
-    ['der 
+    ['der Pfau','pavo real','der','Pfauen','n'],
     ['Boden','[Boden]','das','Boden','n'],
     ['Tragödie','tragedia','die','Tragödien','n'],
-    ['die 
-    ['die 
+    ['die Robbe','foca','die','Robben','n'],
+    ['die Gans','ganso','die','Gänse','n'],
     ['Senf','[Senf]','der','Senfen','n'],
   ['überraschen','sorprender','','','v'],['vorbereiten','preparar','','','v'],
-    ['der 
+    ['der Pyjama','pijama','der','Pyjamas','n'],
   ['kühl','fresco','','','adj'],
   ['Motorrad','moto','das','Motorräder','n'],
-    ['der 
-    ['die 
-    ['die 
-    ['die 
+    ['der Geburtstag','cumpleaños','der','Geburtstage','n'],
+    ['die Ratte','rata','die','Ratten','n'],
+    ['die Elster','urraca','die','Elstern','n'],
+    ['die Fliege','mosca','die','Fliegen','n'],
   ['Esel','burro','der','Esel','n'],
     ['Gesicht','[Gesicht]','der','Gesichten','n'],
-    ['die 
+    ['die Katze','gato','die','Katzen','n'],
   ['Haustür','puerta principal','die','Haustüren','n'],
   ['Heiratsurkunde','certificado de matrimonio','die','Heiratsurkunden','n'],
   ['reiben','rallar','','','v'],
   ['Lutscher','piruleta','der','Lutscher','n'],
   ['lang','largo','','','adj'],['kurz','corto','','','adj'],
   ['Adler','águila','der','Adler','n'],
-    ['der 
+    ['der Adler','águila','der','Adler','n'],
     ['elf','once','die','Elfen','n'],
     ['Spaghetti','[Spaghetti]','das','Spaghettien','n'],
   ['Sehne','tendón','die','Sehnen','n'],
-    ['die 
+    ['die Pflaume','ciruela','die','Pflaumen','n'],
   ['Geschäft','tienda','das','Geschäfte','n'],['Markt','mercado','der','Märkte','n'],
-    ['die 
-    ['das 
-    ['der 
+    ['die Badehose','bañador','die','Badehosen','n'],
+    ['das Jahrhundert','siglo','das','Jahrhunderte','n'],
+    ['der Espresso','espresso','der','Espressos','n'],
   ['sich umziehen','cambiarse','','','v'],
     ['Hitze','[Hitze]','das','Hitzen','n'],
   ['eckig','cuadrado','','','adj'],
-    ['der 
-    ['die 
+    ['der Topf','olla','der','Töpfe','n'],
+    ['die Erdnuss','cacahuete','die','Erdnüsse','n'],
     ['Vorhänge','[Vorhänge]','die','Vorhängen','n'],
   ['Perle','perla','die','Perlen','n'],
   ['Kündigungsfrist','plazo de preaviso','die','Kündigungsfristen','n'],
     ['verwenden','utilizar','','','v'],
   ['Metzger','carnicería','der','Metzger','n'],
     ['übermorgen','pasado mañana','-','-','adv'],
-    ['der 
+    ['der Vogel','pájaro','der','Vögel','n'],
   ['Ameise','hormiga','die','Ameisen','n'],
   ['hinfallen','caerse','','','v'],
   ['Brieftasche','cartera','die','Brieftaschen','n'],
@@ -1617,18 +1617,18 @@ addLevel('A1.2',[
   ['sich kämmen','peinarse','','','v'],
     ['ausparken','salir del aparcamiento','-','-','v'],
     ['begleiten','acompañar','','','v'],
-    ['das 
+    ['das Waschbecken','lavabo','das','Waschbecken','n'],
   ['ausräumen','vaciar','','','v'],
   ['Stock','el piso / planta','der','','n'],
-    ['die 
-    ['der 
+    ['die Mandel','almendra','die','Mandeln','n'],
+    ['der Quark','requesón','der','Quarke','n'],
   ['Ohr','oreja','das','Ohren','n'],['Mund','boca','der','Münder','n'],
   ['fegen','barrer','','','v'],
   ['Polizei','la policía','die','','n'],
   ['Gemüse','verdura','das','Gemüse','n'],['Kuchen','pastel','der','Kuchen','n'],
   ['Eule','búho','die','Eulen','n'],
   ['Ei','huevo','das','Eier','n'],['Käse','queso','der','Käse','n'],
-    ['das 
+    ['das Kino','cine','das','Kinos','n'],
   ['Nachname','el apellido','der','','n'],
   ['Deo','desodorante','das','Deos','n']
 ]);
@@ -1766,7 +1766,7 @@ addLevel('A2.1',[
   ['besuchen','visitar','','','v'],
   ['Couch','el sofá / diván','die','','n'],
     ['streicheln','acariciar','-','-','v'],
-    ['der 
+    ['der Stundenplan','horario','der','Stundenpläne','n'],
     ['fliegen','volar','-','-','v'],
   ['Schicht','el turno (trabajo) / capa','die','','n'],
   ['Arbeitsplatz','el puesto de trabajo','der','','n'],
@@ -1776,7 +1776,7 @@ addLevel('A2.1',[
   ['Heim','el hogar / residencia','das','','n'],
   ['ankommen','llegar','','','v'],['abholen','recoger','','','v'],
   ['Geschmack','el gusto / sabor','der','','n'],
-    ['der 
+    ['der Schüler','alumno','der','Schüler','n'],
   ['Punkt','el punto','der','','n'],
     ['Verwandlung','transformación','die','Verwandlungen','n'],
   ['gewöhnlich','normal','','','adj'],
@@ -1794,13 +1794,13 @@ addLevel('A2.1',[
   ['Kontakt','el contacto','der','','n'],
   ['Reise','viaje','die','Reisen','n'],['Hotel','hotel','das','Hotels','n'],
     ['schieben','empujar','-','-','v'],
-    ['der 
-    ['das 
+    ['der Radiergummi','goma de borrar','der','Radiergummis','n'],
+    ['das Heft','cuaderno','das','Hefte','n'],
   ['Orchester','la orquesta','das','','n'],
   ['Stoff','la tela / materia / sustancia','der','','n'],
   ['bequem','cómodo','','','adj'],
   ['Umzug','la mudanza / desfile','der','','n'],
-    ['der 
+    ['der Spitzer','sacapuntas','der','Spitzer','n'],
   ['irgendwo','en algún lugar','','','adv'],['zusammen','juntos','','','adv'],
     ['setzen','poner','','','v'],
   ['pflichtbewusst','responsable','','','adj'],
@@ -1809,7 +1809,7 @@ addLevel('A2.1',[
     ['wollen','querer','-','-','v'],
   ['einsteigen','subir','','','v'],['aussteigen','bajar','','','v'],
   ['Gepäck','equipaje','das','','n'],['Koffer','maleta','der','Koffer','n'],
-    ['die 
+    ['die Tafel','pizarra','die','Tafeln','n'],
   ['Schere','las tijeras','die','','n'],
     ['drücken','apretar','-','-','v'],
   ['Bargeld','efectivo','das','','n'],['Kreditkarte','tarjeta crédito','die','Kreditkarten','n'],
@@ -1829,7 +1829,7 @@ addLevel('A2.1',[
   ['Ozean','el océano','der','','n'],
     ['radfahren','montar en bici','-','-','v'],
   ['Streik','la huelga','der','','n'],
-    ['der 
+    ['der Kugelschreiber','bolígrafo','der','Kugelschreiber','n'],
   ['Schneider','el sastre','der','','n'],
     ['überlassen','dejar','','','v'],
   ['Interesse','el interés','das','','n'],
@@ -1866,7 +1866,7 @@ addLevel('A2.1',[
     ['stattfinden','tener lugar','-','-','v'],
   ['Mail','el correo electrónico','die','','n'],
   ['Zufall','la casualidad / azar','der','','n'],
-    ['der 
+    ['der Bleistift','lápiz','der','Bleistifte','n'],
   ['Not','la necesidad / emergencia','die','','n'],
   ['Quittung','recibo','die','Quittungen','n'],['Rechnung','factura','die','Rechnungen','n'],
   ['deswegen','por lo tanto','','','adv'],
@@ -1888,7 +1888,7 @@ addLevel('A2.1',[
   ['Staat','el estado','der','','n'],
   ['bieten','ofrecer','','','v'],
   ['früh','temprano','','','adv'],['direkt','directo','','','adv'],
-    ['das 
+    ['das Lineal','regla','das','Lineale','n'],
     ['einchecken','facturar','-','-','v'],
   ['hübsch','bonito','','','adj'],
   ['Studio','el estudio (lugar)','das','','n'],
@@ -1899,7 +1899,7 @@ addLevel('A2.1',[
     ['leiten','dirigir','','','v'],
     ['weinen','llorar','-','-','v'],
   ['Blick','la mirada / vista','der','','n'],
-    ['die 
+    ['die Note','nota','die','Noten','n'],
   ['Fest','la fiesta / festival','das','','n'],
   ['Wohnblock','el bloque de pisos','der','','n'],
     ['rennen','correr','-','-','v'],
@@ -1917,7 +1917,7 @@ addLevel('A2.1',[
   ['Schutz','la protección','der','','n'],
   ['Zugang','el acceso / entrada','der','','n'],
   ['Tanz','el baile','der','','n'],
-    ['der 
+    ['der Lehrer','profesor','der','Lehrer','n'],
     ['anfangen','empezar','-','-','v'],
     ['Vorfreude','anticipación','die','','n'],
   ['geeignet','adecuado','','','adj'],
@@ -1929,7 +1929,7 @@ addLevel('A2.1',[
   ['Nerv','el nervio','der','','n'],
   ['schade','lástima','','','adj'],
   ['Raucher','el fumador','der','','n'],
-    ['die 
+    ['die Schülerin','alumna','die','Schülerinnen','n'],
   ['Rabatt','el descuento','der','','n'],
   ['Automat','el cajero / máquina expendedora','der','','n'],
   ['Kasse','la caja (de cobro)','die','','n'],
@@ -1947,7 +1947,7 @@ addLevel('A2.1',[
   ['Arbeitgeber','el empleador / jefe','der','','n'],
     ['Peinlichkeit','vergüenza','die','Peinlichkeiten','n'],
   ['einzig','único','','','adj'],
-    ['das 
+    ['das Fach','asignatura','das','Fächer','n'],
   ['Visum','el visado','das','','n'],
     ['sollen','deber','-','-','v'],
   ['reservieren','reservar','','','v'],['buchen','reservar','','','v'],
@@ -1970,7 +1970,7 @@ addLevel('A2.1',[
   ['Insel','la isla','die','','n'],
     ['Erdkunde','[Erdkunde]','das','Erdkunden','n'],
     ['Semester','[Semester]','der','Semester','n'],
-    ['die 
+    ['die Lehrerin','profesora','die','Lehrerinnen','n'],
   ['Fall','el caso','der','','n'],
   ['Medizin','la medicina','die','','n'],
   ['Produkt','el producto','das','','n'],
@@ -2006,7 +2006,7 @@ addLevel('A2.1',[
   ['Matratze','el colchón','die','','n'],
   ['Wahrheit','la verdad','die','','n'],
     ['aufbauen','construir','','','v'],
-    ['der 
+    ['der Rucksack','mochila','der','Rucksäcke','n'],
   ['Magen','el estómago','der','','n'],
   ['furchtbar','horrible','','','adj'],
     ['klingeln','timbrar','-','-','v'],
@@ -2023,13 +2023,13 @@ addLevel('A2.1',[
 addLevel('A2.2',[
   ['prepararse para','[prepararse para]','','','n'],
     ['Bekanntmachung','anuncio','die','Bekanntmachungen','n'],
-    ['das 
+    ['das Wohnheim','residencia','das','Wohnheime','n'],
     ['Gefangenschaft','cautiverio','die','Gefangenschaften','n'],
-    ['der 
+    ['der Einkaufswagen','carrito','der','Einkaufswagen','n'],
   ['aufmachen','abrir','','','v'],
   ['Kino','cine','das','Kinos','n'],
   ['ausschalten','apagar','','','v'],
-    ['die 
+    ['die Sprechstunde','consulta','die','Sprechstunden','n'],
   ['E-Mail','correo electrónico','die','E-Mails','n'],['Anhang','adjunto','der','Anhänge','n'],
   ['Bauchschmerzen','dolor de estómago','die','-','n'],
   ['Lokal','el local / restaurante','das','','n'],
@@ -2041,11 +2041,11 @@ addLevel('A2.2',[
     ['Kleidungsgeschäft','[Kleidungsgeschäft]','das','Kleidungsgeschäften','n'],
   ['la confianza','[la confianza]','','','n'],
     ['Landkarte','mapa','die','Landkarten','n'],
-    ['der 
+    ['der Schmerz','dolor','der','Schmerzen','n'],
   ['Applaus','aplausos','der','-','n'],
   ['Gehaltserhöhung','aumento salarial','die','Gehaltserhöhungen','n'],
   ['Tor','la puerta grande / portería / gol','das','','n'],
-    ['der 
+    ['der Koch','cocinero','der','Köche','n'],
   ['entdecken','descubrir','','','v'],
   ['Export','la exportación','der','','n'],
     ['Fahrbahn','calzada','die','Fahrbahnen','n'],
@@ -2056,13 +2056,13 @@ addLevel('A2.2',[
     ['Mikrowelle','microondas','die','Mikrowellen','n'],
   ['Museum','museo','das','Museen','n'],
   ['Betrag','el importe / suma','der','','n'],
-    ['der 
+    ['der Baum','árbol','der','Bäume','n'],
   ['kopieren','copiar','','','v'],['einfügen','pegar','','','v'],
   ['Verlierer','el perdedor','der','','n'],
   ['erzählen','contar','','','v'],['fragen','preguntar','','','v'],
-    ['die 
+    ['die Haltestelle','parada','die','Haltestellen','n'],
   ['Unterschriftensammlung','recogida de firmas','die','Unterschriftensammlungen','n'],
-    ['der 
+    ['der Tanz','baile','der','Tänze','n'],
     ['Fortführung','continuación','die','Fortführungen','n'],
     ['Festlegung','fijación','die','Festlegungen','n'],
   ['Umschulung','reciclaje profesional','die','Umschulungen','n'],
@@ -2072,12 +2072,12 @@ addLevel('A2.2',[
   ['Fahrradständer','aparcabicis','der','Fahrradständer','n'],
     ['Höflichkeit','cortesía','die','Höflichkeiten','n'],
     ['Nährwert','valor nutricional','die','Nährwerte','n'],
-    ['der 
+    ['der Schiedsrichter','árbitro','der','Schiedsrichter','n'],
     ['Lokomotive','locomotora','die','Lokomotiven','n'],
   ['feige','cobarde','','','adj'],['faul','perezoso','','','adj'],
     ['Palme','palmera','die','Palmen','n'],
     ['Passhöhe','puerto de montaña','die','Passhöhen','n'],
-  ['die 
+  ['Die nstwagen','coche de empresa','der','Dienstwagen','n'],
     ['Angebot','[Angebot]','der','Angeboten','n'],
     ['Ausgrenzung','exclusión','die','Ausgrenzungen','n'],
   ['Fahrzeug','el vehículo','das','','n'],
@@ -2091,8 +2091,8 @@ addLevel('A2.2',[
     ['dessen ungeachtet','no obstante','','','adv'],
     ['Kühnheit','audacia','die','Kühnheiten','n'],
   ['sich erinnern an','[sich erinnern an]','','','n'],
-    ['der 
-    ['der 
+    ['der Designer','diseñador','der','Designer','n'],
+    ['der Busbahnhof','estación de autobuses','der','Busbahnhöfe','n'],
     ['Bewirtung','hospitalidad','die','Bewirtungen','n'],
   ['el requisito','[el requisito]','','','n'],
     ['Paket','[Paket]','die','Paketen','n'],
@@ -2102,9 +2102,9 @@ addLevel('A2.2',[
   ['Arbeitslosenversicherung','seguro de desempleo','die','Arbeitslosenversicherungen','n'],
     ['Feuchtigkeit','humedad','die','Feuchtigkeiten','n'],
   ['T-Shirt','la camiseta','das','','n'],
-    ['die 
+    ['die Augen','ojos','die','Augen','n'],
     ['Narbe','cicatriz','die','Narben','n'],
-    ['die 
+    ['die Schriftstellerin','escritora','die','Schriftstellerinnen','n'],
     ['Hilflosigkeit','desamparo','die','','n'],
     ['Rechnung','[Rechnung]','die','Rechnungen','n'],
   ['Bürgersteig','acera','der','Bürgersteige','n'],
@@ -2128,17 +2128,17 @@ addLevel('A2.2',[
   ['EDV-Kenntnisse','conocimientos informáticos','die','-','n'],
     ['Melodie','melodía','die','Melodien','n'],
     ['Ermordung','asesinato','die','Ermordungen','n'],
-    ['der 
+    ['der Supermarkt','supermercado','der','Supermärkte','n'],
   ['la posibilidad','[la posibilidad]','','','n'],
     ['Klausel','cláusula','die','Klauseln','n'],
-    ['die 
+    ['die Musikerin','música','die','Musikerinnen','n'],
   ['Datenbank','la base de datos','die','','n'],
     ['Misere','miseria','die','Miseren','n'],
     ['Hauptsache','lo esencial','die','Hauptsachen','n'],
   ['selbst','mismo','','','adj'],
   ['warten auf','[warten auf]','','','n'],
     ['Heftigkeit','violencia','die','','n'],
-    ['der 
+    ['der Kreuzung','cruce','die','Kreuzungen','n'],
   ['Girokonto','la cuenta corriente','das','','n'],
     ['Nächstenliebe','caridad','die','','n'],
   ['Doppelzimmer','la habitación doble','das','','n'],
@@ -2162,17 +2162,17 @@ addLevel('A2.2',[
   ['hochladen','subir','','','v'],['herunterladen','descargar','','','v'],
     ['sich vertragen','llevarse bien','','','v'],
   ['Tarifvertrag','convenio colectivo','der','Tarifverträge','n'],
-    ['die 
+    ['die Polizistin','policía','die','Polizistinnen','n'],
   ['la sociedad','[la sociedad]','','','n'],
   ['la libertad','[la libertad]','','','n'],
     ['Tonne','cubo','die','Tonnen','n'],
-    ['der 
+    ['der Mund','boca','der','Münder','n'],
   ['Material','el material','das','','n'],
     ['Langsamkeit','lentitud','die','Langsamkeiten','n'],
-    ['die 
+    ['die Medaille','medalla','die','Medaillen','n'],
   ['privat','privado','','','adj'],
   ['Bewerbungsschreiben','carta de presentación','das','Bewerbungsschreiben','n'],
-    ['das 
+    ['das Gesicht','cara','das','Gesichter','n'],
     ['Besetzung','ocupación','die','Besetzungen','n'],
   ['Roman','la novela','der','','n'],
   ['aufpassen','prestar atención','','','v'],
@@ -2189,13 +2189,13 @@ addLevel('A2.2',[
     ['Niederschlag','precipitación','die','Niederschläge','n'],
   ['Workshop','taller','der','Workshops','n'],
   ['Einfahrt','entrada','die','Einfahrten','n'],
-    ['das 
+    ['das Geld','dinero','das','Gelder','n'],
     ['Gruppierung','agrupación','die','Gruppierungen','n'],
   ['Sammlung','la colección','die','','n'],
   ['entschuldigen','disculpar','','','v'],['verzeihen','perdonar','','','v'],
     ['Festsetzung','determinación','die','Festsetzungen','n'],
-    ['die 
-    ['das 
+    ['die Übersetzerin','traductora','die','Übersetzerinnen','n'],
+    ['das Turnen','gimnasia artística','das','Turnen','n'],
   ['Reifen','el neumático','der','','n'],
     ['Ökonomie','economía','die','Ökonomien','n'],
     ['Kränkung','ofensa','die','Kränkungen','n'],
@@ -2205,7 +2205,7 @@ addLevel('A2.2',[
     ['Nachsicht','indulgencia','die','Nachsichten','n'],
     ['abstellen','aparcar','','','v'],
   ['Reiseversicherung','seguro de viaje','die','Reiseversicherungen','n'],
-    ['der 
+    ['der Kellner','camarero','der','Kellner','n'],
     ['Nahrungsergänzung','suplemento','die','Nahrungsergänzungen','n'],
   ['pflegen','cuidar','','','v'],
     ['Beutel','[Beutel]','der','Beutel','n'],
@@ -2214,7 +2214,7 @@ addLevel('A2.2',[
     ['Nachlässigkeit','negligencia','die','Nachlässigkeiten','n'],
   ['Freiwilligenarbeit','trabajo voluntario','die','-','n'],
     ['Niederschrift','transcripción','die','Niederschriften','n'],
-    ['der 
+    ['der Übersetzer','traductor','der','Übersetzer','n'],
     ['Gruppenarbeit','trabajo en grupo','die','','n'],
     ['sich erkundigen','informarse','','','v'],
   ['sich freuen','alegrarse','','','v'],['sich fürchten','temer','','','v'],
@@ -2228,21 +2228,21 @@ addLevel('A2.2',[
     ['Nennung','mención','die','Nennungen','n'],
     ['Besorgung','compra','die','Besorgungen','n'],
     ['Strumpfhose','panty','die','Strumpfhosen','n'],
-    ['das 
+    ['das Fieber','fiebre','das','Fieber','n'],
     ['Pacht','alquiler','die','Pachten','n'],
   ['Zertifikat','el certificado','das','','n'],
     ['Ortschaft','localidad','die','Ortschaften','n'],
     ['Gerichtsbarkeit','jurisdicción','die','Gerichtsbarkeiten','n'],
-    ['das 
+    ['das Tennis','tenis','das','Tennis','n'],
   ['Touristeninformation','oficina de turismo','die','Touristeninformationen','n'],
   ['Schwimmbad','piscina','das','Schwimmbäder','n'],
-    ['der 
-    ['der 
+    ['der Hausarzt','médico de cabecera','der','Hausärzte','n'],
+    ['der Geldbeutel','monedero','der','Geldbeutel','n'],
     ['schenken','regalar','-','-','v'],
     ['Friedlichkeit','paz','die','','n'],
   ['Operation','operación','die','Operationen','n'],['Spritze','inyección','die','Spritzen','n'],
   ['Chance','la oportunidad','die','','n'],
-    ['das 
+    ['das Stadion','estadio','das','Stadien','n'],
   ['Körper','cuerpo','der','Körper','n'],['Gesicht','cara','das','Gesichter','n'],
     ['abschneiden','cortar','','','v'],
   ['Rundgang','el recorrido / visita','der','','n'],
@@ -2252,10 +2252,10 @@ addLevel('A2.2',[
     ['Erfüllung','cumplimiento','die','Erfüllungen','n'],
   ['Stockwerk','piso','das','Stockwerke','n'],
     ['Belieferung','suministro','die','Belieferungen','n'],
-    ['der 
-    ['der 
+    ['der Architekt','arquitecto','der','Architekten','n'],
+    ['der Ball','pelota','der','Bälle','n'],
   ['Windel','el pañal','die','','n'],
-    ['der 
+    ['der Cent','céntimo','der','Cent','n'],
     ['nunmehr','ahora','','','adv'],
   ['ausgeben','gastar','','','v'],
     ['ungeachtet','no obstante','','','adv'],
@@ -2266,10 +2266,10 @@ addLevel('A2.2',[
   ['la memoria','[la memoria]','','','n'],
     ['Bluthochdruck','[Bluthochdruck]','die','Bluthochdrucken','n'],
     ['Betriebsamkeit','actividad','die','Betriebsamkeiten','n'],
-    ['das 
+    ['das Kaufhaus','almacén','das','Kaufhäuser','n'],
   ['Übung','el ejercicio','die','','n'],
   ['Probezeit','período de prueba','die','Probezeiten','n'],
-    ['der 
+    ['der Fußball','fútbol','der','Fußbälle','n'],
     ['Reißverschluss','cremallera','der','Reißverschlüsse','n'],
   ['Durchschnitt','el promedio','der','','n'],
   ['kennenlernen','conocer','','','v'],
@@ -2283,12 +2283,12 @@ addLevel('A2.2',[
   ['Marktplatz','plaza del mercado','der','Marktplätze','n'],
   ['danken','agradecer','','','v'],['gratulieren','felicitar','','','v'],
   ['sich vorbereiten auf','[sich vorbereiten auf]','','','n'],
-    ['die 
+    ['die Feuerwehr','bomberos','die','Feuerwehren','n'],
   ['zumachen','cerrar','','','v'],
   ['Paar','la pareja / el par','das','','n'],
   ['ledig','soltero','','','adj'],
     ['Neuerung','innovación','die','Neuerungen','n'],
-    ['das 
+    ['das Spiel','juego/partido','das','Spiele','n'],
   ['Bonus','bonificación','der','Boni','n'],
   ['Schal','bufanda','der','Schals','n'],['Jacke','chaqueta','die','Jacken','n'],
   ['Kaution','la fianza / depósito','die','','n'],
@@ -2298,18 +2298,18 @@ addLevel('A2.2',[
     ['Kupplung','embrague','die','Kupplungen','n'],
     ['Missbilligung','desaprobación','die','Missbilligungen','n'],
   ['Vertrauen','confianza','das','','n'],['Zweifel','duda','der','Zweifel','n'],
-    ['der 
+    ['der Ingenieur','ingeniero','der','Ingenieure','n'],
   ['Lüge','la mentira','die','','n'],
   ['el resultado','[el resultado]','','','n'],
-    ['der 
+    ['der Handball','balonmano','der','Handbälle','n'],
   ['reparieren','reparar','','','v'],
   ['renovieren','renovar','','','v'],
   ['Zeuge','el testigo','der','','n'],
-    ['die 
-    ['der 
+    ['die Kellnerin','camarera','die','Kellnerinnen','n'],
+    ['der Zug','tren','der','Züge','n'],
     ['Parkbucht','aparcamiento','die','Parkbuchten','n'],
     ['Betreuung','cuidado','die','Betreuungen','n'],
-    ['der 
+    ['der Seehund','foca','der','Seehunde','n'],
   ['Schicksal','el destino','das','','n'],
   ['verwalten','administrar','','','v'],
     ['Postbote','[Postbote]','die','Postboten','n'],
@@ -2342,7 +2342,7 @@ addLevel('A2.2',[
     ['sich einschalten','intervenir','','','v'],
     ['überdies','además','','','adv'],
   ['Panne','la avería','die','','n'],
-    ['der 
+    ['der Bürgersteig','acera','der','Bürgersteige','n'],
     ['Landung','aterrizaje','die','Landungen','n'],
   ['Einwohnermeldeamt','oficina de empadronamiento','das','Einwohnermeldeämter','n'],
   ['Thema','el tema','das','','n'],
@@ -2351,22 +2351,22 @@ addLevel('A2.2',[
   ['bitten um','[bitten um]','','','n'],
     ['sich vorbereiten','prepararse','','','v'],
     ['Jagd','caza','die','Jagden','n'],
-    ['der 
-    ['der 
+    ['der Anwalt','abogado','der','Anwälte','n'],
+    ['der Redakteur','redactor','der','Redakteure','n'],
     ['sich vermuten','suponerse','','','v'],
-    ['der 
+    ['der Verband','venda','der','Verbände','n'],
   ['Parkhaus','aparcamiento','das','Parkhäuser','n'],
   ['Impfung','la vacuna','die','','n'],
-    ['die 
+    ['die Kapitänin','capitana','die','Kapitäninnen','n'],
   ['la responsabilidad','[la responsabilidad]','','','n'],
   ['geschieden','divorciado','','','adj'],
   ['Einzelzimmer','la habitación individual','das','','n'],
-    ['der 
+    ['der Trainer','entrenador','der','Trainer','n'],
     ['zwar','ciertamente','','','adv'],
   ['böse','enfadado','','','adj'],['nett','simpático','','','adj'],
   ['anmachen','encender','','','v'],
   ['anziehen','vestirse','','','v'],
-    ['der 
+    ['der Schläger','raqueta','der','Schläger','n'],
     ['wiederum','a su vez','','','adv'],
     ['Erbauung','edificación','die','Erbauungen','n'],
     ['Myriade','miríada','die','Myriaden','n'],
@@ -2374,8 +2374,8 @@ addLevel('A2.2',[
   ['Zahnschmerzen','dolor de muelas','die','-','n'],
   ['Projekt','el proyecto','das','','n'],
     ['Parklücke','hueco de aparcamiento','die','Parklücken','n'],
-    ['der 
-    ['die 
+    ['der Spatz','gorrión','der','Spatzen','n'],
+    ['die Tablette','pastilla','die','Tabletten','n'],
   ['stellen','poner vertical','','','v'],['legen','poner horizontal','','','v'],
     ['Normalität','normalidad','die','','n'],
   ['Portion','la porción / ración','die','','n'],
@@ -2388,15 +2388,15 @@ addLevel('A2.2',[
   ['niedrig','bajo','','','adj'],
   ['Schein','el billete (dinero) / certificado','der','','n'],
   ['Herz','corazón','das','Herzen','n'],['Blut','sangre','das','','n'],
-    ['die 
+    ['die Hand','mano','die','Hände','n'],
   ['Weihnachtsgeld','paga de Navidad','das','-','n'],
   ['Rücken','espalda','der','Rücken','n'],['Bauch','vientre','der','Bäuche','n'],
   ['peinlich','vergonzoso','','','adj'],
-    ['die 
-    ['der 
-    ['die 
+    ['die Hochschule','universidad','die','Hochschulen','n'],
+    ['der Markt','mercado','der','Märkte','n'],
+    ['die Wettkampf','competición','die','Wettkämpfe','n'],
     ['Anfertigung','elaboración','die','Anfertigungen','n'],
-    ['der 
+    ['der Kinderarzt','pediatra','der','Kinderärzte','n'],
     ['Masse','masa','die','Massen','n'],
     ['sich verkleiden','disfrazarse','','','v'],
     ['Körperschaft','corporación','die','Körperschaften','n'],
@@ -2421,64 +2421,64 @@ addLevel('A2.2',[
   ['fühlen','sentir','','','v'],
     ['Parkscheibe','disco de estacionamiento','die','Parkscheiben','n'],
     ['Parade','desfile','die','Paraden','n'],
-    ['der 
+    ['der Kopf','cabeza','der','Köpfe','n'],
   ['beschreiben','describir','','','v'],
-    ['das 
+    ['das Eichhörnchen','ardilla','das','Eichhörnchen','n'],
     ['sich einsetzen','comprometerse','','','v'],
   ['Nachricht','la noticia / mensaje','die','','n'],
-    ['der 
+    ['der Volleyball','voleibol','der','Volleybälle','n'],
     ['sich anstrengen','esforzarse','','','v'],
   ['begeistert','entusiasmado','','','adj'],
     ['Befriedigung','satisfacción','die','Befriedigungen','n'],
-    ['das 
+    ['das Training','entrenamiento','das','Trainings','n'],
   ['Krankenwagen','ambulancia','der','Krankenwagen','n'],
   ['berühren','tocar','','','v'],
   ['Kiste','la caja / el cajón','die','','n'],
   ['ausziehen','desvestirse','','','v'],
-    ['der 
-    ['die 
+    ['der Notfall','emergencia','der','Notfälle','n'],
+    ['die Designerin','diseñadora','die','Designerinnen','n'],
     ['Erpressung','chantaje','die','Erpressungen','n'],
     ['Illegalität','ilegalidad','die','','n'],
-    ['die 
+    ['die Blume','flor','die','Blumen','n'],
   ['sich freuen auf','[sich freuen auf]','','','n'],
   ['einwandern','inmigrar','','','v'],
   ['sich bewerben','solicitar','','','v'],['sich entscheiden','decidirse','','','v'],
-    ['die 
+    ['die Schreinerin','carpintera','die','Schreinerinnen','n'],
     ['Spüle','fregadero','die','Spülen','n'],
   ['Länge','la longitud','die','','n'],
-    ['der 
+    ['der Laden','tienda','der','Läden','n'],
   ['Sache','la cosa / asunto','die','','n'],
-  ['die 
+  ['Die nstreise','viaje de negocios','die','Dienstreisen','n'],
   ['süß','dulce','','','adj'],
   ['Einwohner','el habitante','der','','n'],
   ['selten','raro','','','adj'],
   ['Rezept','receta médica','das','Rezepte','n'],['Untersuchung','revisión','die','Untersuchungen','n'],
-    ['die 
+    ['die Polizei','policía','die','Polizeien','n'],
   ['Lebensmittel','el alimento','das','','n'],
   ['Bürgerinitiative','iniciativa ciudadana','die','Bürgerinitiativen','n'],
-    ['der 
+    ['der Bus','autobús','der','Busse','n'],
     ['sich niederlassen','establecerse','','','v'],
   ['pensar en','[pensar en]','','','n'],
   ['Absage','el rechazo / la respuesta negativa','die','','n'],
     ['Kaffeemaschine','cafetera','die','Kaffeemaschinen','n'],
     ['Genugtuung','satisfacción','die','Genugtuungen','n'],
-    ['die 
-    ['das 
+    ['die Gymnastik','gimnasia','die','Gymnastiken','n'],
+    ['das Tischtennis','ping-pong','das','Tischtennis','n'],
   ['Toast','brindis','der','Toasts','n'],
-    ['die 
+    ['die Pilotin','piloto','die','Pilotinnen','n'],
   ['Drucker','impresora','der','Drucker','n'],['Bildschirm','pantalla','der','Bildschirme','n'],
-    ['der 
-    ['die 
+    ['der Hahn','gallo','der','Hähne','n'],
+    ['die Schule','escuela','die','Schulen','n'],
   ['Vermietung','el alquiler (acción)','die','','n'],
     ['Gemeinsamkeit','punto común','die','Gemeinsamkeiten','n'],
     ['Entzündung','[Entzündung]','die','Entzündungen','n'],
     ['Mündigkeit','madurez','die','','n'],
-    ['die 
+    ['die Anwältin','abogada','die','Anwältinnen','n'],
   ['Monitor','el monitor','der','','n'],
   ['Gemeindezentrum','centro comunitario','das','Gemeindezentren','n'],
   ['pedir','[pedir]','','','n'],
   ['Dachboden','ático','der','Dachböden','n'],
-    ['die 
+    ['die Moschee','mezquita','die','Moscheen','n'],
   ['la oferta','[la oferta]','','','n'],
     ['Niedergeschlagenheit','abatimiento','die','','n'],
     ['Nachrüstung','modernización','die','Nachrüstungen','n'],
@@ -2487,7 +2487,7 @@ addLevel('A2.2',[
     ['Kostbarkeit','tesoro','die','Kostbarkeiten','n'],
     ['Anschuldigung','acusación','die','Anschuldigungen','n'],
   ['Mathematik','las matemáticas','die','','n'],
-    ['die 
+    ['die Kreditkarte','tarjeta de crédito','die','Kreditkarten','n'],
   ['Wohnmobil','autocaravana','das','Wohnmobile','n'],
   ['sich schämen','avergonzarse','','','v'],['sich entspannen','relajarse','','','v'],
   ['Ruhe','calma','die','','n'],['Stress','estrés','der','','n'],
@@ -2495,15 +2495,15 @@ addLevel('A2.2',[
     ['Fortsetzung','continuación','die','Fortsetzungen','n'],
   ['öffentlich','público','','','adj'],
   ['Gleis','andén','das','Gleise','n'],
-    ['die 
+    ['die Schildkröte','tortuga','die','Schildkröten','n'],
     ['Festnahme','detención','die','Festnahmen','n'],
   ['Lust','ganas','die','Lüste','n'],['Langeweile','aburrimiento','die','','n'],
   ['Stempel','el sello / tampón','der','','n'],
     ['Bergung','rescate','die','Bergungen','n'],
   ['einziehen','mudarse','','','v'],
   ['Streit','la pelea / disputa','der','','n'],
-    ['der 
-    ['der 
+    ['der Schreiner','carpintero','der','Schreiner','n'],
+    ['der Schriftsteller','escritor','der','Schriftsteller','n'],
   ['Liste','la lista','die','','n'],
   ['Schritt','el paso','der','','n'],
   ['Tüte','la bolsa (de papel/plástico)','die','','n'],
@@ -2516,7 +2516,7 @@ addLevel('A2.2',[
   ['Mittel','el medio / recurso','das','','n'],
     ['vorderhand','por ahora','','','adv'],
   ['Schaf','la oveja','das','','n'],
-    ['die 
+    ['die Grippe','gripe','die','Grippen','n'],
     ['Ohnmacht','inconsciencia','die','Ohnmachten','n'],
     ['Innenstadt','centro','die','Innenstädte','n'],
     ['Besetzt','[Besetzt]','die','Besetzten','n'],
@@ -2526,7 +2526,7 @@ addLevel('A2.2',[
     ['Nähmaschine','máquina de coser','die','Nähmaschinen','n'],
   ['Kopfschmerzen','dolor de cabeza','die','-','n'],
     ['Fürsorge','cuidado','die','','n'],
-    ['der 
+    ['der Maler','pintor','der','Maler','n'],
     ['Anhörung','audiencia','die','Anhörungen','n'],
   ['Wechselgeld','cambio','das','-','n'],
   ['Wunder','el milagro / maravilla','das','','n'],
@@ -2536,23 +2536,23 @@ addLevel('A2.2',[
   ['wissen','saber','','','v'],['kennen','conocer','','','v'],
   ['Unterführung','paso subterráneo','die','Unterführungen','n'],
   ['Schlaf','el sueño (acto de dormir)','der','','n'],
-    ['der 
-    ['die 
-    ['die 
+    ['der Pilot','piloto','der','Piloten','n'],
+    ['die Ingenieurin','ingeniera','die','Ingenieurinnen','n'],
+    ['die Metzgerei','carnicería','die','Metzgereien','n'],
     ['Kammer','cámara','die','Kammern','n'],
   ['einschalten','encender','','','v'],
   ['danken für','[danken für]','','','n'],
-    ['der 
+    ['der Gewinner','ganador','der','Gewinner','n'],
   ['Arbeitsrecht','derecho laboral','das','-','n'],
   ['Briefmarke','sello','die','Briefmarken','n'],['Umschlag','sobre','der','Umschläge','n'],
-    ['der 
+    ['der Kapitän','capitán','der','Kapitäne','n'],
   ['Hemd','la camisa','das','','n'],
   ['einrichten','amueblar','','','v'],
   ['bemerken','notar','','','v'],['bedeuten','significar','','','v'],
-    ['der 
+    ['der Rücken','espalda','der','Rücken','n'],
   ['Fantasie','la fantasía','die','','n'],
-    ['die 
-    ['die 
+    ['die Tüte','bolsa','die','Tüten','n'],
+    ['die Universität','universidad','die','Universitäten','n'],
     ['Geltenmachung','reivindicación','die','Geltenmachungen','n'],
     ['Nichtbeachtung','desatención','die','Nichtbeachtungen','n'],
   ['Beförderung','ascenso','die','Beförderungen','n'],
@@ -2563,12 +2563,12 @@ addLevel('A2.2',[
     ['hier','aquí','-','-','adv'],
     ['Terminplaner','[Terminplaner]','der','Terminplaner','n'],
   ['Diplom','el diploma','das','','n'],
-    ['der 
-  ['die 
+    ['der Augenarzt','oculista','der','Augenärzte','n'],
+  ['Die nsthandy','móvil de empresa','das','Diensthandys','n'],
   ['installieren','instalar','','','v'],['aktualisieren','actualizar','','','v'],
     ['Ansteckung','contagio','die','Ansteckungen','n'],
     ['Eingabe','entrada','die','Eingaben','n'],
-    ['der 
+    ['der Feuerwehrmann','bombero','der','Feuerwehrmänner','n'],
   ['glauben','creer','','','v'],
     ['anschauen','mirar','','','v'],
     ['sich versammeln','reunirse','','','v'],
@@ -2577,26 +2577,26 @@ addLevel('A2.2',[
   ['Tod','la muerte','der','','n'],
     ['sich zurückziehen','retirarse','','','v'],
     ['Genauigkeit','precisión','die','Genauigkeiten','n'],
-    ['das 
-    ['der 
+    ['das Geschäft','negocio/tienda','das','Geschäfte','n'],
+    ['der Vergnügungspark','parque de atracciones','der','Vergnügungsparks','n'],
   ['Urlaubsgeld','paga de vacaciones','das','-','n'],
     ['weiterhin','además','','','adv'],
     ['Neubewertung','reevaluación','die','Neubewertungen','n'],
   ['drucken','imprimir','','','v'],['scannen','escane ar','','','v'],
   ['enttäuscht','decepcionado','','','adj'],
-    ['der 
-    ['der 
+    ['der Mechaniker','mecánico','der','Mechaniker','n'],
+    ['der Zahnarzt','dentista','der','Zahnärzte','n'],
     ['Namensgebung','nomenclatura','die','Namensgebungen','n'],
   ['geizig','tacaño','','','adj'],['höflich','cortés','','','adj'],
-    ['die 
+    ['die Dolmetscherin','intérprete','die','Dolmetscherinnen','n'],
   ['Instrument','el instrumento','das','','n'],
     ['sich entschließen','decidirse','','','v'],
     ['Neuanfang','nuevo comienzo','die','Neuanfänge','n'],
-    ['die 
+    ['die Kasse','caja','die','Kassen','n'],
   ['Partner','el compañero / pareja (masc.)','der','','n'],
   ['Husten','tos','der','','n'],['Grippe','gripe','die','Grippen','n'],
     ['Nebensache','cosa secundaria','die','Nebensachen','n'],
-    ['die 
+    ['die Köchin','cocinera','die','Köchinnen','n'],
   ['Leid','el sufrimiento / la pena','das','','n'],
   ['agradecer por','[agradecer por]','','','n'],
     ['Einwilligung','consentimiento','die','Einwilligungen','n'],
@@ -2604,13 +2604,13 @@ addLevel('A2.2',[
   ['Torte','la tarta','die','','n'],
   ['Gericht','el plato (comida) / tribunal','das','','n'],
   ['Charakter','carácter','der','Charaktere','n'],['Eigenschaft','cualidad','die','Eigenschaften','n'],
-    ['der 
-    ['die 
+    ['der Sport','deporte','der','Sportarten','n'],
+    ['die Meisterschaft','campeonato','die','Meisterschaften','n'],
   ['Ahnung','la idea / noción','die','','n'],
     ['sich sehnen','anhelar','','','v'],
   ['Einarbeitung','formación inicial','die','Einarbeitungen','n'],
   ['meinen','opinar','','','v'],['denken','pensar','','','v'],
-    ['die 
+    ['die U-Bahn','metro','die','U-Bahnen','n'],
   ['Festplatte','el disco duro','die','','n'],
     ['Erfolglosigkeit','falta de éxito','die','','n'],
     ['Pfleger','[Pfleger]','der','Pfleger','n'],
@@ -2629,12 +2629,12 @@ addLevel('A2.2',[
     ['Höhe','altura','die','Höhen','n'],
   ['Zehe','el dedo del pie','die','','n'],
   ['erhalten','recibir','','','v'],['versenden','expedir','','','v'],
-    ['die 
+    ['die Soldatin','soldada','die','Soldatinnen','n'],
   ['Handwerker','el artesano / operario','der','','n'],
-    ['der 
-    ['die 
+    ['der Fuß','pie','der','Füße','n'],
+    ['die Salbe','pomada','die','Salben','n'],
   ['Krise','la crisis','die','','n'],
-    ['der 
+    ['der Ozean','océano','der','Ozeane','n'],
   ['Tasche','bolso','die','Taschen','n'],['Gürtel','cinturón','der','Gürtel','n'],
   ['Tagung','congreso','die','Tagungen','n'],
   ['Kneipe','la taberna / el bar','die','','n'],
@@ -2652,17 +2652,17 @@ addLevel('A2.2',[
   ['gründen','fundar','','','v'],
   ['Gewinnbeteiligung','participación en beneficios','die','Gewinnbeteiligungen','n'],
     ['sich rechtfertigen','justificarse','','','v'],
-    ['die 
+    ['die Bahn','tren','die','Bahnen','n'],
     ['Manifestation','manifestación','die','Manifestationen','n'],
     ['Notbremse','freno de emergencia','die','Notbremsen','n'],
   ['Glück','felicidad','das','','n'],['Liebe','amor','die','','n'],
     ['Mühe','esfuerzo','die','Mühen','n'],
   ['Schluss','el final / conclusión','der','','n'],
     ['Mailbox','[Mailbox]','der','Mailboxen','n'],
-    ['der 
-    ['die 
+    ['der Termin','cita','der','Termine','n'],
+    ['die Geschäftsfrau','empresaria','die','Geschäftsfrauen','n'],
   ['Ärztin','médica','die','Ärztinnen','n'],
-    ['die 
+    ['die Architektin','arquitecta','die','Architektinnen','n'],
     ['Erniedrigung','humillación','die','Erniedrigungen','n'],
     ['ohnedies','de todas formas','','','adv'],
     ['sich verstecken','esconderse','','','v'],
@@ -2677,21 +2677,21 @@ addLevel('A2.2',[
     ['Mitarbeit','colaboración','die','Mitarbeiten','n'],
   ['Gegenteil','el contrario / opuesto','das','','n'],
   ['getrennt','separado','','','adj'],
-    ['der 
+    ['der Hafen','puerto','der','Häfen','n'],
     ['sich anpassen','adaptarse','','','v'],
     ['Papierindustrie','industria papelera','die','Papierindustrien','n'],
   ['backen','hornear','','','v'],
-    ['die 
+    ['die Allergie','alergia','die','Allergien','n'],
     ['Mitschuld','culpa compartida','die','','n'],
   ['Erkältung','resfriado','die','Erkältungen','n'],
-    ['die 
+    ['die Quittung','recibo','die','Quittungen','n'],
     ['Leserschaft','lectores','die','','n'],
     ['Lenkung','dirección','die','Lenkungen','n'],
-    ['die 
+    ['die Mannschaft','equipo','die','Mannschaften','n'],
     ['Minderung','reducción','die','Minderungen','n'],
-    ['der 
+    ['der Friseur','peluquero','der','Friseure','n'],
   ['Schrift','la escritura / letra','die','','n'],
-    ['die 
+    ['die Kröte','sapo','die','Kröten','n'],
   ['versichern','asegurar','','','v'],
   ['el desarrollo','[el desarrollo]','','','n'],
   ['verbinden','conectar','','','v'],['trennen','desconectar','','','v'],
@@ -2699,15 +2699,15 @@ addLevel('A2.2',[
     ['Eintragung','inscripción','die','Eintragungen','n'],
     ['mithin','por lo tanto','','','adv'],
     ['insoweit','en la medida','','','adv'],
-    ['die 
+    ['die Rechnung','factura','die','Rechnungen','n'],
   ['Dorf','el pueblo','das','','n'],
     ['geradeaus','recto','-','-','adv'],
-    ['der 
+    ['der Tierpark','parque zoológico','der','Tierparks','n'],
   ['einwerfen','echar','','','v'],
   ['umarmen','abrazar','','','v'],['streiten','pelearse','','','v'],
   ['Dokument','documento','das','Dokumente','n'],['Unterschrift','firma','die','Unterschriften','n'],
     ['gegenüber','enfrente','-','-','präp'],
-    ['der 
+    ['der Zebrastreifen','paso de cebra','der','Zebrastreifen','n'],
   ['besorgt','preocupado','','','adj'],
   ['Besichtigung','la visita guiada','die','','n'],
     ['Gegend','región','die','Gegenden','n'],
@@ -2719,15 +2719,15 @@ addLevel('A2.2',[
   ['Allergie','alergia','die','Allergien','n'],['Termin','cita','der','Termine','n'],
     ['Freundlichkeit','amabilidad','die','Freundlichkeiten','n'],
   ['Team','el equipo','das','','n'],
-    ['das 
+    ['das Bein','pierna','das','Beine','n'],
     ['sich beteiligen','participar','','','v'],
-    ['der 
+    ['der Rabatt','descuento','der','Rabatte','n'],
   ['Packung','el paquete / envase','die','','n'],
   ['Betrieb','la empresa / funcionamiento','der','','n'],
   ['riesig','enorme','','','adj'],
   ['bestehen','aprobar/superar','','','v'],['durchfallen','suspender','','','v'],
     ['Baumarkt','[Baumarkt]','das','Baumarkten','n'],
-    ['die 
+    ['die Möwe','gaviota','die','Möwen','n'],
     ['zusätzlich','adicionalmente','','','adv'],
   ['Unfallversicherung','seguro de accidentes','die','Unfallversicherungen','n'],
     ['somit','por lo tanto','','','adv'],
@@ -2735,7 +2735,7 @@ addLevel('A2.2',[
   ['verheiratet','casado','','','adj'],
   ['Wolldecke','la manta de lana','die','','n'],
     ['Oase','oasis','die','Oasen','n'],
-    ['die 
+    ['die Spritze','inyección','die','Spritzen','n'],
     ['sich durchsetzen','imponerse','','','v'],
   ['Klinik','la clínica','die','','n'],
   ['Tatsache','el hecho','die','','n'],
@@ -2749,17 +2749,17 @@ addLevel('A2.2',[
   ['Ware','la mercancía','die','','n'],
     ['Beleuchtung','iluminación','die','Beleuchtungen','n'],
   ['Grad','grado','der','Grade','n'],['Regenschirm','paraguas','der','Regenschirme','n'],
-    ['der 
+    ['der Preis','precio','der','Preise','n'],
   ['Pflegeversicherung','seguro de dependencia','die','Pflegeversicherungen','n'],
     ['Untersuchung','[Untersuchung]','die','Untersuchungen','n'],
-    ['der 
+    ['der Journalist','periodista','der','Journalisten','n'],
   ['Juwelier','joyería','der','Juweliere','n'],
   ['Stand','el puesto / estado','der','','n'],
-    ['die 
+    ['die Ampel','semáforo','die','Ampeln','n'],
     ['Diabetes','[Diabetes]','die','Diabetesen','n'],
   ['Geheimnis','el secreto','das','','n'],
   ['Gruppe','el grupo','die','','n'],
-    ['die 
+    ['die Sporthalle','polideportivo','die','Sporthallen','n'],
     ['Begrüßung','saludo','die','Begrüßungen','n'],
   ['Ehrenamt','voluntariado','das','Ehrenämter','n'],
   ['Einbruch','el robo / allanamiento','der','','n'],
@@ -2770,7 +2770,7 @@ addLevel('A2.2',[
   ['Zeitplan','el horario / cronograma','der','','n'],
   ['sparsam','ahorrador','','','adj'],
   ['begrüßen','saludar','','','v'],['verabschieden','despedir','','','v'],
-    ['die 
+    ['die Friseurin','peluquera','die','Friseurinnen','n'],
   ['Empfehlungsschreiben','carta de recomendación','das','Empfehlungsschreiben','n'],
   ['still','quieto','','','adj'],
     ['Einkaufsmöglichkeit','posibilidad de compra','die','Einkaufsmöglichkeiten','n'],
@@ -2782,7 +2782,7 @@ addLevel('A2.2',[
     ['Erhitzung','calentamiento','die','Erhitzungen','n'],
     ['Erhebung','encuesta','die','Erhebungen','n'],
     ['Umtausch','[Umtausch]','der','Umtauschen','n'],
-    ['der 
+    ['der BotanischerGarten','jardín botánico','der','BotanischeGärten','n'],
   ['Eröffnung','la inauguración','die','','n'],
     ['anstellen','encender','','','v'],
   ['ehrlich','honesto','','','adj'],['mutig','valiente','','','adj'],
@@ -2794,7 +2794,7 @@ addLevel('A2.2',[
   ['Anrufbeantworter','el contestador automático','der','','n'],
   ['denken an','[denken an]','','','n'],
     ['Anziehung','atracción','die','Anziehungen','n'],
-    ['die 
+    ['die Turnhalle','gimnasio','die','Turnhallen','n'],
   ['Kreis','el círculo','der','','n'],
     ['Krankenschwester','[Krankenschwester]','der','Krankenschwester','n'],
     ['darunter','entre ellos','','','adv'],
@@ -2803,19 +2803,19 @@ addLevel('A2.2',[
   ['Weiterbildung','formación continua','die','Weiterbildungen','n'],
   ['tauschen','intercambiar','','','v'],['anprobieren','probarse','','','v'],
     ['Beaufsichtigung','supervisión','die','Beaufsichtigungen','n'],
-    ['der 
+    ['der Husten','tos','der','Husten','n'],
   ['Tätigkeit','la actividad / ocupación','die','','n'],
     ['Dichtung','poesía','die','Dichtungen','n'],
-    ['die 
+    ['die Olympiade','olimpiada','die','Olympiaden','n'],
     ['einerseits','por un lado','','','adv'],
     ['abgeben','entregar','','','v'],
     ['sich erkälten','resfriarse','','','v'],
     ['Deckung','cobertura','die','Deckungen','n'],
   ['Ausländerbehörde','oficina de extranjería','die','Ausländerbehörden','n'],
     ['Entgegnung','réplica','die','Entgegnungen','n'],
-    ['die 
+    ['die Allee','avenida','die','Alleen','n'],
     ['Ermutigung','ánimo','die','Ermutigungen','n'],
-    ['die 
+    ['die Redakteurin','redactora','die','Redakteurinnen','n'],
     ['Cent','[Cent]','das','Centen','n'],
   ['Kopierer','fotocopiadora','der','Kopierer','n'],
     ['Bewilligung','aprobación','die','Bewilligungen','n'],
@@ -2832,17 +2832,17 @@ addLevel('A2.2',[
   ['el progreso','[el progreso]','','','n'],
   ['Tastatur','teclado','die','Tastaturen','n'],['Maus','ratón','die','Mäuse','n'],
   ['Tier','el animal','das','','n'],
-    ['die 
+    ['die Feuerwehrfrau','bombera','die','Feuerwehrfrauen','n'],
     ['Empfindung','sensación','die','Empfindungen','n'],
     ['Laken','sábana','das','Laken','n'],
   ['Tablette','la pastilla / tableta','die','','n'],
   ['unordentlich','desordenado','','','adj'],
-    ['die 
+    ['die Eidechse','lagartija','die','Eidechsen','n'],
   ['Fernbus','autobús de larga distancia','der','Fernbusse','n'],
   ['Dank','el agradecimiento','der','','n'],
   ['schmal','estrecho','','','adj'],
   ['Opfer','la víctima','das','','n'],
-    ['der 
+    ['der Fahrplan','horario','der','Fahrpläne','n'],
     ['Erbitterung','amargura','die','Erbitterungen','n'],
     ['Erwerbung','adquisición','die','Erwerbungen','n'],
   ['Grafik','el gráfico','die','','n'],
@@ -2852,64 +2852,64 @@ addLevel('A2.2',[
   ['Röntgen','rayos X','das','Röntgen','n'],['Krankenkasse','seguro médico','die','Krankenkassen','n'],
   ['Möbelhaus','tienda de muebles','das','Möbelhäuser','n'],
   ['Dauer','la duración','die','','n'],
-    ['die 
+    ['die Kreuzung','cruce','die','Kreuzungen','n'],
     ['Bereicherung','enriquecimiento','die','Bereicherungen','n'],
   ['Gespräch','la conversación','das','','n'],
   ['passen','quedar','','','v'],['stehen','quedar de pie','','','v'],
   ['Gewitter','tormenta','das','Gewitter','n'],['Blitz','relámpago','der','Blitze','n'],
-    ['der 
+    ['der Dolmetscher','intérprete','der','Dolmetscher','n'],
     ['Menschheit','humanidad','die','Menschheiten','n'],
     ['Loslösung','separación','die','Loslösungen','n'],
   ['Soße','la salsa','die','','n'],
     ['darauf','sobre eso','','','adv'],
   ['einschlafen','dormirse','','','v'],
   ['Zaun','valla','der','Zäune','n'],
-    ['die 
+    ['die Journalistin','periodista','die','Journalistinnen','n'],
   ['Verbot','prohibición','das','Verbote','n'],['heiraten','casarse','','','v'],
     ['Inszenierung','puesta en escena','die','Inszenierungen','n'],
     ['abnehmen','bajar','','','v'],
     ['Bezugnahme','referencia','die','Bezugnahmen','n'],
     ['Besonderheit','peculiaridad','die','Besonderheiten','n'],
-    ['der 
+    ['der Richter','juez','der','Richter','n'],
     ['sich umdrehen','darse la vuelta','','','v'],
   ['antworten','responder','','','v'],['wiederholen','repetir','','','v'],
-    ['der 
+    ['der Soldat','soldado','der','Soldaten','n'],
   ['Einstellungstest','test de selección','der','Einstellungstests','n'],
     ['Meditation','meditación','die','Meditationen','n'],
-    ['die 
+    ['die Synagoge','sinagoga','die','Synagogen','n'],
   ['Zuhörer','el oyente / audiencia','der','','n'],
   ['Adresse','dirección','die','Adressen','n'],['Telefonnummer','número teléfono','die','Telefonnummern','n'],
     ['Gliederung','estructura','die','Gliederungen','n'],
   ['Chefetage','dirección','die','Chefetagen','n'],
     ['Gefühllosigkeit','insensibilidad','die','','n'],
     ['sich vergewissern','asegurarse','','','v'],
-    ['der 
+    ['der Basketball','baloncesto','der','Basketbälle','n'],
   ['Kilometer','el kilómetro','der','','n'],
-    ['die 
+    ['die sbezüglich','al respecto','','','adv'],
     ['Fröhlichkeit','alegría','die','','n'],
-    ['der 
+    ['der Tempel','templo','der','Tempel','n'],
   ['Marke','la marca','die','','n'],
   ['gerecht','justo','','','adj'],
-    ['der 
+    ['der Kindergarten','guardería','der','Kindergärten','n'],
     ['Eigenheit','peculiaridad','die','Eigenheiten','n'],
   ['Norden','el norte','der','','n'],
-    ['die 
+    ['die Untersuchung','examen médico','die','Untersuchungen','n'],
   ['Scanner','escáner','der','Scanner','n'],
   ['Jugendzentrum','centro juvenil','das','Jugendzentren','n'],
     ['dazu','además','','','adv'],
-    ['die 
+    ['die Richterin','jueza','die','Richterinnen','n'],
     ['Ganzheit','totalidad','die','Ganzheiten','n'],
   ['Seife','el jabón','die','','n'],
   ['Krankheit','enfermedad','die','Krankheiten','n'],['Schnupfen','catarro','der','','n'],
     ['sich vermehren','multiplicarse','','','v'],
-    ['der 
+    ['der Verlierer','perdedor','der','Verlierer','n'],
     ['sich beschweren','quejarse','','','v'],
   ['Mindestlohn','salario mínimo','der','-','n'],
-    ['das 
+    ['das Schwimmbad','piscina','das','Schwimmbäder','n'],
   ['Zunge','lengua','die','Zungen','n'],['Finger','dedo','der','Finger','n'],
   ['Pullover','jersey','der','Pullover','n'],['Anzug','traje','der','Anzüge','n'],
     ['Ladung','carga','die','Ladungen','n'],
-    ['die 
+    ['die Nase','nariz','die','Nasen','n'],
     ['sodann','luego','','','adv'],
     ['Häufigkeit','frecuencia','die','Häufigkeiten','n'],
   ['sich anmelden','registrarse','','','v'],['sich abmelden','darse de baja','','','v'],
@@ -2920,11 +2920,11 @@ addLevel('A2.2',[
     ['Therapie','[Therapie]','die','Therapien','n'],
   ['Wechselstube','casa de cambio','die','Wechselstuben','n'],
     ['sich rühren','moverse','','','v'],
-    ['das 
+    ['das Portemonnaie','cartera','das','Portemonnaies','n'],
   ['Gymnastik','la gimnasia','die','','n'],
   ['Text','el texto','der','','n'],
     ['Bekämpfung','lucha','die','Bekämpfungen','n'],
-    ['die 
+    ['die Malerin','pintora','die','Malerinnen','n'],
     ['Nacktheit','desnudez','die','','n'],
     ['Durchsuchung','registro','die','Durchsuchungen','n'],
   ['wütend','furioso','','','adj'],
@@ -2938,13 +2938,13 @@ addLevel('A2.2',[
   ['Werkzeug','la herramienta','das','','n'],
   ['Haut','piel','die','Häute','n'],['Zahn','diente','der','Zähne','n'],
   ['Risiko','el riesgo','das','','n'],
-    ['das 
+    ['das Kaninchen','conejo','das','Kaninchen','n'],
   ['Kilo','el kilo','das','','n'],
     ['Hölle','infierno','die','Höllen','n'],
   ['Empfang','la recepción','der','','n'],
   ['wunderbar','maravilloso','','','adj'],
     ['Preis','[Preis]','die','Preisen','n'],
-    ['die 
+    ['die Burg','castillo','die','Burgen','n'],
   ['neugierig','curioso','','','adj'],['großzügig','generoso','','','adj'],
     ['zutreffend','pertinente','','','adj'],
   ['Wohnungsamt','oficina de vivienda','das','Wohnungsämter','n'],
@@ -2952,7 +2952,7 @@ addLevel('A2.2',[
     ['Nachbildung','reproducción','die','Nachbildungen','n'],
     ['Fassung','versión','die','Fassungen','n'],
   ['Humor','el humor','der','','n'],
-    ['der 
+    ['der Krankenwagen','ambulancia','der','Krankenwagen','n'],
     ['Medikament','[Medikament]','das','Medikamenten','n'],
   ['umziehen','mudarse','','','v'],
   ['unhöflich','grosero','','','adj'],['verrückt','loco','','','adj'],
@@ -2966,7 +2966,7 @@ addLevel('A2.2',[
     ['sich verwandeln','transformarse','','','v'],
     ['Ernennung','nombramiento','die','Ernennungen','n'],
   ['Kamera','cámara','die','Kameras','n'],['Handy','móvil','das','Handys','n'],
-    ['die 
+    ['die Bäckerei','panadería','die','Bäckereien','n'],
     ['Einkauf','[Einkauf]','die','Einkaufen','n'],
     ['sich eignen','ser adecuado','','','v'],
   ['Lebensversicherung','seguro de vida','die','Lebensversicherungen','n'],
@@ -2982,12 +2982,12 @@ addLevel('A2.2',[
   ['waschen','lavar','','','v'],
   ['Stadion','estadio','das','Stadien','n'],
   ['Donner','trueno','der','','n'],['Hagel','granizo','der','','n'],
-    ['der 
+    ['der Bauch','vientre','der','Bäuche','n'],
   ['Sprachkenntnisse','conocimientos de idiomas','die','-','n'],
   ['Hypothek','hipoteca','die','Hypotheken','n'],
-    ['das 
+    ['das Badminton','bádminton','das','Badminton','n'],
     ['Fälschung','falsificación','die','Fälschungen','n'],
-    ['die 
+    ['die Fledermaus','murciélago','die','Fledermäuse','n'],
     ['Lärmbelästigung','contaminación acústica','die','Lärmbelästigungen','n'],
     ['Leuchte','lámpara','die','Leuchten','n'],
   ['Minister','el ministro','der','','n'],
@@ -3000,19 +3000,19 @@ addLevel('A2.2',[
   ['vorbeikommen','pasar por','','','v'],
   ['Telefonzelle','cabina','die','Telefonzellen','n'],
   ['frühstücken','desayunar','','','v'],
-    ['die 
+    ['die Oper','ópera','die','Opern','n'],
   ['Service','el servicio','der','','n'],
     ['Ehrung','homenaje','die','Ehrungen','n'],
   ['Sucht','la adicción','die','','n'],
-    ['der 
+    ['der Sportler','deportista','der','Sportler','n'],
   ['Blatt','la hoja','das','','n'],
   ['glücklich','feliz','','','adj'],
   ['Anfang','el principio / comienzo','der','','n'],
-    ['der 
+    ['der Geschäftsmann','empresario','der','Geschäftsmänner','n'],
   ['Bausparvertrag','contrato de ahorro vivienda','der','Bausparverträge','n'],
-    ['der 
-    ['der 
-    ['der 
+    ['der Euro','euro','der','Euro','n'],
+    ['der Schnupfen','resfriado','der','Schnupfen','n'],
+    ['der Igel','erizo','der','Igel','n'],
   ['Mahlzeit','la comida (del día)','die','','n'],
   ['Stimmung','humor/ánimo','die','Stimmungen','n'],['Laune','humor','die','Launen','n'],
   ['Anschluss','la conexión (transporte/teléfono)','der','','n'],
@@ -3026,10 +3026,10 @@ addLevel('A2.2',[
     ['aufbewahren','guardar','','','v'],
     ['links','izquierda','-','-','adv'],
   ['lieben','amar','','','v'],['küssen','besar','','','v'],
-    ['der 
+    ['der Elektriker','electricista','der','Elektriker','n'],
   ['Region','la región','die','','n'],
     ['sich outen','declararse','','','v'],
-    ['das 
+    ['das Tor','portería/gol','das','Tore','n'],
   ['Katalog','el catálogo','der','','n'],
     ['Mopp','fregona','der','Mopps','n'],
   ['aufhängen','colgar','','','v'],
@@ -3038,16 +3038,16 @@ addLevel('A2.2',[
     ['Bekleidung','vestimenta','die','Bekleidungen','n'],
   ['leihen','prestar','','','v'],['ausleihen','pedir prestado','','','v'],
   ['Teilnehmer','el participante','der','','n'],
-    ['der 
+    ['der Polizist','policía','der','Polizisten','n'],
     ['Mäßigung','moderación','die','Mäßigungen','n'],
-    ['die 
+    ['die Weltmeisterschaft','mundial','die','Weltmeisterschaften','n'],
   ['weggehen','irse','','','v'],
   ['recordar','[recordar]','','','n'],
-    ['die 
+    ['die Krankenschwester','enfermera','die','Krankenschwestern','n'],
   ['aufmerksam','atento','','','adj'],
     ['Narkose','anestesia','die','Narkosen','n'],
   ['la historia','[la historia]','','','n'],
-    ['das 
+    ['das Pflaster','tirita','das','Pflaster','n']
 ]);
 
 addLevel('B1.1',[
@@ -3056,7 +3056,7 @@ addLevel('B1.1',[
   ['Mitarbeiter','empleado','der','Mitarbeiter','n'],['Vorgesetzte','superior','der','Vorgesetzten','n'],
   ['die Steuer','el impuesto','die','Steuern','n'],
   ['Abgas','el gas de escape','das','','n'],
-  ['das 
+  ['das s','que','','','conj'],['wenn','si/cuando','','','conj'],
   ['beanspruchen','reclamar','','','v'],
     ['heiß','caliente','-','-','adj'],
   ['maximal','máximo','','','adj'],
@@ -3073,7 +3073,7 @@ addLevel('B1.1',[
     ['fantastisch','fantástico','-','-','adj'],
   ['zusammenfassen','resumir','','','v'],
   ['Kommission','la comisión','die','','n'],
-    ['der 
+    ['der Drucker','impresora','der','Drucker','n'],
   ['Leistung','el rendimiento / el logro','die','','n'],
   ['Hochschule','la universidad / escuela superior','die','','n'],
     ['Deadline','[Deadline]','die','Deadlinen','n'],
@@ -3081,10 +3081,10 @@ addLevel('B1.1',[
   ['Sitz','el asiento / la sede','der','','n'],
   ['auswirken','afectar','','','v'],
   ['Quantität','la cantidad','die','','n'],
-    ['das 
+    ['das Büro','oficina','das','Büros','n'],
     ['nett','simpático','-','-','adj'],
     ['herankommen','acercarse','','','v'],
-    ['die 
+    ['die Bewerbung','solicitud','die','Bewerbungen','n'],
     ['nachholen','recuperar','','','v'],
     ['beliebt','popular','-','-','adj'],
   ['Heft','el cuaderno','das','','n'],
@@ -3097,7 +3097,7 @@ addLevel('B1.1',[
   ['Rand','el borde / el margen','der','','n'],
   ['zurückkommen','volver','','','v'],
   ['Situation','la situación','die','','n'],
-    ['der 
+    ['der Schreibtisch','escritorio','der','Schreibtische','n'],
   ['Steuer','impuesto','die','Steuern','n'],['Miete','alquiler','die','Mieten','n'],
   ['schützen','proteger','','','v'],
   ['Folge','la consecuencia / el episodio','die','','n'],
@@ -3109,12 +3109,12 @@ addLevel('B1.1',[
   ['Treffpunkt','el punto de encuentro','der','','n'],
   ['erwähnen','mencionar','','','v'],
   ['berufstätig','trabajador','','','adj'],['arbeitslos','desempleado','','','adj'],
-    ['das 
+    ['das Gehalt','salario','das','Gehälter','n'],
     ['gleichziehen','empatar','','','v'],
   ['Werk','la obra / la fábrica','das','','n'],
   ['Aussicht','la vista / perspectiva','die','','n'],
   ['die Bescheinigung','el certificado','die','Bescheinigungen','n'],
-  ['die 
+  ['Die sel','el diésel','der','','n'],
   ['Professor','el catedrático','der','','n'],
   ['ausstellen','[ausstellen]','','','n'],
     ['gleichstellen','equiparar','','','v'],
@@ -3126,7 +3126,7 @@ addLevel('B1.1',[
   ['geistig','mental','','','adj'],
     ['mitspielen','jugar con','','','v'],
     ['nachschlagen','consultar','','','v'],
-    ['die 
+    ['die Kantine','cantina','die','Kantinen','n'],
   ['die Nebenkosten','los gastos adicionales','die','Nebenkosten','n'],
     ['schmutzig','sucio','-','-','adj'],
   ['Minderheit','la minoría','die','','n'],
@@ -3145,16 +3145,16 @@ addLevel('B1.1',[
   ['Figur','la figura / el personaje','die','','n'],
   ['Kindergarten','la guardería','der','','n'],
     ['durchsetzen','imponer','','','v'],
-    ['das 
+    ['das Projekt','proyecto','das','Projekte','n'],
   ['Film','la película','der','','n'],
-    ['der 
+    ['der Arbeitgeber','empleador','der','Arbeitgeber','n'],
   ['Personalausweis','el DNI','der','','n'],
     ['freigeben','liberar','','','v'],
   ['Religion','la religión','die','','n'],
     ['bekanntmachen','dar a conocer','','','v'],
     ['dünn','delgado','-','-','adj'],
-    ['die 
-    ['die 
+    ['die Frist','plazo','die','Fristen','n'],
+    ['die Präsentation','presentación','die','Präsentationen','n'],
   ['Farbe','el color','die','','n'],
   ['außerdem','además','','','adv'],
   ['unpassend','inapropiado','','','adj'],
@@ -3170,9 +3170,9 @@ addLevel('B1.1',[
   ['Einfluss','la influencia','der','','n'],
   ['Stiefel','la bota','der','','n'],
   ['sich entschuldigen','disculparse','','','v'],
-    ['der 
+    ['der Vertrag','contrato','der','Verträge','n'],
   ['Briefträger','el cartero','der','','n'],
-    ['die 
+    ['die Konferenz','conferencia','die','Konferenzen','n'],
   ['obwohl','aunque','','','conj'],['weil','porque','','','conj'],
   ['mitkommen','acompañar','','','v'],
   ['politisch','político','','','adj'],
@@ -3198,7 +3198,7 @@ addLevel('B1.1',[
   ['weil','porque','','','conj'],['obwohl','aunque','','','conj'],
   ['erlaubt','permitido','','','adj'],
   ['Täter','el autor (delito)','der','','n'],
-    ['die 
+    ['die Überstunde','hora extra','die','Überstunden','n'],
   ['Monat','el mes','der','','n'],
   ['Abschluss','título','der','Abschlüsse','n'],['Stipendium','beca','das','Stipendien','n'],
   ['der Personalausweis','el DNI','der','Personalausweise','n'],
@@ -3208,7 +3208,7 @@ addLevel('B1.1',[
   ['behaupten','afirmar','','','v'],
   ['Kellner','el camarero','der','','n'],
     ['aussprechen','pronunciar','','','v'],
-    ['das 
+    ['das Vorstellungsgespräch','entrevista','das','Vorstellungsgespräche','n'],
   ['Ausrede','la excusa','die','','n'],
     ['auseinandersetzen','analizar','','','v'],
     ['kürzertreten','aflojar','','','v'],
@@ -3223,7 +3223,7 @@ addLevel('B1.1',[
   ['oberflächlich','superficial','','','adj'],
   ['Eis','el helado / hielo','das','','n'],
     ['Präsentation','[Präsentation]','die','Präsentationen','n'],
-    ['das 
+    ['das Meeting','reunión','das','Meetings','n'],
     ['einigen','unir','','','v'],
   ['Baustelle','la obra (construcción)','die','','n'],
   ['Garantie','la garantía','die','','n'],
@@ -3242,8 +3242,8 @@ addLevel('B1.1',[
   ['umfassend','extenso','','','adj'],
   ['Fleiß','la aplicación / el esfuerzo','der','','n'],
   ['selbstständig','autónomo','','','adj'],['ehrenamtlich','voluntario','','','adj'],
-  ['die 
-    ['der 
+  ['Die nst','el servicio / el turno','der','','n'],
+    ['der Lebenslauf','currículum','der','Lebensläufe','n'],
   ['die Hypothek','la hipoteca','die','Hypotheken','n'],
     ['neu','nuevo','-','-','adj'],
   ['solange','mientras','','','conj'],['bevor','antes de que','','','conj'],
@@ -3319,7 +3319,7 @@ addLevel('B1.1',[
   ['gültig','válido','','','adj'],
     ['warm','caliente','-','-','adj'],
     ['hochheben','levantar','','','v'],
-    ['die 
+    ['die Aufgabe','tarea','die','Aufgaben','n'],
   ['Gewissen','la conciencia','das','','n'],
   ['exponer','[exponer]','','','n'],
   ['Kündigung','despido','die','Kündigungen','n'],['Rente','jubilación','die','Renten','n'],
@@ -3342,10 +3342,10 @@ addLevel('B1.1',[
   ['Creme','la crema','die','','n'],
   ['quejarse de','[quejarse de]','','','n'],
     ['entspannt','relajado','-','-','adj'],
-    ['die 
+    ['die Fortbildung','formación','die','Fortbildungen','n'],
     ['spitz','puntiagudo','-','-','adj'],
     ['herausnehmen','sacar','','','v'],
-    ['die 
+    ['die Firma','empresa','die','Firmen','n'],
   ['Erfahrung','experiencia','die','Erfahrungen','n'],['Eindruck','impresión','der','Eindrücke','n'],
   ['Bewerbung','solicitud','die','Bewerbungen','n'],['Vorstellungsgespräch','entrevista','das','Vorstellungsgespräche','n'],
   ['Einkommen','los ingresos','das','','n'],
@@ -3375,7 +3375,7 @@ addLevel('B1.1',[
   ['erwartet','esperado','','','adj'],
   ['participar en','[participar en]','','','n'],
   ['jährlich','anual','','','adj'],
-    ['die 
+    ['die Abteilung','departamento','die','Abteilungen','n'],
   ['Kampf','la lucha / el combate','der','','n'],
   ['Achtung','el respeto / atención','die','','n'],
   ['Ausgabe','el gasto / la edición','die','','n'],
@@ -3392,9 +3392,9 @@ addLevel('B1.1',[
   ['Anrede','el encabezamiento (carta)','die','','n'],
   ['Tante','la tía','die','','n'],
   ['ausführlich','detallado','','','adj'],
-  ['die 
+  ['Die b','el ladrón','der','','n'],
   ['Bedürfnis','la necesidad','das','','n'],
-    ['der 
+    ['der Arbeitnehmer','empleado','der','Arbeitnehmer','n'],
   ['bewusst','consciente','','','adj'],
   ['Tal','el valle','das','','n'],
   ['Lächeln','la sonrisa','das','','n'],
@@ -3404,7 +3404,7 @@ addLevel('B1.1',[
   ['Verpackung','el embalaje','die','','n'],
   ['rechtlich','legal','','','adj'],
   ['Pille','la pastilla','die','','n'],
-    ['das 
+    ['das Seminar','seminario','das','Seminare','n'],
   ['unauffällig','discreto','','','adj'],
   ['unerträglich','intolerable','','','adj'],
   ['das Gehalt','el salario','das','Gehälter','n'],
@@ -3414,7 +3414,7 @@ addLevel('B1.1',[
   ['Art','el tipo / la manera','die','','n'],
     ['hervorbringen','producir','','','v'],
     ['eindringen','penetrar','','','v'],
-    ['die 
+    ['die Besprechung','reunión','die','Besprechungen','n'],
   ['diskutieren','discutir','','','v'],
   ['die Kaution','la fianza','die','Kautionen','n'],
   ['Kalender','el calendario','der','','n'],
@@ -3454,7 +3454,7 @@ addLevel('B1.1',[
   ['encontrarse con','[encontrarse con]','','','n'],
   ['Kochtopf','la olla','der','','n'],
   ['der Ausweis','el documento','der','Ausweise','n'],
-    ['das 
+    ['das Telefon','teléfono','das','Telefone','n'],
     ['Abteilung','[Abteilung]','die','Abteilungen','n'],
   ['monatlich','mensual','','','adj'],
   ['die Abmeldung','la baja','die','Abmeldungen','n'],
@@ -3466,7 +3466,7 @@ addLevel('B1.1',[
   ['Jahreszeit','la estación del año','die','','n'],
     ['mitgeben','dar','','','v'],
     ['grundlegen','fundamentar','','','v'],
-    ['der 
+    ['der Urlaub','vacaciones','der','Urlaube','n'],
   ['bewerten','evaluar','','','v'],['beurteilen','juzgar','','','v'],
   ['Birne','la pera / bombilla','die','','n'],
   ['Ereignis','el acontecimiento','das','','n'],
@@ -3489,7 +3489,7 @@ addLevel('B1.1',[
   ['Sekretariat','la secretaría','das','','n'],
   ['hingegen','en cambio','','','adv'],
   ['Gebäude','el edificio','das','','n'],
-    ['der 
+    ['der Kollege','colega','der','Kollegen','n'],
     ['Mittagspause','[Mittagspause]','das','Mittagspausen','n'],
   ['wöchentlich','semanal','','','adj'],
   ['Künstler','el artista','der','','n'],
@@ -3505,7 +3505,7 @@ addLevel('B1.1',[
     ['herausfinden','descubrir','','','v'],
     ['heimbringen','llevar a casa','','','v'],
   ['Eisenbahn','el ferrocarril','die','','n'],
-    ['der 
+    ['der Chef','jefe','der','Chefs','n'],
   ['Unternehmen','empresa','das','Unternehmen','n'],['Abteilung','departamento','die','Abteilungen','n'],
     ['nachsehen','revisar','','','v'],
     ['mitfahren','viajar con','','','v'],
@@ -3520,7 +3520,7 @@ addLevel('B1.1',[
     ['modern','moderno','-','-','adj'],
   ['Fähigkeit','la capacidad / la habilidad','die','','n'],
   ['Architektur','la arquitectura','die','','n'],
-    ['die 
+    ['die Pause','pausa','die','Pausen','n'],
     ['losfahren','partir','','','v'],
   ['Kunst','el arte','die','','n'],
   ['Schweiß','el sudor','der','','n'],
@@ -3542,7 +3542,7 @@ addLevel('B1.1',[
   ['Ferien','las vacaciones','die','','n'],
   ['Pappe','el cartón','die','','n'],
   ['Vase','el jarrón','die','','n'],
-    ['der 
+    ['der Computer','ordenador','der','Computer','n'],
   ['Gedächtnis','la memoria','das','','n'],
   ['Passagier','el pasajero','der','','n'],
     ['Urlaub','[Urlaub]','die','Urlauben','n'],
@@ -3555,10 +3555,10 @@ addLevel('B1.2',[
     ['tatsächlich','de hecho','-','-','adv'],
   ['temer a','[temer a]','','','n'],
   ['Spieler','jugador','der','Spieler','n'],['Trainer','entrenador','der','Trainer','n'],
-    ['die 
+    ['die Tastatur','teclado','die','Tastaturen','n'],
   ['fehlen','faltar','','','v'],['stattfinden','tener lugar','','','v'],
-    ['die 
-    ['der 
+    ['die Software','software','die','Softwares','n'],
+    ['der Stecker','enchufe','der','Stecker','n'],
     ['erneuerbar','[erneuerbar]','der','erneuerbaren','n'],
     ['künftig','en el futuro','-','-','adv'],
     ['zurückgehen','retroceder','','','v'],
@@ -3568,52 +3568,52 @@ addLevel('B1.2',[
   ['Gesetz','ley','das','Gesetze','n'],['Recht','derecho','das','Rechte','n'],
     ['mitsamt','junto con','-','-','prp'],
   ['Jubiläum','aniversario','das','Jubiläen','n'],['Feier','fiesta','die','Feiern','n'],
-    ['das 
+    ['das Bild','cuadro','das','Bilder','n'],
     ['vortragen','presentar','','','v'],
     ['verzögern','retrasar','','','v'],
   ['Vergangenheit','pasado','die','Vergangenheiten','n'],['Gegenwart','presente','die','Gegenwarten','n'],
     ['ziemlich','bastante','-','-','adv'],
-    ['der 
+    ['der Makler','agente','der','Makler','n'],
   ['hoffentlich','ojalá','','','adv'],
     ['weglassen','omitir','','','v'],
   ['Politik','política','die','Politiken','n'],['Regierung','gobierno','die','Regierungen','n'],
     ['Makler','[Makler]','der','Makler','n'],
   ['Mitgefühl','compasión','das','-','n'],
-    ['die 
+    ['die Firewall','cortafuegos','die','Firewalls','n'],
   ['diferenciarse de','[diferenciarse de]','','','n'],
     ['vorlegen','presentar','','','v'],
-    ['das 
+    ['das Tablet','tableta','das','Tablets','n'],
   ['Dialog','el diálogo','der','','n'],
-    ['die 
-    ['das 
+    ['die Nebenkosten','gastos adicionales','die','Nebenkosten','n'],
+    ['das Kabel','cable','das','Kabel','n'],
   ['allmählich','poco a poco','','','adv'],['inzwischen','mientras tanto','','','adv'],
     ['wiederkommen','volver','','','v'],
   ['para','[para]','','','n'],
-    ['die 
+    ['die Schulter','hombro','die','Schultern','n'],
     ['Miete','[Miete]','die','Mieten','n'],
     ['zukünftig','en el futuro','-','-','adv'],
     ['wiedererkennen','reconocer','','','v'],
-    ['der 
-    ['der 
+    ['der Regenbogen','arcoíris','der','Regenbogen','n'],
+    ['der Frost','helada','der','Froste','n'],
     ['programmieren','programar','-','-','v'],
     ['umstellen','reorganizar','','','v'],
     ['betreffs','en relación a','-','-','prp'],
     ['Laptop','[Laptop]','die','Laptopen','n'],
-    ['die 
+    ['die Luft','aire','die','Lüfte','n'],
     ['vorwerfen','acusar','','','v'],
     ['vorschreiben','prescribir','','','v'],
   ['sich konzentrieren auf','[sich konzentrieren auf]','','','n'],
-    ['die 
+    ['die Wohnungsanzeige','anuncio de piso','die','Wohnungsanzeigen','n'],
   ['Gemeinde','municipio','die','Gemeinden','n'],
   ['erlauben','permitir','','','v'],
     ['Naturschutz','[Naturschutz]','das','Naturschutzen','n'],
   ['Bewegung','ejercicio','die','Bewegungen','n'],['Sportart','deporte','der','Sportarten','n'],
   ['Botschafter','embajador','der','Botschafter','n'],
-    ['der 
+    ['der Ökostrom','electricidad verde','der','Ökoströme','n'],
   ['Klausur','examen escrito','die','Klausuren','n'],
   ['Integration','integración','die','Integrationen','n'],['Kultur','cultura','die','Kulturen','n'],
   ['gering','escaso','','','adj'],['ausreichend','suficiente','','','adj'],
-    ['das 
+    ['das Netzwerk','red','das','Netzwerke','n'],
     ['Autofahrt','[Autofahrt]','das','Autofahrten','n'],
   ['ungeeignet','inadecuado','','','adj'],['passend','adecuado','','','adj'],
   ['Freiheit','libertad','die','Freiheiten','n'],['Gerechtigkeit','justicia','die','Gerechtigkeiten','n'],
@@ -3622,28 +3622,28 @@ addLevel('B1.2',[
   ['harmonisch','[harmonisch]','','','adj'],
     ['See','[See]','das','Seen','n'],
     ['weiterarbeiten','seguir trabajando','','','v'],
-    ['der 
+    ['der Hals','cuello','der','Hälse','n'],
     ['Kopfhörer','[Kopfhörer]','der','Kopfhörer','n'],
     ['beschäftigen','ocupar','','','v'],
-    ['der 
+    ['der Sturm','tormenta','der','Stürme','n'],
   ['Annahme','la suposición / aceptación','die','','n'],
   ['verhandeln','negociar','','','v'],
-    ['die 
+    ['die Hardware','hardware','die','Hardwares','n'],
     ['seither','desde entonces','-','-','adv'],
     ['Artenschutz','[Artenschutz]','die','Artenschutzen','n'],
-    ['der 
+    ['der Naturschutz','protección de la naturaleza','der','Naturschutz','n'],
     ['recyceln','[recyceln]','das','recycelnen','n'],
-    ['die 
+    ['die Aussicht','vista','die','Aussichten','n'],
   ['Tuch','el pañuelo / la tela','das','','n'],
     ['zusammenwirken','cooperar','','','v'],
     ['Prozessor','[Prozessor]','der','Prozessoren','n'],
-    ['die 
+    ['die Kaution','fianza','die','Kautionen','n'],
     ['einwirken','influir','','','v'],
   ['bestimmt','seguramente','','','adv'],
   ['Geburtstag','cumpleaños','der','Geburtstage','n'],['Hochzeit','boda','die','Hochzeiten','n'],
   ['ausgerechnet','precisamente','','','adv'],
     ['umrechnen','convertir','','','v'],
-    ['die 
+    ['die Leber','hígado','die','Lebern','n'],
     ['verlängern','alargar','','','v'],
   ['Holz','la madera','das','','n'],
     ['Dankbarkeit','gratitud','die','','n'],
@@ -3653,21 +3653,21 @@ addLevel('B1.2',[
   ['Bekannte','el conocido','der','','n'],
   ['basieren','basar','','','v'],['gründen','fundar','','','v'],
     ['anhand','basándose en','-','-','prp'],
-    ['das 
+    ['das Chaos','caos','das','Chaos','n'],
   ['Renovierung','renovación','die','Renovierungen','n'],
   ['umfassen','abarcar','','','v'],['einschließen','incluir','','','v'],
     ['Energie','[Energie]','die','Energien','n'],
     ['verstopfen','obstruir','','','v'],
     ['zunehmen','aumentar','','','v'],
     ['vorsingen','cantar','','','v'],
-    ['die 
+    ['die sseits','de este lado','-','-','prp'],
   ['Lösung','solución','die','Lösungen','n'],['Problem','problema','das','Probleme','n'],
     ['zusammenstellen','compilar','','','v'],
   ['invitar a','[invitar a]','','','n'],
-    ['die 
+    ['die Wiese','prado','die','Wiesen','n'],
   ['seelisch','psíquico','','','adj'],
   ['Verein','club','der','Vereine','n'],['Mitglied','miembro','das','Mitglieder','n'],
-    ['das 
+    ['das Licht','luz','das','Lichter','n'],
     ['unschuldig','inocente','-','-','adj'],
   ['Demokratie','democracia','die','Demokratien','n'],['Partei','partido','die','Parteien','n'],
   ['el cuadro','[el cuadro]','','','n'],
@@ -3677,21 +3677,21 @@ addLevel('B1.2',[
     ['zurücklassen','dejar atrás','','','v'],
   ['genial','[genial]','','','n'],
   ['Internat','el internado','das','','n'],
-    ['das 
+    ['das Backup','copia de seguridad','das','Backups','n'],
   ['zunächst','primero','','','adv'],
     ['speichern','guardar','-','-','v'],
-    ['die 
+    ['die Kraft','fuerza','die','Kräfte','n'],
     ['Klimawandel','[Klimawandel]','das','Klimawandel','n'],
   ['Sehenswürdigkeit','la atracción turística','die','','n'],
     ['teils','en parte','-','-','adv'],
     ['gelangweilt','aburrido','-','-','adj'],
-    ['der 
+    ['der Tornado','tornado','der','Tornados','n'],
   ['jeweils','respectivamente','','','adv'],
     ['Windkraft','[Windkraft]','die','Windkraften','n'],
-    ['die 
+    ['die Lunge','pulmón','die','Lungen','n'],
   ['Studentenwohnheim','residencia','das','Studentenwohnheime','n'],
     ['bestätigen','confirmar','-','-','v'],
-    ['die 
+    ['die Solaranlage','placa solar','die','Solaranlagen','n'],
   ['dauerhaft','permanente','','','adj'],['gemeinsam','compartido','','','adj'],
   ['Fertigkeit','destreza','die','Fertigkeiten','n'],
     ['Passwort','[Passwort]','die','Passworten','n'],
@@ -3699,88 +3699,88 @@ addLevel('B1.2',[
   ['zugleich','a la vez','','','adv'],
     ['selbstbewusst','seguro de sí mismo','-','-','adj'],
     ['ab','a partir de','-','-','prp'],
-    ['die 
+    ['die Pappe','cartón','die','Pappen','n'],
   ['beschließen','decidir','','','v'],['vereinbaren','acordar','','','v'],
     ['zusammenhängen','relacionarse','','','v'],
     ['Reihenhaus','[Reihenhaus]','der','Reihenhausen','n'],
   ['nachher','después','','','adv'],
-    ['das 
+    ['das Gehirn','cerebro','das','Gehirne','n'],
     ['verwechseln','confundir','','','v'],
     ['niederschlagen','derribar','','','v'],
   ['möglicherweise','posiblemente','','','adv'],
   ['aushalten','soportar','','','v'],
-    ['die 
+    ['die Wanderung','excursión','die','Wanderungen','n'],
   ['Präsident','el presidente','der','','n'],
-    ['der 
-    ['der 
+    ['der Teppich','alfombra','der','Teppiche','n'],
+    ['der Sand','arena','der','Sande','n'],
   ['Leben','la vida','das','','n'],
-    ['das 
+    ['das Programm','programa','das','Programme','n'],
     ['Wasserkraft','[Wasserkraft]','die','Wasserkraften','n'],
-    ['die 
+    ['die Lava','lava','die','Laven','n'],
   ['Vorbereitung','preparación','die','Vorbereitungen','n'],['Durchführung','realización','die','Durchführungen','n'],
     ['aufgrund','debido a','-','-','prp'],
-    ['der 
-    ['der 
+    ['der Campingplatz','camping','der','Campingplätze','n'],
+    ['der Ordner','carpeta','der','Ordner','n'],
   ['Ursache','causa','die','Ursachen','n'],['Wirkung','efecto','die','Wirkungen','n'],
     ['zugunsten','en favor de','-','-','prp'],
-    ['das 
+    ['das Gestein','roca','das','Gesteine','n'],
     ['größtenteils','en su mayoría','-','-','adv'],
     ['EMail','[EMail]','das','EMailen','n'],
-    ['die 
-    ['der 
+    ['die Wohnung','piso','die','Wohnungen','n'],
+    ['der Boden','suelo','der','Böden','n'],
   ['Ähnlichkeit','similitud','die','Ähnlichkeiten','n'],['Vorteil','ventaja','der','Vorteile','n'],
     ['eingehen','aceptar','','','v'],
   ['la escultura','[la escultura]','','','n'],
-    ['der 
-    ['die 
-    ['das 
+    ['der Müll','basura','der','Müllarten','n'],
+    ['die Website','sitio web','die','Websites','n'],
+    ['das Papier','papel','das','Papiere','n'],
   ['unterstützen','apoyar','','','v'],['fördern','fomentar','','','v'],
-    ['das 
+    ['das Regal','estantería','das','Regale','n'],
     ['weiterführen','continuar','','','v'],
     ['verwirrt','confundido','-','-','adj'],
   ['daher','por ello','','','adv'],
-    ['der 
+    ['der Donner','trueno','der','Donner','n'],
     ['Einfamilienhaus','[Einfamilienhaus]','der','Einfamilienhausen','n'],
   ['teilnehmen','participar','','','v'],['erfahren','enterarse','','','v'],
   ['Nutzen','el beneficio / la utilidad','der','','n'],
   ['Ingenieur','el ingeniero','der','','n'],
-    ['der 
+    ['der Daumen','pulgar','der','Daumen','n'],
     ['verlegen','avergonzado','-','-','adj'],
   ['Aussage','la declaración','die','','n'],
     ['Reue','arrepentimiento','die','','n'],
     ['Stadt','[Stadt]','die','Stadten','n'],
   ['sich entwickeln','desarrollarse','','','v'],
-    ['die 
+    ['die Wüste','desierto','die','Wüsten','n'],
   ['bereits','ya','','','adv'],
-    ['der 
+    ['der Dunst','bruma','der','Dunste','n'],
     ['Abfalltrennung','[Abfalltrennung]','die','Abfalltrennungen','n'],
     ['Müllverbrennung','[Müllverbrennung]','die','Müllverbrennungen','n'],
   ['damals','entonces','','','adv'],
   ['el artista','[el artista]','','','n'],
     ['korrigieren','corregir','-','-','v'],
-    ['die 
+    ['die Datei','archivo','die','Dateien','n'],
   ['gehören zu','[gehören zu]','','','n'],
-    ['der 
+    ['der Hügel','colina','der','Hügel','n'],
   ['Note','nota','die','Noten','n'],
   ['plötzlich','de repente','','','adv'],
-    ['das 
+    ['das Kissen','cojín','das','Kissen','n'],
   ['Sieg','victoria','der','Siege','n'],['Niederlage','derrota','die','Niederlagen','n'],
-    ['die 
+    ['die Erkältung','resfriado','die','Erkältungen','n'],
     ['unzufrieden','insatisfecho','-','-','adj'],
   ['Abitur','la selectividad','das','','n'],
     ['zusammenfügen','unir','','','v'],
-    ['der 
+    ['der Meteor','meteoro','der','Meteore','n'],
     ['Smartphone','[Smartphone]','der','Smartphonen','n'],
   ['nachdenken','reflexionar','','','v'],
   ['bekommen','[bekommen]','','','n'],
     ['Browser','[Browser]','der','Browser','n'],
-    ['der 
-    ['der 
-    ['der 
+    ['der Download','descarga','der','Downloads','n'],
+    ['der Dschungel','selva','der','Dschungel','n'],
+    ['der Treibhauseffekt','efecto invernadero','der','Treibhauseffekte','n'],
     ['infolge','a consecuencia de','-','-','prp'],
     ['Eigentumswohnung','[Eigentumswohnung]','die','Eigentumswohnungen','n'],
     ['um...herum','alrededor de','-','-','prp'],
-    ['die 
+    ['die Kamera','cámara','die','Kameras','n'],
   ['Nachteil','desventaja','der','Nachteile','n'],['Bedeutung','significado','die','Bedeutungen','n'],
   ['überreden','persuadir','','','v'],['ablehnen','rechazar','','','v'],
   ['sich gewöhnen an','[sich gewöhnen an]','','','n'],
@@ -3796,7 +3796,7 @@ addLevel('B1.2',[
   ['dafür','a favor','','','adv'],
   ['Erlebnis','experiencia','das','Erlebnisse','n'],
   ['fortsetzen','continuar','','','v'],['unterbrechen','interrumpir','','','v'],
-    ['der 
+    ['der Desktop','escritorio','der','Desktops','n'],
   ['Menschenrecht','derecho humano','das','Menschenrechte','n'],
   ['sich streiten','discutir','','','v'],
     ['nebst','además de','-','-','prp'],
@@ -3809,20 +3809,20 @@ addLevel('B1.2',[
   ['dringend','urgente','','','adj'],['notwendig','necesario','','','adj'],
     ['weiterbilden','seguir formándose','','','v'],
   ['la influencia','[la influencia]','','','n'],
-    ['das 
+    ['das Bett','cama','das','Betten','n'],
   ['Anleitung','la instrucción / guía','die','','n'],
-    ['die 
+    ['die Jugendherberge','albergue juvenil','die','Jugendherbergen','n'],
   ['Typ','el tipo','der','','n'],
-    ['die 
-    ['die 
-    ['der 
+    ['die Einrichtung','mobiliario','die','Einrichtungen','n'],
+    ['die Miete','alquiler','die','Mieten','n'],
+    ['der Blitz','rayo','der','Blitze','n'],
   ['abstrakt','[abstrakt]','','','adj'],
-    ['die 
+    ['die Besichtigung','visita','die','Besichtigungen','n'],
     ['vorkommen','ocurrir','','','v'],
-    ['die 
+    ['die Weide','pastizal','die','Weiden','n'],
   ['einladen zu','[einladen zu]','','','n'],
     ['eintreten','ocurrir','','','v'],
-    ['der 
+    ['der Mietvertrag','contrato de alquiler','der','Mietverträge','n'],
     ['einfügen','insertar','-','-','v'],
     ['total','totalmente','-','-','adv'],
     ['verletzen','herir','','','v'],
@@ -3834,13 +3834,13 @@ addLevel('B1.2',[
   ['Pilot','el piloto','der','','n'],
   ['Spiegel','el espejo','der','','n'],
     ['bezüglich','referente a','-','-','prp'],
-    ['die 
+    ['die Wärme','calor','die','Wärmen','n'],
   ['sich bemühen','esforzarse','','','v'],
   ['Silvester','Nochevieja','das','','n'],['Karneval','carnaval','der','Karnevale','n'],
-    ['die 
+    ['die Dose','lata','die','Dosen','n'],
     ['Nachbarschaft','[Nachbarschaft]','die','Nachbarschaften','n'],
   ['acostumbrarse a','[acostumbrarse a]','','','n'],
-    ['der 
+    ['der Muskel','músculo','der','Muskeln','n'],
     ['anscheinend','aparentemente','-','-','adv'],
   ['Fabrik','la fábrica','die','','n'],
   ['Versuch','el intento / el experimento','der','','n'],
@@ -3851,39 +3851,39 @@ addLevel('B1.2',[
     ['umbauen','reformar','','','v'],
     ['verschmutzen','[verschmutzen]','die','verschmutzen','n'],
     ['recht','bastante','-','-','adv'],
-    ['der 
+    ['der Bach','arroyo','der','Bäche','n'],
   ['depender de','[depender de]','','','n'],
     ['biologisch','[biologisch]','der','biologischen','n'],
-    ['der 
-    ['die 
-    ['die 
-    ['die 
-    ['das 
+    ['der Abfall','residuo','der','Abfälle','n'],
+    ['die E-Mail','correo electrónico','die','E-Mails','n'],
+    ['die Sehenswürdigkeit','lugar de interés','die','Sehenswürdigkeiten','n'],
+    ['die Vase','florero','die','Vasen','n'],
+    ['das Internet','internet','das','Internet','n'],
   ['Buchstabe','la letra (alfabeto)','der','','n'],
   ['willkommen','bienvenido','','','adj'],['beliebt','popular','','','adj'],
     ['zwecks','con el fin de','-','-','prp'],
-    ['das 
-    ['das 
+    ['das Knie','rodilla','das','Knie','n'],
+    ['das Tal','valle','das','Täler','n'],
     ['giftig','[giftig]','der','giftigen','n'],
   ['Gesellschaft','sociedad','die','Gesellschaften','n'],['Umwelt','medio ambiente','die','Umwelten','n'],
     ['Biomasse','[Biomasse]','das','Biomassen','n'],
-    ['der 
+    ['der Mieter','inquilino','der','Mieter','n'],
     ['vorausgehen','preceder','','','v'],
     ['Hotel','[Hotel]','das','Hotel','n'],
-    ['das 
+    ['das Möbelstück','mueble','das','Möbelstücke','n'],
     ['sparen','[sparen]','die','sparen','n'],
-    ['der 
+    ['der Finger','dedo','der','Finger','n'],
     ['erwärmen','[erwärmen]','die','erwärmen','n'],
     ['Benutzername','[Benutzername]','der','Benutzernamen','n'],
-    ['der 
+    ['der Vorhang','cortina','der','Vorhänge','n'],
   ['sich verlieben','enamorarse','','','v'],
     ['anstelle','en lugar de','-','-','prp'],
     ['schuldig','culpable','-','-','adj'],
   ['Macht','poder','die','Mächte','n'],['Gewalt','violencia','die','','n'],
-    ['der 
+    ['der Wasserfall','cascada','der','Wasserfälle','n'],
     ['inzwischen','mientras tanto','-','-','adv'],
     ['besonders','especialmente','-','-','adv'],
-    ['der 
+    ['der Benutzername','nombre de usuario','der','Benutzernamen','n'],
     ['beinahe','casi','-','-','adv'],
   ['kaum','apenas','','','adv'],
   ['Möglichkeit','posibilidad','die','Möglichkeiten','n'],['Gelegenheit','oportunidad','die','Gelegenheiten','n'],
@@ -3895,54 +3895,54 @@ addLevel('B1.2',[
     ['längs','a lo largo de','-','-','prp'],
     ['Anfänger','principiante','der','Anfänger','n'],
     ['wiederfinden','reencontrar','','','v'],
-    ['das 
-    ['das 
+    ['das Ohr','oído/oreja','das','Ohren','n'],
+    ['das Blut','sangre','das','Blut','n'],
     ['vorrücken','avanzar','','','v'],
     ['umfallen','caerse','','','v'],
   ['ungefähr','aproximado','','','adj'],['annähernd','aproximado','','','adj'],
-    ['der 
+    ['der Komet','cometa','der','Kometen','n'],
     ['enttäuschen','decepcionar','','','v'],
   ['Lippe','el labio','die','','n'],
     ['sich verabschieden','despedirse','','','v'],
-    ['die 
+    ['die Umwelt','medio ambiente','die','Umwelten','n'],
   ['zuschauen','mirar','','','v'],['mitmachen','participar','','','v'],
     ['niederschreiben','escribir','','','v'],
     ['weitergehen','continuar','','','v'],
   ['Rekord','récord','der','Rekorde','n'],['Medaille','medalla','die','Medaillen','n'],
     ['USBStick','[USBStick]','der','USBSticken','n'],
     ['hoffnungsvoll','esperanzado','-','-','adj'],
-    ['die 
+    ['die Tonne','contenedor','die','Tonnen','n'],
   ['angeblich','supuestamente','','','adv'],
-    ['der 
+    ['der Arzt','médico','der','Ärzte','n'],
   ['Arbeitsamt','la oficina de empleo','das','','n'],
     ['von...an','desde','-','-','prp'],
   ['Mechaniker','el mecánico','der','','n'],
-    ['die 
+    ['die Wunde','herida','die','Wunden','n'],
   ['entstehen','surgir','','','v'],['verursachen','causar','','','v'],
     ['umtauschen','intercambiar','','','v'],
-    ['das 
+    ['das Smartphone','smartphone','das','Smartphones','n'],
     ['Verlängerung','prórroga','die','Verlängerungen','n'],
     ['zurückkehren','regresar','','','v'],
     ['samt','junto con','-','-','prp'],
-    ['der 
+    ['der Server','servidor','der','Server','n'],
     ['vorlesen','leer en voz alta','','','v'],
   ['Erfinder','el inventor','der','','n'],
   ['sofort','inmediatamente','','','adv'],
   ['ständig','constante','','','adj'],['vorübergehend','temporal','','','adj'],
-    ['der 
+    ['der Akku','batería','der','Akkus','n'],
     ['Vergebung','perdón','die','','n'],
   ['Seminar','seminario','das','Seminare','n'],
   ['super','[super]','','','n'],
     ['Programm','[Programm]','die','Programmen','n'],
     ['niederlegen','deponer','','','v'],
-    ['der 
+    ['der Hagel','granizo','der','Hagel','n'],
   ['Geschichte','historia','die','Geschichten','n'],['Tradition','tradición','die','Traditionen','n'],
   ['hervorgehen','desprenderse','','','v'],['zurückführen','atribuir','','','v'],
     ['Wald','[Wald]','die','Walden','n'],
   ['unterhalten','entretener','','','v'],['genießen','disfrutar','','','v'],
   ['Warnung','la advertencia','die','','n'],
   ['ausschließen','excluir','','','v'],['enthalten','contener','','','v'],
-    ['das 
+    ['das Fahrrad','bicicleta','das','Fahrräder','n'],
     ['Anhang','[Anhang]','das','Anhangen','n'],
   ['verfügbar','disponible','','','adj'],['gleichzeitig','simultáneo','','','adj'],
   ['regelmäßig','regular','','','adj'],['gelegentlich','ocasional','','','adj'],
@@ -3954,42 +3954,42 @@ addLevel('B1.2',[
   ['Jahrhundert','el siglo','das','','n'],
     ['Wohnfläche','[Wohnfläche]','die','Wohnflächen','n'],
     ['umblättern','pasar página','','','v'],
-    ['der 
+    ['der Stern','estrella','der','Sterne','n'],
     ['Strand','[Strand]','das','Stranden','n'],
-    ['der 
+    ['der Anhang','archivo adjunto','der','Anhänge','n'],
     ['Busfahrt','[Busfahrt]','das','Busfahrten','n'],
-    ['die 
+    ['die Systemvoraussetzung','requisito del sistema','die','Systemvoraussetzungen','n'],
     ['vornehmen','realizar','','','v'],
-    ['der 
+    ['der Karton','caja','der','Kartons','n'],
     ['Firewall','[Firewall]','der','Firewallen','n'],
     ['desinteressiert','desinteresado','-','-','adj'],
     ['mithilfe','con ayuda de','-','-','prp'],
     ['zusammenfinden','encontrarse','','','v'],
   ['vielleicht','tal vez','','','adv'],
-    ['der 
+    ['der Vermieter','arrendador','der','Vermieter','n'],
   ['unbewusst','inconsciente','','','adj'],
   ['Kassenzettel','el recibo / tique de compra','der','','n'],
-    ['der 
+    ['der Tisch','mesa','der','Tische','n'],
   ['renunciar a','[renunciar a]','','','n'],
   ['Asyl','el asilo','das','','n'],
   ['verlangen','exigir','','','v'],['fordern','demandar','','','v'],
     ['zusammensetzen','componer','','','v'],
     ['herunterladen','descargar','-','-','v'],
   ['Wettbewerb','competición','der','Wettbewerbe','n'],['Meisterschaft','campeonato','die','Meisterschaften','n'],
-    ['die 
-    ['das 
+    ['die Ärztin','médica','die','Ärztinnen','n'],
+    ['das Auge','ojo','das','Augen','n'],
     ['vorsorgen','prevenir','','','v'],
     ['allerdings','sin embargo','-','-','adv'],
   ['Nudel','el fideo / la pasta','die','','n'],
-    ['die 
+    ['die Renovierung','renovación','die','Renovierungen','n'],
   ['Funktion','función','die','Funktionen','n'],['Methode','método','die','Methoden','n'],
     ['drohen','amenazar','','','v'],
-    ['der 
+    ['der Teich','estanque','der','Teiche','n'],
     ['aktualisieren','actualizar','-','-','v'],
     ['zusammenkommen','reunirse','','','v'],
     ['zurückhalten','retener','','','v'],
   ['Sitte','costumbre','die','Sitten','n'],
-    ['die 
+    ['die App','aplicación','die','Apps','n'],
   ['durante','[durante]','','','n'],
   ['ausprobieren','probar','','','v'],['ausüben','practicar','','','v'],
   ['lediglich','meramente','','','adv'],
@@ -3997,7 +3997,7 @@ addLevel('B1.2',[
   ['sich verspäten','retrasarse','','','v'],
     ['Download','[Download]','die','Downloaden','n'],
     ['wegfahren','irse en vehículo','','','v'],
-    ['die 
+    ['die Datenbank','base de datos','die','Datenbanken','n'],
   ['Bogen','el folio / el arco','der','','n'],
   ['sich treffen','encontrarse','','','v'],
   ['mindestens','como mínimo','','','adv'],['keinesfalls','de ningún modo','','','adv'],
@@ -4008,37 +4008,37 @@ addLevel('B1.2',[
     ['Solar','[Solar]','die','Solaren','n'],
   ['Schwierigkeit','dificultad','die','Schwierigkeiten','n'],['Herausforderung','desafío','die','Herausforderungen','n'],
   ['Westen','el oeste','der','','n'],
-    ['die 
+    ['die Höhle','cueva','die','Höhlen','n'],
     ['hoffnungslos','desesperado','-','-','adj'],
     ['Lautsprecher','[Lautsprecher]','der','Lautsprecher','n'],
     ['koordinieren','coordinar','-','-','v'],
-    ['das 
+    ['das WLAN','wifi','das','WLANs','n'],
     ['vorzeigen','mostrar','','','v'],
     ['Quadratmeter','[Quadratmeter]','der','Quadratmeter','n'],
     ['vorsehen','prever','','','v'],
   ['abstimmen','votar','','','v'],['zuhören','escuchar','','','v'],
     ['Wasserverschmutzung','[Wasserverschmutzung]','die','Wasserverschmutzungen','n'],
   ['betrachten','observar','','','v'],
-    ['der 
+    ['der Kunststoff','plástico','der','Kunststoffe','n'],
   ['eigentlich','en realidad','','','adv'],
   ['Kummer','pena','der','-','n'],
   ['Opposition','oposición','die','Oppositionen','n'],
-    ['das 
+    ['das Sofa','sofá','das','Sofas','n'],
   ['früher','antes','','','adv'],
-    ['die 
-    ['das 
+    ['die Zunge','lengua','die','Zungen','n'],
+    ['das Ladekabel','cable de carga','das','Ladekabel','n'],
     ['vorziehen','preferir','','','v'],
     ['abseits','apartado de','-','-','prp'],
     ['erfordern','requerir','','','v'],
     ['umschauen','mirar','','','v'],
-    ['das 
-    ['die 
+    ['das Haus','casa','das','Häuser','n'],
+    ['die Reise','viaje','die','Reisen','n'],
   ['sich unterhalten','conversar','','','v'],
     ['zurücktreten','renunciar','','','v'],
     ['Ökologie','[Ökologie]','die','Ökologien','n'],
   ['Brauch','costumbre','der','Bräuche','n'],['Feiertag','día festivo','der','Feiertage','n'],
   ['aktiv','activo','','','adj'],['passiv','pasivo','','','adj'],
-    ['die 
+    ['die Galaxie','galaxia','die','Galaxien','n'],
   ['Schwein','el cerdo','das','','n'],
     ['reagieren','reaccionar','','','v'],
     ['völlig','completamente','-','-','adv'],
@@ -4046,39 +4046,39 @@ addLevel('B1.2',[
   ['sich unterscheiden von','[sich unterscheiden von]','','','n'],
     ['quer','a través de','-','-','prp'],
   ['Beitrag','contribución','der','Beiträge','n'],['Spende','donación','die','Spenden','n'],
-    ['die 
+    ['die Sonne','sol','die','Sonnen','n'],
   ['Weihnachten','Navidad','das','','n'],['Ostern','Pascua','das','','n'],
   ['glauben an','[glauben an]','','','n'],
   ['Mitgliedschaft','pertenencia','die','Mitgliedschaften','n'],['Veranstaltung','evento','die','Veranstaltungen','n'],
     ['Stadtführung','[Stadtführung]','die','Stadtführungen','n'],
-    ['die 
+    ['die Energie','energía','die','Energien','n'],
   ['Verbindung','la conexión','die','','n'],
     ['Scham','vergüenza','die','','n'],
-    ['der 
+    ['der Strand','playa','der','Strände','n'],
     ['Mikrofon','[Mikrofon]','die','Mikrofonen','n'],
-    ['der 
+    ['der Ellenbogen','codo','der','Ellenbogen','n'],
     ['Fähre','[Fähre]','der','Fähren','n'],
   ['offenbar','aparentemente','','','adv'],
   ['Ziel','objetivo','das','Ziele','n'],['Zukunft','futuro','die','Zukunfte','n'],
-    ['der 
+    ['der Schatten','sombra','der','Schatten','n'],
   ['möglich','posible','','','adj'],['wahrscheinlich','probable','','','adj'],
-    ['die 
-    ['die 
-    ['das 
+    ['die Steppe','estepa','die','Steppen','n'],
+    ['die Niere','riñón','die','Nieren','n'],
+    ['das All','universo','das','Alle','n'],
   ['exakt','exacto','','','adj'],['präzise','preciso','','','adj'],
     ['Zugfahrt','[Zugfahrt]','das','Zugfahrten','n'],
     ['keineswegs','de ningún modo','-','-','adv'],
   ['erleichtern','facilitar','','','v'],['erschweren','dificultar','','','v'],
-    ['der 
+    ['der Laptop','portátil','der','Laptops','n'],
   ['Bereich','el área / sector','der','','n'],
-    ['der 
+    ['der Stuhl','silla','der','Stühle','n'],
   ['Doktor','el doctor','der','','n'],
-    ['der 
+    ['der Virus','virus','der','Viren','n'],
   ['Modell','el modelo','das','','n'],
   ['widerlegen','refutar','','','v'],['folgern','deducir','','','v'],
   ['sich beeilen','darse prisa','','','v'],
-    ['die 
-    ['die 
+    ['die Erderwärmung','calentamiento global','die','Erderwärmungen','n'],
+    ['die Schlucht','barranco','die','Schluchten','n'],
   ['erleben','experimentar','','','v'],
   ['pertenecer a','[pertenecer a]','','','n'],
     ['verkürzen','acortar','','','v'],
@@ -4087,13 +4087,13 @@ addLevel('B1.2',[
     ['Hochhaus','[Hochhaus]','der','Hochhausen','n'],
   ['verlieren','perder','','','v'],['besiegen','vencer','','','v'],
     ['Immobilie','[Immobilie]','die','Immobilien','n'],
-    ['der 
+    ['der Artenschutz','protección de especies','der','Artenschutz','n'],
   ['bestehen aus','[bestehen aus]','','','n'],
   ['wesentlich','esencial','','','adj'],['entscheidend','decisivo','','','adj'],
   ['Zusammenhang','relación','der','Zusammenhänge','n'],['Unterschied','diferencia','der','Unterschiede','n'],
   ['Vortrag','conferencia','der','Vorträge','n'],['Diskussion','debate','die','Diskussionen','n'],
-    ['das 
-    ['die 
+    ['das Hotel','hotel','das','Hotels','n'],
+    ['die Haut','piel','die','Häute','n'],
   ['vollständig','completo','','','adj'],
   ['Analyse','análisis','die','Analysen','n'],['Diskussion','discusión','die','Diskussionen','n'],
     ['warnen','advertir','','','v'],
@@ -4107,10 +4107,10 @@ addLevel('B1.2',[
   ['auslösen','desencadenar','','','v'],['beitragen','contribuir','','','v'],
     ['verpassen','perder','','','v'],
     ['leidenschaftlich','apasionado','-','-','adj'],
-    ['das 
+    ['das Passwort','contraseña','das','Passwörter','n'],
     ['Möbel','[Möbel]','die','Möbel','n'],
   ['bisher','hasta ahora','','','adv'],
-    ['die 
+    ['die Maus','ratón','die','Mäuse','n'],
     ['zusammenbrechen','derrumbarse','','','v'],
     ['Lerner','aprendiz','der','Lerner','n'],
     ['Erwachsenenalter','edad adulta','das','','n'],
@@ -4119,27 +4119,27 @@ addLevel('B1.2',[
   ['Enttäuschung','la decepción','die','','n'],
     ['vermeiden','evitar','','','v'],
   ['sich entscheiden für','[sich entscheiden für]','','','n'],
-    ['die 
+    ['die Sicherheit','seguridad','die','Sicherheiten','n'],
     ['Software','[Software]','die','Softwaren','n'],
   ['Helm','el casco','der','','n'],
   ['schließlich','finalmente','','','adv'],['ungefähr','aproximadamente','','','adv'],
     ['vorgehen','proceder','','','v'],
-    ['der 
+    ['der Umzug','mudanza','der','Umzüge','n'],
   ['Vorstellung','idea','die','Vorstellungen','n'],
     ['unsicher','inseguro','-','-','adj'],
-    ['der 
+    ['der Klimawandel','cambio climático','der','Klimawandel','n'],
   ['Konflikt','el conflicto','der','','n'],
-    ['der 
+    ['der Horizont','horizonte','der','Horizonte','n'],
   ['zustimmen','estar de acuerdo','','','v'],['ablehnen','rechazar','','','v'],
     ['Emissions','[Emissions]','der','Emissionsen','n'],
   ['nachhaltig','[nachhaltig]','','','adj'],
     ['verstärken','reforzar','','','v'],
   ['verbieten','prohibir','','','v'],
-    ['der 
+    ['der Sumpf','pantano','der','Sümpfe','n'],
   ['el pintor','[el pintor]','','','n'],
   ['Unglück','desgracia','das','-','n'],
     ['weiterentwickeln','seguir desarrollando','','','v'],
-    ['die 
+    ['die Finsternis','oscuridad','die','Finsternisse','n'],
     ['zusammenbringen','reunir','','','v'],
   ['begründen','justificar','','','v'],['beweisen','probar','','','v'],
   ['Kompromiss','el compromiso / el acuerdo','der','','n'],
@@ -4149,9 +4149,9 @@ addLevel('B1.2',[
     ['betreffen','afectar','','','v'],
     ['sich verschlechtern','empeorar','','','v'],
   ['contra','[contra]','','','n'],
-    ['der 
+    ['der Monitor','monitor','der','Monitore','n'],
   ['außer','[außer]','','','n'],
-    ['die 
+    ['die Decke','manta','die','Decken','n'],
   ['consistir en','[consistir en]','','','n'],
     ['vorbeigehen','pasar','','','v'],
     ['umkehren','dar la vuelta','','','v'],
@@ -4161,10 +4161,10 @@ addLevel('B1.2',[
   ['Frieden','paz','der','','n'],['Krieg','guerra','der','Kriege','n'],
     ['Ökostrom','[Ökostrom]','der','Ökostromen','n'],
     ['weiterreichen','pasar','','','v'],
-    ['die 
-    ['der 
+    ['die Ferne','lejanía','die','Fernen','n'],
+    ['der Magen','estómago','der','Mägen','n'],
   ['Ärger','enfado','der','-','n'],
-    ['der 
+    ['der Flug','vuelo','der','Flüge','n'],
   ['jedenfalls','en cualquier caso','','','adv'],
   ['täglich','diario','','','adj'],
     ['weitersagen','decir a otros','','','v'],
@@ -4172,15 +4172,15 @@ addLevel('B1.2',[
   ['vorschlagen','proponer','','','v'],['empfehlen','recomendar','','','v'],
   ['zuletzt','por último','','','adv'],
     ['hauptsächlich','principalmente','-','-','adv'],
-    ['die 
+    ['die Kälte','frío','die','Kälten','n'],
   ['sich verhalten','comportarse','','','v'],
     ['dennoch','no obstante','-','-','adv'],
     ['Sanierung','[Sanierung]','die','Sanierungen','n'],
   ['schützen vor','[schützen vor]','','','n'],
-    ['der 
-    ['die 
+    ['der Kopfhörer','auriculares','der','Kopfhörer','n'],
+    ['die Ordnung','orden','die','Ordnungen','n'],
   ['Fläche','la superficie','die','','n'],
-    ['der 
+    ['der Tau','rocío','der','Taue','n'],
   ['Schiedsrichter','árbitro','der','Schiedsrichter','n'],['Gegner','adversario','der','Gegner','n'],
     ['pessimistisch','pesimista','-','-','adj'],
   ['eventuell','eventualmente','','','adv'],
@@ -4196,8 +4196,8 @@ addLevel('B1.2',[
   ['Job','el trabajo / el empleo','der','','n'],
     ['unweit','no lejos de','-','-','prp'],
   ['Branche','el sector económico','die','','n'],
-    ['der 
-    ['die 
+    ['der Stein','piedra','der','Steine','n'],
+    ['die Lampe','lámpara','die','Lampen','n'],
   ['Ende','el final','das','','n'],
   ['sich lohnen','valer la pena','','','v'],
   ['entsprechen','corresponder','','','v'],['widersprechen','contradecir','','','v'],
@@ -4207,10 +4207,10 @@ addLevel('B1.2',[
     ['vermutlich','supuestamente','-','-','adv'],
     ['wiedersehen','volver a ver','','','v'],
     ['niedersetzen','sentar','','','v'],
-    ['der 
+    ['der Orkan','huracán','der','Orkane','n'],
     ['energisch','enérgico','-','-','adj'],
-    ['die 
-    ['der 
+    ['die Nachhaltigkeit','sostenibilidad','die','Nachhaltigkeiten','n'],
+    ['der Zahn','diente','der','Zähne','n'],
     ['wegnehmen','quitar','','','v'],
   ['ausgehen','partir de','','','v'],['beruhen','basarse','','','v'],
   ['sich verabreden','quedar','','','v'],
@@ -4219,19 +4219,19 @@ addLevel('B1.2',[
   ['debido a','[debido a]','','','n'],
   ['optimal','óptimo','','','adj'],
   ['notfalls','en caso de necesidad','','','adv'],
-    ['der 
+    ['der Browser','navegador','der','Browser','n'],
   ['recibir','[recibir]','','','n'],
-    ['der 
-    ['die 
+    ['der Arm','brazo','der','Arme','n'],
+    ['die Benachrichtigung','notificación','die','Benachrichtigungen','n'],
   ['fast','casi','','','adv'],
   ['nötigenfalls','en caso necesario','','','adv'],
-    ['der 
+    ['der Papierkorb','papelera','der','Papierkörbe','n'],
     ['Virus','[Virus]','der','Virusen','n'],
   ['Benzin','la gasolina','das','','n'],
   ['passen zu','[passen zu]','','','n'],
-    ['der 
+    ['der Schrank','armario','der','Schränke','n'],
     ['beeindrucken','impresionar','','','v'],
-    ['die 
+    ['die Einstellung','ajuste','die','Einstellungen','n'],
     ['beraten','asesorar','-','-','v'],
     ['überwiegend','predominantemente','-','-','adv'],
   ['Stimme','la voz / el voto','die','','n'],
@@ -4239,7 +4239,7 @@ addLevel('B1.2',[
     ['einschließlich','incluyendo','-','-','prp'],
   ['sich verbessern','mejorar','','','v'],
   ['decidirse por','[decidirse por]','','','n'],
-    ['die 
+    ['die Aktualisierung','actualización','die','Aktualisierungen','n'],
   ['Eintritt','entrada','der','Eintritte','n'],['Eintrittskarte','billete','die','Eintrittskarten','n'],
     ['Zuneigung','afecto','die','','n'],
     ['interessiert','interesado','-','-','adj'],
@@ -4251,7 +4251,7 @@ addLevel('B1.2',[
     ['ablehnen','rechazar','-','-','v'],
     ['angesichts','en vista de','-','-','prp'],
   ['verzichten auf','[verzichten auf]','','','n'],
-    ['die 
+    ['die Ferse','talón','die','Fersen','n'],
     ['berechnen','calcular','-','-','v'],
     ['verzweifelt','desesperado','-','-','adj'],
   ['Entscheidung','decisión','die','Entscheidungen','n'],['Planung','planificación','die','Planungen','n'],
@@ -4260,8 +4260,8 @@ addLevel('B1.2',[
     ['Wohnungsanzeige','[Wohnungsanzeige]','der','Wohnungsanzeigen','n'],
     ['zurückfahren','volver','','','v'],
   ['unwahrscheinlich','improbable','','','adj'],['erforderlich','requerido','','','adj'],
-    ['der 
-    ['der 
+    ['der Nagel','uña','der','Nägel','n'],
+    ['der Knochen','hueso','der','Knochen','n'],
     ['umsehen','mirar alrededor','','','v'],
     ['App','[App]','das','Appen','n'],
     ['unterhalb','por debajo de','-','-','prp'],
@@ -4272,23 +4272,23 @@ addLevel('B1.2',[
   ['proteger de','[proteger de]','','','n'],
     ['unterscheiden','distinguir','','','v'],
   ['leiden unter','[leiden unter]','','','n'],
-    ['der 
+    ['der Blick','mirada','der','Blicke','n'],
     ['weitergeben','transmitir','','','v'],
     ['romantisch','romántico','-','-','adj'],
     ['Küchenzeile','[Küchenzeile]','das','Küchenzeilen','n'],
-    ['das 
+    ['das Wasser','agua','das','Wasser','n'],
     ['Abfall','[Abfall]','das','Abfallen','n'],
   ['zuerst','primero','','','adv'],
-    ['die 
+    ['die Nähe','cercanía','die','Nähen','n'],
     ['nahe','cerca de','-','-','prp'],
-    ['der 
+    ['der Vulkan','volcán','der','Vulkane','n'],
   ['beeinflussen','influir','','','v'],['überzeugen','convencer','','','v'],
   ['sich interessieren','interesarse','','','v'],
     ['Deponie','[Deponie]','die','Deponien','n'],
-    ['der 
+    ['der Mond','luna','der','Monde','n'],
     ['erschöpft','agotado','-','-','adj'],
     ['Kompost','[Kompost]','die','Komposten','n'],
-    ['der 
+    ['der Bildschirm','pantalla','der','Bildschirme','n'],
     ['gestalten','diseñar','-','-','v'],
   ['a pesar de','[a pesar de]','','','n'],
   ['Anspruch','la exigencia / el derecho','der','','n'],
@@ -4297,7 +4297,7 @@ addLevel('B1.2',[
     ['Speicher','[Speicher]','der','Speicher','n'],
     ['Fortgeschrittene','avanzado','der','Fortgeschrittenen','n'],
     ['zusammenarbeiten','colaborar','','','v'],
-    ['die 
+    ['die Daten','datos','die','Daten','n'],
     ['stolz','orgulloso','-','-','adj'],
     ['voraussichtlich','previsiblemente','-','-','adv'],
   ['gegebenenfalls','en su caso','','','adv'],
@@ -4314,39 +4314,39 @@ addLevel('B2.1',[
   ['Umfeld','el entorno / ambiente','das','','n'],
   ['Verfassung','la constitución','die','','n'],
   ['Überschneidung','el solapamiento','die','','n'],
-    ['die 
+    ['die Rendite','rendimiento','die','Renditen','n'],
   ['vorhersehbar','predecible','','','adj'],
   ['Dolmetscher','el intérprete','der','','n'],
   ['Rahmen','el marco','der','','n'],
   ['Luxus','el lujo','der','','n'],
   ['Spezialisierung','la especialización','die','','n'],
   ['Unruhe','la inquietud / el malestar','die','','n'],
-    ['das 
-    ['die 
+    ['das Konto','cuenta','das','Konten','n'],
+    ['die Krankenversicherung','seguro médico','die','Krankenversicherungen','n'],
   ['Defizit','el déficit','das','','n'],
   ['Mentalität','la mentalidad','die','','n'],
   ['Analphabetenquote','la tasa de analfabetismo','die','','n'],
   ['feststellen','constatar','','','v'],
   ['Drama','el drama','das','','n'],
   ['verbreitet','extendido','','','adj'],
-    ['die 
+    ['die Inflation','inflación','die','Inflationen','n'],
   ['Geltung','la validez / vigencia','die','','n'],
   ['unwiderstehlich','irresistible','','','adj'],
   ['Wirtschaft','economía','die','Wirtschaften','n'],['Markt','mercado','der','Märkte','n'],
-    ['der 
+    ['der Dauerauftrag','orden permanente','der','Daueraufträge','n'],
   ['Ärmel','la manga (ropa)','der','','n'],
   ['Endgültigkeit','la definitividad','die','','n'],
   ['Nuance','el matiz','die','','n'],
   ['Gesandtschaft','la legación / embajada','die','','n'],
   ['voraussetzen','presuponer','','','v'],
-    ['der 
+    ['der Sparplan','plan de ahorro','der','Sparpläne','n'],
   ['Zivilisation','la civilización','die','','n'],
   ['Gesandte','el enviado / el embajador','der','','n'],
   ['Schuldner','el deudor','der','','n'],
   ['Inflation','la inflación','die','','n'],
   ['Option','la opción','die','','n'],
-    ['das 
-    ['der 
+    ['das Finanzamt','hacienda','das','Finanzämter','n'],
+    ['der Zins','interés','der','Zinsen','n'],
   ['Egoismus','el egoísmo','der','','n'],
   ['geboren werden','[geboren werden]','','','n'],
   ['zweifellos','sin duda','','','adj'],
@@ -4415,7 +4415,7 @@ addLevel('B2.1',[
   ['förderlich','beneficioso','','','adj'],
   ['Negation','la negación','die','','n'],
   ['Verwandtschaft','el parentesco','die','','n'],
-    ['die 
+    ['die Nachfrage','demanda','die','Nachfragen','n'],
   ['Trauma','el trauma','das','','n'],
   ['konsumieren','consumir','','','v'],['exportieren','exportar','','','v'],
   ['Erkenntnis','el conocimiento / la comprensión','die','','n'],
@@ -4428,7 +4428,7 @@ addLevel('B2.1',[
   ['Indiz','el indicio / prueba indirecta','das','','n'],
   ['Begriff','el concepto / el término','der','','n'],
   ['Rechtsvorschrift','la norma jurídica','die','','n'],
-    ['die 
+    ['die Steuer','impuesto','die','Steuern','n'],
   ['gracias a','[gracias a]','','','n'],
   ['Passion','la pasión','die','','n'],
   ['Gestank','el hedor / peste','der','','n'],
@@ -4452,7 +4452,7 @@ addLevel('B2.1',[
   ['Erhaltung','la conservación / el mantenimiento','die','','n'],
   ['Erwerbsfähigkeit','la capacidad laboral','la','','n'],
   ['Tarif','la tarifa / el convenio colectivo','der','','n'],
-    ['der 
+    ['der Kredit','crédito','der','Kredite','n'],
   ['Marionette','la marioneta','die','','n'],
   ['fliehen','[fliehen]','','','n'],
   ['Komponente','el componente','die','','n'],
@@ -4465,10 +4465,10 @@ addLevel('B2.1',[
   ['Windenergie','energía eólica','die','','n'],['Kernkraft','energía nuclear','die','Kernkräfte','n'],
   ['Empörung','la indignación','die','','n'],
   ['Fossil','el fósil','das','','n'],
-    ['die 
+    ['die Produktion','producción','die','Produktionen','n'],
   ['ment','[ment]','','','n'],
   ['Synergie','la sinergia','die','','n'],
-    ['der 
+    ['der Konsum','consumo','der','Konsume','n'],
   ['Vorstand','la junta directiva','der','','n'],
   ['Genehmigung','la autorización','die','','n'],
   ['konkurrieren','competir','','','v'],['überleben','sobrevivir','','','v'],
@@ -4481,7 +4481,7 @@ addLevel('B2.1',[
   ['Grenzwert','el valor límite','der','','n'],
     ['Finanzamt','[Finanzamt]','die','Finanzamten','n'],
   ['Maximum','el máximo','das','','n'],
-    ['die 
+    ['die Rente','pensión','die','Renten','n'],
   ['beeindruckend','[beeindruckend]','','','adj'],
   ['Vollmacht','el poder / la autorización','die','','n'],
   ['subventionieren','subvencionar','','','v'],['produzieren','producir','','','v'],
@@ -4500,7 +4500,7 @@ addLevel('B2.1',[
   ['Nebenjob','el trabajo secundario','der','','n'],
   ['Hürde','el obstáculo / la valla','die','','n'],
   ['hasta','[hasta]','','','n'],
-    ['das 
+    ['das Angebot','oferta','das','Angebote','n'],
   ['vergrößern','ampliar','','','v'],
   ['investieren','invertir','','','v'],['finanzieren','financiar','','','v'],
   ['Überzeugung','la convicción','die','','n'],
@@ -4515,20 +4515,20 @@ addLevel('B2.1',[
   ['Verhandlung','la negociación','die','','n'],
   ['Teamfähigkeit','la capacidad de trabajar en equipo','die','','n'],
   ['schaft','[schaft]','','','n'],
-    ['die 
+    ['die Hypothek','hipoteca','die','Hypotheken','n'],
   ['Konkurrenz','competencia','die','','n'],['Monopol','monopolio','das','Monopole','n'],
   ['Erinnerung','el recuerdo','die','','n'],
   ['Gewerkschaft','el sindicato','die','','n'],
   ['Geiselnahme','la toma de rehenes','die','','n'],
     ['Dauerauftrag','[Dauerauftrag]','das','Dauerauftragen','n'],
-    ['die 
+    ['die Lebensversicherung','seguro de vida','die','Lebensversicherungen','n'],
   ['Provinz','la provincia','die','','n'],
   ['überlegen','superior','','','adj'],
   ['Symptom','el síntoma','das','','n'],
   ['steigern','aumentar','','','v'],['wachsen','crecer','','','v'],
   ['überschaubar','manejable','','','adj'],
   ['Aufsehen','el revuelo / la sensación','das','','n'],
-    ['die 
+    ['die Mehrwertsteuer','iva','die','Mehrwertsteuern','n'],
   ['Widerstand','la resistencia','der','','n'],
   ['Begründung','la justificación / motivo','die','','n'],
   ['vermeidbar','evitable','','','adj'],
@@ -4536,7 +4536,7 @@ addLevel('B2.1',[
     ['la Orden','el orden','','','n'],
     ['el Perfil','el perfil','','','n'],
   ['Verschmutzung','contaminación','die','Verschmutzungen','n'],['Recycling','reciclaje','das','','n'],
-    ['die 
+    ['die Versicherung','seguro','die','Versicherungen','n'],
   ['Begleiterscheinung','el fenómeno acompañante','die','','n'],
   ['Beurteilung','la evaluación / juicio','die','','n'],
   ['Schuld','deuda','die','Schulden','n'],['Rate','plazo','die','Raten','n'],
@@ -4544,9 +4544,9 @@ addLevel('B2.1',[
   ['Müll','basura','der','','n'],['Abfall','residuo','der','Abfälle','n'],
   ['Exemplar','el ejemplar','das','','n'],
   ['Haltung','la postura / actitud','die','','n'],
-    ['die 
+    ['die Aktie','acción','die','Aktien','n'],
   ['keit','[keit]','','','n'],
-    ['die 
+    ['die Überweisung','transferencia','die','Überweisungen','n'],
   ['Lesung','la lectura pública','die','','n'],
     ['la Konkretisierung','la concretización','','','n'],
   ['Subjekt','el sujeto','das','','n'],
@@ -4565,25 +4565,25 @@ addLevel('B2.1',[
   ['Eutanasia','la eutanasia','la','','n'],
   ['Plage','la plaga','die','','n'],
   ['Kundgebung','la manifestación / mitin','die','','n'],
-    ['die 
+    ['die Haftpflichtversicherung','seguro de responsabilidad','die','Haftpflichtversicherungen','n'],
   ['Entrüstung','la indignación','die','','n'],
   ['Bemühung','el esfuerzo','die','','n'],
   ['Präzision','la precisión','die','','n'],
   ['Kaufkraft','el poder adquisitivo','der','','n'],
   ['Pessimismus','el pesimismo','der','','n'],
   ['Erneuerbare','renovables','die','','n'],['Solarenergie','energía solar','die','','n'],
-    ['die 
+    ['die Einkommensteuer','impuesto sobre la renta','die','Einkommensteuern','n'],
   ['Isolation','el aislamiento','die','','n'],
   ['verfassen','componer','','','v'],
   ['Luftverschmutzung','la contaminación del aire','die','','n'],
   ['Erleichterung','el alivio / facilidad','la','','n'],
-    ['die 
+    ['die Investition','inversión','die','Investitionen','n'],
   ['ökonomisch','económico','','','adj'],['rentabel','rentable','','','adj'],
   ['Explosion','la explosión','die','','n'],
   ['Konsum','el consumo','der','','n'],
     ['la Polución','la polución','','','n'],
   ['Aufzeichnung','la grabación / registro','die','','n'],
-    ['die 
+    ['die Altersvorsorge','previsión para la vejez','die','Altersvorsorgen','n'],
   ['Zwickmühle','el dilema','die','','n'],
   ['Filosofía','la filosofía','la','','n'],
   ['Legende','la leyenda','die','','n'],
@@ -4609,7 +4609,7 @@ addLevel('B2.1',[
   ['Profit','el provecho / beneficio','der','','n'],
   ['schrumpfen','encoger','','','v'],['stagnieren','estancarse','','','v'],
   ['huir','[huir]','','','n'],
-    ['die 
+    ['die Wirtschaft','economía','die','Wirtschaften','n'],
   ['Merkmal','el rasgo distintivo','das','','n'],
   ['Rückkehr','el regreso','die','','n'],
     ['la Nación','la nación','','','n'],
@@ -4637,7 +4637,7 @@ addLevel('B2.1',[
   ['Neugier','la curiosidad','die','','n'],
   ['Investition','inversión','die','Investitionen','n'],['Gewinn','ganancia','der','Gewinne','n'],
   ['Kontroverse','la controversia','die','','n'],
-    ['der 
+    ['der Steuerberater','asesor fiscal','der','Steuerberater','n'],
   ['Belegschaft','el personal / la plantilla','die','','n'],
   ['Eingriff','la intervención / interferencia','der','','n'],
   ['Kapazität','la capacidad','die','','n'],
@@ -4650,7 +4650,7 @@ addLevel('B2.1',[
   ['Auftritt','la actuación / aparición','der','','n'],
   ['Gebrauch','el uso / el empleo','der','','n'],
   ['Profi','el profesional','der','','n'],
-  ['die 
+  ['Die nstleistung','el servicio (económico)','die','','n'],
   ['Ministerium','el ministerio','das','','n'],
   ['Gläubige','el creyente','der','','n'],
   ['wirksam','eficaz','','','adj'],
@@ -4658,7 +4658,7 @@ addLevel('B2.1',[
   ['Beobachter','el observador','der','','n'],
   ['Meldung','el aviso / noticia','die','','n'],
   ['Gestein','la roca / el mineral','das','','n'],
-    ['die 
+    ['die Steuererklärung','declaración de la renta','die','Steuererklärungen','n'],
   ['Ausstrahlung','la carisma / emisión','die','','n'],
   ['Begeisterung','el entusiasmo','die','','n'],
   ['Slogan','el eslogan','der','','n'],
@@ -4679,17 +4679,17 @@ addLevel('B2.2',[
   ['unüberschaubar','inmanejable','','','adj'],
   ['unbeschreiblich','indescriptible','','','adj'],
   ['Ansiedlung','el asentamiento / colonización','die','','n'],
-    ['die 
+    ['die Abmachung','pacto','die','Abmachungen','n'],
   ['Antritt','el comienzo / toma de posesión','der','','n'],
   ['Fernsteuerung','el control remoto','die','','n'],
     ['la Precisión','la precisión','','','n'],
   ['Erstaunen','el asombro','das','','n'],
     ['la Polémica','la polémica','','','n'],
   ['wissenschaftlich','científico','','','adj'],['interdisziplinär','interdisciplinario','','','adj'],
-    ['das 
+    ['das Gemälde','cuadro','das','Gemälde','n'],
   ['Fundament','el fundamento / los cimientos','das','','n'],
   ['unvorhersehbar','impredecible','','','adj'],
-    ['das 
+    ['das Labor','laboratorio','das','Labors','n'],
   ['Multikulturalität','la multiculturalidad','die','','n'],
   ['Erfassung','el registro / captación','la','','n'],
     ['verantwortungslos','irresponsable','-','-','adj'],
@@ -4698,7 +4698,7 @@ addLevel('B2.2',[
   ['Alltag','día a día','der','','n'],['Routine','rutina','die','Routinen','n'],
   ['Zwang','la coacción / obligación','der','','n'],
   ['Stadtverwaltung','la administración municipal','die','','n'],
-    ['das 
+    ['das Klima','clima','das','Klimate','n'],
   ['Argument','el argumento','das','','n'],
   ['Balance','el equilibrio','die','','n'],
   ['anschließend','posteriormente','','','adv'],
@@ -4710,11 +4710,11 @@ addLevel('B2.2',[
   ['Beweis','prueba','der','Beweise','n'],['Beleg','evidencia','der','Belege','n'],
   ['Aufhebung','la anulación / abolición','die','','n'],
   ['Delegation','la delegación','die','','n'],
-    ['die 
+    ['die Künstlerin','artista','die','Künstlerinnen','n'],
     ['la Inmisión','la inmisión / emisión','','','n'],
   ['Klarheit','la claridad','die','','n'],
   ['Dosierung','la dosificación','die','','n'],
-    ['die 
+    ['die Monarchie','monarquía','die','Monarchien','n'],
   ['Designer','el diseñador','der','','n'],
     ['Solidarität','[Solidarität]','die','Solidaritäten','n'],
   ['Nahrung','el alimento / nutrición','die','','n'],
@@ -4729,31 +4729,31 @@ addLevel('B2.2',[
   ['Abweichung','la desviación / la discrepancia','die','','n'],
   ['teilen','compartir','','','v'],['schenken','regalar','','','v'],
   ['Wandel','el cambio','der','','n'],
-    ['die 
+    ['die Kosten','costes','die','Kosten','n'],
   ['Vorrichtung','dispositivo','die','Vorrichtungen','n'],
     ['untypisch','atípico','-','-','adj'],
   ['Einführung','la introducción','die','','n'],
     ['Laborarbeit','[Laborarbeit]','die','Laborarbeiten','n'],
     ['Messung','[Messung]','die','Messungen','n'],
     ['Bürger','[Bürger]','der','Bürger','n'],
-    ['die 
+    ['die Biologie','biología','die','Biologien','n'],
   ['Zusammenfassung','resumen','die','Zusammenfassungen','n'],
   ['Auseinandersetzung','la disputa / el debate','die','','n'],
-    ['das 
+    ['das Land','país','das','Länder','n'],
   ['Vorliebe','la preferencia','die','','n'],
   ['Stadium','la etapa / el estadio','das','','n'],
   ['Vision','la visión','die','','n'],
   ['Stellungnahme','la toma de postura / dictamen','die','','n'],
   ['Parallelismus','el paralelismo','der','','n'],
   ['Beschaffung','la adquisición / obtención','die','','n'],
-    ['die 
-    ['die 
+    ['die Modalität','modalidad','die','Modalitäten','n'],
+    ['die Mikroskop','microscopio','das','Mikroskope','n'],
     ['la Empatía','la empatía','','','n'],
   ['Motivation','la motivación','die','','n'],
   ['Artefakt','el artefacto','das','','n'],
   ['Einöde','el páramo / soledad','die','','n'],
   ['Wohlstand','bienestar','der','','n'],['Zufriedenheit','satisfacción','die','','n'],
-    ['die 
+    ['die Messung','medición','die','Messungen','n'],
   ['entmutigen','desanimar','','','v'],['trösten','consolar','','','v'],
   ['wahrscheinlich','[wahrscheinlich]','','','adj'],
   ['ermitteln','averiguar','','','v'],
@@ -4764,22 +4764,22 @@ addLevel('B2.2',[
   ['Pädagogik','la pedagogía','die','','n'],
     ['Blockbuster','[Blockbuster]','der','Blockbuster','n'],
   ['Organización','la organización','la','','n'],
-    ['die 
+    ['die Malerei','pintura','die','Malereien','n'],
   ['Erhöhung','el aumento','la','','n'],
   ['verhaften','[verhaften]','','','n'],
   ['Auslassung','la omisión','die','','n'],
   ['Reaktion','la reacción','die','','n'],
-    ['die 
+    ['die Stimme','voto','die','Stimmen','n'],
   ['Ausdauer','la perseverancia / la resistencia','die','','n'],
   ['Meilenstein','el hito / piedra milenaria','der','','n'],
   ['Relevanz','la relevancia','die','','n'],
   ['Auflösung','la disolución / la resolución','die','','n'],
-    ['der 
+    ['der Konsens','consenso','der','Konsense','n'],
   ['Umfrage','la encuesta','die','','n'],
   ['Seuche','la epidemia / peste','die','','n'],
   ['unabdingbar','indispensable','','','adj'],
   ['Gewohnheit','costumbre','die','Gewohnheiten','n'],['Angewohnheit','vicio','die','Angewohnheiten','n'],
-    ['das 
+    ['das Experiment','experimento','das','Experimente','n'],
   ['Sprachen','[Sprachen]','','','n'],
   ['Einspruch','la objeción / la apelación','der','','n'],
   ['Freundschaft','amistad','die','Freundschaften','n'],['Partnerschaft','pareja','die','Partnerschaften','n'],
@@ -4788,14 +4788,14 @@ addLevel('B2.2',[
   ['Pasillo','el pasillo','el','','n'],
   ['Ethik','la ética','die','','n'],
     ['umfangreich','extenso','-','-','adj'],
-    ['der 
+    ['der Staat','estado','der','Staaten','n'],
   ['Dossier','expediente','das','Dossiers','n'],
   ['Bußgeld','la multa','das','','n'],
-    ['die 
+    ['die Einwanderung','inmigración','die','Einwanderungen','n'],
   ['maßvoll','moderado','','','adj'],
   ['Überweisung','la transferencia','die','','n'],
   ['Psicología','la psicología','la','','n'],
-    ['die 
+    ['die Freiheit','libertad','die','Freiheiten','n'],
   ['Daten','datos','die','','n'],['Ergebnis','resultado','das','Ergebnisse','n'],
     ['Dissertation','[Dissertation]','die','Dissertationen','n'],
   ['Ablehnung','rechazo','die','Ablehnungen','n'],
@@ -4818,7 +4818,7 @@ addLevel('B2.2',[
   ['Beute','el botín / la presa','die','','n'],
   ['nachvollziehbar','comprensible','','','adj'],['plausibel','plausible','','','adj'],
   ['Abwicklung','el trámite / la ejecución','die','','n'],
-    ['die 
+    ['die Hypothese','hipótesis','die','Hypothesen','n'],
   ['umstritten','[umstritten]','','','adj'],
   ['Effizienz','la eficiencia','die','','n'],
   ['Procedimiento','el procedimiento','el','','n'],
@@ -4828,16 +4828,16 @@ addLevel('B2.2',[
   ['Courage','el valor / coraje','die','','n'],
   ['Vermögen','patrimonio','das','Vermögen','n'],
   ['Geisel','el rehén','die','','n'],
-    ['die 
+    ['die Chemie','química','die','Chemien','n'],
     ['Konzert','[Konzert]','die','Konzerten','n'],
   ['Motiv','el motivo','das','','n'],
   ['Beschaffenheit','la naturaleza / estado','die','','n'],
   ['Meta','la meta / el objetivo','la','','n'],
-    ['die 
+    ['die Strahlung','radiación','die','Strahlungen','n'],
     ['la Ernährung','la alimentación','','','n'],
   ['numeric','[numeric]','','','n'],
   ['Führung','liderazgo','die','Führungen','n'],
-    ['die 
+    ['die Wellen','ondas','die','Wellen','n'],
   ['Streitigkeit','disputa','die','Streitigkeiten','n'],
   ['Nervosität','el nerviosismo','die','','n'],
     ['glaubwürdig','creíble','-','-','adj'],
@@ -4851,12 +4851,12 @@ addLevel('B2.2',[
   ['Aufnahme','grabación','die','Aufnahmen','n'],['Lautsprecher','altavoz','der','Lautsprecher','n'],
   ['Treue','la fidelidad','die','','n'],
   ['Arroganz','la arrogancia','die','','n'],
-    ['die 
+    ['die Operation','operación','die','Operationen','n'],
   ['Schlussfolgerung','conclusión','die','Schlussfolgerungen','n'],['Hypothese','hipótesis','die','Hypothesen','n'],
-    ['die 
+    ['die Bedingung','condición','die','Bedingungen','n'],
   ['logisch','lógico','','','adj'],['rational','racional','','','adj'],
     ['la Meta','la meta / el objetivo','','','n'],
-    ['die 
+    ['die Gleichheit','igualdad','die','Gleichheiten','n'],
   ['Überfluss','la abundancia / el exceso','der','','n'],
   ['Eignung','la aptitud','die','','n'],
   ['Abbildung','la ilustración / la imagen','die','','n'],
@@ -4865,7 +4865,7 @@ addLevel('B2.2',[
   ['Plattform','la plataforma','die','','n'],
   ['Parlament','el parlamento','das','','n'],
   ['Eroberung','la conquista','die','','n'],
-    ['der 
+    ['der Lebensraum','hábitat','der','Lebensräume','n'],
   ['Sanktion','la sanción','die','','n'],
   ['realistisch','[realistisch]','','','adj'],
   ['Rückzahlung','la devolución / reembolso','die','','n'],
@@ -4879,11 +4879,11 @@ addLevel('B2.2',[
     ['el Ergebnis','el resultado','','','n'],
   ['online','en línea','','','adj'],['offline','fuera de línea','','','adj'],
   ['Glatze','la calva','die','','n'],
-    ['die 
+    ['die Zahlung','pago','die','Zahlungen','n'],
   ['Literatur','literatura','die','Literaturen','n'],['Bibliothek','biblioteca','die','Bibliotheken','n'],
-    ['der 
+    ['der Minister','ministro','der','Minister','n'],
   ['Verfahren','procedimiento','das','Verfahren','n'],
-    ['das 
+    ['das Ergebnis','resultado','das','Ergebnisse','n'],
   ['empfangen','recibir','','','v'],['abonnieren','suscribirse','','','v'],
     ['la Naturaleza','la naturaleza','','','n'],
   ['Sachkunde','la pericia / conocimiento técnico','die','','n'],
@@ -4891,7 +4891,7 @@ addLevel('B2.2',[
   ['Rücksicht','consideración','die','','n'],['Verständnis','comprensión','das','','n'],
   ['Gebärdensprache','la lengua de signos','die','','n'],
     ['Promotion','[Promotion]','die','Promotionen','n'],
-    ['der 
+    ['der Strom','corriente','der','Ströme','n'],
   ['Aufforderung','el requerimiento / invitación','die','','n'],
     ['Partei','[Partei]','das','Parteien','n'],
   ['Entlastung','el alivio / descarga de responsabilidad','die','','n'],
@@ -4901,9 +4901,9 @@ addLevel('B2.2',[
   ['zeitgenössisch','contemporáneo','','','adj'],
   ['anmelden','registrarse','','','v'],['einloggen','iniciar sesión','','','v'],
   ['Schwankung','la fluctuación / variación','die','','n'],
-    ['die 
+    ['die Rezension','reseña','die','Rezensionen','n'],
   ['Auswertung','evaluación','die','Auswertungen','n'],
-    ['der 
+    ['der Gewinn','ganancia','der','Gewinne','n'],
   ['Rundfunk','radiodifusión','der','','n'],['Fernsehen','televisión','das','','n'],
   ['Memoria','la memoria','die','','n'],
   ['manipulativ','manipulativo','','','adj'],['objektiv','objetivo','','','adj'],
@@ -4915,11 +4915,11 @@ addLevel('B2.2',[
     ['merkwürdig','extraño','-','-','adj'],
   ['Empathie','empatía','die','','n'],['Solidarität','solidaridad','die','','n'],
   ['Auftakt','el preludio / comienzo','der','','n'],
-    ['die 
+    ['die Studie','estudio','die','Studien','n'],
   ['vermissen','echar de menos','','','v'],['sehnen','anhelar','','','v'],
     ['la Opinión','la opinión','','','n'],
-    ['der 
-    ['die 
+    ['der Rhythmus','ritmo','der','Rhythmen','n'],
+    ['die Technologie','tecnología','die','Technologien','n'],
   ['Korrektur','la corrección','die','','n'],
     ['Rezension','[Rezension]','die','Rezensionen','n'],
   ['Aufschwung','el auge / el impulso','der','','n'],
@@ -4927,11 +4927,11 @@ addLevel('B2.2',[
   ['schlüssig','coherente','','','adj'],['stichhaltig','válido','','','adj'],
   ['berücksichtigen','considerar','','','v'],
   ['unvergesslich','inolvidable','','','adj'],
-    ['die 
+    ['die Publikation','publicación','die','Publikationen','n'],
   ['Philosophie','la filosofía','die','','n'],
   ['Würde','la dignidad','die','','n'],
   ['Begegnung','el encuentro','die','','n'],
-    ['die 
+    ['die Garantie','garantía','die','Garantien','n'],
   ['hinderlich','obstaculizador','','','adj'],
   ['zuverlässig','fiable','','','adj'],['unzuverlässig','poco fiable','','','adj'],
   ['Exposición','la exposición','la','','n'],
@@ -4945,28 +4945,28 @@ addLevel('B2.2',[
     ['Drehbuch','[Drehbuch]','die','Drehbuchen','n'],
   ['el robo','[el robo]','','','n'],
   ['Übel','el mal','das','','n'],
-    ['die 
-    ['die 
+    ['die Phase','fase','die','Phasen','n'],
+    ['die Debatte','debate','die','Debatten','n'],
   ['Aussprache','la pronunciación / el debate','die','','n'],
   ['Anhaltspunkt','el punto de referencia / indicio','der','','n'],
   ['Planet','el planeta','der','','n'],
-    ['das 
-    ['die 
-    ['die 
+    ['das Verfahren','procedimiento','das','Verfahren','n'],
+    ['die Buchhaltung','contabilidad','die','Buchhaltungen','n'],
+    ['die These','tesis','die','Thesen','n'],
   ['Aufsatz','la redacción / el ensayo','der','','n'],
   ['Republik','la república','die','','n'],
   ['vergleichbar','[vergleichbar]','','','adj'],
   ['nachweisen','demostrar','','','v'],['belegen','probar','','','v'],
   ['Gesamtheit','la totalidad / el conjunto','die','','n'],
   ['Wachstum','el crecimiento','das','','n'],
-    ['die 
+    ['die Biodiversität','biodiversidad','die','Biodiversitäten','n'],
   ['Rationalisierung','la racionalización','die','','n'],
   ['Erneuerung','la renovación','die','','n'],
-    ['die 
+    ['die Zukunft','futuro','die','Zukünfte','n'],
   ['Gewissheit','la certeza','die','','n'],
   ['Umgang','el trato / manejo','der','','n'],
     ['unzuverlässig','no fiable','-','-','adj'],
-    ['das 
+    ['das Element','elemento','das','Elemente','n'],
   ['Sektor','sector','der','Sektoren','n'],
   ['Precisión','la precisión','la','','n'],
   ['Bezirk','el distrito / el barrio','der','','n'],
@@ -4974,7 +4974,7 @@ addLevel('B2.2',[
   ['Berechnung','el cálculo','die','','n'],
   ['Beliebtheit','la popularidad','die','','n'],
     ['Rolle','[Rolle]','der','Rollen','n'],
-    ['die 
+    ['die Geologie','geología','die','Geologien','n'],
   ['Ehre','el honor','die','','n'],
   ['festlegen','establecer','','','v'],
   ['Betrug','el fraude / estafa','der','','n'],
@@ -4984,58 +4984,58 @@ addLevel('B2.2',[
   ['Fraktion','la fracción / el grupo parlamentario','die','','n'],
   ['Prävention','la prevención','die','','n'],
   ['Drittel','el tercio','das','','n'],
-    ['der 
+    ['der Fortschritt','progreso','der','Fortschritte','n'],
     ['vernünftig','razonable','-','-','adj'],
   ['Bildschirm','pantalla','der','Bildschirme','n'],['Tastatur','teclado','die','Tastaturen','n'],
-    ['die 
-    ['die 
+    ['die Voraussetzung','requisito','die','Voraussetzungen','n'],
+    ['die Bilanz','balance','die','Bilanzen','n'],
     ['el Diplomado','el diplomado','','','n'],
   ['Beherrschung','el dominio / el autocontrol','die','','n'],
   ['Einstellung','la actitud / contratación','die','','n'],
   ['Ruf','reputación','der','Rufe','n'],['Image','imagen','das','Images','n'],
   ['Moderator','presentador','der','Moderatoren','n'],['Zuschauer','espectador','der','Zuschauer','n'],
-    ['die 
+    ['die Flöte','flauta','die','Flöten','n'],
   ['Ausdehnung','la extensión / expansión','die','','n'],
   ['Steigerung','el aumento / incremento','die','','n'],
     ['la Primicia','la primicia','','','n'],
   ['Eifersucht','los celos','die','','n'],
   ['Ermittlung','la investigación (policial)','die','','n'],
-    ['die 
+    ['die Bildung','educación','die','Bildungen','n'],
   ['Aktualität','la actualidad','die','','n'],
   ['Nachrichten','noticias','die','','n'],['Berichterstattung','cobertura informativa','die','Berichterstattungen','n'],
-    ['das 
+    ['das Atom','átomo','das','Atome','n'],
   ['Angabe','dato','die','Angaben','n'],
     ['Horror','[Horror]','der','Horroren','n'],
   ['Ausgrabung','la excavación','die','','n'],
   ['Reichweite','el alcance / la cobertura','die','','n'],
-    ['das 
+    ['das Gespräch','conversación','das','Gespräche','n'],
   ['Inschrift','la inscripción','die','','n'],
-    ['die 
+    ['die Republik','república','die','Republiken','n'],
   ['Symbol','el símbolo','das','','n'],
-    ['die 
-    ['die 
+    ['die Evolution','evolución','die','Evolutionen','n'],
+    ['die Rolle','papel','die','Rollen','n'],
     ['vertraut','familiar','-','-','adj'],
   ['Aufkleber','la pegatina / adhesivo','der','','n'],
   ['protokollieren','registrar','','','v'],['archivieren','archivar','','','v'],
   ['el prejuicio','[el prejuicio]','','','n'],
   ['Prestigio','el prestigio','el','','n'],
-    ['die 
+    ['die Struktur','estructura','die','Strukturen','n'],
     ['la Propaganda','la propaganda','','','n'],
   ['Ausstattung','el equipamiento / dotación','die','','n'],
   ['Manuskript','el manuscrito','das','','n'],
-    ['die 
+    ['die Theorie','teoría','die','Theorien','n'],
   ['Einschaltquote','audiencia','die','Einschaltquoten','n'],['Werbung','publicidad','die','Werbungen','n'],
   ['Lernmethode','el método de aprendizaje','die','','n'],
   ['Schmarotzer','el parásito','der','','n'],
     ['el Kontrast','el contraste','','','n'],
   ['Engpass','el cuello de botella / estrechez','der','','n'],
-    ['die 
+    ['die Astronomie','astronomía','die','Astronomien','n'],
   ['Meinungsfreiheit','libertad de expresión','die','','n'],['Pressefreiheit','libertad de prensa','die','','n'],
-    ['die 
+    ['die Krise','crisis','die','Krisen','n'],
   ['Status','estatus','der','Status','n'],['Ansehen','prestigio','das','','n'],
-    ['der 
+    ['der Zyklus','ciclo','der','Zyklen','n'],
   ['Fachzeitschrift','revista especializada','die','Fachzeitschriften','n'],['Konferenz','conferencia','die','Konferenzen','n'],
-    ['die 
+    ['die Opposition','oposición','die','Oppositionen','n'],
     ['la Erfahrung','la experiencia','','','n'],
     ['originell','original','-','-','adj'],
   ['Begrenzung','la limitación','die','','n'],
@@ -5061,7 +5061,7 @@ addLevel('B2.2',[
     ['qualifiziert','cualificado','-','-','adj'],
   ['Reife','la madurez','die','','n'],
     ['Theorie','[Theorie]','die','Theorien','n'],
-    ['die 
+    ['die Psychologie','psicología','die','Psychologien','n'],
     ['Grundrecht','[Grundrecht]','der','Grundrechten','n'],
   ['Verteilung','la distribución','die','','n'],
   ['Fortschritt','progreso','der','Fortschritte','n'],['Entwicklung','desarrollo','die','Entwicklungen','n'],
@@ -5069,9 +5069,9 @@ addLevel('B2.2',[
   ['Ehe','matrimonio','die','Ehen','n'],['Scheidung','divorcio','die','Scheidungen','n'],
   ['Orden','el orden','la','','n'],
   ['Ergänzung','el complemento / suplemento','die','','n'],
-    ['das 
+    ['das Drehbuch','guión','das','Drehbücher','n'],
   ['opfern','sacrificar','','','v'],['verzichten','renunciar','','','v'],
-    ['der 
+    ['der Druck','presión','der','Drücke','n'],
   ['Propaganda','propaganda','die','','n'],['Zensur','censura','die','Zensuren','n'],
   ['Behauptung','la afirmación / aseveración','die','','n'],
   ['Tendenz','la tendencia','die','','n'],
@@ -5082,31 +5082,31 @@ addLevel('B2.2',[
   ['Wehmut','la melancolía','die','','n'],
   ['Expansión','la expansión','la','','n'],
   ['Pasaporte','el pasaporte','el','','n'],
-    ['die 
+    ['die Kunst','arte','die','Künste','n'],
   ['unvermeidlich','inevitable','','','adj'],
   ['Zeitgenosse','el contemporáneo','die','','n'],
   ['Freispruch','absolución','der','Freisprüche','n'],
   ['Ausschuss','el comité / la comisión','der','','n'],
-    ['die 
+    ['die Philosophie','filosofía','die','Philosophien','n'],
   ['Belastung','la carga / el agobio','die','','n'],
   ['Kontrast','el contraste','el','','n'],
   ['Kernenergie','la energía nuclear','die','','n'],
   ['Rechtfertigung','la justificación','die','','n'],
   ['Beanstandung','la reclamación / objeción','die','','n'],
   ['Gier','la codicia / la avidez','die','','n'],
-    ['die 
+    ['die Gerechtigkeit','justicia','die','Gerechtigkeiten','n'],
   ['el rayo','[el rayo]','','','n'],
   ['Steuererklärung','la declaración de impuestos','die','','n'],
   ['Dichte','la densidad','die','','n'],
   ['Ton','el tono / el sonido','der','','n'],
-    ['die 
+    ['die Prüfung','auditoría','die','Prüfungen','n'],
   ['Legitimität','la legitimidad','die','','n'],
   ['Dekoration','la decoración','die','','n'],
   ['Einheit','la unidad','die','','n'],
   ['Überraschung','la sorpresa','die','','n'],
   ['zitieren','citar','','','v'],['referenzieren','referenciar','','','v'],
   ['Offensive','la ofensiva','die','','n'],
-    ['die 
+    ['die Skulptur','escultura','die','Skulpturen','n'],
   ['Diagramm','diagrama','das','Diagramme','n'],
   ['verhältnismäßig','proporcional','','','adj'],
   ['zugänglich','accesible','','','adj'],
@@ -5115,12 +5115,12 @@ addLevel('B2.2',[
   ['Fortbildung','la formación continua','die','','n'],
   ['Opinión','la opinión','la','','n'],
   ['Spannung','la tensión / el suspense','die','','n'],
-    ['die 
+    ['die Masse','masa','die','Massen','n'],
   ['Zukunft','[Zukunft]','','','n'],
   ['Einschätzung','la valoración / estimación','die','','n'],
   ['Mord','el asesinato','der','','n'],
   ['Prosa','la prosa','die','','n'],
-    ['die 
+    ['die Diskussion','discusión','die','Diskussionen','n'],
   ['Härte','la dureza / rigor','die','','n'],
     ['entbehrlich','prescindible','-','-','adj'],
     ['Experiment','[Experiment]','das','Experimenten','n'],
@@ -5138,18 +5138,18 @@ addLevel('B2.2',[
   ['forschen','investigar','','','v'],['untersuchen','examinar','','','v'],
   ['senden','emitir','','','v'],['ausstrahlen','transmitir','','','v'],
     ['Nachhaltigkeit','[Nachhaltigkeit]','die','Nachhaltigkeiten','n'],
-  ['das 
+  ['Das ein','la existencia / la vida','das','','n'],
     ['unwirksam','ineficaz','-','-','adj'],
   ['interviewen','entrevistar','','','v'],['kommentieren','comentar','','','v'],
-    ['der 
+    ['der Fachartikel','artículo especializado','der','Fachartikel','n'],
   ['Erprobung','la puesta a prueba','die','','n'],
   ['Einzelkind','el hijo único','das','','n'],
     ['Veröffentlichung','[Veröffentlichung]','die','Veröffentlichungen','n'],
     ['überflüssig','superfluo','-','-','adj'],
-    ['die 
+    ['die Forschung','investigación','die','Forschungen','n'],
   ['Bewertung','valoración','die','Bewertungen','n'],
   ['Vereinbarung','acuerdo','die','Vereinbarungen','n'],
-    ['die 
+    ['die Quantität','cantidad','die','Quantitäten','n'],
   ['Absicherung','la protección / el aseguramiento','die','','n'],
   ['Lokalzeitung','el periódico local','die','','n'],
   ['Unabhängigkeit','la independencia','die','','n'],
@@ -5157,7 +5157,7 @@ addLevel('B2.2',[
     ['la Dimensión','la dimensión','','','n'],
   ['Echo','el eco','das','','n'],
   ['Anordnung','la orden / la disposición','die','','n'],
-    ['die 
+    ['die Regierung','gobierno','die','Regierungen','n'],
   ['Gefälle','la pendiente / el desnivel / la disparidad','das','','n'],
   ['Moderation','la moderación','die','','n'],
   ['Dimensión','la dimensión','la','','n'],
@@ -5172,12 +5172,12 @@ addLevel('B2.2',[
   ['schädlich','dañino','','','adj'],
   ['Hebamme','la comadrona / partera','die','','n'],
   ['Präsenz','la presencia','die','','n'],
-    ['das 
+    ['das Gesetz','ley','das','Gesetze','n'],
   ['Wahlkampf','la campaña electoral','der','','n'],
   ['Fusion','la fusión','die','','n'],
-    ['die 
+    ['die Musik','música','die','Musiken','n'],
   ['Inklusion','la inclusión','die','','n'],
-    ['die 
+    ['die Dauer','duración','die','Dauern','n'],
   ['würdigen','apreciar','','','v'],['kritisieren','criticar','','','v'],
   ['Polución','la polución','la','','n'],
   ['Technologie','[Technologie]','','','n'],
@@ -5189,28 +5189,28 @@ addLevel('B2.2',[
   ['Furcht','el temor / miedo','die','','n'],
   ['akzeptieren','aceptar','','','v'],['verstehen','entender','','','v'],
   ['mangelhaft','deficiente','','','adj'],
-    ['die 
+    ['die Reaktion','reacción','die','Reaktionen','n'],
   ['empirisch','empírico','','','adj'],['theoretisch','teórico','','','adj'],
   ['Lage','la situación / ubicación','die','','n'],
   ['Anekdote','la anécdota','die','','n'],
   ['Evolution','la evolución','die','','n'],
   ['Duell','el duelo','das','','n'],
-    ['die 
+    ['die Mathematik','matemáticas','die','Mathematiken','n'],
   ['Aushändigung','la entrega (de un documento)','die','','n'],
   ['Überschuss','el excedente / superávit','der','','n'],
-    ['der 
+    ['der Umsatz','facturación','der','Umsätze','n'],
     ['erforderlich','requerido','-','-','adj'],
-    ['die 
+    ['die Integration','integración','die','Integrationen','n'],
   ['Hobbys','[Hobbys]','','','n'],
   ['Standpunkt','punto de vista','der','Standpunkte','n'],
   ['Mentor','el mentor','der','','n'],
   ['überwachen','vigilar','','','v'],['aufnehmen','grabar','','','v'],
   ['Feiertage','[Feiertage]','','','n'],
-    ['der 
-    ['das 
+    ['der Regisseur','director','der','Regisseure','n'],
+    ['das Parlament','parlamento','das','Parlamente','n'],
   ['Lob','el elogio','das','','n'],
   ['Koalition','la coalición','die','','n'],
-    ['der 
+    ['der Prozess','proceso','der','Prozesse','n'],
   ['Metapher','la metáfora','die','','n'],
   ['Transparenz','la transparencia','die','','n'],
   ['Psychologie','la psicología','die','','n'],
@@ -5225,7 +5225,7 @@ addLevel('B2.2',[
   ['Rezession','la recesión','die','','n'],
   ['Bezug','la referencia / la funda','der','','n'],
   ['Privatsphäre','privacidad','die','','n'],['Überwachung','vigilancia','die','Überwachungen','n'],
-    ['die 
+    ['die Vereinbarung','acuerdo','die','Vereinbarungen','n'],
   ['kritisieren','criticar','','','v'],['zensieren','censurar','','','v'],
   ['Nutzung','uso','die','Nutzungen','n'],
   ['Interview','entrevista','das','Interviews','n'],['Reportage','reportaje','die','Reportagen','n'],
@@ -5233,8 +5233,8 @@ addLevel('B2.2',[
   ['Sensation','la sensación / el bombazo','die','','n'],
   ['Prognose','el pronóstico','die','','n'],
   ['Schätzung','la estimación','die','','n'],
-    ['der 
-    ['der 
+    ['der Verlust','pérdida','der','Verluste','n'],
+    ['der Bundeskanzler','canciller','der','Bundeskanzler','n'],
   ['Bündnis','la alianza / el pacto','das','','n'],
   ['Auflistung','el listado','die','','n'],
   ['Trend','la tendencia','der','','n'],
@@ -5252,13 +5252,13 @@ addLevel('B2.2',[
   ['Erwägung','la consideración / deliberación','die','','n'],
   ['Gemeinheit','la bajeza / la maldad','die','','n'],
   ['Höhepunkt','el punto culminante / clímax','der','','n'],
-    ['die 
+    ['die Qualität','calidad','die','Qualitäten','n'],
   ['aktuell','actual','','','adj'],['veraltet','desactualizado','','','adj'],
-    ['das 
+    ['das Magnetfeld','campo magnético','das','Magnetfelder','n'],
   ['Anführer','el cabecilla / líder','der','','n'],
-    ['die 
-    ['die 
-    ['die 
+    ['die Veränderung','cambio','die','Veränderungen','n'],
+    ['die Wissenschaftlerin','científica','die','Wissenschaftlerinnen','n'],
+    ['die Verfassung','constitución','die','Verfassungen','n'],
     ['Regierung','[Regierung]','die','Regierungen','n'],
     ['Oscar','[Oscar]','der','Oscaren','n'],
   ['Liberalisierung','la liberalización','die','','n'],
@@ -5269,7 +5269,7 @@ addLevel('B2.2',[
   ['Feststellung','constatación','die','Feststellungen','n'],
   ['Aufstieg','el ascenso','der','','n'],
   ['Konzentration','la concentración','die','','n'],
-    ['das 
+    ['das Instrument','instrumento','das','Instrumente','n'],
   ['vorhanden','disponible','','','adj'],
   ['Schlagzeile','titular','die','Schlagzeilen','n'],['Kommentar','comentario','der','Kommentare','n'],
   ['Munition','la munición','die','','n'],
@@ -5277,16 +5277,16 @@ addLevel('B2.2',[
   ['kontrollieren','controlar','','','v'],
   ['Nerviosidad','el nerviosismo','la','','n'],
   ['Fazit','la conclusión / el balance','das','','n'],
-    ['die 
+    ['die Ausstellung','exposición','die','Ausstellungen','n'],
   ['Gleichgewicht','el equilibrio','das','','n'],
     ['Genre','[Genre]','die','Genren','n'],
   ['Ausprägung','la manifestación / forma','die','','n'],
   ['unumgänglich','inevitable','','','adj'],
-    ['die 
+    ['die Grenze','frontera','die','Grenzen','n'],
   ['Illusion','la ilusión / espejismo','la','','n'],
   ['Verurteilung','condena','die','Verurteilungen','n'],
   ['Empatía','la empatía','la','','n'],
-    ['die 
+    ['die Bewegung','movimiento','die','Bewegungen','n'],
   ['Infrastruktur','la infraestructura','die','','n'],
   ['Etikett','la etiqueta','el','','n'],
     ['el Procedimiento','el procedimiento','','','n'],
@@ -5297,8 +5297,8 @@ addLevel('B2.2',[
   ['Öffentlichkeit','público','die','','n'],['Privatsphäre','privacidad','die','','n'],
   ['Medien','medios','die','','n'],['Presse','prensa','die','','n'],
   ['Skizze','boceto','die','Skizzen','n'],
-    ['die 
-    ['die 
+    ['die Politik','política','die','Politiken','n'],
+    ['die Diktatur','dictadura','die','Diktaturen','n'],
   ['Einwirkung','la influencia / efecto','die','','n'],
   ['Anomalie','la anomalía','die','','n'],
   ['Personalabteilung','recursos humanos','die','','n'],
@@ -5307,7 +5307,7 @@ addLevel('B2.2',[
     ['Fachgebiet','[Fachgebiet]','das','Fachgebieten','n'],
   ['el derecho humano','[el derecho humano]','','','n'],
   ['Wartung','el mantenimiento','die','','n'],
-    ['das 
+    ['das Molekül','molécula','das','Moleküle','n'],
   ['kritisch','crítico','','','adj'],['konstruktiv','constructivo','','','adj'],
   ['Belohnung','la recompensa','die','','n'],
   ['Beschränkung','la restricción / limitación','die','','n'],
@@ -5322,16 +5322,16 @@ addLevel('B2.2',[
     ['Gedicht','[Gedicht]','der','Gedichten','n'],
   ['Insekt','el insecto','das','','n'],
   ['Verweigerung','denegación','die','Verweigerungen','n'],
-    ['die 
+    ['die Beobachtung','observación','die','Beobachtungen','n'],
   ['Ausnahmeregelung','la regulación de excepción','die','','n'],
   ['Anspannung','la tensión / esfuerzo','die','','n'],
-    ['der 
-    ['der 
+    ['der Dialog','diálogo','der','Dialoge','n'],
+    ['der Stillstand','estancamiento','der','Stillstände','n'],
   ['Marsch','la marcha','die','','n'],
   ['Befehl','la orden / el mando','der','','n'],
   ['austauschbar','intercambiable','','','adj'],
   ['Reform','la reforma','die','','n'],
-    ['der 
+    ['der Abgeordnete','diputado','der','Abgeordneten','n'],
   ['Limit','el límite','das','','n'],
   ['unvermeidbar','inevitable','','','adj'],
     ['ScienceFiction','[ScienceFiction]','die','ScienceFictionen','n'],
@@ -5339,7 +5339,7 @@ addLevel('B2.2',[
   ['Drohung','la amenaza','die','','n'],
   ['Emotion','la emoción','die','','n'],
   ['Handhabung','el manejo / manipulación','die','','n'],
-    ['die 
+    ['die Technik','técnica','die','Techniken','n'],
   ['Anliegen','la petición / el asunto','das','','n'],
   ['Versión','la versión','la','','n'],
   ['Berücksichtigung','la toma en consideración','die','','n'],
@@ -5353,40 +5353,40 @@ addLevel('B2.2',[
   ['Experte','el experto','der','','n'],
   ['Werbeagentur','agencia de publicidad','die','','n'],
   ['Erzeugnis','el producto','die','','n'],
-    ['die 
-    ['die 
-    ['die 
+    ['die Kritik','crítica','die','Kritiken','n'],
+    ['die Trommel','tambor','die','Trommeln','n'],
+    ['die Ausgabe','gasto','die','Ausgaben','n'],
   ['Mobbing','el acoso laboral','das','','n'],
     ['Beobachtung','[Beobachtung]','die','Beobachtungen','n'],
     ['Fachartikel','[Fachartikel]','der','Fachartikel','n'],
   ['Befürchtung','el temor / sospecha','die','','n'],
   ['Empfinden','la sensación / sentimiento','das','','n'],
   ['Fachkraft','el personal especializado','die','','n'],
-    ['die 
+    ['die Physik','física','die','Physiken','n'],
   ['Interpretation','la interpretación','die','','n'],
     ['unglaubwürdig','increíble','-','-','adj'],
   ['Absatz','el párrafo / el tacón / las ventas','der','','n'],
   ['Auffassung','la opinión / la concepción','die','','n'],
   ['Verordnung','reglamento','die','Verordnungen','n'],
   ['Skelett','el esqueleto','das','','n'],
-    ['die 
+    ['die Zelle','célula','die','Zellen','n'],
   ['Gutachten','el peritaje / dictamen','das','','n'],
-    ['die 
+    ['die Geschwindigkeit','velocidad','die','Geschwindigkeiten','n'],
     ['la Koordination','la coordinación','','','n'],
   ['Disziplin','la disciplina','die','','n'],
     ['unzugänglich','inaccesible','-','-','adj'],
   ['Milieu','el medio social / ambiente','das','','n'],
   ['kontrovers','controvertido','','','adj'],['umstritten','discutido','','','adj'],
-    ['die 
+    ['die Aktion','acción','die','Aktionen','n'],
     ['Diskussion','[Diskussion]','die','Diskussionen','n'],
     ['unvernünftig','irrazonable','-','-','adj'],
   ['Wechselwirkung','la interacción','die','','n'],
-    ['die 
+    ['die Chance','oportunidad','die','Chancen','n'],
   ['Gegebenheit','la circunstancia / el hecho dado','die','','n'],
   ['Mechanik','la mecánica','die','','n'],
   ['Ertrag','el rendimiento / beneficio','der','','n'],
   ['verantwortlich','responsable','','','adj'],
-    ['der 
+    ['der Wissenschaftler','científico','der','Wissenschaftler','n'],
   ['Protokoll','el protocolo','das','','n'],
     ['la Psicología','la psicología','','','n'],
   ['Rangordnung','la jerarquía','die','','n'],
@@ -5401,9 +5401,9 @@ addLevel('B2.2',[
   ['Abkommen','el acuerdo / el tratado','das','','n'],
   ['Rückgang','el retroceso','der','','n'],
     ['el Pasaporte','el pasaporte','','','n'],
-    ['der 
+    ['der Film','película','der','Filme','n'],
   ['beneiden','envidiar','','','v'],['bewundern','admirar','','','v'],
-    ['das 
+    ['das Konzert','concierto','das','Konzerte','n'],
     ['el Prestigio','el prestigio','','','n'],
     ['Schauspieler','[Schauspieler]','der','Schauspieler','n'],
   ['Aufwand','el esfuerzo / el gasto','der','','n'],
@@ -5415,33 +5415,33 @@ addLevel('B2.2',[
   ['Übereinstimmung','la concordancia / acuerdo','die','','n'],
     ['Entwicklung','[Entwicklung]','die','Entwicklungen','n'],
     ['Forschungsprojekt','[Forschungsprojekt]','der','Forschungsprojekten','n'],
-    ['der 
+    ['der Präsident','presidente','der','Präsidenten','n'],
     ['la Filosofía','la filosofía','','','n'],
   ['Anwendung','la aplicación / el uso','die','','n'],
   ['respektieren','respetar','','','v'],['tolerieren','tolerar','','','v'],
-    ['das 
+    ['das Klavier','piano','das','Klaviere','n'],
   ['Traktat','el tratado (escrito)','der','','n'],
   ['Naturaleza','la naturaleza','la','','n'],
   ['unterlegen','inferior','','','adj'],
   ['Provision','la comisión (dinero)','die','','n'],
   ['Einigung','el acuerdo / unificación','die','','n'],
-    ['die 
-    ['die 
+    ['die Entdeckung','descubrimiento','die','Entdeckungen','n'],
+    ['die Methode','método','die','Methoden','n'],
   ['subjektiv','subjetivo','','','adj'],['tendenziös','tendencioso','','','adj'],
-    ['die 
+    ['die Fotografie','fotografía','die','Fotografien','n'],
     ['Methode','[Methode]','der','Methoden','n'],
   ['Allmacht','la omnipotencia','die','','n'],
-    ['die 
+    ['die Bühne','escenario','die','Bühnen','n'],
   ['Beziehung','relación','die','Beziehungen','n'],['Bekanntschaft','conocido','die','Bekanntschaften','n'],
-    ['der 
-    ['die 
+    ['der Künstler','artista','der','Künstler','n'],
+    ['die Geschichte','historia','die','Geschichten','n'],
   ['Haftung','la responsabilidad legal / fianza','die','','n'],
   ['Rendite','el rendimiento / la rentabilidad','die','','n'],
-    ['die 
+    ['die Einnahme','ingreso','die','Einnahmen','n'],
   ['sich einsetzen für','[sich einsetzen für]','','','n'],
   ['Demonstration','la manifestación / demostración','die','','n'],
     ['Komödie','[Komödie]','die','Komödien','n'],
-    ['die 
+    ['die Demokratie','democracia','die','Demokratien','n'],
   ['Kost','la comida / el sustento','die','','n'],
   ['Ironie','la ironía','die','','n'],
   ['Format','formato','das','Formate','n'],
@@ -5450,7 +5450,7 @@ addLevel('B2.2',[
     ['Animationsfilm','[Animationsfilm]','die','Animationsfilmen','n'],
     ['la Orientación','la orientación','','','n'],
   ['Querella','la querella','la','','n'],
-    ['die 
+    ['die Haftung','responsabilidad','die','Haftungen','n'],
   ['Akzeptanz','la aceptación','die','','n'],
   ['Code','el código','der','','n'],
   ['Gleichberechtigung','la igualdad de derechos','die','','n'],
@@ -5458,17 +5458,17 @@ addLevel('B2.2',[
   ['digital','digital','','','adj'],['virtuell','virtual','','','adj'],
   ['Flexibilität','la flexibilidad','die','','n'],
   ['Impfstoff','la vacuna (sustancia)','der','','n'],
-    ['das 
+    ['das Publikum','público','das','Publikume','n'],
   ['Quote','la cuota / el índice','die','','n'],
-    ['der 
+    ['der Haushalt','presupuesto','der','Haushalte','n'],
   ['Erörterung','la discusión / debate','la','','n'],
   ['Beweisführung','la argumentación / prueba','die','','n'],
-    ['der 
+    ['der Applaus','aplauso','der','Applause','n'],
   ['chen','[chen]','','','n'],
-    ['das 
+    ['das Grundrecht','derecho fundamental','das','Grundrechte','n'],
   ['Schonzeit','la veda / periodo de gracia','die','','n'],
   ['Budget','el presupuesto','das','','n'],
-    ['die 
+    ['die Entwicklung','desarrollo','die','Entwicklungen','n'],
   ['Profil','el perfil','das','','n'],
   ['recht haben','[recht haben]','','','n'],
   ['Muster','modelo','das','Muster','n'],
@@ -5478,7 +5478,7 @@ addLevel('B2.2',[
   ['Comeback','el retorno / reaparición','das','','n'],
   ['Akteur','el actor / protagonista (social/político)','der','','n'],
   ['überprüfen','verificar','','','v'],['verifizieren','verificar','','','v'],
-    ['das 
+    ['das System','sistema','das','Systeme','n'],
   ['Praxis','práctica','die','Praxen','n'],['Experiment','experimento','das','Experimente','n'],
     ['la Implicación','la implicación / consecuencia','','','n'],
   ['Anblick','la vista / el aspecto','der','','n'],
@@ -5510,7 +5510,7 @@ addLevel('B2.2',[
   ['Petición','la petición','la','','n'],
     ['Premiere','[Premiere]','die','Premieren','n'],
   ['Auslieferung','la entrega / extradición','die','','n'],
-    ['die 
+    ['die Frequenz','frecuencia','die','Frequenzen','n'],
   ['Autonomie','la autonomía','die','','n'],
   ['Trennung','separación','die','Trennungen','n'],['Versöhnung','reconciliación','die','Versöhnungen','n'],
   ['Bewunderung','la admiración','die','','n'],
@@ -5520,20 +5520,20 @@ addLevel('B2.2',[
   ['Inmisión','la inmisión / emisión','la','','n'],
   ['Dokumentation','documental','die','Dokumentationen','n'],['Sendung','programa','die','Sendungen','n'],
   ['Darstellung','representación','die','Darstellungen','n'],
-    ['die 
-    ['die 
-    ['die 
-    ['der 
+    ['die Beschleunigung','aceleración','die','Beschleunigungen','n'],
+    ['die Intensität','intensidad','die','Intensitäten','n'],
+    ['die Partei','partido','die','Parteien','n'],
+    ['der Rückschritt','retroceso','der','Rückschritte','n'],
   ['Droge','la droga','die','','n'],
-    ['die 
+    ['die Ökonomie','economía','die','Ökonomien','n'],
   ['Geheimhaltung','la confidencialidad / secreto','die','','n'],
-    ['die 
-    ['die 
-    ['der 
+    ['die Wissenschaft','ciencia','die','Wissenschaften','n'],
+    ['die Abrechnung','liquidación','die','Abrechnungen','n'],
+    ['der Dissens','disenso','der','Dissense','n'],
   ['Migration','la migración','die','','n'],
   ['Hirn','el cerebro','das','','n'],
   ['beschränkt','limitado','','','adj'],
-    ['die 
+    ['die Analyse','análisis','die','Analysen','n'],
   ['Zuverlässigkeit','la fiabilidad','die','','n'],
   ['Planeta','el planeta','el','','n'],
     ['la Privacidad','la privacidad','','','n'],
@@ -5550,40 +5550,40 @@ addLevel('B2.2',[
   ['Modul','el módulo','das','','n'],
   ['Materie','la materia','die','','n'],
   ['bedeutungslos','insignificante','','','adj'],
-    ['der 
+    ['der Musiker','músico','der','Musiker','n'],
   ['Depression','la depresión','die','','n'],
   ['Exzellenz','la excelencia','die','','n'],
-    ['die 
+    ['die Spannung','tensión','die','Spannungen','n'],
   ['verlogen','mentiroso','','','adj'],['vertrauenswürdig','digno de confianza','','','adj'],
-    ['die 
+    ['die Soziologie','sociología','die','Soziologien','n'],
   ['Repräsentation','la representación','die','','n'],
-    ['die 
+    ['die Schauspielerin','actriz','die','Schauspielerinnen','n'],
   ['Verwirrung','la confusión','die','','n'],
   ['Schema','esquema','das','Schemata','n'],
   ['Währung','la moneda / divisa','die','','n'],
-    ['die 
-    ['die 
+    ['die Nation','nación','die','Nationen','n'],
+    ['die Geige','violín','die','Geigen','n'],
     ['la Erwerbsfähigkeit','la capacidad laboral','','','n'],
     ['Kurzfilm','[Kurzfilm]','das','Kurzfilmen','n'],
   ['Fehlentscheidung','la decisión errónea','die','','n'],
     ['verdorben','estropeado','-','-','adj'],
-    ['die 
-    ['der 
+    ['die Gitarre','guitarra','die','Gitarren','n'],
+    ['der Konflikt','conflicto','der','Konflikte','n'],
   ['Verdienst','el mérito / la ganancia','das','','n'],
   ['Missernte','la mala cosecha','die','','n'],
   ['Anteil','la parte / la proporción','der','','n'],
     ['el Manuskript','el manuscrito','','','n'],
     ['la Erörterung','la discusión / debate','','','n'],
   ['Beteiligung','la participación','die','','n'],
-    ['die 
+    ['die Erfindung','invento','die','Erfindungen','n'],
   ['Antike','la antigüedad (época)','die','','n'],
   ['ersetzbar','reemplazable','','','adj'],
   ['ausgezeichnet','excelente','','','adj'],
   ['melden','reportar','','','v'],['abmelden','darse de baja','','','v'],
   ['Nachahmung','la imitación','die','','n'],
   ['verringern','reducir','','','v'],
-    ['die 
-    ['die 
+    ['die Premiere','estreno','die','Premieren','n'],
+    ['die Lösung','solución','die','Lösungen','n'],
   ['Ausschreibung','la licitación / convocatoria','die','','n'],
   ['Horizont','el horizonte','der','','n'],
   ['Prensa','la prensa','la','','n'],
@@ -5594,10 +5594,10 @@ addLevel('B2.2',[
   ['undurchführbar','inviable','','','adj'],
     ['Feldstudie','[Feldstudie]','die','Feldstudien','n'],
   ['Entdeckung','descubrimiento','die','Entdeckungen','n'],['Theorie','teoría','die','Theorien','n'],
-    ['die 
+    ['die Art','especie','die','Arten','n'],
   ['praktisch','práctico','','','adj'],['methodisch','metódico','','','adj'],
   ['Umwelt','[Umwelt]','','','n'],
-    ['die 
+    ['die Funktion','función','die','Funktionen','n'],
     ['la Dignidad','la dignidad','','','n'],
   ['Popularität','la popularidad','die','','n'],
   ['Attentat','el atentado','das','','n'],
@@ -5610,13 +5610,13 @@ addLevel('B2.2',[
   ['schonend','cuidadoso','','','adj'],
   ['Unzufriedenheit','insatisfacción','die','','n'],['Einsamkeit','soledad','die','','n'],
   ['katalogisieren','catalogar','','','v'],['publizieren','publicar','','','v'],
-    ['die 
-    ['der 
+    ['die Probe','muestra','die','Proben','n'],
+    ['der Kompromiss','compromiso','der','Kompromisse','n'],
   ['Diagnose','el diagnóstico','die','','n'],
-    ['die 
-    ['der 
-    ['die 
-    ['die 
+    ['die Wahl','elección','die','Wahlen','n'],
+    ['der Schauspieler','actor','der','Schauspieler','n'],
+    ['die Schwerkraft','gravedad','die','Schwerkräfte','n'],
+    ['die Interaktion','interacción','die','Interaktionen','n'],
   ['Überprüfung','la comprobación / revisión','die','','n'],
   ['Attribut','el atributo','das','','n'],
   ['Aussöhnung','la reconciliación','die','','n'],
@@ -5624,7 +5624,7 @@ addLevel('B2.2',[
 ]);
 
 addLevel('C1.1',[
-    ['die 
+    ['die Intelligenz','inteligencia','die','Intelligenzen','n'],
   ['Fehlverhalten','la conducta inapropiada / mala conducta','das','','n'],
   ['komparativ','comparativo','','','adj'],
   ['Umgestaltung','la remodelación / reforma / reestructuración','die','','n'],
@@ -5634,7 +5634,7 @@ addLevel('C1.1',[
     ['Phänomenologie','[Phänomenologie]','die','Phänomenologien','n'],
   ['fundamental','fundamental','','','adj'],
   ['Wertschöpfung','la creación de valor / valor añadido','die','','n'],
-    ['der 
+    ['der Verstand','entendimiento','der','Verstände','n'],
   ['Koexistenz','la coexistencia','die','','n'],
   ['Vermarktung','la comercialización / marketing','die','','n'],
   ['bahnbrechend','pionero','','','adj'],
@@ -5642,9 +5642,9 @@ addLevel('C1.1',[
   ['empfindlich','sensible','','','adj'],
   ['Konfiguration','la configuración','die','','n'],
   ['legitim','legítimo','','','adj'],
-    ['der 
+    ['der Widerspruch','contradicción','der','Widersprüche','n'],
   ['indes','mientras tanto','','','adv'],['indessen','entre tanto','','','adv'],
-    ['die 
+    ['die Tugend','virtud','die','Tugenden','n'],
   ['intensiv','intensivo','','','adj'],
   ['Angemessenheit','la adecuación / conveniencia','die','','n'],
   ['Vorhersehbarkeit','la previsibilidad','die','','n'],
@@ -5653,28 +5653,28 @@ addLevel('C1.1',[
   ['Schöpfung','la creación / obra','die','','n'],
   ['Eigenverantwortung','la responsabilidad individual','die','','n'],
   ['mittlerweile','mientras tanto','','','adv'],['insofern','en la medida que','','','conj'],
-    ['das 
+    ['das Gewissen','conciencia moral','das','Gewissen','n'],
   ['Gewährleistung','la garantía legal / saneamiento','die','','n'],
   ['Konsequenz','consecuencia','die','Konsequenzen','n'],['Implikation','implicación','die','Implikationen','n'],
   ['Evidenz','la evidencia','die','','n'],
   ['Segmentierung','la segmentación','die','','n'],
   ['Begabung','el talento / aptitud','die','','n'],
-    ['das 
+    ['das Laster','vicio','das','Laster','n'],
   ['motivieren','motivar','','','v'],
   ['volume','[volume]','','','n'],
   ['fragwürdig','cuestionable','','','adj'],
   ['demzufolge','en consecuencia','','','adv'],['nichtsdestotrotz','no obstante','','','adv'],
   ['Kategorie','la categoría','die','','n'],
-    ['die 
+    ['die Selbstkritik','autocrítica','die','Selbstkritiken','n'],
   ['Proportion','proporción','die','Proportionen','n'],
-    ['die 
-    ['der 
+    ['die Erfahrung','experiencia','die','Erfahrungen','n'],
+    ['der Wert','valor','der','Werte','n'],
   ['evolutionär','evolutivo','','','adj'],
   ['universell','universal','','','adj'],
   ['anerkennen','reconocer','','','v'],
   ['Positionierung','el posicionamiento','die','','n'],
-    ['die 
-    ['der 
+    ['die Überzeugung','convicción','die','Überzeugungen','n'],
+    ['der Grundsatz','principio','der','Grundsätze','n'],
   ['zielorientiert','orientado a objetivos','','','adj'],
   ['intuitiv','intuitivo','','','adj'],
   ['Funktionalität','la funcionalidad','die','','n'],
@@ -5695,14 +5695,14 @@ addLevel('C1.1',[
   ['philosophisch','filosófico','','','adj'],
   ['konsequent','consecuente','','','adj'],
   ['Handlungsbedarf','la necesidad de actuar / de intervención','der','','n'],
-    ['die 
+    ['die Ethik','ética','die','Ethiken','n'],
   ['hervorragend','sobresaliente','','','adj'],
   ['Bearbeitung','el procesamiento / edición / trámite','die','','n'],
   ['bevorzugen','preferir','','','v'],
   ['Norm','norma','die','Normen','n'],['Standard','estándar','der','Standards','n'],
   ['Bewusstsein','la conciencia / conocimiento','das','','n'],
   ['Integrität','la integridad','die','','n'],
-    ['die 
+    ['die Abhängigkeit','dependencia','die','Abhängigkeiten','n'],
   ['Praxisnähe','el enfoque práctico / cercanía a la realidad','die','','n'],
   ['inwiefern','en qué medida','','','adv'],['inwieweit','hasta qué punto','','','adv'],
   ['inakzeptabel','inaceptable','','','adj'],
@@ -5710,11 +5710,11 @@ addLevel('C1.1',[
   ['extra','extra','','','adj'],
   ['nachdenklich','reflexivo','','','adj'],
   ['wirkungsvoll','efectivo','','','adj'],
-    ['die 
+    ['die Verantwortung','responsabilidad','die','Verantwortungen','n'],
   ['Privatisierung','la privatización','die','','n'],
   ['These','tesis','die','Thesen','n'],['Antithese','antítesis','die','Antithesen','n'],
   ['optimieren','optimizar','','','v'],
-    ['die 
+    ['die Phantasie','imaginación','die','Phantasien','n'],
   ['Rücksichtnahme','la consideración / miramiento','die','','n'],
   ['Gemeinwohl','el bien común / interés público','das','','n'],
   ['Faktenlage','la situación de los hechos / base fáctica','die','','n'],
@@ -5723,14 +5723,14 @@ addLevel('C1.1',[
   ['konfrontieren','confrontar','','','v'],
   ['Unternehmenskultur','la cultura empresarial','die','','n'],
   ['Verknüpfung','el vínculo / nexo / enlace','die','','n'],
-    ['die 
+    ['die Dialektik','dialéctica','die','Dialektiken','n'],
   ['respektvoll','respetuoso','','','adj'],
   ['progressiv','progresivo','','','adj'],
   ['Fristsetzung','la fijación de un plazo','die','','n'],
   ['homogen','homogéneo','','','adj'],
   ['Variable','variable','die','Variablen','n'],['Konstante','constante','die','Konstanten','n'],
   ['verbs','[verbs]','','','n'],
-    ['das 
+    ['das Bewusstsein','conciencia','das','Bewusstseine','n'],
   ['Richtlinie','directriz','die','Richtlinien','n'],['Vorschrift','regulación','die','Vorschriften','n'],
   ['Existenzgrundlage','la base de la existencia / sustento','die','','n'],
   ['Pünktlichkeit','la puntualidad','die','','n'],
@@ -5739,21 +5739,21 @@ addLevel('C1.1',[
   ['Anschauung','la visión / percepción / perspectiva','die','','n'],
   ['Indizierung','la indexación / indización','die','','n'],
   ['Verbindlichkeit','la obligatoriedad / compromiso / carácter vinculante','die','','n'],
-    ['der 
+    ['der Zusammenhang','contexto','der','Zusammenhänge','n'],
   ['eindrucksvoll','impresionante','','','adj'],
   ['Erstattung','el reembolso / devolución','die','','n'],
   ['Gegenmaßnahme','la contramedida','die','','n'],
   ['Problematik','la problemática','die','','n'],
   ['Begleitumstand','la circunstancia acompañante','der','','n'],
-    ['die 
+    ['die Pflicht','deber','die','Pflichten','n'],
   ['Expansion','la expansión','die','','n'],
   ['global','global','','','adj'],
   ['Grundlage','base','die','Grundlagen','n'],['Prämisse','premisa','die','Prämissen','n'],
   ['Sensibilisierung','la sensibilización / concienciación','die','','n'],
-    ['die 
+    ['die Vernunft','razón','die','Vernünfte','n'],
   ['Passivität','la pasividad','die','','n'],
   ['Effektivität','la efectividad','die','','n'],
-    ['die 
+    ['die Synthese','síntesis','die','Synthesen','n'],
   ['Rhythmus','el ritmo','der','','n'],
   ['dynamisch','dinámico','','','adj'],
   ['unabhängig','independiente','','','adj'],
@@ -5780,14 +5780,14 @@ addLevel('C1.1',[
   ['Wertewandel','el cambio de valores (sociales)','der','','n'],
   ['Konvention','la convención / norma social','die','','n'],
   ['Neutralität','la neutralidad','die','','n'],
-    ['die 
+    ['die Ideologie','ideología','die','Ideologien','n'],
   ['professionell','profesional','','','adj'],
   ['Geisteswissenschaft','las ciencias humanas / humanidades','die','','n'],
   ['kommunikativ','comunicativo','','','adj'],
-    ['die 
+    ['die Weltanschauung','cosmovisión','die','Weltanschauungen','n'],
   ['Optimierung','la optimización','die','','n'],
     ['Logik','[Logik]','die','Logiken','n'],
-    ['die 
+    ['die Kreativität','creatividad','die','Kreativitäten','n'],
   ['Abhängigkeit','la dependencia','die','','n'],
   ['Vorreiterrolle','el papel de pionero','die','','n'],
   ['Vergütung','la remuneración / gratificación','die','','n'],
@@ -5810,8 +5810,8 @@ addLevel('C1.1',[
   ['implizit','implícito','','','adj'],
   ['Verwirklichung','la realización / ejecución','die','','n'],
   ['expressiv','expresivo','','','adj'],
-    ['die 
-    ['die 
+    ['die Gewissheit','certeza','die','Gewissheiten','n'],
+    ['die Vorstellung','representación','die','Vorstellungen','n'],
   ['Befugnis','la facultad / autoridad / competencia','die','','n'],
   ['Gegenspieler','el antagonista / oponente','der','','n'],
   ['skeptisch','escéptico','','','adj'],
@@ -5826,7 +5826,7 @@ addLevel('C1.1',[
   ['Einstufung','la clasificación / nivelación','die','','n'],
   ['kompetent','competente','','','adj'],
   ['Reduktion','la reducción','die','','n'],
-    ['der 
+    ['der Glaube','fe','der','Glauben','n'],
   ['Rückkoppelung','la retroalimentación / feedback','die','','n'],
   ['Loyalität','la lealtad','die','','n'],
   ['Indikator','indicador','der','Indikatoren','n'],['Maßstab','baremo','der','Maßstäbe','n'],
@@ -5835,9 +5835,9 @@ addLevel('C1.1',[
   ['Verwertung','el aprovechamiento / reciclaje / utilización','die','','n'],
   ['Voraussetzung','requisito','die','Voraussetzungen','n'],['Bedingung','condición','die','Bedingungen','n'],
   ['Rentabilität','la rentabilidad','die','','n'],
-    ['der 
+    ['der Zweifel','duda','der','Zweifel','n'],
   ['investigativ','investigativo','','','adj'],
-    ['die 
+    ['die Norm','norma','die','Normen','n'],
   ['Entwicklungshilfe','la ayuda al desarrollo','die','','n'],
   ['Fachkräftemangel','la escasez de mano de obra cualificada','der','','n'],
   ['Euphorie','la euforia','die','','n'],
@@ -5860,10 +5860,10 @@ addLevel('C1.1',[
   ['perfect','[perfect]','','','n'],
   ['kollektiv','colectivo','','','adj'],
   ['Urteilsfähigkeit','la capacidad de juicio / criterio','die','','n'],
-    ['der 
+    ['der Begriff','concepto','der','Begriffe','n'],
   ['Perspektive','perspectiva','die','Perspektiven','n'],['Aspekt','aspecto','der','Aspekte','n'],
   ['Einmischung','la injerencia / entrometimiento','die','','n'],
-    ['die 
+    ['die Entscheidung','decisión','die','Entscheidungen','n'],
   ['Verschwiegenheit','la discreción / confidencialidad','die','','n'],
   ['Widerspruch','contradicción','der','Widersprüche','n'],['Gegensatz','opuesto','der','Gegensätze','n'],
     ['Humanismus','[Humanismus]','der','Humanismusen','n'],
@@ -5875,7 +5875,7 @@ addLevel('C1.1',[
   ['folglich','por consiguiente','','','adv'],['infolgedessen','como consecuencia','','','adv'],
   ['umweltfreundlich','ecológico','','','adj'],
   ['Regelung','reglamento','die','Regelungen','n'],['Bestimmung','disposición','die','Bestimmungen','n'],
-    ['die 
+    ['die Beziehung','relación','die','Beziehungen','n'],
   ['mixed','[mixed]','','','n'],
   ['Entwürdigung','la degradación / humillación','die','','n'],
   ['Dilemma','el dilema','das','','n'],
@@ -5883,9 +5883,9 @@ addLevel('C1.1',[
   ['Wahrnehmung','la percepción','die','','n'],
   ['Erwerbstätigkeit','la actividad laboral / empleo','die','','n'],
   ['Eingliederung','la integración / incorporación','die','','n'],
-    ['das 
-    ['die 
-    ['die 
+    ['das Urteil','juicio','das','Urteile','n'],
+    ['die Wahrnehmung','percepción','die','Wahrnehmungen','n'],
+    ['die Moral','moral','die','Moralen','n'],
   ['Spezifikation','la especificación','die','','n'],
   ['vorausschauend','previsor','','','adj'],
     ['Metaphysik','[Metaphysik]','die','Metaphysiken','n'],
@@ -5895,7 +5895,7 @@ addLevel('C1.1',[
   ['Vereinbarkeit','la compatibilidad (ej. laboral y familiar)','die','','n'],
   ['Scheinheiligkeit','la hipocresía','die','','n'],
   ['vorausgesetzt','siempre que','','','conj'],['gesetzt den Fall','suponiendo que','','','conj'],
-    ['der 
+    ['der Gegensatz','contraste','der','Gegensätze','n'],
   ['Modifikation','la modificación','die','','n'],
   ['Institution','la institución','die','','n'],
   ['Kollaboration','la colaboración','die','','n'],
@@ -5904,7 +5904,7 @@ addLevel('C1.1',[
   ['Kompensation','la compensación','die','','n'],
   ['identisch','idéntico','','','adj'],
   ['Einschränkung','restricción','die','Einschränkungen','n'],['Ausnahme','excepción','die','Ausnahmen','n'],
-    ['die 
+    ['die Wahrheit','verdad','die','Wahrheiten','n'],
   ['umsichtig','prudente','','','adj'],
   ['Konformität','la conformidad','die','','n'],
   ['Zulassung','la admisión / autorización / licencia','die','','n'],
@@ -5918,7 +5918,7 @@ addLevel('C1.1',[
   ['Stagnation','el estancamiento','die','','n'],
   ['Wettbewerbsfähigkeit','la competitividad','die','','n'],
   ['anspruchsvoll','exigente','','','adj'],
-    ['die 
+    ['die Erkenntnis','conocimiento','die','Erkenntnisse','n'],
     ['Relativismus','[Relativismus]','der','Relativismusen','n'],
   ['Koeffizient','coeficiente','der','Koeffizienten','n'],
   ['maximieren','maximizar','','','v'],
@@ -5927,10 +5927,10 @@ addLevel('C1.1',[
   ['Bestandteil','el componente / elemento integrante','der','','n'],
   ['identifizieren','identificar','','','v'],
   ['nichtsdestoweniger','sin embargo','','','adv'],['insofern','en la medida en que','','','adv'],
-    ['die 
+    ['die Betrachtung','consideración','die','Betrachtungen','n'],
   ['jedoch','sin embargo','','','adv'],['dennoch','no obstante','','','adv'],
   ['integral','integral','','','adj'],
-    ['die 
+    ['die Möglichkeit','posibilidad','die','Möglichkeiten','n'],
   ['einzigartig','único','','','adj'],
   ['dementsprechend','en consecuencia','','','adv'],
   ['Priorisierung','la priorización','die','','n'],
@@ -5957,7 +5957,7 @@ addLevel('C1.1',[
   ['Axiom','axioma','das','Axiome','n'],
   ['Progression','la progresión','die','','n'],
   ['strategisch','estratégico','','','adj'],
-    ['die 
+    ['die Logik','lógica','die','Logiken','n'],
   ['Verkörperung','la encarnación / personificación','die','','n'],
   ['Bedrohung','la amenaza','die','','n'],
   ['sachlich','objetivo','','','adj'],
@@ -5982,10 +5982,10 @@ addLevel('C1.1',[
   ['Konfrontation','la confrontación','die','','n'],
   ['Anregung','la sugerencia / estímulo','die','','n'],
   ['Durchsetzungsvermögen','la asertividad / capacidad de imponerse','das','','n'],
-    ['die 
+    ['die Paradoxie','paradoja','die','Paradoxien','n'],
   ['instrumentell','instrumental','','','adj'],
-    ['die 
-    ['die 
+    ['die Reflexion','reflexión','die','Reflexionen','n'],
+    ['die Definition','definición','die','Definitionen','n'],
   ['differenziert','diferenciado','','','adj'],
     ['Dialektik','[Dialektik]','die','Dialektiken','n'],
   ['horizontal','horizontal','','','adj'],
@@ -6018,7 +6018,7 @@ addLevel('C1.1',[
   ['Referenz','la referencia','die','','n'],
   ['generieren','generar','','','v'],
   ['Schauplatz','el escenario / lugar de los hechos','der','','n'],
-  ['der 
+  ['der maßen','de tal modo','','','adv'],['folgendermaßen','del siguiente modo','','','adv'],
   ['Revolution','revolución','die','Revolutionen','n'],
   ['Methodik','la metodología','die','','n'],
     ['Universalismus','[Universalismus]','der','Universalismusen','n'],
@@ -6028,16 +6028,16 @@ addLevel('C1.1',[
   ['Intervention','la intervención','die','','n'],
   ['Widersprüchlichkeit','la contradicción / inconsistencia','die','','n'],
   ['Einhaltung','el cumplimiento / observancia (de normas)','die','','n'],
-    ['die 
+    ['die Bedeutung','significado','die','Bedeutungen','n'],
   ['Kritikfähigkeit','la capacidad de crítica','die','','n'],
   ['kulturell','cultural','','','adj'],
   ['Vielfalt','la diversidad / variedad','die','','n'],
-    ['die 
+    ['die Wirklichkeit','realidad','die','Wirklichkeiten','n'],
   ['Pauschalisierung','la generalización','die','','n'],
   ['Unverbindlichkeit','la falta de compromiso / carácter no vinculante','die','','n'],
   ['Aneignung','la apropiación / adquisición (conocimiento)','die','','n'],
   ['Begebenheit','el suceso / acontecimiento','die','','n'],
-    ['die 
+    ['die Unabhängigkeit','independencia','die','Unabhängigkeiten','n'],
   ['Handlungsmuster','el patrón de conducta / actuación','das','','n'],
   ['Stichprobe','la muestra aleatoria / sondeo','die','','n'],
   ['Anteilnahme','la condolencia / interés / empatía','die','','n'],
@@ -6058,7 +6058,7 @@ addLevel('C1.1',[
 ]);
 
 addLevel('C1.2',[
-    ['das 
+    ['das Tieflernen','aprendizaje profundo','das','DeepLearning','n'],
   ['Korrespondenz','correspondencia','die','Korrespondenzen','n'],
   ['zeitgeschichtlich','contemporáneo','','','adj'],
     ['esse','esse','','','n'],
@@ -6068,15 +6068,15 @@ addLevel('C1.2',[
   ['ausgereift','maduro','','','adj'],
   ['mehrdeutig','ambiguo','','','adj'],
   ['differenzieren','diferenciar','','','v'],['spezifizieren','especificar','','','v'],
-    ['die 
-    ['die 
+    ['die Gesundheit','salud','die','Gesundheiten','n'],
+    ['die Automation','automatización','die','Automationen','n'],
     ['Kryptowährung','[Kryptowährung]','die','Kryptowährungen','n'],
   ['Maxime','máxima','die','Maximen','n'],
-    ['die 
+    ['die Konzeption','concepción','die','Konzeptionen','n'],
     ['Genetik','[Genetik]','die','Genetiken','n'],
-    ['der 
+    ['der Quantencomputer','ordenador cuántico','der','Quantencomputer','n'],
   ['erläutern','explicar detalladamente','','','v'],
-    ['die 
+    ['die Strategie','estrategia','die','Strategien','n'],
     ['besser','besser','','','n'],
   ['Idealismus','idealismo','der','-','n'],
     ['mögen','mochte','hat gemocht','hat','v'],['wissen','wusste','hat gewusst','hat','v'],
@@ -6097,25 +6097,25 @@ addLevel('C1.2',[
     ['tische','tische','','','n'],
     ['abschätzen','estimar','','','v'],
   ['substituieren','sustituir','','','v'],
-    ['die 
-    ['die 
-    ['die 
-    ['die 
-    ['die 
+    ['die Kultur','cultura','die','Kulturen','n'],
+    ['die Biometrie','biometría','die','Biometrien','n'],
+    ['die Robotik','robótica','die','Robotiken','n'],
+    ['die Digitalisierung','digitalización','die','Digitalisierungen','n'],
+    ['die Wettbewerbsfähigkeit','competitividad','die','Wettbewerbsfähigkeiten','n'],
     ['sich','sich','','','n'],
   ['symmetrieren','simetrizar','','','v'],
-    ['die 
+    ['die Diversität','diversidad','die','Diversitäten','n'],
   ['eindeutig','claro','','','adj'],
     ['wir','wir','','','n'],
   ['wegweisend','pionero','','','adj'],
   ['Kohärenz','coherencia','die','','n'],['Kohäsion','cohesión','die','','n'],
   ['bilanzieren','hacer balance','','','v'],
     ['ihm','ihm','','','n'],
-    ['die 
+    ['die Visualisierung','visualización','die','Visualisierungen','n'],
   ['Periode','período','die','Perioden','n'],
     ['dem','dem','','','n'],
-    ['die 
-    ['die 
+    ['die Interoperabilität','interoperabilidad','die','Interoperabilitäten','n'],
+    ['die Zukunftsforschung','prospección','die','Zukunftsforschungen','n'],
     ['hora','hora','','','n'],
     ['übertragen','transferir','','','v'],
   ['unstrittig','incontrovertible','','','adj'],
@@ -6127,7 +6127,7 @@ addLevel('C1.2',[
   ['Emotionalität','emocionalidad','die','-','n'],
     ['unsere','unsere','','','n'],
     ['mein','mein','','','n'],
-    ['das 
+    ['das NeuronaleNetz','red neuronal','das','NeuronalenNetze','n'],
     ['lampes','lampes','','','n'],
   ['Individuum','individuo','das','Individuen','n'],
     ['Effekt','efecto','der','Effekte','n'],
@@ -6135,11 +6135,11 @@ addLevel('C1.2',[
     ['bin','bin','','','n'],
     ['muss','muss','','','n'],
     ['durfte','durfte','','','n'],
-    ['der 
+    ['der Datenschutz','protección de datos','der','Datenschutz','n'],
   ['extrahieren','extraer','','','v'],
-    ['die 
+    ['die WorkLifeBalance','conciliación','die','WorkLifeBalancen','n'],
   ['Mechanismus','mecanismo','der','Mechanismen','n'],
-    ['die 
+    ['die Risikobewertung','evaluación de riesgos','die','Risikobewertungen','n'],
     ['frauen','frauen','','','n'],
   ['Sensibilität','sensibilidad','die','Sensibilitäten','n'],
     ['machst','machst','','','n'],
@@ -6147,25 +6147,25 @@ addLevel('C1.2',[
   ['Intervall','intervalo','das','Intervalle','n'],
   ['generell','general','','','adj'],['typisch','típico','','','adj'],
   ['Radikalismus','radicalismo','der','-','n'],
-    ['die 
+    ['die Flexibilität','flexibilidad','die','Flexibilitäten','n'],
     ['handys','handys','','','n'],
     ['porque','porque','','','n'],
-    ['die 
+    ['die Harmonisierung','armonización','die','Harmonisierungen','n'],
   ['Fanatismus','fanatismo','der','-','n'],
   ['Relativität','relatividad','die','-','n'],
-    ['das 
-    ['die 
+    ['das Controlling','control de gestión','das','Controllings','n'],
+    ['die Automatisierung','automatización','die','Automatisierungen','n'],
   ['konvertieren','convertir','','','v'],
     ['IoTSmartHome','[IoTSmartHome]','die','IoTSmartHomen','n'],
     ['Metaverse','[Metaverse]','das','Metaversen','n'],
   ['Kategorisierung','categorización','die','Kategorisierungen','n'],['Systematisierung','sistematización','die','Systematisierungen','n'],
-    ['die 
-    ['die 
+    ['die Infrastruktur','infraestructura','die','Infrastrukturen','n'],
+    ['die Akreditierung','acreditación','die','Akreditierungen','n'],
   ['systematisieren','sistematizar','','','v'],['strukturieren','estructurar','','','v'],
     ['lernst','lernst','','','n'],
-    ['das 
-    ['die 
-    ['das 
+    ['das Zukunftskonzept','concepto de futuro','das','Zukunftskonzepte','n'],
+    ['die Resilienz','resiliencia','die','Resilienzen','n'],
+    ['das Ökosystem','ecosistema','das','Ökosysteme','n'],
     ['mich','mich','','','n'],
     ['fährt','fährt','','','n'],
   ['justieren','ajustar','','','v'],
@@ -6180,9 +6180,9 @@ addLevel('C1.2',[
     ['Bioinformatik','[Bioinformatik]','die','Bioinformatiken','n'],
     ['hatte','hatte','','','n'],
     ['zugeben','admitir','','','v'],
-    ['die 
-    ['die 
-    ['die 
+    ['die Spezialisierung','especialización','die','Spezialisierungen','n'],
+    ['die Prozessoptimierung','optimización de procesos','die','Prozessoptimierungen','n'],
+    ['die Lernfähigkeit','capacidad de aprendizaje','die','Lernfähigkeiten','n'],
   ['reproduzieren','reproducir','','','v'],
   ['realisieren','realizar','','','v'],
   ['koinzidieren','coincidir','','','v'],
@@ -6194,15 +6194,15 @@ addLevel('C1.2',[
   ['richtungsweisend','orientador','','','adj'],
   ['Realismus','realismo','der','-','n'],
   ['mustergültig','ejemplar','','','adj'],
-    ['die 
+    ['die Hochrechnung','proyección','die','Hochrechnungen','n'],
   ['adaptieren','adaptar','','','v'],
   ['Zyklus','ciclo','der','Zyklen','n'],
   ['Fundamentalismus','fundamentalismo','der','-','n'],
     ['reist','reist','','','n'],
-    ['die 
+    ['die Zusammenarbeit','colaboración','die','Zusammenarbeiten','n'],
   ['Äquivalenz','equivalencia','die','Äquivalenzen','n'],
     ['mütter','mütter','','','n'],
-    ['die 
+    ['die Validierung','validación','die','Validierungen','n'],
     ['Robotik','[Robotik]','die','Robotiken','n'],
     ['deine','deine','','','n'],
   ['Skeptizismus','escepticismo','der','-','n'],
@@ -6210,7 +6210,7 @@ addLevel('C1.2',[
   ['differieren','diferir','','','v'],
     ['Quantencomputer','[Quantencomputer]','der','Quantencomputer','n'],
     ['hätte','hätte','','','n'],
-    ['die 
+    ['die Wertschöpfung','creación de valor','die','Wertschöpfungen','n'],
     ['deaktivieren','desactivar','','','v'],
   ['beglaubigen','certificar','','','v'],
     ['AugmentedReality','[AugmentedReality]','der','AugmentedRealityen','n'],
@@ -6225,69 +6225,69 @@ addLevel('C1.2',[
   ['fortschrittlich','progresista','','','adj'],
   ['simulieren','simular','','','v'],
   ['erörtern','debatir','','','v'],
-    ['die 
+    ['die KünstlicheIntelligenz','inteligencia artificial','die','KI-Systeme','n'],
   ['exemplarisch','ejemplar','','','adj'],['paradigmatisch','paradigmático','','','adj'],
   ['realisierbar','realizable','','','adj'],
   ['Vorfahr','antepasado','der','Vorfahren','n'],
     ['dativo','dativo','','','n'],
-    ['die 
+    ['die Privatsphäre','privacidad','die','Privatsphären','n'],
   ['konvergieren','converger','','','v'],
   ['Ursprung','origen','der','Ursprünge','n'],
   ['Jahrtausend','milenio','das','Jahrtausende','n'],
   ['Entwicklungstrend','tendencia','der','Entwicklungstrends','n'],
     ['dich','dich','','','n'],
-    ['die 
+    ['die Problemlösung','resolución de problemas','die','Problemlösungen','n'],
     ['woran','woran','','','n'],
-    ['das 
+    ['das Dashboard','tablero de control','das','Dashboards','n'],
   ['abstrahieren','abstraer','','','v'],['konkretisieren','concretar','','','v'],
-    ['die 
+    ['die Kommunikation','comunicación','die','Kommunikationen','n'],
   ['herleiten','deducir','','','v'],
     ['ein','ein','','','n'],
-    ['die 
+    ['die Innovation','innovación','die','Innovationen','n'],
   ['exemplifizieren','ejemplificar','','','v'],
   ['Frequenz','frecuencia','die','Frequenzen','n'],
     ['schreiben','schrieb','hat geschrieben','hat','v'],['finden','fand','hat gefunden','hat','v'],
   ['interagieren','interactuar','','','v'],['partizipieren','participar','','','v'],
     ['halten','hielt','hat gehalten','hat','v'],['lassen','ließ','hat gelassen','hat','v'],
-    ['die 
+    ['die Implementierung','implementación','die','Implementierungen','n'],
     ['überschätzen','sobreestimar','','','v'],
   ['Subjektivität','subjetividad','die','-','n'],
     ['regnet','regnet','','','n'],
     ['Nanotechnologie','[Nanotechnologie]','die','Nanotechnologien','n'],
   ['divergieren','divergir','','','v'],
     ['keinen','keinen','','','n'],
-    ['die 
-    ['die 
+    ['die Normierung','normalización','die','Normierungen','n'],
+    ['die Partnerschaft','asociación','die','Partnerschaften','n'],
     ['Cloud','[Cloud]','der','Clouden','n'],
     ['seinen','seinen','','','n'],
     ['das','das','','','n'],
     ['vernachlässigen','descuidar','','','v'],
-    ['die 
+    ['die Inklusion','inclusión','die','Inklusionen','n'],
   ['Kommunikation','comunicación','die','Kommunikationen','n'],['Interaktion','interacción','die','Interaktionen','n'],
   ['gegenüberstellen','comparar','','','v'],
   ['konzipieren','concebir','','','v'],
     ['sehe','sehe','','','n'],
   ['priorisieren','priorizar','','','v'],
-    ['die 
-    ['die 
+    ['die Nanotechnologie','nanotecnología','die','Nanotechnologien','n'],
+    ['die Kryptographie','criptografía','die','Kryptographien','n'],
   ['veranschaulichen','ilustrar','','','v'],
-    ['die 
+    ['die Umsetzung','implementación','die','Umsetzungen','n'],
     ['komme','komme','','','n'],
     ['fraus','fraus','','','n'],
   ['transformieren','transformar','','','v'],
     ['dein','dein','','','n'],
     ['QuantumComputing','[QuantumComputing]','die','QuantumComputingen','n'],
-    ['die 
-    ['der 
-    ['die 
+    ['die Kryptowährung','criptomoneda','die','Kryptowährungen','n'],
+    ['der Algorithmus','algoritmo','der','Algorithmen','n'],
+    ['die Verifizierung','verificación','die','Verifizierungen','n'],
     ['welche','welche','','','n'],
     ['Cybersicherheit','[Cybersicherheit]','die','Cybersicherheiten','n'],
     ['tanzt','tanzt','','','n'],
   ['avantgardistisch','vanguardista','','','adj'],
   ['Korrelation','correlación','die','Korrelationen','n'],['Kausalität','causalidad','die','','n'],
-    ['die 
+    ['die Kennzahl','indicador','die','Kennzahlen','n'],
   ['Emission','emisión','die','Emissionen','n'],
-    ['die 
+    ['die Liquidität','liquidez','die','Liquiditäten','n'],
     ['Automation','[Automation]','die','Automationen','n'],
     ['den','den','','','n'],
     ['Biometrie','[Biometrie]','die','Biometrien','n'],
@@ -6295,21 +6295,21 @@ addLevel('C1.2',[
   ['Koordination','coordinación','die','Koordinationen','n'],['Kooperation','cooperación','die','Kooperationen','n'],
     ['Aufmerksamkeit','atención','die','','n'],
     ['seine','seine','','','n'],
-    ['die 
+    ['die Konsolidierung','consolidación','die','Konsolidierungen','n'],
     ['liegt','liegt','','','n'],
-    ['die 
+    ['die Schätzung','estimación','die','Schätzungen','n'],
   ['vorbildlich','ejemplar','','','adj'],
-    ['das 
+    ['das KritischeDenken','pensamiento crítico','das','KritischesDenken','n'],
     ['wann','wann','','','n'],
-    ['das 
+    ['das Szenario','escenario','das','Szenarien','n'],
   ['Extremismus','extremismo','der','-','n'],
     ['sich erholen','descansar / recuperarse','','','n'],
   ['Ideologie','ideología','die','Ideologien','n'],
-    ['die 
-    ['die 
+    ['die Diversifikation','diversificación','die','Diversifikationen','n'],
+    ['die Konzeptionierung','conceptualización','die','Konzeptionierungen','n'],
   ['organisieren','organizar','','','v'],['koordinieren','coordinar','','','v'],
   ['zufällig','aleatorio','','','adj'],['wahrscheinlich','probable','','','adj'],
-    ['die 
+    ['die VirtualReality','realidad virtual','die','VR-Anwendungen','n'],
     ['Vorhersage','predicción','die','Vorhersagen','n'],
     ['für','für','','','n'],
     ['Dissens','discrepancia','der','','n'],
@@ -6318,50 +6318,50 @@ addLevel('C1.2',[
   ['in Frage stellen','cuestionar','','','v'],
     ['kann','kann','','','n'],
     ['mir','mir','','','n'],
-    ['die 
-    ['die 
+    ['die Effizienz','eficiencia','die','Effizienzen','n'],
+    ['die Skalierbarkeit','escalabilidad','die','Skalierbarkeiten','n'],
   ['strittig','controvertido','','','adj'],
-    ['das 
+    ['das Reporting','informe','das','Reportings','n'],
   ['vielsagend','significativo','','','adj'],
   ['ableiten','derivar','','','v'],
     ['auf','auf','','','n'],
     ['Nebenwirkung','efecto secundario','die','Nebenwirkungen','n'],
-    ['die 
+    ['die Bonität','solvencia crediticia','die','Bonitäten','n'],
     ['que','que','','','n'],
   ['historisch','histórico','','','adj'],
     ['hat','hat','','','n'],
   ['korrespondieren','corresponder','','','v'],
     ['kinder','kinder','','','n'],
     ['darf','darf','','','n'],
-    ['die 
-    ['die 
+    ['die Genetik','genética','die','Genetiken','n'],
+    ['die Monitor','monitoreo','der','Monitore','n'],
     ['manipulieren','manipular','','','v'],
   ['Partizipation','participación','die','Partizipationen','n'],['Integration','integración','die','Integrationen','n'],
   ['symptomatisch','sintomático','','','adj'],
-    ['das 
+    ['das Management','gestión','das','Managementarten','n'],
   ['modifizieren','modificar','','','v'],
   ['klassifizieren','clasificar','','','v'],['kategorisieren','categorizar','','','v'],
-    ['die 
+    ['die Synergie','sinergia','die','Synergien','n'],
   ['Ambivalenz','ambivalencia','die','Ambivalenzen','n'],
-    ['die 
-    ['die 
+    ['die Produktivität','productividad','die','Produktivitäten','n'],
+    ['die Rentabilität','rentabilidad','die','Rentabilitäten','n'],
   ['bescheinigen','certificar','','','v'],
     ['geben','gab','hat gegeben','hat','v'],['nehmen','nahm','hat genommen','hat','v'],
   ['epochal','épocal','','','adj'],
   ['prägend','formativo','','','adj'],
-    ['die 
+    ['die Globalisierung','globalización','die','Globalisierungen','n'],
     ['der','der','','','n'],
-    ['die 
-    ['die 
+    ['die Benchmark','punto de referencia','die','Benchmarks','n'],
+    ['die Organisation','organización','die','Organisationen','n'],
     ['konnte','konnte','','','n'],
-    ['die 
+    ['die Kalkulation','cálculo','die','Kalkulationen','n'],
     ['umwandeln','convertir','','','v'],
     ['bücher','bücher','','','n'],
     ['kein','kein','','','n'],
-    ['die 
-    ['die 
+    ['die Vision','visión','die','Visionen','n'],
+    ['die Plattform','plataforma','die','Plattformen','n'],
     ['Datenschutz','[Datenschutz]','die','Datenschutzen','n'],
-    ['die 
+    ['die AugmentedReality','realidad aumentada','die','AR-Anwendungen','n'],
     ['übersehen','pasar por alto','','','v'],
   ['vieldeutig','polivalente','','','adj'],
   ['paraphrasieren','parafrasear','','','v'],
@@ -6374,41 +6374,41 @@ addLevel('C1.2',[
     ['uns','uns','','','n'],
     ['soll','soll','','','n'],
   ['hinterfragen','cuestionar','','','v'],
-    ['die 
+    ['die Effektivität','efectividad','die','Effektivitäten','n'],
   ['Typisierung','tipificación','die','Typisierungen','n'],['Klassifizierung','clasificación','die','Klassifizierungen','n'],
   ['steuern','controlar','','','v'],
     ['stehen','stand','hat gestanden','hat','v'],['fahren','fuhr','ist gefahren','ist','v'],
   ['Ahne','ancestro','der','Ahnen','n'],
     ['neutro','neutro','','','n'],
-    ['die 
+    ['die Solvenz','solvencia','die','Solvenzen','n'],
   ['konstatieren','constatar','','','v'],
     ['lenken','conducir','','','v'],
-    ['das 
-    ['die 
-    ['die 
+    ['das InternetderDinge','internet de las cosas','das','IoT-Geräte','n'],
+    ['die Agilität','agilidad','die','Agilitäten','n'],
+    ['die Trendanalyse','análisis de tendencias','die','Trendanalysen','n'],
   ['anzweifeln','dudar','','','v'],
     ['wohne','wohne','','','n'],
   ['attestieren','atestiguar','','','v'],
     ['einen','einen','','','n'],
-    ['der 
-    ['die 
+    ['der Megatrend','megatendencia','der','Megatrends','n'],
+    ['die Teamarbeit','trabajo en equipo','die','Teamarbeiten','n'],
     ['wohin','wohin','','','n'],
-    ['die 
+    ['die Prognose','pronóstico','die','Prognosen','n'],
   ['Kontingenz','contingencia','die','Kontingenzen','n'],['Notwendigkeit','necesidad','die','Notwendigkeiten','n'],
     ['vermitteln','transmitir','','','v'],
     ['einschränken','restringir','','','v'],
   ['zweifelhaft','dudoso','','','adj'],
-    ['die 
+    ['die Transformation','transformación','die','Transformationen','n'],
     ['revidieren','revisar','','','v'],
   ['kooperieren','cooperar','','','v'],['kommunizieren','comunicar','','','v'],
     ['warst','warst','','','n'],
   ['synthetisch','sintético','','','adj'],['analytisch','analítico','','','adj'],
     ['unser','unser','','','n'],
     ['hemmen','inhibir','','','v'],
-    ['die 
+    ['die Zertifizierung','certificación','die','Zertifizierungen','n'],
   ['Analogie','analogía','die','Analogien','n'],
   ['umsetzbar','implementable','','','adj'],
-    ['die 
+    ['die Kooperation','cooperación','die','Kooperationen','n'],
     ['euch','euch','','','n'],
   ['Rationalität','racionalidad','die','-','n'],
     ['KIIntelligenz','[KIIntelligenz]','die','KIIntelligenzen','n'],
@@ -6418,17 +6418,17 @@ addLevel('C1.2',[
     ['Verschlüsselung','[Verschlüsselung]','die','Verschlüsselungen','n'],
   ['integrieren','integrar','','','v'],['segregieren','segregar','','','v'],
     ['autos','autos','','','n'],
-    ['die 
-    ['das 
+    ['die Generation','generación','die','Generationen','n'],
+    ['das Qualitätsmanagement','gestión de calidad','das','Qualitätsmanagementarten','n'],
     ['poder','poder','','','n'],
   ['Strukturierung','estructuración','die','Strukturierungen','n'],['Organisation','organización','die','Organisationen','n'],
     ['leugnen','negar','','','v'],
-    ['die 
+    ['die Statistik','estadística','die','Statistiken','n'],
   ['kontingent','contingente','','','adj'],['notwendig','necesario','','','adj'],
   ['unbestreitbar','innegable','','','adj'],
     ['darfst','darfst','','','n'],
   ['Rationalismus','racionalismo','der','-','n'],
-    ['die 
+    ['die Führung','liderazgo','die','Führungen','n'],
     ['dürfen','durfte','hat gedurft','hat','v'],['sollen','sollte','hat gesollt','hat','v'],
     ['woher','woher','','','n'],
   ['unmöglich','imposible','','','adj'],['abstrakt','abstracto','','','adj'],
@@ -6436,16 +6436,16 @@ addLevel('C1.2',[
     ['voraussagen','pronosticar','','','v'],
     ['die','die','','','n'],
     ['nicht','nicht','','','n'],
-    ['das 
+    ['das MaschinelleLernen','aprendizaje automático','das','ML-Verfahren','n'],
     ['könnt','könnt','','','n'],
     ['kaufst','kaufst','','','n'],
     ['größer','größer','','','n'],
   ['Differenzierung','diferenciación','die','Differenzierungen','n'],['Spezifizierung','especificación','die','Spezifizierungen','n'],
     ['fräue','fräue','','','n'],
-    ['die 
-    ['das 
+    ['die Evaluation','evaluación','die','Evaluationen','n'],
+    ['das Metaverse','metaverso','das','Metaversen','n'],
   ['isolieren','aislar','','','v'],
-    ['die 
+    ['die Performanz','rendimiento','die','Performanzen','n'],
     ['3DDruck','[3DDruck]','die','3DDrucken','n'],
   ['Zeitraum','período','der','Zeiträume','n'],
     ['kannst','kannst','','','n'],
@@ -6454,9 +6454,9 @@ addLevel('C1.2',[
     ['Element','elemento','das','Elemente','n'],
   ['unumstritten','indiscutible','','','adj'],
   ['Materialismus','materialismo','der','-','n'],
-    ['das 
+    ['das Storytelling','narración de historias','das','Storytellings','n'],
   ['Abstammung','descendencia','die','Abstammungen','n'],
-    ['die 
+    ['die Kompatibilität','compatibilidad','die','Kompatibilitäten','n'],
   ['inhibieren','inhibir','','','v'],
     ['Resultat','resultado','das','Resultate','n'],
     ['unterschätzen','subestimar','','','v'],
@@ -6467,9 +6467,9 @@ addLevel('C1.2',[
     ['hattet','hattet','','','n'],
     ['VirtualReality','[VirtualReality]','die','VirtualRealityen','n'],
     ['der3DDruck','impresión 3D','der','3DDrucke','n'],
-    ['die 
+    ['die Planung','planificación','die','Planungen','n'],
     ['wofür','wofür','','','n'],
-    ['die 
+    ['die Auswertung','evaluación','die','Auswertungen','n'],
   ['Ära','era','die','Ären','n'],
     ['will','will','','','n'],
   ['Variante','variante','die','Varianten','n'],
@@ -6477,39 +6477,39 @@ addLevel('C1.2',[
     ['plural','plural','','','n'],
     ['wärmer','wärmer','','','n'],
     ['von','von','','','n'],
-    ['die 
+    ['die Verschlüsselung','cifrado','die','Verschlüsselungen','n'],
   ['Segregation','segregación','die','Segregationen','n'],['Differenz','diferencia','die','Differenzen','n'],
     ['con','con','','','n'],
   ['zukunftsweisend','visionario','','','adj'],
   ['Empirie','empiria','die','-','n'],
     ['möchte','möchte','','','n'],
-    ['die 
+    ['die Anpassungsfähigkeit','adaptabilidad','die','Anpassungsfähigkeiten','n'],
     ['äpfel','äpfel','','','n'],
     ['beteuern','asegurar','','','v'],
-    ['die 
+    ['die Optimierung','optimización','die','Optimierungen','n'],
     ['wovon','wovon','','','n'],
-    ['die 
+    ['die Rationalisierung','racionalización','die','Rationalisierungen','n'],
     ['kollaborieren','colaborar','','','v'],
     ['ihnen','ihnen','','','n'],
-    ['die 
-    ['das 
+    ['die Differenzierung','diferenciación','die','Differenzierungen','n'],
+    ['das Wohlbefinden','bienestar','das','Wohlbefinden','n'],
   ['infrage stellen','poner en duda','','','v'],
     ['Drohne','[Drohne]','das','Drohnen','n'],
     ['sollt','sollt','','','n'],
     ['sollte','sollte','','','n'],
-    ['die 
+    ['die Blockchain','cadena de bloques','die','Blockchains','n'],
     ['hueco','hueco','','','n'],
   ['konkret','concreto','','','adj'],['spezifisch','específico','','','adj'],
     ['eure','eure','','','n'],
-    ['der 
+    ['der Meilenstein','hito','der','Meilensteine','n'],
     ['musst','musst','','','n'],
     ['deinen','deinen','','','n'],
   ['Zirkulation','circulación','die','Zirkulationen','n'],
-    ['die 
+    ['die Schnittstelle','interfaz','die','Schnittstellen','n'],
   ['Empirismus','empirismo','der','-','n'],
-    ['das 
+    ['das AutonomeFahren','conducción autónoma','das','AutonomeFahren','n'],
   ['verallgemeinern','generalizar','','','v'],
-    ['die 
+    ['die Drohne','dron','die','Drohnen','n'],
     ['weiter','weiter','','','n'],
   ['dominieren','dominar','','','v'],
     ['AutonomesFahren','[AutonomesFahren]','das','AutonomesFahren','n'],
@@ -6521,7 +6521,7 @@ addLevel('C1.2',[
   ['demonstrieren','demostrar','','','v'],
     ['kommst','kommst','','','n'],
   ['Abstraktion','abstracción','die','Abstraktionen','n'],['Konkretisierung','concreción','die','Konkretisierungen','n'],
-    ['die 
+    ['die Standardisierung','estandarización','die','Standardisierungen','n'],
   ['konfigurieren','configurar','','','v'],
     ['sie','sie','','','n']
 ]);

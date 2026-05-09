@@ -9,24 +9,25 @@ function normalize(str) {
 }
 
 function checkFlexible(user, correct, lang) {
-  const norm = (s) => (s||"").trim().toLowerCase()
-    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
-    .replace(/[áàâ]/g,'a').replace(/[éèê]/g,'e').replace(/[íìî]/g,'i')
-    .replace(/[óòô]/g,'o').replace(/[úùû]/g,'u').replace(/ñ/g,'n');
-  const u = norm(user), c = norm(correct);
-  if (u === c) return { correct: true, exact: true, message: "" };
+  const userNorm = normalize(user);
+  const correctNorm = normalize(correct);
+  const isExact = userNorm === correctNorm;
+  if (isExact) return { correct: true, exact: true, message: "" };
 
-  // Quitar todos los artículos y preposiciones cortas para comparar solo núcleo
-  const clean = (s) => s.split(' ').filter(w => !['der','die','das','el','la','los','las','un','una','de','del','the','a','an'].includes(w)).join(' ');
-  const uClean = norm(clean(user)), cClean = norm(clean(correct));
-  if (uClean === cClean && uClean.length > 2) {
-    return { correct: true, exact: false, message: "Correcto, pero no olvides los artículos y preposiciones." };
+  // Quitar artículos para comparar sin ellos (alemán: der/die/das, español: el/la/los/las/un/una)
+  const stripArticles = (s) => s.replace(/^(der|die|das|el|la|los|las|un|una)\s+/i, '');
+  const userNoArt = normalize(stripArticles(user));
+  const correctNoArt = normalize(stripArticles(correct));
+  if (userNoArt === correctNoArt) {
+    return { correct: true, exact: false, message: "Correcto, pero no olvides el artículo." };
   }
 
-  // Si es un sustantivo alemán sin mayúscula
+  // Si la palabra alemana es un sustantivo (lang==='de') y el usuario olvidó mayúscula
   if (lang === 'de' && user.trim().charAt(0) === user.trim().charAt(0).toLowerCase()) {
-    const cap = user.trim().charAt(0).toUpperCase() + user.trim().slice(1);
-    if (norm(cap) === c) return { correct: true, exact: false, message: "Bien, pero los sustantivos alemanes llevan mayúscula: " + cap + "." };
+    const capitalized = user.trim().charAt(0).toUpperCase() + user.trim().slice(1);
+    if (normalize(capitalized) === correctNorm) {
+      return { correct: true, exact: false, message: "Bien, pero los sustantivos en alemán llevan mayúscula: " + capitalized + "." };
+    }
   }
 
   return { correct: false, exact: false, message: "" };
@@ -65,7 +66,7 @@ const RutaPanel = () => {
     const ex = exercises[currentEx];
     const answerToCheck = submittedAnswer !== null ? submittedAnswer : userAnswer;
     const lang = (ex.type === 'translateES' || ex.type === 'choose') ? 'es' : 'de';
-    const result = checkFlexible(answerToCheck, ex.answer, lang);
+    const result = window.Corrector.check(answerToCheck, ex.answer, lang);
     setFeedback({
       correct: result.correct,
       exact: result.exact,
