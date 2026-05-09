@@ -1,21 +1,21 @@
 const PhraseGenerator = {
-  // Plantillas con tipo de palabra requerido (n, v, adj, any)
+  // ── Sinónimos aceptados ──
+  synonyms: {
+    "die Oma": ["die Großmutter", "die Oma"],
+    "die Großmutter": ["die Oma", "die Großmutter"],
+  },
+
+  // ── Plantillas que requieren tipo específico ──
   templates: {
     A1: [
-      { de: "Ich bin [Name].", es: "Soy [Name].", req: "any" },
-      { de: "Das ist ein [Objekt].", es: "Esto es un [Objekt].", req: "n" },
-      { de: "Ich habe ein [Objekt].", es: "Tengo un [Objekt].", req: "n" },
-      { de: "Der [Substantiv] ist [Adjektiv].", es: "El/la [Substantiv] es [Adjektiv].", req: "adj" },
-      { de: "Ich mag [Objekt].", es: "Me gusta [Objekt].", req: "n" },
-      { de: "Wir spielen [Objekt].", es: "Jugamos a [Objekt].", req: "n" },
-      { de: "Er sieht [Objekt].", es: "Él ve [Objekt].", req: "n" }
-    ],
-    A2: [
-      { de: "Gestern war ich im [Ort].", es: "Ayer estuve en el [Ort].", req: "n" },
-      { de: "Ich möchte [Objekt] kaufen.", es: "Quisiera comprar [Objekt].", req: "n" },
-      { de: "Hast du [Objekt] gesehen?", es: "¿Has visto [Objekt]?", req: "n" },
-      { de: "Wir fahren nach [Ort].", es: "Viajamos a [Ort].", req: "n" },
-      { de: "Kannst du [Objekt] bringen?", es: "¿Puedes traer [Objekt]?", req: "n" }
+      { de: "[Subjekt] [Verb] [Objekt].", es: "[Subjekt] [Verb] [Objekt].", slots: {Subjekt:"n", Verb:"v", Objekt:"n"} },
+      { de: "Ich bin [Name].", es: "Soy [Name].", slots: {Name:"n"} },
+      { de: "Das ist ein [Objekt].", es: "Esto es un [Objekt].", slots: {Objekt:"n"} },
+      { de: "Ich habe ein [Objekt].", es: "Tengo un [Objekt].", slots: {Objekt:"n"} },
+      { de: "Der [Substantiv] ist [Adjektiv].", es: "El/la [Substantiv] es [Adjektiv].", slots: {Substantiv:"n", Adjektiv:"adj"} },
+      { de: "Ich mag [Objekt].", es: "Me gusta [Objekt].", slots: {Objekt:"n"} },
+      { de: "Wir spielen [Objekt].", es: "Jugamos a [Objekt].", slots: {Objekt:"n"} },
+      { de: "Er sieht [Objekt].", es: "Él ve [Objekt].", slots: {Objekt:"n"} }
     ]
   },
 
@@ -24,149 +24,108 @@ const PhraseGenerator = {
     return (R && R.VOCAB && R.VOCAB[levelId]) ? R.VOCAB[levelId] : [];
   },
 
-  // Busca una palabra del nivel que coincida con el tipo requerido
-  findWordForTemplate(levelWords, usedWords, reqType) {
-    const candidates = levelWords.filter(w => {
-      if (usedWords.has(w[0])) return false;
-      if (reqType === "any") return true;
-      return w[4] === reqType;
-    });
-    if (candidates.length === 0) {
-      // Fallback: cualquier palabra no usada
-      return levelWords.find(w => !usedWords.has(w[0])) || null;
-    }
+  // Busca palabra de un tipo en el nivel, excluyendo usadas
+  findWordByType(levelWords, usedSet, type) {
+    const candidates = levelWords.filter(w => !usedSet.has(w[0]) && w[4] === type);
+    if (candidates.length === 0) return null;
     return candidates[Math.floor(Math.random() * candidates.length)];
   },
 
   selectWordsForLesson(levelId, lessonIdx, wordsPerLesson) {
     const allWords = this.getVocabForLevel(levelId);
     if (allWords.length === 0) return [];
-    const reviewCount = Math.floor(wordsPerLesson * 0.3);
-    const newCount = wordsPerLesson - reviewCount;
-    const start = (lessonIdx * newCount) % allWords.length;
-    let chosen = allWords.slice(start, start + newCount);
-    if (chosen.length < newCount) chosen = chosen.concat(allWords.slice(0, newCount - chosen.length));
-    // Añadir repasos si hay (más adelante)
+    const start = (lessonIdx * wordsPerLesson) % allWords.length;
+    let chosen = allWords.slice(start, start + wordsPerLesson);
+    if (chosen.length < wordsPerLesson) chosen = chosen.concat(allWords.slice(0, wordsPerLesson - chosen.length));
     return chosen;
   },
 
-  getLevelKey(levelId) {
-    return (levelId.match(/^(A1|A2|B1|B2|C1)/) || ["A1"])[1];
-  },
-
-  generateSentence(word, template) {
-    const [de, es] = word;
-    let deSent = template.de.replace(/\[Name\]/g, de).replace(/\[Objekt\]/g, de).replace(/\[Substantiv\]/g, de).replace(/\[Adjektiv\]/g, es).replace(/\[Ort\]/g, de).replace(/\[Infinitiv\]/g, de);
-    let esSent = template.es.replace(/\[Name\]/g, es).replace(/\[Objekt\]/g, es).replace(/\[Substantiv\]/g, es).replace(/\[Adjektiv\]/g, es).replace(/\[Ort\]/g, es).replace(/\[Infinitiv\]/g, es);
-    deSent = deSent.charAt(0).toUpperCase() + deSent.slice(1);
-    return { de: deSent, es: esSent, word };
+  fillTemplate(tpl, wordMap) {
+    let de = tpl.de, es = tpl.es;
+    for (let slot in tpl.slots) {
+      const w = wordMap[slot] || { de: "___", es: "___" };
+      de = de.replace(`[${slot}]`, w.de);
+      es = es.replace(`[${slot}]`, w.es);
+    }
+    return { de: de.charAt(0).toUpperCase() + de.slice(1), es };
   },
 
   generateExercises(levelId, lessonIdx, wordsPerLesson) {
     const baseWords = this.selectWordsForLesson(levelId, lessonIdx, wordsPerLesson);
     if (baseWords.length === 0) return [];
 
-    const levelKey = this.getLevelKey(levelId);
-    const templates = this.templates[levelKey] || this.templates.A1;
+    const levelWords = this.getVocabForLevel(levelId);
+    const templates = this.templates.A1; // por ahora todos A1 hasta ampliar
     const exercises = [];
-    const allLevelWords = this.getVocabForLevel(levelId);
     const usedWords = new Set();
-    const deWords = [...new Set(allLevelWords.map(w => w[0]))];
-    const esWords = [...new Set(allLevelWords.map(w => w[1]))];
+    const deAll = [...new Set(levelWords.map(w => w[0]))];
+    const esAll = [...new Set(levelWords.map(w => w[1]))];
 
-    baseWords.forEach((word, i) => {
-      const templ = templates[i % templates.length];
-      // Buscar palabra adecuada para la plantilla
-      const compatibleWord = this.findWordForTemplate(allLevelWords, usedWords, templ.req) || word;
-      usedWords.add(compatibleWord[0]);
-      const sentence = this.generateSentence(compatibleWord, templ);
+    for (let i = 0; i < baseWords.length; i++) {
+      const tpl = templates[i % templates.length];
+      const slots = tpl.slots;
+      const wordMap = {};
+      for (let slot in slots) {
+        const typeNeeded = slots[slot];
+        const found = this.findWordByType(levelWords, usedWords, typeNeeded);
+        if (found) {
+          wordMap[slot] = { de: found[0], es: found[1] };
+          usedWords.add(found[0]);
+        } else {
+          // Fallback: usar cualquier palabra no usada
+          const any = levelWords.find(w => !usedWords.has(w[0]));
+          if (any) { wordMap[slot] = { de: any[0], es: any[1] }; usedWords.add(any[0]); }
+          else { wordMap[slot] = { de: "___", es: "___" }; }
+        }
+      }
+      const sentence = this.fillTemplate(tpl, wordMap);
+      const mainWord = wordMap.Objekt || wordMap.Subjekt || wordMap.Name || wordMap.Substantiv || { de: "", es: "" };
+      const deMain = mainWord.de;
+      const esMain = mainWord.es;
+
       const t = i % 8;
       let ex = null;
+      const distDe = this.randomSlice(deAll, 3, deMain);
+      const distEs = this.randomSlice(esAll, 3, esMain);
 
-      const cleanEs = (compatibleWord[1] || "").replace(/^\[|\]$/g, ""); // quitar corchetes si los tiene
-      const cleanDe = compatibleWord[0];
-
-      if (t === 0) {
-        // fill: completar palabra alemana (sin mostrar respuesta)
-        const dist = this.randomSlice(deWords, 3, cleanDe);
-        ex = {
-          type: "fill",
-          prompt: `Completa: \"___\" significa \"${cleanEs}\".`,
-          answer: cleanDe,
-          options: [...dist, cleanDe].sort(() => Math.random() - 0.5),
-          hint: "Es una palabra del nivel."
-        };
-      } else if (t === 1) {
-        ex = {
-          type: "translateDE",
-          prompt: `Traduce al alemán: \"${cleanEs}\"`,
-          answer: cleanDe,
-          hint: "Escribe la palabra alemana."
-        };
-      } else if (t === 2) {
-        ex = {
-          type: "translateES",
-          prompt: `Traduce al español: \"${cleanDe}\"`,
-          answer: cleanEs,
-          hint: "Escribe la traducción."
-        };
-      } else if (t === 3) {
-        const plural = compatibleWord[3] || "-";
-        ex = {
-          type: "plural",
-          prompt: `¿Cuál es el plural de \"${cleanDe}\"?`,
-          answer: plural,
-          options: [plural, ...this.randomSlice(deWords, 3, cleanDe)].sort(() => Math.random() - 0.5),
-          hint: "Recuerda las reglas de plural."
-        };
-      } else if (t === 4) {
-        const distEs = this.randomSlice(esWords, 3, cleanEs);
-        ex = {
-          type: "choose",
-          prompt: `¿Cuál es la traducción de \"${cleanDe}\"?`,
-          answer: cleanEs,
-          options: [...distEs, cleanEs].sort(() => Math.random() - 0.5),
-          hint: "Mira bien las opciones."
-        };
-      } else if (t === 5) {
-        const blank = sentence.de.replace(cleanDe, "___");
-        const distFill = this.randomSlice(deWords, 3, cleanDe);
-        ex = {
-          type: "fillInSentence",
-          prompt: `Completa la frase:\n\"${blank}\"`,
-          answer: cleanDe,
-          options: [...distFill, cleanDe].sort(() => Math.random() - 0.5),
-          hint: "¿Qué palabra falta?"
-        };
-      } else if (t === 6) {
-        const article = compatibleWord[2] || "der";
-        const distArt = ["der","die","das"].filter(a => a !== article).sort(() => Math.random() - 0.5);
-        ex = {
-          type: "declension",
-          prompt: `¿Cuál es el artículo correcto para \"${cleanDe}\"?`,
-          answer: article,
-          options: [article, ...distArt].sort(() => Math.random() - 0.5),
-          hint: "Recuerda el género."
-        };
-      } else {
-        // order
-        const wordsArr = sentence.de.split(" ");
-        const scrambled = [...wordsArr].sort(() => Math.random() - 0.5);
-        ex = {
-          type: "order",
-          prompt: `Ordena estas palabras:\n${scrambled.join(" ")}`,
-          answer: sentence.de,
-          hint: "Forma una frase con sentido."
-        };
+      switch(t) {
+        case 0:
+          ex = { type:"fill", prompt:`Completa: \"___\" significa \"${esMain}\".`, answer:deMain, options:[...distDe, deMain].sort(()=>Math.random()-0.5), hint:"" };
+          break;
+        case 1:
+          ex = { type:"translateDE", prompt:`Traduce al alemán: \"${esMain}\"`, answer:deMain, hint:"" };
+          break;
+        case 2:
+          ex = { type:"translateES", prompt:`Traduce al español: \"${deMain}\"`, answer:esMain, hint:"" };
+          break;
+        case 3:
+          { const pl = (baseWords[i]?.[3]) || "-";
+            ex = { type:"plural", prompt:`¿Cuál es el plural de \"${deMain}\"?`, answer:pl, options:[pl, ...this.randomSlice(deAll,3,pl)].sort(()=>Math.random()-0.5), hint:"" }; }
+          break;
+        case 4:
+          ex = { type:"choose", prompt:`¿Cuál es la traducción de \"${deMain}\"?`, answer:esMain, options:[...distEs, esMain].sort(()=>Math.random()-0.5), hint:"" };
+          break;
+        case 5:
+          { const blankSent = sentence.de.replace(deMain, "___");
+            ex = { type:"fillInSentence", prompt:`Completa la frase:\n\"${blankSent}\"`, answer:deMain, options:[...distDe, deMain].sort(()=>Math.random()-0.5), hint:"" }; }
+          break;
+        case 6:
+          { const art = baseWords[i]?.[2] || "der";
+            const distArt = ["der","die","das"].filter(a=>a!==art);
+            ex = { type:"declension", prompt:`¿Cuál es el artículo correcto para \"${deMain}\"?`, answer:art, options:[art, ...distArt].sort(()=>Math.random()-0.5), hint:"" }; }
+          break;
+        case 7:
+          { const scrambled = sentence.de.split(" ").sort(()=>Math.random()-0.5);
+            ex = { type:"order", prompt:`Ordena estas palabras:\n${scrambled.join(" ")}`, answer:sentence.de, hint:"Forma una frase correcta." }; }
+          break;
       }
-
       if (ex) {
-        ex.word = compatibleWord;
+        ex.word = baseWords[i];
         ex.sentence = sentence;
-        ex.translation = sentence.es;  // traducción de la frase completa
+        ex.translation = sentence.es;
         exercises.push(ex);
       }
-    });
+    }
     return exercises;
   },
 
