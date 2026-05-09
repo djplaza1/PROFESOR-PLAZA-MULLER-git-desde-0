@@ -10055,5 +10055,6 @@ window.MULLER_RUTA_LEVELS = [
   ['katzensprung','katzensprung','','','n'],
   ['aufgebunden','aufgebunden','','','n']
 ]
+console.log('🧪 MULLER_RUTA_LEVELS tiene', window.MULLER_RUTA_LEVELS.length, 'lecciones');
 
 })(window.Muller.Ruta);
