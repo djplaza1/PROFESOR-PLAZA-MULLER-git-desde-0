@@ -1,4 +1,3 @@
-// RutaPanel.jsx – Panel principal de la Ruta (ESTILOS VISIBLES)
 const { useState, useEffect } = React;
 
 const RutaPanel = () => {
@@ -9,7 +8,7 @@ const RutaPanel = () => {
   const [currentEx, setCurrentEx] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState(null);
-  const [progress, setProgress] = useState(window.SRSHelpers?.loadProgress() || { completed: {}, xp: 0, streak: 0 });
+  const [progress, setProgress] = useState(() => (window.SRSHelpers ? window.SRSHelpers.loadProgress() : { completed: {}, xp: 0, streak: 0 }));
   const [view, setView] = useState("levels");
 
   useEffect(() => {
@@ -58,112 +57,115 @@ const RutaPanel = () => {
     }
   };
 
-  // ─── ESTILOS INLINE (para asegurar visibilidad) ───
-  const containerStyle = {
-    padding: "1.5rem",
-    fontFamily: "Arial, sans-serif",
-    color: "#1a1a1a",
-    backgroundColor: "#f9fafb",
-    minHeight: "100vh"
-  };
-  const cardStyle = {
-    backgroundColor: "#ffffff",
-    borderRadius: "12px",
-    padding: "1rem",
-    marginBottom: "1rem",
-    boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
-    border: "1px solid #e5e7eb"
-  };
-  const buttonStyle = {
-    padding: "0.5rem 0.25rem",
-    margin: "0.2rem",
-    fontSize: "0.8rem",
-    borderRadius: "6px",
-    border: "1px solid #d1d5db",
-    backgroundColor: "#dbeafe",
-    color: "#1e3a5f",
-    cursor: "pointer",
-    minWidth: "2rem"
+  const goBack = () => {
+    setView("levels");
+    setActiveLesson(null);
+    setExercises([]);
+    setCurrentEx(0);
+    setUserAnswer("");
+    setFeedback(null);
   };
 
-  if (view === "lesson") {
+  // ─── VISTA DE LECCIÓN ───
+  if (view === "lesson" && exercises[currentEx]) {
     const ex = exercises[currentEx];
-    if (!ex) return null;
-    return React.createElement("div", { style: containerStyle },
-      React.createElement("h2", { style: { fontSize: "1.25rem", fontWeight: "bold", marginBottom: "1rem" } }, activeLesson?.title + " – " + ex.type),
-      React.createElement("div", { style: { ...cardStyle, backgroundColor: "#f3f4f6" } },
-        React.createElement("p", { style: { marginBottom: "0.5rem", fontWeight: "500" } }, ex.prompt),
-        ex.options ?
-          React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "0.5rem" } },
-            ex.options.map((opt, i) =>
-              React.createElement("button", {
-                key: i,
-                onClick: () => { setUserAnswer(opt); checkAnswer(); },
-                style: { padding: "0.5rem", textAlign: "left", borderRadius: "6px", border: "1px solid #d1d5db", backgroundColor: "#ffffff", cursor: "pointer" }
-              }, opt)
-            )
-          ) :
-          React.createElement("div", null,
-            React.createElement("input", {
-              type: "text",
-              value: userAnswer,
-              onChange: (e) => setUserAnswer(e.target.value),
-              style: { width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #d1d5db", marginBottom: "0.5rem" },
-              onKeyDown: (e) => { if (e.key === "Enter") checkAnswer(); }
-            }),
-            React.createElement("button", {
-              onClick: checkAnswer,
-              style: { padding: "0.5rem 1.5rem", backgroundColor: "#1e40af", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }
-            }, "Comprobar")
-          )
-      ),
-      feedback &&
-        React.createElement("div", {
-          style: { padding: "0.75rem", borderRadius: "8px", marginTop: "0.75rem", backgroundColor: feedback.correct ? "#d1fae5" : "#fee2e2", color: feedback.correct ? "#065f46" : "#991b1b" }
-        }, feedback.correct ? "\u2705 \u00a1Correcto!" : "\u274c Incorrecto. La respuesta era: " + feedback.answer),
-      feedback &&
-        React.createElement("button", {
-          onClick: nextExercise,
-          style: { marginTop: "1rem", padding: "0.5rem 1.5rem", backgroundColor: "#6b7280", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }
-        }, currentEx < exercises.length - 1 ? "Siguiente \u2192" : "Finalizar lecci\u00f3n")
+    return (
+      <div className="min-h-screen bg-gray-50 p-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-gray-800">{activeLesson?.title} – {ex.type}</h2>
+            <button onClick={goBack} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition">
+              ← Volver
+            </button>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow mb-4">
+            <p className="text-gray-700 mb-4 font-medium">{ex.prompt}</p>
+            {ex.options ? (
+              <div className="space-y-2">
+                {ex.options.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setUserAnswer(opt); checkAnswer(); }}
+                    className="block w-full text-left p-3 border rounded-lg hover:bg-blue-50 transition"
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <input
+                  type="text"
+                  value={userAnswer}
+                  onChange={e => setUserAnswer(e.target.value)}
+                  className="w-full p-3 border rounded-lg mb-3 focus:ring-2 focus:ring-blue-300 outline-none"
+                  onKeyDown={e => e.key === "Enter" && checkAnswer()}
+                  placeholder="Escribe tu respuesta..."
+                />
+                <button onClick={checkAnswer} className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                  Comprobar
+                </button>
+              </div>
+            )}
+          </div>
+          {feedback && (
+            <div className={`p-4 rounded-lg ${feedback.correct ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+              {feedback.correct ? "✅ ¡Correcto!" : `❌ Incorrecto. La respuesta era: ${feedback.answer}`}
+            </div>
+          )}
+          {feedback && (
+            <button onClick={nextExercise} className="mt-4 w-full px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+              {currentEx < exercises.length - 1 ? "Siguiente →" : "Finalizar lección"}
+            </button>
+          )}
+        </div>
+      </div>
     );
   }
 
-  // Vista principal de niveles
-  return React.createElement("div", { style: containerStyle },
-    React.createElement("h2", { style: { fontSize: "1.5rem", fontWeight: "bold", marginBottom: "0.5rem" } }, "\uD83D\uDDFA\uFE0F Ruta de Aprendizaje"),
-    React.createElement("p", { style: { fontSize: "0.9rem", color: "#4b5563", marginBottom: "1.5rem" } },
-      (Object.keys(progress.completed || {}).length) + " lecciones completadas \u00b7 " + (progress.xp || 0) + " XP \u00b7 Racha: " + (progress.streak || 0) + " d\u00edas"
-    ),
-    levels.map((level, idx) => {
-      const isUnlocked = idx === 0 || (levels[idx-1]?.lessons > 0 && Object.keys(progress.completed || {}).some(c => c.startsWith(levels[idx-1].id + "-l")));
-      const lessonsCompleted = Object.keys(progress.completed || {}).filter(c => c.startsWith(level.id + "-l")).length;
-      return React.createElement("div", { key: level.id, style: { ...cardStyle, opacity: isUnlocked ? 1 : 0.5 } },
-        React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } },
-          React.createElement("h3", { style: { fontWeight: "600" } }, level.badge + " " + level.title + " (" + level.words + " palabras)"),
-          React.createElement("span", { style: { fontSize: "0.8rem" } }, lessonsCompleted + "/" + level.lessons + " lecciones")
-        ),
-        isUnlocked && level.lessons > 0 ?
-          React.createElement("div", { style: { marginTop: "0.75rem", display: "flex", flexWrap: "wrap" } },
-            Array.from({ length: level.lessons }, (_, i) =>
-              React.createElement("button", {
-                key: i,
-                onClick: () => openLesson(level.id, i),
-                style: {
-                  ...buttonStyle,
-                  backgroundColor: progress.completed?.[level.id + "-l" + (i+1)] ? "#bbf7d0" : "#dbeafe"
-                }
-              }, i + 1)
-            )
-          ) : null
-      );
-    })
+  // ─── VISTA PRINCIPAL DE NIVELES ───
+  return (
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">🗺️ Ruta de Aprendizaje</h2>
+        <p className="text-sm text-gray-500 mb-6">
+          {Object.keys(progress.completed || {}).length} lecciones completadas · {progress.xp || 0} XP · Racha: {progress.streak || 0} días
+        </p>
+        {levels.map((level, idx) => {
+          const isUnlocked = idx === 0 || (levels[idx-1]?.lessons > 0 && Object.keys(progress.completed || {}).some(c => c.startsWith(levels[idx-1].id + "-l")));
+          const lessonsCompleted = Object.keys(progress.completed || {}).filter(c => c.startsWith(level.id + "-l")).length;
+          return (
+            <div key={level.id} className={`bg-white rounded-xl shadow p-4 mb-4 ${!isUnlocked ? "opacity-50" : ""}`}>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-gray-800">{level.badge} {level.title} <span className="text-gray-400 text-sm">({level.words} palabras)</span></h3>
+                <span className="text-xs text-gray-400">{lessonsCompleted}/{level.lessons} lecciones</span>
+              </div>
+              {isUnlocked && level.lessons > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {Array.from({ length: level.lessons }, (_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => openLesson(level.id, i)}
+                      className={`w-10 h-10 rounded-lg text-sm font-medium transition ${
+                        progress.completed?.[level.id + "-l" + (i+1)]
+                          ? "bg-green-200 text-green-800 hover:bg-green-300"
+                          : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                      }`}
+                    >
+                      {i+1}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
 window.RutaPanel = RutaPanel;
-
-// Registrar en el sistema de paneles
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 window.Muller.Panels.ruta = RutaPanel;
