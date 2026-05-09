@@ -838,7 +838,7 @@ addLevel('A1.2',[
   ['Melone','mel├│n','die','Melonen','n'],
   ['der Campingplatz','el camping','der','Campingpl├ñtze','n'],
   ['sich legen','acostarse','','','v'],
-    ['durstig','sediento','','','adj'];,
+    ['durstig','sediento','','','adj'],
     ['derSee','lago','der','Seen','n'],
   ['Versicherungskarte','tarjeta sanitaria','die','Versicherungskarten','n'],
     ['derJahrestag','aniversario','der','Jahrestage','n'],
