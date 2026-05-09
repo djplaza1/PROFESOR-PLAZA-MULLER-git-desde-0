@@ -161,3 +161,8 @@ window.RutaPanel = RutaPanel;
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 window.Muller.Panels.ruta = RutaPanel;
+
+// ─── Registrar en el sistema de paneles ───
+window.Muller = window.Muller || {};
+window.Muller.Panels = window.Muller.Panels || {};
+window.Muller.Panels.ruta = RutaPanel;
