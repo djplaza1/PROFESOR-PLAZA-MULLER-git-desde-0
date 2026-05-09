@@ -21,6 +21,7 @@
 
   // Exponer addLevel globalmente para compatibilidad con vocabData.js
   window.addLevel = function(levelId, words) {
+  setTimeout(function() { console.log("🧪 RutaPanel existe?", typeof window.RutaPanel); }, 0);
     R.addLevel(levelId, words);
   };
 
