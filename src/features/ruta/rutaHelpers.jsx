@@ -10037,23 +10037,6 @@ window.MULLER_RUTA_LEVELS = [
       grammarTip:'Verbo "haben" (tener): ich habe, du hast, er/sie/es hat, wir haben, ihr habt, sie haben.',
       phrases:[{de:'die Nacht ist praktisch.',es:'El/la noche es práctico/a.'},{de:'Ich habe eine Nacht.',es:'Tengo un/una noche.'},{de:'Das Nacht ist neu.',es:'El/la noche es nuevo/a.'},{de:'die Woche ist praktisch.',es:'El/la semana es práctico/a.'},{de:'Ich habe eine Woche.',es:'Tengo un/una semana.'}],
       exerciseType:'translateES', exerciseQ:'Traduce al español: "Nacht"', exerciseA:'noche' }
-  ['wechselpräpositionen','wechselpräpositionen','','','n'],
-  ['geschrieben','geschrieben','','','n'],
-  ['verlierende','verlierende','','','n'],
-  ['geschlossene','geschlossene','','','n'],
-  ['repariertes','repariertes','','','n'],
-  ['reparierendes','reparierendes','','','n'],
-  ['n-deklination','n-deklination','','','n'],
-  ['proporcionalidad','proporcionalidad','','','n'],
-  ['ausbildschaft','ausbildschaft','','','n'],
-  ['entscheidnis','entscheidnis','','','n'],
-  ['entscheidschaft','entscheidschaft','','','n'],
-  ['entwickelung','entwickelung','','','n'],
-  ['bahnhofshof','bahnhofshof','','','n'],
-  ['mißverstanden','mißverstanden','','','n'],
-  ['vermißstanden','vermißstanden','','','n'],
-  ['katzensprung','katzensprung','','','n'],
-  ['aufgebunden','aufgebunden','','','n']
 ]
 
 
