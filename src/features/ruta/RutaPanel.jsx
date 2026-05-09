@@ -351,11 +351,6 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20, flexWrap:'wrap', gap:12 }}>
           <div>
             <h2 style={{ fontSize:'1.5rem', fontWeight:700, margin:0, color:'#e2e8f0' }}>🗺️ Ruta de Aprendizaje</h2>
-          <div style='background:#f0f0f0;padding:10px;margin:10px 0;border-radius:8px;font-size:14px;'>
-            <strong>🔍 Diagnóstico:</strong> Niveles en array: <span id='diag-niveles'>{window.MULLER_RUTA_LEVELS.length}</span> | 
-            Lecciones totales (sumadas): <span id='diag-lecciones'>{window.MULLER_RUTA_LEVELS.reduce((acc, l) => acc + ((l.lessons && l.lessons.length) || 0), 0)}</span> | 
-            Primeros 5 tipos: <span id='diag-tipos'>{JSON.stringify(window.MULLER_RUTA_LEVELS.slice(0,5).map(e => Array.isArray(e) ? 'array' : (e.id || typeof e)))}</span>
-          </div>
             <p style={{ color:'#94a3b8', fontSize:'0.85rem', margin:'4px 0 0 0' }}>
               {total.doneLessons}/{total.totalLessons} lecciones · {Ruta.totalWords()} palabras
             </p>
@@ -406,7 +401,7 @@ window.Muller.Panels['ruta'] = function RutaPanel({ session }) {
         {levels.map((level, lvlIdx) => {
           if (!level || !level.lessons) return null;
           const lp = Ruta.getLevelProgress(progress, level);
-          const isUnlocked = true; // TEMPORAL: mostrar todos los niveles expandidos
+          const isUnlocked = lvlIdx === 0 || (levels[lvlIdx-1]?.lessons?.every(l => progress?.completed?.[l.id]) ?? false);
           return (
             <div key={level.id} style={{
               background:'#1e293b', borderRadius:16, border:`1px solid ${isUnlocked ? '#334155' : '#1e293b'}`,
