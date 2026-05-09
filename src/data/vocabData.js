@@ -31,7 +31,7 @@ addLevel('A1.1',[
   ['Jahr','a├▒o','das','Jahre','n'],['Mutter','madre','die','M├╝tter','n'],
     ['sechs','seis','die','Sechsen','n'],
   ['die Turnschuhe','las zapatillas','die','Turnschuhen','n'],
-    ['Felsen','roca','der','Felsen','n'];,
+    ['Felsen','roca','der','Felsen','n'],
   ['Blume','la flor','die','','n'],
     ['lila','[lila]','die','lilaen','n'],
   ['Gitarre','la guitarra','die','','n'],
