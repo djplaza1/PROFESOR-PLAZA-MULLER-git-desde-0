@@ -1,6 +1,4 @@
-// RutaPanel.jsx – Panel principal de la Ruta de aprendizaje
-// Versión reconstruida con generador de frases, 8 tipos de ejercicios y SRS.
-
+// RutaPanel.jsx – Panel principal de la Ruta (ESTILOS VISIBLES)
 const { useState, useEffect } = React;
 
 const RutaPanel = () => {
@@ -11,158 +9,161 @@ const RutaPanel = () => {
   const [currentEx, setCurrentEx] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState(null);
-  const [progress, setProgress] = useState(SRSHelpers.loadProgress());
-  const [view, setView] = useState("levels"); // levels | lesson | test
+  const [progress, setProgress] = useState(window.SRSHelpers?.loadProgress() || { completed: {}, xp: 0, streak: 0 });
+  const [view, setView] = useState("levels");
 
   useEffect(() => {
-    SRSHelpers.saveProgress(progress);
+    if (window.SRSHelpers) window.SRSHelpers.saveProgress(progress);
   }, [progress]);
 
-  // Abrir una lección
   const openLesson = (levelId, lessonIdx) => {
-    const lesson = PhraseGenerator.generateLesson(levelId, lessonIdx);
+    if (!window.PhraseGenerator) return;
+    const lesson = window.PhraseGenerator.generateLesson(levelId, lessonIdx);
     if (!lesson) return;
     setActiveLevel(levelId);
     setActiveLesson(lesson);
-    setExercises(lesson.exercises);
+    setExercises(lesson.exercises || []);
     setCurrentEx(0);
     setUserAnswer("");
     setFeedback(null);
     setView("lesson");
   };
 
-  // Comprobar respuesta
   const checkAnswer = () => {
     if (!exercises[currentEx]) return;
     const ex = exercises[currentEx];
-    const isCorrect = userAnswer.trim().toLowerCase() === ex.answer.trim().toLowerCase();
+    const isCorrect = (userAnswer || "").trim().toLowerCase() === (ex.answer || "").trim().toLowerCase();
     setFeedback({ correct: isCorrect, answer: ex.answer });
-    // Actualizar progreso SRS para la palabra
-    if (ex.word) {
-      const newProgress = SRSHelpers.updateWordSRS(progress, ex.word[0], ex.type, isCorrect);
+    if (ex.word && window.SRSHelpers) {
+      const newProgress = window.SRSHelpers.updateWordSRS(progress, ex.word[0], ex.type, isCorrect);
       newProgress.xp = (newProgress.xp || 0) + (isCorrect ? 10 : 0);
-      setProgress(SRSHelpers.updateStreak(newProgress));
+      setProgress(window.SRSHelpers.updateStreak(newProgress));
     }
   };
 
-  // Siguiente ejercicio
   const nextExercise = () => {
     if (currentEx < exercises.length - 1) {
       setCurrentEx(currentEx + 1);
       setUserAnswer("");
       setFeedback(null);
     } else {
-      // Lección completada
-      const lessonId = `${activeLesson.levelId}-l${activeLesson.id.split("-l")[1]}`;
-      const newProgress = { ...progress };
-      newProgress.completed[lessonId] = true;
-      setProgress(newProgress);
+      const lessonId = activeLesson?.id;
+      if (lessonId) {
+        const newProgress = { ...progress };
+        newProgress.completed[lessonId] = true;
+        setProgress(newProgress);
+      }
       setView("levels");
       setActiveLesson(null);
     }
   };
 
-  // Renderizar mapa de niveles
-  const renderLevels = () => (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">🗺️ Ruta de Aprendizaje</h2>
-      <p className="text-sm text-gray-600 mb-4">
-        {Object.keys(progress.completed || {}).length} lecciones completadas · {progress.xp || 0} XP · Racha: {progress.streak || 0} días
-      </p>
-      {levels.map((level, idx) => {
-        const isUnlocked = idx === 0 || levels[idx-1]?.lessons > 0 && Object.keys(progress.completed || {}).some(c => c.startsWith(levels[idx-1].id + "-l"));
-        const lessonsCompleted = Object.keys(progress.completed || {}).filter(c => c.startsWith(level.id + "-l")).length;
-        return (
-          <div key={level.id} className={`mb-4 p-3 rounded-lg border ${isUnlocked ? "bg-white" : "bg-gray-100 opacity-50"}`}>
-            <div className="flex justify-between items-center">
-              <h3 className="font-semibold">{level.badge} {level.title} ({level.words} palabras)</h3>
-              <span className="text-xs">{lessonsCompleted}/{level.lessons} lecciones</span>
-            </div>
-            {isUnlocked && (
-              <div className="mt-2 grid grid-cols-4 gap-2">
-                {Array.from({ length: level.lessons }, (_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => openLesson(level.id, i)}
-                    className={`p-2 text-xs rounded ${progress.completed[`${level.id}-l${i+1}`] ? "bg-green-200" : "bg-blue-100 hover:bg-blue-200"}`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-
-  // Renderizar ejercicio actual
-  const renderExercise = () => {
-    if (!exercises[currentEx]) return null;
-    const ex = exercises[currentEx];
-    return (
-      <div className="p-4 max-w-2xl mx-auto">
-        <h2 className="text-xl font-bold mb-4">{activeLesson?.title} – {ex.type}</h2>
-        <div className="bg-gray-50 p-4 rounded-lg mb-4">
-          <p className="mb-2 font-medium">{ex.prompt}</p>
-          {ex.options ? (
-            <div className="space-y-2">
-              {ex.options.map((opt, i) => (
-                <button
-                  key={i}
-                  onClick={() => { setUserAnswer(opt); checkAnswer(); }}
-                  className="block w-full text-left p-2 border rounded hover:bg-gray-100"
-                >
-                  {opt}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div>
-              <input
-                type="text"
-                value={userAnswer}
-                onChange={e => setUserAnswer(e.target.value)}
-                className="w-full p-2 border rounded mb-2"
-                onKeyDown={e => e.key === "Enter" && checkAnswer()}
-              />
-              <button onClick={checkAnswer} className="px-4 py-2 bg-blue-500 text-white rounded">
-                Comprobar
-              </button>
-            </div>
-          )}
-        </div>
-        {feedback && (
-          <div className={`p-3 rounded ${feedback.correct ? "bg-green-100" : "bg-red-100"}`}>
-            {feedback.correct ? "✅ ¡Correcto!" : `❌ Incorrecto. La respuesta era: ${feedback.answer}`}
-          </div>
-        )}
-        {feedback && (
-          <button onClick={nextExercise} className="mt-4 px-4 py-2 bg-gray-300 rounded">
-            {currentEx < exercises.length - 1 ? "Siguiente →" : "Finalizar lección"}
-          </button>
-        )}
-      </div>
-    );
+  // ─── ESTILOS INLINE (para asegurar visibilidad) ───
+  const containerStyle = {
+    padding: "1.5rem",
+    fontFamily: "Arial, sans-serif",
+    color: "#1a1a1a",
+    backgroundColor: "#f9fafb",
+    minHeight: "100vh"
+  };
+  const cardStyle = {
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    padding: "1rem",
+    marginBottom: "1rem",
+    boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+    border: "1px solid #e5e7eb"
+  };
+  const buttonStyle = {
+    padding: "0.5rem 0.25rem",
+    margin: "0.2rem",
+    fontSize: "0.8rem",
+    borderRadius: "6px",
+    border: "1px solid #d1d5db",
+    backgroundColor: "#dbeafe",
+    color: "#1e3a5f",
+    cursor: "pointer",
+    minWidth: "2rem"
   };
 
-  return (
-    <div>
-      {view === "levels" && renderLevels()}
-      {view === "lesson" && renderExercise()}
-    </div>
+  if (view === "lesson") {
+    const ex = exercises[currentEx];
+    if (!ex) return null;
+    return React.createElement("div", { style: containerStyle },
+      React.createElement("h2", { style: { fontSize: "1.25rem", fontWeight: "bold", marginBottom: "1rem" } }, activeLesson?.title + " – " + ex.type),
+      React.createElement("div", { style: { ...cardStyle, backgroundColor: "#f3f4f6" } },
+        React.createElement("p", { style: { marginBottom: "0.5rem", fontWeight: "500" } }, ex.prompt),
+        ex.options ?
+          React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "0.5rem" } },
+            ex.options.map((opt, i) =>
+              React.createElement("button", {
+                key: i,
+                onClick: () => { setUserAnswer(opt); checkAnswer(); },
+                style: { padding: "0.5rem", textAlign: "left", borderRadius: "6px", border: "1px solid #d1d5db", backgroundColor: "#ffffff", cursor: "pointer" }
+              }, opt)
+            )
+          ) :
+          React.createElement("div", null,
+            React.createElement("input", {
+              type: "text",
+              value: userAnswer,
+              onChange: (e) => setUserAnswer(e.target.value),
+              style: { width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #d1d5db", marginBottom: "0.5rem" },
+              onKeyDown: (e) => { if (e.key === "Enter") checkAnswer(); }
+            }),
+            React.createElement("button", {
+              onClick: checkAnswer,
+              style: { padding: "0.5rem 1.5rem", backgroundColor: "#1e40af", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }
+            }, "Comprobar")
+          )
+      ),
+      feedback &&
+        React.createElement("div", {
+          style: { padding: "0.75rem", borderRadius: "8px", marginTop: "0.75rem", backgroundColor: feedback.correct ? "#d1fae5" : "#fee2e2", color: feedback.correct ? "#065f46" : "#991b1b" }
+        }, feedback.correct ? "\u2705 \u00a1Correcto!" : "\u274c Incorrecto. La respuesta era: " + feedback.answer),
+      feedback &&
+        React.createElement("button", {
+          onClick: nextExercise,
+          style: { marginTop: "1rem", padding: "0.5rem 1.5rem", backgroundColor: "#6b7280", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }
+        }, currentEx < exercises.length - 1 ? "Siguiente \u2192" : "Finalizar lecci\u00f3n")
+    );
+  }
+
+  // Vista principal de niveles
+  return React.createElement("div", { style: containerStyle },
+    React.createElement("h2", { style: { fontSize: "1.5rem", fontWeight: "bold", marginBottom: "0.5rem" } }, "\uD83D\uDDFA\uFE0F Ruta de Aprendizaje"),
+    React.createElement("p", { style: { fontSize: "0.9rem", color: "#4b5563", marginBottom: "1.5rem" } },
+      (Object.keys(progress.completed || {}).length) + " lecciones completadas \u00b7 " + (progress.xp || 0) + " XP \u00b7 Racha: " + (progress.streak || 0) + " d\u00edas"
+    ),
+    levels.map((level, idx) => {
+      const isUnlocked = idx === 0 || (levels[idx-1]?.lessons > 0 && Object.keys(progress.completed || {}).some(c => c.startsWith(levels[idx-1].id + "-l")));
+      const lessonsCompleted = Object.keys(progress.completed || {}).filter(c => c.startsWith(level.id + "-l")).length;
+      return React.createElement("div", { key: level.id, style: { ...cardStyle, opacity: isUnlocked ? 1 : 0.5 } },
+        React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } },
+          React.createElement("h3", { style: { fontWeight: "600" } }, level.badge + " " + level.title + " (" + level.words + " palabras)"),
+          React.createElement("span", { style: { fontSize: "0.8rem" } }, lessonsCompleted + "/" + level.lessons + " lecciones")
+        ),
+        isUnlocked && level.lessons > 0 ?
+          React.createElement("div", { style: { marginTop: "0.75rem", display: "flex", flexWrap: "wrap" } },
+            Array.from({ length: level.lessons }, (_, i) =>
+              React.createElement("button", {
+                key: i,
+                onClick: () => openLesson(level.id, i),
+                style: {
+                  ...buttonStyle,
+                  backgroundColor: progress.completed?.[level.id + "-l" + (i+1)] ? "#bbf7d0" : "#dbeafe"
+                }
+              }, i + 1)
+            )
+          ) : null
+      );
+    })
   );
 };
 
 window.RutaPanel = RutaPanel;
 
-// ─── Registrar en el sistema de paneles ───
-window.Muller = window.Muller || {};
-window.Muller.Panels = window.Muller.Panels || {};
-window.Muller.Panels.ruta = RutaPanel;
-
-// ─── Registrar en el sistema de paneles ───
+// Registrar en el sistema de paneles
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 window.Muller.Panels.ruta = RutaPanel;
