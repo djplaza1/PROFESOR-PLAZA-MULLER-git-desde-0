@@ -10056,4 +10056,12 @@ window.MULLER_RUTA_LEVELS = [
   ['aufgebunden','aufgebunden','','','n']
 ]
 
+
+// TEMPORAL: Desbloquear todas las lecciones
+R.isLessonUnlocked = function() { return true; };
+R.getLevelProgress = function(progress, level) {
+  if (!level || !level.lessons) return 0;
+  return level.lessons.filter(l => true).length;
+};
+
 })(window.Muller.Ruta);
