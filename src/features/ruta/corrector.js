@@ -19,22 +19,42 @@ window.Corrector = {
     return this.synonyms[w] || [w];
   },
 
+  // Nueva función: expande alternativas separadas por "/" en una traducción
+  expandAlternatives(correctStr) {
+    const parts = correctStr.split('/').map(p => p.trim()).filter(p => p.length > 0);
+    return parts.length > 1 ? parts : [correctStr];
+  },
+
   check(user, correct, lang) {
     const u = this.normalize(user);
+    const uRaw = this.stripPunctuation(user).trim();
     const c = this.normalize(correct);
 
-    // Coincidencia exacta
+    // 1. Coincidencia exacta
     if (u === c) return { correct: true, exact: true, message: '' };
 
-    // Si la respuesta del usuario está vacía
+    // 2. Respuesta vacía
     if (!u) return { correct: false, exact: false, message: '' };
 
-    // Comprobación con sinónimos: si alguna forma aceptada coincide con la respuesta normalizada
-    const synonymsList = this.expandSynonyms(correct);
-    const uMatch = synonymsList.some(syn => this.normalize(syn) === u);
-    if (uMatch) return { correct: true, exact: false, message: 'Sinónimo aceptado.' };
+    // 3. Comprobar con alternativas (partes separadas por "/")
+    const alternatives = this.expandAlternatives(correct);
+    for (let alt of alternatives) {
+      if (this.normalize(alt) === u) {
+        return { correct: true, exact: false, message: 'Alternativa aceptada.' };
+      }
+      // También comparar el texto sin normalizar agresivamente
+      if (this.stripPunctuation(alt).toLowerCase().trim() === uRaw.toLowerCase()) {
+        return { correct: true, exact: false, message: 'Alternativa aceptada.' };
+      }
+    }
 
-    // Quitar artículos y preposiciones para comparar núcleo
+    // 4. Comprobación con sinónimos
+    const synonymsList = this.expandSynonyms(correct);
+    if (synonymsList.some(syn => this.normalize(syn) === u)) {
+      return { correct: true, exact: false, message: 'Sinónimo aceptado.' };
+    }
+
+    // 5. Quitar artículos y preposiciones
     const stopWords = ['der','die','das','el','la','los','las','un','una','de','del','the','a','an','ein','eine'];
     const clean = (s) => (s || '').split(' ').filter(w => !stopWords.includes(w.toLowerCase())).join(' ');
     const uClean = this.normalize(clean(user));
@@ -42,15 +62,20 @@ window.Corrector = {
     if (uClean === cClean && uClean.length > 1) {
       return { correct: true, exact: false, message: 'Correcto, pero no olvides los artículos y preposiciones.' };
     }
+    // Comprobar también con alternativas limpias
+    for (let alt of alternatives) {
+      if (this.normalize(clean(alt)) === uClean) {
+        return { correct: true, exact: false, message: 'Alternativa aceptada.' };
+      }
+    }
 
-    // Sustantivo alemán sin mayúscula inicial
+    // 6. Sustantivo alemán sin mayúscula inicial
     if (lang === 'de' && user.trim().charAt(0) === user.trim().charAt(0).toLowerCase()) {
       const cap = user.trim().charAt(0).toUpperCase() + user.trim().slice(1);
       const capNorm = this.normalize(cap);
       if (capNorm === c) {
         return { correct: true, exact: false, message: 'Bien, pero los sustantivos alemanes llevan mayúscula: ' + cap + '.' };
       }
-      // También verificar capNorm con sinónimos
       if (synonymsList.some(syn => this.normalize(syn) === capNorm)) {
         return { correct: true, exact: false, message: 'Sinónimo aceptado. Recuerda mayúscula: ' + cap + '.' };
       }
