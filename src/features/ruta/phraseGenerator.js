@@ -15,45 +15,76 @@ const PhraseGenerator = {
     const allValid=this.getValidWords(levelId);
     if(allValid.length===0)return[];
     const exercises=[];
-    const start=(lessonIdx*wordsPerLesson)%allValid.length;
-    let lessonWords=[];
-    if(start+wordsPerLesson<=allValid.length){lessonWords=allValid.slice(start,start+wordsPerLesson);}
-    else{lessonWords=allValid.slice(start).concat(allValid.slice(0,(start+wordsPerLesson)%allValid.length));}
-    const valid=lessonWords;
-    const usedSet=new Set();
-    const types=["fill","translateDE","translateES","choose","declension","plural","conjugate"];
-    const deAllNouns=[...new Set(valid.filter(w=>w[4]==="n").map(w=>this.canonizeNoun(w)))];
-    const esAll=[...new Set(valid.map(w=>w[1]))];
-    for(let r=0;r<2;r++){
-      const shuffledValid=[...valid].sort(()=>Math.random()-0.5);
-      for(let w of shuffledValid){
-        if(usedSet.has(w[0]+r))continue;
-        usedSet.add(w[0]+r);
-        let type=types[Math.floor(Math.random()*types.length)];
-        const deMain=this.canonizeNoun(w);
-        const bare=this.getBareNoun(w);
-        const esMain=w[1];
-        let ex=null;
-        switch(type){
-          case"fill":ex={type:"fill",prompt:`Completa: "___" significa "${esMain}".`,answer:deMain,options:this.randomSlice(deAllNouns,3,deMain).concat(deMain).sort(()=>Math.random()-0.5),hint:""};break;
-          case"translateDE":ex={type:"translateDE",prompt:`Traduce al alemán: "${esMain}"`,answer:deMain,hint:""};break;
-          case"translateES":ex={type:"translateES",prompt:`Traduce al español: "${deMain}"`,answer:esMain,hint:""};break;
-          case"choose":ex={type:"choose",prompt:`¿Cuál es la traducción de "${deMain}"?`,answer:esMain,options:this.randomSlice(esAll,3,esMain).concat(esMain).sort(()=>Math.random()-0.5),hint:""};break;
-          case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
-          case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
-          case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
-        }
-        if(ex){
-          ex.word=w;
-          ex.translation=esMain;
-          ex.speakText=w[4]==="n"?this.canonizeNoun(w):w[0];
-          exercises.push(ex);
-        }
+    // ── 1. Obtener palabras para repaso (SRS) ──
+    const progress = window.SRSHelpers ? window.SRSHelpers.loadProgress() : null;
+    const reviewWordsData = progress ? window.SRSHelpers.getWordsToReview(progress, levelId, Math.floor(wordsPerLesson * 0.3)) : [];
+    const reviewWordsDe = reviewWordsData.map(rw => rw.word);
+    const reviewWordsSet = new Set(reviewWordsDe);
+    // Filtrar palabras del nivel que existen en el vocabulario real
+    const reviewWordsInVocab = allValid.filter(w => reviewWordsSet.has(w[0]));
+    const newWordsPool = allValid.filter(w => !reviewWordsSet.has(w[0]));
+    // Si no hay palabras nuevas suficientes, usar también algunas de revisión extra
+    let newCount = wordsPerLesson - reviewWordsInVocab.length;
+    if (newCount < 0) newCount = 0;
+    const newLessonWords = newWordsPool.slice(0, newCount);
+    // ── 2. Generar ejercicios para palabras de repaso ──
+    const usedSet = new Set();
+    const types = ["fill","translateDE","translateES","choose","declension","plural","conjugate"];
+    const deAllNouns=[...new Set(allValid.filter(w=>w[4]==="n").map(w=>this.canonizeNoun(w)))];
+    const esAll=[...new Set(allValid.map(w=>w[1]))];
+    for (let w of reviewWordsInVocab) {
+      if (usedSet.has(w[0])) continue;
+      usedSet.add(w[0]);
+      const type = types[Math.floor(Math.random() * types.length)];
+      const deMain = this.canonizeNoun(w);
+      const bare = this.getBareNoun(w);
+      const esMain = w[1];
+      let ex = null;
+      switch(type){
+        case"fill":ex={type:"fill",prompt:`Completa: "___" significa "${esMain}".`,answer:deMain,options:this.randomSlice(deAllNouns,3,deMain).concat(deMain).sort(()=>Math.random()-0.5),hint:""};break;
+        case"translateDE":ex={type:"translateDE",prompt:`Traduce al alemán: "${esMain}"`,answer:deMain,hint:""};break;
+        case"translateES":ex={type:"translateES",prompt:`Traduce al español: "${deMain}"`,answer:esMain,hint:""};break;
+        case"choose":ex={type:"choose",prompt:`¿Cuál es la traducción de "${deMain}"?`,answer:esMain,options:this.randomSlice(esAll,3,esMain).concat(esMain).sort(()=>Math.random()-0.5),hint:""};break;
+        case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
+        case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
+        case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
+      }
+      if (ex) {
+        ex.word = w;
+        ex.translation = esMain;
+        ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0];
+        ex.isReview = true;
+        exercises.push(ex);
       }
     }
-    // Ejercicios de declinación de adjetivos (por cada adjetivo encontrado)
-    const adjectives=valid.filter(w=>w[4]==="adj");
-    const nouns=valid.filter(w=>w[4]==="n"&&this.getArticle(w));
+    // ── 3. Generar ejercicios para palabras nuevas ──
+    for (let w of newLessonWords) {
+      if (usedSet.has(w[0])) continue;
+      usedSet.add(w[0]);
+      const type = types[Math.floor(Math.random() * types.length)];
+      const deMain = this.canonizeNoun(w);
+      const bare = this.getBareNoun(w);
+      const esMain = w[1];
+      let ex = null;
+      switch(type){
+        case"fill":ex={type:"fill",prompt:`Completa: "___" significa "${esMain}".`,answer:deMain,options:this.randomSlice(deAllNouns,3,deMain).concat(deMain).sort(()=>Math.random()-0.5),hint:""};break;
+        case"translateDE":ex={type:"translateDE",prompt:`Traduce al alemán: "${esMain}"`,answer:deMain,hint:""};break;
+        case"translateES":ex={type:"translateES",prompt:`Traduce al español: "${deMain}"`,answer:esMain,hint:""};break;
+        case"choose":ex={type:"choose",prompt:`¿Cuál es la traducción de "${deMain}"?`,answer:esMain,options:this.randomSlice(esAll,3,esMain).concat(esMain).sort(()=>Math.random()-0.5),hint:""};break;
+        case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
+        case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
+        case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
+      }
+      if (ex) {
+        ex.word = w;
+        ex.translation = esMain;
+        ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0];
+        exercises.push(ex);
+      }
+    }
+    // ── 4. Ejercicios de declinación de adjetivos (solo si hay adjetivos) ──
+    const adjectives=allValid.filter(w=>w[4]==="adj");
+    const nouns=allValid.filter(w=>w[4]==="n"&&this.getArticle(w));
     if(adjectives.length>0&&nouns.length>0){
       for(let adj of adjectives){
         const noun=nouns[Math.floor(Math.random()*nouns.length)];
@@ -72,50 +103,67 @@ const PhraseGenerator = {
         });
       }
     }
-    // Contextuales
+    // ── 5. Contextuales (fillInSentence, order) ──
     const bank=window.PhrasesBank||{};
     const levelBank=bank[levelId]||{};
     const bankKeys=Object.keys(levelBank);
     if(bankKeys.length>0){
-      const contextCount=Math.min(valid.length,bankKeys.length,30);
+      const contextCount=Math.min(allValid.length,bankKeys.length,20);
       for(let i=0;i<contextCount;i++){
         const key=bankKeys[Math.floor(Math.random()*bankKeys.length)];
         const phrases=levelBank[key];
         if(!phrases||phrases.length===0)continue;
         const phrase=phrases[Math.floor(Math.random()*phrases.length)];
         const hiddenSentence=this.hideWordInSentence(phrase.de,key);
-        exercises.push({speakText:phrase.de,type:"fillInSentence",prompt:`Completa la frase:\n"${hiddenSentence}"`,answer:this.getBareNoun({0:key}),options:this.randomSlice([...new Set(valid.map(w=>this.getBareNoun(w)))],3,this.getBareNoun({0:key})).concat(this.getBareNoun({0:key})).sort(()=>Math.random()-0.5),hint:"",translation:phrase.es,word:valid.find(w=>this.getBareNoun(w)===this.getBareNoun({0:key}))||valid[0]});
+        exercises.push({
+          speakText:phrase.de,type:"fillInSentence",
+          prompt:`Completa la frase:\n"${hiddenSentence}"`,
+          answer:this.getBareNoun({0:key}),
+          options:this.randomSlice([...new Set(allValid.map(w=>this.getBareNoun(w)))],3,this.getBareNoun({0:key})).concat(this.getBareNoun({0:key})).sort(()=>Math.random()-0.5),
+          hint:"",translation:phrase.es,
+          word:allValid.find(w=>this.getBareNoun(w)===this.getBareNoun({0:key}))||allValid[0]
+        });
         const cleanWords=this.splitCleanSentence(phrase.de);
         const shuffled=[...cleanWords].sort(()=>Math.random()-0.5);
-        exercises.push({speakText:phrase.de,type:"order",prompt:`Ordena estas palabras:\n${shuffled.join(" ")}`,answer:phrase.de,hint:"Forma una frase correcta.",translation:phrase.es,word:valid.find(w=>this.getBareNoun(w)===this.getBareNoun({0:key}))||valid[0]});
+        exercises.push({
+          speakText:phrase.de,type:"order",
+          prompt:`Ordena estas palabras:\n${shuffled.join(" ")}`,
+          answer:phrase.de,hint:"Forma una frase correcta.",translation:phrase.es,
+          word:allValid.find(w=>this.getBareNoun(w)===this.getBareNoun({0:key}))||allValid[0]
+        });
       }
     }
-    // matchPairs x3
-    const matchCount=Math.min(5,valid.length);
+    // ── 6. matchPairs x3 ──
+    const matchCount=Math.min(5,allValid.length);
     for(let r=0;r<3;r++){
-      const matchWords=valid.sort(()=>Math.random()-0.5).slice(0,matchCount);
+      const matchWords=allValid.sort(()=>Math.random()-0.5).slice(0,matchCount);
       const dePairs=matchWords.map(w=>this.canonizeNoun(w));
       const esPairs=matchWords.map(w=>w[1]);
-      const shuffledDe=[...dePairs].sort(()=>Math.random()-0.5);
-      const shuffledEs=[...esPairs].sort(()=>Math.random()-0.5);
-      exercises.push({speakText:dePairs[0],type:"matchPairs",prompt:"Empareja cada palabra en alemán con su traducción en español",pairs:dePairs.map((de,i)=>({de,es:esPairs[i]})),leftColumn:shuffledDe,rightColumn:shuffledEs,hint:"Selecciona una palabra de la izquierda y luego su traducción de la derecha.",word:matchWords[0]});
+      exercises.push({
+        speakText:dePairs[0],type:"matchPairs",
+        prompt:"Empareja cada palabra en alemán con su traducción en español",
+        pairs:dePairs.map((de,i)=>({de,es:esPairs[i]})),
+        leftColumn:[...dePairs].sort(()=>Math.random()-0.5),
+        rightColumn:[...esPairs].sort(()=>Math.random()-0.5),
+        hint:"Selecciona una palabra de la izquierda y luego su traducción de la derecha.",
+        word:matchWords[0]
+      });
     }
-    
-    // ── Ejercicio audioMatch (escuchar y emparejar) ──
-    const audioMatchCount = Math.min(4, valid.length);
-    const audioMatchWords = valid.sort(() => Math.random() - 0.5).slice(0, audioMatchCount);
-    const audioDePairs = audioMatchWords.map(w => this.canonizeNoun(w));
-    const audioEsPairs = audioMatchWords.map(w => w[1]);
-    const shuffledAudioEs = [...audioEsPairs].sort(() => Math.random() - 0.5);
+    // ── 7. audioMatch ──
+    const audioMatchCount=Math.min(4,allValid.length);
+    const audioMatchWords=allValid.sort(()=>Math.random()-0.5).slice(0,audioMatchCount);
+    const audioDePairs=audioMatchWords.map(w=>this.canonizeNoun(w));
+    const audioEsPairs=audioMatchWords.map(w=>w[1]);
     exercises.push({
-      type: "audioMatch",
-      prompt: "Escucha y empareja cada palabra con su traducción",
-      pairs: audioDePairs.map((de, i) => ({ de, es: audioEsPairs[i] })),
-      leftColumn: audioDePairs,
-      rightColumn: shuffledAudioEs,
-      hint: "Pulsa un altavoz para escuchar la palabra y luego selecciona su traducción.",
-      word: audioMatchWords[0]
+      type:"audioMatch",
+      prompt:"Escucha y empareja cada palabra con su traducción",
+      pairs:audioDePairs.map((de,i)=>({de,es:audioEsPairs[i]})),
+      leftColumn:audioDePairs,
+      rightColumn:[...audioEsPairs].sort(()=>Math.random()-0.5),
+      hint:"Pulsa un altavoz para escuchar la palabra y luego selecciona su traducción.",
+      word:audioMatchWords[0]
     });
+    // Barajar todos los ejercicios
     return exercises.sort(()=>Math.random()-0.5);
   },
   generateLesson(levelId,lessonIdx){const config=window.LevelConfig?.getLevelConfig?.(levelId);if(!config)return null;const wordsPerLesson=config.wordsPerLesson||10;return{id:levelId+"-l"+(lessonIdx+1),title:"Lección "+(lessonIdx+1),levelId,exercises:this.generateExercises(levelId,lessonIdx,wordsPerLesson)};}
