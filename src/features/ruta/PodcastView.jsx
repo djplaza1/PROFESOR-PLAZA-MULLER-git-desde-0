@@ -24,14 +24,14 @@ const PodcastView = ({ levelId, lessonIdx, onBack }) => {
     const ans = submitted !== null ? submitted : userAnswer;
     const lang = (ex.type === "translateES" || ex.type === "choose") ? "es" : "de";
     const result = window.Corrector.check(ans, ex.answer, lang);
-    setFeedback({
+    setFeedback({ translation: seg.translation, 
       correct: result.correct,
       exact: result.exact,
       answer: ex.answer,
       hint: result.message
     });
     if (result.correct) {
-      setTimeout(() => next(), 1500);
+      
     }
   };
 
@@ -62,7 +62,7 @@ const PodcastView = ({ levelId, lessonIdx, onBack }) => {
         </div>
         <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border border-slate-700">
           <p className="text-slate-300 mb-3 italic">"{seg.audioText}"</p>
-          <p className="text-slate-400 text-sm mb-6">{seg.translation}</p>
+          
           <hr className="border-slate-600 mb-6" />
           <p className="text-slate-200 mb-4 font-medium text-lg">{ex.prompt}</p>
           {ex.options ? (
@@ -81,7 +81,7 @@ const PodcastView = ({ levelId, lessonIdx, onBack }) => {
         {feedback && (
           <div className={`p-4 rounded-xl ${feedback.correct ? "bg-emerald-900/80 text-emerald-200 border border-emerald-700" : "bg-red-900/80 text-red-200 border border-red-700"}`}>
             {feedback.correct ? (
-              <div><span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>{feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>}</div>
+              <div><span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>{feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>} {feedback.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {feedback.translation}</p>}</div>
             ) : (
               <div><span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span></div>
             )}

@@ -49,7 +49,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     }
     // Avance automático si es correcto
     if (result.correct) {
-      setTimeout(() => nextExercise(), 1500);
+      
     }
   };
 
@@ -174,7 +174,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
             )}
           </div>
         )}
-        {feedback && !feedback.correct && (
+        {feedback && (
           <button onClick={nextExercise} className="mt-4 w-full px-6 py-3 bg-slate-700 text-white rounded-xl hover:bg-slate-600 transition shadow-md font-medium">
             Siguiente →
           </button>

@@ -26,14 +26,14 @@ const StoryView = ({ levelId, lessonIdx, onBack }) => {
     const ans = submitted !== null ? submitted : userAnswer;
     const lang = (ex.type === "translateES" || ex.type === "choose") ? "es" : "de";
     const result = window.Corrector.check(ans, ex.answer, lang);
-    setFeedback({
+    setFeedback({ translation: scene.dialogs.slice(-1)[0].translation, 
       correct: result.correct,
       exact: result.exact,
       answer: ex.answer,
       hint: result.message
     });
     if (result.correct) {
-      setTimeout(() => next(), 1500);
+      
     }
   };
 
@@ -67,7 +67,7 @@ const StoryView = ({ levelId, lessonIdx, onBack }) => {
           {scene.dialogs.map((d, i) => (
             <div key={i} className="mb-2">
               <p className="text-blue-300 font-medium">{d.speaker}: <span className="text-slate-200 italic">"{d.text}"</span></p>
-              <p className="text-slate-500 text-sm">({d.translation})</p>
+              
             </div>
           ))}
           <hr className="border-slate-600 my-4" />
@@ -88,7 +88,7 @@ const StoryView = ({ levelId, lessonIdx, onBack }) => {
         {feedback && (
           <div className={`p-4 rounded-xl ${feedback.correct ? "bg-emerald-900/80 text-emerald-200 border border-emerald-700" : "bg-red-900/80 text-red-200 border border-red-700"}`}>
             {feedback.correct ? (
-              <div><span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>{feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>}</div>
+              <div><span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>{feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>} {feedback.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {feedback.translation}</p>}</div>
             ) : (
               <div><span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span></div>
             )}
