@@ -7,8 +7,10 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [feedback, setFeedback] = useState(null);
   const [matchSelected, setMatchSelected] = useState(null);
   const [matchResult, setMatchResult] = useState([]);
+  const [audioSelected, setAudioSelected] = useState(null);
+  const [audioRevealed, setAudioRevealed] = useState([]);
   const [progress, setProgress] = useState(() => (window.SRSHelpers ? window.SRSHelpers.loadProgress() : { completed: {}, xp: 0, streak: 0 }));
-  const [showComponent, setShowComponent] = useState(null); // 'podcast' | 'story' | null
+  const [showComponent, setShowComponent] = useState(null);
 
   useEffect(() => {
     if (!window.PhraseGenerator) return;
@@ -20,6 +22,8 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setFeedback(null);
     setMatchSelected(null);
     setMatchResult([]);
+    setAudioSelected(null);
+    setAudioRevealed([]);
   }, [levelId, lessonIdx]);
 
   useEffect(() => {
@@ -47,10 +51,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       newProgress.xp = (newProgress.xp || 0) + (result.correct ? 10 : 0);
       setProgress(window.SRSHelpers.updateStreak(newProgress));
     }
-    // Avance automático si es correcto
-    if (result.correct) {
-      
-    }
   };
 
   const nextExercise = () => {
@@ -60,6 +60,8 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       setFeedback(null);
       setMatchSelected(null);
       setMatchResult([]);
+      setAudioSelected(null);
+      setAudioRevealed([]);
     } else {
       const lessonId = levelId + "-l" + (lessonIdx + 1);
       const newProgress = { ...progress };
@@ -72,7 +74,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const ex = exercises[currentEx];
   if (!ex) return <div className="text-white p-4">Cargando ejercicios...</div>;
 
-  // Si se ha elegido podcast o historia, se muestra la vista correspondiente
   if (showComponent === 'podcast') {
     return <PodcastView onBack={() => setShowComponent(null)} />;
   }
@@ -86,123 +87,139 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">Lección {lessonIdx+1} – {ex.type}</h2>
           <div className="flex gap-2">
-            <button onClick={() => setShowComponent('podcast')} className="px-3 py-1 bg-purple-600 text-white text-xs rounded-full hover:bg-purple-500 transition shadow">
-              🎙️ Podcast
-            </button>
-            <button onClick={() => setShowComponent('story')} className="px-3 py-1 bg-pink-600 text-white text-xs rounded-full hover:bg-pink-500 transition shadow">
-              🎬 Historia
-            </button>
-            <button onClick={onBack} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 transition shadow">
-              ← Volver
-            </button>
+            <button onClick={() => setShowComponent('podcast')} className="px-3 py-1 bg-purple-600 text-white text-xs rounded-full hover:bg-purple-500 transition shadow">🎙️ Podcast</button>
+            <button onClick={() => setShowComponent('story')} className="px-3 py-1 bg-pink-600 text-white text-xs rounded-full hover:bg-pink-500 transition shadow">🎬 Historia</button>
+            <button onClick={onBack} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 transition shadow">← Volver</button>
           </div>
         </div>
         <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border border-slate-700">
           <div className="flex items-center mb-6">
             <p className="text-slate-200 font-medium text-lg">{ex.prompt}</p>
             {ex.speakText && (
-              <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">
-                🔊
-              </button>
+              <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">🔊</button>
             )}
           </div>
-          
-{ex.type === "audioMatch" ? (
-  <div className="grid grid-cols-2 gap-8 mt-4">
-    <div>
-      <h3 className="text-white font-bold mb-3 text-center">🔊 Alemán (escucha)</h3>
-      {ex.leftColumn.map((word, idx) => (
-        <button
-          key={idx}
-          onClick={() => {
-            if (audioRevealed.some(r => r.de === word)) return;
-            window.RutaAudio?.speak(word);
-            setAudioSelected(word);
-          }}
-          className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition flex items-center ${
-            audioRevealed.some(r => r.de === word)
-              ? "bg-emerald-600 text-white"
-              : audioSelected === word
-              ? "bg-blue-600 text-white"
-              : "bg-slate-700 text-slate-200 hover:bg-slate-600"
-          }`}
-        >
-          {audioRevealed.some(r => r.de === word) ? (
-            <span>{word}</span>
-          ) : (
-            <span className="flex items-center">🔊 <span className="ml-2 italic text-sm">Escuchar</span></span>
-          )}
-        </button>
-      ))}
-    </div>
-    <div>
-      <h3 className="text-white font-bold mb-3 text-center">🇪🇸 Español</h3>
-      {ex.rightColumn.map((word, idx) => (
-        <button
-          key={idx}
-          onClick={() => {
-            if (audioSelected && !audioRevealed.some(r => r.es === word)) {
-              const correctPair = ex.pairs.find(p => p.de === audioSelected && p.es === word);
-              if (correctPair) {
-                setAudioRevealed([...audioRevealed, { de: audioSelected, es: word }]);
-                setAudioSelected(null);
-                if (audioRevealed.length + 1 === ex.pairs.length) {
-                  checkAnswer(null);
-                }
-              } else {
-                setAudioSelected(null);
-              }
-            }
-          }}
-          className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
-            audioRevealed.some(r => r.es === word)
-              ? "bg-emerald-600 text-white"
-              : "bg-slate-700 text-slate-200 hover:bg-slate-600"
-          }`}
-        >
-          {word}
-        </button>
-      ))}
-    </div>
-  </div>
-) : '
 
-                {ex.type === "matchPairs" ? (
+          {ex.type === "audioMatch" ? (
+            <div className="grid grid-cols-2 gap-8 mt-4">
+              <div>
+                <h3 className="text-white font-bold mb-3 text-center">🔊 Alemán (escucha)</h3>
+                {ex.leftColumn.map((word, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      if (audioRevealed.some(r => r.de === word)) return;
+                      window.RutaAudio?.speak(word);
+                      setAudioSelected(word);
+                    }}
+                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition flex items-center ${
+                      audioRevealed.some(r => r.de === word)
+                        ? "bg-emerald-600 text-white"
+                        : audioSelected === word
+                        ? "bg-blue-600 text-white"
+                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    }`}
+                  >
+                    {audioRevealed.some(r => r.de === word) ? (
+                      <span>{word}</span>
+                    ) : (
+                      <span className="flex items-center">🔊 <span className="ml-2 italic text-sm">Escuchar</span></span>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <div>
+                <h3 className="text-white font-bold mb-3 text-center">🇪🇸 Español</h3>
+                {ex.rightColumn.map((word, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      if (audioSelected && !audioRevealed.some(r => r.es === word)) {
+                        const correctPair = ex.pairs.find(p => p.de === audioSelected && p.es === word);
+                        if (correctPair) {
+                          setAudioRevealed([...audioRevealed, { de: audioSelected, es: word }]);
+                          setAudioSelected(null);
+                          if (audioRevealed.length + 1 === ex.pairs.length) {
+                            checkAnswer(null);
+                          }
+                        } else {
+                          setAudioSelected(null);
+                        }
+                      }
+                    }}
+                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
+                      audioRevealed.some(r => r.es === word)
+                        ? "bg-emerald-600 text-white"
+                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    }`}
+                  >
+                    {word}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : ex.type === "matchPairs" ? (
             <div className="grid grid-cols-2 gap-8 mt-4">
               <div>
                 <h3 className="text-white font-bold mb-3 text-center">Alemán</h3>
                 {ex.leftColumn.map((word, idx) => (
-                  <button key={idx} onClick={() => {
-                    if (matchResult.some(r => r.left === word)) return;
-                    if (!matchSelected) { setMatchSelected({ idx, word }); }
-                    else {
-                      const correctPair = ex.pairs.find(p => p.de === matchSelected.word && p.es === word);
-                      if (correctPair) {
-                        setMatchResult([...matchResult, { left: matchSelected.word, right: word }]);
-                        setMatchSelected(null);
-                        if (matchResult.length + 1 === ex.pairs.length) {
-                          checkAnswer(null);
-                        }
-                      } else { setMatchSelected(null); }
-                    }
-                  }} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${matchResult.some(r => r.left === word) ? "bg-emerald-600 text-white" : matchSelected?.word === word ? "bg-blue-600 text-white" : "bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{word}</button>
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      if (matchResult.some(r => r.left === word)) return;
+                      window.RutaAudio?.speak(word);
+                      if (!matchSelected) { setMatchSelected({ idx, word }); }
+                      else {
+                        const correctPair = ex.pairs.find(p => p.de === matchSelected.word && p.es === word);
+                        if (correctPair) {
+                          setMatchResult([...matchResult, { left: matchSelected.word, right: word }]);
+                          setMatchSelected(null);
+                          if (matchResult.length + 1 === ex.pairs.length) {
+                            checkAnswer(null);
+                          }
+                        } else { setMatchSelected(null); }
+                      }
+                    }}
+                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
+                      matchResult.some(r => r.left === word)
+                        ? "bg-emerald-600 text-white"
+                        : matchSelected?.word === word
+                        ? "bg-blue-600 text-white"
+                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    }`}
+                  >
+                    <span className="flex items-center">
+                      <button onClick={(e)=>{e.stopPropagation();window.RutaAudio?.speak(word);}} className="mr-1 text-slate-400 hover:text-white" title="Escuchar">🔊</button>
+                      {word}
+                    </span>
+                  </button>
                 ))}
               </div>
               <div>
                 <h3 className="text-white font-bold mb-3 text-center">Español</h3>
                 {ex.rightColumn.map((word, idx) => (
-                  <button key={idx} onClick={() => {
-                    if (matchSelected && !matchResult.some(r => r.right === word)) {
-                      const correctPair = ex.pairs.find(p => p.de === matchSelected.word && p.es === word);
-                      if (correctPair) {
-                        setMatchResult([...matchResult, { left: matchSelected.word, right: word }]);
-                        setMatchSelected(null);
-                        if (matchResult.length + 1 === ex.pairs.length) {
-                          checkAnswer(null);
-                        }
-                      } else { setMatchSelected(null); }
-                    }
-                  }} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${matchResult.some(r => r.right === word) ? "bg-emerald-600 text-white" : "bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{word}</button>
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      if (matchSelected && !matchResult.some(r => r.right === word)) {
+                        const correctPair = ex.pairs.find(p => p.de === matchSelected.word && p.es === word);
+                        if (correctPair) {
+                          setMatchResult([...matchResult, { left: matchSelected.word, right: word }]);
+                          setMatchSelected(null);
+                          if (matchResult.length + 1 === ex.pairs.length) {
+                            checkAnswer(null);
+                          }
+                        } else { setMatchSelected(null); }
+                      }
+                    }}
+                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
+                      matchResult.some(r => r.right === word)
+                        ? "bg-emerald-600 text-white"
+                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    }`}
+                  >
+                    {word}
+                  </button>
                 ))}
               </div>
             </div>
