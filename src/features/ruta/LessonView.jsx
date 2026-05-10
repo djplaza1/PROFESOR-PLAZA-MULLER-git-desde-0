@@ -106,7 +106,68 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
               </button>
             )}
           </div>
-          {ex.type === "matchPairs" ? (
+          
+{ex.type === "audioMatch" ? (
+  <div className="grid grid-cols-2 gap-8 mt-4">
+    <div>
+      <h3 className="text-white font-bold mb-3 text-center">🔊 Alemán (escucha)</h3>
+      {ex.leftColumn.map((word, idx) => (
+        <button
+          key={idx}
+          onClick={() => {
+            if (audioRevealed.some(r => r.de === word)) return;
+            window.RutaAudio?.speak(word);
+            setAudioSelected(word);
+          }}
+          className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition flex items-center ${
+            audioRevealed.some(r => r.de === word)
+              ? "bg-emerald-600 text-white"
+              : audioSelected === word
+              ? "bg-blue-600 text-white"
+              : "bg-slate-700 text-slate-200 hover:bg-slate-600"
+          }`}
+        >
+          {audioRevealed.some(r => r.de === word) ? (
+            <span>{word}</span>
+          ) : (
+            <span className="flex items-center">🔊 <span className="ml-2 italic text-sm">Escuchar</span></span>
+          )}
+        </button>
+      ))}
+    </div>
+    <div>
+      <h3 className="text-white font-bold mb-3 text-center">🇪🇸 Español</h3>
+      {ex.rightColumn.map((word, idx) => (
+        <button
+          key={idx}
+          onClick={() => {
+            if (audioSelected && !audioRevealed.some(r => r.es === word)) {
+              const correctPair = ex.pairs.find(p => p.de === audioSelected && p.es === word);
+              if (correctPair) {
+                setAudioRevealed([...audioRevealed, { de: audioSelected, es: word }]);
+                setAudioSelected(null);
+                if (audioRevealed.length + 1 === ex.pairs.length) {
+                  checkAnswer(null);
+                }
+              } else {
+                setAudioSelected(null);
+              }
+            }
+          }}
+          className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
+            audioRevealed.some(r => r.es === word)
+              ? "bg-emerald-600 text-white"
+              : "bg-slate-700 text-slate-200 hover:bg-slate-600"
+          }`}
+        >
+          {word}
+        </button>
+      ))}
+    </div>
+  </div>
+) : '
+
+                {ex.type === "matchPairs" ? (
             <div className="grid grid-cols-2 gap-8 mt-4">
               <div>
                 <h3 className="text-white font-bold mb-3 text-center">Alemán</h3>

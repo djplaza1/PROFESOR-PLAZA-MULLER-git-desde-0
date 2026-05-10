@@ -100,6 +100,22 @@ const PhraseGenerator = {
       const shuffledEs=[...esPairs].sort(()=>Math.random()-0.5);
       exercises.push({speakText:dePairs[0],type:"matchPairs",prompt:"Empareja cada palabra en alemán con su traducción en español",pairs:dePairs.map((de,i)=>({de,es:esPairs[i]})),leftColumn:shuffledDe,rightColumn:shuffledEs,hint:"Selecciona una palabra de la izquierda y luego su traducción de la derecha.",word:matchWords[0]});
     }
+    
+    // ── Ejercicio audioMatch (escuchar y emparejar) ──
+    const audioMatchCount = Math.min(4, valid.length);
+    const audioMatchWords = valid.sort(() => Math.random() - 0.5).slice(0, audioMatchCount);
+    const audioDePairs = audioMatchWords.map(w => this.canonizeNoun(w));
+    const audioEsPairs = audioMatchWords.map(w => w[1]);
+    const shuffledAudioEs = [...audioEsPairs].sort(() => Math.random() - 0.5);
+    exercises.push({
+      type: "audioMatch",
+      prompt: "Escucha y empareja cada palabra con su traducción",
+      pairs: audioDePairs.map((de, i) => ({ de, es: audioEsPairs[i] })),
+      leftColumn: audioDePairs,
+      rightColumn: shuffledAudioEs,
+      hint: "Pulsa un altavoz para escuchar la palabra y luego selecciona su traducción.",
+      word: audioMatchWords[0]
+    });
     return exercises.sort(()=>Math.random()-0.5);
   },
   generateLesson(levelId,lessonIdx){const config=window.LevelConfig?.getLevelConfig?.(levelId);if(!config)return null;const wordsPerLesson=config.wordsPerLesson||10;return{id:levelId+"-l"+(lessonIdx+1),title:"Lección "+(lessonIdx+1),levelId,exercises:this.generateExercises(levelId,lessonIdx,wordsPerLesson)};}
