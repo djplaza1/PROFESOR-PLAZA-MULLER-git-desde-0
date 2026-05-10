@@ -11,23 +11,35 @@ const PhraseGenerator = {
   randomSlice(arr,count,exclude){return arr.filter(x=>x!==exclude).sort(()=>Math.random()-0.5).slice(0,count);},
   hideWordInSentence(sentence,word){const bare=word.replace(/^(der|die|das)\s?/i,"");const re=new RegExp("\\b(?:meinen?|deinen?|ihren?|euren?|unseren?|meine?|deine?|ihre?|eure?|unsere?|der|die|das|dem|den|des)\\s"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b|\\b"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i");return sentence.replace(re,"___");},
   splitCleanSentence(sentence){const clean=sentence.replace(/[.!?¡¿]+$/g,"").trim();return clean.split(/\s+/).filter(Boolean);},
+  shuffleNoRepeat(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j, attempts = 0;
+      do { j = Math.floor(Math.random() * (i + 1)); attempts++; if (attempts > 20) break; }
+      while (i < arr.length - 1 && arr[j]?.type === arr[i + 1]?.type);
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i]?.type === arr[i + 1]?.type) {
+        for (let j = i + 2; j < arr.length; j++) {
+          if (arr[j]?.type !== arr[i]?.type) { [arr[i + 1], arr[j]] = [arr[j], arr[i + 1]]; break; }
+        }
+      }
+    }
+    return arr;
+  },
   generateExercises(levelId,lessonIdx,wordsPerLesson){
     const allValid=this.getValidWords(levelId);
     if(allValid.length===0)return[];
     const exercises=[];
-    // ── 1. Obtener palabras para repaso (SRS) ──
     const progress = window.SRSHelpers ? window.SRSHelpers.loadProgress() : null;
     const reviewWordsData = progress ? window.SRSHelpers.getWordsToReview(progress, levelId, Math.floor(wordsPerLesson * 0.3)) : [];
     const reviewWordsDe = reviewWordsData.map(rw => rw.word);
     const reviewWordsSet = new Set(reviewWordsDe);
-    // Filtrar palabras del nivel que existen en el vocabulario real
     const reviewWordsInVocab = allValid.filter(w => reviewWordsSet.has(w[0]));
     const newWordsPool = allValid.filter(w => !reviewWordsSet.has(w[0]));
-    // Si no hay palabras nuevas suficientes, usar también algunas de revisión extra
     let newCount = wordsPerLesson - reviewWordsInVocab.length;
     if (newCount < 0) newCount = 0;
     const newLessonWords = newWordsPool.slice(0, newCount);
-    // ── 2. Generar ejercicios para palabras de repaso ──
     const usedSet = new Set();
     const types = ["fill","translateDE","translateES","choose","declension","plural","conjugate"];
     const deAllNouns=[...new Set(allValid.filter(w=>w[4]==="n").map(w=>this.canonizeNoun(w)))];
@@ -49,15 +61,8 @@ const PhraseGenerator = {
         case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
         case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
       }
-      if (ex) {
-        ex.word = w;
-        ex.translation = esMain;
-        ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0];
-        ex.isReview = true;
-        exercises.push(ex);
-      }
+      if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; ex.isReview = true; exercises.push(ex); }
     }
-    // ── 3. Generar ejercicios para palabras nuevas ──
     for (let w of newLessonWords) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
@@ -75,35 +80,45 @@ const PhraseGenerator = {
         case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
         case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
       }
-      if (ex) {
-        ex.word = w;
-        ex.translation = esMain;
-        ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0];
-        exercises.push(ex);
-      }
+      if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; exercises.push(ex); }
     }
-    // ── 4. Ejercicios de declinación de adjetivos (solo si hay adjetivos) ──
-    const adjectives=allValid.filter(w=>w[4]==="adj");
-    const nouns=allValid.filter(w=>w[4]==="n"&&this.getArticle(w));
-    if(adjectives.length>0&&nouns.length>0){
-      for(let adj of adjectives){
-        const noun=nouns[Math.floor(Math.random()*nouns.length)];
-        const art=this.getArticle(noun);
-        const bareNoun=this.getBareNoun(noun);
-        const adjBase=adj[0];
+    // Declinaciones de adjetivos (casos nom/acc/dat)
+    const adjDeclAdjectives = allValid.filter(w => w[4] === "adj");
+    const adjDeclNouns = allValid.filter(w => w[4] === "n" && this.getArticle(w));
+    if (adjDeclAdjectives.length > 0 && adjDeclNouns.length > 0) {
+      const adjDeclCount = Math.min(3, adjDeclAdjectives.length);
+      const shuffledAdj = [...adjDeclAdjectives].sort(() => Math.random() - 0.5).slice(0, adjDeclCount);
+      const casesList = ["nom", "acc", "dat"];
+      const detTable = { nom: { m: "der", f: "die", n: "das", pl: "die" }, acc: { m: "den", f: "die", n: "das", pl: "die" }, dat: { m: "dem", f: "der", n: "dem", pl: "den" } };
+      const endingTable = { nom: { m: "-e", f: "-e", n: "-e", pl: "-en" }, acc: { m: "-en", f: "-e", n: "-e", pl: "-en" }, dat: { m: "-en", f: "-en", n: "-en", pl: "-en" } };
+      for (let adj of shuffledAdj) {
+        const noun = adjDeclNouns[Math.floor(Math.random() * adjDeclNouns.length)];
+        const gender = this.getGender(noun);
+        const art = this.getArticle(noun);
+        const bareNoun = this.getBareNoun(noun);
+        const adjBase = adj[0];
+        const selCase = casesList[Math.floor(Math.random() * casesList.length)];
+        const det = detTable[selCase][gender];
+        const ending = endingTable[selCase][gender];
+        const correctEnding = ending.replace("-", "");
+        const fullAdj = adjBase + correctEnding;
+        let sentence = "";
+        if (selCase === "nom") sentence = det + " " + adjBase + "___ " + bareNoun + " ist neu.";
+        else if (selCase === "acc") sentence = "Ich sehe " + det + " " + adjBase + "___ " + bareNoun + ".";
+        else sentence = "Ich spreche mit " + det + " " + adjBase + "___ " + bareNoun + ".";
         exercises.push({
-          type:"adjectiveDeclension",
-          prompt:`Completa con la terminación correcta: "${art} ${adjBase}___ ${bareNoun}"`,
-          answer:"-e",
-          options:["-e","-er","-es","-en"].sort(()=>Math.random()-0.5),
-          hint:`Artículo definido nominativo ${art}.`,
-          speakText:`${art} ${adjBase}e ${bareNoun}`,
-          word:adj,
-          translation:adj[1]
+          type: "adjectiveDeclension",
+          prompt: "Completa con la terminación correcta:\n\"" + sentence + "\"",
+          answer: ending,
+          options: ["-e","-er","-es","-en"].sort(() => Math.random() - 0.5),
+          hint: (selCase === "nom" ? "Nominativo" : selCase === "acc" ? "Acusativo" : "Dativo") + " definido (" + det + ").",
+          speakText: det + " " + fullAdj + " " + bareNoun,
+          word: adj,
+          translation: adj[1]
         });
       }
     }
-    // ── 5. Contextuales (fillInSentence, order) ──
+    // Contextuales
     const bank=window.PhrasesBank||{};
     const levelBank=bank[levelId]||{};
     const bankKeys=Object.keys(levelBank);
@@ -133,7 +148,7 @@ const PhraseGenerator = {
         });
       }
     }
-    // ── 6. matchPairs x3 ──
+    // matchPairs x3
     const matchCount=Math.min(5,allValid.length);
     for(let r=0;r<3;r++){
       const matchWords=allValid.sort(()=>Math.random()-0.5).slice(0,matchCount);
@@ -149,7 +164,7 @@ const PhraseGenerator = {
         word:matchWords[0]
       });
     }
-    // ── 7. audioMatch ──
+    // audioMatch
     const audioMatchCount=Math.min(4,allValid.length);
     const audioMatchWords=allValid.sort(()=>Math.random()-0.5).slice(0,audioMatchCount);
     const audioDePairs=audioMatchWords.map(w=>this.canonizeNoun(w));
@@ -163,61 +178,13 @@ const PhraseGenerator = {
       hint:"Pulsa un altavoz para escuchar la palabra y luego selecciona su traducción.",
       word:audioMatchWords[0]
     });
-    // Barajar todos los ejercicios
     return this.shuffleNoRepeat(exercises);
   },
-
-  // Mezclar array evitando que dos ejercicios del mismo tipo queden consecutivos
-  shuffleNoRepeat(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      let j, attempts = 0;
-      do { j = Math.floor(Math.random() * (i + 1)); attempts++; if (attempts > 20) break; }
-      while (i < arr.length - 1 && arr[j]?.type === arr[i + 1]?.type);
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    for (let i = 0; i < arr.length - 1; i++) {
-      if (arr[i]?.type === arr[i + 1]?.type) {
-        for (let j = i + 2; j < arr.length; j++) {
-          if (arr[j]?.type !== arr[i]?.type) { [arr[i + 1], arr[j]] = [arr[j], arr[i + 1]]; break; }
-        }
-      }
-    }
-    return arr;
+  generateLesson(levelId,lessonIdx){
+    const config=window.LevelConfig?.getLevelConfig?.(levelId);
+    if(!config)return null;
+    const wordsPerLesson=config.wordsPerLesson||10;
+    return{id:levelId+"-l"+(lessonIdx+1),title:"Lección "+(lessonIdx+1),levelId,exercises:this.generateExercises(levelId,lessonIdx,wordsPerLesson)};
   }
-  generateLesson(levelId,lessonIdx){const config=window.LevelConfig?.getLevelConfig?.(levelId);if(!config)return null;const wordsPerLesson=config.wordsPerLesson||10;return{id:levelId+"-l"+(lessonIdx+1),title:"Lección "+(lessonIdx+1),levelId,exercises:this.generateExercises(levelId,lessonIdx,wordsPerLesson)};}
 };
-
-  shuffleNoRepeat(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      let j, attempts = 0;
-      do { j = Math.floor(Math.random() * (i + 1)); attempts++; if (attempts > 20) break; }
-      while (i < arr.length - 1 && arr[j]?.type === arr[i + 1]?.type);
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    for (let i = 0; i < arr.length - 1; i++) {
-      if (arr[i]?.type === arr[i + 1]?.type) {
-        for (let j = i + 2; j < arr.length; j++) {
-          if (arr[j]?.type !== arr[i]?.type) { [arr[i + 1], arr[j]] = [arr[j], arr[i + 1]]; break; }
-        }
-      }
-    }
-    return arr;
-  }
-
-  shuffleNoRepeat(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      let j, attempts = 0;
-      do { j = Math.floor(Math.random() * (i + 1)); attempts++; if (attempts > 20) break; }
-      while (i < arr.length - 1 && arr[j]?.type === arr[i + 1]?.type);
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    for (let i = 0; i < arr.length - 1; i++) {
-      if (arr[i]?.type === arr[i + 1]?.type) {
-        for (let j = i + 2; j < arr.length; j++) {
-          if (arr[j]?.type !== arr[i]?.type) { [arr[i + 1], arr[j]] = [arr[j], arr[i + 1]]; break; }
-        }
-      }
-    }
-    return arr;
-  }
 window.PhraseGenerator=PhraseGenerator;
