@@ -185,6 +185,7 @@ const PhraseGenerator = {
         }
         if (ex) {
           ex.word = w;
+ex.speakText = w[4] === 'n' ? this.canonizeNoun(w) : w[0];
           ex.translation = esMain;
           exercises.push(ex);
         }
@@ -196,7 +197,7 @@ const PhraseGenerator = {
     const levelBank = bank[levelId] || {};
     const bankKeys = Object.keys(levelBank);
     if (bankKeys.length > 0) {
-      const contextCount = Math.min(valid.length, bankKeys.length, 20); // máximo 20 contextuales por lección
+      const contextCount = Math.min(valid.length, bankKeys.length, 30); // máximo 20 contextuales por lección
       for (let i = 0; i < contextCount; i++) {
         const key = bankKeys[Math.floor(Math.random() * bankKeys.length)];
         const phrases = levelBank[key];
@@ -204,7 +205,8 @@ const PhraseGenerator = {
         const phrase = phrases[Math.floor(Math.random() * phrases.length)];
         const hiddenSentence = this.hideWordInSentence(phrase.de, key);
         exercises.push({
-          type: "fillInSentence",
+          speakText: phrase.de,
+type: "fillInSentence",
           prompt: `Completa la frase:\n"${hiddenSentence}"`,
           answer: this.getBareNoun({0:key}),
           options: this.randomSlice([...new Set(valid.map(w=>this.getBareNoun(w)))], 3, this.getBareNoun({0:key}))
@@ -217,7 +219,8 @@ const PhraseGenerator = {
         const cleanWords = this.splitCleanSentence(phrase.de);
         const shuffled = [...cleanWords].sort(() => Math.random() - 0.5);
         exercises.push({
-          type: "order",
+          speakText: phrase.de,
+type: "order",
           prompt: `Ordena estas palabras:\n${shuffled.join(" ")}`,
           answer: phrase.de,
           hint: "Forma una frase correcta.",
@@ -236,7 +239,8 @@ const PhraseGenerator = {
     const shuffledDe = [...dePairs].sort(() => Math.random() - 0.5);
     const shuffledEs = [...esPairs].sort(() => Math.random() - 0.5);
     exercises.push({
-      type: "matchPairs",
+      speakText: dePairs[0],
+type: "matchPairs",
       prompt: "Empareja cada palabra en alemán con su traducción en español",
       pairs: dePairs.map((de, i) => ({ de, es: esPairs[i] })),
       leftColumn: shuffledDe,
