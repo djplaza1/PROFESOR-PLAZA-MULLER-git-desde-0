@@ -1,41 +1,42 @@
 const PhraseGenerator = {
-  // Banco de frases fijas por nivel (expandiremos progresivamente)
-  sentenceBank: {
-    'A1.1': [
-      { de: "Das ist [ein/kein] [Objekt].", es: "Esto es [un/ningún] [Objekt].", slots: {Objekt:"n"}, tags:["nominativ","artikel"] },
-      { de: "Ich habe [ein/kein] [Objekt].", es: "Tengo [un/ningún] [Objekt].", slots: {Objekt:"n"}, tags:["akkusativ","artikel"] },
-      { de: "[Subjekt] ist [Adjektiv].", es: "[Subjekt] es [Adjektiv].", slots: {Subjekt:"n", Adjektiv:"adj"}, tags:["sein","prädikativ"] },
-      { de: "[Subjekt] [Verb] [Objekt].", es: "[Subjekt] [Verb] [Objekt].", slots: {Subjekt:"n", Verb:"v", Objekt:"n"}, tags:["svo"] },
-      { de: "Ich mag [Objekt].", es: "Me gusta [Objekt].", slots: {Objekt:"n"}, tags:["mögen"] },
-      { de: "Er sieht [Objekt].", es: "Él ve [Objekt].", slots: {Objekt:"n"}, tags:["sehen"] },
-      { de: "Wir spielen [Objekt].", es: "Jugamos a [Objekt].", slots: {Objekt:"n"}, tags:["spielen"] },
-      { de: "[Subjekt] und [Subjekt2] sind [Adjektiv].", es: "[Subjekt] y [Subjekt2] son [Adjektiv].", slots: {Subjekt:"n", Subjekt2:"n", Adjektiv:"adj"}, tags:["plural","sein"] },
-      { de: "Wo ist [Subjekt]?", es: "¿Dónde está [Subjekt]?", slots: {Subjekt:"n"}, tags:["frage","wo"] },
-      { de: "Wie ist [Subjekt]?", es: "¿Cómo es [Subjekt]?", slots: {Subjekt:"n"}, tags:["frage","wie"] },
-      { de: "Ich gehe in [Ort].", es: "Voy a [Ort].", slots: {Ort:"n"}, tags:["gehen","akkusativ"] },
-      { de: "[Subjekt] kommt aus [Ort].", es: "[Subjekt] viene de [Ort].", slots: {Subjekt:"n", Ort:"n"}, tags:["kommen","dativ"] },
-      { de: "[Subjekt] wohnt in [Ort].", es: "[Subjekt] vive en [Ort].", slots: {Subjekt:"n", Ort:"n"}, tags:["wohnen","dativ"] },
-      { de: "Ich habe [Zahl] [Objekt].", es: "Tengo [Zahl] [Objekt].", slots: {Zahl:"num", Objekt:"n"}, tags:["zahlen","akkusativ"] },
-      { de: "[Subjekt] kann [Verb].", es: "[Subjekt] puede [Verb].", slots: {Subjekt:"n", Verb:"v"}, tags:["modal","können"] },
-      { de: "Möchtest du [Objekt]?", es: "¿Quieres [Objekt]?", slots: {Objekt:"n"}, tags:["modal","möchten"] },
-      { de: "[Subjekt] ist nicht [Adjektiv].", es: "[Subjekt] no es [Adjektiv].", slots: {Subjekt:"n", Adjektiv:"adj"}, tags:["negation"] },
-      { de: "Wir haben [Objekt] und [Objekt2].", es: "Tenemos [Objekt] y [Objekt2].", slots: {Objekt:"n", Objekt2:"n"}, tags:["plural","akkusativ"] },
-      { de: "Das ist [Subjekt] von [Person].", es: "Esto es [Subjekt] de [Person].", slots: {Subjekt:"n", Person:"n"}, tags:["genitiv"] },
-      { de: "Ich fahre mit [Transport].", es: "Voy en [Transport].", slots: {Transport:"n"}, tags:["dativ","mit"] }
-    ]
+  // Tabla de declinación de artículos
+  articles: {
+    def: {
+      nom: { m:'der', f:'die', n:'das', p:'die' },
+      acc: { m:'den', f:'die', n:'das', p:'die' },
+      dat: { m:'dem', f:'der', n:'dem', p:'den' }
+    },
+    indef: {
+      nom: { m:'ein', f:'eine', n:'ein', p:'- keine' },
+      acc: { m:'einen', f:'eine', n:'ein', p:'- keine' },
+      dat: { m:'einem', f:'einer', n:'einem', p:'- keinen' }
+    }
   },
 
-  synonyms: {
-    "die Oma": ["die Großmutter", "die Oma"],
-    "die Großmutter": ["die Oma", "die Großmutter"],
-    "das Mädchen": ["das Mädel"],
-    "der Junge": ["der Bub"],
-    "das Auto": ["der Wagen"],
-    "die Wohnung": ["das Apartment"],
-    "das Handy": ["das Mobiltelefon"],
-    "das Foto": ["das Bild"],
-    "der Laptop": ["der Computer"],
-    "das Fahrrad": ["das Rad"]
+  // Banco de frases con restricciones de género y caso
+  sentenceBank: {
+    'A1.1': [
+      { de: "{Subjekt:nom} ist {Adjektiv}.", es: "{Subjekt:nom} es {Adjektiv}.",
+        slots: { Subjekt:{type:'n', case:'nom', gen:['m','f','n']}, Adjektiv:{type:'adj'} } },
+      { de: "Ich habe {Objekt:acc}.", es: "Tengo {Objekt:acc}.",
+        slots: { Objekt:{type:'n', case:'acc', gen:['m','f','n'], det:'indef'} } },
+      { de: "Er sieht {Objekt:acc}.", es: "Él ve {Objekt:acc}.",
+        slots: { Objekt:{type:'n', case:'acc', gen:['m','f','n'], det:'def'} } },
+      { de: "Wir spielen mit {Objekt:dat}.", es: "Jugamos con {Objekt:dat}.",
+        slots: { Objekt:{type:'n', case:'dat', gen:['m','f','n'], det:'def'} } },
+      { de: "Das ist {Subjekt:nom}.", es: "Esto es {Subjekt:nom}.",
+        slots: { Subjekt:{type:'n', case:'nom', gen:['m','f','n'], det:'def'} } },
+      { de: "Ich mag {Objekt:acc}.", es: "Me gusta {Objekt:acc}.",
+        slots: { Objekt:{type:'n', case:'acc', gen:['m','f','n'], det:'def'} } },
+      { de: "Wo ist {Subjekt:nom}?", es: "¿Dónde está {Subjekt:nom}?",
+        slots: { Subjekt:{type:'n', case:'nom', gen:['m','f','n'], det:'def'} } },
+      { de: "Ich gehe in {Ort:acc}.", es: "Voy a {Ort:acc}.",
+        slots: { Ort:{type:'n', case:'acc', gen:['m','f','n'], det:'def'} } },
+      { de: "{Subjekt:nom} wohnt in {Ort:dat}.", es: "{Subjekt:nom} vive en {Ort:dat}.",
+        slots: { Subjekt:{type:'n', case:'nom', gen:['m','f','n'], det:'def'}, Ort:{type:'n', case:'dat', gen:['m','f','n'], det:'def'} } },
+      { de: "Ich habe {Zahl} {Objekt:acc}.", es: "Tengo {Zahl} {Objekt:acc}.",
+        slots: { Zahl:{type:'num'}, Objekt:{type:'n', case:'acc', gen:['m','f','n'], det:'def', plural:true} } }
+    ]
   },
 
   conjugations: {
@@ -70,41 +71,26 @@ const PhraseGenerator = {
     kennen: {ich:"kenne",du:"kennst","er/sie/es":"kennt",wir:"kennen",ihr:"kennt","sie/Sie":"kennen"}
   },
 
-  // Separar artículo si está pegado al sustantivo (ej. "derHund" -> ["der","Hund"])
-  splitArticle(de) {
-    const m = de.match(/^(der|die|das)([A-ZÄÖÜ].*)$/);
-    if (m) return { article: m[1], noun: m[2] };
-    return null;
-  },
-
-  // Devuelve forma canónica con artículo separado y capitalizado
-  canonizeNoun(w) {
-    let de = w[0].trim();
-    if (/^(der|die|das) /i.test(de)) return de.charAt(0).toUpperCase() + de.slice(1);
-    const parts = this.splitArticle(de);
-    if (parts) return parts.article + ' ' + parts.noun;
-    const art = w[2] ? w[2] : 'der';
-    let bare = de.replace(/^(der|die|das) /i, '');
-    return art + ' ' + bare.charAt(0).toUpperCase() + bare.slice(1);
-  },
-
-  // Devuelve solo el sustantivo sin artículo
-  getBareNoun(w) {
-    const de = w[0].trim();
-    const parts = this.splitArticle(de);
-    if (parts) return parts.noun;
-    return de.replace(/^(der|die|das) /i, '');
-  },
-
-  // Obtiene el artículo (der/die/das) de la palabra
-  getArticle(w) {
-    if (w[2] && ['der','die','das'].includes(w[2])) return w[2];
+  // Devuelve género de una palabra según su artículo ('der','die','das') o null
+  getGender(w) {
     const de = w[0].trim();
     const m = de.match(/^(der|die|das)\s/i);
-    if (m) return m[1];
-    const parts = this.splitArticle(de);
-    if (parts) return parts.article;
+    if (m) return m[1]==='der'?'m':m[1]==='die'?'f':'n';
+    if (w[2] && ['der','die','das'].includes(w[2])) return w[2]==='der'?'m':w[2]==='die'?'f':'n';
+    const split = de.match(/^(der|die|das)([A-ZÄÖÜ])/);
+    if (split) return split[1]==='der'?'m':split[1]==='die'?'f':'n';
     return null;
+  },
+
+  // Devuelve la forma correcta del sustantivo con artículo para el caso y determinación
+  getNounForm(w, kasus, det) {
+    const gen = this.getGender(w);
+    if (!gen) return w[0]; // si no tiene género, devolver tal cual
+    const bare = w[0].replace(/^(der|die|das)\s?/i, '');
+    const art = this.articles[det][kasus][gen];
+    if (!art) return bare;
+    if (art.startsWith('- ')) return art.substring(2) + ' ' + bare;
+    return art + ' ' + bare;
   },
 
   isValidWord(w) {
@@ -124,25 +110,20 @@ const PhraseGenerator = {
     return this.getVocabForLevel(levelId).filter(w => this.isValidWord(w));
   },
 
-  fillTemplate(tpl, wordMap) {
+  // Rellena una plantilla con las palabras ya formateadas
+  fillTemplate(tpl, values) {
     let de = tpl.de, es = tpl.es;
-    for (let slot in tpl.slots) {
-      const w = wordMap[slot] || { de: "___", es: "___" };
-      de = de.replace(`[${slot}]`, w.de);
-      es = es.replace(`[${slot}]`, w.es);
+    for (let key in values) {
+      const v = values[key];
+      de = de.replace(new RegExp(`\\{${key}:[^}]+\\}`, 'g'), v.de);
+      es = es.replace(new RegExp(`\\{${key}:[^}]+\\}`, 'g'), v.es);
     }
-    // Limpiar artículos opcionales [ein/kein] ...
-    de = de.replace(/\[ein\/kein\]\s?/g, '');
-    es = es.replace(/\[un\/ningún\]\s?/g, '');
     return { de: de.charAt(0).toUpperCase() + de.slice(1).replace(/\s+/g,' ').trim(), es };
   },
 
-  hideWordInSentence(sentenceDe, targetDe) {
-    const escaped = targetDe.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp('\\b' + escaped + '\\b', 'i');
-    if (re.test(sentenceDe)) return sentenceDe.replace(re, '___');
-    // intentar ocultar solo el sustantivo si tiene artículo
-    return sentenceDe.replace(new RegExp(targetDe, 'i'), '___');
+  hideWordInSentence(sentence, word) {
+    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return sentence.replace(new RegExp(escaped, 'i'), '___');
   },
 
   randomSlice(arr, count, exclude) {
@@ -152,34 +133,33 @@ const PhraseGenerator = {
   generateExercises(levelId, lessonIdx, wordsPerLesson) {
     const valid = this.getValidWords(levelId);
     if (valid.length === 0) return [];
-    // Mezclar banco de frases para el nivel
-    const bank = this.sentenceBank[levelId] || this.sentenceBank['A1.1'];
-    const usedWords = new Set();
     const exercises = [];
-    const deAllNouns = valid.filter(w => w[4]==='n').map(w => this.canonizeNoun(w));
+    const usedWords = new Set();
+    const deAllNouns = valid.filter(w => w[4]==='n').map(w => w[0]); // lista para opciones
     const esAll = [...new Set(valid.map(w => w[1]))];
 
-    // Determinar tipos seguros disponibles
-    const types = ['fill','translateDE','translateES','choose','fillInSentence','order'];
-    if (valid.some(w => w[4]==='n' && this.getArticle(w))) types.push('declension');
+    // Tipos de ejercicios de palabra aislada
+    const types = ['fill','translateDE','translateES','choose'];
+    if (valid.some(w => w[4]==='n' && this.getGender(w))) types.push('declension');
     if (valid.some(w => w[4]==='n' && w[3] && w[3]!=='-' && !w[3].startsWith('['))) types.push('plural');
     if (valid.some(w => w[4]==='v' && this.conjugations[w[0]])) types.push('conjugate');
 
-    // Generar ejercicios de palabra aislada mezclando tipos
-    for (let i = 0; i < wordsPerLesson; i++) {
-      const type = types[i % types.length];
+    // Generar ejercicios de palabra aislada
+    const wordExercises = Math.min(wordsPerLesson, valid.length);
+    for (let i = 0; i < wordExercises; i++) {
       let candidates = valid.filter(w => !usedWords.has(w[0]));
-      if (candidates.length === 0) candidates = [...valid];
+      if (candidates.length === 0) break;
       const w = candidates[Math.floor(Math.random() * candidates.length)];
       usedWords.add(w[0]);
-      const deMain = this.canonizeNoun(w);
-      const bareDe = this.getBareNoun(w);
+      const deMain = this.getNounForm(w, 'nom', 'def'); // forma nominativa para mostrar
+      const bare = w[0].replace(/^(der|die|das)\s?/i, '');
       const esMain = w[1];
       let ex = null;
-
+      const type = types[i % types.length];
       switch(type) {
         case 'fill':
-          ex = { type:'fill', prompt:`Completa: "___" significa "${esMain}".`, answer:deMain, options:this.randomSlice(deAllNouns,3,deMain).concat(deMain).sort(()=>Math.random()-0.5), hint:'' };
+          ex = { type:'fill', prompt:`Completa: "___" significa "${esMain}".`, answer:deMain,
+                 options: this.randomSlice(deAllNouns,3,deMain).concat(deMain).sort(()=>Math.random()-0.5), hint:'' };
           break;
         case 'translateDE':
           ex = { type:'translateDE', prompt:`Traduce al alemán: "${esMain}"`, answer:deMain, hint:'' };
@@ -188,63 +168,82 @@ const PhraseGenerator = {
           ex = { type:'translateES', prompt:`Traduce al español: "${deMain}"`, answer:esMain, hint:'' };
           break;
         case 'choose':
-          ex = { type:'choose', prompt:`¿Cuál es la traducción de "${deMain}"?`, answer:esMain, options:this.randomSlice(esAll,3,esMain).concat(esMain).sort(()=>Math.random()-0.5), hint:'' };
+          ex = { type:'choose', prompt:`¿Cuál es la traducción de "${deMain}"?`, answer:esMain,
+                 options: this.randomSlice(esAll,3,esMain).concat(esMain).sort(()=>Math.random()-0.5), hint:'' };
           break;
-        case 'declension':
-          { const art = this.getArticle(w);
-            if (art) {
-              const dist = ["der","die","das"].filter(a=>a!==art);
-              ex = { type:'declension', prompt:`¿Cuál es el artículo correcto para "${bareDe}"?`, answer:art, options:[art, ...dist].sort(()=>Math.random()-0.5), hint:'' };
-            }
+        case 'declension': {
+          const art = this.getGender(w);
+          if (art) {
+            const artMap = { m:'der', f:'die', n:'das' };
+            const correct = artMap[art];
+            const dist = ["der","die","das"].filter(a=>a!==correct);
+            ex = { type:'declension', prompt:`¿Cuál es el artículo correcto para "${bare}"?`, answer:correct,
+                   options: [correct, ...dist].sort(()=>Math.random()-0.5), hint:'' };
           }
           break;
+        }
         case 'plural':
           if (w[4]==='n' && w[3] && w[3]!=='-' && !w[3].startsWith('[')) {
-            const pl = w[3];
-            ex = { type:'plural', prompt:`¿Cuál es el plural de "${bareDe}"?`, answer:pl, options:this.randomSlice(deAllNouns,3,pl).concat(pl).sort(()=>Math.random()-0.5), hint:'' };
+            ex = { type:'plural', prompt:`¿Cuál es el plural de "${bare}"?`, answer:w[3],
+                   options: this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5), hint:'' };
           }
           break;
         case 'conjugate':
           if (w[4]==='v' && this.conjugations[w[0]]) {
             const persons = ["ich","du","er/sie/es","wir","ihr","sie/Sie"];
             const person = persons[Math.floor(Math.random()*persons.length)];
-            const answer = this.conjugations[w[0]][person];
-            ex = { type:'conjugate', prompt:`Conjuga "${w[0]}" para "${person}":`, answer:answer, hint:'' };
+            ex = { type:'conjugate', prompt:`Conjuga "${w[0]}" para "${person}":`, answer:this.conjugations[w[0]][person], hint:'' };
           }
           break;
       }
-      if (ex) {
-        ex.word = w;
-        exercises.push(ex);
-      }
+      if (ex) { ex.word = w; exercises.push(ex); }
     }
 
-    // Añadir ejercicios contextuales usando banco de frases
-    for (let i = 0; i < Math.min(3, bank.length); i++) {
+    // Ejercicios contextuales con frases del banco
+    const bank = this.sentenceBank[levelId] || this.sentenceBank['A1.1'];
+    const contextExercises = Math.min(6, bank.length);
+    for (let i = 0; i < contextExercises; i++) {
       const tpl = bank[Math.floor(Math.random() * bank.length)];
-      const wordMap = {};
-      for (let slot in tpl.slots) {
-        const neededType = tpl.slots[slot];
-        const candidates = valid.filter(w => !usedWords.has(w[0]) && w[4] === neededType);
-        if (candidates.length) {
-          const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-          wordMap[slot] = { de: neededType==='n' ? this.getBareNoun(chosen) : chosen[0], es: chosen[1] };
-          usedWords.add(chosen[0]);
+      const values = {};
+      let validFrame = true;
+      for (let slotKey in tpl.slots) {
+        const spec = tpl.slots[slotKey];
+        let candidates = valid.filter(w => {
+          if (usedWords.has(w[0])) return false;
+          if (spec.type === 'n') {
+            const g = this.getGender(w);
+            if (!g || !spec.gen.includes(g)) return false;
+            // Si es plural requerido, descartar (por ahora no manejamos plural en frases)
+            return true;
+          }
+          if (spec.type === 'adj') return w[4] === 'adj';
+          if (spec.type === 'v') return w[4] === 'v';
+          if (spec.type === 'num') return w[4] === 'num';
+          return false;
+        });
+        if (candidates.length === 0) { validFrame = false; break; }
+        const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+        usedWords.add(chosen[0]);
+        if (spec.type === 'n') {
+          const det = spec.det || 'def';
+          const kasus = spec.case || 'nom';
+          const formDe = this.getNounForm(chosen, kasus, det);
+          values[slotKey] = { de: formDe, es: chosen[1] };
         } else {
-          wordMap[slot] = { de: '___', es: '___' };
+          values[slotKey] = { de: chosen[0], es: chosen[1] };
         }
       }
-      const sentence = this.fillTemplate(tpl, wordMap);
-      const mainWordObj = valid.find(w => wordMap.Objekt && (this.getBareNoun(w)===wordMap.Objekt.de || w[0]===wordMap.Objekt.de)) ||
-                          valid.find(w => wordMap.Subjekt && wordMap.Subjekt.de===w[0]) || valid[0];
-      if (!mainWordObj) continue;
-      const bareMain = this.getBareNoun(mainWordObj);
-      const hiddenSentence = this.hideWordInSentence(sentence.de, bareMain);
+      if (!validFrame) continue;
+      const sentence = this.fillTemplate(tpl, values);
+      // Elegir una palabra clave (el primer sustantivo) para ocultar en fillInSentence
+      const mainWordObj = valid.find(w => w[0] === Object.values(values).find(v => v.de.includes(w[0].replace(/^(der|die|das)\s?/i,'')))?.[0]) || valid[0];
+      const bareKey = mainWordObj[0].replace(/^(der|die|das)\s?/i, '');
+      const hidden = this.hideWordInSentence(sentence.de, bareKey);
       exercises.push({
         type:'fillInSentence',
-        prompt:`Completa la frase:\n"${hiddenSentence}"`,
-        answer: bareMain,
-        options: this.randomSlice(deAllNouns,3,bareMain).concat(bareMain).sort(()=>Math.random()-0.5),
+        prompt:`Completa la frase:\n"${hidden}"`,
+        answer: bareKey,
+        options: this.randomSlice(deAllNouns,3,bareKey).concat(bareKey).sort(()=>Math.random()-0.5),
         hint:'',
         word: mainWordObj,
         sentence: sentence,
