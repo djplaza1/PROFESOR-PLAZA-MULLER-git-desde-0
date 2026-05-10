@@ -1,0 +1,144 @@
+{
+    "A1.1":  {
+                 "Anzeige":  [
+                                 {
+                                     "de":  "Die Anzeige ist interessant.",
+                                     "es":  "El anuncio es interesante."
+                                 },
+                                 {
+                                     "de":  "Ich lese die Anzeige.",
+                                     "es":  "Yo leo el anuncio."
+                                 },
+                                 {
+                                     "de":  "Hast du die Anzeige gesehen?",
+                                     "es":  "¿Has visto el anuncio?"
+                                 }
+                             ],
+                 "die Federtasche":  [
+                                         {
+                                             "de":  "Die Federtasche ist neu.",
+                                             "es":  "El estuche es nuevo."
+                                         },
+                                         {
+                                             "de":  "Ich brauche die Federtasche.",
+                                             "es":  "Necesito el estuche."
+                                         },
+                                         {
+                                             "de":  "Wo ist deine Federtasche?",
+                                             "es":  "¿Dónde está tu estuche?"
+                                         }
+                                     ],
+                 "Mädchen":  [
+                                 {
+                                     "de":  "Das Mädchen lächelt.",
+                                     "es":  "La chica sonríe."
+                                 },
+                                 {
+                                     "de":  "Kennst du das Mädchen?",
+                                     "es":  "¿Conoces a la chica?"
+                                 },
+                                 {
+                                     "de":  "Das Mädchen hat einen Hund.",
+                                     "es":  "La chica tiene un perro."
+                                 }
+                             ],
+                 "Regal":  [
+                               {
+                                   "de":  "Das Regal ist voll.",
+                                   "es":  "La estantería está llena."
+                               },
+                               {
+                                   "de":  "Ich stelle das Buch ins Regal.",
+                                   "es":  "Pongo el libro en la estantería."
+                               },
+                               {
+                                   "de":  "Kannst du das Regal aufbauen?",
+                                   "es":  "¿Puedes montar la estantería?"
+                               }
+                           ],
+                 "fleißig":  [
+                                 {
+                                     "de":  "Der Schüler ist fleißig.",
+                                     "es":  "El alumno es trabajador."
+                                 },
+                                 {
+                                     "de":  "Sie lernt fleißig Deutsch.",
+                                     "es":  "Ella aprende alemán diligentemente."
+                                 },
+                                 {
+                                     "de":  "Arbeite fleißig und du wirst Erfolg haben.",
+                                     "es":  "Trabaja duro y tendrás éxito."
+                                 }
+                             ],
+                 "Lohn":  [
+                              {
+                                  "de":  "Der Lohn ist fair.",
+                                  "es":  "El salario es justo."
+                              },
+                              {
+                                  "de":  "Ich bekomme meinen Lohn.",
+                                  "es":  "Recibo mi salario."
+                              },
+                              {
+                                  "de":  "Wann zahlt man den Lohn?",
+                                  "es":  "¿Cuándo se paga el salario?"
+                              }
+                          ],
+                 "Bruder":  [
+                                {
+                                    "de":  "Mein Bruder ist groß.",
+                                    "es":  "Mi hermano es grande."
+                                },
+                                {
+                                    "de":  "Ich spiele mit meinem Bruder.",
+                                    "es":  "Juego con mi hermano."
+                                },
+                                {
+                                    "de":  "Dein Bruder hat ein neues Auto.",
+                                    "es":  "Tu hermano tiene un coche nuevo."
+                                }
+                            ],
+                 "heute":  [
+                               {
+                                   "de":  "Heute ist schönes Wetter.",
+                                   "es":  "Hoy hace buen tiempo."
+                               },
+                               {
+                                   "de":  "Ich arbeite heute nicht.",
+                                   "es":  "Hoy no trabajo."
+                               },
+                               {
+                                   "de":  "Was machst du heute Abend?",
+                                   "es":  "¿Qué haces esta noche?"
+                               }
+                           ],
+                 "später":  [
+                                {
+                                    "de":  "Ich komme später.",
+                                    "es":  "Vengo más tarde."
+                                },
+                                {
+                                    "de":  "Später gehen wir essen.",
+                                    "es":  "Más tarde vamos a comer."
+                                },
+                                {
+                                    "de":  "Kannst du später anrufen?",
+                                    "es":  "¿Puedes llamar más tarde?"
+                                }
+                            ],
+                 "lebhaft":  [
+                                 {
+                                     "de":  "Das Kind ist lebhaft.",
+                                     "es":  "El niño es vivaz."
+                                 },
+                                 {
+                                     "de":  "Sie tanzt lebhaft.",
+                                     "es":  "Ella baila vivazmente."
+                                 },
+                                 {
+                                     "de":  "Die Musik ist sehr lebhaft.",
+                                     "es":  "La música es muy vivaz."
+                                 }
+                             ]
+             }
+}
