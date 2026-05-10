@@ -1,38 +1,5 @@
 const { useState, useEffect } = React;
 
-// ─── Normalizador flexible para alemán y español ───
-function normalize(str) {
-  return (str || "").trim().toLowerCase()
-    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
-    .replace(/[áàâ]/g, 'a').replace(/[éèê]/g, 'e').replace(/[íìî]/g, 'i')
-    .replace(/[óòô]/g, 'o').replace(/[úùû]/g, 'u').replace(/ñ/g, 'n');
-}
-
-function checkFlexible(user, correct, lang) {
-  const userNorm = normalize(user);
-  const correctNorm = normalize(correct);
-  const isExact = userNorm === correctNorm;
-  if (isExact) return { correct: true, exact: true, message: "" };
-
-  // Quitar artículos para comparar sin ellos (alemán: der/die/das, español: el/la/los/las/un/una)
-  const stripArticles = (s) => s.replace(/^(der|die|das|el|la|los|las|un|una)\s+/i, '');
-  const userNoArt = normalize(stripArticles(user));
-  const correctNoArt = normalize(stripArticles(correct));
-  if (userNoArt === correctNoArt) {
-    return { correct: true, exact: false, message: "Correcto, pero no olvides el artículo." };
-  }
-
-  // Si la palabra alemana es un sustantivo (lang==='de') y el usuario olvidó mayúscula
-  if (lang === 'de' && user.trim().charAt(0) === user.trim().charAt(0).toLowerCase()) {
-    const capitalized = user.trim().charAt(0).toUpperCase() + user.trim().slice(1);
-    if (normalize(capitalized) === correctNorm) {
-      return { correct: true, exact: false, message: "Bien, pero los sustantivos en alemán llevan mayúscula: " + capitalized + "." };
-    }
-  }
-
-  return { correct: false, exact: false, message: "" };
-}
-
 const RutaPanel = () => {
   const levels = window.LevelConfig?.LEVEL_CONFIG || [];
   const [activeLevel, setActiveLevel] = useState(null);
@@ -153,10 +120,12 @@ const RutaPanel = () => {
                 <div>
                   <span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>
                   {feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>}
+                  {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
                 </div>
               ) : (
                 <div>
                   <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
+                  {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
                 </div>
               )}
             </div>
