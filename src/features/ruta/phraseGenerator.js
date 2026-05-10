@@ -1,4 +1,56 @@
 const PhraseGenerator = {
+window.PhraseGenerator=PhraseGenerator;
+};
+    // Ejercicios de declinación de adjetivos (hasta 4, con casos variados)
+    const adjectives = allValid.filter(w => w[4] === "adj");
+    const nouns = allValid.filter(w => w[4] === "n" && this.getArticle(w));
+    if (adjectives.length > 0 && nouns.length > 0) {
+      const adjDeclCount = Math.min(4, adjectives.length);
+      const shuffledAdjectives = [...adjectives].sort(() => Math.random() - 0.5).slice(0, adjDeclCount);
+      const cases = ["nom", "acc", "dat"];
+      const detTable = {
+        nom: { m: "der", f: "die", n: "das", pl: "die" },
+        acc: { m: "den", f: "die", n: "das", pl: "die" },
+        dat: { m: "dem", f: "der", n: "dem", pl: "den" }
+      };
+      const endingTable = {
+        nom: { m: "-e", f: "-e", n: "-e", pl: "-en" },
+        acc: { m: "-en", f: "-e", n: "-e", pl: "-en" },
+        dat: { m: "-en", f: "-en", n: "-en", pl: "-en" }
+      };
+      for (let adj of shuffledAdjectives) {
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        const gender = this.getGender(noun);
+        const art = this.getArticle(noun);
+        const bareNoun = this.getBareNoun(noun);
+        const adjBase = adj[0];
+        const selectedCase = cases[Math.floor(Math.random() * cases.length)];
+        const det = detTable[selectedCase][gender];
+        const ending = endingTable[selectedCase][gender];
+        const correctEnding = ending.replace("-", "");
+        const fullAdj = adjBase + correctEnding;
+        let sentence = "";
+        if (selectedCase === "nom") {
+          sentence = `${det} ${adjBase}___ ${bareNoun} ist neu.`;
+        } else if (selectedCase === "acc") {
+          sentence = `Ich sehe ${det} ${adjBase}___ ${bareNoun}.`;
+        } else {
+          sentence = `Ich spreche mit ${det} ${adjBase}___ ${bareNoun}.`;
+        }
+        exercises.push({
+          type: "adjectiveDeclension",
+          prompt: `Completa con la terminación correcta:\n"${sentence}"`,
+          answer: ending,
+          options: ["-e", "-er", "-es", "-en"].sort(() => Math.random() - 0.5),
+          hint: `${selectedCase === "nom" ? "Nominativo" : selectedCase === "acc" ? "Acusativo" : "Dativo"} definido (${det}).`,
+          speakText: `${det} ${fullAdj} ${bareNoun}`,
+          word: adj,
+          translation: adj[1]
+        });
+      }
+    }
+window.PhraseGenerator=PhraseGenerator;
+const PhraseGenerator = {
   synonyms: {"coche":["auto","carro","vehículo"],"auto":["coche","carro","vehículo"],"carro":["coche","auto","vehículo"],"perro":["can","chucho"],"casa":["hogar","vivienda"],"bonito":["hermoso","lindo","bello"],"grande":["enorme","vasto"],"pequeño":["chico","reducido"],"chico":["muchacho","niño","joven"],"chica":["muchacha","niña","joven"]},
   conjugations: {"sein":{"ich":"bin","du":"bist","er/sie/es":"ist","wir":"sind","ihr":"seid","sie/Sie":"sind"},"haben":{"ich":"habe","du":"hast","er/sie/es":"hat","wir":"haben","ihr":"habt","sie/Sie":"haben"},"werden":{"ich":"werde","du":"wirst","er/sie/es":"wird","wir":"werden","ihr":"werdet","sie/Sie":"werden"},"essen":{"ich":"esse","du":"isst","er/sie/es":"isst","wir":"essen","ihr":"esst","sie/Sie":"essen"},"trinken":{"ich":"trinke","du":"trinkst","er/sie/es":"trinkt","wir":"trinken","ihr":"trinkt","sie/Sie":"trinken"},"nehmen":{"ich":"nehme","du":"nimmst","er/sie/es":"nimmt","wir":"nehmen","ihr":"nehmt","sie/Sie":"nehmen"},"sehen":{"ich":"sehe","du":"siehst","er/sie/es":"sieht","wir":"sehen","ihr":"seht","sie/Sie":"sehen"},"lesen":{"ich":"lese","du":"liest","er/sie/es":"liest","wir":"lesen","ihr":"lest","sie/Sie":"lesen"},"fahren":{"ich":"fahre","du":"fährst","er/sie/es":"fährt","wir":"fahren","ihr":"fahrt","sie/Sie":"fahren"},"kommen":{"ich":"komme","du":"kommst","er/sie/es":"kommt","wir":"kommen","ihr":"kommt","sie/Sie":"kommen"},"gehen":{"ich":"gehe","du":"gehst","er/sie/es":"geht","wir":"gehen","ihr":"geht","sie/Sie":"gehen"},"sprechen":{"ich":"spreche","du":"sprichst","er/sie/es":"spricht","wir":"sprechen","ihr":"sprecht","sie/Sie":"sprechen"},"arbeiten":{"ich":"arbeite","du":"arbeitest","er/sie/es":"arbeitet","wir":"arbeiten","ihr":"arbeitet","sie/Sie":"arbeiten"},"finden":{"ich":"finde","du":"findest","er/sie/es":"findet","wir":"finden","ihr":"findet","sie/Sie":"finden"},"wohnen":{"ich":"wohne","du":"wohnst","er/sie/es":"wohnt","wir":"wohnen","ihr":"wohnt","sie/Sie":"wohnen"},"spielen":{"ich":"spiele","du":"spielst","er/sie/es":"spielt","wir":"spielen","ihr":"spielt","sie/Sie":"spielen"},"machen":{"ich":"mache","du":"machst","er/sie/es":"macht","wir":"machen","ihr":"macht","sie/Sie":"machen"},"kaufen":{"ich":"kaufe","du":"kaufst","er/sie/es":"kauft","wir":"kaufen","ihr":"kauft","sie/Sie":"kaufen"},"kennen":{"ich":"kenne","du":"kennst","er/sie/es":"kennt","wir":"kennen","ihr":"kennt","sie/Sie":"kennen"}},
   getArticle(w){const de=w[0].trim();const m=de.match(/^(der|die|das)\s/i);if(m)return m[1];if(w[2]&&["der","die","das"].includes(w[2]))return w[2];return null;},
