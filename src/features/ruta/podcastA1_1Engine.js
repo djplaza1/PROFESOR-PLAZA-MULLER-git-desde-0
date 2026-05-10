@@ -14,7 +14,7 @@ const PodcastA1_1 = {
       translation: "Vivimos en Berlín. Berlín es una ciudad grande. Trabajo en una escuela.",
       exercises: [
         { type: "order", prompt: "Ordena: 'Berlin / eine / große / Stadt / ist'", answer: "Berlin ist eine große Stadt", hint: "Empieza con Berlin" },
-        { type: "translateDE", prompt: "Traduce: 'Trabajo en una escuela.'", answer: "Ich arbeite in einer Schule", hint: "Ich arbeite..." }
+        { type: "translateDE", prompt: "Traduce al alemán: 'Trabajo en una escuela.'", answer: "Ich arbeite in einer Schule", hint: "Ich arbeite..." }
       ]
     },
     {
@@ -30,7 +30,7 @@ const PodcastA1_1 = {
       translation: "Me gusta beber café y como un panecillo. Mi madre hace un pastel.",
       exercises: [
         { type: "fillInSentence", prompt: "Completa: 'Ich trinke gern ___.'", answer: "Kaffee", options: ["Kaffee","Tee","Milch","Wasser"] },
-        { type: "translateES", prompt: "Traduce: 'Meine Mutter macht einen Kuchen.'", answer: "Meine Mutter macht einen Kuchen", hint: "Repite la frase exacta." }
+        { type: "translateES", prompt: "Traduce al español: 'Meine Mutter macht einen Kuchen.'", answer: "Mi madre hace un pastel", hint: "Pista: mamá cocina." }
       ]
     },
     {
@@ -46,7 +46,7 @@ const PodcastA1_1 = {
       translation: "El domingo duermo hasta tarde. Luego leo un libro o toco el piano.",
       exercises: [
         { type: "conjugate", prompt: "Conjuga 'schlafen' para 'ich':", answer: "schlafe", hint: "ich schlafe" },
-        { type: "translateDE", prompt: "Traduce: 'Leo un libro.'", answer: "Ich lese ein Buch", hint: "Ich lese..." }
+        { type: "translateDE", prompt: "Traduce al alemán: 'Leo un libro.'", answer: "Ich lese ein Buch", hint: "Ich lese..." }
       ]
     }
   ]

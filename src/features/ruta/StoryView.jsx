@@ -1,4 +1,4 @@
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
 const StoryView = ({ onBack }) => {
   const [sceneIdx, setSceneIdx] = useState(0);
   const [exerciseIdx, setExerciseIdx] = useState(0);
@@ -10,11 +10,33 @@ const StoryView = ({ onBack }) => {
   const scene = data.scenes[sceneIdx];
   const ex = scene?.exercises[exerciseIdx];
   const totalScenes = data.scenes.length;
+  const queueRef = useRef([]);
+  const speakingRef = useRef(false);
+
+  const playQueue = () => {
+    if (queueRef.current.length === 0) {
+      speakingRef.current = false;
+      return;
+    }
+    speakingRef.current = true;
+    const text = queueRef.current.shift();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "de-DE";
+    utterance.rate = 0.9;
+    utterance.onend = () => playQueue();
+    window.speechSynthesis.speak(utterance);
+  };
+
   useEffect(() => {
     if (scene?.dialogs?.length) {
-      scene.dialogs.forEach(d => speak(d.text));
+      window.speechSynthesis.cancel();
+      queueRef.current = scene.dialogs.map(d => d.text);
+      speakingRef.current = false;
+      playQueue();
     }
+    return () => { window.speechSynthesis.cancel(); };
   }, [sceneIdx]);
+
   const check = (submitted = null) => {
     if (!ex) return;
     const ans = submitted !== null ? submitted : userAnswer;
@@ -47,10 +69,11 @@ const StoryView = ({ onBack }) => {
       React.createElement("div", { className: "bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border border-slate-700" },
         React.createElement("h3", { className: "text-white font-semibold mb-3" }, scene.title),
         scene.dialogs.map((d, i) =>
-          React.createElement("div", { key: i, className: "mb-2" },
-            React.createElement("p", { className: "text-blue-300 font-medium" }, `${d.speaker}: `,
+          React.createElement("div", { key: i, className: "mb-2 flex items-start" },
+            React.createElement("p", { className: "text-blue-300 font-medium flex-1" }, `${d.speaker}: `,
               React.createElement("span", { className: "text-slate-200 italic" }, `"${d.text}"`)
-            )
+            ),
+            React.createElement("button", { onClick: () => speak(d.text), className: "ml-2 text-slate-400 hover:text-white transition", title: "Volver a escuchar" }, "🔊")
           )
         ),
         React.createElement("hr", { className: "border-slate-600 my-4" }),
