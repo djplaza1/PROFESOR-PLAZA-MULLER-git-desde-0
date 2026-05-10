@@ -1,4 +1,4 @@
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, useRef } = React;
 
 const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [exercises, setExercises] = useState([]);
@@ -11,6 +11,33 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [audioRevealed, setAudioRevealed] = useState([]);
   const [progress, setProgress] = useState(() => (window.SRSHelpers ? window.SRSHelpers.loadProgress() : { completed: {}, xp: 0, streak: 0 }));
   const [showComponent, setShowComponent] = useState(null);
+  const [failedStack, setFailedStack] = useState([]);
+  const [reviewMode, setReviewMode] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const audioCtxRef = useRef(null);
+
+  const playTone = (freq, duration, type = 'sine') => {
+    try {
+      if (!audioCtxRef.current) audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtxRef.current.createOscillator();
+      const gain = audioCtxRef.current.createGain();
+      osc.type = type; osc.frequency.setValueAtTime(freq, audioCtxRef.current.currentTime);
+      gain.gain.setValueAtTime(0.3, audioCtxRef.current.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtxRef.current.currentTime + duration);
+      osc.connect(gain); gain.connect(audioCtxRef.current.destination);
+      osc.start(); osc.stop(audioCtxRef.current.currentTime + duration);
+    } catch(e) {}
+  };
+
+  const playCorrect = () => {
+    const newStreak = streak + 1;
+    setStreak(newStreak);
+    if (newStreak === 3) playTone(660, 0.2, 'triangle');
+    else if (newStreak === 5) { playTone(880, 0.15); setTimeout(()=>playTone(1100,0.15), 200); }
+    else if (newStreak === 10) { playTone(660,0.1); setTimeout(()=>playTone(880,0.1), 150); setTimeout(()=>playTone(1100,0.2), 300); }
+    else playTone(520, 0.1);
+  };
+  const playWrong = () => { setStreak(0); playTone(200, 0.3, 'square'); };
 
   useEffect(() => {
     if (!window.PhraseGenerator) return;
@@ -24,15 +51,16 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setMatchResult([]);
     setAudioSelected(null);
     setAudioRevealed([]);
-  }, [levelId, lessonIdx]);
+    setFailedStack([]);
+    setReviewMode(false);
+    setStreak(0);
+  }, [levelId, lessonIdx, reviewMode]);
 
   useEffect(() => {
     if (window.SRSHelpers) window.SRSHelpers.saveProgress(progress);
   }, [progress]);
 
-  const speak = useCallback((text) => {
-    window.RutaAudio?.speak(text);
-  }, []);
+  const speak = useCallback((text) => { window.RutaAudio?.speak(text); }, []);
 
   const checkAnswer = (submittedAnswer = null) => {
     if (!exercises[currentEx]) return;
@@ -40,16 +68,17 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     const answerToCheck = submittedAnswer !== null ? submittedAnswer : userAnswer;
     const lang = (ex.type === 'translateES' || ex.type === 'choose') ? 'es' : 'de';
     const result = window.Corrector.check(answerToCheck, ex.answer, lang);
-    setFeedback({
-      correct: result.correct,
-      exact: result.exact,
-      answer: ex.answer,
-      hint: result.message
-    });
-    if (ex.word && window.SRSHelpers) {
-      const newProgress = window.SRSHelpers.updateWordSRS(progress, ex.word[0], ex.type, result.correct);
-      newProgress.xp = (newProgress.xp || 0) + (result.correct ? 10 : 0);
-      setProgress(window.SRSHelpers.updateStreak(newProgress));
+    setFeedback({ correct: result.correct, exact: result.exact, answer: ex.answer, hint: result.message });
+    if (result.correct) {
+      playCorrect();
+      if (ex.word && window.SRSHelpers) {
+        const newProgress = window.SRSHelpers.updateWordSRS(progress, ex.word[0], ex.type, true);
+        newProgress.xp = (newProgress.xp || 0) + 10;
+        setProgress(window.SRSHelpers.updateStreak(newProgress));
+      }
+    } else {
+      playWrong();
+      setFailedStack(prev => [...prev, ex]);
     }
   };
 
@@ -63,29 +92,37 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       setAudioSelected(null);
       setAudioRevealed([]);
     } else {
-      const lessonId = levelId + "-l" + (lessonIdx + 1);
-      const newProgress = { ...progress };
-      newProgress.completed[lessonId] = true;
-      setProgress(newProgress);
-      onBack();
+      if (!reviewMode && failedStack.length > 0) {
+        setExercises(failedStack);
+        setFailedStack([]);
+        setCurrentEx(0);
+        setUserAnswer("");
+        setFeedback(null);
+        setReviewMode(true);
+      } else {
+        playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400);
+        const lessonId = levelId + "-l" + (lessonIdx + 1);
+        const newProgress = { ...progress };
+        newProgress.completed[lessonId] = true;
+        setProgress(newProgress);
+        onBack();
+      }
     }
   };
 
   const ex = exercises[currentEx];
   if (!ex) return <div className="text-white p-4">Cargando ejercicios...</div>;
 
-  if (showComponent === 'podcast') {
-    return <PodcastView onBack={() => setShowComponent(null)} />;
-  }
-  if (showComponent === 'story') {
-    return <StoryView onBack={() => setShowComponent(null)} />;
-  }
+  if (showComponent === 'podcast') return <PodcastView onBack={() => setShowComponent(null)} />;
+  if (showComponent === 'story') return <StoryView onBack={() => setShowComponent(null)} />;
+
+  const inputDisabled = feedback && !feedback.correct;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4">
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-white">Lección {lessonIdx+1} – {ex.type}</h2>
+          <h2 className="text-xl font-bold text-white">{reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1}`} – {ex.type}</h2>
           <div className="flex gap-2">
             <button onClick={() => setShowComponent('podcast')} className="px-3 py-1 bg-purple-600 text-white text-xs rounded-full hover:bg-purple-500 transition shadow">🎙️ Podcast</button>
             <button onClick={() => setShowComponent('story')} className="px-3 py-1 bg-pink-600 text-white text-xs rounded-full hover:bg-pink-500 transition shadow">🎬 Historia</button>
@@ -95,171 +132,53 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border border-slate-700">
           <div className="flex items-center mb-6">
             <p className="text-slate-200 font-medium text-lg">{ex.prompt}</p>
-            {ex.speakText && (
-              <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">🔊</button>
-            )}
+            {ex.speakText && <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">🔊</button>}
           </div>
-
           {ex.type === "audioMatch" ? (
             <div className="grid grid-cols-2 gap-8 mt-4">
-              <div>
-                <h3 className="text-white font-bold mb-3 text-center">🔊 Alemán (escucha)</h3>
-                {ex.leftColumn.map((word, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      if (audioRevealed.some(r => r.de === word)) return;
-                      window.RutaAudio?.speak(word);
-                      setAudioSelected(word);
-                    }}
-                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition flex items-center ${
-                      audioRevealed.some(r => r.de === word)
-                        ? "bg-emerald-600 text-white"
-                        : audioSelected === word
-                        ? "bg-blue-600 text-white"
-                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
-                    }`}
-                  >
-                    {audioRevealed.some(r => r.de === word) ? (
-                      <span>{word}</span>
-                    ) : (
-                      <span className="flex items-center">🔊 <span className="ml-2 italic text-sm">Escuchar</span></span>
-                    )}
-                  </button>
-                ))}
+              <div><h3 className="text-white font-bold mb-3 text-center">🔊 Alemán (escucha)</h3>
+                {ex.leftColumn.map((word,idx) => <button key={idx} onClick={()=>{if(audioRevealed.some(r=>r.de===word))return;window.RutaAudio?.speak(word);setAudioSelected(word)}} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition flex items-center ${audioRevealed.some(r=>r.de===word)?"bg-emerald-600 text-white":audioSelected===word?"bg-blue-600 text-white":"bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{audioRevealed.some(r=>r.de===word)?<span>{word}</span>:<span className="flex items-center">🔊 <span className="ml-2 italic text-sm">Escuchar</span></span>}</button>)}
               </div>
-              <div>
-                <h3 className="text-white font-bold mb-3 text-center">🇪🇸 Español</h3>
-                {ex.rightColumn.map((word, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      if (audioSelected && !audioRevealed.some(r => r.es === word)) {
-                        const correctPair = ex.pairs.find(p => p.de === audioSelected && p.es === word);
-                        if (correctPair) {
-                          setAudioRevealed([...audioRevealed, { de: audioSelected, es: word }]);
-                          setAudioSelected(null);
-                          if (audioRevealed.length + 1 === ex.pairs.length) {
-                            checkAnswer(null);
-                          }
-                        } else {
-                          setAudioSelected(null);
-                        }
-                      }
-                    }}
-                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
-                      audioRevealed.some(r => r.es === word)
-                        ? "bg-emerald-600 text-white"
-                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
-                    }`}
-                  >
-                    {word}
-                  </button>
-                ))}
+              <div><h3 className="text-white font-bold mb-3 text-center">🇪🇸 Español</h3>
+                {ex.rightColumn.map((word,idx) => <button key={idx} onClick={()=>{if(audioSelected&&!audioRevealed.some(r=>r.es===word)){const cp=ex.pairs.find(p=>p.de===audioSelected&&p.es===word);if(cp){setAudioRevealed([...audioRevealed,{de:audioSelected,es:word}]);setAudioSelected(null);if(audioRevealed.length+1===ex.pairs.length)checkAnswer(null)}else{setAudioSelected(null)}}}} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${audioRevealed.some(r=>r.es===word)?"bg-emerald-600 text-white":"bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{word}</button>)}
               </div>
             </div>
           ) : ex.type === "matchPairs" ? (
             <div className="grid grid-cols-2 gap-8 mt-4">
-              <div>
-                <h3 className="text-white font-bold mb-3 text-center">Alemán</h3>
-                {ex.leftColumn.map((word, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      if (matchResult.some(r => r.left === word)) return;
-                      window.RutaAudio?.speak(word);
-                      if (!matchSelected) { setMatchSelected({ idx, word }); }
-                      else {
-                        const correctPair = ex.pairs.find(p => p.de === matchSelected.word && p.es === word);
-                        if (correctPair) {
-                          setMatchResult([...matchResult, { left: matchSelected.word, right: word }]);
-                          setMatchSelected(null);
-                          if (matchResult.length + 1 === ex.pairs.length) {
-                            checkAnswer(null);
-                          }
-                        } else { setMatchSelected(null); }
-                      }
-                    }}
-                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
-                      matchResult.some(r => r.left === word)
-                        ? "bg-emerald-600 text-white"
-                        : matchSelected?.word === word
-                        ? "bg-blue-600 text-white"
-                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
-                    }`}
-                  >
-                    <span className="flex items-center">
-                      <button onClick={(e)=>{e.stopPropagation();window.RutaAudio?.speak(word);}} className="mr-1 text-slate-400 hover:text-white" title="Escuchar">🔊</button>
-                      {word}
-                    </span>
-                  </button>
-                ))}
+              <div><h3 className="text-white font-bold mb-3 text-center">Alemán</h3>
+                {ex.leftColumn.map((word,idx) => <button key={idx} onClick={()=>{if(matchResult.some(r=>r.left===word))return;window.RutaAudio?.speak(word);if(!matchSelected)setMatchSelected({idx,word});else{const cp=ex.pairs.find(p=>p.de===matchSelected.word&&p.es===word);if(cp){setMatchResult([...matchResult,{left:matchSelected.word,right:word}]);setMatchSelected(null);if(matchResult.length+1===ex.pairs.length)checkAnswer(null)}else{setMatchSelected(null)}}}} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${matchResult.some(r=>r.left===word)?"bg-emerald-600 text-white":matchSelected?.word===word?"bg-blue-600 text-white":"bg-slate-700 text-slate-200 hover:bg-slate-600"}`}><span className="flex items-center"><button onClick={(e)=>{e.stopPropagation();window.RutaAudio?.speak(word)}} className="mr-1 text-slate-400 hover:text-white" title="Escuchar">🔊</button>{word}</span></button>)}
               </div>
-              <div>
-                <h3 className="text-white font-bold mb-3 text-center">Español</h3>
-                {ex.rightColumn.map((word, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      if (matchSelected && !matchResult.some(r => r.right === word)) {
-                        const correctPair = ex.pairs.find(p => p.de === matchSelected.word && p.es === word);
-                        if (correctPair) {
-                          setMatchResult([...matchResult, { left: matchSelected.word, right: word }]);
-                          setMatchSelected(null);
-                          if (matchResult.length + 1 === ex.pairs.length) {
-                            checkAnswer(null);
-                          }
-                        } else { setMatchSelected(null); }
-                      }
-                    }}
-                    className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${
-                      matchResult.some(r => r.right === word)
-                        ? "bg-emerald-600 text-white"
-                        : "bg-slate-700 text-slate-200 hover:bg-slate-600"
-                    }`}
-                  >
-                    {word}
-                  </button>
-                ))}
+              <div><h3 className="text-white font-bold mb-3 text-center">Español</h3>
+                {ex.rightColumn.map((word,idx) => <button key={idx} onClick={()=>{if(matchSelected&&!matchResult.some(r=>r.right===word)){const cp=ex.pairs.find(p=>p.de===matchSelected.word&&p.es===word);if(cp){setMatchResult([...matchResult,{left:matchSelected.word,right:word}]);setMatchSelected(null);if(matchResult.length+1===ex.pairs.length)checkAnswer(null)}else{setMatchSelected(null)}}}} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${matchResult.some(r=>r.right===word)?"bg-emerald-600 text-white":"bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{word}</button>)}
               </div>
             </div>
           ) : ex.options ? (
             <div className="space-y-3">
-              {ex.options.map((opt, i) => (
-                <button key={i} onClick={() => checkAnswer(opt)} className="block w-full text-left p-4 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-medium text-white">{opt}</button>
-              ))}
+              {ex.options.map((opt,i) => <button key={i} onClick={()=>checkAnswer(opt)} className="block w-full text-left p-4 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-medium text-white">{opt}</button>)}
             </div>
           ) : (
             <div>
-              <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} className="w-full p-4 bg-slate-700 border-2 border-slate-500 rounded-xl mb-4 focus:ring-2 focus:ring-blue-400 outline-none text-white text-lg placeholder-slate-400" onKeyDown={e => e.key === "Enter" && checkAnswer()} placeholder="Escribe tu respuesta..." />
-              <button onClick={() => checkAnswer()} className="px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-md font-semibold">Comprobar</button>
+              <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} disabled={inputDisabled} className={`w-full p-4 bg-slate-700 border-2 ${inputDisabled ? 'border-slate-500 opacity-50' : 'border-slate-500'} rounded-xl mb-4 focus:ring-2 focus:ring-blue-400 outline-none text-white text-lg placeholder-slate-400`} placeholder="Escribe tu respuesta..." />
+              {!inputDisabled && <button onClick={()=>checkAnswer()} className="px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-md font-semibold">Comprobar</button>}
             </div>
           )}
         </div>
         {feedback && (
           <div className={`p-4 rounded-xl ${feedback.correct ? "bg-emerald-900/80 text-emerald-200 border border-emerald-700" : "bg-red-900/80 text-red-200 border border-red-700"}`}>
             {feedback.correct ? (
-              <div>
-                <span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>
-                {feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>}
-                {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
-              </div>
+              <div><span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>{feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>}{ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}{streak >= 3 && <p className="text-yellow-300 mt-1">🔥 Racha: {streak}</p>}</div>
             ) : (
-              <div>
-                <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
-                {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
-              </div>
+              <div><span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>{ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}</div>
             )}
           </div>
         )}
         {feedback && (
           <button onClick={nextExercise} className="mt-4 w-full px-6 py-3 bg-slate-700 text-white rounded-xl hover:bg-slate-600 transition shadow-md font-medium">
-            Siguiente →
+            {currentEx < exercises.length - 1 ? "Siguiente →" : (failedStack.length > 0 && !reviewMode ? "Repasar fallos →" : "Finalizar")}
           </button>
         )}
       </div>
     </div>
   );
 };
-
 window.LessonView = LessonView;

@@ -9,8 +9,8 @@ const StoryA1_1 = {
         { speaker: "Anna", text: "Gut! Und ich backe einen Kuchen.", translation: "¡Bien! Y yo horneo un pastel." }
       ],
       exercises: [
-        { type: "order", prompt: "Ordena: 'Geburtstag / am / Samstag / ist / der / von Mama'", answer: "Der Geburtstag von Mama ist am Samstag", hint: "Empieza con Der" },
-        { type: "choose", prompt: "¿Quién compra flores?", answer: "Paul", options: ["Anna","Paul","Mama","der Vater"] }
+        { type: "order", prompt: "Ordena: 'Geburtstag / am / Samstag / ist / der / von Mama'", answer: "Der Geburtstag von Mama ist am Samstag", hint: "Empieza con Der", translation: "El cumpleaños de mamá es el sábado." },
+        { type: "choose", prompt: "¿Quién compra una tarta?", answer: "Paul", options: ["Anna","Paul","Mama","der Vater"], translation: "Paul compra una tarta." }
       ]
     },
     {
@@ -20,8 +20,8 @@ const StoryA1_1 = {
         { speaker: "Verkäufer", text: "Das macht zwölf Euro.", translation: "Son doce euros." }
       ],
       exercises: [
-        { type: "fillInSentence", prompt: "Completa: 'Ich nehme Brot, Käse und ___.'", answer: "Sekt", options: ["Sekt","Milch","Wasser","Tee"] },
-        { type: "translateDE", prompt: "Traduce: 'Son doce euros.'", answer: "Das macht zwölf Euro", hint: "Empieza con Das" }
+        { type: "fillInSentence", prompt: "Completa: 'Ich nehme Brot, Käse und ___.'", answer: "Sekt", options: ["Sekt","Milch","Wasser","Tee"], translation: "Paul coge pan, queso y cava." },
+        { type: "translateDE", prompt: "Traduce al alemán: 'Son doce euros.'", answer: "Das macht zwölf Euro", hint: "Empieza con Das", translation: "Son doce euros." }
       ]
     },
     {
@@ -32,24 +32,11 @@ const StoryA1_1 = {
         { speaker: "Paul", text: "Wir lieben dich sehr.", translation: "Te queremos mucho." }
       ],
       exercises: [
-        { type: "translateES", prompt: "Traduce: 'Alles Gute zum Geburtstag!'", answer: "Alles Gute zum Geburtstag", hint: "Felicidades" },
-        { type: "choose", prompt: "¿Qué dice Paul?", answer: "Wir lieben dich sehr", options: ["Wir lieben dich sehr","Ich bin müde","Auf Wiedersehen","Guten Morgen"] }
-      ]
-    },
-    {
-      id: 4, title: "Das Geschenk",
-      dialogs: [
-        { speaker: "Anna", text: "Mama, hier ist dein Geschenk. Es ist ein Fotoalbum.", translation: "Mamá, aquí tienes tu regalo. Es un álbum de fotos." },
-        { speaker: "Mama", text: "Oh, wie schön! Ich liebe es.", translation: "¡Oh, qué bonito! Me encanta." }
-      ],
-      exercises: [
-        { type: "fillInSentence", prompt: "Completa: 'Es ist ein ___.'", answer: "Fotoalbum", options: ["Fotoalbum","Buch","Heft","Bild"] },
-        { type: "order", prompt: "Ordena: 'wie / schön / Oh / ! / es / Ich / liebe'", answer: "Oh, wie schön! Ich liebe es.", hint: "Empieza con Oh" }
+        { type: "translateES", prompt: "¿Qué dice Anna para felicitar a mamá?", answer: "Alles Gute zum Geburtstag, liebe Mama", hint: "Es una frase típica de cumpleaños.", translation: "¡Feliz cumpleaños, querida mamá!" },
+        { type: "choose", prompt: "¿Qué expresa Paul al final?", answer: "Wir lieben dich sehr", options: ["Wir lieben dich sehr","Ich bin müde","Auf Wiedersehen","Guten Morgen"], translation: "Te queremos mucho." }
       ]
     }
   ],
-  getTotalScenes() {
-    return this.scenes.length;
-  }
+  getTotalScenes() { return this.scenes.length; }
 };
 window.StoryA1_1 = StoryA1_1;
