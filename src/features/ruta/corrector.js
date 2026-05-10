@@ -59,3 +59,7 @@ window.Corrector = {
     return { correct: false, exact: false, message: '' };
   }
 };
+// Asignar sinónimos desde PhraseGenerator cuando esté disponible
+if (window.PhraseGenerator && window.PhraseGenerator.synonyms) {
+  window.Corrector.synonyms = window.PhraseGenerator.synonyms;
+}

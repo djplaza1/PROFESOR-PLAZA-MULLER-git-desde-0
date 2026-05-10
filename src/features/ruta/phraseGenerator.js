@@ -263,7 +263,7 @@ const PhraseGenerator = {
 };
 
 window.PhraseGenerator = PhraseGenerator;
-window.Corrector.synonyms = PhraseGenerator.synonyms;
+// synonyms asignados desde corrector.js
 
 // Cargar banco de frases si existe
 fetch("src/data/phrasesBank.json")

@@ -41,6 +41,46 @@ const RutaPanel = () => {
     setView("lesson");
   };
 
+  /* ── Story Helpers ── */
+  const startStory = () => {
+    setStoryActive(true); setStorySceneIdx(0); setStoryExerciseIdx(0);
+    setStoryUserAnswer(""); setStoryFeedback(null);
+    const firstScene = window.StoryA1_1?.scenes[0];
+    if (firstScene?.dialogs?.length) firstScene.dialogs.forEach(d => speak(d.text));
+  };
+  const checkStoryAnswer = (submitted = null) => {
+    const scene = window.StoryA1_1?.scenes[storySceneIdx];
+    if (!scene) return;
+    const ex = scene.exercises[storyExerciseIdx];
+    if (!ex) return;
+    const ans = submitted !== null ? submitted : storyUserAnswer;
+    const lang = (ex.type === "translateES" || ex.type === "choose") ? "es" : "de";
+    const result = window.Corrector.check(ans, ex.answer, lang);
+    setStoryFeedback({ correct: result.correct, exact: result.exact, answer: ex.answer, hint: result.message });
+  };
+  const nextStoryExercise = () => {
+    const scene = window.StoryA1_1?.scenes[storySceneIdx];
+    if (!scene) return;
+    if (storyExerciseIdx < scene.exercises.length - 1) {
+      setStoryExerciseIdx(storyExerciseIdx + 1); setStoryUserAnswer(""); setStoryFeedback(null);
+    } else {
+      const nextScene = storySceneIdx + 1;
+      if (nextScene < window.StoryA1_1?.scenes.length) {
+        setStorySceneIdx(nextScene); setStoryExerciseIdx(0); setStoryUserAnswer(""); setStoryFeedback(null);
+        const newScene = window.StoryA1_1?.scenes[nextScene];
+        if (newScene?.dialogs?.length) newScene.dialogs.forEach(d => speak(d.text));
+      } else {
+        setStoryActive(false); setStorySceneIdx(0); setStoryExerciseIdx(0);
+        setStoryUserAnswer(""); setStoryFeedback(null);
+        alert("🎬 ¡Historia completada!");
+      }
+    }
+  };
+  const stopStory = () => {
+    setStoryActive(false); setStorySceneIdx(0); setStoryExerciseIdx(0);
+    setStoryUserAnswer(""); setStoryFeedback(null);
+  };
+
   const checkAnswer = (submittedAnswer = null) => {
     if (!exercises[currentEx]) return;
     const ex = exercises[currentEx];
