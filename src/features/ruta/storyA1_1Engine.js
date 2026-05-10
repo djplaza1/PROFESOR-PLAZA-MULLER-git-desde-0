@@ -47,6 +47,9 @@ const StoryA1_1 = {
         { type: "order", prompt: "Ordena: 'wie / schön / Oh / ! / es / Ich / liebe'", answer: "Oh, wie schön! Ich liebe es.", hint: "Empieza con Oh" }
       ]
     }
-  ]
+  ],
+  getTotalScenes() {
+    return this.scenes.length;
+  }
 };
 window.StoryA1_1 = StoryA1_1;

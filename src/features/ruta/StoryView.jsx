@@ -1,4 +1,4 @@
-const { useState } = React;
+﻿const { useState } = React;
 
 const StoryView = ({ levelId, lessonIdx, onBack }) => {
   const [sceneIdx, setSceneIdx] = useState(0);
@@ -12,7 +12,7 @@ const StoryView = ({ levelId, lessonIdx, onBack }) => {
 
   const scene = data.scenes[sceneIdx];
   const ex = scene?.exercises[exerciseIdx];
-  const totalScenes = data.getTotalScenes();
+  const totalScenes = data.scenes.length;
 
   // Reproducir diálogos al entrar en la escena
   useState(() => {
