@@ -63,6 +63,38 @@ const PhraseGenerator = {
   randomSlice(arr,count,exclude){return arr.filter(x=>x!==exclude).sort(()=>Math.random()-0.5).slice(0,count);},
   hideWordInSentence(sentence,word){const bare=word.replace(/^(der|die|das)\s?/i,"");const re=new RegExp("\\b(?:meinen?|deinen?|ihren?|euren?|unseren?|meine?|deine?|ihre?|eure?|unsere?|der|die|das|dem|den|des)\\s"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b|\\b"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i");return sentence.replace(re,"___");},
   splitCleanSentence(sentence){const clean=sentence.replace(/[.!?¡¿]+$/g,"").trim();return clean.split(/\s+/).filter(Boolean);},
+
+
+  // Mezclar array evitando que dos ejercicios del mismo tipo queden consecutivos
+  shuffleNoRepeat(arr) {
+    // Algoritmo: Fisher-Yates modificado
+    for (let i = arr.length - 1; i > 0; i--) {
+      // Elegir un índice j que no tenga el mismo tipo que arr[i-1] (para evitar repetición)
+      let j;
+      let attempts = 0;
+      do {
+        j = Math.floor(Math.random() * (i + 1));
+        attempts++;
+        // Evitar bucle infinito: si llevamos muchos intentos, permitir cualquiera
+        if (attempts > 20) break;
+      } while (i < arr.length - 1 && arr[j].type === arr[i + 1]?.type);
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    // Comprobación final: si hay dos iguales seguidos, intercambiar con el siguiente diferente
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i].type === arr[i + 1].type) {
+        // Buscar el primer índice j > i+1 con tipo diferente
+        let swapIdx = -1;
+        for (let j = i + 2; j < arr.length; j++) {
+          if (arr[j].type !== arr[i].type) { swapIdx = j; break; }
+        }
+        if (swapIdx !== -1) {
+          [arr[i + 1], arr[swapIdx]] = [arr[swapIdx], arr[i + 1]];
+        }
+      }
+    }
+    return arr;
+  }
   generateExercises(levelId,lessonIdx,wordsPerLesson){
     const allValid=this.getValidWords(levelId);
     if(allValid.length===0)return[];
@@ -216,7 +248,7 @@ const PhraseGenerator = {
       word:audioMatchWords[0]
     });
     // Barajar todos los ejercicios
-    return exercises.sort(()=>Math.random()-0.5);
+    return this.shuffleNoRepeat(exercises);
   },
   generateLesson(levelId,lessonIdx){const config=window.LevelConfig?.getLevelConfig?.(levelId);if(!config)return null;const wordsPerLesson=config.wordsPerLesson||10;return{id:levelId+"-l"+(lessonIdx+1),title:"Lección "+(lessonIdx+1),levelId,exercises:this.generateExercises(levelId,lessonIdx,wordsPerLesson)};}
 };
