@@ -227,6 +227,23 @@ const PhraseGenerator = {
       }
     }
 
+    
+    // ── Ejercicio de emparejar (matchPairs) ──
+    const matchCount = Math.min(5, valid.length);
+    const matchWords = valid.sort(() => Math.random() - 0.5).slice(0, matchCount);
+    const dePairs = matchWords.map(w => this.canonizeNoun(w));
+    const esPairs = matchWords.map(w => w[1]);
+    const shuffledDe = [...dePairs].sort(() => Math.random() - 0.5);
+    const shuffledEs = [...esPairs].sort(() => Math.random() - 0.5);
+    exercises.push({
+      type: "matchPairs",
+      prompt: "Empareja cada palabra en alemán con su traducción en español",
+      pairs: dePairs.map((de, i) => ({ de, es: esPairs[i] })),
+      leftColumn: shuffledDe,
+      rightColumn: shuffledEs,
+      hint: "Selecciona una palabra de la izquierda y luego su traducción de la derecha.",
+      word: matchWords[0]
+    });
     return exercises;
   },
 
