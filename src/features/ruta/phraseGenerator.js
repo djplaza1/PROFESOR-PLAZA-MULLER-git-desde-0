@@ -186,4 +186,38 @@ const PhraseGenerator = {
   }
   generateLesson(levelId,lessonIdx){const config=window.LevelConfig?.getLevelConfig?.(levelId);if(!config)return null;const wordsPerLesson=config.wordsPerLesson||10;return{id:levelId+"-l"+(lessonIdx+1),title:"Lección "+(lessonIdx+1),levelId,exercises:this.generateExercises(levelId,lessonIdx,wordsPerLesson)};}
 };
+
+  shuffleNoRepeat(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j, attempts = 0;
+      do { j = Math.floor(Math.random() * (i + 1)); attempts++; if (attempts > 20) break; }
+      while (i < arr.length - 1 && arr[j]?.type === arr[i + 1]?.type);
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i]?.type === arr[i + 1]?.type) {
+        for (let j = i + 2; j < arr.length; j++) {
+          if (arr[j]?.type !== arr[i]?.type) { [arr[i + 1], arr[j]] = [arr[j], arr[i + 1]]; break; }
+        }
+      }
+    }
+    return arr;
+  }
+
+  shuffleNoRepeat(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j, attempts = 0;
+      do { j = Math.floor(Math.random() * (i + 1)); attempts++; if (attempts > 20) break; }
+      while (i < arr.length - 1 && arr[j]?.type === arr[i + 1]?.type);
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i]?.type === arr[i + 1]?.type) {
+        for (let j = i + 2; j < arr.length; j++) {
+          if (arr[j]?.type !== arr[i]?.type) { [arr[i + 1], arr[j]] = [arr[j], arr[i + 1]]; break; }
+        }
+      }
+    }
+    return arr;
+  }
 window.PhraseGenerator=PhraseGenerator;
