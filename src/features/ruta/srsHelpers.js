@@ -1,14 +1,14 @@
-﻿// srsHelpers.js – Progreso del usuario, repaso espaciado (SM-2), rachas y ranking
+// srsHelpers.js – Progreso del usuario, repaso espaciado (SM-2), rachas y ranking
 // Utiliza localStorage para persistencia.
 
 const SRSHelpers = {
-  STORAGE_KEY: "muller_ruta_progress",
+  STORAGE_KEY: 'muller_ruta_progress',
 
   // ── Progreso por defecto ──
   getDefaultProgress() {
     return {
-      completed: {},       // { "a1.1-l1": true, ... }
-      wordSRS: {},         // { "Haus": { ef: 2.5, interval: 0, repetitions: 0, nextReview: null, correct: 0, incorrect: 0 } }
+      completed: {},
+      wordSRS: {},
       streak: 0,
       lastStudyDate: null,
       xp: 0,
@@ -24,7 +24,7 @@ const SRSHelpers = {
         return JSON.parse(saved);
       }
     } catch(e) {
-      console.warn("Error cargando progreso", e);
+      console.warn('Error cargando progreso', e);
     }
     return this.getDefaultProgress();
   },
@@ -34,11 +34,11 @@ const SRSHelpers = {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(progress));
     } catch(e) {
-      console.warn("Error guardando progreso", e);
+      console.warn('Error guardando progreso', e);
     }
   },
 
-  // ── Actualizar SRS para una palabra ──
+  // ── Actualizar SRS para una palabra (existente) ──
   updateWordSRS(progress, word, exerciseType, correct) {
     if (!progress.wordSRS[word]) {
       progress.wordSRS[word] = {
@@ -47,7 +47,9 @@ const SRSHelpers = {
         repetitions: 0,
         nextReview: null,
         correct: 0,
-        incorrect: 0
+        incorrect: 0,
+        lastReview: null,
+        firstSeen: Date.now()
       };
     }
     const srs = progress.wordSRS[word];
@@ -67,6 +69,7 @@ const SRSHelpers = {
       srs.interval = 1;
     }
     srs.ef = Math.max(1.3, srs.ef + (0.1 - (1 - 0.1) * (correct ? 0 : 1)));
+    srs.lastReview = Date.now();
     srs.nextReview = Date.now() + srs.interval * 24 * 60 * 60 * 1000;
     return progress;
   },
@@ -81,6 +84,22 @@ const SRSHelpers = {
       }
     }
     return dueWords;
+  },
+
+  // ── Obtener palabras para repasar en la lección ──
+  getWordsToReview(progress, levelId, count) {
+    const dueWords = this.getDueWords(progress, levelId);
+    // Filtrar solo palabras del nivel si levelId está definido
+    const vocab = window.Muller?.Ruta?.VOCAB?.[levelId] || [];
+    const levelWords = new Set(vocab.map(w => w[0]));
+    const filtered = levelId ? dueWords.filter(dw => levelWords.has(dw.word)) : dueWords;
+    // Ordenar por las que tienen más fallos y menos repasos
+    filtered.sort((a, b) => {
+      const scoreA = (a.srs.incorrect || 0) * 2 - (a.srs.correct || 0);
+      const scoreB = (b.srs.incorrect || 0) * 2 - (b.srs.correct || 0);
+      return scoreB - scoreA;
+    });
+    return filtered.slice(0, count);
   },
 
   // ── Actualizar racha ──
@@ -100,15 +119,15 @@ const SRSHelpers = {
   // ── Obtener ranking a partir de XP ──
   getRank(xp) {
     const ranks = [
-      { name: "Anfänger", minXp: 0, emoji: "🌱" },
-      { name: "Sprachschüler", minXp: 100, emoji: "🌿" },
-      { name: "Wörtersammler", minXp: 500, emoji: "📚" },
-      { name: "Satzbaumeister", minXp: 1000, emoji: "🏗️" },
-      { name: "Grammatikguru", minXp: 2000, emoji: "🧠" },
-      { name: "Konversationsprofi", minXp: 3500, emoji: "💬" },
-      { name: "Sprachkünstler", minXp: 5000, emoji: "🎨" },
-      { name: "Deutschmeister", minXp: 7500, emoji: "🏆" },
-      { name: "Müller-Platin", minXp: 10000, emoji: "💎" }
+      { name: 'Anfänger', minXp: 0, emoji: '🌱' },
+      { name: 'Sprachschüler', minXp: 100, emoji: '🌿' },
+      { name: 'Wörtersammler', minXp: 500, emoji: '📚' },
+      { name: 'Satzbaumeister', minXp: 1000, emoji: '🏗️' },
+      { name: 'Grammatikguru', minXp: 2000, emoji: '🧠' },
+      { name: 'Konversationsprofi', minXp: 3500, emoji: '💬' },
+      { name: 'Sprachkünstler', minXp: 5000, emoji: '🎨' },
+      { name: 'Deutschmeister', minXp: 7500, emoji: '🏆' },
+      { name: 'Müller-Platin', minXp: 10000, emoji: '💎' }
     ];
     return ranks.filter(r => xp >= r.minXp).pop() || ranks[0];
   }
