@@ -14,6 +14,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [failedStack, setFailedStack] = useState([]);
   const [reviewMode, setReviewMode] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [celebrate, setCelebrate] = useState(null); // mensaje de celebración
   const audioCtxRef = useRef(null);
 
   const playTone = (freq, duration, type = 'sine') => {
@@ -29,12 +30,17 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     } catch(e) {}
   };
 
+  const showCelebration = (msg) => {
+    setCelebrate(msg);
+    setTimeout(() => setCelebrate(null), 2500);
+  };
+
   const playCorrect = () => {
     const newStreak = streak + 1;
     setStreak(newStreak);
-    if (newStreak === 3) playTone(660, 0.2, 'triangle');
-    else if (newStreak === 5) { playTone(880, 0.15); setTimeout(()=>playTone(1100,0.15), 200); }
-    else if (newStreak === 10) { playTone(660,0.1); setTimeout(()=>playTone(880,0.1), 150); setTimeout(()=>playTone(1100,0.2), 300); }
+    if (newStreak === 3) { playTone(660, 0.2, 'triangle'); showCelebration('🔥 Racha x3'); }
+    else if (newStreak === 5) { playTone(880, 0.15); setTimeout(()=>playTone(1100,0.15), 200); showCelebration('⚡ Racha x5'); }
+    else if (newStreak === 10) { playTone(660,0.1); setTimeout(()=>playTone(880,0.1), 150); setTimeout(()=>playTone(1100,0.2), 300); showCelebration('💎 Racha x10'); }
     else playTone(520, 0.1);
   };
   const playWrong = () => { setStreak(0); playTone(200, 0.3, 'square'); };
@@ -54,6 +60,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setFailedStack([]);
     setReviewMode(false);
     setStreak(0);
+    setCelebrate(null);
   }, [levelId, lessonIdx, reviewMode]);
 
   useEffect(() => {
@@ -101,11 +108,12 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         setReviewMode(true);
       } else {
         playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400);
+        showCelebration('🎉 ¡Lección completada!');
         const lessonId = levelId + "-l" + (lessonIdx + 1);
         const newProgress = { ...progress };
         newProgress.completed[lessonId] = true;
         setProgress(newProgress);
-        onBack();
+        setTimeout(() => onBack(), 1500);
       }
     }
   };
@@ -120,20 +128,30 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4">
+      {celebrate && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-slate-900 px-6 py-3 rounded-full shadow-2xl text-lg font-bold z-50">
+          {celebrate}
+        </div>
+      )}
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-white">{reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1}`} – {ex.type}</h2>
+          <h2 className="text-xl font-bold text-white">
+            {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1}`} – {ex.type}
+            {ex.isReview && <span className="ml-2 text-amber-400 text-sm" title="Ejercicio de repaso SRS">🔁</span>}
+          </h2>
           <div className="flex gap-2">
             <button onClick={() => setShowComponent('podcast')} className="px-3 py-1 bg-purple-600 text-white text-xs rounded-full hover:bg-purple-500 transition shadow">🎙️ Podcast</button>
             <button onClick={() => setShowComponent('story')} className="px-3 py-1 bg-pink-600 text-white text-xs rounded-full hover:bg-pink-500 transition shadow">🎬 Historia</button>
             <button onClick={onBack} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 transition shadow">← Volver</button>
           </div>
         </div>
-        <div className="bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border border-slate-700">
+        <div className={`bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border ${ex.isReview ? 'border-amber-500/50' : 'border-slate-700'}`}>
           <div className="flex items-center mb-6">
             <p className="text-slate-200 font-medium text-lg">{ex.prompt}</p>
             {ex.speakText && <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">🔊</button>}
+            {ex.isReview && <span className="ml-2 text-amber-400 text-xs" title="Palabra para repasar">🔁 repaso</span>}
           </div>
+
           {ex.type === "audioMatch" ? (
             <div className="grid grid-cols-2 gap-8 mt-4">
               <div><h3 className="text-white font-bold mb-3 text-center">🔊 Alemán (escucha)</h3>
@@ -166,9 +184,17 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         {feedback && (
           <div className={`p-4 rounded-xl ${feedback.correct ? "bg-emerald-900/80 text-emerald-200 border border-emerald-700" : "bg-red-900/80 text-red-200 border border-red-700"}`}>
             {feedback.correct ? (
-              <div><span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>{feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>}{ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}{streak >= 3 && <p className="text-yellow-300 mt-1">🔥 Racha: {streak}</p>}</div>
+              <div>
+                <span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>
+                {feedback.hint && <p className="text-sm mt-1 opacity-80">{feedback.hint}</p>}
+                {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
+                {streak >= 3 && <p className="text-yellow-300 mt-1">🔥 Racha: {streak}</p>}
+              </div>
             ) : (
-              <div><span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>{ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}</div>
+              <div>
+                <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
+                {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
+              </div>
             )}
           </div>
         )}
