@@ -140,6 +140,42 @@ const PhraseGenerator = {
         });
       }
     }
+    // Ejercicios de declinación de adjetivos (hasta 3, con casos variados)
+    const adjectives = allValid.filter(w => w[4] === "adj");
+    const nouns = allValid.filter(w => w[4] === "n" && this.getArticle(w));
+    if (adjectives.length > 0 && nouns.length > 0) {
+      const adjDeclCount = Math.min(3, adjectives.length);
+      const shuffledAdjectives = [...adjectives].sort(() => Math.random() - 0.5).slice(0, adjDeclCount);
+      const cases = ["nom", "acc", "dat"];
+      const detTable = { nom: { m: "der", f: "die", n: "das", pl: "die" }, acc: { m: "den", f: "die", n: "das", pl: "die" }, dat: { m: "dem", f: "der", n: "dem", pl: "den" } };
+      const endingTable = { nom: { m: "-e", f: "-e", n: "-e", pl: "-en" }, acc: { m: "-en", f: "-e", n: "-e", pl: "-en" }, dat: { m: "-en", f: "-en", n: "-en", pl: "-en" } };
+      for (let adj of shuffledAdjectives) {
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        const gender = this.getGender(noun);
+        const art = this.getArticle(noun);
+        const bareNoun = this.getBareNoun(noun);
+        const adjBase = adj[0];
+        const selectedCase = cases[Math.floor(Math.random() * cases.length)];
+        const det = detTable[selectedCase][gender];
+        const ending = endingTable[selectedCase][gender];
+        const correctEnding = ending.replace("-", "");
+        const fullAdj = adjBase + correctEnding;
+        let sentence = "";
+        if (selectedCase === "nom") { sentence = `${det} ${adjBase}___ ${bareNoun} ist neu.`; }
+        else if (selectedCase === "acc") { sentence = `Ich sehe ${det} ${adjBase}___ ${bareNoun}.`; }
+        else { sentence = `Ich spreche mit ${det} ${adjBase}___ ${bareNoun}.`; }
+        exercises.push({
+          type: "adjectiveDeclension",
+          prompt: `Completa con la terminación correcta:\n"${sentence}"`,
+          answer: ending,
+          options: ["-e", "-er", "-es", "-en"].sort(() => Math.random() - 0.5),
+          hint: `${selectedCase === "nom" ? "Nominativo" : selectedCase === "acc" ? "Acusativo" : "Dativo"} definido (${det}).`,
+          speakText: `${det} ${fullAdj} ${bareNoun}`,
+          word: adj,
+          translation: adj[1]
+        });
+      }
+    }
     const bank=window.PhrasesBank||{};
     const levelBank=bank[levelId]||{};
     const bankKeys=Object.keys(levelBank);
@@ -203,6 +239,23 @@ const PhraseGenerator = {
     return this.shuffleNoRepeat(exercises);
   },
 
+  // Mezclar array evitando que dos ejercicios del mismo tipo queden consecutivos
+  shuffleNoRepeat(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j, attempts = 0;
+      do { j = Math.floor(Math.random() * (i + 1)); attempts++; if (attempts > 20) break; }
+      while (i < arr.length - 1 && arr[j]?.type === arr[i + 1]?.type);
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i]?.type === arr[i + 1]?.type) {
+        for (let j = i + 2; j < arr.length; j++) {
+          if (arr[j]?.type !== arr[i]?.type) { [arr[i + 1], arr[j]] = [arr[j], arr[i + 1]]; break; }
+        }
+      }
+    }
+    return arr;
+  }
   // Mezclar array evitando que dos ejercicios del mismo tipo queden consecutivos
   shuffleNoRepeat(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
