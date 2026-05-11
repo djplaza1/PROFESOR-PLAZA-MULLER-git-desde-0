@@ -15,6 +15,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [reviewMode, setReviewMode] = useState(false);
   const [streak, setStreak] = useState(0);
   const [celebrate, setCelebrate] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
   const audioCtxRef = useRef(null);
 
   const playTone = (freq, duration, type = 'sine') => {
@@ -61,6 +62,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setReviewMode(false);
     setStreak(0);
     setCelebrate(null);
+    setIsRecording(false);
   }, [levelId, lessonIdx, reviewMode]);
 
   useEffect(() => {
@@ -98,6 +100,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       setMatchResult([]);
       setAudioSelected(null);
       setAudioRevealed([]);
+      setIsRecording(false);
     } else {
       if (!reviewMode && failedStack.length > 0) {
         setExercises(failedStack);
@@ -180,20 +183,41 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
             </div>
           ) : ex.type === "pronounce" ? (
             <div className="flex flex-col items-center gap-4">
-              <button onClick={() => {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) { alert("Tu navegador no soporta reconocimiento de voz."); return; }
-                const recognition = new SpeechRecognition();
-                recognition.lang = "de-DE";
-                recognition.interimResults = false;
-                recognition.onresult = (event) => {
-                  const transcript = event.results[0][0].transcript.trim();
-                  checkAnswer(transcript);
-                };
-                recognition.onerror = () => setFeedback({ correct: false, answer: ex.phraseToPronounce, hint: "No se pudo escuchar. Intenta de nuevo." });
-                recognition.start();
-              }} className="px-8 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition shadow-md font-semibold flex items-center gap-2">
-                🎤 Grabar respuesta
+              <button
+                onClick={() => {
+                  setIsRecording(true);
+                  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                  if (!SpeechRecognition) {
+                    alert("Tu navegador no soporta reconocimiento de voz.");
+                    setIsRecording(false);
+                    return;
+                  }
+                  const recognition = new SpeechRecognition();
+                  recognition.lang = "de-DE";
+                  recognition.interimResults = false;
+                  recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.trim();
+                    setIsRecording(false);
+                    checkAnswer(transcript);
+                  };
+                  recognition.onerror = () => {
+                    setIsRecording(false);
+                    setFeedback({
+                      correct: false,
+                      answer: ex.phraseToPronounce,
+                      hint: "No se pudo escuchar. Intenta de nuevo."
+                    });
+                  };
+                  recognition.start();
+                }}
+                disabled={isRecording}
+                className={`px-8 py-3 rounded-xl transition shadow-md font-semibold flex items-center gap-2 ${
+                  isRecording
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700 text-white"
+                }`}
+              >
+                {isRecording ? "🎤 Escuchando..." : "🎤 Grabar respuesta"}
               </button>
               <p className="text-slate-400 text-sm">Pulsa el botón y repite la frase en alemán.</p>
             </div>
