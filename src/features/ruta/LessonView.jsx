@@ -14,7 +14,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [failedStack, setFailedStack] = useState([]);
   const [reviewMode, setReviewMode] = useState(false);
   const [streak, setStreak] = useState(0);
-  const [celebrate, setCelebrate] = useState(null); // mensaje de celebración
+  const [celebrate, setCelebrate] = useState(null);
   const audioCtxRef = useRef(null);
 
   const playTone = (freq, duration, type = 'sine') => {
@@ -107,7 +107,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         setFeedback(null);
         setReviewMode(true);
       } else {
-        // Secuencia obligatoria: Podcast → Historia
         if (!showComponent) {
           showCelebration('🎙️ Ahora completa el Podcast');
           setShowComponent('podcast');
@@ -130,8 +129,8 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const ex = exercises[currentEx];
   if (!ex) return <div className="text-white p-4">Cargando ejercicios...</div>;
 
-  if (showComponent === 'podcast') return <PodcastView onBack={() => { const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setShowComponent(null); }} />;
-  if (showComponent === 'story') return <StoryView onBack={() => { const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setShowComponent(null); }} />;
+  if (showComponent === 'podcast') return <PodcastView onBack={() => { showCelebration('🎬 Ahora completa la Historia'); setShowComponent('story'); }} />;
+  if (showComponent === 'story') return <StoryView onBack={() => { playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400); showCelebration('🎉 ¡Lección completada!'); const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setTimeout(() => onBack(), 1500); }} />;
 
   const inputDisabled = feedback && !feedback.correct;
 
@@ -178,6 +177,25 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
               <div><h3 className="text-white font-bold mb-3 text-center">Español</h3>
                 {ex.rightColumn.map((word,idx) => <button key={idx} onClick={()=>{if(matchSelected&&!matchResult.some(r=>r.right===word)){const cp=ex.pairs.find(p=>p.de===matchSelected.word&&p.es===word);if(cp){setMatchResult([...matchResult,{left:matchSelected.word,right:word}]);setMatchSelected(null);if(matchResult.length+1===ex.pairs.length)checkAnswer(null)}else{setMatchSelected(null)}}}} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${matchResult.some(r=>r.right===word)?"bg-emerald-600 text-white":"bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{word}</button>)}
               </div>
+            </div>
+          ) : ex.type === "pronounce" ? (
+            <div className="flex flex-col items-center gap-4">
+              <button onClick={() => {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) { alert("Tu navegador no soporta reconocimiento de voz."); return; }
+                const recognition = new SpeechRecognition();
+                recognition.lang = "de-DE";
+                recognition.interimResults = false;
+                recognition.onresult = (event) => {
+                  const transcript = event.results[0][0].transcript.trim();
+                  checkAnswer(transcript);
+                };
+                recognition.onerror = () => setFeedback({ correct: false, answer: ex.phraseToPronounce, hint: "No se pudo escuchar. Intenta de nuevo." });
+                recognition.start();
+              }} className="px-8 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition shadow-md font-semibold flex items-center gap-2">
+                🎤 Grabar respuesta
+              </button>
+              <p className="text-slate-400 text-sm">Pulsa el botón y repite la frase en alemán.</p>
             </div>
           ) : ex.options ? (
             <div className="space-y-3">
