@@ -41,7 +41,7 @@ const PhraseGenerator = {
     if (newCount < 0) newCount = 0;
     const newLessonWords = newWordsPool.slice(0, newCount);
     const usedSet = new Set();
-    const types = ["fill","translateDE","translateES","choose","declension","plural","conjugate"];
+    const types = ["fill","translateDE","translateES","choose","declension","plural","conjugate","pronounce"];
     const deAllNouns=[...new Set(allValid.filter(w=>w[4]==="n").map(w=>this.canonizeNoun(w)))];
     const esAll=[...new Set(allValid.map(w=>w[1]))];
     for (let w of reviewWordsInVocab) {
@@ -60,6 +60,7 @@ const PhraseGenerator = {
         case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
         case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
         case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
+        case"pronounce":{const phraseToPronounce = this.canonizeNoun(w);ex={type:"pronounce",prompt:`Repite en voz alta:\n"${phraseToPronounce}"`,answer:phraseToPronounce,phraseToPronounce:phraseToPronounce,speakText:phraseToPronounce,hint:"Usa el micrófono para repetir la frase."};}break;
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; ex.isReview = true; exercises.push(ex); }
     }
@@ -79,6 +80,7 @@ const PhraseGenerator = {
         case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
         case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
         case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
+        case"pronounce":{const phraseToPronounce = this.canonizeNoun(w);ex={type:"pronounce",prompt:`Repite en voz alta:\n"${phraseToPronounce}"`,answer:phraseToPronounce,phraseToPronounce:phraseToPronounce,speakText:phraseToPronounce,hint:"Usa el micrófono para repetir la frase."};}break;
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; exercises.push(ex); }
     }
@@ -118,6 +120,10 @@ const PhraseGenerator = {
         });
       }
     }
+            case"pronounce":{
+          const phraseToPronounce = allValid.length > 0 ? this.canonizeNoun(allValid[0]) : "Hallo";
+          mEx={type:"pronounce",prompt:`Repite en voz alta:\n"${phraseToPronounce}"`,answer:phraseToPronounce,phraseToPronounce:phraseToPronounce,speakText:phraseToPronounce,hint:"Usa el micrófono para repetir la frase."};
+        }break;
     // Contextuales
     const bank=window.PhrasesBank||{};
     const levelBank=bank[levelId]||{};
