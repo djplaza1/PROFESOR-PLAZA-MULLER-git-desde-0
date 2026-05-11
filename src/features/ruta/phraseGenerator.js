@@ -120,10 +120,6 @@ const PhraseGenerator = {
         });
       }
     }
-            case"pronounce":{
-          const phraseToPronounce = allValid.length > 0 ? this.canonizeNoun(allValid[0]) : "Hallo";
-          mEx={type:"pronounce",prompt:`Repite en voz alta:\n"${phraseToPronounce}"`,answer:phraseToPronounce,phraseToPronounce:phraseToPronounce,speakText:phraseToPronounce,hint:"Usa el micrófono para repetir la frase."};
-        }break;
     // Contextuales
     const bank=window.PhrasesBank||{};
     const levelBank=bank[levelId]||{};
