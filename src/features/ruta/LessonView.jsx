@@ -107,13 +107,22 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         setFeedback(null);
         setReviewMode(true);
       } else {
-        playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400);
-        showCelebration('🎉 ¡Lección completada!');
-        const lessonId = levelId + "-l" + (lessonIdx + 1);
-        const newProgress = { ...progress };
-        newProgress.completed[lessonId] = true;
-        setProgress(newProgress);
-        setTimeout(() => onBack(), 1500);
+        // Secuencia obligatoria: Podcast → Historia
+        if (!showComponent) {
+          showCelebration('🎙️ Ahora completa el Podcast');
+          setShowComponent('podcast');
+        } else if (showComponent === 'podcast') {
+          showCelebration('🎬 Ahora completa la Historia');
+          setShowComponent('story');
+        } else {
+          playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400);
+          showCelebration('🎉 ¡Lección completada!');
+          const lessonId = levelId + "-l" + (lessonIdx + 1);
+          const newProgress = { ...progress };
+          newProgress.completed[lessonId] = true;
+          setProgress(newProgress);
+          setTimeout(() => onBack(), 1500);
+        }
       }
     }
   };
@@ -121,8 +130,8 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const ex = exercises[currentEx];
   if (!ex) return <div className="text-white p-4">Cargando ejercicios...</div>;
 
-  if (showComponent === 'podcast') return <PodcastView onBack={() => setShowComponent(null)} />;
-  if (showComponent === 'story') return <StoryView onBack={() => setShowComponent(null)} />;
+  if (showComponent === 'podcast') return <PodcastView onBack={() => { const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setShowComponent(null); }} />;
+  if (showComponent === 'story') return <StoryView onBack={() => { const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setShowComponent(null); }} />;
 
   const inputDisabled = feedback && !feedback.correct;
 
@@ -140,8 +149,8 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
             {ex.isReview && <span className="ml-2 text-amber-400 text-sm" title="Ejercicio de repaso SRS">🔁</span>}
           </h2>
           <div className="flex gap-2">
-            <button onClick={() => setShowComponent('podcast')} className="px-3 py-1 bg-purple-600 text-white text-xs rounded-full hover:bg-purple-500 transition shadow">🎙️ Podcast</button>
-            <button onClick={() => setShowComponent('story')} className="px-3 py-1 bg-pink-600 text-white text-xs rounded-full hover:bg-pink-500 transition shadow">🎬 Historia</button>
+            <button onClick={() => setShowComponent('podcast')} className={`px-3 py-1 text-white text-xs rounded-full hover:bg-purple-500 transition shadow ${showComponent === 'podcast' || showComponent === 'story' ? 'bg-gray-500 cursor-not-allowed' : 'bg-purple-600'}`} disabled={showComponent === 'podcast' || showComponent === 'story'}>🎙️ Podcast</button>
+            <button onClick={() => { if (showComponent !== 'podcast') return; setShowComponent('story'); }} className={`px-3 py-1 text-white text-xs rounded-full transition shadow ${showComponent === 'podcast' ? 'bg-pink-600 hover:bg-pink-500' : 'bg-gray-500 cursor-not-allowed'}`} disabled={showComponent !== 'podcast'}>🎬 Historia</button>
             <button onClick={onBack} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 transition shadow">← Volver</button>
           </div>
         </div>
