@@ -184,33 +184,39 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
           ) : ex.type === "pronounce" ? (
             <div className="flex flex-col items-center gap-4">
               <button
-                onClick={() => {
-                  setIsRecording(true);
+                                onClick={() => {
                   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                   if (!SpeechRecognition) {
-                    alert("Tu navegador no soporta reconocimiento de voz.");
-                    setIsRecording(false);
+                    alert("Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.");
                     return;
                   }
                   const recognition = new SpeechRecognition();
                   recognition.lang = "de-DE";
                   recognition.interimResults = false;
+                  recognition.continuous = false;
+                  recognition.onstart = () => setIsRecording(true);
                   recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript.trim();
                     setIsRecording(false);
-                    checkAnswer(transcript);
+                    if (transcript) {
+                      checkAnswer(transcript);
+                    } else {
+                      setFeedback({
+                        correct: false,
+                        answer: ex.phraseToPronounce,
+                        hint: "No se detectó ninguna voz. Intenta de nuevo."
+                      });
+                    }
                   };
-                  recognition.onerror = () => {
+                  recognition.onerror = (event) => {
                     setIsRecording(false);
-                    setFeedback({
-                      correct: false,
-                      answer: ex.phraseToPronounce,
-                      hint: "No se pudo escuchar. Intenta de nuevo."
-                    });
+                    let msg = "Error al grabar. ";
+                    if (event.error === "not-allowed") msg += "Permite el micrófono en el navegador.";
+                    else msg += "Intenta de nuevo.";
+                    setFeedback({ correct: false, answer: ex.phraseToPronounce, hint: msg });
                   };
                   recognition.start();
-                }}
-                disabled={isRecording}
+                }}disabled={isRecording}
                 className={`px-8 py-3 rounded-xl transition shadow-md font-semibold flex items-center gap-2 ${
                   isRecording
                     ? "bg-gray-500 cursor-not-allowed"

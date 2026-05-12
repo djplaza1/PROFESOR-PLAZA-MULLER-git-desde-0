@@ -60,18 +60,35 @@ const PhraseGenerator = {
         case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
         case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
         case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
-        case"pronounce":{
-  let phraseToPronounce = this.canonizeNoun(w);
-  // Intentar obtener una frase del banco para esta palabra
-  const bank = window.PhrasesBank || {};
-  const levelBank = bank[levelId] || {};
-  const phrases = levelBank[w[0]] || levelBank[this.canonizeNoun(w)];
-  if (phrases && phrases.length > 0) {
-    const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-    phraseToPronounce = randomPhrase.de;
-  }
-  ex={type:"pronounce",prompt:`Repite en voz alta:\n"${phraseToPronounce}"`,answer:phraseToPronounce,phraseToPronounce:phraseToPronounce,speakText:phraseToPronounce,hint:"Usa el micrófono para repetir la frase."};
-}break;
+                case"pronounce":{
+          let phraseToPronounce = "";
+          const bank = window.PhrasesBank || {};
+          const levelBank = bank[levelId] || {};
+          const keySearch = this.canonizeNoun(w);
+          const phrases = levelBank[w[0]] || levelBank[keySearch];
+          if (phrases && phrases.length > 0) {
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            phraseToPronounce = randomPhrase.de;
+          } else {
+            const art = this.getArticle(w);
+            const bare = this.getBareNoun(w);
+            if (art) {
+              phraseToPronounce = "Das ist " + art + " " + bare + ".";
+            } else if (w[4] === "v") {
+              phraseToPronounce = "Ich kann " + w[0] + ".";
+            } else {
+              phraseToPronounce = "Das Wort lautet " + w[0] + ".";
+            }
+          }
+          ex = {
+            type: "pronounce",
+            prompt: `Repite en voz alta:\n"${phraseToPronounce}"`,
+            answer: phraseToPronounce,
+            phraseToPronounce: phraseToPronounce,
+            speakText: phraseToPronounce,
+            hint: "Usa el micrófono para repetir la frase."
+          };
+        }break;
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; ex.isReview = true; exercises.push(ex); }
     }
@@ -91,18 +108,35 @@ const PhraseGenerator = {
         case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
         case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
         case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
-        case"pronounce":{
-  let phraseToPronounce = this.canonizeNoun(w);
-  // Intentar obtener una frase del banco para esta palabra
-  const bank = window.PhrasesBank || {};
-  const levelBank = bank[levelId] || {};
-  const phrases = levelBank[w[0]] || levelBank[this.canonizeNoun(w)];
-  if (phrases && phrases.length > 0) {
-    const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-    phraseToPronounce = randomPhrase.de;
-  }
-  ex={type:"pronounce",prompt:`Repite en voz alta:\n"${phraseToPronounce}"`,answer:phraseToPronounce,phraseToPronounce:phraseToPronounce,speakText:phraseToPronounce,hint:"Usa el micrófono para repetir la frase."};
-}break;
+                case"pronounce":{
+          let phraseToPronounce = "";
+          const bank = window.PhrasesBank || {};
+          const levelBank = bank[levelId] || {};
+          const keySearch = this.canonizeNoun(w);
+          const phrases = levelBank[w[0]] || levelBank[keySearch];
+          if (phrases && phrases.length > 0) {
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            phraseToPronounce = randomPhrase.de;
+          } else {
+            const art = this.getArticle(w);
+            const bare = this.getBareNoun(w);
+            if (art) {
+              phraseToPronounce = "Das ist " + art + " " + bare + ".";
+            } else if (w[4] === "v") {
+              phraseToPronounce = "Ich kann " + w[0] + ".";
+            } else {
+              phraseToPronounce = "Das Wort lautet " + w[0] + ".";
+            }
+          }
+          ex = {
+            type: "pronounce",
+            prompt: `Repite en voz alta:\n"${phraseToPronounce}"`,
+            answer: phraseToPronounce,
+            phraseToPronounce: phraseToPronounce,
+            speakText: phraseToPronounce,
+            hint: "Usa el micrófono para repetir la frase."
+          };
+        }break;
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; exercises.push(ex); }
     }
