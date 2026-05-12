@@ -1,7 +1,9 @@
 const { useState, useEffect, useCallback, useRef } = React;
 
 const LessonView = ({ levelId, lessonIdx, onBack }) => {
-  const [exercises, setExercises] = useState([]);
+    const [userOrder, setUserOrder] = useState([]);
+  const [feedback, setFeedback] = useState('');
+const [exercises, setExercises] = useState([]);
   const [currentEx, setCurrentEx] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState(null);
@@ -227,7 +229,56 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
               </button>
               <p className="text-slate-400 text-sm">Pulsa el botón y repite la frase en alemán.</p>
             </div>
-          ) : ex.options ? (
+          ) : 
+            {/* --- Order (ordenar palabras) --- */}
+            {ex.type === 'order' && (
+              <div className="mt-4 p-4 border rounded bg-gray-50">
+                <p className="font-semibold mb-2">Ordena las palabras para formar la frase:</p>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {ex.orderWords.map((word, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setUserOrder(prev => [...prev, word]);
+                      }}
+                      className="px-3 py-1 bg-white border rounded hover:bg-blue-500 hover:text-white"
+                    >
+                      {word}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      const correct = ex.answer.replace(/\s+/g, ' ').trim();
+                      const user = userOrder.join(' ');
+                      if (user === correct) {
+                        setFeedback('correct');
+                        handleAnswer(true);
+                      } else {
+                        setFeedback('incorrect');
+                        handleAnswer(false);
+                      }
+                    }}
+                    className="bg-green-600 text-white px-4 py-1 rounded"
+                  >
+                    Comprobar
+                  </button>
+                  <button
+                    onClick={() => {
+                      setUserOrder([]);
+                      setFeedback('');
+                    }}
+                    className="bg-gray-400 text-white px-4 py-1 rounded"
+                  >
+                    Resetear
+                  </button>
+                </div>
+                {feedback === 'correct' && <p className="text-green-600 mt-2">✅ ¡Correcto!</p>}
+                {feedback === 'incorrect' && <p className="text-red-600 mt-2">❌ Intenta de nuevo.</p>}
+              </div>
+            )}
+ex.options ? (
             <div className="space-y-3">
               {ex.options.map((opt,i) => <button key={i} onClick={()=>checkAnswer(opt)} className="block w-full text-left p-4 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-medium text-white">{opt}</button>)}
             </div>
