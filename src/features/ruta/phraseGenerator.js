@@ -140,91 +140,43 @@ const PhraseGenerator = {
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; exercises.push(ex); }
     }
-    
-  // ---------- order (ordenar palabras de frases reales) ----------
-  const orderSentences = [];
-  // Recorremos las mismas allSentences que usamos en adj (ya definidas arriba)
-  for (const s of allSentences) {
-    // Elegimos frases de entre 4 y 8 palabras para que no sean ni triviales ni imposibles
-    const words = s.split(/\s+/);
-    if (words.length >= 4 && words.length <= 8) {
-      orderSentences.push(s);
+    // Declinaciones de adjetivos (casos nom/acc/dat)
+    const adjDeclAdjectives = allValid.filter(w => w[4] === "adj");
+    const adjDeclNouns = allValid.filter(w => w[4] === "n" && this.getArticle(w));
+    if (adjDeclAdjectives.length > 0 && adjDeclNouns.length > 0) {
+      const adjDeclCount = Math.min(3, adjDeclAdjectives.length);
+      const shuffledAdj = [...adjDeclAdjectives].sort(() => Math.random() - 0.5).slice(0, adjDeclCount);
+      const casesList = ["nom", "acc", "dat"];
+      const detTable = { nom: { m: "der", f: "die", n: "das", pl: "die" }, acc: { m: "den", f: "die", n: "das", pl: "die" }, dat: { m: "dem", f: "der", n: "dem", pl: "den" } };
+      const endingTable = { nom: { m: "-e", f: "-e", n: "-e", pl: "-en" }, acc: { m: "-en", f: "-e", n: "-e", pl: "-en" }, dat: { m: "-en", f: "-en", n: "-en", pl: "-en" } };
+      for (let adj of shuffledAdj) {
+        const noun = adjDeclNouns[Math.floor(Math.random() * adjDeclNouns.length)];
+        const gender = this.getGender(noun);
+        const art = this.getArticle(noun);
+        const bareNoun = this.getBareNoun(noun);
+        const adjBase = adj[0];
+        const selCase = casesList[Math.floor(Math.random() * casesList.length)];
+        const det = detTable[selCase][gender];
+        const ending = endingTable[selCase][gender];
+        const correctEnding = ending.replace("-", "");
+        const fullAdj = adjBase + correctEnding;
+        let sentence = "";
+        if (selCase === "nom") sentence = det + " " + adjBase + "___ " + bareNoun + " ist neu.";
+        else if (selCase === "acc") sentence = "Ich sehe " + det + " " + adjBase + "___ " + bareNoun + ".";
+        else sentence = "Ich spreche mit " + det + " " + adjBase + "___ " + bareNoun + ".";
+        exercises.push({
+          type: "adjectiveDeclension",
+          prompt: "Completa con la terminación correcta:\n\"" + sentence + "\"",
+          answer: ending,
+          options: ["-e","-er","-es","-en"].sort(() => Math.random() - 0.5),
+          hint: (selCase === "nom" ? "Nominativo" : selCase === "acc" ? "Acusativo" : "Dativo") + " definido (" + det + ").",
+          speakText: det + " " + fullAdj + " " + bareNoun,
+          word: adj,
+          translation: adj[1]
+        });
+      }
     }
-  }
-  shuffleArray(orderSentences);
-  // Cogemos hasta 3 frases
-  const usedOrder = orderSentences.slice(0, 3);
-  usedOrder.forEach(sentence => {
-    const words = sentence.split(/\s+/);
-    const shuffled = [...words].sort(() => Math.random() - 0.5);
-    exercises.push({
-      type: 'order',
-      sentence: sentence,   // la frase correcta
-      answer: sentence,      // para comparar al final
-      orderWords: shuffled,  // palabras desordenadas
-      points: 5
-    });
-  });
-  // ---- Frases reales del nivel ----
-  const adjSentences = [];
-const articleSet = new Set([
-  'der','die','das','den','dem','des',
-  'ein','eine','einen','einem','eines',
-  'kein','keine','keinen','keinem','keines',
-  'mein','dein','sein','ihr','unser','euer','ihr','Ihr'
-]);
-
-for (const sentence of allSentences) {
-  const words = sentence.split(/\s+/);
-  for (let i = 0; i < words.length - 2; i++) {
-    const w1 = words[i];
-    const w2 = words[i+1];
-    const w3 = words[i+2];
-    if (
-      articleSet.has(w1.toLowerCase()) &&
-      /^[a-zäöüß]+$/i.test(w2) &&
-      (/^(e|er|es|en|em)$/.test(w2.slice(-2)) && !/^(der|die|das|den|dem|des|ein|eine|einen|einem|eines)$/i.test(w2)) &&
-      /^[A-ZÄÖÜ]/.test(w3)
-    ) {
-      let adj = w2;
-      let stem, ending;
-      if (adj.endsWith('en')) { stem = adj.slice(0, -2); ending = 'en'; }
-      else if (adj.endsWith('em')) { stem = adj.slice(0, -2); ending = 'em'; }
-      else if (adj.endsWith('er')) { stem = adj.slice(0, -2); ending = 'er'; }
-      else if (adj.endsWith('es')) { stem = adj.slice(0, -2); ending = 'es'; }
-      else if (adj.endsWith('e') && adj.length > 2) { stem = adj.slice(0, -1); ending = 'e'; }
-      else { continue; }
-
-      const maskedSentence =
-        sentence.slice(0, sentence.indexOf(adj)) +
-        stem + '___' +
-        sentence.slice(sentence.indexOf(adj) + adj.length);
-
-      adjSentences.push({
-        original: sentence,
-        masked: maskedSentence,
-        correctEnding: ending,
-        stem: stem
-      });
-      break;
-    }
-  }
-}
-
-shuffleArray(adjSentences);
-const usedAdj = adjSentences.slice(0, 3);
-
-usedAdj.forEach(item => {
-  exercises.push({
-    type: 'adjectiveDeclension',
-    question: item.masked,
-    options: ['e', 'er', 'es', 'en', 'em'],
-    answer: item.correctEnding,
-    originalSentence: item.original,
-    points: 5
-  });
-});
-// ----------    // Contextuales
+    // Contextuales
     const bank=window.PhrasesBank||{};
     const levelBank=bank[levelId]||{};
     const bankKeys=Object.keys(levelBank);
