@@ -35,7 +35,7 @@ const RutaPanel = () => {
           {Object.keys(progress.completed || {}).length} lecciones · {progress.xp || 0} XP · Racha {progress.streak || 0} días
         </p>
         {levels.map((level, idx) => {
-          const isUnlocked = idx === 0 || (levels[idx-1]?.lessons > 0 && Object.keys(progress.completed || {}).some(c => c.startsWith(levels[idx-1].id + "-l")));
+          const isUnlocked = true; // TODOS LOS NIVELES DESBLOQUEADOS PARA PRUEBAS
           const lessonsCompleted = Object.keys(progress.completed || {}).filter(c => c.startsWith(level.id + "-l")).length;
           return (
             <div key={level.id} className={`bg-slate-800 rounded-2xl shadow-xl p-5 mb-4 border border-slate-700 transition ${!isUnlocked ? "opacity-40" : "hover:border-blue-500"}`}>
