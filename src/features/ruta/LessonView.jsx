@@ -2,7 +2,6 @@ const { useState, useEffect, useCallback, useRef } = React;
 
 const LessonView = ({ levelId, lessonIdx, onBack }) => {
     const [userOrder, setUserOrder] = useState([]);
-  const [feedback, setFeedback] = useState('');
 const [exercises, setExercises] = useState([]);
   const [currentEx, setCurrentEx] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
@@ -56,6 +55,7 @@ const [exercises, setExercises] = useState([]);
     setCurrentEx(0);
     setUserAnswer("");
     setFeedback(null);
+      setUserOrder([]);
     setMatchSelected(null);
     setMatchResult([]);
     setAudioSelected(null);
@@ -98,6 +98,7 @@ const [exercises, setExercises] = useState([]);
       setCurrentEx(currentEx + 1);
       setUserAnswer("");
       setFeedback(null);
+      setUserOrder([]);
       setMatchSelected(null);
       setMatchResult([]);
       setAudioSelected(null);
@@ -110,6 +111,7 @@ const [exercises, setExercises] = useState([]);
         setCurrentEx(0);
         setUserAnswer("");
         setFeedback(null);
+      setUserOrder([]);
         setReviewMode(true);
       } else {
         if (!showComponent) {
@@ -230,7 +232,7 @@ const [exercises, setExercises] = useState([]);
               <p className="text-slate-400 text-sm">Pulsa el botón y repite la frase en alemán.</p>
             </div>
           ) : 
-            {/* --- Order (ordenar palabras) --- */}
+                        {/* --- Order (ordenar palabras) --- */}
             {ex.type === 'order' && (
               <div className="mt-4 p-4 border rounded bg-gray-50">
                 <p className="font-semibold mb-2">Ordena las palabras para formar la frase:</p>
@@ -238,10 +240,9 @@ const [exercises, setExercises] = useState([]);
                   {ex.orderWords.map((word, idx) => (
                     <button
                       key={idx}
-                      onClick={() => {
-                        setUserOrder(prev => [...prev, word]);
-                      }}
-                      className="px-3 py-1 bg-white border rounded hover:bg-blue-500 hover:text-white"
+                      onClick={() => setUserOrder(prev => [...prev, word])}
+                      disabled={!!feedback}
+                      className="px-3 py-1 bg-white border rounded hover:bg-blue-500 hover:text-white disabled:opacity-50"
                     >
                       {word}
                     </button>
@@ -249,33 +250,21 @@ const [exercises, setExercises] = useState([]);
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => {
-                      const correct = ex.answer.replace(/\s+/g, ' ').trim();
-                      const user = userOrder.join(' ');
-                      if (user === correct) {
-                        setFeedback('correct');
-                        handleAnswer(true);
-                      } else {
-                        setFeedback('incorrect');
-                        handleAnswer(false);
-                      }
-                    }}
-                    className="bg-green-600 text-white px-4 py-1 rounded"
+                    onClick={() => checkAnswer(userOrder.join(' '))}
+                    disabled={!!feedback}
+                    className="bg-green-600 text-white px-4 py-1 rounded disabled:opacity-50"
                   >
                     Comprobar
                   </button>
                   <button
-                    onClick={() => {
-                      setUserOrder([]);
-                      setFeedback('');
-                    }}
-                    className="bg-gray-400 text-white px-4 py-1 rounded"
+                    onClick={() => { setUserOrder([]); setFeedback(null);
+      setUserOrder([]); }}
+                    disabled={!!feedback}
+                    className="bg-gray-400 text-white px-4 py-1 rounded disabled:opacity-50"
                   >
                     Resetear
                   </button>
                 </div>
-                {feedback === 'correct' && <p className="text-green-600 mt-2">✅ ¡Correcto!</p>}
-                {feedback === 'incorrect' && <p className="text-red-600 mt-2">❌ Intenta de nuevo.</p>}
               </div>
             )}
 ex.options ? (
