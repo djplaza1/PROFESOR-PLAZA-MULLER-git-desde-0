@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <!-- redeploy 2026-04-06-docs-monedas-tienda -->
+    <!-- redeploy 2026-05-08-ruta-5010-palabras -->
     <title>PROFESOR PLAZA MÜLLER</title>
     <meta name="theme-color" content="#581c87" />
     <meta name="description" content="PROFESOR PLAZA MÜLLER: historia, vocabulario, B1/B2 y progreso." />
@@ -956,8 +956,32 @@
   <script type="text/babel" src="src/features/comunidad/comunidadAmigos.jsx"></script>
   <script type="text/babel" src="src/features/comunidad/comunidadMensajes.jsx"></script>
   <script type="text/babel" src="src/features/comunidad/comunidadDuelos.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadBloqueos.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadArena.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadClubs.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadFeed.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadTienda.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadGuiones.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadMentor.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadHistorias.jsx"></script>
   <script type="text/babel" src="src/features/comunidad/ComunidadPanel.jsx"></script>
   <script type="text/babel" src="src/features/biblioteca/BibliotecaPanel.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/maestros/maestrosHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA1_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA1_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA2_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA2_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB1_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB1_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB2_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB2_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoC1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/MaestroIA.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/EjerciciosMaestros.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/CompetenciaHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/CompetenciaMaestros.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/ProgresionMaestros.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/HistoriaMaestros.jsx"></script>
   <script type="text/babel" src="src/features/maestros/MaestrosPanel.jsx"></script>
   <script type="text/babel" src="src/features/telc/TelcPanel.jsx"></script>
   <script type="text/babel" src="src/features/splash/Splash.jsx"></script>
@@ -971,9 +995,22 @@
   <script type="text/babel" src="src/features/tienda/TiendaPanel.jsx"></script>
   <script type="text/babel" src="src/features/pdfstudy/pdfstudyHelpers.jsx"></script>
   <script type="text/babel" src="src/features/pdfstudy/PdfstudyPanel.jsx"></script>
-  <!-- RUTA DE APRENDIZAJE -->
-  <script type="text/babel" src="src/features/ruta/rutaHelpers.jsx"></script>
-  <script type="text/babel" src="src/features/ruta/RutaPanel.jsx"></script>
+  <!-- RUTA DE APRENDIZAJE (LEVELS DATA FIRST) -->
+  <!-- RUTA DE APRENDIZAJE (arquitectura modular) -->
+  <script type="text/javascript" src="src/features/ruta/rutaHelpers.jsx?v=4"></script>
+  <script type="text/javascript" src="src/data/vocabData.js"></script>
+  <script type="text/javascript" src="src/features/ruta/levelConfig.js"></script>
+  <script type="text/javascript" src="src/features/ruta/exerciseTypes.js"></script>
+  <script type="text/javascript" src="src/features/ruta/phraseGenerator.js"></script>
+  <script type="text/javascript" src="src/features/ruta/srsHelpers.js"></script>
+  <script type="text/javascript" src="src/features/ruta/corrector.js"></script>
+  <script type="text/javascript" src="src/features/ruta/rutaAudio.js"></script>
+  <script type="text/javascript" src="src/features/ruta/podcastA1_1Engine.js"></script>
+  <script type="text/javascript" src="src/features/ruta/storyA1_1Engine.js"></script>
+  <script type="text/babel" src="src/features/ruta/LessonView.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/ruta/PodcastView.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/ruta/StoryView.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/ruta/RutaPanel.jsx?v=4"></script>
 
   <script type="text/babel" src="src/features/historia/data/defaultGuion.jsx?v=2"></script>
   <script type="text/babel" src="src/features/historia/data/oralB1Questions.jsx?v=2"></script>
@@ -998,6 +1035,4 @@
 
   <!-- PUNTO DE ENTRADA PRINCIPAL -->
   <script type="text/babel" src="src/app.jsx?v=3"></script>
-</body>
 </html>
-"<!-- $(date) - SUPER_RESUMEN_CHAT.md: a�adida seccion PERSONALIDAD_DEL_AGENTE con roles Profesor Aleman + Super Programador Ingeniero -->" 

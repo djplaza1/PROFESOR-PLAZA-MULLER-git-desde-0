@@ -1,0 +1,93 @@
+// exerciseTypes.js – 8+ tipos de ejercicios premium
+const EXERCISE_TYPES = {
+
+  fill(de, es, distractors) {
+    const opts = distractors || [];
+    return {
+      type: 'fill',
+      prompt: `Completa: "___" significa "${es}".`,
+      answer: de,
+      options: [...opts, de].sort(() => Math.random() - 0.5),
+      hint: 'Es una palabra de nivel.'
+    };
+  },
+
+  choose(de, es, distractors) {
+    const opts = distractors || [];
+    const options = [es, ...opts].sort(() => Math.random() - 0.5);
+    return { type: 'choose', prompt: `¿Cuál es la traducción de "${de}"?`, answer: es, options, hint: 'Mira bien las opciones.' };
+  },
+
+  plural(de, plural, distractors) {
+    const opts = distractors || [];
+    const options = [plural, ...opts].filter(Boolean).sort(() => Math.random() - 0.5);
+    return { type: 'plural', prompt: `¿Cuál es el plural de "${de}"?`, answer: plural, options, hint: 'Recuerda las reglas de plural.' };
+  },
+
+  translateDE(es, de) {
+    return { type: 'translateDE', prompt: `Traduce al alemán: "${es}"`, answer: de, hint: 'Empieza como se escribe en alemán.' };
+  },
+
+  translateES(de, es) {
+    return { type: 'translateES', prompt: `Traduce al español: "${de}"`, answer: es, hint: 'Pista: está relacionado con el tema.' };
+  },
+
+  conjugate(infinitive, pronoun, tense, correctForm) {
+    return {
+      type: 'conjugate',
+      prompt: `Conjuga "${infinitive}" para "${pronoun}" en ${tense}.`,
+      answer: correctForm,
+      hint: `Recuerda la terminación para ${pronoun}.`
+    };
+  },
+
+  order(scrambledWords, correctSentence) {
+    return {
+      type: 'order',
+      prompt: `Ordena estas palabras: ${scrambledWords.join(' ')}`,
+      answer: correctSentence,
+      hint: `La frase empieza con: "${scrambledWords[0]}"?`
+    };
+  },
+
+  correct(wrongSentence, correctSentence) {
+    return { type: 'correct', prompt: `Corrige el error: "${wrongSentence}"`, answer: correctSentence, hint: 'Hay un error gramatical.' };
+  },
+
+  // NUEVO: completar hueco en frase, se indica en español la palabra que falta
+  fillInSentence(sentenceWithBlank, missingWordDe, missingWordEs, distractors) {
+    const opts = distractors || [];
+    return {
+      type: 'fillInSentence',
+      prompt: `Completa la frase. Falta la palabra "${missingWordEs}":\n"${sentenceWithBlank}"`,
+      answer: missingWordDe,
+      options: [...opts, missingWordDe].sort(() => Math.random() - 0.5),
+      hint: `Pista: es la traducción de "${missingWordEs}".`
+    };
+  },
+
+  // NUEVO: verbo separable (prefijo al final)
+  separableVerb(sentencePrefix, separablePrefix, infinitive) {
+    return {
+      type: 'separableVerb',
+      prompt: `Completa con el prefijo separable del verbo "${infinitive}":\n"${sentencePrefix} ___"`,
+      answer: separablePrefix,
+      hint: `El verbo "${infinitive}" se separa, el prefijo va al final.`
+    };
+  },
+
+  // NUEVO: declinación (artículo/forma correcta)
+  declension(noun, article, distractors) {
+    const opts = distractors || [];
+    const options = [article, ...opts].sort(() => Math.random() - 0.5);
+    return {
+      type: 'declension',
+      prompt: `¿Cuál es el artículo correcto para "${noun}"?`,
+      answer: article,
+      options,
+      hint: 'Recuerda el género del sustantivo.'
+    };
+  }
+};
+
+window.ExerciseTypes = EXERCISE_TYPES;
