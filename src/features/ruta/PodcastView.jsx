@@ -1,11 +1,11 @@
 const { useState, useEffect } = React;
-const PodcastView = ({ onBack }) => {
+const PodcastView = ({ levelId, onBack }) => {
   const [segment, setSegment] = useState(0);
   const [exerciseIdx, setExerciseIdx] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState(null);
   const speak = (text) => window.RutaAudio?.speak(text);
-  const data = window.PodcastA1_1;
+  const engineKey = "Podcast" + (levelId || "A1_1").replace(/\./g, "_"); const data = window[engineKey] || window.PodcastA1_1;
   if (!data) return React.createElement("div", { className: "text-white p-4" }, "Podcast no disponible");
   const seg = data.segments[segment];
   const ex = seg?.exercises[exerciseIdx];
