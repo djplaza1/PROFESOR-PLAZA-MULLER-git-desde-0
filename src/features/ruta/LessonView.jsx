@@ -16,6 +16,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [streak, setStreak] = useState(0);
   const [celebrate, setCelebrate] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [userOrder, setUserOrder] = useState([]);
   const audioCtxRef = useRef(null);
 
   const playTone = (freq, duration, type = 'sine') => {
