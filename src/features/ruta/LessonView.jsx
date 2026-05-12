@@ -1,8 +1,7 @@
 const { useState, useEffect, useCallback, useRef } = React;
 
 const LessonView = ({ levelId, lessonIdx, onBack }) => {
-    const [userOrder, setUserOrder] = useState([]);
-const [exercises, setExercises] = useState([]);
+  const [exercises, setExercises] = useState([]);
   const [currentEx, setCurrentEx] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState(null);
@@ -17,6 +16,7 @@ const [exercises, setExercises] = useState([]);
   const [streak, setStreak] = useState(0);
   const [celebrate, setCelebrate] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [userOrder, setUserOrder] = useState([]);
   const audioCtxRef = useRef(null);
 
   const playTone = (freq, duration, type = 'sine') => {
@@ -55,7 +55,6 @@ const [exercises, setExercises] = useState([]);
     setCurrentEx(0);
     setUserAnswer("");
     setFeedback(null);
-      setUserOrder([]);
     setMatchSelected(null);
     setMatchResult([]);
     setAudioSelected(null);
@@ -65,6 +64,7 @@ const [exercises, setExercises] = useState([]);
     setStreak(0);
     setCelebrate(null);
     setIsRecording(false);
+    setUserOrder([]);
   }, [levelId, lessonIdx, reviewMode]);
 
   useEffect(() => {
@@ -98,12 +98,12 @@ const [exercises, setExercises] = useState([]);
       setCurrentEx(currentEx + 1);
       setUserAnswer("");
       setFeedback(null);
-      setUserOrder([]);
       setMatchSelected(null);
       setMatchResult([]);
       setAudioSelected(null);
       setAudioRevealed([]);
       setIsRecording(false);
+      setUserOrder([]);
     } else {
       if (!reviewMode && failedStack.length > 0) {
         setExercises(failedStack);
@@ -111,8 +111,8 @@ const [exercises, setExercises] = useState([]);
         setCurrentEx(0);
         setUserAnswer("");
         setFeedback(null);
-      setUserOrder([]);
         setReviewMode(true);
+        setUserOrder([]);
       } else {
         if (!showComponent) {
           showCelebration('🎙️ Ahora completa el Podcast');
@@ -152,7 +152,7 @@ const [exercises, setExercises] = useState([]);
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">
             {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1}`} – {ex.type}
-            {ex.isReview && <span className="ml-2 text-amber-400 text-sm" title="Ejercicio de repaso SRS">🔁</span>}
+            {ex.isReview && <span className="ml-2 text-amber-400 text-sm" title="Ejercicio de repaso SRS">🔔</span>}
           </h2>
           <div className="flex gap-2">
             <button onClick={() => setShowComponent('podcast')} className={`px-3 py-1 text-white text-xs rounded-full hover:bg-purple-500 transition shadow ${showComponent === 'podcast' || showComponent === 'story' ? 'bg-gray-500 cursor-not-allowed' : 'bg-purple-600'}`} disabled={showComponent === 'podcast' || showComponent === 'story'}>🎙️ Podcast</button>
@@ -164,7 +164,7 @@ const [exercises, setExercises] = useState([]);
           <div className="flex items-center mb-6">
             <p className="text-slate-200 font-medium text-lg">{ex.prompt}</p>
             {ex.speakText && <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">🔊</button>}
-            {ex.isReview && <span className="ml-2 text-amber-400 text-xs" title="Palabra para repasar">🔁 repaso</span>}
+            {ex.isReview && <span className="ml-2 text-amber-400 text-xs" title="Palabra para repasar">🔔 repaso</span>}
           </div>
 
           {ex.type === "audioMatch" ? (
@@ -188,7 +188,7 @@ const [exercises, setExercises] = useState([]);
           ) : ex.type === "pronounce" ? (
             <div className="flex flex-col items-center gap-4">
               <button
-                                onClick={() => {
+                onClick={() => {
                   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                   if (!SpeechRecognition) {
                     alert("Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.");
@@ -231,43 +231,39 @@ const [exercises, setExercises] = useState([]);
               </button>
               <p className="text-slate-400 text-sm">Pulsa el botón y repite la frase en alemán.</p>
             </div>
-          ) : 
-                        {/* --- Order (ordenar palabras) --- */}
-            {ex.type === 'order' && (
-              <div className="mt-4 p-4 border rounded bg-gray-50">
-                <p className="font-semibold mb-2">Ordena las palabras para formar la frase:</p>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {ex.orderWords.map((word, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setUserOrder(prev => [...prev, word])}
-                      disabled={!!feedback}
-                      className="px-3 py-1 bg-white border rounded hover:bg-blue-500 hover:text-white disabled:opacity-50"
-                    >
-                      {word}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex gap-2">
+          ) : ex.type === "order" ? (
+            <div className="mt-4 p-4 border rounded bg-gray-50">
+              <p className="font-semibold mb-2 text-slate-800">Ordena las palabras para formar la frase:</p>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {ex.orderWords.map((word, idx) => (
                   <button
-                    onClick={() => checkAnswer(userOrder.join(' '))}
+                    key={idx}
+                    onClick={() => setUserOrder(prev => [...prev, word])}
                     disabled={!!feedback}
-                    className="bg-green-600 text-white px-4 py-1 rounded disabled:opacity-50"
+                    className="px-3 py-1 bg-white border rounded hover:bg-blue-500 hover:text-white disabled:opacity-50 text-slate-800"
                   >
-                    Comprobar
+                    {word}
                   </button>
-                  <button
-                    onClick={() => { setUserOrder([]); setFeedback(null);
-      setUserOrder([]); }}
-                    disabled={!!feedback}
-                    className="bg-gray-400 text-white px-4 py-1 rounded disabled:opacity-50"
-                  >
-                    Resetear
-                  </button>
-                </div>
+                ))}
               </div>
-            )}
-ex.options ? (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => checkAnswer(userOrder.join(' '))}
+                  disabled={!!feedback}
+                  className="bg-green-600 text-white px-4 py-1 rounded disabled:opacity-50"
+                >
+                  Comprobar
+                </button>
+                <button
+                  onClick={() => { setUserOrder([]); setFeedback(null); }}
+                  disabled={!!feedback}
+                  className="bg-gray-400 text-white px-4 py-1 rounded disabled:opacity-50"
+                >
+                  Resetear
+                </button>
+              </div>
+            </div>
+          ) : ex.options ? (
             <div className="space-y-3">
               {ex.options.map((opt,i) => <button key={i} onClick={()=>checkAnswer(opt)} className="block w-full text-left p-4 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-medium text-white">{opt}</button>)}
             </div>
