@@ -164,16 +164,9 @@ const PhraseGenerator = {
       orderWords: shuffled,  // palabras desordenadas
       points: 5
     });
-  });// ---------- adjectiveDeclension (frases reales con adjetivo) ----------
-const allSentences = [];
-const levelPhrases = phrasesBank[levelId];
-if (levelPhrases) {
-  Object.values(levelPhrases).forEach(phraseArray => {
-    phraseArray.forEach(p => allSentences.push(p.de));
   });
-}
-
-const adjSentences = [];
+  // ---- Frases reales del nivel ----
+  const adjSentences = [];
 const articleSet = new Set([
   'der','die','das','den','dem','des',
   'ein','eine','einen','einem','eines',
