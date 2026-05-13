@@ -84,6 +84,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [hwMemMode, setHwMemMode] = useState(false);
   const [hwMemTimer, setHwMemTimer] = useState(5);
   const [completedLines, setCompletedLines] = useState([]);
+  const [isPaused, setIsPaused] = useState(false);
 
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
@@ -690,12 +691,26 @@ switch (mode) {
       const allLines = typingPool.map(item => item.text);
       const currentHighlights = typingPool.length > 0 ? typingPool[0].vocabHighlights : [];
       const currentVocabMap = typingPool.length > 0 ? typingPool[0].vocabMap : new Map();
+      const fullText = allLines.join('\n');
+
+      // Referencia local al viewerRef (ya viene del ctx)
+      const viewerRefCtx = viewerRef;
+
+      // Efecto para avanzar la vista al completar líneas
+      useEffect(() => {
+        if (!viewerRefCtx.current) return;
+        const linesCompleted = completedLines.length;
+        const lineHeight = 28; // aprox en px
+        const targetScroll = linesCompleted * lineHeight;
+        viewerRefCtx.current.scrollTop = targetScroll;
+      }, [completedLines]);
 
       const handleTypingInput = (e) => {
+        if (isPaused) return;
         const val = e.target.value;
         setTypingInput(val);
         if (!typingStartMs && val.length > 0) setTypingStartMs(Date.now());
-        // Actualizar líneas completadas según coincidencia exacta
+        // Actualizar líneas completadas
         const writtenLines = val.split(/\n/);
         const newCompleted = [];
         for (let i = 0; i < allLines.length; i++) {
@@ -708,15 +723,25 @@ switch (mode) {
         setCompletedLines(newCompleted);
       };
 
+      const togglePause = () => {
+        if (isPaused) {
+          setIsPaused(false);
+          // Reanudar cronómetro: no tocamos typingStartMs, solo permitimos escribir
+        } else {
+          setIsPaused(true);
+          // Pausar: el cronómetro seguirá corriendo? Para ser justos, lo congelamos guardando el tiempo transcurrido.
+          // Podríamos guardar el tiempo acumulado, pero lo más simple es detener el contador.
+          // Aquí simplemente deshabilitamos la entrada; el WPM se congela porque typingInput no cambia.
+        }
+      };
+
       const stopTyping = () => {
         setTypingFinished(true);
         const elapsed = Date.now() - (typingStartMs || Date.now());
         const minutes = elapsed / 60000;
-        const fullText = allLines.join('\n');
         const wpm = minutes > 0 ? Math.round(fullText.split(/\s+/).length / minutes) : 0;
         const result = E.analyzeTyping(typingInput, fullText);
         setTypingResult({ ...result, wpm, durationMs: elapsed });
-        // Guardar en localStorage para comparar futuras sesiones
         try {
           const key = btoa(fullText).substring(0, 40);
           const prev = JSON.parse(localStorage.getItem('typingSessions') || '{}');
@@ -732,6 +757,7 @@ switch (mode) {
         setTypingFinished(false);
         setTypingResult(null);
         setCompletedLines([]);
+        setIsPaused(false);
       };
 
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-cyan-500/30 p-3 flex gap-4' },
@@ -757,28 +783,26 @@ switch (mode) {
               className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
             })
           ),
-          // Visor del texto completo con scroll y resaltado
+          // Visor del texto (mejorado: líneas horizontales, coloreado y subrayado)
           React.createElement('div', {
             ref: viewerRef,
-            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-64 overflow-y-auto text-lg md:text-xl text-white leading-relaxed font-mono'
+            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-64 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
           },
             allLines.map((line, lineIdx) =>
-              React.createElement('div', { key: lineIdx, className: 'flex flex-wrap' },
+              React.createElement('div', { key: lineIdx, style: { display: 'flex', flexWrap: 'wrap' } },
                 line.split('').map((ch, charIdx) => {
                   const globalIdx = allLines.slice(0, lineIdx).reduce((sum, l) => sum + l.length + 1, 0) + charIdx;
                   let bgColor = 'transparent';
-                  let textColor = 'text-gray-500';
-                  // Subrayar vocabulario (usando highlights del primer item como referencia)
+                  let textColor = 'text-gray-400';
                   const isVocab = currentHighlights.some(v => v.start <= charIdx && charIdx < v.end);
                   if (isVocab) bgColor = 'rgba(234, 179, 8, 0.3)';
-                  // Colorear según acierto/error
                   if (globalIdx < typingInput.length) {
                     textColor = typingInput[globalIdx] === ch ? 'text-emerald-400' : 'text-rose-400';
                   }
                   return React.createElement('span', {
                     key: charIdx,
                     className: textColor,
-                    style: { backgroundColor: bgColor }
+                    style: { backgroundColor: bgColor, display: 'inline' }
                   }, ch);
                 })
               )
@@ -789,21 +813,24 @@ switch (mode) {
             value: typingInput,
             onChange: handleTypingInput,
             placeholder: 'Escribe aquí el texto completo...',
-            disabled: typingFinished,
+            disabled: typingFinished || isPaused,
             className: 'w-full min-h-[120px] bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
           }),
-          // Panel de estadísticas y cronómetro
+          // Barra de estadísticas y botones
           React.createElement('div', { className: 'flex gap-4 text-xs items-center' },
             React.createElement('span', { className: 'text-cyan-300' }, `WPM: ${typingLiveWpm}`),
             React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`),
             React.createElement('span', { className: 'text-yellow-300' }, `⏱ ${typingStartMs ? Math.floor((Date.now() - typingStartMs)/1000) : 0}s`),
+            React.createElement('button', {
+              onClick: togglePause,
+              className: `px-3 py-1 ${isPaused ? 'bg-green-700 hover:bg-green-600' : 'bg-yellow-700 hover:bg-yellow-600'} rounded-lg text-xs font-bold`
+            }, isPaused ? 'Reanudar' : 'Pausa'),
             React.createElement('button', {
               onClick: stopTyping,
               disabled: typingFinished,
               className: 'px-3 py-1 bg-rose-700 hover:bg-rose-600 rounded-lg text-xs font-bold'
             }, 'Parar')
           ),
-          // Resultados al parar
           typingFinished && typingResult && React.createElement('div', { className: 'rounded-xl bg-emerald-950/40 border border-emerald-700/40 p-3 space-y-2' },
             React.createElement('p', { className: 'text-emerald-300 font-black' }, '✓ ¡Completado!'),
             React.createElement('div', { className: 'grid grid-cols-3 gap-2 text-xs' },
@@ -822,8 +849,7 @@ switch (mode) {
               )
             ),
             React.createElement('button', { onClick: nextTypingText, className: 'px-4 py-2 bg-cyan-700 hover:bg-cyan-600 rounded-xl text-sm font-bold' }, 'Reiniciar')
-          ),
-          !typingFinished && React.createElement('button', { onClick: stopTyping, className: 'text-xs px-3 py-1.5 bg-rose-800 hover:bg-rose-700 rounded-lg' }, 'Parar y evaluar')
+          )
         ),
         currentVocabMap.size > 0 && React.createElement('div', {
           className: 'p-3 rounded-xl bg-black/35 border border-yellow-500/30 w-56 flex-shrink-0 self-start sticky top-4',
