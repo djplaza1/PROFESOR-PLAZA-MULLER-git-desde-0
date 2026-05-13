@@ -83,6 +83,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [hwShowTarget, setHwShowTarget] = useState(true);
   const [hwMemMode, setHwMemMode] = useState(false);
   const [hwMemTimer, setHwMemTimer] = useState(5);
+  const [completedLines, setCompletedLines] = useState([]);
 
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
@@ -686,24 +687,42 @@ switch (mode) {
         }, 'Siguiente palabra')
       );
     case 'typing': {
-      const currentItem = typingPool[typingIdx % typingPool.length] || {};
-      const currentTypingText = currentItem.text || '';
-      const currentHighlights = currentItem.vocabHighlights || [];
-      const currentVocabMap = currentItem.vocabMap || new Map();
+      const allLines = typingPool.map(item => item.text);
+      const currentHighlights = typingPool.length > 0 ? typingPool[0].vocabHighlights : [];
+      const currentVocabMap = typingPool.length > 0 ? typingPool[0].vocabMap : new Map();
 
       const handleTypingInput = (e) => {
         const val = e.target.value;
         setTypingInput(val);
         if (!typingStartMs && val.length > 0) setTypingStartMs(Date.now());
-        if (val === currentTypingText && currentTypingText.length > 0) {
-          setTypingFinished(true);
-          const elapsed = Date.now() - (typingStartMs || Date.now());
-          const minutes = elapsed / 60000;
-          const targetWords = currentTypingText.split(/\s+/);
-          const wpm = minutes > 0 ? Math.round(targetWords.length / minutes) : 0;
-          const result = E.analyzeTyping(val, currentTypingText);
-          setTypingResult({ ...result, wpm, durationMs: elapsed });
+        // Actualizar líneas completadas según coincidencia exacta
+        const writtenLines = val.split(/\n/);
+        const newCompleted = [];
+        for (let i = 0; i < allLines.length; i++) {
+          if (writtenLines[i] && writtenLines[i].trim() === allLines[i].trim()) {
+            newCompleted.push(i);
+          } else {
+            break;
+          }
         }
+        setCompletedLines(newCompleted);
+      };
+
+      const stopTyping = () => {
+        setTypingFinished(true);
+        const elapsed = Date.now() - (typingStartMs || Date.now());
+        const minutes = elapsed / 60000;
+        const fullText = allLines.join('\n');
+        const wpm = minutes > 0 ? Math.round(fullText.split(/\s+/).length / minutes) : 0;
+        const result = E.analyzeTyping(typingInput, fullText);
+        setTypingResult({ ...result, wpm, durationMs: elapsed });
+        // Guardar en localStorage para comparar futuras sesiones
+        try {
+          const key = btoa(fullText).substring(0, 40);
+          const prev = JSON.parse(localStorage.getItem('typingSessions') || '{}');
+          prev[key] = { wpm, accuracy: result.accuracy, date: Date.now() };
+          localStorage.setItem('typingSessions', JSON.stringify(prev));
+        } catch (ex) {}
       };
 
       const nextTypingText = () => {
@@ -712,6 +731,7 @@ switch (mode) {
         setTypingStartMs(null);
         setTypingFinished(false);
         setTypingResult(null);
+        setCompletedLines([]);
       };
 
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-cyan-500/30 p-3 flex gap-4' },
@@ -737,40 +757,53 @@ switch (mode) {
               className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
             })
           ),
+          // Visor del texto completo con scroll y resaltado
           React.createElement('div', {
-            ref: viewerRef, className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-56 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
+            ref: viewerRef,
+            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-64 overflow-y-auto text-lg md:text-xl text-white leading-relaxed font-mono'
           },
-            currentTypingText.split('').map((ch, i) => {
-              let vocabSpan = null;
-              for (const v of currentHighlights) {
-                if (i === v.start) { vocabSpan = v; break; }
-              }
-              if (vocabSpan) {
-                return React.createElement('span', {
-                  key: i,
-                  style: { backgroundColor: 'rgba(234, 179, 8, 0.3)', borderBottom: '2px solid #eab308' }
-                }, currentTypingText.slice(vocabSpan.start, vocabSpan.end));
-              }
-              if (currentHighlights.some(v => i > v.start && i < v.end)) return null;
-              let color = 'text-gray-500';
-              if (i < typingInput.length) {
-                color = typingInput[i] === ch ? 'text-emerald-400' : 'text-rose-400';
-              }
-              return React.createElement('span', { key: i, className: color }, ch);
-            })
+            allLines.map((line, lineIdx) =>
+              React.createElement('div', { key: lineIdx, className: 'flex flex-wrap' },
+                line.split('').map((ch, charIdx) => {
+                  const globalIdx = allLines.slice(0, lineIdx).reduce((sum, l) => sum + l.length + 1, 0) + charIdx;
+                  let bgColor = 'transparent';
+                  let textColor = 'text-gray-500';
+                  // Subrayar vocabulario (usando highlights del primer item como referencia)
+                  const isVocab = currentHighlights.some(v => v.start <= charIdx && charIdx < v.end);
+                  if (isVocab) bgColor = 'rgba(234, 179, 8, 0.3)';
+                  // Colorear según acierto/error
+                  if (globalIdx < typingInput.length) {
+                    textColor = typingInput[globalIdx] === ch ? 'text-emerald-400' : 'text-rose-400';
+                  }
+                  return React.createElement('span', {
+                    key: charIdx,
+                    className: textColor,
+                    style: { backgroundColor: bgColor }
+                  }, ch);
+                })
+              )
+            )
           ),
-          React.createElement('input', {
-            type: 'text',
+          // Campo de escritura multilínea
+          React.createElement('textarea', {
             value: typingInput,
             onChange: handleTypingInput,
-            placeholder: 'Escribe aquí exactamente el texto...',
+            placeholder: 'Escribe aquí el texto completo...',
             disabled: typingFinished,
-            className: 'w-full bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
+            className: 'w-full min-h-[120px] bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
           }),
-          React.createElement('div', { className: 'flex gap-4 text-xs' },
+          // Panel de estadísticas y cronómetro
+          React.createElement('div', { className: 'flex gap-4 text-xs items-center' },
             React.createElement('span', { className: 'text-cyan-300' }, `WPM: ${typingLiveWpm}`),
-            React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`)
+            React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`),
+            React.createElement('span', { className: 'text-yellow-300' }, `⏱ ${typingStartMs ? Math.floor((Date.now() - typingStartMs)/1000) : 0}s`),
+            React.createElement('button', {
+              onClick: stopTyping,
+              disabled: typingFinished,
+              className: 'px-3 py-1 bg-rose-700 hover:bg-rose-600 rounded-lg text-xs font-bold'
+            }, 'Parar')
           ),
+          // Resultados al parar
           typingFinished && typingResult && React.createElement('div', { className: 'rounded-xl bg-emerald-950/40 border border-emerald-700/40 p-3 space-y-2' },
             React.createElement('p', { className: 'text-emerald-300 font-black' }, '✓ ¡Completado!'),
             React.createElement('div', { className: 'grid grid-cols-3 gap-2 text-xs' },
@@ -788,9 +821,9 @@ switch (mode) {
                 )
               )
             ),
-            React.createElement('button', { onClick: nextTypingText, className: 'px-4 py-2 bg-cyan-700 hover:bg-cyan-600 rounded-xl text-sm font-bold' }, 'Siguiente texto →')
+            React.createElement('button', { onClick: nextTypingText, className: 'px-4 py-2 bg-cyan-700 hover:bg-cyan-600 rounded-xl text-sm font-bold' }, 'Reiniciar')
           ),
-          !typingFinished && React.createElement('button', { onClick: nextTypingText, className: 'text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg' }, 'Saltar texto')
+          !typingFinished && React.createElement('button', { onClick: stopTyping, className: 'text-xs px-3 py-1.5 bg-rose-800 hover:bg-rose-700 rounded-lg' }, 'Parar y evaluar')
         ),
         currentVocabMap.size > 0 && React.createElement('div', {
           className: 'p-3 rounded-xl bg-black/35 border border-yellow-500/30 w-56 flex-shrink-0 self-start sticky top-4',
@@ -808,6 +841,7 @@ switch (mode) {
         )
       );
     }
+
     case 'handwrite': {
       const currentHwText = hwPool[hwIdx % hwPool.length]?.de || '';
       const verifyHandwrite = async () => {
