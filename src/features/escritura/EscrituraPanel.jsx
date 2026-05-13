@@ -82,7 +82,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [hwUseCustom, setHwUseCustom] = useState(false);
   const [hwShowTarget, setHwShowTarget] = useState(true);
   const [hwMemMode, setHwMemMode] = useState(false);
-  const [hwMemTimer, setHwMemTimer] = useState(5);
+  const [hwMemTimer, setHwMemTimer, viewerRef, viewerRef] = useState(5);
 
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
@@ -90,6 +90,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const strokes = useRef([]);
   const currentStroke = useRef([]);
   const penColor = useRef('#ffffff');
+  const viewerRef = useRef(null);
 
   // Opciones de guiones para dictado
   const writingScriptOptions = savedScripts.map(s => ({
@@ -190,6 +191,19 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     }, 200);
     return () => clearInterval(interval);
   }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
+
+  
+  // Auto‑scroll del visor de typing
+  useEffect(() => {
+    if (writingMode !== 'typing' || !viewerRef.current) return;
+    const currentTypingText = (typingPool[typingIdx % typingPool.length] || {}).text || '';
+    if (!currentTypingText) return;
+    const totalLen = currentTypingText.length;
+    const typedLen = typingInput.length;
+    const ratio = Math.min(typedLen / totalLen, 1);
+    const el = viewerRef.current;
+    el.scrollTop = (el.scrollHeight - el.clientHeight) * ratio;
+  }, [typingInput, writingMode, typingPool, typingIdx]);
 
   const redraw = () => {
     const canvas = canvasRef.current;
@@ -372,7 +386,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
       hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
       hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef, viewerRef
     }),
 
     // Lienzo de dibujo
@@ -489,7 +503,7 @@ function renderModeContent(mode, ctx) {
     typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
     hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
     hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer
+    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef, viewerRef
   } = ctx;
 
   
@@ -724,7 +738,7 @@ switch (mode) {
             })
           ),
           React.createElement('div', {
-            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-56 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
+            ref: viewerRef, className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-56 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
           },
             currentTypingText.split('').map((ch, i) => {
               let vocabSpan = null;
@@ -779,7 +793,7 @@ switch (mode) {
           !typingFinished && React.createElement('button', { onClick: nextTypingText, className: 'text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg' }, 'Saltar texto')
         ),
         currentVocabMap.size > 0 && React.createElement('div', {
-          className: 'p-3 rounded-xl bg-black/35 border border-yellow-500/30 w-48 flex-shrink-0 self-start sticky top-4',
+          className: 'p-3 rounded-xl bg-black/35 border border-yellow-500/30 w-56 flex-shrink-0 self-start sticky top-4',
           style: { maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }
         },
           React.createElement('h3', { className: 'text-yellow-200 text-sm font-bold mb-2' }, '📚 Vocabulario'),

@@ -1,29 +1,29 @@
 // src/features/escritura/typingMode.jsx
-// Modo 9: Mecanografía (teclado con precisión alemana) + limpieza de texto personalizado
+// Modo 9: Mecanografï¿½a (teclado con precisiï¿½n alemana) + limpieza de texto personalizado
 window.Muller = window.Muller || {};
 window.Muller.Escritura = window.Muller.Escritura || {};
 
 const E = window.Muller.Escritura;
 
-// Textos base para mecanografía (escalonados por dificultad)
+// Textos base para mecanografï¿½a (escalonados por dificultad)
 E.TYPING_TEXTS = [
-  { de: "Guten Morgen", es: "Buenos días", wpmTarget: 30 },
-  { de: "Der Hund spielt im Garten.", es: "El perro juega en el jardín.", wpmTarget: 40 },
-  { de: "Ich trinke gerne Kaffee mit Milch und Zucker.", es: "Me gusta beber café con leche y azúcar.", wpmTarget: 50 },
-  { de: "Die Sonne scheint hell auf die grünen Wiesen der Alpen.", es: "El sol brilla intensamente sobre los prados verdes de los Alpes.", wpmTarget: 60 },
-  { de: "Übung macht den Meister, und Fehler sind unsere besten Lehrer.", es: "La práctica hace al maestro, y los errores son nuestros mejores profesores.", wpmTarget: 65 },
-  { de: "Wenn ich Zeit hätte, würde ich mehr deutsche Literatur lesen.", es: "Si tuviera tiempo, leería más literatura alemana.", wpmTarget: 70 },
-  { de: "Gestern habe ich einen wunderbaren Apfelkuchen gebacken.", es: "Ayer horneé una maravillosa tarta de manzana.", wpmTarget: 75 },
-  { de: "Das schöne Mädchen lächelt, während es über die Brücke geht.", es: "La hermosa muchacha sonríe mientras cruza el puente.", wpmTarget: 80 },
-  { de: "Mein Bruder fährt jeden Morgen mit dem Fahrrad zur Schule, obwohl es oft regnet.", es: "Mi hermano va cada mañana en bicicleta a la escuela, aunque a menudo llueve.", wpmTarget: 85 },
-  { de: "In der Bibliothek lesen die Studenten alte Bücher über Philosophie und Geschichte.", es: "En la biblioteca los estudiantes leen libros antiguos sobre filosofía e historia.", wpmTarget: 90 }
+  { de: "Guten Morgen", es: "Buenos dï¿½as", wpmTarget: 30 },
+  { de: "Der Hund spielt im Garten.", es: "El perro juega en el jardï¿½n.", wpmTarget: 40 },
+  { de: "Ich trinke gerne Kaffee mit Milch und Zucker.", es: "Me gusta beber cafï¿½ con leche y azï¿½car.", wpmTarget: 50 },
+  { de: "Die Sonne scheint hell auf die grï¿½nen Wiesen der Alpen.", es: "El sol brilla intensamente sobre los prados verdes de los Alpes.", wpmTarget: 60 },
+  { de: "ï¿½bung macht den Meister, und Fehler sind unsere besten Lehrer.", es: "La prï¿½ctica hace al maestro, y los errores son nuestros mejores profesores.", wpmTarget: 65 },
+  { de: "Wenn ich Zeit hï¿½tte, wï¿½rde ich mehr deutsche Literatur lesen.", es: "Si tuviera tiempo, leerï¿½a mï¿½s literatura alemana.", wpmTarget: 70 },
+  { de: "Gestern habe ich einen wunderbaren Apfelkuchen gebacken.", es: "Ayer horneï¿½ una maravillosa tarta de manzana.", wpmTarget: 75 },
+  { de: "Das schï¿½ne Mï¿½dchen lï¿½chelt, wï¿½hrend es ï¿½ber die Brï¿½cke geht.", es: "La hermosa muchacha sonrï¿½e mientras cruza el puente.", wpmTarget: 80 },
+  { de: "Mein Bruder fï¿½hrt jeden Morgen mit dem Fahrrad zur Schule, obwohl es oft regnet.", es: "Mi hermano va cada maï¿½ana en bicicleta a la escuela, aunque a menudo llueve.", wpmTarget: 85 },
+  { de: "In der Bibliothek lesen die Studenten alte Bï¿½cher ï¿½ber Philosophie und Geschichte.", es: "En la biblioteca los estudiantes leen libros antiguos sobre filosofï¿½a e historia.", wpmTarget: 90 }
 ];
 
-// --- Limpieza y extracción de vocabulario ---
+// --- Limpieza y extracciï¿½n de vocabulario ---
 // Recibe texto crudo (el que pega el usuario). Devuelve:
 // - cleanLines: array de strings limpios (sin [R], sin corchetes, sin punto y coma final)
-// - vocabMap: Map donde clave = palabra alemana, valor = traducción (extraídos de los corchetes)
-// - lineVocab: array por línea con las palabras alemanas que aparecen en esa línea (para subrayar)
+// - vocabMap: Map donde clave = palabra alemana, valor = traducciï¿½n (extraï¿½dos de los corchetes)
+// - lineVocab: array por lï¿½nea con las palabras alemanas que aparecen en esa lï¿½nea (para subrayar)
 function parseCustomText(raw) {
   const lines = raw.split(/\r?\n/).filter(l => l.trim().length > 0);
   const cleanLines = [];
@@ -36,6 +36,8 @@ function parseCustomText(raw) {
     // Extraer todos los corchetes
     const matches = [...line.matchAll(vocabRegex)];
     let cleanLine = line;
+    // Eliminar palabras de marca como "NÃ¼tzlich." seguidas de corchetes
+    cleanLine = cleanLine.replace(/\bNÃ¼tzlich\.?\s*(?=\[)/gi, '');
     const vocabInLine = [];
 
     for (const m of matches) {
@@ -45,7 +47,7 @@ function parseCustomText(raw) {
       // Ignorar si es solo "R"
       if (bracketContent === 'R') continue;
 
-      // Parsear el contenido del corchete: puede ser "palabra - traducción" o "palabra1 - trad1, palabra2 - trad2"
+      // Parsear el contenido del corchete: puede ser "palabra - traducciï¿½n" o "palabra1 - trad1, palabra2 - trad2"
       const parts = bracketContent.split(/\s*,\s*/);
       for (const part of parts) {
         const dashIdx = part.indexOf(' - ');
@@ -54,7 +56,7 @@ function parseCustomText(raw) {
           const esTrans = part.substring(dashIdx + 3).trim();
           if (deWord) {
             vocabMap.set(deWord, esTrans);
-            // Ver si la palabra aparece en la línea limpia final (después de quitar corchetes)
+            // Ver si la palabra aparece en la lï¿½nea limpia final (despuï¿½s de quitar corchetes)
             if (cleanLine.includes(deWord)) {
               const start = cleanLine.indexOf(deWord);
               const end = start + deWord.length;
@@ -104,7 +106,7 @@ E.getTypingText = (pool, idx) => {
   return item ? item.text : '';
 };
 
-// Analizar resultado de mecanografía (sin cambios)
+// Analizar resultado de mecanografï¿½a (sin cambios)
 E.analyzeTyping = (input, target) => {
   if (!target) return { wpm: 0, accuracy: 0, errors: [], durationMs: 0 };
   const words = target.split(/\s+/).length;
