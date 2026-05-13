@@ -329,14 +329,20 @@ const PhraseGenerator = {
 
     if (articlePhrases.length === 0) return exercises;
 
-    var sliced = this.shuffle(articlePhrases).slice(0, Math.min(count, articlePhrases.length));
+    // Filtrar solo frases cuyo caso INFERIDO sea distinto de nom (trivial)
+    var nonNomPhrases = articlePhrases.filter(function(p) {
+      return p.case && p.case !== "nom";
+    });
+    if (nonNomPhrases.length === 0) return exercises;
+
+    var sliced = this.shuffle(nonNomPhrases).slice(0, Math.min(count, nonNomPhrases.length));
     for (var i = 0; i < sliced.length; i++) {
       var p = sliced[i];
       var origArticle = p.article;
       var gender = p.gender || genderMap[origArticle] || "m";
       
-      // Elegir caso para el ejercicio
-      var targetCase = caseOpts[Math.floor(Math.random() * caseOpts.length)];
+      // Usar el caso REAL de la frase (inferido del contexto/preposición)
+      var targetCase = p.case;
       var correctArticle = this.getArticleForCase(targetCase, gender);
       
       // Distractors
