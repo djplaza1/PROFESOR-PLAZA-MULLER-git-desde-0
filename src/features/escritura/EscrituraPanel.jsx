@@ -270,7 +270,6 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [hwIdx, hwMemMode, writingMode]);
 
-
   // Actualizar WPM y precisión en tiempo real para modo typing
   useEffect(() => {
     if (writingMode !== 'typing' || !typingStartMs || typingFinished) return;
@@ -363,7 +362,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
       hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
       hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      canvasRef
     }),
 
     // Lienzo de dibujo
@@ -471,13 +471,14 @@ function renderModeContent(mode, ctx) {
     guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
     currentVocabList, writingVocabIdx, setWritingVocabIdx,
     setWritingCanvasKey,
-    typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
-    typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+    typingPool, typingIdx, typingInput, setTypingInput,
+    typingStartMs, setTypingStartMs, typingLiveWpm, typingLiveAcc,
     typingFinished, setTypingFinished, typingResult, setTypingResult,
     typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
-    hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+    hwPool, hwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
     hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer
+    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+    canvasRef
   } = ctx;
 
   switch (mode) {
@@ -669,28 +670,6 @@ function renderModeContent(mode, ctx) {
     case 'typing': {
       const currentTypingText = typingPool[typingIdx % typingPool.length] || '';
       const targetWords = currentTypingText.split(/\s+/);
-
-      useEffect(() => {
-        if (!typingStartMs || typingFinished) return;
-        const interval = setInterval(() => {
-          const elapsed = Date.now() - typingStartMs;
-          const minutes = elapsed / 60000;
-          const wordsTyped = typingInput.trim().split(/\s+/).length;
-          const wpm = minutes > 0 ? Math.round(wordsTyped / minutes) : 0;
-          setTypingLiveWpm(wpm);
-          if (currentTypingText) {
-            let correct = 0;
-            const targetClean = currentTypingText.replace(/\s+/g, '');
-            const inputClean = typingInput.replace(/\s+/g, '');
-            for (let i = 0; i < inputClean.length; i++) {
-              if (i < targetClean.length && inputClean[i] === targetClean[i]) correct++;
-            }
-            const acc = inputClean.length > 0 ? Math.round((correct / inputClean.length) * 100) : 100;
-            setTypingLiveAcc(acc);
-          }
-        }, 200);
-        return () => clearInterval(interval);
-      }, [typingStartMs, typingInput, currentTypingText, typingFinished]);
 
       const handleTypingInput = (e) => {
         const val = e.target.value;
