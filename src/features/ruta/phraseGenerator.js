@@ -502,7 +502,7 @@ const PhraseGenerator = {
 
       exercises.push({
         type: "fillInSentence",
-        prompt: "Completa la frase:\n\"" + hiddenSentence + "\"",
+        prompt: "Completa la frase:\n\"" + hiddenSentence + "\"\n🇪🇸 \"" + p.es + "\"",
         answer: answer,
         options: this.shuffle([answer].concat(distractors)),
         hint: "Falta una palabra en la frase original.",
