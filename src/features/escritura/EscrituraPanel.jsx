@@ -1,6 +1,6 @@
 // src/features/escritura/EscrituraPanel.jsx
 // ---------------------------------------------------
-// Panel de escritura con 10 modos (libre, copia, dictado, prompt, TELC, letras, guion, vocab, mecanografía, manuscrito)
+// Panel de escritura con 10 modos (libre, copia, dictado, prompt, TELC, letras, guion, vocab, mecanografÃ­a, manuscrito)
 // ---------------------------------------------------
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
@@ -82,7 +82,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [hwMemMode, setHwMemMode] = useState(false);
   const [hwMemTimer, setHwMemTimer] = useState(5);
 
-  const canvasRef, viewerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const viewerRef = useRef(null);
   const isDrawing = useRef(false);
   const lastPos = useRef(null);
   const strokes = useRef([]);
@@ -90,13 +91,13 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const penColor = useRef('#ffffff');
   const writingScriptOptions = savedScripts.map(s => ({
     id: String(s.id),
-    title: s.title || 'Sin título',
+    title: s.title || 'Sin tÃ­tulo',
     count: (() => { try { return JSON.parse(s.data).length } catch(e) { return 0 } })()
   }));
 
   const writingDictationPool = buildDictationPool(writingDictSource, guionData, savedScripts, writingDictScriptId, currentVocabList);
   const guionLines = buildGuionLines(guionData);
-  const DE_LETTERS = ['Ä','Ö','Ü','ß'];
+  const DE_LETTERS = ['Ã„','Ã–','Ãœ','ÃŸ'];
 
   // ---------- Canvas Drawing ----------
   useEffect(() => {
@@ -226,7 +227,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     if (window.Muller.Achievements) window.Muller.Achievements.unlock('first_spell_check');
   };
 
-  // Efectos de inicialización para typing y handwrite
+  // Efectos de inicializaciÃ³n para typing y handwrite
   useEffect(() => {
     if (writingMode !== 'typing') return;
     const pool = typingUseCustom
@@ -269,7 +270,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [hwIdx, hwMemMode, writingMode]);
 
-  // Actualizar WPM y precisión en tiempo real para modo typing
+  // Actualizar WPM y precisiÃ³n en tiempo real para modo typing
   useEffect(() => {
     if (writingMode !== 'typing' || !typingStartMs || typingFinished) return;
     const interval = setInterval(() => {
@@ -313,8 +314,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       React.createElement('h1', { className: 'text-2xl md:text-4xl font-black text-rose-100' }, 'Escritura')
     ),
     React.createElement('p', { className: 'text-stone-300/95 text-xs md:text-sm mb-4 leading-relaxed border-b border-white/10 pb-3' },
-      'Zona solo para escribir a mano — pensada para ',
-      React.createElement('strong', { className: 'text-white' }, 'tableta con lápiz'),
+      'Zona solo para escribir a mano â€” pensada para ',
+      React.createElement('strong', { className: 'text-white' }, 'tableta con lÃ¡piz'),
       '. El lienzo usa ',
       React.createElement('strong', { className: 'text-white' }, 'pointer capture'),
       '.',
@@ -324,15 +325,15 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     React.createElement('div', { className: 'flex flex-wrap gap-1.5 md:gap-2 mb-4' },
       [
         { id: 'free', label: 'Libre', sub: 'notas / borrador' },
-        { id: 'copy', label: 'Copia', sub: 'caligrafía' },
-        { id: 'dictation', label: 'Dictado', sub: 'oír y escribir' },
-        { id: 'prompt', label: 'Tema', sub: 'redacción' },
+        { id: 'copy', label: 'Copia', sub: 'caligrafÃ­a' },
+        { id: 'dictation', label: 'Dictado', sub: 'oÃ­r y escribir' },
+        { id: 'prompt', label: 'Tema', sub: 'redacciÃ³n' },
         { id: 'telc', label: 'TELC', sub: 'carta/email examen' },
-        { id: 'letters', label: 'Letras DE', sub: 'ÄÖÜß' },
+        { id: 'letters', label: 'Letras DE', sub: 'Ã„Ã–ÃœÃŸ' },
         { id: 'guion', label: 'Guion', sub: 'misma historia' },
         { id: 'vocab', label: 'Palabra', sub: 'del vocab' },
         { id: 'typing', label: 'Mecano', sub: 'teclado' },
-        { id: 'handwrite', label: 'Manuscrito', sub: 'lápiz óptico' }
+        { id: 'handwrite', label: 'Manuscrito', sub: 'lÃ¡piz Ã³ptico' }
       ].map(m =>
         React.createElement('button', {
           key: m.id,
@@ -345,7 +346,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       )
     ),
 
-    // Contenido según modo
+    // Contenido segÃºn modo
     renderModeContent(writingMode, {
       WRITING_COPY_DRILLS, WRITING_PROMPTS_DE, WRITING_TELC_TASKS,
       writingCopyIdx, setWritingCopyIdx,
@@ -409,7 +410,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     ),
 
     spellErrors.length > 0 && React.createElement('div', { className: 'mt-4 rounded-xl bg-black/35 border border-amber-500/30 p-3' },
-      React.createElement('p', { className: 'text-amber-200/90 text-sm font-bold mb-2' }, '?? Resultados de corrección'),
+      React.createElement('p', { className: 'text-amber-200/90 text-sm font-bold mb-2' }, '?? Resultados de correcciÃ³n'),
       spellErrors.map((err, i) =>
         React.createElement('div', { key: i, className: 'text-xs text-gray-300 mb-1 border-b border-white/5 pb-1' },
           err.rule === 'ok'
@@ -434,8 +435,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
         [
           { label: 'Tarea', score: telcCoachResult.scoreTask },
           { label: 'Registro', score: telcCoachResult.scoreRegister },
-          { label: 'Cohesión', score: telcCoachResult.scoreCohesion },
-          { label: 'Gramática', score: telcCoachResult.scoreGrammar }
+          { label: 'CohesiÃ³n', score: telcCoachResult.scoreCohesion },
+          { label: 'GramÃ¡tica', score: telcCoachResult.scoreGrammar }
         ].map(item =>
           React.createElement('div', { key: item.label, className: 'bg-slate-900/60 rounded-lg p-2 text-center border border-white/5' },
             React.createElement('p', { className: 'text-[10px] uppercase text-gray-500 font-black' }, item.label),
@@ -459,7 +460,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
 
 window.Muller.Panels.escritura = window.Muller.Panels.EscrituraPanel;
 
-// --- Función helper para renderizar el contenido de cada modo ---
+// --- FunciÃ³n helper para renderizar el contenido de cada modo ---
 function renderModeContent(mode, ctx) {
   const {
     WRITING_COPY_DRILLS, WRITING_PROMPTS_DE, WRITING_TELC_TASKS,
@@ -493,13 +494,13 @@ function renderModeContent(mode, ctx) {
   switch (mode) {
     case 'free':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3' },
-        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Página en blanco'),
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'PÃ¡gina en blanco'),
         React.createElement('p', { className: 'text-[11px] text-gray-500' }, 'Escribe libremente. Usa ', React.createElement('strong', { className: 'text-gray-300' }, 'Borrar'), ' o ', React.createElement('strong', { className: 'text-gray-300' }, 'Guardar PNG'), ' debajo.')
       );
 
     case 'copy':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
-        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Copia la frase (caligrafía alemana)'),
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Copia la frase (caligrafÃ­a alemana)'),
         React.createElement('p', { className: 'text-lg md:text-2xl text-white leading-snug' },
           WRITING_COPY_DRILLS.length > 0 ? WRITING_COPY_DRILLS[writingCopyIdx % WRITING_COPY_DRILLS.length] : '(sin datos)'
         ),
@@ -511,7 +512,7 @@ function renderModeContent(mode, ctx) {
 
     case 'dictation':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-3' },
-        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Dictado alemán'),
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Dictado alemÃ¡n'),
         React.createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 gap-2' },
           React.createElement('select', {
             value: writingDictSource,
@@ -533,7 +534,7 @@ function renderModeContent(mode, ctx) {
             writingScriptOptions.map(s => React.createElement('option', { key: s.id, value: s.id }, s.title))
           )
         ),
-        React.createElement('p', { className: 'text-[10px]' }, `Ítem ${Math.min(writingDictIdx+1, writingDictationPool.length)} de ${writingDictationPool.length}`),
+        React.createElement('p', { className: 'text-[10px]' }, `Ãtem ${Math.min(writingDictIdx+1, writingDictationPool.length)} de ${writingDictationPool.length}`),
         React.createElement('div', { className: 'flex flex-wrap gap-2' },
           React.createElement('button', {
             onClick: () => {
@@ -561,7 +562,7 @@ function renderModeContent(mode, ctx) {
           },
             SvgIcon(writingDictReveal ? SVG_EYE_OFF : SVG_EYE, 'inline mr-1'),
             writingDictReveal ? ' Ocultar' : ' Mostrar',
-            ' solución'
+            ' soluciÃ³n'
           )
         ),
         writingDictReveal && writingDictationPool.length > 0 && React.createElement('div', { className: 'border border-emerald-700/40 rounded-lg p-4 bg-emerald-950/40' },
@@ -572,7 +573,7 @@ function renderModeContent(mode, ctx) {
 
     case 'prompt':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
-        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Tema para redacción corta'),
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Tema para redacciÃ³n corta'),
         React.createElement('p', { className: 'text-base md:text-lg text-white font-semibold' },
           WRITING_PROMPTS_DE.length > 0 ? WRITING_PROMPTS_DE[writingPromptIdx % WRITING_PROMPTS_DE.length].de : '(sin temas)'
         ),
@@ -594,7 +595,7 @@ function renderModeContent(mode, ctx) {
           React.createElement('button', {
             onClick: () => setWritingTelcInputMode('pen'),
             className: `text-xs px-3 py-1.5 rounded-lg border ${writingTelcInputMode === 'pen' ? 'bg-orange-600 border-orange-300/60' : 'bg-black/40 border-white/10'}`
-          }, '? Lápiz'),
+          }, '? LÃ¡piz'),
           React.createElement('button', {
             onClick: () => setWritingTelcInputMode('keyboard'),
             className: `text-xs px-3 py-1.5 rounded-lg border ${writingTelcInputMode === 'keyboard' ? 'bg-orange-600 border-orange-300/60' : 'bg-black/40 border-white/10'}`
@@ -618,7 +619,7 @@ function renderModeContent(mode, ctx) {
           ),
           React.createElement('ul', { className: 'text-[11px] text-emerald-100/90 space-y-1' },
             (WRITING_TELC_TASKS[writingTelcIdx % WRITING_TELC_TASKS.length].checklist || []).map((item, i) =>
-              React.createElement('li', { key: i }, `• ${item}`)
+              React.createElement('li', { key: i }, `â€¢ ${item}`)
             )
           )
         ),
@@ -650,7 +651,7 @@ function renderModeContent(mode, ctx) {
 
     case 'guion':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
-        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Escribe líneas de la historia'),
+        React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Escribe lÃ­neas de la historia'),
         guionLines.length > 0
           ? React.createElement('p', { className: 'text-lg md:text-xl text-white leading-relaxed border-l-4 border-rose-500 pl-3' },
               guionLines[writingGuionWriteIdx % guionLines.length]
@@ -711,7 +712,7 @@ function renderModeContent(mode, ctx) {
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-cyan-500/30 p-3 flex gap-4' },
         React.createElement('div', { className: 'flex-1 space-y-3' },
           React.createElement('p', { className: 'text-cyan-200/95 text-sm font-black flex gap-2 items-center' },
-            SvgIcon(SVG_PEN), ' Mecanografía alemana ?'
+            SvgIcon(SVG_PEN), ' MecanografÃ­a alemana ?'
           ),
           React.createElement('div', { className: 'space-y-2' },
             React.createElement('div', { className: 'flex gap-2' },
@@ -727,7 +728,7 @@ function renderModeContent(mode, ctx) {
             typingUseCustom && React.createElement('textarea', {
               value: typingCustomText,
               onChange: e => setTypingCustomText(e.target.value),
-              placeholder: 'Pega aquí tu texto en alemán...',
+              placeholder: 'Pega aquÃ­ tu texto en alemÃ¡n...',
               className: 'w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
             })
           ),
@@ -759,19 +760,19 @@ function renderModeContent(mode, ctx) {
             type: 'text',
             value: typingInput,
             onChange: handleTypingInput,
-            placeholder: 'Escribe aquí exactamente el texto...',
+            placeholder: 'Escribe aquÃ­ exactamente el texto...',
             disabled: typingFinished,
             className: 'w-full bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
           }),
           React.createElement('div', { className: 'flex gap-4 text-xs' },
             React.createElement('span', { className: 'text-cyan-300' }, `WPM: ${typingLiveWpm}`),
-            React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`)
+            React.createElement('span', { className: 'text-emerald-300' }, `PrecisiÃ³n: ${typingLiveAcc}%`)
           ),
           typingFinished && typingResult && React.createElement('div', { className: 'rounded-xl bg-emerald-950/40 border border-emerald-700/40 p-3 space-y-2' },
-            React.createElement('p', { className: 'text-emerald-300 font-black' }, '? ¡Completado!'),
+            React.createElement('p', { className: 'text-emerald-300 font-black' }, '? Â¡Completado!'),
             React.createElement('div', { className: 'grid grid-cols-3 gap-2 text-xs' },
               React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'WPM'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.wpm)),
-              React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Precisión'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.accuracy + '%')),
+              React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'PrecisiÃ³n'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.accuracy + '%')),
               React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Tiempo'), React.createElement('p', { className: 'text-white font-bold' }, Math.round(typingResult.durationMs / 1000) + 's'))
             ),
             typingResult.errors.length > 0 && React.createElement('div', null,
@@ -852,7 +853,7 @@ function renderModeContent(mode, ctx) {
           hwUseCustom && React.createElement('textarea', {
             value: hwCustomText,
             onChange: e => setHwCustomText(e.target.value),
-            placeholder: 'Pega aquí el texto a copiar...',
+            placeholder: 'Pega aquÃ­ el texto a copiar...',
             className: 'w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
           })
         ),
@@ -870,7 +871,7 @@ function renderModeContent(mode, ctx) {
             }),
             ' Modo memoria (oculta texto)'
           ),
-          hwMemMode && !hwShowTarget && React.createElement('span', { className: 'text-[10px] text-amber-400' }, 'Texto oculto. ¡Escribe de memoria!')
+          hwMemMode && !hwShowTarget && React.createElement('span', { className: 'text-[10px] text-amber-400' }, 'Texto oculto. Â¡Escribe de memoria!')
         ),
         React.createElement('div', { className: 'flex gap-2' },
           React.createElement('button', {
@@ -887,7 +888,7 @@ function renderModeContent(mode, ctx) {
             `Similitud: ${hwSimilarity}%`
           ),
           React.createElement('p', { className: 'text-[10px] text-gray-400' },
-            'OCR: ', React.createElement('span', { className: 'text-white' }, hwOcrText || '(vacío)')
+            'OCR: ', React.createElement('span', { className: 'text-white' }, hwOcrText || '(vacÃ­o)')
           )
         )
       );
