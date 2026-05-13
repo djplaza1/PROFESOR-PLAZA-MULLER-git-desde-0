@@ -124,6 +124,73 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => window.removeEventListener('resize', resize);
   }, [writingCanvasKey]);
 
+  
+  // Inicializar typing pool (con limpieza de corchetes)
+  useEffect(() => {
+    if (writingMode !== 'typing') return;
+    const pool = typingUseCustom
+      ? E.buildTypingPool(typingCustomText)
+      : E.buildTypingPool('');
+    setTypingPool(pool);
+    setTypingIdx(0);
+    setTypingInput('');
+    setTypingStartMs(null);
+    setTypingFinished(false);
+    setTypingResult(null);
+  }, [writingMode, typingUseCustom, typingCustomText]);
+
+  // Inicializar handwrite pool
+  useEffect(() => {
+    if (writingMode !== 'handwrite') return;
+    const pool = hwUseCustom
+      ? E.buildHandwritePool(hwCustomText)
+      : E.buildHandwritePool('');
+    setHwPool(pool);
+    setHwIdx(0);
+    setHwOcrText('');
+    setHwSimilarity(null);
+    setHwShowTarget(true);
+    setHwMemMode(false);
+  }, [writingMode, hwUseCustom, hwCustomText]);
+
+  // Modo memoria handwrite
+  useEffect(() => {
+    if (!hwMemMode || writingMode !== 'handwrite') return;
+    setHwShowTarget(true);
+    setHwMemTimer(5);
+    const interval = setInterval(() => {
+      setHwMemTimer(t => {
+        if (t <= 1) { setHwShowTarget(false); return 0; }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [hwIdx, hwMemMode, writingMode]);
+
+  // Live WPM y precisión typing
+  useEffect(() => {
+    if (writingMode !== 'typing' || !typingStartMs || typingFinished) return;
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - typingStartMs;
+      const minutes = elapsed / 60000;
+      const wordsTyped = typingInput.trim().split(/\s+/).length;
+      const wpm = minutes > 0 ? Math.round(wordsTyped / minutes) : 0;
+      setTypingLiveWpm(wpm);
+      const currentTypingText = (typingPool[typingIdx % typingPool.length] || {}).text || '';
+      if (currentTypingText) {
+        const targetClean = currentTypingText.replace(/\s+/g, '');
+        const inputClean = typingInput.replace(/\s+/g, '');
+        let correct = 0;
+        for (let i = 0; i < inputClean.length; i++) {
+          if (i < targetClean.length && inputClean[i] === targetClean[i]) correct++;
+        }
+        const acc = inputClean.length > 0 ? Math.round((correct / inputClean.length) * 100) : 100;
+        setTypingLiveAcc(acc);
+      }
+    }, 200);
+    return () => clearInterval(interval);
+  }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
+
   const redraw = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -536,7 +603,7 @@ switch (mode) {
           value: writingTelcTypedText,
           onChange: e => setWritingTelcTypedText(e.target.value),
           placeholder: 'Escribe tu carta/email TELC...',
-          className: 'w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+          className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
         }),
         React.createElement('p', { className: 'text-[10px] text-rose-200' },
           `Tarea ${writingTelcIdx+1} de ${WRITING_TELC_TASKS.length}`
@@ -653,11 +720,11 @@ switch (mode) {
               value: typingCustomText,
               onChange: e => setTypingCustomText(e.target.value),
               placeholder: 'Pega aquí tu texto en alemán...',
-              className: 'w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+              className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
             })
           ),
           React.createElement('div', {
-            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-48 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
+            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-56 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
           },
             currentTypingText.split('').map((ch, i) => {
               let vocabSpan = null;
@@ -768,7 +835,7 @@ switch (mode) {
             value: hwCustomText,
             onChange: e => setHwCustomText(e.target.value),
             placeholder: 'Pega aquí el texto a copiar...',
-            className: 'w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+            className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
           })
         ),
         hwShowTarget && React.createElement('div', {
