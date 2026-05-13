@@ -270,6 +270,31 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [hwIdx, hwMemMode, writingMode]);
 
+
+  // Actualizar WPM y precisión en tiempo real para modo typing
+  useEffect(() => {
+    if (writingMode !== 'typing' || !typingStartMs || typingFinished) return;
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - typingStartMs;
+      const minutes = elapsed / 60000;
+      const wordsTyped = typingInput.trim().split(/\s+/).length;
+      const wpm = minutes > 0 ? Math.round(wordsTyped / minutes) : 0;
+      setTypingLiveWpm(wpm);
+      const currentTypingText = typingPool[typingIdx % typingPool.length] || '';
+      if (currentTypingText) {
+        const targetClean = currentTypingText.replace(/\s+/g, '');
+        const inputClean = typingInput.replace(/\s+/g, '');
+        let correct = 0;
+        for (let i = 0; i < inputClean.length; i++) {
+          if (i < targetClean.length && inputClean[i] === targetClean[i]) correct++;
+        }
+        const acc = inputClean.length > 0 ? Math.round((correct / inputClean.length) * 100) : 100;
+        setTypingLiveAcc(acc);
+      }
+    }, 200);
+    return () => clearInterval(interval);
+  }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
+
   // Render
   return React.createElement('div', {
     className: 'flex-1 flex flex-col p-4 md:p-6 max-w-4xl mx-auto w-full',
