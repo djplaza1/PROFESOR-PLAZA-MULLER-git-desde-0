@@ -106,6 +106,9 @@ const PhraseGenerator = {
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; ex.isReview = true; exercises.push(ex); }
     }
+    const bank = window.PhrasesBank || {};
+    const levelBank = bank[levelId] || {};
+
     for (let w of newLessonWords) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
