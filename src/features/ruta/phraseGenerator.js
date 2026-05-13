@@ -8,20 +8,6 @@ const PhraseGenerator = {
   isValidWord(w){if(!w||!w[0]||!w[1])return false;const de=w[0].trim(),es=w[1].trim();return !de.startsWith("[")&&!es.startsWith("[")&&es!=="-"&&es!=="";},
   getVocabForLevel(levelId){const R=window.Muller?.Ruta;return(R&&R.VOCAB&&R.VOCAB[levelId])?R.VOCAB[levelId]:[];},
   getValidWords(levelId){return this.getVocabForLevel(levelId).filter(w=>this.isValidWord(w));},
-  getPhraseForWord(levelId, w) {
-    const bank = window.PhrasesBank || {};
-    const levelBank = bank[levelId] || {};
-    const canon = this.canonizeNoun(w);
-    const phrases = levelBank[w[0]] || levelBank[canon];
-    if (phrases && phrases.length > 0) {
-      return phrases[Math.floor(Math.random() * phrases.length)];
-    }
-    const art = this.getArticle(w);
-    const bare = this.getBareNoun(w);
-    if (art) return {de: "Das ist " + art + " " + bare + ".", es: "Esto es " + bare + "."};
-    if (w[4] === "v") return {de: "Ich kann " + w[0] + ".", es: "Yo puedo " + w[1] + "."};
-    return {de: "Das Wort lautet " + w[0] + ".", es: "La palabra es " + w[0] + "."};
-  },
   randomSlice(arr,count,exclude){return arr.filter(x=>x!==exclude).sort(()=>Math.random()-0.5).slice(0,count);},
   hideWordInSentence(sentence,word){const bare=word.replace(/^(der|die|das)\s?/i,"");const re=new RegExp("\\b(?:meinen?|deinen?|ihren?|euren?|unseren?|meine?|deine?|ihre?|eure?|unsere?|der|die|das|dem|den|des)\\s"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b|\\b"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i");return sentence.replace(re,"___");},
   splitCleanSentence(sentence){const clean=sentence.replace(/[.!?¡¿]+$/g,"").trim();return clean.split(/\s+/).filter(Boolean);},
@@ -58,12 +44,6 @@ const PhraseGenerator = {
     const types = ["fill","translateDE","translateES","choose","declension","plural","conjugate","pronounce"];
     const deAllNouns=[...new Set(allValid.filter(w=>w[4]==="n").map(w=>this.canonizeNoun(w)))];
     const esAll=[...new Set(allValid.map(w=>w[1]))];
-
-    // Declaraciones únicas de bank y levelBank
-    const bank = window.PhrasesBank || {};
-    const levelBank = bank[levelId] || {};
-
-    // --- Repaso (review) ---
     for (let w of reviewWordsInVocab) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
@@ -80,8 +60,10 @@ const PhraseGenerator = {
         case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
         case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
         case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
-        case"pronounce":{
+                case"pronounce":{
           let phraseToPronounce = "";
+          const bank = window.PhrasesBank || {};
+          const levelBank = bank[levelId] || {};
           const keySearch = this.canonizeNoun(w);
           const phrases = levelBank[w[0]] || levelBank[keySearch];
           if (phrases && phrases.length > 0) {
@@ -110,59 +92,32 @@ const PhraseGenerator = {
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; ex.isReview = true; exercises.push(ex); }
     }
-
-    // --- Palabras nuevas (newLessonWords) con frases reales priorizadas ---
     for (let w of newLessonWords) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
+      const type = types[Math.floor(Math.random() * types.length)];
       const deMain = this.canonizeNoun(w);
       const bare = this.getBareNoun(w);
       const esMain = w[1];
-      const keySearch = this.canonizeNoun(w);
-      const phrases = levelBank[w[0]] || levelBank[keySearch];
-      const phrase = (phrases && phrases.length > 0)
-        ? phrases[Math.floor(Math.random() * phrases.length)]
-        : null;
-      if (phrase) {
-        // Frase real: añadir ejercicios contextuales
-        const hidden = this.hideWordInSentence(phrase.de, deMain);
-        exercises.push({
-          speakText: phrase.de, type: "fillInSentence",
-          prompt: `Completa con la palabra correcta:\n"${hidden}"`,
-          answer: deMain,
-          options: this.randomSlice([...new Set(allValid.map(w=>this.canonizeNoun(w)))],3,deMain).concat(deMain).sort(()=>Math.random()-0.5),
-          hint: "", translation: phrase.es,
-          word: w
-        });
-        const cleanWords = this.splitCleanSentence(phrase.de);
-        const shuffled = [...cleanWords].sort(()=>Math.random()-0.5);
-        exercises.push({
-          speakText: phrase.de, type: "order",
-          prompt: `Ordena las palabras:\n${shuffled.join(" ")}`,
-          answer: phrase.de, hint: "Forma una frase correcta.", translation: phrase.es,
-          orderWords: shuffled,
-          word: w
-        });
-        exercises.push({
-          speakText: phrase.de, type: "translateDE",
-          prompt: `Traduce al alemán:\n"${phrase.es}"`,
-          answer: phrase.de, hint: "", translation: phrase.es,
-          word: w
-        });
-      } else {
-        // Sin frase: ejercicios clásicos
-        const type = types[Math.floor(Math.random() * types.length)];
-        let ex = null;
-        switch(type){
-          case"fill":ex={type:"fill",prompt:`Completa: "___" significa "${esMain}".`,answer:deMain,options:this.randomSlice(deAllNouns,3,deMain).concat(deMain).sort(()=>Math.random()-0.5),hint:""};break;
-          case"translateDE":ex={type:"translateDE",prompt:`Traduce al alemán: "${esMain}"`,answer:deMain,hint:""};break;
-          case"translateES":ex={type:"translateES",prompt:`Traduce al español: "${deMain}"`,answer:esMain,hint:""};break;
-          case"choose":ex={type:"choose",prompt:`¿Cuál es la traducción de "${deMain}"?`,answer:esMain,options:this.randomSlice(esAll,3,esMain).concat(esMain).sort(()=>Math.random()-0.5),hint:""};break;
-          case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
-          case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
-          case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
-          case"pronounce":{
-            let phraseToPronounce = "";
+      let ex = null;
+      switch(type){
+        case"fill":ex={type:"fill",prompt:`Completa: "___" significa "${esMain}".`,answer:deMain,options:this.randomSlice(deAllNouns,3,deMain).concat(deMain).sort(()=>Math.random()-0.5),hint:""};break;
+        case"translateDE":ex={type:"translateDE",prompt:`Traduce al alemán: "${esMain}"`,answer:deMain,hint:""};break;
+        case"translateES":ex={type:"translateES",prompt:`Traduce al español: "${deMain}"`,answer:esMain,hint:""};break;
+        case"choose":ex={type:"choose",prompt:`¿Cuál es la traducción de "${deMain}"?`,answer:esMain,options:this.randomSlice(esAll,3,esMain).concat(esMain).sort(()=>Math.random()-0.5),hint:""};break;
+        case"declension":{const art=this.getArticle(w);if(art){const dist=["der","die","das"].filter(a=>a!==art);ex={type:"declension",prompt:`¿Cuál es el artículo correcto para "${bare}"?`,answer:art,options:[art,...dist].sort(()=>Math.random()-0.5),hint:""};}break;}
+        case"plural":if(w[3]&&w[3]!=="-"&&!w[3].startsWith("[")){ex={type:"plural",prompt:`¿Cuál es el plural de "${bare}"?`,answer:w[3],options:this.randomSlice(deAllNouns,3,w[3]).concat(w[3]).sort(()=>Math.random()-0.5),hint:""};}break;
+        case"conjugate":if(w[4]==="v"&&this.conjugations[w[0]]){const persons=["ich","du","er/sie/es","wir","ihr","sie/Sie"];const person=persons[Math.floor(Math.random()*persons.length)];ex={type:"conjugate",prompt:`Conjuga "${w[0]}" para "${person}":`,answer:this.conjugations[w[0]][person],hint:""};}break;
+                case"pronounce":{
+          let phraseToPronounce = "";
+          const bank = window.PhrasesBank || {};
+          const levelBank = bank[levelId] || {};
+          const keySearch = this.canonizeNoun(w);
+          const phrases = levelBank[w[0]] || levelBank[keySearch];
+          if (phrases && phrases.length > 0) {
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            phraseToPronounce = randomPhrase.de;
+          } else {
             const art = this.getArticle(w);
             const bare = this.getBareNoun(w);
             if (art) {
@@ -172,50 +127,58 @@ const PhraseGenerator = {
             } else {
               phraseToPronounce = "Das Wort lautet " + w[0] + ".";
             }
-            ex = {
-              type: "pronounce",
-              prompt: `Repite en voz alta:\n"${phraseToPronounce}"`,
-              answer: phraseToPronounce,
-              phraseToPronounce: phraseToPronounce,
-              speakText: phraseToPronounce,
-              hint: "Usa el micrófono para repetir la frase."
-            };
-          }break;
-        }
-        if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; exercises.push(ex); }
+          }
+          ex = {
+            type: "pronounce",
+            prompt: `Repite en voz alta:\n"${phraseToPronounce}"`,
+            answer: phraseToPronounce,
+            phraseToPronounce: phraseToPronounce,
+            speakText: phraseToPronounce,
+            hint: "Usa el micrófono para repetir la frase."
+          };
+        }break;
       }
+      if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; exercises.push(ex); }
     }
-
-    // Declinaciones de adjetivos desde frases reales
-    const allPhrases = [];
-    for (let k of Object.keys(levelBank)) {
-      (levelBank[k] || []).forEach(p => allPhrases.push({word: k, de: p.de, es: p.es}));
-    }
-    const adjPattern = /\b(der|die|das|den|dem|des|eine?|keine?)\s+(\w+)(e|er|es|en)\s+(\w+)\b/gi;
-    const adjExercises = [];
-    for (let p of allPhrases) {
-      let match;
-      while ((match = adjPattern.exec(p.de)) !== null) {
-        const det = match[1], adjBase = match[2], ending = match[3], noun = match[4];
-        const sentence = p.de.replace(match[0], det + " " + adjBase + "___ " + noun);
-        adjExercises.push({
+    // Declinaciones de adjetivos (casos nom/acc/dat)
+    const adjDeclAdjectives = allValid.filter(w => w[4] === "adj");
+    const adjDeclNouns = allValid.filter(w => w[4] === "n" && this.getArticle(w));
+    if (adjDeclAdjectives.length > 0 && adjDeclNouns.length > 0) {
+      const adjDeclCount = Math.min(3, adjDeclAdjectives.length);
+      const shuffledAdj = [...adjDeclAdjectives].sort(() => Math.random() - 0.5).slice(0, adjDeclCount);
+      const casesList = ["nom", "acc", "dat"];
+      const detTable = { nom: { m: "der", f: "die", n: "das", pl: "die" }, acc: { m: "den", f: "die", n: "das", pl: "die" }, dat: { m: "dem", f: "der", n: "dem", pl: "den" } };
+      const endingTable = { nom: { m: "-e", f: "-e", n: "-e", pl: "-en" }, acc: { m: "-en", f: "-e", n: "-e", pl: "-en" }, dat: { m: "-en", f: "-en", n: "-en", pl: "-en" } };
+      for (let adj of shuffledAdj) {
+        const noun = adjDeclNouns[Math.floor(Math.random() * adjDeclNouns.length)];
+        const gender = this.getGender(noun);
+        const art = this.getArticle(noun);
+        const bareNoun = this.getBareNoun(noun);
+        const adjBase = adj[0];
+        const selCase = casesList[Math.floor(Math.random() * casesList.length)];
+        const det = detTable[selCase][gender];
+        const ending = endingTable[selCase][gender];
+        const correctEnding = ending.replace("-", "");
+        const fullAdj = adjBase + correctEnding;
+        let sentence = "";
+        if (selCase === "nom") sentence = det + " " + adjBase + "___ " + bareNoun + " ist neu.";
+        else if (selCase === "acc") sentence = "Ich sehe " + det + " " + adjBase + "___ " + bareNoun + ".";
+        else sentence = "Ich spreche mit " + det + " " + adjBase + "___ " + bareNoun + ".";
+        exercises.push({
           type: "adjectiveDeclension",
           prompt: "Completa con la terminación correcta:\n\"" + sentence + "\"",
-          answer: "-" + ending,
-          options: ["-e","-er","-es","-en"].sort(()=>Math.random()-0.5),
-          hint: "Frase real del banco.",
-          speakText: det + " " + adjBase + ending + " " + noun,
-          word: allValid.find(w => this.getBareNoun(w) === noun) || allValid[0],
-          translation: p.es
+          answer: ending,
+          options: ["-e","-er","-es","-en"].sort(() => Math.random() - 0.5),
+          hint: (selCase === "nom" ? "Nominativo" : selCase === "acc" ? "Acusativo" : "Dativo") + " definido (" + det + ").",
+          speakText: det + " " + fullAdj + " " + bareNoun,
+          word: adj,
+          translation: adj[1]
         });
-        break;
       }
     }
-    for (let e of adjExercises.slice(0, Math.min(3, adjExercises.length))) {
-      exercises.push(e);
-    }
-
-    // Contextuales (fillInSentence y order adicionales desde frases reales)
+    // Contextuales
+    const bank=window.PhrasesBank||{};
+    const levelBank=bank[levelId]||{};
     const bankKeys=Object.keys(levelBank);
     if(bankKeys.length>0){
       const contextCount=Math.min(allValid.length,bankKeys.length,20);
@@ -239,12 +202,10 @@ const PhraseGenerator = {
           speakText:phrase.de,type:"order",
           prompt:`Ordena estas palabras:\n${shuffled.join(" ")}`,
           answer:phrase.de,hint:"Forma una frase correcta.",translation:phrase.es,
-          orderWords: shuffled,
           word:allValid.find(w=>this.getBareNoun(w)===this.getBareNoun({0:key}))||allValid[0]
         });
       }
     }
-
     // matchPairs x3
     const matchCount=Math.min(5,allValid.length);
     for(let r=0;r<3;r++){
@@ -261,7 +222,6 @@ const PhraseGenerator = {
         word:matchWords[0]
       });
     }
-
     // audioMatch
     const audioMatchCount=Math.min(4,allValid.length);
     const audioMatchWords=allValid.sort(()=>Math.random()-0.5).slice(0,audioMatchCount);
@@ -276,10 +236,9 @@ const PhraseGenerator = {
       hint:"Pulsa un altavoz para escuchar la palabra y luego selecciona su traducción.",
       word:audioMatchWords[0]
     });
-
     return this.shuffleNoRepeat(exercises);
   },
-generateLesson(levelId,lessonIdx){
+  generateLesson(levelId,lessonIdx){
     const config=window.LevelConfig?.getLevelConfig?.(levelId);
     if(!config)return null;
     const wordsPerLesson=config.wordsPerLesson||10;
