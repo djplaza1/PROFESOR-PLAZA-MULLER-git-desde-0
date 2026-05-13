@@ -471,25 +471,26 @@ const PhraseGenerator = {
 
       var hiddenWord = words[hideIdx];
       var answer = hiddenWord;
+      var hasArticle = false;
 
-      // Si ocultamos artículo + sustantivo, la respuesta es el sustantivo
+      // Si ocultamos artículo + sustantivo, la respuesta incluye AMBOS: "die Affen"
       if (hideIdx > 0 && /^(der|die|das|den|dem|des|ein|eine|einen|einem|eines)$/i.test(words[hideIdx - 1])) {
         var originalHideIdx = hideIdx;
         hideIdx = hideIdx - 1;
-        answer = words[originalHideIdx];
+        answer = words[hideIdx] + " " + words[originalHideIdx];
+        hasArticle = true;
       }
 
       var hiddenSentence = words.map(function(w, idx) {
-        var isArticleBefore = (hideIdx > 0 && idx === hideIdx && /^(der|die|das|den|dem|des|ein|eine|einen|einem|eines)$/i.test(words[hideIdx]));
-        var isHidden = (idx === hideIdx || (hideIdx > 0 && idx === hideIdx + 1 && /^(der|die|das|den|dem|des)$/i.test(words[hideIdx])));
-        return isHidden || isArticleBefore ? "___" : w;
+        var isHidden = (idx === hideIdx || (hasArticle && idx === hideIdx + 1));
+        return isHidden ? "___" : w;
       }).join(" ");
 
-      // Distractors del vocabulario del nivel
+      // Distractors del vocabulario del nivel, con artículo si aplica
       var vocab = this.getValidWords(levelId);
-      var bareWords = vocab.map(function(w) { return this.getBareNoun(w); }.bind(this));
-      var distractors = this.shuffle(bareWords.filter(function(bw) {
-        return bw.toLowerCase() !== answer.toLowerCase();
+      var canonizedWords = vocab.map(function(w) { return this.canonizeNoun(w); }.bind(this));
+      var distractors = this.shuffle(canonizedWords.filter(function(cw) {
+        return cw.toLowerCase() !== answer.toLowerCase();
       })).slice(0, 3);
 
       while (distractors.length < 2) {
