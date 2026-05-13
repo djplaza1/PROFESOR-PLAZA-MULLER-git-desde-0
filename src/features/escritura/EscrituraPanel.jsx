@@ -263,7 +263,9 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
         { id: 'telc', label: 'TELC', sub: 'carta/email examen' },
         { id: 'letters', label: 'Letras DE', sub: 'ÄÖÜß' },
         { id: 'guion', label: 'Guion', sub: 'misma historia' },
-        { id: 'vocab', label: 'Palabra', sub: 'del vocab' }
+        { id: 'vocab', label: 'Palabra', sub: 'del vocab' },
+        { id: 'typing', label: 'Mecano', sub: 'teclado' },
+        { id: 'handwrite', label: 'Manuscrito', sub: 'lápiz óptico' }
       ].map(m =>
         React.createElement('button', {
           key: m.id,
