@@ -151,7 +151,7 @@ const PhraseGenerator = {
     // Gen: después de "wegen", "trotz", "während"
     if (!meta.case) {
       var prepAcc = ["für","durch","gegen","ohne","um","entlang"];
-      var prepDat = ["mit","aus","von","zu","bei","nach","seit","gegenüber","außer"];
+      var prepDat = ["mit","aus","von","zu","bei","nach","seit","gegenüber","außer","vom","zum","beim","im","am"];
       var prepGen = ["wegen","trotz","während","angesichts"];
       
       var caseGuess = "nom"; // default
