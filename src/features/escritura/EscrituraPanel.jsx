@@ -1,3 +1,4 @@
+// v2.1 typing+handwrite
 // src/features/escritura/EscrituraPanel.jsx
 // ═══════════════════════════════════════════════════
 // Panel de escritura con 8 modos (libre, copia, dictado, prompt, TELC, letras, guion, vocab)
