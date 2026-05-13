@@ -353,9 +353,14 @@ const PhraseGenerator = {
         distractorArticles.push(extra[0]);
       }
 
-      // Mostrar la frase con un hueco ___ donde iría el artículo
-      var rest = p.de.replace(/^(Der|Die|Das)\s/i, "");
-      var blankPhrase = "___ " + rest;
+      // Mostrar la frase con un hueco ___ donde esté el artículo ORIGINAL
+      var articleRegex = new RegExp("\\b" + origArticle + "\\b", "i");
+      var blankPhrase = p.de.replace(articleRegex, "___");
+      // Si no se reemplazó (caso raro), poner ___ al inicio
+      if (blankPhrase === p.de) {
+        var rest = p.de.replace(/^(Der|Die|Das)\s/i, "");
+        blankPhrase = "___ " + rest;
+      }
 
       exercises.push({
         type: "articleChoice",
