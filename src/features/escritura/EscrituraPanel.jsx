@@ -388,7 +388,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
       hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
       hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, completedLines, setCompletedLines, isPaused, setIsPaused, viewerRef
     }),
 
     // Lienzo de dibujo
@@ -505,7 +505,7 @@ function renderModeContent(mode, ctx) {
     typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
     hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
     hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef
+    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, completedLines, setCompletedLines, isPaused, setIsPaused, viewerRef
   } = ctx;
 
   
