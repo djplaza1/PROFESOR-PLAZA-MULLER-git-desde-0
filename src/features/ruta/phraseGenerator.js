@@ -8,6 +8,20 @@ const PhraseGenerator = {
   isValidWord(w){if(!w||!w[0]||!w[1])return false;const de=w[0].trim(),es=w[1].trim();return !de.startsWith("[")&&!es.startsWith("[")&&es!=="-"&&es!=="";},
   getVocabForLevel(levelId){const R=window.Muller?.Ruta;return(R&&R.VOCAB&&R.VOCAB[levelId])?R.VOCAB[levelId]:[];},
   getValidWords(levelId){return this.getVocabForLevel(levelId).filter(w=>this.isValidWord(w));},
+  getPhraseForWord(levelId, w) {
+    const bank = window.PhrasesBank || {};
+    const levelBank = bank[levelId] || {};
+    const canon = this.canonizeNoun(w);
+    const phrases = levelBank[w[0]] || levelBank[canon];
+    if (phrases && phrases.length > 0) {
+      return phrases[Math.floor(Math.random() * phrases.length)];
+    }
+    const art = this.getArticle(w);
+    const bare = this.getBareNoun(w);
+    if (art) return {de: "Das ist " + art + " " + bare + ".", es: "Esto es " + bare + "."};
+    if (w[4] === "v") return {de: "Ich kann " + w[0] + ".", es: "Yo puedo " + w[1] + "."};
+    return {de: "Das Wort lautet " + w[0] + ".", es: "La palabra es " + w[0] + "."};
+  },
   randomSlice(arr,count,exclude){return arr.filter(x=>x!==exclude).sort(()=>Math.random()-0.5).slice(0,count);},
   hideWordInSentence(sentence,word){const bare=word.replace(/^(der|die|das)\s?/i,"");const re=new RegExp("\\b(?:meinen?|deinen?|ihren?|euren?|unseren?|meine?|deine?|ihre?|eure?|unsere?|der|die|das|dem|den|des)\\s"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b|\\b"+bare.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i");return sentence.replace(re,"___");},
   splitCleanSentence(sentence){const clean=sentence.replace(/[.!?¡¿]+$/g,"").trim();return clean.split(/\s+/).filter(Boolean);},
@@ -140,43 +154,35 @@ const PhraseGenerator = {
       }
       if (ex) { ex.word = w; ex.translation = esMain; ex.speakText = w[4]==="n"?this.canonizeNoun(w):w[0]; exercises.push(ex); }
     }
-    // Declinaciones de adjetivos (casos nom/acc/dat)
-    const adjDeclAdjectives = allValid.filter(w => w[4] === "adj");
-    const adjDeclNouns = allValid.filter(w => w[4] === "n" && this.getArticle(w));
-    if (adjDeclAdjectives.length > 0 && adjDeclNouns.length > 0) {
-      const adjDeclCount = Math.min(3, adjDeclAdjectives.length);
-      const shuffledAdj = [...adjDeclAdjectives].sort(() => Math.random() - 0.5).slice(0, adjDeclCount);
-      const casesList = ["nom", "acc", "dat"];
-      const detTable = { nom: { m: "der", f: "die", n: "das", pl: "die" }, acc: { m: "den", f: "die", n: "das", pl: "die" }, dat: { m: "dem", f: "der", n: "dem", pl: "den" } };
-      const endingTable = { nom: { m: "-e", f: "-e", n: "-e", pl: "-en" }, acc: { m: "-en", f: "-e", n: "-e", pl: "-en" }, dat: { m: "-en", f: "-en", n: "-en", pl: "-en" } };
-      for (let adj of shuffledAdj) {
-        const noun = adjDeclNouns[Math.floor(Math.random() * adjDeclNouns.length)];
-        const gender = this.getGender(noun);
-        const art = this.getArticle(noun);
-        const bareNoun = this.getBareNoun(noun);
-        const adjBase = adj[0];
-        const selCase = casesList[Math.floor(Math.random() * casesList.length)];
-        const det = detTable[selCase][gender];
-        const ending = endingTable[selCase][gender];
-        const correctEnding = ending.replace("-", "");
-        const fullAdj = adjBase + correctEnding;
-        let sentence = "";
-        if (selCase === "nom") sentence = det + " " + adjBase + "___ " + bareNoun + " ist neu.";
-        else if (selCase === "acc") sentence = "Ich sehe " + det + " " + adjBase + "___ " + bareNoun + ".";
-        else sentence = "Ich spreche mit " + det + " " + adjBase + "___ " + bareNoun + ".";
-        exercises.push({
+    // Declinaciones de adjetivos desde frases reales
+    const allPhrases = [];
+    for (let k of Object.keys(levelBank)) {
+      (levelBank[k] || []).forEach(p => allPhrases.push({word: k, de: p.de, es: p.es}));
+    }
+    const adjPattern = /\b(der|die|das|den|dem|des|eine?|keine?)\s+(\w+)(e|er|es|en)\s+(\w+)\b/gi;
+    const adjExercises = [];
+    for (let p of allPhrases) {
+      let match;
+      while ((match = adjPattern.exec(p.de)) !== null) {
+        const det = match[1], adjBase = match[2], ending = match[3], noun = match[4];
+        const sentence = p.de.replace(match[0], det + " " + adjBase + "___ " + noun);
+        adjExercises.push({
           type: "adjectiveDeclension",
           prompt: "Completa con la terminación correcta:\n\"" + sentence + "\"",
-          answer: ending,
-          options: ["-e","-er","-es","-en"].sort(() => Math.random() - 0.5),
-          hint: (selCase === "nom" ? "Nominativo" : selCase === "acc" ? "Acusativo" : "Dativo") + " definido (" + det + ").",
-          speakText: det + " " + fullAdj + " " + bareNoun,
-          word: adj,
-          translation: adj[1]
+          answer: "-" + ending,
+          options: ["-e","-er","-es","-en"].sort(()=>Math.random()-0.5),
+          hint: "Frase real del banco.",
+          speakText: det + " " + adjBase + ending + " " + noun,
+          word: allValid.find(w => this.getBareNoun(w) === noun) || allValid[0],
+          translation: p.es
         });
+        break;
       }
     }
-    // Contextuales
+    for (let e of adjExercises.slice(0, Math.min(3, adjExercises.length))) {
+      exercises.push(e);
+    }
+// Contextuales
     const bank=window.PhrasesBank||{};
     const levelBank=bank[levelId]||{};
     const bankKeys=Object.keys(levelBank);
