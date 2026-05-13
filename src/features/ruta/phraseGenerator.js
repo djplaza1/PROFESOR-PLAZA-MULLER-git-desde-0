@@ -342,8 +342,54 @@ const PhraseGenerator = {
       var origArticle = p.article;
       var gender = p.gender || genderMap[origArticle] || "m";
       
-      // Usar el caso REAL de la frase (inferido del contexto/preposición)
-      var targetCase = p.case;
+      // Determinar el caso REAL de ese artículo específico (no el caso global de la frase)
+      var targetCase = p.case || "nom";
+      
+      // Si el artículo está entre las primeras 2 palabras → es el sujeto → NOM
+      var wordsBeforeArticle = p.de.split(/\s+/).slice(0, p.de.toLowerCase().indexOf(origArticle.toLowerCase()) > 10 ? 10 : 5);
+      var isSubject = false;
+      
+      // Comprobar si el artículo está precedido por una preposición
+      var prepAll = ["mit","aus","von","zu","bei","nach","seit","gegenüber","außer","vom","zum","beim","im","am","für","durch","gegen","ohne","um","entlang","wegen","trotz","während","angesichts","in","an","auf","über","unter","vor","hinter","neben","zwischen"];
+      
+      // Buscar si hay una preposición antes del artículo (en las 5 palabras previas)
+      var articleIdx = -1;
+      var phraseWords = p.de.split(/\s+/);
+      for (var j = 0; j < phraseWords.length; j++) {
+        if (phraseWords[j].toLowerCase().replace(/[^a-zäöüß]/g,"") === origArticle.toLowerCase()) {
+          articleIdx = j;
+          break;
+        }
+      }
+      
+      var govPrep = null;
+      if (articleIdx > 0) {
+        for (var k = Math.max(0, articleIdx - 1); k >= 0 && k >= articleIdx - 3; k--) {
+          var pw = phraseWords[k].toLowerCase().replace(/[^a-zäöüß]/g,"");
+          if (prepAll.indexOf(pw) >= 0) {
+            govPrep = pw;
+            break;
+          }
+        }
+      }
+      
+      // Si el artículo es la primera palabra (sujeto) → NOM (aunque haya prep después)
+      // Si hay preposición antes → usar el caso de esa preposición
+      // Si la frase tiene una preposición DESPUÉS del artículo → el artículo sigue siendo NOM (sujeto)
+      if (govPrep) {
+        var newTargetCase = "nom";
+        if (["für","durch","gegen","ohne","um","entlang"].indexOf(govPrep) >= 0) newTargetCase = "acc";
+        if (["mit","aus","von","zu","bei","nach","seit","gegenüber","außer","vom","zum","beim","im","am","in","an","auf","über","unter","vor","hinter","neben","zwischen"].indexOf(govPrep) >= 0) newTargetCase = "dat";
+        if (["wegen","trotz","während","angesichts"].indexOf(govPrep) >= 0) newTargetCase = "gen";
+        targetCase = newTargetCase;
+      } else {
+        // Sin preposición antes → el artículo es sujeto → NOM (trivial, saltar)
+        continue;
+      }
+      
+      // Saltar también si el caso sigue siendo nom (no debería pasar, pero por seguridad)
+      if (targetCase === "nom") continue;
+      
       var correctArticle = this.getArticleForCase(targetCase, gender);
       
       // Distractors
