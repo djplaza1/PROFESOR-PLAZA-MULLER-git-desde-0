@@ -415,7 +415,14 @@ function renderModeContent(mode, ctx) {
     DE_LETTERS,
     guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
     currentVocabList, writingVocabIdx, setWritingVocabIdx,
-    setWritingCanvasKey
+    setWritingCanvasKey,
+    typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+    typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+    typingFinished, setTypingFinished, typingResult, setTypingResult,
+    typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+    hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+    hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer
   } = ctx;
 
   
