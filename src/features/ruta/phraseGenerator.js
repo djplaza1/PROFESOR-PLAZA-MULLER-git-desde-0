@@ -278,20 +278,16 @@ const PhraseGenerator = {
       var gender = genderMap[article] || (p.gender || "m");
       var targetDet = detTable[caseName] ? detTable[caseName][gender] : "der";
 
-      var contextPhrase = "";
-      if (caseName === "nom") {
-        contextPhrase = targetDet.charAt(0).toUpperCase() + targetDet.slice(1) + " ___ " + noun + " ...";
-      } else if (caseName === "acc") {
-        contextPhrase = "... " + targetDet + " ___ " + noun + " ...";
-      } else if (caseName === "dat") {
-        contextPhrase = "... " + targetDet + " ___ " + noun + " ...";
-      } else {
-        contextPhrase = targetDet.charAt(0).toUpperCase() + targetDet.slice(1) + " ___ " + noun + " ...";
+      // Mostrar la frase COMPLETA con ___ en lugar del adjetivo
+      var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "(e|er|es|em|en)", "i"), "___");
+      // Si no se pudo reemplazar, intentar con el adjetivo original completo
+      if (phraseWithBlank === p.de) {
+        phraseWithBlank = p.de.replace(new RegExp(adjClean, "i"), "___");
       }
 
       exercises.push({
         type: "adjectiveDeclension",
-        prompt: "Completa el adjetivo '" + adjClean + "' en caso " + caseLabel + ":\n\"" + contextPhrase + "\"",
+        prompt: "Completa el adjetivo '" + adjClean + "' en caso " + caseLabel + ":\n\"" + phraseWithBlank + "\"",
         answer: correctEnding,
         options: this.shuffle([].concat(allEndingOpts)),
         hint: "Caso " + caseLabel + " (" + targetDet + "). Terminación: " + correctEnding,
