@@ -319,6 +319,14 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     if (window.Muller.Achievements) window.Muller.Achievements.unlock('first_spell_check');
   };
 
+  
+  // Auto-scroll del visor de typing
+  useEffect(() => {
+    if (writingMode !== 'typing' || !viewerRef.current) return;
+    const lineHeight = 28;
+    viewerRef.current.scrollTop = completedLines.length * lineHeight;
+  }, [completedLines, writingMode]);
+
   // Render
   return React.createElement('div', {
     className: 'flex-1 flex flex-col p-4 md:p-6 max-w-4xl mx-auto w-full',
@@ -693,24 +701,11 @@ switch (mode) {
       const currentVocabMap = typingPool.length > 0 ? typingPool[0].vocabMap : new Map();
       const fullText = allLines.join('\n');
 
-      // Referencia local al viewerRef (ya viene del ctx)
-      const viewerRefCtx = viewerRef;
-
-      // Efecto para avanzar la vista al completar líneas
-      useEffect(() => {
-        if (!viewerRefCtx.current) return;
-        const linesCompleted = completedLines.length;
-        const lineHeight = 28; // aprox en px
-        const targetScroll = linesCompleted * lineHeight;
-        viewerRefCtx.current.scrollTop = targetScroll;
-      }, [completedLines]);
-
       const handleTypingInput = (e) => {
         if (isPaused) return;
         const val = e.target.value;
         setTypingInput(val);
         if (!typingStartMs && val.length > 0) setTypingStartMs(Date.now());
-        // Actualizar líneas completadas
         const writtenLines = val.split(/\n/);
         const newCompleted = [];
         for (let i = 0; i < allLines.length; i++) {
@@ -726,12 +721,8 @@ switch (mode) {
       const togglePause = () => {
         if (isPaused) {
           setIsPaused(false);
-          // Reanudar cronómetro: no tocamos typingStartMs, solo permitimos escribir
         } else {
           setIsPaused(true);
-          // Pausar: el cronómetro seguirá corriendo? Para ser justos, lo congelamos guardando el tiempo transcurrido.
-          // Podríamos guardar el tiempo acumulado, pero lo más simple es detener el contador.
-          // Aquí simplemente deshabilitamos la entrada; el WPM se congela porque typingInput no cambia.
         }
       };
 
@@ -783,7 +774,6 @@ switch (mode) {
               className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
             })
           ),
-          // Visor del texto (mejorado: líneas horizontales, coloreado y subrayado)
           React.createElement('div', {
             ref: viewerRef,
             className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-64 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
@@ -808,7 +798,6 @@ switch (mode) {
               )
             )
           ),
-          // Campo de escritura multilínea
           React.createElement('textarea', {
             value: typingInput,
             onChange: handleTypingInput,
@@ -816,7 +805,6 @@ switch (mode) {
             disabled: typingFinished || isPaused,
             className: 'w-full min-h-[120px] bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
           }),
-          // Barra de estadísticas y botones
           React.createElement('div', { className: 'flex gap-4 text-xs items-center' },
             React.createElement('span', { className: 'text-cyan-300' }, `WPM: ${typingLiveWpm}`),
             React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`),
@@ -867,7 +855,6 @@ switch (mode) {
         )
       );
     }
-
     case 'handwrite': {
       const currentHwText = hwPool[hwIdx % hwPool.length]?.de || '';
       const verifyHandwrite = async () => {
