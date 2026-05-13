@@ -82,7 +82,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [hwUseCustom, setHwUseCustom] = useState(false);
   const [hwShowTarget, setHwShowTarget] = useState(true);
   const [hwMemMode, setHwMemMode] = useState(false);
-  const [hwMemTimer, setHwMemTimer, viewerRef, viewerRef] = useState(5);
+  const [hwMemTimer, setHwMemTimer] = useState(5);
 
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
@@ -386,7 +386,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
       hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
       hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef, viewerRef
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef
     }),
 
     // Lienzo de dibujo
@@ -503,7 +503,7 @@ function renderModeContent(mode, ctx) {
     typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
     hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
     hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
-    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef, viewerRef
+    hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer, viewerRef
   } = ctx;
 
   
