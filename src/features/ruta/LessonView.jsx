@@ -16,6 +16,11 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [streak, setStreak] = useState(0);
   const [celebrate, setCelebrate] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [userOrder, setUserOrder] = useState([]);
+  const [pronAttempts, setPronAttempts] = useState(0);
+  const [pronMaxAttempts, setPronMaxAttempts] = useState(3);
+  const [wrongWords, setWrongWords] = useState([]);
+  const [lastUserTranscript, setLastUserTranscript] = useState("");
   const audioCtxRef = useRef(null);
 
   const playTone = (freq, duration, type = 'sine') => {
@@ -53,6 +58,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setExercises(lesson.exercises || []);
     setCurrentEx(0);
     setUserAnswer("");
+    setUserOrder([]);
     setFeedback(null);
     setMatchSelected(null);
     setMatchResult([]);
@@ -63,6 +69,10 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setStreak(0);
     setCelebrate(null);
     setIsRecording(false);
+    setPronAttempts(0);
+    setPronMaxAttempts(3);
+    setWrongWords([]);
+    setLastUserTranscript("");
   }, [levelId, lessonIdx, reviewMode]);
 
   useEffect(() => {
@@ -71,12 +81,69 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
 
   const speak = useCallback((text) => { window.RutaAudio?.speak(text); }, []);
 
+  /**
+   * Calcula qué palabras de la frase correcta NO están en la respuesta del usuario.
+   * Devuelve array de palabras incorrectas/faltantes.
+   */
+  const findWrongWords = (userText, correctAnswer) => {
+    const userWords = (userText || "").toLowerCase().replace(/[.!?]+$/g, "").trim().split(/\s+/).filter(Boolean);
+    const correctWords = (correctAnswer || "").toLowerCase().replace(/[.!?]+$/g, "").trim().split(/\s+/).filter(Boolean);
+    const missing = [];
+    for (let i = 0; i < correctWords.length; i++) {
+      if (!userWords.includes(correctWords[i])) {
+        missing.push(correctWords[i]);
+      }
+    }
+    // También detectar palabras extra que el usuario dijo
+    const extra = userWords.filter(w => !correctWords.includes(w));
+    return { missing, extra };
+  };
+
   const checkAnswer = (submittedAnswer = null) => {
     if (!exercises[currentEx]) return;
     const ex = exercises[currentEx];
     const answerToCheck = submittedAnswer !== null ? submittedAnswer : userAnswer;
     const lang = (ex.type === 'translateES' || ex.type === 'choose') ? 'es' : 'de';
     const result = window.Corrector.check(answerToCheck, ex.answer, lang);
+    
+    // Para pronunciation: permitir múltiples intentos
+    if (ex.type === 'pronounce' && !result.correct) {
+      const newAttempt = pronAttempts + 1;
+      setPronAttempts(newAttempt);
+      setLastUserTranscript(answerToCheck);
+      
+      // Calcular palabras incorrectas
+      const wrong = findWrongWords(answerToCheck, ex.answer);
+      setWrongWords(wrong.missing.concat(wrong.extra));
+      
+      if (newAttempt < pronMaxAttempts) {
+        // Aún quedan intentos - mostrar feedback pero NO marcar como fallo definitivo
+        setFeedback({
+          correct: false,
+          exact: false,
+          answer: ex.answer,
+          hint: "❌ No es exacto. Intento " + newAttempt + "/" + pronMaxAttempts + ". Sigue intentando.",
+          attempts: newAttempt,
+          maxAttempts: pronMaxAttempts
+        });
+        playWrong();
+        return; // No añadir a failedStack todavía
+      }
+      // Se acabaron los intentos - marca como incorrecto definitivo
+      playWrong();
+      setFailedStack(prev => [...prev, ex]);
+      setFeedback({
+        correct: false,
+        exact: false,
+        answer: ex.answer,
+        hint: "❌ Pronunciación incorrecta tras " + pronMaxAttempts + " intentos.",
+        attempts: newAttempt,
+        maxAttempts: pronMaxAttempts,
+        wrongWords: wrong.missing.concat(wrong.extra)
+      });
+      return;
+    }
+    
     setFeedback({ correct: result.correct, exact: result.exact, answer: ex.answer, hint: result.message });
     if (result.correct) {
       playCorrect();
@@ -95,20 +162,30 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     if (currentEx < exercises.length - 1) {
       setCurrentEx(currentEx + 1);
       setUserAnswer("");
+      setUserOrder([]);
       setFeedback(null);
       setMatchSelected(null);
       setMatchResult([]);
       setAudioSelected(null);
       setAudioRevealed([]);
       setIsRecording(false);
+      setPronAttempts(0);
+      setPronMaxAttempts(3);
+      setWrongWords([]);
+      setLastUserTranscript("");
     } else {
       if (!reviewMode && failedStack.length > 0) {
         setExercises(failedStack);
         setFailedStack([]);
         setCurrentEx(0);
         setUserAnswer("");
+        setUserOrder([]);
         setFeedback(null);
         setReviewMode(true);
+        setPronAttempts(0);
+        setPronMaxAttempts(3);
+        setWrongWords([]);
+        setLastUserTranscript("");
       } else {
         if (!showComponent) {
           showCelebration('🎙️ Ahora completa el Podcast');
@@ -132,8 +209,8 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const ex = exercises[currentEx];
   if (!ex) return <div className="text-white p-4">Cargando ejercicios...</div>;
 
-  if (showComponent === 'podcast') return <PodcastView onBack={() => { showCelebration('🎬 Ahora completa la Historia'); setShowComponent('story'); }} />;
-  if (showComponent === 'story') return <StoryView onBack={() => { playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400); showCelebration('🎉 ¡Lección completada!'); const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setTimeout(() => onBack(), 1500); }} />;
+  if (showComponent === 'podcast') return <PodcastView levelId={levelId} onBack={() => { showCelebration('🎬 Ahora completa la Historia'); setShowComponent('story'); }} />;
+  if (showComponent === 'story') return <StoryView levelId={levelId} onBack={() => { playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400); showCelebration('🎉 ¡Lección completada!'); const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setTimeout(() => onBack(), 1500); }} />;
 
   const inputDisabled = feedback && !feedback.correct;
 
@@ -181,45 +258,112 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
                 {ex.rightColumn.map((word,idx) => <button key={idx} onClick={()=>{if(matchSelected&&!matchResult.some(r=>r.right===word)){const cp=ex.pairs.find(p=>p.de===matchSelected.word&&p.es===word);if(cp){setMatchResult([...matchResult,{left:matchSelected.word,right:word}]);setMatchSelected(null);if(matchResult.length+1===ex.pairs.length)checkAnswer(null)}else{setMatchSelected(null)}}}} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${matchResult.some(r=>r.right===word)?"bg-emerald-600 text-white":"bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{word}</button>)}
               </div>
             </div>
+          ) : ex.type === "order" ? (
+            <div className="space-y-4 mt-4">
+              <p className="text-slate-300 text-sm mb-2">Selecciona las palabras en orden para formar la frase:</p>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {(ex.scrambledWords || []).map((word, idx) => {
+                  const isUsed = userOrder.includes(word) && userOrder.indexOf(word) !== -1;
+                  const orderIdx = userOrder.indexOf(word);
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        if (isUsed) {
+                          const newOrder = userOrder.filter((_, i) => i !== orderIdx);
+                          setUserOrder(newOrder);
+                        } else {
+                          setUserOrder([...userOrder, word]);
+                        }
+                      }}
+                      className={`px-4 py-3 rounded-xl border-2 font-medium text-base transition shadow-md ${
+                        isUsed
+                          ? "bg-emerald-600 border-emerald-400 text-white opacity-60 cursor-pointer"
+                          : "bg-slate-700 border-slate-500 text-white hover:bg-blue-600 hover:border-blue-400 cursor-pointer"
+                      }`}
+                    >
+                      {word}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-4 p-4 bg-slate-700/50 rounded-xl border border-slate-600 min-h-[3rem]">
+                <p className="text-white font-medium text-lg">
+                  {userOrder.length > 0 ? userOrder.join(" ") : <span className="text-slate-400 italic">Toca palabras para construir la frase...</span>}
+                </p>
+              </div>
+              <div className="flex gap-2 mt-3">
+                <button
+                  onClick={() => setUserOrder([])}
+                  className="px-4 py-2 bg-slate-600 text-slate-200 rounded-lg hover:bg-slate-500 transition shadow text-sm"
+                >
+                  ↺ Reiniciar
+                </button>
+                <button
+                  onClick={() => checkAnswer(userOrder.join(" "))}
+                  disabled={userOrder.length === 0}
+                  className={`px-8 py-3 rounded-xl transition shadow-md font-semibold ${
+                    userOrder.length > 0
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                  }`}
+                >
+                  Comprobar
+                </button>
+              </div>
+            </div>
           ) : ex.type === "pronounce" ? (
             <div className="flex flex-col items-center gap-4">
-              <button
-                onClick={() => {
-                  setIsRecording(true);
-                  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                  if (!SpeechRecognition) {
-                    alert("Tu navegador no soporta reconocimiento de voz.");
-                    setIsRecording(false);
-                    return;
-                  }
-                  const recognition = new SpeechRecognition();
-                  recognition.lang = "de-DE";
-                  recognition.interimResults = false;
-                  recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript.trim();
-                    setIsRecording(false);
-                    checkAnswer(transcript);
-                  };
-                  recognition.onerror = () => {
-                    setIsRecording(false);
-                    setFeedback({
-                      correct: false,
-                      answer: ex.phraseToPronounce,
-                      hint: "No se pudo escuchar. Intenta de nuevo."
-                    });
-                  };
-                  recognition.start();
-                }}
-                disabled={isRecording}
-                className={`px-8 py-3 rounded-xl transition shadow-md font-semibold flex items-center gap-2 ${
-                  isRecording
-                    ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-700 text-white"
-                }`}
-              >
-                {isRecording ? "🎤 Escuchando..." : "🎤 Grabar respuesta"}
-              </button>
-              <p className="text-slate-400 text-sm">Pulsa el botón y repite la frase en alemán.</p>
+              {pronAttempts < pronMaxAttempts && (!feedback || !feedback.correct || feedback.attempts >= feedback.maxAttempts) ? (
+                <>
+                  <button
+                    onClick={() => {
+                      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                      if (!SpeechRecognition) {
+                        alert("Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.");
+                        return;
+                      }
+                      const recognition = new SpeechRecognition();
+                      recognition.lang = "de-DE";
+                      recognition.interimResults = false;
+                      recognition.continuous = false;
+                      recognition.onstart = () => setIsRecording(true);
+                      recognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript.trim();
+                        setIsRecording(false);
+                        if (transcript) {
+                          checkAnswer(transcript);
+                        } else {
+                          setFeedback({
+                            correct: false,
+                            answer: ex.phraseToPronounce,
+                            hint: "No se detectó ninguna voz. Intenta de nuevo."
+                          });
+                        }
+                      };
+                      recognition.onerror = (event) => {
+                        setIsRecording(false);
+                        let msg = "Error al grabar. ";
+                        if (event.error === "not-allowed") msg += "Permite el micrófono en el navegador.";
+                        else msg += "Intenta de nuevo.";
+                        setFeedback({ correct: false, answer: ex.phraseToPronounce, hint: msg });
+                      };
+                      recognition.start();
+                    }}
+                    disabled={isRecording}
+                    className={`px-8 py-3 rounded-xl transition shadow-md font-semibold flex items-center gap-2 ${
+                      isRecording
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-green-600 hover:bg-green-700 text-white"
+                    }`}
+                  >
+                    {isRecording ? "🎤 Escuchando..." : "🎤 Grabar respuesta"}
+                  </button>
+                  <p className="text-slate-400 text-sm">
+                    Pulsa el botón y repite la frase en alemán. Intento {pronAttempts + 1}/{pronMaxAttempts}.
+                  </p>
+                </>
+              ) : null}
             </div>
           ) : ex.options ? (
             <div className="space-y-3">
@@ -243,8 +387,41 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
               </div>
             ) : (
               <div>
-                <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
-                {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
+                {ex.type === "pronounce" ? (
+                  <>
+                    <span>❌ Pronunciación incorrecta</span>
+                    {feedback.attempts && feedback.maxAttempts && (
+                      <p className="text-sm mt-1 opacity-80">
+                        Intento {feedback.attempts}/{feedback.maxAttempts}
+                      </p>
+                    )}
+                    {lastUserTranscript && (
+                      <div className="mt-2 p-3 bg-slate-800/50 rounded-lg border border-red-800">
+                        <p className="text-sm text-red-300">🔊 Dijiste:</p>
+                        <p className="text-white font-medium mt-1 text-lg">{lastUserTranscript}</p>
+                      </div>
+                    )}
+                    <p className="text-sm mt-2">La frase correcta es: <strong className="text-white text-lg block mt-1">{feedback.answer}</strong></p>
+                    {feedback.wrongWords && feedback.wrongWords.length > 0 && (
+                      <div className="mt-3 p-3 bg-amber-900/40 rounded-lg border border-amber-700">
+                        <p className="text-sm text-amber-300">📌 Palabras con dificultad:</p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {feedback.wrongWords.map((w, i) => (
+                            <span key={i} className="px-3 py-1 bg-amber-800/80 text-amber-200 rounded-full text-sm font-medium border border-amber-600">
+                              {w}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-xs text-amber-400 mt-2">Practica estas palabras específicamente.</p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
+                    {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
+                  </>
+                )}
               </div>
             )}
           </div>
