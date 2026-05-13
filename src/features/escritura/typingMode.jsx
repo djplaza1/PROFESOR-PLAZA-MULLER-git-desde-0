@@ -1,5 +1,5 @@
 // src/features/escritura/typingMode.jsx
-// Modo 9: Mecanografía (teclado con precisión alemana)
+// Modo 9: Mecanografía (teclado con precisión alemana) + limpieza de texto personalizado
 window.Muller = window.Muller || {};
 window.Muller.Escritura = window.Muller.Escritura || {};
 
@@ -19,19 +19,92 @@ E.TYPING_TEXTS = [
   { de: "In der Bibliothek lesen die Studenten alte Bücher über Philosophie und Geschichte.", es: "En la biblioteca los estudiantes leen libros antiguos sobre filosofía e historia.", wpmTarget: 90 }
 ];
 
-// Generar pool desde texto pegado (sin límite, se usa completo)
+// --- Limpieza y extracción de vocabulario ---
+// Recibe texto crudo (el que pega el usuario). Devuelve:
+// - cleanLines: array de strings limpios (sin [R], sin corchetes, sin punto y coma final)
+// - vocabMap: Map donde clave = palabra alemana, valor = traducción (extraídos de los corchetes)
+// - lineVocab: array por línea con las palabras alemanas que aparecen en esa línea (para subrayar)
+function parseCustomText(raw) {
+  const lines = raw.split(/\r?\n/).filter(l => l.trim().length > 0);
+  const cleanLines = [];
+  const vocabMap = new Map();
+  const lineVocab = []; // array de arrays: [[{ word, start, end }], ...]
+
+  const vocabRegex = /\[([^\]]+)\]/g;
+
+  for (let line of lines) {
+    // Extraer todos los corchetes
+    const matches = [...line.matchAll(vocabRegex)];
+    let cleanLine = line;
+    const vocabInLine = [];
+
+    for (const m of matches) {
+      const bracketContent = m[1].trim();
+      cleanLine = cleanLine.replace(m[0], ''); // eliminar el corchete entero
+
+      // Ignorar si es solo "R"
+      if (bracketContent === 'R') continue;
+
+      // Parsear el contenido del corchete: puede ser "palabra - traducción" o "palabra1 - trad1, palabra2 - trad2"
+      const parts = bracketContent.split(/\s*,\s*/);
+      for (const part of parts) {
+        const dashIdx = part.indexOf(' - ');
+        if (dashIdx > 0) {
+          const deWord = part.substring(0, dashIdx).trim();
+          const esTrans = part.substring(dashIdx + 3).trim();
+          if (deWord) {
+            vocabMap.set(deWord, esTrans);
+            // Ver si la palabra aparece en la línea limpia final (después de quitar corchetes)
+            if (cleanLine.includes(deWord)) {
+              const start = cleanLine.indexOf(deWord);
+              const end = start + deWord.length;
+              vocabInLine.push({ word: deWord, start, end });
+            }
+          }
+        }
+      }
+    }
+
+    // Quitar el punto y coma final si lo hay y cualquier "[R]" residual
+    cleanLine = cleanLine.replace(/\s*\[R\]\s*\.;?/g, '');
+    cleanLine = cleanLine.replace(/;\s*$/, '').trim();
+    // Quitar espacios dobles
+    cleanLine = cleanLine.replace(/\s{2,}/g, ' ').trim();
+
+    if (cleanLine.length > 0) {
+      cleanLines.push(cleanLine);
+      lineVocab.push(vocabInLine);
+    }
+  }
+
+  return { cleanLines, vocabMap, lineVocab };
+}
+
+// Construir pool para typing a partir de texto pegado (objetos con texto limpio y highlights)
 E.buildTypingPool = (customText) => {
   if (customText && customText.trim().length > 0) {
-    const lines = customText.split(/\n+/).filter(l => l.trim().length > 0);
-    return lines.length > 0 ? lines : [customText.trim()];
+    const { cleanLines, vocabMap, lineVocab } = parseCustomText(customText);
+    return cleanLines.map((clean, idx) => ({
+      text: clean,
+      vocabHighlights: lineVocab[idx] || [],
+      vocabMap: vocabMap // lo pasamos completo para el panel lateral
+    }));
   }
-  return E.TYPING_TEXTS.map(t => t.de);
+  // Si no hay customText, usamos los textos base (sin highlights)
+  return E.TYPING_TEXTS.map(t => ({
+    text: t.de,
+    vocabHighlights: [],
+    vocabMap: new Map()
+  }));
 };
 
-// Obtener texto por índice (circular)
-E.getTypingText = (pool, idx) => pool[idx % pool.length];
+// Obtener el texto actual (limpio)
+E.getTypingText = (pool, idx) => {
+  const item = pool[idx % pool.length];
+  return item ? item.text : '';
+};
 
-// Analizar resultado de mecanografía: devuelve WPM, precisión, errores por letra
+// Analizar resultado de mecanografía (sin cambios)
 E.analyzeTyping = (input, target) => {
   if (!target) return { wpm: 0, accuracy: 0, errors: [], durationMs: 0 };
   const words = target.split(/\s+/).length;
