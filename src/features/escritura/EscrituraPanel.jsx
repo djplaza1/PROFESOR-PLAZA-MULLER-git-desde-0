@@ -135,7 +135,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       ? E.buildTypingPool(typingCustomText)
       : E.buildTypingPool('');
     
-    console.log('POOL[0]:', JSON.stringify(pool[0], null, 2));
+    console.log('TEXTO CRUDO recibido:', typingCustomText.substring(0, 200));
+  console.log('POOL[0]:', JSON.stringify(pool[0], null, 2));
     setTypingPool(pool);
     setTypingIdx(0);
     setTypingInput('');
