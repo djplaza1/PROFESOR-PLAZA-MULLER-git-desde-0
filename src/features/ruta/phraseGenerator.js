@@ -201,11 +201,12 @@ const PhraseGenerator = {
       }
       if (istIdx >= 0 && istIdx < words.length - 1) {
         meta.adjective = words[words.length - 1];
+        meta._isPredicative = true; // marcador para no generar adjDecl
       }
     }
 
-    // 5. Inferir adjDecl basado en el adjetivo atributivo (si lo hay)
-    if (!meta.adjDecl && meta.adjective) {
+    // 5. Inferir adjDecl basado en el adjetivo atributivo (NO si es predicativo tras "ist/sind")
+    if (!meta.adjDecl && meta.adjective && !meta._isPredicative) {
       // Si el adjetivo termina en -e, -er, -es, -en → extraer terminación
       var adjEndingMatch = meta.adjective.match(/[a-zäöüß]+(-[a-z]+)$/);
       if (adjEndingMatch) {
