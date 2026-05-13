@@ -706,17 +706,18 @@ const PhraseGenerator = {
         var audioMatchCount = Math.min(4, allValid.length);
         var audioMatchWords = this.selectUniquePairs(allValid, audioMatchCount);
         if (audioMatchWords.length >= 2) {
-        var audioDePairs = audioMatchWords.map(function(w) { return this.canonizeNoun(w); }.bind(this));
-        var audioEsPairs = audioMatchWords.map(function(w) { return w[1]; });
-        exercises.push({
-          type: "audioMatch",
-          prompt: "Escucha y empareja cada palabra con su traducción",
-          pairs: audioDePairs.map(function(de, i) { return { de: de, es: audioEsPairs[i] }; }),
-          leftColumn: audioDePairs,
-          rightColumn: this.shuffle(audioEsPairs),
-          hint: "Pulsa un altavoz para escuchar la palabra y luego selecciona su traducción.",
-          word: audioMatchWords[0]
-        });
+          var audioDePairs = audioMatchWords.map(function(w) { return this.canonizeNoun(w); }.bind(this));
+          var audioEsPairs = audioMatchWords.map(function(w) { return w[1]; });
+          exercises.push({
+            type: "audioMatch",
+            prompt: "Escucha y empareja cada palabra con su traducción",
+            pairs: audioDePairs.map(function(de, i) { return { de: de, es: audioEsPairs[i] }; }),
+            leftColumn: audioDePairs,
+            rightColumn: this.shuffle(audioEsPairs),
+            hint: "Pulsa un altavoz para escuchar la palabra y luego selecciona su traducción.",
+            word: audioMatchWords[0]
+          });
+        }
       }
     }
 
