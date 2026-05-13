@@ -686,7 +686,8 @@ const PhraseGenerator = {
       var matchCount = Math.min(5, allValid.length);
       for (var r = 0; r < 3; r++) {
         if (exercises.length >= wordsPerLesson * 3) break;
-        var matchWords = this.shuffle(allValid).slice(0, matchCount);
+        var matchWords = this.selectUniquePairs(allValid, matchCount);
+        if (matchWords.length < 2) break;
         var dePairs = matchWords.map(function(w) { return this.canonizeNoun(w); }.bind(this));
         var esPairs = matchWords.map(function(w) { return w[1]; });
         exercises.push({
@@ -703,7 +704,8 @@ const PhraseGenerator = {
       // audioMatch
       if (exercises.length < wordsPerLesson * 3) {
         var audioMatchCount = Math.min(4, allValid.length);
-        var audioMatchWords = this.shuffle(allValid).slice(0, audioMatchCount);
+        var audioMatchWords = this.selectUniquePairs(allValid, audioMatchCount);
+        if (audioMatchWords.length >= 2) {
         var audioDePairs = audioMatchWords.map(function(w) { return this.canonizeNoun(w); }.bind(this));
         var audioEsPairs = audioMatchWords.map(function(w) { return w[1]; });
         exercises.push({
@@ -774,6 +776,33 @@ const PhraseGenerator = {
       ex.speakText = w[4] === "n" ? this.canonizeNoun(w) : w[0];
     }
     return ex;
+  },
+
+  /**
+   * Selecciona N palabras ASEGURANDO que tanto canonizeNoun (lado DE) como traducción (lado ES)
+   * sean únicos. Así se evitan pares duplicados en matchPairs/audioMatch.
+   */
+  selectUniquePairs(allValid, count) {
+    var usedDe = new Set();
+    var usedEs = new Set();
+    var selected = [];
+
+    // Barajar para aleatoriedad
+    var pool = this.shuffle(allValid);
+
+    for (var i = 0; i < pool.length && selected.length < count; i++) {
+      var w = pool[i];
+      if (!this.isValidWord(w)) continue;
+      var deKey = this.canonizeNoun(w);
+      var esKey = w[1].trim();
+      if (!usedDe.has(deKey) && !usedEs.has(esKey)) {
+        usedDe.add(deKey);
+        usedEs.add(esKey);
+        selected.push(w);
+      }
+    }
+
+    return selected;
   },
 
   shuffleNoRepeat(arr) {
