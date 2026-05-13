@@ -87,6 +87,41 @@ const EXERCISE_TYPES = {
       options,
       hint: 'Recuerda el género del sustantivo.'
     };
+  },
+
+  // NUEVO: declinación de adjetivos (adjectiveDeclension)
+  adjectiveDeclension(adjClean, caseLabel, contextPhrase, correctEnding, allOptions) {
+    const options = [...allOptions].sort(() => Math.random() - 0.5);
+    return {
+      type: 'adjectiveDeclension',
+      prompt: `Completa el adjetivo '${adjClean}' en caso ${caseLabel}:\n"${contextPhrase}"`,
+      answer: correctEnding,
+      options,
+      hint: `Caso ${caseLabel}. Terminación: ${correctEnding}`
+    };
+  },
+
+  // NUEVO: elegir artículo según caso (articleChoice)
+  articleChoice(targetCase, newPhrase, correctArticle, optionsArr) {
+    const options = [...optionsArr].sort(() => Math.random() - 0.5);
+    return {
+      type: 'articleChoice',
+      prompt: `Elige el artículo correcto para caso ${targetCase.toUpperCase()}:\n"${newPhrase}"`,
+      answer: correctArticle,
+      options,
+      hint: `Caso: ${targetCase.toUpperCase()}`
+    };
+  },
+
+  // NUEVO: ordenar palabras interactivo (order)
+  orderInteractive(scrambledWords, correctSentence) {
+    return {
+      type: 'order',
+      prompt: `Toca las palabras en el orden correcto para formar la frase:`,
+      answer: correctSentence,
+      scrambledWords: [...scrambledWords].sort(() => Math.random() - 0.5),
+      hint: `La frase empieza con: "${correctSentence.split(' ')[0]}"?`
+    };
   }
 };
 

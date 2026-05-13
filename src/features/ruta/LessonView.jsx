@@ -54,6 +54,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setExercises(lesson.exercises || []);
     setCurrentEx(0);
     setUserAnswer("");
+    setUserOrder([]);
     setFeedback(null);
     setMatchSelected(null);
     setMatchResult([]);
@@ -96,6 +97,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     if (currentEx < exercises.length - 1) {
       setCurrentEx(currentEx + 1);
       setUserAnswer("");
+      setUserOrder([]);
       setFeedback(null);
       setMatchSelected(null);
       setMatchResult([]);
@@ -108,6 +110,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         setFailedStack([]);
         setCurrentEx(0);
         setUserAnswer("");
+        setUserOrder([]);
         setFeedback(null);
         setReviewMode(true);
       } else {
@@ -180,6 +183,60 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
               </div>
               <div><h3 className="text-white font-bold mb-3 text-center">Español</h3>
                 {ex.rightColumn.map((word,idx) => <button key={idx} onClick={()=>{if(matchSelected&&!matchResult.some(r=>r.right===word)){const cp=ex.pairs.find(p=>p.de===matchSelected.word&&p.es===word);if(cp){setMatchResult([...matchResult,{left:matchSelected.word,right:word}]);setMatchSelected(null);if(matchResult.length+1===ex.pairs.length)checkAnswer(null)}else{setMatchSelected(null)}}}} className={`block w-full mb-2 p-3 rounded-lg text-left font-medium transition ${matchResult.some(r=>r.right===word)?"bg-emerald-600 text-white":"bg-slate-700 text-slate-200 hover:bg-slate-600"}`}>{word}</button>)}
+              </div>
+            </div>
+          ) : ex.type === "order" ? (
+            <div className="space-y-4 mt-4">
+              <p className="text-slate-300 text-sm mb-2">Selecciona las palabras en orden para formar la frase:</p>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {(ex.scrambledWords || []).map((word, idx) => {
+                  const isUsed = userOrder.includes(word) && userOrder.indexOf(word) !== -1;
+                  const orderIdx = userOrder.indexOf(word);
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        if (isUsed) {
+                          const newOrder = userOrder.filter((_, i) => i !== orderIdx);
+                          setUserOrder(newOrder);
+                        } else {
+                          setUserOrder([...userOrder, word]);
+                        }
+                      }}
+                      className={`px-4 py-3 rounded-xl border-2 font-medium text-base transition shadow-md ${
+                        isUsed
+                          ? "bg-emerald-600 border-emerald-400 text-white opacity-60 cursor-pointer"
+                          : "bg-slate-700 border-slate-500 text-white hover:bg-blue-600 hover:border-blue-400 cursor-pointer"
+                      }`}
+                    >
+                      {word}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-4 p-4 bg-slate-700/50 rounded-xl border border-slate-600 min-h-[3rem]">
+                <p className="text-white font-medium text-lg">
+                  {userOrder.length > 0 ? userOrder.join(" ") : <span className="text-slate-400 italic">Toca palabras para construir la frase...</span>}
+                </p>
+              </div>
+              <div className="flex gap-2 mt-3">
+                <button
+                  onClick={() => setUserOrder([])}
+                  className="px-4 py-2 bg-slate-600 text-slate-200 rounded-lg hover:bg-slate-500 transition shadow text-sm"
+                >
+                  ↺ Reiniciar
+                </button>
+                <button
+                  onClick={() => checkAnswer(userOrder.join(" "))}
+                  disabled={userOrder.length === 0}
+                  className={`px-8 py-3 rounded-xl transition shadow-md font-semibold ${
+                    userOrder.length > 0
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                  }`}
+                >
+                  Comprobar
+                </button>
               </div>
             </div>
           ) : ex.type === "pronounce" ? (
