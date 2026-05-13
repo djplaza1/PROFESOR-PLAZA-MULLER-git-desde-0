@@ -307,6 +307,7 @@ const PhraseGenerator = {
   /**
    * 2. ARTÍCULO CORRECTO según caso
    * Pide elegir der/die/das/dem/den según el contexto de la frase.
+   * Muestra la frase con un hueco donde iría el artículo.
    */
   generateArticleExercises(levelId, count) {
     var exercises = [];
@@ -356,17 +357,17 @@ const PhraseGenerator = {
         distractorArticles.push(extra[0]);
       }
 
-      // Frase mostrada (con el nuevo artículo)
+      // Mostrar la frase con un hueco ___ donde iría el artículo
       var rest = p.de.replace(/^(Der|Die|Das)\s/i, "");
-      var newPhrase = (correctArticle.charAt(0).toUpperCase() + correctArticle.slice(1)) + " " + rest;
+      var blankPhrase = "___ " + rest;
 
       exercises.push({
         type: "articleChoice",
-        prompt: "Elige el artículo correcto para caso " + targetCase.toUpperCase() + ":\n\"" + newPhrase + "\"",
+        prompt: "Elige el artículo correcto para caso " + targetCase.toUpperCase() + ":\n\"" + blankPhrase + "\"",
         answer: correctArticle,
         options: this.shuffle([correctArticle].concat(distractorArticles)),
         hint: "Caso: " + targetCase.toUpperCase() + ", Género: " + origArticle + " (" + gender + ")",
-        speakText: newPhrase,
+        speakText: p.de,
         word: [p.de, p.es],
         translation: p.es,
         sourcePhrase: p.de
@@ -389,6 +390,7 @@ const PhraseGenerator = {
   /**
    * 3. ORDENAR PALABRAS
    * Shuffle de palabras de la frase real.
+   * Muestra la traducción al español para guiar al usuario.
    */
   generateOrderExercises(levelId, count) {
     var exercises = [];
@@ -404,7 +406,7 @@ const PhraseGenerator = {
       var shuffled = this.shuffle(words);
       exercises.push({
         type: "order",
-        prompt: "Toca las palabras en el orden correcto para formar la frase:",
+        prompt: "Ordena las palabras para formar la frase:\n🇪🇸 \"" + p.es + "\"",
         answer: clean,
         scrambledWords: shuffled,
         hint: "Forma una frase correcta en alemán. Empieza con mayúscula.",
@@ -515,12 +517,26 @@ const PhraseGenerator = {
 
   /**
    * 5. PRONUNCIACIÓN
-   * Rotar entre TODAS las frases disponibles del nivel.
+   * Usa frases SIMPLES del nivel (máx 5 palabras para facilitar la pronunciación).
+   * Rotación entre TODAS las frases simples disponibles.
    */
   generatePronunciationExercises(levelId, count) {
     var exercises = [];
     var allPhrases = this.getPhrasesForLevel(levelId);
     if (allPhrases.length === 0) return exercises;
+
+    // Filtrar frases SIMPLES: máximo 5 palabras
+    var simplePhrases = allPhrases.filter(function(p) {
+      var words = p.de.replace(/[.!?]+$/g, "").trim().split(/\s+/).filter(Boolean);
+      return words.length >= 2 && words.length <= 5;
+    });
+
+    // Si no hay suficientes frases simples, usar todas pero priorizar las más cortas
+    var pool = simplePhrases.length >= count ? simplePhrases : allPhrases.sort(function(a, b) {
+      var aLen = a.de.replace(/[.!?]+$/g, "").trim().split(/\s+/).filter(Boolean).length;
+      var bLen = b.de.replace(/[.!?]+$/g, "").trim().split(/\s+/).filter(Boolean).length;
+      return aLen - bLen;
+    });
 
     // sessionStorage para rotación
     var sessionKey = "muller_pron_used_" + levelId;
@@ -529,17 +545,17 @@ const PhraseGenerator = {
     try { usedIndices = usedIndicesStr ? JSON.parse(usedIndicesStr) : []; } catch(e) { usedIndices = []; }
 
     var available = [];
-    for (var i = 0; i < allPhrases.length; i++) {
+    for (var i = 0; i < pool.length; i++) {
       if (usedIndices.indexOf(i) === -1) {
-        available.push({ phrase: allPhrases[i], index: i });
+        available.push({ phrase: pool[i], index: i });
       }
     }
 
-    if (available.length < count && allPhrases.length > 0) {
+    if (available.length < count && pool.length > 0) {
       usedIndices = [];
       available = [];
-      for (var i = 0; i < allPhrases.length; i++) {
-        available.push({ phrase: allPhrases[i], index: i });
+      for (var i = 0; i < pool.length; i++) {
+        available.push({ phrase: pool[i], index: i });
       }
     }
 
@@ -631,7 +647,7 @@ const PhraseGenerator = {
       }
     }
 
-    // EJ 5: Pronunciación (ROTA entre TODAS las frases del nivel)
+    // EJ 5: Pronunciación (ROTA entre frases SIMPLES del nivel)
     var pronCount = Math.min(4, Math.max(2, Math.floor(wordsPerLesson * 0.15)));
     if (pronCount > 0 && allPhrases.length > 0) {
       var pronEx = this.generatePronunciationExercises(levelId, pronCount);

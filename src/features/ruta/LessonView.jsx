@@ -17,6 +17,10 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [celebrate, setCelebrate] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [userOrder, setUserOrder] = useState([]);
+  const [pronAttempts, setPronAttempts] = useState(0);
+  const [pronMaxAttempts, setPronMaxAttempts] = useState(3);
+  const [wrongWords, setWrongWords] = useState([]);
+  const [lastUserTranscript, setLastUserTranscript] = useState("");
   const audioCtxRef = useRef(null);
 
   const playTone = (freq, duration, type = 'sine') => {
@@ -65,6 +69,10 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     setStreak(0);
     setCelebrate(null);
     setIsRecording(false);
+    setPronAttempts(0);
+    setPronMaxAttempts(3);
+    setWrongWords([]);
+    setLastUserTranscript("");
   }, [levelId, lessonIdx, reviewMode]);
 
   useEffect(() => {
@@ -73,12 +81,69 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
 
   const speak = useCallback((text) => { window.RutaAudio?.speak(text); }, []);
 
+  /**
+   * Calcula qué palabras de la frase correcta NO están en la respuesta del usuario.
+   * Devuelve array de palabras incorrectas/faltantes.
+   */
+  const findWrongWords = (userText, correctAnswer) => {
+    const userWords = (userText || "").toLowerCase().replace(/[.!?]+$/g, "").trim().split(/\s+/).filter(Boolean);
+    const correctWords = (correctAnswer || "").toLowerCase().replace(/[.!?]+$/g, "").trim().split(/\s+/).filter(Boolean);
+    const missing = [];
+    for (let i = 0; i < correctWords.length; i++) {
+      if (!userWords.includes(correctWords[i])) {
+        missing.push(correctWords[i]);
+      }
+    }
+    // También detectar palabras extra que el usuario dijo
+    const extra = userWords.filter(w => !correctWords.includes(w));
+    return { missing, extra };
+  };
+
   const checkAnswer = (submittedAnswer = null) => {
     if (!exercises[currentEx]) return;
     const ex = exercises[currentEx];
     const answerToCheck = submittedAnswer !== null ? submittedAnswer : userAnswer;
     const lang = (ex.type === 'translateES' || ex.type === 'choose') ? 'es' : 'de';
     const result = window.Corrector.check(answerToCheck, ex.answer, lang);
+    
+    // Para pronunciation: permitir múltiples intentos
+    if (ex.type === 'pronounce' && !result.correct) {
+      const newAttempt = pronAttempts + 1;
+      setPronAttempts(newAttempt);
+      setLastUserTranscript(answerToCheck);
+      
+      // Calcular palabras incorrectas
+      const wrong = findWrongWords(answerToCheck, ex.answer);
+      setWrongWords(wrong.missing.concat(wrong.extra));
+      
+      if (newAttempt < pronMaxAttempts) {
+        // Aún quedan intentos - mostrar feedback pero NO marcar como fallo definitivo
+        setFeedback({
+          correct: false,
+          exact: false,
+          answer: ex.answer,
+          hint: "❌ No es exacto. Intento " + newAttempt + "/" + pronMaxAttempts + ". Sigue intentando.",
+          attempts: newAttempt,
+          maxAttempts: pronMaxAttempts
+        });
+        playWrong();
+        return; // No añadir a failedStack todavía
+      }
+      // Se acabaron los intentos - marca como incorrecto definitivo
+      playWrong();
+      setFailedStack(prev => [...prev, ex]);
+      setFeedback({
+        correct: false,
+        exact: false,
+        answer: ex.answer,
+        hint: "❌ Pronunciación incorrecta tras " + pronMaxAttempts + " intentos.",
+        attempts: newAttempt,
+        maxAttempts: pronMaxAttempts,
+        wrongWords: wrong.missing.concat(wrong.extra)
+      });
+      return;
+    }
+    
     setFeedback({ correct: result.correct, exact: result.exact, answer: ex.answer, hint: result.message });
     if (result.correct) {
       playCorrect();
@@ -104,6 +169,10 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       setAudioSelected(null);
       setAudioRevealed([]);
       setIsRecording(false);
+      setPronAttempts(0);
+      setPronMaxAttempts(3);
+      setWrongWords([]);
+      setLastUserTranscript("");
     } else {
       if (!reviewMode && failedStack.length > 0) {
         setExercises(failedStack);
@@ -113,6 +182,10 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         setUserOrder([]);
         setFeedback(null);
         setReviewMode(true);
+        setPronAttempts(0);
+        setPronMaxAttempts(3);
+        setWrongWords([]);
+        setLastUserTranscript("");
       } else {
         if (!showComponent) {
           showCelebration('🎙️ Ahora completa el Podcast');
@@ -241,49 +314,56 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
             </div>
           ) : ex.type === "pronounce" ? (
             <div className="flex flex-col items-center gap-4">
-              <button
-                                onClick={() => {
-                  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                  if (!SpeechRecognition) {
-                    alert("Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.");
-                    return;
-                  }
-                  const recognition = new SpeechRecognition();
-                  recognition.lang = "de-DE";
-                  recognition.interimResults = false;
-                  recognition.continuous = false;
-                  recognition.onstart = () => setIsRecording(true);
-                  recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript.trim();
-                    setIsRecording(false);
-                    if (transcript) {
-                      checkAnswer(transcript);
-                    } else {
-                      setFeedback({
-                        correct: false,
-                        answer: ex.phraseToPronounce,
-                        hint: "No se detectó ninguna voz. Intenta de nuevo."
-                      });
-                    }
-                  };
-                  recognition.onerror = (event) => {
-                    setIsRecording(false);
-                    let msg = "Error al grabar. ";
-                    if (event.error === "not-allowed") msg += "Permite el micrófono en el navegador.";
-                    else msg += "Intenta de nuevo.";
-                    setFeedback({ correct: false, answer: ex.phraseToPronounce, hint: msg });
-                  };
-                  recognition.start();
-                }}disabled={isRecording}
-                className={`px-8 py-3 rounded-xl transition shadow-md font-semibold flex items-center gap-2 ${
-                  isRecording
-                    ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-700 text-white"
-                }`}
-              >
-                {isRecording ? "🎤 Escuchando..." : "🎤 Grabar respuesta"}
-              </button>
-              <p className="text-slate-400 text-sm">Pulsa el botón y repite la frase en alemán.</p>
+              {pronAttempts < pronMaxAttempts && (!feedback || !feedback.correct || feedback.attempts >= feedback.maxAttempts) ? (
+                <>
+                  <button
+                    onClick={() => {
+                      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                      if (!SpeechRecognition) {
+                        alert("Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.");
+                        return;
+                      }
+                      const recognition = new SpeechRecognition();
+                      recognition.lang = "de-DE";
+                      recognition.interimResults = false;
+                      recognition.continuous = false;
+                      recognition.onstart = () => setIsRecording(true);
+                      recognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript.trim();
+                        setIsRecording(false);
+                        if (transcript) {
+                          checkAnswer(transcript);
+                        } else {
+                          setFeedback({
+                            correct: false,
+                            answer: ex.phraseToPronounce,
+                            hint: "No se detectó ninguna voz. Intenta de nuevo."
+                          });
+                        }
+                      };
+                      recognition.onerror = (event) => {
+                        setIsRecording(false);
+                        let msg = "Error al grabar. ";
+                        if (event.error === "not-allowed") msg += "Permite el micrófono en el navegador.";
+                        else msg += "Intenta de nuevo.";
+                        setFeedback({ correct: false, answer: ex.phraseToPronounce, hint: msg });
+                      };
+                      recognition.start();
+                    }}
+                    disabled={isRecording}
+                    className={`px-8 py-3 rounded-xl transition shadow-md font-semibold flex items-center gap-2 ${
+                      isRecording
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-green-600 hover:bg-green-700 text-white"
+                    }`}
+                  >
+                    {isRecording ? "🎤 Escuchando..." : "🎤 Grabar respuesta"}
+                  </button>
+                  <p className="text-slate-400 text-sm">
+                    Pulsa el botón y repite la frase en alemán. Intento {pronAttempts + 1}/{pronMaxAttempts}.
+                  </p>
+                </>
+              ) : null}
             </div>
           ) : ex.options ? (
             <div className="space-y-3">
@@ -307,8 +387,41 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
               </div>
             ) : (
               <div>
-                <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
-                {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
+                {ex.type === "pronounce" ? (
+                  <>
+                    <span>❌ Pronunciación incorrecta</span>
+                    {feedback.attempts && feedback.maxAttempts && (
+                      <p className="text-sm mt-1 opacity-80">
+                        Intento {feedback.attempts}/{feedback.maxAttempts}
+                      </p>
+                    )}
+                    {lastUserTranscript && (
+                      <div className="mt-2 p-3 bg-slate-800/50 rounded-lg border border-red-800">
+                        <p className="text-sm text-red-300">🔊 Dijiste:</p>
+                        <p className="text-white font-medium mt-1 text-lg">{lastUserTranscript}</p>
+                      </div>
+                    )}
+                    <p className="text-sm mt-2">La frase correcta es: <strong className="text-white text-lg block mt-1">{feedback.answer}</strong></p>
+                    {feedback.wrongWords && feedback.wrongWords.length > 0 && (
+                      <div className="mt-3 p-3 bg-amber-900/40 rounded-lg border border-amber-700">
+                        <p className="text-sm text-amber-300">📌 Palabras con dificultad:</p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {feedback.wrongWords.map((w, i) => (
+                            <span key={i} className="px-3 py-1 bg-amber-800/80 text-amber-200 rounded-full text-sm font-medium border border-amber-600">
+                              {w}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-xs text-amber-400 mt-2">Practica estas palabras específicamente.</p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
+                    {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
+                  </>
+                )}
               </div>
             )}
           </div>
