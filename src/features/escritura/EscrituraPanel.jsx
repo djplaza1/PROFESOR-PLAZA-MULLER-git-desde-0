@@ -748,12 +748,12 @@ function renderModeContent(mode, ctx) {
       const stopTyping = () => {
         const finalElapsed = (Date.now() - (typingStartMs || Date.now())) + pausedElapsedRef.current;
         setTypingFinished(true);
+        const minutes = finalElapsed / 60000;
         const wpm = minutes > 0 ? Math.round(typingInput.trim().split(/\\s+/).length / minutes) : 0;
         const result = E.analyzeTyping(typingInput, fullText);
         setTypingResult({ ...result, wpm, durationMs: finalElapsed });
         try {
           const key = btoa(fullText).substring(0, 40);
-          const prev = JSON.parse(localStorage.getItem('typingSessions') || '{}');
           prev[key] = { wpm, accuracy: result.accuracy, date: Date.now() };
           localStorage.setItem('typingSessions', JSON.stringify(prev));
         } catch (ex) {}
