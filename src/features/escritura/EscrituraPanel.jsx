@@ -207,11 +207,11 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     const fullText = allLines.join('\n');
     const totalLen = fullText.length || 1;
     const typedLen = Math.min(typingInput.length, fullText.length);
-    const progress = typedLen / totalLen;
+    const progress = (typedLen / totalLen) * 0.9;
     const el = viewerRef.current;
     const maxScroll = el.scrollHeight - el.clientHeight;
     // Dejar un 15% de margen al final para no tapar la última línea
-    el.scrollTop = Math.min(progress * maxScroll, maxScroll * 0.85);
+    el.scrollTop = Math.min(progress * maxScroll, maxScroll * 0.80);
   }, [typingInput, writingMode, typingPool]);
 
   const redraw = () => {
@@ -830,7 +830,7 @@ function renderModeContent(mode, ctx) {
             className: 'w-full min-h-[120px] bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
           }),
           React.createElement('div', { className: 'flex gap-4 text-xs items-center' },
-            React.createElement('span', { className: 'text-cyan-300' }, `WPM: ${typingLiveWpm}`),
+            React.createElement('span', { className: 'text-cyan-300' }, WPM:  | CPM: ),
             React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`),
             React.createElement('span', { className: 'text-yellow-300' }, `⏱ ${typingDisplayTime}s`),
             React.createElement('button', {
