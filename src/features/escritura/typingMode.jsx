@@ -1,4 +1,4 @@
-﻿// src/features/escritura/typingMode.jsx
+// src/features/escritura/typingMode.jsx
 // Modo 9: Mecanografía (teclado con precisión alemana) + limpieza de texto personalizado
 window.Muller = window.Muller || {};
 window.Muller.Escritura = window.Muller.Escritura || {};
@@ -102,6 +102,13 @@ E.getTypingText = (pool, idx) => {
 };
 
 E.analyzeTyping = (input, target) => {
+  // Contar correcciones: cambios de carácter en la misma posición
+  let corrections = 0;
+  for (let i = 1; i < input.length; i++) {
+    if (input[i-1] !== input[i] && target[i-1] === input[i-1]) {
+      corrections++;
+    }
+  }
   if (!target || input.length === 0) return { wpm: 0, accuracy: 0, errors: [], targetWords: 0 };
   const targetClean = target.replace(/\s+/g, '');
   const inputClean = input.replace(/\s+/g, '');
@@ -122,5 +129,5 @@ E.analyzeTyping = (input, target) => {
   }
   const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
   const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
-  return { wpm: 0, accuracy, errors, targetWords: input.trim().split(/\s+/).length };
+  return { wpm: 0, accuracy, errors, corrections, targetWords: input.trim().split(/\s+/).length };
 };
