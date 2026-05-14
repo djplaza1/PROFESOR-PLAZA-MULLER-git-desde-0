@@ -20,7 +20,6 @@ E.TYPING_TEXTS = [
 
 // ─── Limpieza y extracción de vocabulario ───
 function parseCustomText(raw) {
-  // Normalizar a NFC para manejar diéresis y ß
   const normalizedRaw = raw.normalize ? raw.normalize('NFC') : raw;
   const lines = normalizedRaw.split(/\r?\n/).filter(l => l.trim().length > 0);
   const cleanLines = [];
@@ -30,7 +29,8 @@ function parseCustomText(raw) {
   for (let line of lines) {
     const bracketRegex = /\[([^\]]+)\]/g;
     const matches = [...line.matchAll(bracketRegex)];
-    const vocabWords = [];
+    const vocabWords = [];  // palabras completas del corchete (para el panel lateral)
+    const highlightWords = [];  // palabras sueltas que realmente resaltaremos (sin artículos)
 
     let cleanLine = line;
     for (const m of matches) {
@@ -44,8 +44,16 @@ function parseCustomText(raw) {
           const deWord = part.substring(0, dashIdx).trim();
           const esTrans = part.substring(dashIdx + 3).trim();
           if (deWord) {
-            vocabMap.set(deWord, esTrans);
+            vocabMap.set(deWord, esTrans);       // "der Bürger" se guarda así en el lateral
             vocabWords.push(deWord);
+            // Extraer palabras individuales (ignorando artículos y partículas cortas)
+            const tokens = deWord.split(/\s+/);
+            for (const token of tokens) {
+              const cleanToken = token.replace(/[.,;:!?]/g, '');
+              if (cleanToken.length > 2 && !/^(der|die|das|den|dem|des|ein|eine|einer|eines|einem|einen)$/i.test(cleanToken)) {
+                highlightWords.push(cleanToken);
+              }
+            }
           }
         }
       }
@@ -57,10 +65,9 @@ function parseCustomText(raw) {
 
     if (cleanLine.length > 0) {
       const highlights = [];
-      for (const word of vocabWords) {
-        // Escapar caracteres especiales regex, pero no las letras normales
+      for (const word of highlightWords) {
         const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex = new RegExp(escaped, 'giu'); // 'u' para Unicode completo
+        const regex = new RegExp(escaped, 'giu');
         let m;
         while ((m = regex.exec(cleanLine)) !== null) {
           highlights.push({ word, start: m.index, end: m.index + word.length });
