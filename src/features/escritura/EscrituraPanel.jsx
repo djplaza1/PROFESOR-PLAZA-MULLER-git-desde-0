@@ -55,6 +55,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [ocrHistoryList, setOcrHistoryList] = useState([]);
   const [spellErrors, setSpellErrors] = useState([]);
   const [telcCoachResult, setTelcCoachResult] = useState(null);
+  const [copyOcrResult, setCopyOcrResult] = useState(null);
 
   // typing / handwrite
   const [typingPool, setTypingPool] = useState([]);
@@ -406,6 +407,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
       currentVocabList, writingVocabIdx, setWritingVocabIdx,
       setWritingCanvasKey,
+      copyOcrResult, setCopyOcrResult,
       typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
       typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
       typingFinished, setTypingFinished, typingResult, setTypingResult,
@@ -525,6 +527,7 @@ function renderModeContent(mode, ctx) {
     guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
     currentVocabList, writingVocabIdx, setWritingVocabIdx,
     setWritingCanvasKey,
+    copyOcrResult, setCopyOcrResult,
     typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
     typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
     typingFinished, setTypingFinished, typingResult, setTypingResult,
@@ -549,17 +552,42 @@ function renderModeContent(mode, ctx) {
         React.createElement('p', { className: 'text-[11px] text-gray-500' }, 'Escribe libremente. Usa ', React.createElement('strong', { className: 'text-gray-300' }, 'Borrar'), ' o ', React.createElement('strong', { className: 'text-gray-300' }, 'Guardar PNG'), ' debajo.')
       );
 
-    case 'copy':
+    case 'copy': {
+      const currentCopyText = WRITING_COPY_DRILLS.length > 0 ? WRITING_COPY_DRILLS[writingCopyIdx % WRITING_COPY_DRILLS.length] : '';
+
+      const verifyCopy = async () => {
+        if (!window.Muller.runOcrOnCanvas) {
+          if (window.Muller.Toast) window.Muller.Toast.show('OCR no disponible', 'warning', 2000);
+          return;
+        }
+        const result = await window.Muller.runOcrOnCanvas(canvasRef.current);
+        if (result && result.text) {
+          const sim = E.calcOcrSimilarity(result.text, currentCopyText);
+          setCopyOcrResult({ similarity: sim, ocrText: result.text });
+        }
+      };
+
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
         React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Copia la frase (caligrafía alemana)'),
         React.createElement('p', { className: 'text-lg md:text-2xl text-white leading-snug' },
-          WRITING_COPY_DRILLS.length > 0 ? WRITING_COPY_DRILLS[writingCopyIdx % WRITING_COPY_DRILLS.length] : '(sin datos)'
+          currentCopyText || '(sin datos)'
         ),
-        React.createElement('button', {
-          onClick: () => { setWritingCopyIdx(i => i+1); setWritingCanvasKey(k => k+1); },
-          className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80 hover:bg-rose-800'
-        }, 'Otra frase →')
+        React.createElement('div', { className: 'flex gap-2' },
+          React.createElement('button', {
+            onClick: () => { setWritingCopyIdx(i => i+1); setWritingCanvasKey(k => k+1); setCopyOcrResult(null); },
+            className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80 hover:bg-rose-800'
+          }, 'Otra frase →'),
+          React.createElement('button', {
+            onClick: verifyCopy,
+            className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-indigo-700/60 hover:bg-indigo-700/80'
+          }, 'Verificar con OCR')
+        ),
+        copyOcrResult && React.createElement('div', { className: 'rounded-xl bg-black/40 border border-indigo-700/40 p-2 space-y-1' },
+          React.createElement('p', { className: 'text-indigo-200 text-xs font-bold' }, `Similitud: ${copyOcrResult.similarity}%`),
+          React.createElement('p', { className: 'text-[10px] text-gray-400' }, `OCR: ${copyOcrResult.ocrText || '(vacío)'}`)
+        )
       );
+    }
 
     case 'dictation':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-3' },
