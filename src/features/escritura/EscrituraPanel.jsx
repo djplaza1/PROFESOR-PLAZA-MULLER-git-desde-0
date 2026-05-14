@@ -59,6 +59,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [dictInputMode, setDictInputMode] = useState('pen');
   const [dictResult, setDictResult] = useState(null);
   const [copyOcrResult, setCopyOcrResult] = useState(null);
+  const [guionOcrResult, setGuionOcrResult] = useState(null);
 
   // typing / handwrite
   const [typingPool, setTypingPool] = useState([]);
@@ -812,19 +813,42 @@ function renderModeContent(mode, ctx) {
         )
       );
 
-    case 'guion':
+    case 'guion': {
+      const currentGuionText = guionLines.length > 0 ? guionLines[writingGuionWriteIdx % guionLines.length] : '';
+
+      const verifyGuion = async () => {
+        if (!window.Muller.runOcrOnCanvas) {
+          if (window.Muller.Toast) window.Muller.Toast.show('OCR no disponible', 'warning', 2000);
+          return;
+        }
+        const result = await window.Muller.runOcrOnCanvas(canvasRef.current);
+        if (result && result.text) {
+          const sim = E.calcOcrSimilarity(result.text, currentGuionText);
+          setGuionOcrResult({ similarity: sim, ocrText: result.text });
+        }
+      };
+
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
         React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Escribe líneas de la historia'),
         guionLines.length > 0
-          ? React.createElement('p', { className: 'text-lg md:text-xl text-white leading-relaxed border-l-4 border-rose-500 pl-3' },
-              guionLines[writingGuionWriteIdx % guionLines.length]
-            )
+          ? React.createElement('p', { className: 'text-lg md:text-xl text-white leading-relaxed border-l-4 border-rose-500 pl-3' }, currentGuionText)
           : React.createElement('p', { className: 'text-gray-500' }, 'No hay historia actual. Ve al panel Historia primero.'),
-        React.createElement('button', {
-          onClick: () => { setWritingGuionWriteIdx(i => i+1); setWritingCanvasKey(k => k+1); },
-          className: 'text-xs px-3 py-1.5 bg-rose-900/80 hover:bg-rose-800 rounded-lg'
-        }, 'Siguiente frase')
+        React.createElement('div', { className: 'flex gap-2' },
+          React.createElement('button', {
+            onClick: () => { setWritingGuionWriteIdx(i => i+1); setWritingCanvasKey(k => k+1); setGuionOcrResult(null); },
+            className: 'text-xs px-3 py-1.5 bg-rose-900/80 hover:bg-rose-800 rounded-lg'
+          }, 'Siguiente frase'),
+          guionLines.length > 0 && React.createElement('button', {
+            onClick: verifyGuion,
+            className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-indigo-700/60 hover:bg-indigo-700/80'
+          }, 'Verificar con OCR')
+        ),
+        guionOcrResult && React.createElement('div', { className: 'rounded-xl bg-black/40 border border-indigo-700/40 p-2 space-y-1' },
+          React.createElement('p', { className: 'text-indigo-200 text-xs font-bold' }, `Similitud: ${guionOcrResult.similarity}%`),
+          React.createElement('p', { className: 'text-[10px] text-gray-400' }, `OCR: ${guionOcrResult.ocrText || '(vacío)'}`)
+        )
       );
+    }
 
     case 'vocab':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
