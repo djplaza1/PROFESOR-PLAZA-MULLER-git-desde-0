@@ -706,16 +706,22 @@ function renderModeContent(mode, ctx) {
             React.createElement('p', { className: 'text-xs text-white' }, `Original: ${currentDictText}`),
             React.createElement('p', { className: 'text-xs text-gray-300' }, `Tú escribiste: ${dictInput}`),
             React.createElement('div', { className: 'text-xs leading-relaxed' },
-              currentDictText.split('').map((ch, i) => {
-                const typed = dictInput[i] || '';
-                let color = 'text-gray-600'; // carácter no escrito
-                if (typed === ch) color = 'text-emerald-400';      // acierto
-                else if (typed !== '' && typed !== ch) color = 'text-rose-400'; // fallo
-                return React.createElement('span', { key: i, className: color }, ch === ' ' ? '␣' : ch);
+              currentDictText.split(/\s+/).map((word, idx) => {
+                const writtenWords = dictInput.split(/\s+/);
+                const writtenWord = writtenWords[idx] || '';
+                // Limpiar puntuación final para la comparación
+                const coreOriginal = word.replace(/[^a-zA-ZäöüßÄÖÜ0-9]+$/g, '');
+                const coreWritten = writtenWord.replace(/[^a-zA-ZäöüßÄÖÜ0-9]+$/g, '');
+                const isMatch = coreOriginal.toLowerCase() === coreWritten.toLowerCase();
+                return React.createElement('span', {
+                  key: idx,
+                  className: isMatch ? 'text-emerald-400' : 'text-rose-400',
+                  title: isMatch ? 'Correcta' : 'Diferente'
+                }, word + ' ');
               })
             ),
             React.createElement('div', { className: 'text-[10px] text-gray-500 mt-2' },
-              'Verde = acierto | Rojo = fallo | Gris = no escrito | ␣ = espacio'
+              'Verde = palabra correcta (ignorando puntuación final) | Rojo = error'
             ),
             currentLine.es && React.createElement('p', { className: 'text-xs text-gray-500 mt-1' }, `Traducción: ${currentLine.es}`),
             dictResult.errors.length > 0 && React.createElement('div', { className: 'text-[10px] text-amber-400' }, `Errores: ${dictResult.errors.map(e=>e.letter).join(', ')}`)
