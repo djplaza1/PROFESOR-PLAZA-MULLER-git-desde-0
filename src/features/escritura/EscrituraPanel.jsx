@@ -749,7 +749,6 @@ function renderModeContent(mode, ctx) {
         const finalElapsed = (Date.now() - (typingStartMs || Date.now())) + pausedElapsedRef.current;
         setTypingFinished(true);
         const wpm = minutes > 0 ? Math.round(typingInput.trim().split(/\\s+/).length / minutes) : 0;
-        const wpm = minutes > 0 ? Math.round(fullText.split(/\s+/).length / minutes) : 0;
         const result = E.analyzeTyping(typingInput, fullText);
         setTypingResult({ ...result, wpm, durationMs: finalElapsed });
         try {
