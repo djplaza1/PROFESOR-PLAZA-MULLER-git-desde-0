@@ -198,7 +198,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   useEffect(() => {
     if (writingMode !== 'typing' || !viewerRef.current) return;
     const lineHeight = 28;
-    viewerRef.current.scrollTop = completedLines.length * lineHeight;
+    const targetScroll = completedLines.length * lineHeight;
+    if (targetScroll > viewerRef.current.scrollTop) viewerRef.current.scrollTop = targetScroll;
   }, [completedLines, writingMode]);
 
   const redraw = () => {
@@ -780,7 +781,7 @@ function renderModeContent(mode, ctx) {
           ),
           React.createElement('div', {
             ref: viewerRef,
-            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-[3.6em] overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
+            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-[4.8em] overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
           },
             allLines.map((line, lineIdx) =>
               React.createElement('div', { key: lineIdx, style: { display: 'flex', flexWrap: 'wrap' } },

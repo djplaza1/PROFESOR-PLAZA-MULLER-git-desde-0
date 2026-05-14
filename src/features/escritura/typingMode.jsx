@@ -1,4 +1,4 @@
-// src/features/escritura/typingMode.jsx
+﻿// src/features/escritura/typingMode.jsx
 // Modo 9: Mecanografía (teclado con precisión alemana) + limpieza de texto personalizado
 window.Muller = window.Muller || {};
 window.Muller.Escritura = window.Muller.Escritura || {};
