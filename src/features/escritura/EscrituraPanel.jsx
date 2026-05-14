@@ -194,25 +194,18 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
 
-  // Auto-scroll del visor usando marcadores de línea nativos
+  // Auto-scroll del visor (proporcional al progreso)
   useEffect(() => {
     if (writingMode !== 'typing' || !viewerRef.current) return;
     const allLines = typingPool.map(item => item.text);
     if (allLines.length === 0) return;
-    let charCount = 0;
-    let currentLine = 0;
-    const typedLen = typingInput.length;
-    for (let i = 0; i < allLines.length; i++) {
-      charCount += allLines[i].length + 1;
-      if (typedLen <= charCount) { currentLine = i; break; }
-      if (i === allLines.length - 1) currentLine = i;
-    }
-    const targetLine = Math.max(0, currentLine - 1);
-    const marker = viewerRef.current.querySelector(`[data-line="${targetLine}"]`);
-    console.log('Scroll: typedLen=' + typedLen + ', currentLine=' + currentLine + ', targetLine=' + targetLine + ', marker=' + !!marker);
-    if (marker && typeof marker.scrollIntoView === 'function') {
-      marker.scrollIntoView({ block: 'nearest', behavior: 'auto' });
-    }
+    const fullText = allLines.join('\n');
+    const totalLen = fullText.length || 1; // evitar división por 0
+    const typedLen = Math.min(typingInput.length, fullText.length);
+    const progress = typedLen / totalLen;
+    const el = viewerRef.current;
+    const maxScroll = el.scrollHeight - el.clientHeight;
+    el.scrollTop = progress * maxScroll;
   }, [typingInput, writingMode, typingPool]);
 
   const redraw = () => {
