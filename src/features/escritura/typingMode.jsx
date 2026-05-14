@@ -102,32 +102,31 @@ E.getTypingText = (pool, idx) => {
 };
 
 E.analyzeTyping = (input, target) => {
-  // Contar correcciones: cambios de carácter en la misma posición
+  if (!target || input.length === 0) return { wpm: 0, accuracy: 0, errors: [], corrections: 0, targetWords: 0 };
+  const targetClean = target.replace(/\s+/g, '');
+  const inputClean = input.replace(/\s+/g, '');
+  const maxLen = Math.min(inputClean.length, targetClean.length);
+  let correct = 0;
+  const errorMap = {};
+  for (let i = 0; i < maxLen; i++) {
+    const t = targetClean[i];
+    const u = inputClean[i];
+    if (u === t) {
+      correct++;
+    } else {
+      // Solo cuenta como error la letra original que no se escribió bien
+      const key = t;
+      errorMap[key] = (errorMap[key] || 0) + 1;
+    }
+  }
+  const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
+  const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
+  // Contar correcciones: cuando el usuario cambia un carácter que ya había escrito correctamente
   let corrections = 0;
   for (let i = 1; i < input.length; i++) {
     if (input[i-1] !== input[i] && target[i-1] === input[i-1]) {
       corrections++;
     }
   }
-  if (!target || input.length === 0) return { wpm: 0, accuracy: 0, errors: [], targetWords: 0 };
-  const targetClean = target.replace(/\s+/g, '');
-  const inputClean = input.replace(/\s+/g, '');
-  const maxLen = inputClean.length;
-  let correct = 0;
-  const errorMap = {};
-  for (let i = 0; i < maxLen; i++) {
-    const t = targetClean[i] || '';
-    const u = inputClean[i] || '';
-    if (t === u) {
-      correct++;
-    } else {
-      const key = t || '(?)';
-      if (key !== '(?)') {
-        errorMap[key] = (errorMap[key] || 0) + 1;
-      }
-    }
-  }
-  const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
-  const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
   return { wpm: 0, accuracy, errors, corrections, targetWords: input.trim().split(/\s+/).length };
 };
