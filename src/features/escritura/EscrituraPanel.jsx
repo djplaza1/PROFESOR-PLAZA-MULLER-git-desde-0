@@ -55,6 +55,9 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [ocrHistoryList, setOcrHistoryList] = useState([]);
   const [spellErrors, setSpellErrors] = useState([]);
   const [telcCoachResult, setTelcCoachResult] = useState(null);
+  const [dictInput, setDictInput] = useState('');
+  const [dictInputMode, setDictInputMode] = useState('pen');
+  const [dictResult, setDictResult] = useState(null);
   const [copyOcrResult, setCopyOcrResult] = useState(null);
 
   // typing / handwrite
@@ -407,7 +410,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
       currentVocabList, writingVocabIdx, setWritingVocabIdx,
       setWritingCanvasKey,
-      copyOcrResult, setCopyOcrResult,
+      copyOcrResult,
+      dictInput, setDictInput, dictInputMode, setDictInputMode, dictResult, setDictResult,, setCopyOcrResult,
       typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
       typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
       typingFinished, setTypingFinished, typingResult, setTypingResult,
@@ -527,7 +531,8 @@ function renderModeContent(mode, ctx) {
     guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
     currentVocabList, writingVocabIdx, setWritingVocabIdx,
     setWritingCanvasKey,
-    copyOcrResult, setCopyOcrResult,
+    copyOcrResult,
+    dictInput, setDictInput, dictInputMode, setDictInputMode, dictResult, setDictResult,, setCopyOcrResult,
     typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
     typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
     typingFinished, setTypingFinished, typingResult, setTypingResult,
@@ -589,7 +594,33 @@ function renderModeContent(mode, ctx) {
       );
     }
 
-    case 'dictation':
+    case 'dictation': {
+      const currentLine = writingDictationPool[writingDictIdx % writingDictationPool.length] || {};
+      const currentDictText = currentLine.de || '';
+
+      const verifyDictation = async () => {
+        if (dictInputMode === 'keyboard') {
+          const result = E.analyzeTyping(dictInput, currentDictText);
+          setDictResult({ ...result, mode: 'teclado' });
+        } else {
+          if (window.Muller.runOcrOnCanvas) {
+            const ocr = await window.Muller.runOcrOnCanvas(canvasRef.current);
+            if (ocr && ocr.text) {
+              const sim = E.calcOcrSimilarity(ocr.text, currentDictText);
+              setDictResult({ similarity: sim, ocrText: ocr.text, mode: 'lápiz' });
+            }
+          }
+        }
+      };
+
+      const nextDictation = () => {
+        setWritingDictIdx(i => (i+1) % writingDictationPool.length);
+        setWritingDictReveal(false);
+        setWritingCanvasKey(k => k+1);
+        setDictInput('');
+        setDictResult(null);
+      };
+
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-3' },
         React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Dictado alemán'),
         React.createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 gap-2' },
@@ -617,10 +648,9 @@ function renderModeContent(mode, ctx) {
         React.createElement('div', { className: 'flex flex-wrap gap-2' },
           React.createElement('button', {
             onClick: () => {
-              const line = writingDictationPool[writingDictIdx % writingDictationPool.length];
-              if (line) {
+              if (currentDictText) {
                 try {
-                  const u = new SpeechSynthesisUtterance(line.de);
+                  const u = new SpeechSynthesisUtterance(currentDictText);
                   u.lang = 'de-DE'; u.rate = 0.88;
                   speechSynthesis.speak(u);
                 } catch(ex) {}
@@ -632,7 +662,7 @@ function renderModeContent(mode, ctx) {
             ' Escuchar dictado'
           ),
           React.createElement('button', {
-            onClick: () => { setWritingDictIdx(i => (i+1) % writingDictationPool.length); setWritingDictReveal(false); setWritingCanvasKey(k => k+1); },
+            onClick: nextDictation,
             className: 'text-xs font-bold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700'
           }, 'Otro dictado'),
           React.createElement('button', {
@@ -644,11 +674,45 @@ function renderModeContent(mode, ctx) {
             ' solución'
           )
         ),
-        writingDictReveal && writingDictationPool.length > 0 && React.createElement('div', { className: 'border border-emerald-700/40 rounded-lg p-4 bg-emerald-950/40' },
-          React.createElement('p', { className: 'text-white font-semibold text-lg' }, writingDictationPool[writingDictIdx % writingDictationPool.length].de),
-          React.createElement('p', { className: 'text-emerald-200/90 text-sm mt-2' }, writingDictationPool[writingDictIdx % writingDictationPool.length].es || '')
+        writingDictReveal && currentDictText && React.createElement('div', { className: 'border border-emerald-700/40 rounded-lg p-4 bg-emerald-950/40' },
+          React.createElement('p', { className: 'text-white font-semibold text-lg' }, currentDictText),
+          React.createElement('p', { className: 'text-emerald-200/90 text-sm mt-2' }, currentLine.es || '')
+        ),
+        React.createElement('div', { className: 'flex gap-2' },
+          React.createElement('button', {
+            onClick: () => setDictInputMode('pen'),
+            className: `text-xs px-3 py-1.5 rounded-lg border ${dictInputMode === 'pen' ? 'bg-rose-600 border-rose-300/60' : 'bg-black/40 border-white/10'}`
+          }, '✍ Lápiz'),
+          React.createElement('button', {
+            onClick: () => setDictInputMode('keyboard'),
+            className: `text-xs px-3 py-1.5 rounded-lg border ${dictInputMode === 'keyboard' ? 'bg-rose-600 border-rose-300/60' : 'bg-black/40 border-white/10'}`
+          }, '⌨ Teclado')
+        ),
+        dictInputMode === 'keyboard' && React.createElement('textarea', {
+          value: dictInput,
+          onChange: e => setDictInput(e.target.value),
+          placeholder: 'Escribe lo que oyes...',
+          className: 'w-full min-h-[80px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+        }),
+        React.createElement('div', { className: 'flex gap-2' },
+          React.createElement('button', {
+            onClick: verifyDictation,
+            className: 'px-4 py-2 bg-rose-700 hover:bg-rose-600 rounded-xl text-sm font-bold'
+          }, 'Verificar')
+        ),
+        dictResult && React.createElement('div', { className: 'rounded-xl bg-black/40 border border-rose-700/40 p-3 space-y-2' },
+          dictResult.mode === 'teclado' && React.createElement('div', null,
+            React.createElement('p', { className: 'text-rose-200 text-sm font-bold' }, `Precisión: ${dictResult.accuracy}%`),
+            React.createElement('p', { className: 'text-xs text-gray-400' }, `WPM: ${dictResult.wpm}`),
+            dictResult.errors.length > 0 && React.createElement('div', { className: 'text-[10px] text-amber-400' }, `Errores: ${dictResult.errors.map(e=>e.letter).join(', ')}`)
+          ),
+          dictResult.mode === 'lápiz' && React.createElement('div', null,
+            React.createElement('p', { className: 'text-rose-200 text-sm font-bold' }, `Similitud: ${dictResult.similarity}%`),
+            React.createElement('p', { className: 'text-xs text-gray-400' }, `OCR: ${dictResult.ocrText || '(vacío)'}`)
+          )
         )
       );
+    }
 
     case 'prompt':
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
