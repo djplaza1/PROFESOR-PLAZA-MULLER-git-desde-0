@@ -847,7 +847,7 @@ function renderModeContent(mode, ctx) {
             React.createElement('p', { className: 'text-emerald-300 font-black' }, '✓ ¡Completado!'),
             React.createElement('div', { className: 'grid grid-cols-3 gap-2 text-xs' },
               React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'WPM'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.wpm)),
-              React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Precisión'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.effectiveAccuracy + '%')),
+              React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Precisión'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.accuracy + '%')),
               React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Tiempo'), React.createElement('p', { className: 'text-white font-bold' }, Math.round(typingResult.durationMs / 1000) + 's'))
             ),
             typingResult.errors.length > 0 && React.createElement('div', null,
