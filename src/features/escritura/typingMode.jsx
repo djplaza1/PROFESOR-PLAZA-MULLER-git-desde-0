@@ -1,4 +1,4 @@
-// src/features/escritura/typingMode.jsx
+﻿// src/features/escritura/typingMode.jsx
 // Modo 9: Mecanografía (teclado con precisión alemana) + limpieza de texto personalizado
 window.Muller = window.Muller || {};
 window.Muller.Escritura = window.Muller.Escritura || {};
@@ -29,8 +29,8 @@ function parseCustomText(raw) {
   for (let line of lines) {
     const bracketRegex = /\[([^\]]+)\]/g;
     const matches = [...line.matchAll(bracketRegex)];
-    const vocabWords = [];  // palabras completas del corchete (para el panel lateral)
-    const highlightWords = [];  // palabras sueltas que realmente resaltaremos (sin artículos)
+    const vocabWords = [];
+    const highlightWords = [];
 
     let cleanLine = line;
     for (const m of matches) {
@@ -44,9 +44,8 @@ function parseCustomText(raw) {
           const deWord = part.substring(0, dashIdx).trim();
           const esTrans = part.substring(dashIdx + 3).trim();
           if (deWord) {
-            vocabMap.set(deWord, esTrans);       // "der Bürger" se guarda así en el lateral
+            vocabMap.set(deWord, esTrans);
             vocabWords.push(deWord);
-            // Extraer palabras individuales (ignorando artículos y partículas cortas)
             const tokens = deWord.split(/\s+/);
             for (const token of tokens) {
               const cleanToken = token.replace(/[.,;:!?]/g, '');
@@ -106,7 +105,7 @@ E.analyzeTyping = (input, target) => {
   if (!target || input.length === 0) return { wpm: 0, accuracy: 0, errors: [], targetWords: 0 };
   const targetClean = target.replace(/\s+/g, '');
   const inputClean = input.replace(/\s+/g, '');
-  const maxLen = inputClean.length; // solo comparar lo que se ha escrito
+  const maxLen = inputClean.length;
   let correct = 0;
   const errorMap = {};
   for (let i = 0; i < maxLen; i++) {
@@ -124,5 +123,4 @@ E.analyzeTyping = (input, target) => {
   const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
   const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
   return { wpm: 0, accuracy, errors, targetWords: input.trim().split(/\s+/).length };
-};
 };
