@@ -792,7 +792,7 @@ function renderModeContent(mode, ctx) {
               value: typingCustomText,
               onChange: e => setTypingCustomText(e.target.value),
               placeholder: 'Pega aquí tu texto en alemán...',
-              className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+              className: 'w-full min-h-[60px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
             })
           ),
           React.createElement('div', {
