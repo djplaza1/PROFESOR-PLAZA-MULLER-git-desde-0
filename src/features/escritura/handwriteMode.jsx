@@ -1,29 +1,26 @@
-// src/features/escritura/handwriteMode.jsx
-// Modo 10: Manuscrito guiado (bolígrafo óptico / tableta)
+ï»¿// src/features/escritura/handwriteMode.jsx
+// Modo 10: Manuscrito guiado (bolÃ­grafo Ã³ptico / tableta)
 window.Muller = window.Muller || {};
 window.Muller.Escritura = window.Muller.Escritura || {};
 
 const E = window.Muller.Escritura;
 
-// Textos base para copia manuscrita (diferentes longitudes y complejidad)
 E.HANDWRITE_TEXTS = [
-  { de: "Äpfel und Öl", es: "Manzanas y aceite", difficulty: 1 },
-  { de: "Der Bär schläft im Wald.", es: "El oso duerme en el bosque.", difficulty: 2 },
-  { de: "Die Straße führt über eine kleine Brücke.", es: "La calle cruza un pequeño puente.", difficulty: 3 },
-  { de: "Übermorgen besuche ich meine Großeltern in München.", es: "Pasado mañana visito a mis abuelos en Múnich.", difficulty: 4 },
+  { de: "Ã„pfel und Ã–l", es: "Manzanas y aceite", difficulty: 1 },
+  { de: "Der BÃ¤r schlÃ¤ft im Wald.", es: "El oso duerme en el bosque.", difficulty: 2 },
+  { de: "Die StraÃŸe fÃ¼hrt Ã¼ber eine kleine BrÃ¼cke.", es: "La calle cruza un pequeÃ±o puente.", difficulty: 3 },
+  { de: "Ãœbermorgen besuche ich meine GroÃŸeltern in MÃ¼nchen.", es: "Pasado maÃ±ana visito a mis abuelos en MÃºnich.", difficulty: 4 },
   { de: "Trotz des schlechten Wetters gingen wir spazieren.", es: "A pesar del mal tiempo, salimos a pasear.", difficulty: 5 }
 ];
 
-// Construir pool de textos para manuscrito (custom o builtin)
 E.buildHandwritePool = (customText) => {
   if (customText && customText.trim().length > 0) {
-    const lines = customText.split(/\n+/).filter(l => l.trim().length > 0);
+    const lines = customText.split(/\r?\n/).filter(l => l.trim().length > 0);
     return lines.map(l => ({ de: l, es: '', difficulty: 0 }));
   }
   return E.HANDWRITE_TEXTS;
 };
 
-// Calcular similitud entre OCR y texto original (porcentaje de coincidencia)
 E.calcOcrSimilarity = (ocrText, original) => {
   if (!ocrText || !original) return 0;
   const a = ocrText.trim().toLowerCase().replace(/\s+/g, ' ');
