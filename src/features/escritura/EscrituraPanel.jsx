@@ -199,7 +199,6 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     if (writingMode !== 'typing' || !viewerRef.current) return;
     const allLines = typingPool.map(item => item.text);
     if (allLines.length === 0) return;
-    // Encontrar línea actual
     let charCount = 0;
     let currentLine = 0;
     const typedLen = typingInput.length;
@@ -208,11 +207,11 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       if (typedLen <= charCount) { currentLine = i; break; }
       if (i === allLines.length - 1) currentLine = i;
     }
-    // Buscar el marcador de la línea anterior (para que se vea el contexto)
     const targetLine = Math.max(0, currentLine - 1);
     const marker = viewerRef.current.querySelector(`[data-line="${targetLine}"]`);
+    console.log('Scroll: typedLen=' + typedLen + ', currentLine=' + currentLine + ', targetLine=' + targetLine + ', marker=' + !!marker);
     if (marker && typeof marker.scrollIntoView === 'function') {
-      marker.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      marker.scrollIntoView({ block: 'nearest', behavior: 'auto' });
     }
   }, [typingInput, writingMode, typingPool]);
 
