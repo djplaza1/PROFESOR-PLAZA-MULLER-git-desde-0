@@ -102,7 +102,7 @@ E.getTypingText = (pool, idx) => {
 };
 
 E.analyzeTyping = (input, target) => {
-  if (!target || input.length === 0) return { wpm: 0, accuracy: 0, effectiveAccuracy: 100, errors: [], corrections: 0, targetWords: 0 };
+  if (!target || input.length === 0) return { wpm: 0, accuracy: 0, errors: [], targetWords: 0 };
   const targetClean = target.replace(/\s+/g, '');
   const inputClean = input.replace(/\s+/g, '');
   const maxLen = Math.min(inputClean.length, targetClean.length);
@@ -118,17 +118,7 @@ E.analyzeTyping = (input, target) => {
       errorMap[key] = (errorMap[key] || 0) + 1;
     }
   }
-  // Contar correcciones: cambios de caracteres ya correctos
-  let corrections = 0;
-  for (let i = 1; i < input.length; i++) {
-    if (input[i-1] !== input[i] && target[i-1] === input[i-1]) {
-      corrections++;
-    }
-  }
-  // Precisión cruda (sin correcciones)
   const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
-  // Precisión efectiva: penaliza las correcciones
-  const effectiveAccuracy = (correct + corrections) > 0 ? Math.round((correct / (correct + corrections)) * 100) : 100;
   const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
-  return { wpm: 0, accuracy, effectiveAccuracy, errors, corrections, targetWords: input.trim().split(/\s+/).length };
+  return { wpm: 0, accuracy, errors, targetWords: input.trim().split(/\s+/).length };
 };
