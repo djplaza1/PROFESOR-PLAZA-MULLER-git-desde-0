@@ -702,8 +702,16 @@ function renderModeContent(mode, ctx) {
         ),
         dictResult && React.createElement('div', { className: 'rounded-xl bg-black/40 border border-rose-700/40 p-3 space-y-2' },
           dictResult.mode === 'teclado' && React.createElement('div', null,
-            React.createElement('p', { className: 'text-rose-200 text-sm font-bold' }, `Precisión: ${dictResult.accuracy}%`),
-            React.createElement('p', { className: 'text-xs text-gray-400' }, `WPM: ${dictResult.wpm}`),
+            React.createElement('p', { className: 'text-rose-200 text-sm font-bold' }, `Precisión: ${dictResult.accuracy}% | WPM: ${dictResult.wpm}`),
+            React.createElement('div', { className: 'text-xs leading-relaxed' },
+              currentDictText.split('').map((ch, i) => {
+                const typed = dictInput[i] || '';
+                const color = typed === ch ? 'text-emerald-400' : typed === '' ? 'text-gray-600' : 'text-rose-400';
+                return React.createElement('span', { key: i, className: color }, ch);
+              })
+            ),
+            React.createElement('p', { className: 'text-xs text-gray-500 mt-1' }, `Tu texto: ${dictInput}`),
+            currentLine.es && React.createElement('p', { className: 'text-xs text-gray-500' }, `Traducción: ${currentLine.es}`),
             dictResult.errors.length > 0 && React.createElement('div', { className: 'text-[10px] text-amber-400' }, `Errores: ${dictResult.errors.map(e=>e.letter).join(', ')}`)
           ),
           dictResult.mode === 'lápiz' && React.createElement('div', null,
