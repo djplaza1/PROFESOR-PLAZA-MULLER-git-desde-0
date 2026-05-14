@@ -194,18 +194,24 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
 
-  // Auto-scroll del visor (proporcional al progreso)
+  // Auto-scroll del visor (por línea, con margen para no tapar)
   useEffect(() => {
     if (writingMode !== 'typing' || !viewerRef.current) return;
     const allLines = typingPool.map(item => item.text);
     if (allLines.length === 0) return;
-    const fullText = allLines.join('\n');
-    const totalLen = fullText.length || 1; // evitar división por 0
-    const typedLen = Math.min(typingInput.length, fullText.length);
-    const progress = Math.max(0, (typedLen / totalLen) - 0.15);
-    const el = viewerRef.current;
-    const maxScroll = el.scrollHeight - el.clientHeight;
-    el.scrollTop = progress * maxScroll;
+    // Calcular línea actual basada en caracteres
+    let charCount = 0;
+    let currentLine = 0;
+    const typedLen = typingInput.length;
+    for (let i = 0; i < allLines.length; i++) {
+      charCount += allLines[i].length + 1;
+      if (typedLen <= charCount) { currentLine = i; break; }
+      if (i === allLines.length - 1) currentLine = i;
+    }
+    // Mostrar siempre la línea actual y parte de la siguiente
+    const lineHeight = 32; // ajustado para mejor visibilidad
+    const targetScroll = currentLine * lineHeight;
+    viewerRef.current.scrollTop = targetScroll;
   }, [typingInput, writingMode, typingPool]);
 
   const redraw = () => {
