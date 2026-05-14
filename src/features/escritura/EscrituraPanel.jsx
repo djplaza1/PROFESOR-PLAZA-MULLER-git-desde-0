@@ -76,6 +76,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [completedLines, setCompletedLines] = useState([]);
   const [isPaused, setIsPaused] = useState(false);
   const [typingDisplayTime, setTypingDisplayTime] = useState(0);
+  const [liveCpm, setLiveCpm] = useState(0);
 
   const [hwPool, setHwPool] = useState([]);
   const [hwIdx, setHwIdx] = useState(0);
@@ -189,6 +190,10 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
         }
         const acc = inputClean.length > 0 ? Math.round((correct / inputClean.length) * 100) : 100;
         setTypingLiveAcc(acc);
+        // Calcular CPM
+        const charsTyped = typingInput.length;
+        const cpm = minutes > 0 ? Math.round(charsTyped / minutes) : 0;
+        setLiveCpm(cpm);
       }
     }, 200);
     return () => clearInterval(interval);
@@ -388,7 +393,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
       typingFinished, setTypingFinished, typingResult, setTypingResult,
       typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
-      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime, liveCpm, setLiveCpm, liveCpm, setLiveCpm,
       hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
       hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
       hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
@@ -507,7 +512,7 @@ function renderModeContent(mode, ctx) {
     typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
     typingFinished, setTypingFinished, typingResult, setTypingResult,
     typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
-    completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+    completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime, liveCpm, setLiveCpm, liveCpm, setLiveCpm,
     hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
     hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
     hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
