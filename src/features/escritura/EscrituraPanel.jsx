@@ -211,7 +211,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     const el = viewerRef.current;
     const maxScroll = el.scrollHeight - el.clientHeight;
     // Dejar un 15% de margen al final para no tapar la última línea
-    el.scrollTop = Math.min(progress * maxScroll, maxScroll * 0.80);
+    el.scrollTop = Math.min(progress * maxScroll, maxScroll * 0.85);
   }, [typingInput, writingMode, typingPool]);
 
   const redraw = () => {
@@ -797,7 +797,7 @@ function renderModeContent(mode, ctx) {
           ),
           React.createElement('div', {
             ref: viewerRef,
-            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-[5.2em] overflow-y-auto text-lg md:text-xl text-white leading-relaxed',
+            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-[9em] overflow-y-auto text-lg md:text-xl text-white leading-relaxed',
             style: { whiteSpace: 'pre-wrap' }
           },
             allLines.map((line, lineIdx) =>
