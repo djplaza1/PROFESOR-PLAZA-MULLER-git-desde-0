@@ -62,6 +62,30 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [ocrHistoryList, setOcrHistoryList] = useState([]);
   const [spellErrors, setSpellErrors] = useState([]);
   const [telcCoachResult, setTelcCoachResult] = useState(null);
+  // typing / handwrite
+  const [typingPool, setTypingPool] = useState([]);
+  const [typingIdx, setTypingIdx] = useState(0);
+  const [typingInput, setTypingInput] = useState('');
+  const [typingStartMs, setTypingStartMs] = useState(null);
+  const [typingLiveWpm, setTypingLiveWpm] = useState(0);
+  const [typingLiveAcc, setTypingLiveAcc] = useState(100);
+  const [typingFinished, setTypingFinished] = useState(false);
+  const [typingResult, setTypingResult] = useState(null);
+  const [typingCustomText, setTypingCustomText] = useState('');
+  const [typingUseCustom, setTypingUseCustom] = useState(false);
+  const [completedLines, setCompletedLines] = useState([]);
+  const [isPaused, setIsPaused] = useState(false);
+  const [typingDisplayTime, setTypingDisplayTime] = useState(0);
+
+  const [hwPool, setHwPool] = useState([]);
+  const [hwIdx, setHwIdx] = useState(0);
+  const [hwOcrText, setHwOcrText] = useState('');
+  const [hwSimilarity, setHwSimilarity] = useState(null);
+  const [hwCustomText, setHwCustomText] = useState('');
+  const [hwUseCustom, setHwUseCustom] = useState(false);
+  const [hwShowTarget, setHwShowTarget] = useState(true);
+  const [hwMemMode, setHwMemMode] = useState(false);
+  const [hwMemTimer, setHwMemTimer] = useState(5);
 
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
