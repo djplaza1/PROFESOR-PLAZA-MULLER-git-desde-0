@@ -194,13 +194,35 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
 
-  // Auto-scroll del visor
+  // Auto-scroll del visor (basado en la posición real del carácter actual)
   useEffect(() => {
     if (writingMode !== 'typing' || !viewerRef.current) return;
-    const lineHeight = 28;
-    const targetScroll = completedLines.length * lineHeight;
-    if (targetScroll > viewerRef.current.scrollTop) viewerRef.current.scrollTop = targetScroll;
-  }, [completedLines, writingMode]);
+    const allLines = typingPool.map(item => item.text);
+    if (allLines.length === 0) return;
+    const fullText = allLines.join('\n');
+    const typedLen = typingInput.length;
+    if (typedLen === 0) {
+      viewerRef.current.scrollTop = 0;
+      return;
+    }
+    // Encontrar la línea actual según la posición en el texto completo
+    let charCount = 0;
+    let currentLine = 0;
+    for (let i = 0; i < allLines.length; i++) {
+      charCount += allLines[i].length + 1; // +1 por el salto de línea implícito
+      if (typedLen <= charCount) {
+        currentLine = i;
+        break;
+      }
+      if (i === allLines.length - 1) currentLine = i;
+    }
+    const lineHeight = 30;
+    console.log('Scroll: typedLen=' + typedLen + ', currentLine=' + currentLine + ', targetScroll=' + (currentLine * lineHeight) + ', currentScroll=' + viewerRef.current.scrollTop);
+    const targetScroll = currentLine * lineHeight;
+    if (targetScroll > viewerRef.current.scrollTop) {
+      viewerRef.current.scrollTop = targetScroll;
+    }
+  }, [typingInput, writingMode, typingPool]);
 
   const redraw = () => {
     const canvas = canvasRef.current;
