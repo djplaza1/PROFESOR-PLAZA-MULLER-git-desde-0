@@ -20,7 +20,9 @@ E.TYPING_TEXTS = [
 
 // ─── Limpieza y extracción de vocabulario ───
 function parseCustomText(raw) {
-  const lines = raw.split(/\r?\n/).filter(l => l.trim().length > 0);
+  // Normalizar a NFC para manejar diéresis y ß
+  const normalizedRaw = raw.normalize ? raw.normalize('NFC') : raw;
+  const lines = normalizedRaw.split(/\r?\n/).filter(l => l.trim().length > 0);
   const cleanLines = [];
   const vocabMap = new Map();
   const lineVocab = [];
@@ -56,7 +58,9 @@ function parseCustomText(raw) {
     if (cleanLine.length > 0) {
       const highlights = [];
       for (const word of vocabWords) {
-        const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        // Escapar caracteres especiales regex, pero no las letras normales
+        const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(escaped, 'giu'); // 'u' para Unicode completo
         let m;
         while ((m = regex.exec(cleanLine)) !== null) {
           highlights.push({ word, start: m.index, end: m.index + word.length });
