@@ -830,7 +830,7 @@ function renderModeContent(mode, ctx) {
             className: 'w-full min-h-[120px] bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
           }),
           React.createElement('div', { className: 'flex gap-4 text-xs items-center' },
-            React.createElement('span', { className: 'text-cyan-300' }, \WPM: \ | CPM: \\),
+            React.createElement('span', { className: 'text-cyan-300' }, `WPM: ${typingLiveWpm} | CPM: ${liveCpm}`),
             React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`),
             React.createElement('span', { className: 'text-yellow-300' }, `⏱ ${typingDisplayTime}s`),
             React.createElement('button', {
