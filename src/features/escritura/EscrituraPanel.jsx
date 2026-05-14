@@ -706,22 +706,20 @@ function renderModeContent(mode, ctx) {
             React.createElement('p', { className: 'text-xs text-white' }, `Original: ${currentDictText}`),
             React.createElement('p', { className: 'text-xs text-gray-300' }, `Tú escribiste: ${dictInput}`),
             React.createElement('div', { className: 'text-xs leading-relaxed' },
-              currentDictText.split(/\s+/).map((word, idx) => {
-                const writtenWords = dictInput.split(/\s+/);
-                const writtenWord = writtenWords[idx] || '';
-                // Limpiar puntuación final para la comparación
-                const coreOriginal = word.replace(/[^a-zA-ZäöüßÄÖÜ0-9]+$/g, '');
-                const coreWritten = writtenWord.replace(/[^a-zA-ZäöüßÄÖÜ0-9]+$/g, '');
-                const isMatch = coreOriginal.toLowerCase() === coreWritten.toLowerCase();
-                return React.createElement('span', {
-                  key: idx,
-                  className: isMatch ? 'text-emerald-400' : 'text-rose-400',
-                  title: isMatch ? 'Correcta' : 'Diferente'
-                }, word + ' ');
+              currentDictText.split('').map((ch, i) => {
+                const typed = dictInput[i] || '';
+                const isSpace = ch === ' ';
+                const displayChar = isSpace ? '\u2423' : ch; // ␣ visible solo si es espacio
+                const isCorrect = typed === ch;
+                const isMissing = typed === '';
+                let color = 'text-emerald-400';
+                if (isMissing) color = 'text-gray-600';
+                else if (!isCorrect) color = 'text-rose-400';
+                return React.createElement('span', { key: i, className: color, style: { marginRight: isSpace ? '4px' : '0' } }, displayChar);
               })
             ),
             React.createElement('div', { className: 'text-[10px] text-gray-500 mt-2' },
-              'Verde = palabra correcta (ignorando puntuación final) | Rojo = error'
+              'Verde = acierto | Rojo = fallo | Gris = no escrito | \u2423 = espacio'
             ),
             currentLine.es && React.createElement('p', { className: 'text-xs text-gray-500 mt-1' }, `Traducción: ${currentLine.es}`),
             dictResult.errors.length > 0 && React.createElement('div', { className: 'text-[10px] text-amber-400' }, `Errores: ${dictResult.errors.map(e=>e.letter).join(', ')}`)
