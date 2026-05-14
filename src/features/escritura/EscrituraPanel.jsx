@@ -42,7 +42,16 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
 
   // ---- estados originales (8 modos) ----
   const [writingMode, setWritingMode] = useState('free');
-  const [writingCanvasKey, setWritingCanvasKey] = useState(0);
+  const [writingCanvasKey, setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef] = useState(0);
   const [writingDictReveal, setWritingDictReveal] = useState(false);
   const [writingCopyIdx, setWritingCopyIdx] = useState(0);
   const [writingDictSource, setWritingDictSource] = useState('builtin');
@@ -58,6 +67,30 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [ocrHistoryList, setOcrHistoryList] = useState([]);
   const [spellErrors, setSpellErrors] = useState([]);
   const [telcCoachResult, setTelcCoachResult] = useState(null);
+  // typing / handwrite
+  const [typingPool, setTypingPool] = useState([]);
+  const [typingIdx, setTypingIdx] = useState(0);
+  const [typingInput, setTypingInput] = useState('');
+  const [typingStartMs, setTypingStartMs] = useState(null);
+  const [typingLiveWpm, setTypingLiveWpm] = useState(0);
+  const [typingLiveAcc, setTypingLiveAcc] = useState(100);
+  const [typingFinished, setTypingFinished] = useState(false);
+  const [typingResult, setTypingResult] = useState(null);
+  const [typingCustomText, setTypingCustomText] = useState('');
+  const [typingUseCustom, setTypingUseCustom] = useState(false);
+  const [completedLines, setCompletedLines] = useState([]);
+  const [isPaused, setIsPaused] = useState(false);
+  const [typingDisplayTime, setTypingDisplayTime] = useState(0);
+
+  const [hwPool, setHwPool] = useState([]);
+  const [hwIdx, setHwIdx] = useState(0);
+  const [hwOcrText, setHwOcrText] = useState('');
+  const [hwSimilarity, setHwSimilarity] = useState(null);
+  const [hwCustomText, setHwCustomText] = useState('');
+  const [hwUseCustom, setHwUseCustom] = useState(false);
+  const [hwShowTarget, setHwShowTarget] = useState(true);
+  const [hwMemMode, setHwMemMode] = useState(false);
+  const [hwMemTimer, setHwMemTimer] = useState(5);
 
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
@@ -65,6 +98,8 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const strokes = useRef([]);
   const currentStroke = useRef([]);
   const penColor = useRef('#ffffff');
+  const viewerRef = useRef(null);
+  const pausedElapsedRef = useRef(0);
 
   const writingScriptOptions = savedScripts.map(s => ({
     id: String(s.id),
@@ -92,6 +127,78 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
   }, [writingCanvasKey]);
+
+  
+  // Inicializar typing pool
+  useEffect(() => {
+    if (writingMode !== 'typing') return;
+    const pool = typingUseCustom ? E.buildTypingPool(typingCustomText) : E.buildTypingPool('');
+    setTypingPool(pool);
+    setTypingIdx(0);
+    setTypingInput('');
+    setTypingStartMs(null);
+    setTypingFinished(false);
+    setTypingResult(null);
+    setCompletedLines([]);
+    setIsPaused(false);
+    setTypingDisplayTime(0);
+    pausedElapsedRef.current = 0;
+  }, [writingMode, typingUseCustom, typingCustomText]);
+
+  // Inicializar handwrite pool
+  useEffect(() => {
+    if (writingMode !== 'handwrite') return;
+    const pool = hwUseCustom ? E.buildHandwritePool(hwCustomText) : E.buildHandwritePool('');
+    setHwPool(pool);
+    setHwIdx(0);
+    setHwOcrText('');
+    setHwSimilarity(null);
+    setHwShowTarget(true);
+    setHwMemMode(false);
+  }, [writingMode, hwUseCustom, hwCustomText]);
+
+  // Modo memoria handwrite
+  useEffect(() => {
+    if (!hwMemMode || writingMode !== 'handwrite') return;
+    setHwShowTarget(true);
+    setHwMemTimer(5);
+    const interval = setInterval(() => {
+      setHwMemTimer(t => { if (t <= 1) { setHwShowTarget(false); return 0; } return t - 1; });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [hwIdx, hwMemMode, writingMode]);
+
+  // Live WPM, precisión y temporizador
+  useEffect(() => {
+    if (writingMode !== 'typing' || !typingStartMs || typingFinished) return;
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - typingStartMs + pausedElapsedRef.current;
+      setTypingDisplayTime(Math.floor(elapsed / 1000));
+      const minutes = elapsed / 60000;
+      const wordsTyped = typingInput.trim().split(/\s+/).length;
+      const wpm = minutes > 0 ? Math.round(wordsTyped / minutes) : 0;
+      setTypingLiveWpm(wpm);
+      const currentTypingText = (typingPool[typingIdx % typingPool.length] || {}).text || '';
+      if (currentTypingText) {
+        const targetClean = currentTypingText.replace(/\s+/g, '');
+        const inputClean = typingInput.replace(/\s+/g, '');
+        let correct = 0;
+        for (let i = 0; i < inputClean.length; i++) {
+          if (i < targetClean.length && inputClean[i] === targetClean[i]) correct++;
+        }
+        const acc = inputClean.length > 0 ? Math.round((correct / inputClean.length) * 100) : 100;
+        setTypingLiveAcc(acc);
+      }
+    }, 200);
+    return () => clearInterval(interval);
+  }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
+
+  // Auto-scroll del visor
+  useEffect(() => {
+    if (writingMode !== 'typing' || !viewerRef.current) return;
+    const lineHeight = 28;
+    viewerRef.current.scrollTop = completedLines.length * lineHeight;
+  }, [completedLines, writingMode]);
 
   const redraw = () => {
     const canvas = canvasRef.current;
@@ -232,10 +339,21 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
         { id: 'letters', label: 'Letras DE', sub: 'ÄÖÜß' },
         { id: 'guion', label: 'Guion', sub: 'misma historia' },
         { id: 'vocab', label: 'Palabra', sub: 'del vocab' }
+        { id: 'typing', label: 'Mecano', sub: 'teclado' },
+        { id: 'handwrite', label: 'Manuscrito', sub: 'lápiz óptico' }
       ].map(m =>
         React.createElement('button', {
           key: m.id,
-          onClick: () => { setWritingMode(m.id); setWritingDictReveal(false); setWritingCanvasKey(k => k + 1); },
+          onClick: () => { setWritingMode(m.id); setWritingDictReveal(false); setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef(k => k + 1); },
           className: `px-2.5 py-1.5 md:px-3 md:py-2 rounded-xl text-left border transition ${writingMode === m.id ? 'bg-rose-800/90 border-rose-400/50 text-white shadow-lg' : 'bg-black/40 border-white/10 text-gray-400 hover:border-rose-500/40 hover:text-white'}`
         },
           React.createElement('span', { className: 'block text-[10px] md:text-xs font-black' }, m.label),
@@ -264,6 +382,15 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
       currentVocabList, writingVocabIdx, setWritingVocabIdx,
       setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef
     }),
 
     // Lienzo de dibujo
@@ -371,6 +498,15 @@ function renderModeContent(mode, ctx) {
     guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
     currentVocabList, writingVocabIdx, setWritingVocabIdx,
     setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef
   } = ctx;
 
   switch (mode) {
@@ -387,7 +523,16 @@ function renderModeContent(mode, ctx) {
           WRITING_COPY_DRILLS.length > 0 ? WRITING_COPY_DRILLS[writingCopyIdx % WRITING_COPY_DRILLS.length] : '(sin datos)'
         ),
         React.createElement('button', {
-          onClick: () => { setWritingCopyIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          onClick: () => { setWritingCopyIdx(i => i+1); setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef(k => k+1); },
           className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80 hover:bg-rose-800'
         }, 'Otra frase ?')
       );
@@ -435,7 +580,16 @@ function renderModeContent(mode, ctx) {
             ' Escuchar dictado'
           ),
           React.createElement('button', {
-            onClick: () => { setWritingDictIdx(i => (i+1) % writingDictationPool.length); setWritingDictReveal(false); setWritingCanvasKey(k => k+1); },
+            onClick: () => { setWritingDictIdx(i => (i+1) % writingDictationPool.length); setWritingDictReveal(false); setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef(k => k+1); },
             className: 'text-xs font-bold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700'
           }, 'Otro dictado'),
           React.createElement('button', {
@@ -463,7 +617,16 @@ function renderModeContent(mode, ctx) {
           WRITING_PROMPTS_DE[writingPromptIdx % WRITING_PROMPTS_DE.length].es
         ),
         React.createElement('button', {
-          onClick: () => { setWritingPromptIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          onClick: () => { setWritingPromptIdx(i => i+1); setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef(k => k+1); },
           className: 'text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-900/80 hover:bg-rose-800'
         }, 'Otro tema')
       );
@@ -510,7 +673,16 @@ function renderModeContent(mode, ctx) {
             'Evaluar texto TELC'
           ),
           React.createElement('button', {
-            onClick: () => { setWritingTelcIdx(i => i+1); setWritingCanvasKey(k => k+1); setWritingTelcTypedText(''); },
+            onClick: () => { setWritingTelcIdx(i => i+1); setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef(k => k+1); setWritingTelcTypedText(''); },
             className: 'text-xs px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg'
           }, 'Siguiente tarea')
         )
@@ -540,7 +712,16 @@ function renderModeContent(mode, ctx) {
             )
           : React.createElement('p', { className: 'text-gray-500' }, 'No hay historia actual. Ve al panel Historia primero.'),
         React.createElement('button', {
-          onClick: () => { setWritingGuionWriteIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          onClick: () => { setWritingGuionWriteIdx(i => i+1); setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef(k => k+1); },
           className: 'text-xs px-3 py-1.5 bg-rose-900/80 hover:bg-rose-800 rounded-lg'
         }, 'Siguiente frase')
       );
@@ -554,10 +735,246 @@ function renderModeContent(mode, ctx) {
             )
           : React.createElement('p', { className: 'text-gray-500' }, 'No hay lista de vocabulario activa.'),
         React.createElement('button', {
-          onClick: () => { setWritingVocabIdx(i => i+1); setWritingCanvasKey(k => k+1); },
+          onClick: () => { setWritingVocabIdx(i => i+1); setWritingCanvasKey
+      typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
+      typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
+      typingFinished, setTypingFinished, typingResult, setTypingResult,
+      typingCustomText, setTypingCustomText, typingUseCustom, setTypingUseCustom,
+      completedLines, setCompletedLines, isPaused, setIsPaused, typingDisplayTime, setTypingDisplayTime,
+      hwPool, setHwPool, hwIdx, setHwIdx, hwOcrText, setHwOcrText, hwSimilarity, setHwSimilarity,
+      hwCustomText, setHwCustomText, hwUseCustom, setHwUseCustom,
+      hwShowTarget, setHwShowTarget, hwMemMode, setHwMemMode, hwMemTimer, setHwMemTimer,
+      viewerRef, pausedElapsedRef(k => k+1); },
           className: 'text-xs px-3 py-1.5 bg-rose-900/80 hover:bg-rose-800 rounded-lg'
         }, 'Siguiente palabra')
       );
+
+    
+    case 'typing': {
+      const allLines = typingPool.map(item => item.text);
+      const currentHighlights = typingPool.length > 0 ? typingPool[0].vocabHighlights : [];
+      const currentVocabMap = typingPool.length > 0 ? typingPool[0].vocabMap : new Map();
+      const fullText = allLines.join('\n');
+
+      const handleTypingInput = (e) => {
+        if (isPaused) return;
+        const val = e.target.value;
+        setTypingInput(val);
+        if (!typingStartMs && val.length > 0) {
+          setTypingStartMs(Date.now());
+          pausedElapsedRef.current = 0;
+        }
+        const writtenLines = val.split('\n');
+        const newCompleted = [];
+        for (let i = 0; i < allLines.length; i++) {
+          if (writtenLines[i] && writtenLines[i].trim() === allLines[i].trim()) {
+            newCompleted.push(i);
+          } else break;
+        }
+        setCompletedLines(newCompleted);
+      };
+
+      const togglePause = () => {
+        if (isPaused) {
+          setIsPaused(false);
+          setTypingStartMs(Date.now());
+        } else {
+          setIsPaused(true);
+          pausedElapsedRef.current += Date.now() - (typingStartMs || Date.now());
+          setTypingStartMs(null);
+          setTypingDisplayTime(Math.floor(pausedElapsedRef.current / 1000));
+        }
+      };
+
+      const stopTyping = () => {
+        const finalElapsed = (Date.now() - (typingStartMs || Date.now())) + pausedElapsedRef.current;
+        setTypingFinished(true);
+        const minutes = finalElapsed / 60000;
+        const wpm = minutes > 0 ? Math.round(fullText.split(/\s+/).length / minutes) : 0;
+        const result = E.analyzeTyping(typingInput, fullText);
+        setTypingResult({ ...result, wpm, durationMs: finalElapsed });
+        try {
+          const key = btoa(fullText).substring(0, 40);
+          const prev = JSON.parse(localStorage.getItem('typingSessions') || '{}');
+          prev[key] = { wpm, accuracy: result.accuracy, date: Date.now() };
+          localStorage.setItem('typingSessions', JSON.stringify(prev));
+        } catch (ex) {}
+      };
+
+      const nextTypingText = () => {
+        setTypingIdx(i => i + 1);
+        setTypingInput('');
+        setTypingStartMs(null);
+        setTypingFinished(false);
+        setTypingResult(null);
+        setCompletedLines([]);
+        setIsPaused(false);
+        pausedElapsedRef.current = 0;
+        setTypingDisplayTime(0);
+      };
+
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-cyan-500/30 p-3 flex gap-4' },
+        React.createElement('div', { className: 'flex-1 space-y-3' },
+          React.createElement('p', { className: 'text-cyan-200/95 text-sm font-black flex gap-2 items-center' },
+            SvgIcon(SVG_PEN), ' Mecanografía alemana ⌨'
+          ),
+          React.createElement('div', { className: 'space-y-2' },
+            React.createElement('div', { className: 'flex gap-2' },
+              React.createElement('button', {
+                onClick: () => setTypingUseCustom(false),
+                className: `text-xs px-3 py-1.5 rounded-lg border ${!typingUseCustom ? 'bg-cyan-600 border-cyan-300/60' : 'bg-black/40 border-white/10'}`
+              }, 'Textos base'),
+              React.createElement('button', {
+                onClick: () => setTypingUseCustom(true),
+                className: `text-xs px-3 py-1.5 rounded-lg border ${typingUseCustom ? 'bg-cyan-600 border-cyan-300/60' : 'bg-black/40 border-white/10'}`
+              }, 'Pegar texto')
+            ),
+            typingUseCustom && React.createElement('textarea', {
+              value: typingCustomText,
+              onChange: e => setTypingCustomText(e.target.value),
+              placeholder: 'Pega aquí tu texto en alemán...',
+              className: 'w-full min-h-[160px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+            })
+          ),
+          React.createElement('div', {
+            ref: viewerRef,
+            className: 'rounded-xl border border-cyan-700/30 bg-slate-900/60 p-3 max-h-[3.6em] overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
+          },
+            allLines.map((line, lineIdx) =>
+              React.createElement('div', { key: lineIdx, style: { display: 'flex', flexWrap: 'wrap' } },
+                line.split('').map((ch, charIdx) => {
+                  const globalIdx = allLines.slice(0, lineIdx).reduce((sum, l) => sum + l.length + 1, 0) + charIdx;
+                  let bgColor = 'transparent';
+                  let textColor = 'text-gray-400';
+                  const isVocab = currentHighlights.some(v => v.start <= charIdx && charIdx < v.end);
+                  if (isVocab) bgColor = 'rgba(234, 179, 8, 0.3)';
+                  if (globalIdx < typingInput.length) {
+                    textColor = typingInput[globalIdx] === ch ? 'text-emerald-400' : 'text-rose-400';
+                  }
+                  return React.createElement('span', {
+                    key: charIdx,
+                    className: textColor,
+                    style: { backgroundColor: bgColor, display: 'inline' }
+                  }, ch);
+                })
+              )
+            )
+          ),
+          React.createElement('textarea', {
+            value: typingInput,
+            onChange: handleTypingInput,
+            placeholder: 'Escribe aquí el texto completo...',
+            disabled: typingFinished || isPaused,
+            className: 'w-full min-h-[120px] bg-black/45 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-mono'
+          }),
+          React.createElement('div', { className: 'flex gap-4 text-xs items-center' },
+            React.createElement('span', { className: 'text-cyan-300' }, `WPM: ${typingLiveWpm}`),
+            React.createElement('span', { className: 'text-emerald-300' }, `Precisión: ${typingLiveAcc}%`),
+            React.createElement('span', { className: 'text-yellow-300' }, `⏱ ${typingDisplayTime}s`),
+            React.createElement('button', {
+              onClick: togglePause,
+              className: `px-3 py-1 ${isPaused ? 'bg-green-700 hover:bg-green-600' : 'bg-yellow-700 hover:bg-yellow-600'} rounded-lg text-xs font-bold`
+            }, isPaused ? 'Reanudar' : 'Pausa'),
+            React.createElement('button', {
+              onClick: stopTyping,
+              disabled: typingFinished,
+              className: 'px-3 py-1 bg-rose-700 hover:bg-rose-600 rounded-lg text-xs font-bold'
+            }, 'Parar')
+          ),
+          typingFinished && typingResult && React.createElement('div', { className: 'rounded-xl bg-emerald-950/40 border border-emerald-700/40 p-3 space-y-2' },
+            React.createElement('p', { className: 'text-emerald-300 font-black' }, '✓ ¡Completado!'),
+            React.createElement('div', { className: 'grid grid-cols-3 gap-2 text-xs' },
+              React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'WPM'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.wpm)),
+              React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Precisión'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.accuracy + '%')),
+              React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Tiempo'), React.createElement('p', { className: 'text-white font-bold' }, Math.round(typingResult.durationMs / 1000) + 's'))
+            ),
+            typingResult.errors.length > 0 && React.createElement('div', null,
+              React.createElement('p', { className: 'text-[10px] text-amber-400 mb-1' }, 'Errores frecuentes:'),
+              React.createElement('div', { className: 'flex flex-wrap gap-1' },
+                typingResult.errors.slice(0, 5).map((e, i) =>
+                  React.createElement('span', { key: i, className: 'text-[10px] bg-rose-900/60 px-2 py-0.5 rounded' }, `"${e.letter}" x${e.count}`)
+                )
+              )
+            ),
+            React.createElement('button', { onClick: nextTypingText, className: 'px-4 py-2 bg-cyan-700 hover:bg-cyan-600 rounded-xl text-sm font-bold' }, 'Reiniciar')
+          )
+        ),
+        currentVocabMap.size > 0 && React.createElement('div', {
+          className: 'p-3 rounded-xl bg-black/35 border border-yellow-500/30 w-56 flex-shrink-0 self-start sticky top-4',
+          style: { maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }
+        },
+          React.createElement('h3', { className: 'text-yellow-200 text-sm font-bold mb-2' }, '📚 Vocabulario'),
+          React.createElement('ul', { className: 'text-xs space-y-1' },
+            Array.from(currentVocabMap.entries()).map(([de, es]) =>
+              React.createElement('li', { key: de, className: 'flex justify-between' },
+                React.createElement('span', { className: 'text-white font-semibold' }, de),
+                React.createElement('span', { className: 'text-gray-400 ml-2' }, es)
+              )
+            )
+          )
+        )
+      );
+    }
+
+    case 'handwrite': {
+      const currentHwText = hwPool[hwIdx % hwPool.length]?.de || '';
+      const verifyHandwrite = async () => {
+        if (!window.Muller.runOcrOnCanvas) { return; }
+        const result = await window.Muller.runOcrOnCanvas(canvasRef.current);
+        if (result && result.text) {
+          setHwOcrText(result.text);
+          setHwSimilarity(E.calcOcrSimilarity(result.text, currentHwText));
+        }
+      };
+      const nextHwText = () => {
+        setHwIdx(i => i + 1);
+        setHwOcrText('');
+        setHwSimilarity(null);
+        setWritingCanvasKey(k => k + 1);
+        if (hwMemMode) { setHwShowTarget(false); setHwMemTimer(5); } else { setHwShowTarget(true); }
+      };
+      return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-violet-500/30 p-3 space-y-3' },
+        React.createElement('p', { className: 'text-violet-200/95 text-sm font-black flex gap-2 items-center' },
+          SvgIcon(SVG_PEN), ' Manuscrito guiado ✍'
+        ),
+        React.createElement('div', { className: 'space-y-2' },
+          React.createElement('div', { className: 'flex gap-2' },
+            React.createElement('button', {
+              onClick: () => setHwUseCustom(false),
+              className: `text-xs px-3 py-1.5 rounded-lg border ${!hwUseCustom ? 'bg-violet-600 border-violet-300/60' : 'bg-black/40 border-white/10'}`
+            }, 'Textos base'),
+            React.createElement('button', {
+              onClick: () => setHwUseCustom(true),
+              className: `text-xs px-3 py-1.5 rounded-lg border ${hwUseCustom ? 'bg-violet-600 border-violet-300/60' : 'bg-black/40 border-white/10'}`
+            }, 'Pegar texto')
+          ),
+          hwUseCustom && React.createElement('textarea', {
+            value: hwCustomText,
+            onChange: e => setHwCustomText(e.target.value),
+            placeholder: 'Pega aquí el texto a copiar...',
+            className: 'w-full min-h-[140px] bg-black/45 border border-white/15 rounded-xl p-3 text-sm text-white'
+          })
+        ),
+        hwShowTarget && React.createElement('div', {
+          className: 'rounded-xl border border-violet-700/30 bg-slate-900/60 p-3 max-h-40 overflow-y-auto text-lg md:text-xl text-white leading-relaxed'
+        }, currentHwText),
+        React.createElement('div', { className: 'flex gap-2 items-center' },
+          React.createElement('label', { className: 'text-xs flex gap-1 items-center' },
+            React.createElement('input', { type: 'checkbox', checked: hwMemMode, onChange: e => setHwMemMode(e.target.checked) }),
+            ' Modo memoria (oculta texto)'
+          ),
+          hwMemMode && !hwShowTarget && React.createElement('span', { className: 'text-[10px] text-amber-400' }, 'Texto oculto. ¡Escribe de memoria!')
+        ),
+        React.createElement('div', { className: 'flex gap-2' },
+          React.createElement('button', { onClick: verifyHandwrite, className: 'px-4 py-2 bg-violet-700 hover:bg-violet-600 rounded-xl text-sm font-bold' }, 'Verificar con OCR'),
+          React.createElement('button', { onClick: nextHwText, className: 'text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg' }, 'Siguiente frase')
+        ),
+        hwSimilarity !== null && React.createElement('div', { className: 'rounded-xl bg-black/40 border border-violet-700/40 p-3 space-y-2' },
+          React.createElement('p', { className: 'text-violet-200 text-sm font-bold' }, `Similitud: ${hwSimilarity}%`),
+          React.createElement('p', { className: 'text-[10px] text-gray-400' }, 'OCR: ', React.createElement('span', { className: 'text-white' }, hwOcrText || '(vacío)'))
+        )
+      );
+    }
 
     default:
       return null;
