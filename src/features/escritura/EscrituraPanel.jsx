@@ -194,32 +194,25 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
 
-  // Auto-scroll del visor (ventana de 2 líneas)
+  // Auto-scroll del visor usando marcadores de línea nativos
   useEffect(() => {
     if (writingMode !== 'typing' || !viewerRef.current) return;
     const allLines = typingPool.map(item => item.text);
     if (allLines.length === 0) return;
-    const fullText = allLines.join('\n');
-    const typedLen = typingInput.length;
-    if (typedLen === 0) {
-      viewerRef.current.scrollTop = 0;
-      return;
-    }
+    // Encontrar línea actual
     let charCount = 0;
     let currentLine = 0;
+    const typedLen = typingInput.length;
     for (let i = 0; i < allLines.length; i++) {
       charCount += allLines[i].length + 1;
-      if (typedLen <= charCount) {
-        currentLine = i;
-        break;
-      }
+      if (typedLen <= charCount) { currentLine = i; break; }
       if (i === allLines.length - 1) currentLine = i;
     }
-    const lineHeight = 30;
-    // Mostrar siempre la línea anterior + la actual
-    const targetScroll = Math.max(0, (currentLine - 1) * lineHeight);
-    if (targetScroll !== viewerRef.current.scrollTop) {
-      viewerRef.current.scrollTop = targetScroll;
+    // Buscar el marcador de la línea anterior (para que se vea el contexto)
+    const targetLine = Math.max(0, currentLine - 1);
+    const marker = viewerRef.current.querySelector(`[data-line="${targetLine}"]`);
+    if (marker && typeof marker.scrollIntoView === 'function') {
+      marker.scrollIntoView({ block: 'nearest', behavior: 'instant' });
     }
   }, [typingInput, writingMode, typingPool]);
 
@@ -811,6 +804,7 @@ function renderModeContent(mode, ctx) {
           },
             allLines.map((line, lineIdx) =>
               React.createElement('div', { key: lineIdx, style: { display: 'inline' } },
+                React.createElement('span', { 'data-line': lineIdx, style: { display: 'inline' } }),
                 line.split('').map((ch, charIdx) => {
                   const globalIdx = allLines.slice(0, lineIdx).reduce((sum, l) => sum + l.length + 1, 0) + charIdx;
                   let bgColor = 'transparent';
