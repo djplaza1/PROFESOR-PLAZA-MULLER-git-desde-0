@@ -1,4 +1,4 @@
-﻿// src/features/escritura/typingMode.jsx
+// src/features/escritura/typingMode.jsx
 // Modo 9: Mecanografía (teclado con precisión alemana) + limpieza de texto personalizado
 window.Muller = window.Muller || {};
 window.Muller.Escritura = window.Muller.Escritura || {};
@@ -103,19 +103,26 @@ E.getTypingText = (pool, idx) => {
 };
 
 E.analyzeTyping = (input, target) => {
-  if (!target) return { wpm: 0, accuracy: 0, errors: [], durationMs: 0 };
-  const words = target.split(/\s+/).length;
+  if (!target || input.length === 0) return { wpm: 0, accuracy: 0, errors: [], targetWords: 0 };
   const targetClean = target.replace(/\s+/g, '');
   const inputClean = input.replace(/\s+/g, '');
+  const maxLen = inputClean.length; // solo comparar lo que se ha escrito
   let correct = 0;
   const errorMap = {};
-  for (let i = 0; i < Math.max(targetClean.length, inputClean.length); i++) {
+  for (let i = 0; i < maxLen; i++) {
     const t = targetClean[i] || '';
     const u = inputClean[i] || '';
-    if (t === u) correct++;
-    else { const key = t || '(falta)'; errorMap[key] = (errorMap[key] || 0) + 1; }
+    if (t === u) {
+      correct++;
+    } else {
+      const key = t || '(?)';
+      if (key !== '(?)') {
+        errorMap[key] = (errorMap[key] || 0) + 1;
+      }
+    }
   }
-  const accuracy = targetClean.length > 0 ? Math.round((correct / targetClean.length) * 100) : 0;
+  const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
   const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
-  return { wpm: 0, accuracy, errors, targetWords: words };
+  return { wpm: 0, accuracy, errors, targetWords: input.trim().split(/\s+/).length };
+};
 };
