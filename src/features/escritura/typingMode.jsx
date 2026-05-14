@@ -114,14 +114,12 @@ E.analyzeTyping = (input, target) => {
     if (u === t) {
       correct++;
     } else {
-      // Solo cuenta como error la letra original que no se escribió bien
       const key = t;
       errorMap[key] = (errorMap[key] || 0) + 1;
     }
   }
   const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
   const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
-  // Contar correcciones: cuando el usuario cambia un carácter que ya había escrito correctamente
   let corrections = 0;
   for (let i = 1; i < input.length; i++) {
     if (input[i-1] !== input[i] && target[i-1] === input[i-1]) {

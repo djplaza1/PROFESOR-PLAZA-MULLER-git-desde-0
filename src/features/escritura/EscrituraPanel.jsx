@@ -850,7 +850,8 @@ function renderModeContent(mode, ctx) {
               React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Precisión'), React.createElement('p', { className: 'text-white font-bold' }, typingResult.accuracy + '%')),
               React.createElement('div', null, React.createElement('span', { className: 'text-gray-400' }, 'Tiempo'), React.createElement('p', { className: 'text-white font-bold' }, Math.round(typingResult.durationMs / 1000) + 's'))
             ),
-            typingResult.errors.length > 0 && React.createElement('div', null,
+            (typingResult.errors.length > 0 || typingResult.corrections > 0) && React.createElement('div', null,
+                typingResult.corrections > 0 && React.createElement('p', { className: 'text-[10px] text-amber-400 mb-1' }, `Correcciones: ${typingResult.corrections}`),
               React.createElement('p', { className: 'text-[10px] text-amber-400 mb-1' }, 'Errores frecuentes:'),
               React.createElement('div', { className: 'flex flex-wrap gap-1' },
                 typingResult.errors.slice(0, 5).map((e, i) =>
