@@ -706,20 +706,37 @@ function renderModeContent(mode, ctx) {
             React.createElement('p', { className: 'text-xs text-white' }, `Original: ${currentDictText}`),
             React.createElement('p', { className: 'text-xs text-gray-300' }, `Tú escribiste: ${dictInput}`),
             React.createElement('div', { className: 'text-xs leading-relaxed' },
-              currentDictText.split('').map((ch, i) => {
-                const typed = dictInput[i] || '';
-                const isSpace = ch === ' ';
-                const displayChar = isSpace ? '\u2423' : ch; // ␣ visible solo si es espacio
-                const isCorrect = typed === ch;
-                const isMissing = typed === '';
-                let color = 'text-emerald-400';
-                if (isMissing) color = 'text-gray-600';
-                else if (!isCorrect) color = 'text-rose-400';
-                return React.createElement('span', { key: i, className: color, style: { marginRight: isSpace ? '4px' : '0' } }, displayChar);
-              })
+              // Mostrar el original con colores comparando solo letras (ignorando puntuación)
+              (() => {
+                const originalClean = currentDictText.replace(/[^a-zA-ZäöüßÄÖÜ0-9\s]/g, '');
+                const inputClean = dictInput.replace(/[^a-zA-ZäöüßÄÖÜ0-9\s]/g, '');
+                const result = [];
+                let inputIdx = 0;
+                for (let i = 0; i < currentDictText.length; i++) {
+                  const ch = currentDictText[i];
+                  const isLetterOrSpace = /[a-zA-ZäöüßÄÖÜ0-9\s]/.test(ch);
+                  if (!isLetterOrSpace) {
+                    // Signo de puntuación: mostrarlo en gris si no está en el input, verde si sí
+                    const found = dictInput.includes(ch);
+                    result.push(React.createElement('span', { key: i, className: found ? 'text-emerald-400' : 'text-gray-600' }, ch));
+                    continue;
+                  }
+                  const typed = inputClean[inputIdx] || '';
+                  const isSpace = ch === ' ';
+                  const displayChar = isSpace ? '\u2423' : ch;
+                  const isCorrect = typed === ch;
+                  const isMissing = typed === '';
+                  let color = 'text-emerald-400';
+                  if (isMissing) color = 'text-gray-600';
+                  else if (!isCorrect) color = 'text-rose-400';
+                  result.push(React.createElement('span', { key: i, className: color, style: { marginRight: isSpace ? '4px' : '0' } }, displayChar));
+                  if (typed !== '') inputIdx++;
+                }
+                return result;
+              })()
             ),
             React.createElement('div', { className: 'text-[10px] text-gray-500 mt-2' },
-              'Verde = acierto | Rojo = fallo | Gris = no escrito | \u2423 = espacio'
+              'Verde = acierto | Rojo = fallo | Gris = no escrito | \u2423 = espacio | Signos de puntuación no desplazan la comparación'
             ),
             currentLine.es && React.createElement('p', { className: 'text-xs text-gray-500 mt-1' }, `Traducción: ${currentLine.es}`),
             dictResult.errors.length > 0 && React.createElement('div', { className: 'text-[10px] text-amber-400' }, `Errores: ${dictResult.errors.map(e=>e.letter).join(', ')}`)

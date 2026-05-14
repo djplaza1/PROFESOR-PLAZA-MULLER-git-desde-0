@@ -103,8 +103,9 @@ E.getTypingText = (pool, idx) => {
 
 E.analyzeTyping = (input, target) => {
   if (!target || input.length === 0) return { wpm: 0, accuracy: 0, errors: [], targetWords: 0 };
-  const targetClean = target.replace(/\s+/g, '');
-  const inputClean = input.replace(/\s+/g, '');
+  // Limpiar puntuación para comparar solo letras y espacios
+  const targetClean = target.replace(/[^a-zA-ZäöüßÄÖÜ0-9\s]/g, '');
+  const inputClean = input.replace(/[^a-zA-ZäöüßÄÖÜ0-9\s]/g, '');
   const maxLen = Math.min(inputClean.length, targetClean.length);
   let correct = 0;
   const errorMap = {};
@@ -118,7 +119,14 @@ E.analyzeTyping = (input, target) => {
       errorMap[key] = (errorMap[key] || 0) + 1;
     }
   }
-  const accuracy = maxLen > 0 ? Math.round((correct / maxLen) * 100) : 0;
+  // Si el input tiene más caracteres que el target, se cuentan como errores adicionales
+  for (let i = maxLen; i < inputClean.length; i++) {
+    const key = inputClean[i];
+    errorMap[key] = (errorMap[key] || 0) + 1;
+  }
+  const total = Math.max(inputClean.length, targetClean.length);
+  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
   const errors = Object.entries(errorMap).map(([k, v]) => ({ letter: k, count: v })).sort((a, b) => b.count - a.count);
   return { wpm: 0, accuracy, errors, targetWords: input.trim().split(/\s+/).length };
+};
 };
