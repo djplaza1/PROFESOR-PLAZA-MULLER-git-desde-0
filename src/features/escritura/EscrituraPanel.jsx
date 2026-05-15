@@ -1,5 +1,5 @@
 // src/features/escritura/EscrituraPanel.jsx
-// Panel con 10 modos: libre, copia, dictado, prompt, TELC, guion, vocab, mecanografía, manuscrito, memoria
+// Panel de escritura con 10 modos (libre, copia, dictado, prompt, TELC, guion, vocab, mecanografía, manuscrito, memoria)
 window.Muller = window.Muller || {};
 window.Muller.Panels = window.Muller.Panels || {};
 const E = window.Muller.Escritura || {};
@@ -55,13 +55,15 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [ocrHistoryList, setOcrHistoryList] = useState([]);
   const [spellErrors, setSpellErrors] = useState([]);
   const [telcCoachResult, setTelcCoachResult] = useState(null);
+
+  // Estados modos Copia / Dictado / Guion
+  const [copyOcrResult, setCopyOcrResult] = useState(null);
   const [dictInput, setDictInput] = useState('');
   const [dictInputMode, setDictInputMode] = useState('pen');
   const [dictResult, setDictResult] = useState(null);
-  const [copyOcrResult, setCopyOcrResult] = useState(null);
   const [guionOcrResult, setGuionOcrResult] = useState(null);
 
-  // typing / handwrite
+  // Estados modo Mecanografía
   const [typingPool, setTypingPool] = useState([]);
   const [typingIdx, setTypingIdx] = useState(0);
   const [typingInput, setTypingInput] = useState('');
@@ -77,6 +79,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [typingDisplayTime, setTypingDisplayTime] = useState(0);
   const [liveCpm, setLiveCpm] = useState(0);
 
+  // Estados modo Manuscrito
   const [hwPool, setHwPool] = useState([]);
   const [hwIdx, setHwIdx] = useState(0);
   const [hwOcrText, setHwOcrText] = useState('');
@@ -87,7 +90,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const [hwMemMode, setHwMemMode] = useState(false);
   const [hwMemTimer, setHwMemTimer] = useState(5);
 
-  // modo Memoria
+  // Estados modo Memoria
   const [memoriaSource, setMemoriaSource] = useState('builtin');
   const [memoriaCustomText, setMemoriaCustomText] = useState('');
   const [memoriaPool, setMemoriaPool] = useState([]);
@@ -116,6 +119,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
   const writingDictationPool = buildDictationPool(writingDictSource, guionData, savedScripts, writingDictScriptId, currentVocabList);
   const guionLines = buildGuionLines(guionData);
 
+  // Canvas Drawing
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -312,7 +316,7 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
     return () => clearInterval(interval);
   }, [writingMode, typingStartMs, typingInput, typingFinished, typingPool, typingIdx]);
 
-  // Auto-scroll del visor (progresivo, con margen final)
+  // Auto-scroll del visor
   useEffect(() => {
     if (writingMode !== 'typing' || !viewerRef.current) return;
     const allLines = typingPool.map(item => item.text);
@@ -411,8 +415,9 @@ window.Muller.Panels.EscrituraPanel = function EscrituraPanel({ session }) {
       guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
       currentVocabList, writingVocabIdx, setWritingVocabIdx,
       setWritingCanvasKey,
-      copyOcrResult,
-      dictInput, setDictInput, dictInputMode, setDictInputMode, dictResult, setDictResult, setCopyOcrResult,
+      copyOcrResult, setCopyOcrResult,
+      dictInput, setDictInput, dictInputMode, setDictInputMode, dictResult, setDictResult,
+      guionOcrResult, setGuionOcrResult,
       typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
       typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
       typingFinished, setTypingFinished, typingResult, setTypingResult,
@@ -532,8 +537,9 @@ function renderModeContent(mode, ctx) {
     guionLines, writingGuionWriteIdx, setWritingGuionWriteIdx,
     currentVocabList, writingVocabIdx, setWritingVocabIdx,
     setWritingCanvasKey,
-    copyOcrResult,
-    dictInput, setDictInput, dictInputMode, setDictInputMode, dictResult, setDictResult, setCopyOcrResult,
+    copyOcrResult, setCopyOcrResult,
+    dictInput, setDictInput, dictInputMode, setDictInputMode, dictResult, setDictResult,
+    guionOcrResult, setGuionOcrResult,
     typingPool, setTypingPool, typingIdx, setTypingIdx, typingInput, setTypingInput,
     typingStartMs, setTypingStartMs, typingLiveWpm, setTypingLiveWpm, typingLiveAcc, setTypingLiveAcc,
     typingFinished, setTypingFinished, typingResult, setTypingResult,
@@ -560,7 +566,6 @@ function renderModeContent(mode, ctx) {
 
     case 'copy': {
       const currentCopyText = WRITING_COPY_DRILLS.length > 0 ? WRITING_COPY_DRILLS[writingCopyIdx % WRITING_COPY_DRILLS.length] : '';
-
       const verifyCopy = async () => {
         if (!window.Muller.runOcrOnCanvas) {
           if (window.Muller.Toast) window.Muller.Toast.show('OCR no disponible', 'warning', 2000);
@@ -572,12 +577,9 @@ function renderModeContent(mode, ctx) {
           setCopyOcrResult({ similarity: sim, ocrText: result.text });
         }
       };
-
       return React.createElement('div', { className: 'mb-4 rounded-xl bg-black/35 border border-rose-500/25 p-3 space-y-2' },
         React.createElement('p', { className: 'text-rose-200/90 text-sm font-bold' }, 'Copia la frase (caligrafía alemana)'),
-        React.createElement('p', { className: 'text-lg md:text-2xl text-white leading-snug' },
-          currentCopyText || '(sin datos)'
-        ),
+        React.createElement('p', { className: 'text-lg md:text-2xl text-white leading-snug' }, currentCopyText || '(sin datos)'),
         React.createElement('div', { className: 'flex gap-2' },
           React.createElement('button', {
             onClick: () => { setWritingCopyIdx(i => i+1); setWritingCanvasKey(k => k+1); setCopyOcrResult(null); },
@@ -707,37 +709,20 @@ function renderModeContent(mode, ctx) {
             React.createElement('p', { className: 'text-xs text-white' }, `Original: ${currentDictText}`),
             React.createElement('p', { className: 'text-xs text-gray-300' }, `Tú escribiste: ${dictInput}`),
             React.createElement('div', { className: 'text-xs leading-relaxed' },
-              // Mostrar el original con colores comparando solo letras (ignorando puntuación)
-              (() => {
-                const originalClean = currentDictText.replace(/[^a-zA-ZäöüßÄÖÜ0-9\s]/g, '');
-                const inputClean = dictInput.replace(/[^a-zA-ZäöüßÄÖÜ0-9\s]/g, '');
-                const result = [];
-                let inputIdx = 0;
-                for (let i = 0; i < currentDictText.length; i++) {
-                  const ch = currentDictText[i];
-                  const isLetterOrSpace = /[a-zA-ZäöüßÄÖÜ0-9\s]/.test(ch);
-                  if (!isLetterOrSpace) {
-                    // Signo de puntuación: mostrarlo en gris si no está en el input, verde si sí
-                    const found = dictInput.includes(ch);
-                    result.push(React.createElement('span', { key: i, className: found ? 'text-emerald-400' : 'text-gray-600' }, ch));
-                    continue;
-                  }
-                  const typed = inputClean[inputIdx] || '';
-                  const isSpace = ch === ' ';
-                  const displayChar = isSpace ? '\u2423' : ch;
-                  const isCorrect = typed === ch;
-                  const isMissing = typed === '';
-                  let color = 'text-emerald-400';
-                  if (isMissing) color = 'text-gray-600';
-                  else if (!isCorrect) color = 'text-rose-400';
-                  result.push(React.createElement('span', { key: i, className: color, style: { marginRight: isSpace ? '4px' : '0' } }, displayChar));
-                  if (typed !== '') inputIdx++;
-                }
-                return result;
-              })()
+              currentDictText.split('').map((ch, i) => {
+                const typed = dictInput[i] || '';
+                const isSpace = ch === ' ';
+                const displayChar = isSpace ? '\u2423' : ch;
+                const isCorrect = typed === ch;
+                const isMissing = typed === '';
+                let color = 'text-emerald-400';
+                if (isMissing) color = 'text-gray-600';
+                else if (!isCorrect) color = 'text-rose-400';
+                return React.createElement('span', { key: i, className: color, style: { marginRight: isSpace ? '4px' : '0' } }, displayChar);
+              })
             ),
             React.createElement('div', { className: 'text-[10px] text-gray-500 mt-2' },
-              'Verde = acierto | Rojo = fallo | Gris = no escrito | \u2423 = espacio | Signos de puntuación no desplazan la comparación'
+              'Verde = acierto | Rojo = fallo | Gris = no escrito | \u2423 = espacio'
             ),
             currentLine.es && React.createElement('p', { className: 'text-xs text-gray-500 mt-1' }, `Traducción: ${currentLine.es}`),
             dictResult.errors.length > 0 && React.createElement('div', { className: 'text-[10px] text-amber-400' }, `Errores: ${dictResult.errors.map(e=>e.letter).join(', ')}`)
