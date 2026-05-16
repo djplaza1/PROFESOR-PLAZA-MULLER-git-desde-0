@@ -1,9 +1,9 @@
-﻿// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-// TOP BAR ÔÇô Profesor Plaza M├╝ller v2
-// Solo tabs que NO est├ín en BottomBar (para evitar duplicados)
+// ═══════════════════════════════════════════════════
+// TOP BAR – Profesor Plaza Müller v2
+// Solo tabs que NO están en BottomBar (para evitar duplicados)
 // Iconos SVG inline (sin lucide.createIcons para evitar error #300)
-// Incluye tiempo activo global + Plaza M├╝nzen
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// Incluye tiempo activo global + Plaza Münzen
+// ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
 
 const TOP_ICONS = {
@@ -22,7 +22,7 @@ const TOP_ICONS = {
 
 window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
   const topTabs = [
-    { id: 'lexikon', label: 'L├®xikon', icon: 'book-text' },
+    { id: 'lexikon', label: 'Léxikon', icon: 'book-text' },
     { id: 'entrenamiento', label: 'Entrenamiento', icon: 'dumbbell' },
     { id: 'comunidad', label: 'Comunidad', icon: 'users' },
     { id: 'lectura', label: 'Lectura', icon: 'book-open-text' },
@@ -33,9 +33,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     { id: 'tienda', label: 'Tienda', icon: 'store' }
   ];
 
-  const [menuOpen, setMenuOpen] = React.useState(false);
-
-  // ÔöÇÔöÇÔöÇ TIMER GLOBAL PARA TIEMPO ACTIVO ÔöÇÔöÇÔöÇ
+  // ─── TIMER GLOBAL PARA TIEMPO ACTIVO ───
   const [todaySeconds, setTodaySeconds] = React.useState(
     window.Muller.Progreso ? window.Muller.Progreso.getTodayActiveTime() : 0
   );
@@ -95,11 +93,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     return `${s}s`;
   }
 
-  const handleLogout = () => {
-    window.Muller.authLogout();
-    window.location.reload();
-  };
-
   return React.createElement('div', {
     style: {
       position: 'fixed',
@@ -115,7 +108,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       borderBottom: '1px solid #334155'
     }
   },
-
     // Tabs secundarias con iconos y texto
     React.createElement('div', {
       style: {
@@ -157,7 +149,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       );
     })),
 
-    // ÔöÇÔöÇÔöÇ BARRA DE ESTADO: TIEMPO ACTIVO + MONEDAS ÔöÇÔöÇÔöÇ
+    // ─── BARRA DE ESTADO: TIEMPO ACTIVO + MONEDAS ───
     React.createElement('div', {
       style: {
         display: 'flex',
@@ -182,7 +174,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
         },
         title: 'Tiempo activo de estudio hoy'
       },
-        React.createElement('span', { style: { fontSize: '0.75rem', color: '#34d399' } }, 'ÔÅ▒'),
+        React.createElement('span', { style: { fontSize: '0.75rem', color: '#34d399' } }, '\u23F1'),
         React.createElement('span', {
           style: {
             fontSize: '0.75rem',
@@ -194,7 +186,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
           }
         }, formatSeconds(todaySeconds))
       ),
-      // Plaza M├╝nzen (m├ís grande y visible)
+      // Plaza Münzen (más grande y visible)
       React.createElement('div', {
         style: {
           display: 'flex',
@@ -207,7 +199,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
           border: '1px solid rgba(251,191,36,0.25)',
           boxShadow: '0 0 8px rgba(251,191,36,0.15)'
         },
-        title: 'Plaza M├╝nzen - Monedas',
+        title: 'Plaza Münzen - Monedas',
         onClick: () => onTabChange('tienda')
       },
         // Moneda personalizada: fondo negro + logo PNG sin fondo
@@ -228,7 +220,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
         },
           React.createElement('img', {
             src: 'assets/icons/logo-plaza-sin-fondo.png',
-            alt: 'Ôé┐',
+            alt: '\u20BF',
             style: { width: 28, height: 28, objectFit: 'contain' }
           })
         ),
@@ -243,67 +235,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
             textShadow: '0 0 4px rgba(251,191,36,0.3)'
           }
         }, plazaMuenzen)
-      )
-    ),
-
-    // Men├║ de usuario
-    React.createElement('div', { style: { position: 'relative', flexShrink: 0 } },
-      React.createElement('button', {
-        onClick: () => setMenuOpen(!menuOpen),
-        style: {
-          background: 'transparent',
-          border: 'none',
-          color: '#e2e8f0',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          padding: '4px 8px',
-          borderRadius: 6,
-          fontSize: '0.75rem'
-        }
-      },
-        React.createElement('span', {
-          style: { width: 20, height: 20, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' },
-          dangerouslySetInnerHTML: { __html: TOP_ICONS['user-circle'] }
-        }),
-        React.createElement('span', { style: { maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis' } }, session?.displayName || session?.email)
-      ),
-      menuOpen && React.createElement('div', {
-        style: {
-          position: 'absolute',
-          right: 0,
-          top: 40,
-          background: '#1e293b',
-          border: '1px solid #334155',
-          borderRadius: 8,
-          padding: 8,
-          minWidth: 160,
-          zIndex: 60
-        }
-      },
-        React.createElement('button', {
-          onClick: handleLogout,
-          style: {
-            width: '100%',
-            padding: 8,
-            background: 'transparent',
-            border: 'none',
-            color: '#f87171',
-            cursor: 'pointer',
-            textAlign: 'left',
-            fontSize: '0.85rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6
-          }
-        },
-          React.createElement('span', {
-            style: { width: 16, height: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' },
-            dangerouslySetInnerHTML: { __html: TOP_ICONS['log-out'] }
-          }),
-          'Cerrar sesi├│n'
-        )
       )
     )
   );
