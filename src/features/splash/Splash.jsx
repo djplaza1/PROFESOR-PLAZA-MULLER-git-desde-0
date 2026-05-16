@@ -5,9 +5,9 @@ window.Muller.SplashScreen = ({ onStart }) => (
     <div style={{ textAlign: 'center' }}>
       {/* Moneda grande x2 */}
       <div style={{ width: 320, height: 320, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '6px solid #fbbf24', boxShadow: '0 0 60px rgba(251,191,36,0.7)', overflow: 'hidden', margin: '0 auto 40px' }}>
-        <img src="assets/icons/logo-plaza-sin-fondo.png" alt="\u20BF" style={{ width: 200, height: 200, objectFit: 'contain' }} />
+        <img src="assets/icons/logo-plaza-sin-fondo.png" alt={'\u20BF'} style={{ width: 200, height: 200, objectFit: 'contain' }} />
       </div>
-      <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#06b6d4' }}>Profesor Plaza M\u00FCller</h1>
+      <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#06b6d4' }}>{'Profesor Plaza M\u00FCller'}</h1>
       <p style={{ marginTop: 8, color: '#94a3b8', fontSize: '1rem' }}>Plattform zum Deutschlernen</p>
 
       {/* ── BOTONES DE MODO DE VISTA ── */}
