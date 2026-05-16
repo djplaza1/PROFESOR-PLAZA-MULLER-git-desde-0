@@ -1,4 +1,4 @@
-﻿// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // TOP BAR – Profesor Plaza Müller v2
 // Solo tabs que NO están en BottomBar (para evitar duplicados)
 // Iconos SVG inline (sin lucide.createIcons para evitar error #300)
@@ -115,22 +115,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       borderBottom: '1px solid #334155'
     }
   },
-    // Logo + Título
-    React.createElement('button', {
-      onClick: () => onTabChange('inicio'),
-      style: {
-        background: 'transparent',
-        border: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        cursor: 'pointer',
-        flexShrink: 0
-      }
-    },
-      React.createElement('img', { src: 'assets/icons/icon-192.png', alt: 'Logo', style: { width: 32, height: 32 } }),
-      React.createElement('span', { style: { fontWeight: 700, fontSize: '1rem', color: '#06b6d4' } }, 'Plaza Müller')
-    ),
 
     // Tabs secundarias con iconos y texto
     React.createElement('div', {
