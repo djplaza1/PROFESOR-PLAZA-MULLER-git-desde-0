@@ -67,12 +67,6 @@ window.Muller.Panels.AjustesPanel = {
           Profesor Plaza Müller — Ajustes locales. La configuración se guarda automáticamente.
         </div>
       </div>
-      <!-- Cerrar sesi&oacute;n -->
-      <div class="bg-gray-900 border border-red-900/30 rounded-2xl p-5 mt-5 text-center">
-        <button onclick="window.Muller.logout()" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-sm font-bold transition text-white w-full">
-          Cerrar sesi&oacute;n
-        </button>
-      </div>
     `;
   },
 
@@ -132,6 +126,12 @@ window.Muller.Panels.AjustesPanel = {
           <p id="ajustes-name-msg" class="text-xs text-gray-500 hidden"></p>
         </div>
 
+      <!-- Cerrar sesi&oacute;n -->
+      <div class="bg-gray-900 border border-red-900/30 rounded-2xl p-5 mt-5 text-center">
+        <button onclick="window.Muller.logout()" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-sm font-bold transition text-white w-full">
+          Cerrar sesi&oacute;n
+        </button>
+      </div>
         <!-- Sincronización en la nube -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-3">
           <h4 class="text-sm font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-2">
