@@ -1133,6 +1133,4388 @@
         "de": "Gehst du oft in die Natur?",
         "es": "¿Vas a menudo a la naturaleza?"
       }
+    ],
+    "Anzeige": [
+      {
+        "de": "Die Anzeige ist gut.",
+        "es": "La el anuncio es bueno/a."
+      },
+      {
+        "de": "Ich mag die Anzeige.",
+        "es": "Me gusta el/la el anuncio."
+      },
+      {
+        "de": "Wo ist die Anzeige?",
+        "es": "¿Dónde está el/la el anuncio?"
+      }
+    ],
+    "Lohn": [
+      {
+        "de": "Der Lohn ist gut.",
+        "es": "El el salario es bueno/a."
+      },
+      {
+        "de": "Ich mag den Lohn.",
+        "es": "Me gusta el/la el salario."
+      },
+      {
+        "de": "Wo ist der Lohn?",
+        "es": "¿Dónde está el/la el salario?"
+      }
+    ],
+    "Federtasche": [
+      {
+        "de": "Die Federtasche ist gut.",
+        "es": "La el estuche es bueno/a."
+      },
+      {
+        "de": "Ich mag die Federtasche.",
+        "es": "Me gusta el/la el estuche."
+      },
+      {
+        "de": "Wo ist die Federtasche?",
+        "es": "¿Dónde está el/la el estuche?"
+      }
+    ],
+    "lebhaft": [
+      {
+        "de": "Das ist lebhaft.",
+        "es": "Eso es vivaz."
+      },
+      {
+        "de": "Ich bin lebhaft.",
+        "es": "Soy vivaz."
+      },
+      {
+        "de": "Bist du lebhaft?",
+        "es": "¿Eres vivaz?"
+      }
+    ],
+    "später": [
+      {
+        "de": "Das ist später.",
+        "es": "Eso es después."
+      },
+      {
+        "de": "Ich bin später.",
+        "es": "Soy después."
+      },
+      {
+        "de": "Bist du später?",
+        "es": "¿Eres después?"
+      }
+    ],
+    "heute": [
+      {
+        "de": "Das ist heute.",
+        "es": "Eso es hoy."
+      },
+      {
+        "de": "Ich bin heute.",
+        "es": "Soy hoy."
+      },
+      {
+        "de": "Bist du heute?",
+        "es": "¿Eres hoy?"
+      }
+    ],
+    "fleißig": [
+      {
+        "de": "Das ist fleißig.",
+        "es": "Eso es trabajador."
+      },
+      {
+        "de": "Ich bin fleißig.",
+        "es": "Soy trabajador."
+      },
+      {
+        "de": "Bist du fleißig?",
+        "es": "¿Eres trabajador?"
+      }
+    ],
+    "Regal": [
+      {
+        "de": "Das Regal ist gut.",
+        "es": "El/La la estantería es bueno/a."
+      },
+      {
+        "de": "Ich mag das Regal.",
+        "es": "Me gusta el/la la estantería."
+      },
+      {
+        "de": "Wo ist das Regal?",
+        "es": "¿Dónde está el/la la estantería?"
+      }
+    ],
+    "Straßenbahn": [
+      {
+        "de": "Die Straßenbahn ist gut.",
+        "es": "La el tranvía es bueno/a."
+      },
+      {
+        "de": "Ich mag die Straßenbahn.",
+        "es": "Me gusta el/la el tranvía."
+      },
+      {
+        "de": "Wo ist die Straßenbahn?",
+        "es": "¿Dónde está el/la el tranvía?"
+      }
+    ],
+    "acht": [
+      {
+        "de": "Die acht ist gut.",
+        "es": "La ocho es bueno/a."
+      },
+      {
+        "de": "Ich mag die acht.",
+        "es": "Me gusta el/la ocho."
+      },
+      {
+        "de": "Wo ist die acht?",
+        "es": "¿Dónde está el/la ocho?"
+      }
+    ],
+    "Enkel": [
+      {
+        "de": "Der Enkel ist gut.",
+        "es": "El nieto es bueno/a."
+      },
+      {
+        "de": "Ich mag den Enkel.",
+        "es": "Me gusta el/la nieto."
+      },
+      {
+        "de": "Wo ist der Enkel?",
+        "es": "¿Dónde está el/la nieto?"
+      }
+    ],
+    "dann": [
+      {
+        "de": "Das ist dann.",
+        "es": "Eso es entonces."
+      },
+      {
+        "de": "Ich bin dann.",
+        "es": "Soy entonces."
+      },
+      {
+        "de": "Bist du dann?",
+        "es": "¿Eres entonces?"
+      }
+    ],
+    "Kreis": [
+      {
+        "de": "Der Kreis ist gut.",
+        "es": "El círculo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Kreis.",
+        "es": "Me gusta el/la círculo."
+      },
+      {
+        "de": "Wo ist der Kreis?",
+        "es": "¿Dónde está el/la círculo?"
+      }
+    ],
+    "Ticket": [
+      {
+        "de": "Das Ticket ist gut.",
+        "es": "El/La el billete es bueno/a."
+      },
+      {
+        "de": "Ich mag das Ticket.",
+        "es": "Me gusta el/la el billete."
+      },
+      {
+        "de": "Wo ist das Ticket?",
+        "es": "¿Dónde está el/la el billete?"
+      }
+    ],
+    "Mittwoch": [
+      {
+        "de": "Der Mittwoch ist gut.",
+        "es": "El miércoles es bueno/a."
+      },
+      {
+        "de": "Ich mag den Mittwoch.",
+        "es": "Me gusta el/la miércoles."
+      },
+      {
+        "de": "Wo ist der Mittwoch?",
+        "es": "¿Dónde está el/la miércoles?"
+      }
+    ],
+    "Bäckerei": [
+      {
+        "de": "Die Bäckerei ist gut.",
+        "es": "La la panadería es bueno/a."
+      },
+      {
+        "de": "Ich mag die Bäckerei.",
+        "es": "Me gusta el/la la panadería."
+      },
+      {
+        "de": "Wo ist die Bäckerei?",
+        "es": "¿Dónde está el/la la panadería?"
+      }
+    ],
+    "immer": [
+      {
+        "de": "Das ist immer.",
+        "es": "Eso es siempre."
+      },
+      {
+        "de": "Ich bin immer.",
+        "es": "Soy siempre."
+      },
+      {
+        "de": "Bist du immer?",
+        "es": "¿Eres siempre?"
+      }
+    ],
+    "schnell": [
+      {
+        "de": "Das ist schnell.",
+        "es": "Eso es rápido."
+      },
+      {
+        "de": "Ich bin schnell.",
+        "es": "Soy rápido."
+      },
+      {
+        "de": "Bist du schnell?",
+        "es": "¿Eres rápido?"
+      }
+    ],
+    "langsam": [
+      {
+        "de": "Das ist langsam.",
+        "es": "Eso es lento."
+      },
+      {
+        "de": "Ich bin langsam.",
+        "es": "Soy lento."
+      },
+      {
+        "de": "Bist du langsam?",
+        "es": "¿Eres lento?"
+      }
+    ],
+    "Hausnummer": [
+      {
+        "de": "Die Hausnummer ist gut.",
+        "es": "La el número de la casa es bueno/a."
+      },
+      {
+        "de": "Ich mag die Hausnummer.",
+        "es": "Me gusta el/la el número de la casa."
+      },
+      {
+        "de": "Wo ist die Hausnummer?",
+        "es": "¿Dónde está el/la el número de la casa?"
+      }
+    ],
+    "Cousine": [
+      {
+        "de": "Die Cousine ist gut.",
+        "es": "La la prima es bueno/a."
+      },
+      {
+        "de": "Ich mag die Cousine.",
+        "es": "Me gusta el/la la prima."
+      },
+      {
+        "de": "Wo ist die Cousine?",
+        "es": "¿Dónde está el/la la prima?"
+      }
+    ],
+    "November": [
+      {
+        "de": "Der November ist gut.",
+        "es": "El noviembre es bueno/a."
+      },
+      {
+        "de": "Ich mag den November.",
+        "es": "Me gusta el/la noviembre."
+      },
+      {
+        "de": "Wo ist der November?",
+        "es": "¿Dónde está el/la noviembre?"
+      }
+    ],
+    "Taxi": [
+      {
+        "de": "Das Taxi ist gut.",
+        "es": "El/La el taxi es bueno/a."
+      },
+      {
+        "de": "Ich mag das Taxi.",
+        "es": "Me gusta el/la el taxi."
+      },
+      {
+        "de": "Wo ist das Taxi?",
+        "es": "¿Dónde está el/la el taxi?"
+      }
+    ],
+    "geschickt": [
+      {
+        "de": "Das ist geschickt.",
+        "es": "Eso es hábil."
+      },
+      {
+        "de": "Ich bin geschickt.",
+        "es": "Soy hábil."
+      },
+      {
+        "de": "Bist du geschickt?",
+        "es": "¿Eres hábil?"
+      }
+    ],
+    "noch": [
+      {
+        "de": "Das ist noch.",
+        "es": "Eso es todavía."
+      },
+      {
+        "de": "Ich bin noch.",
+        "es": "Soy todavía."
+      },
+      {
+        "de": "Bist du noch?",
+        "es": "¿Eres todavía?"
+      }
+    ],
+    "zärtlich": [
+      {
+        "de": "Das ist zärtlich.",
+        "es": "Eso es cariñoso."
+      },
+      {
+        "de": "Ich bin zärtlich.",
+        "es": "Soy cariñoso."
+      },
+      {
+        "de": "Bist du zärtlich?",
+        "es": "¿Eres cariñoso?"
+      }
+    ],
+    "sechs": [
+      {
+        "de": "Die sechs ist gut.",
+        "es": "La seis es bueno/a."
+      },
+      {
+        "de": "Ich mag die sechs.",
+        "es": "Me gusta el/la seis."
+      },
+      {
+        "de": "Wo ist die sechs?",
+        "es": "¿Dónde está el/la seis?"
+      }
+    ],
+    "Turnschuhe": [
+      {
+        "de": "Die Turnschuhe ist gut.",
+        "es": "La las zapatillas es bueno/a."
+      },
+      {
+        "de": "Ich mag die Turnschuhe.",
+        "es": "Me gusta el/la las zapatillas."
+      },
+      {
+        "de": "Wo ist die Turnschuhe?",
+        "es": "¿Dónde está el/la las zapatillas?"
+      }
+    ],
+    "Blume": [
+      {
+        "de": "Die Blume ist gut.",
+        "es": "La la flor es bueno/a."
+      },
+      {
+        "de": "Ich mag die Blume.",
+        "es": "Me gusta el/la la flor."
+      },
+      {
+        "de": "Wo ist die Blume?",
+        "es": "¿Dónde está el/la la flor?"
+      }
+    ],
+    "Zoo": [
+      {
+        "de": "Der Zoo ist gut.",
+        "es": "El el zoo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Zoo.",
+        "es": "Me gusta el/la el zoo."
+      },
+      {
+        "de": "Wo ist der Zoo?",
+        "es": "¿Dónde está el/la el zoo?"
+      }
+    ],
+    "ungefährlich": [
+      {
+        "de": "Das ist ungefährlich.",
+        "es": "Eso es inofensivo."
+      },
+      {
+        "de": "Ich bin ungefährlich.",
+        "es": "Soy inofensivo."
+      },
+      {
+        "de": "Bist du ungefährlich?",
+        "es": "¿Eres inofensivo?"
+      }
+    ],
+    "Juni": [
+      {
+        "de": "Der Juni ist gut.",
+        "es": "El junio es bueno/a."
+      },
+      {
+        "de": "Ich mag den Juni.",
+        "es": "Me gusta el/la junio."
+      },
+      {
+        "de": "Wo ist der Juni?",
+        "es": "¿Dónde está el/la junio?"
+      }
+    ],
+    "Kugel": [
+      {
+        "de": "Die Kugel ist gut.",
+        "es": "La esfera es bueno/a."
+      },
+      {
+        "de": "Ich mag die Kugel.",
+        "es": "Me gusta el/la esfera."
+      },
+      {
+        "de": "Wo ist die Kugel?",
+        "es": "¿Dónde está el/la esfera?"
+      }
+    ],
+    "Klasse": [
+      {
+        "de": "Die Klasse ist gut.",
+        "es": "La la clase / el aula es bueno/a."
+      },
+      {
+        "de": "Ich mag die Klasse.",
+        "es": "Me gusta el/la la clase / el aula."
+      },
+      {
+        "de": "Wo ist die Klasse?",
+        "es": "¿Dónde está el/la la clase / el aula?"
+      }
+    ],
+    "Klavier": [
+      {
+        "de": "Das Klavier ist gut.",
+        "es": "El/La el piano es bueno/a."
+      },
+      {
+        "de": "Ich mag das Klavier.",
+        "es": "Me gusta el/la el piano."
+      },
+      {
+        "de": "Wo ist das Klavier?",
+        "es": "¿Dónde está el/la el piano?"
+      }
+    ],
+    "wo": [
+      {
+        "de": "Das ist wo.",
+        "es": "Eso es dónde."
+      },
+      {
+        "de": "Ich bin wo.",
+        "es": "Soy dónde."
+      },
+      {
+        "de": "Bist du wo?",
+        "es": "¿Eres dónde?"
+      }
+    ],
+    "was": [
+      {
+        "de": "Das ist was.",
+        "es": "Eso es qué."
+      },
+      {
+        "de": "Ich bin was.",
+        "es": "Soy qué."
+      },
+      {
+        "de": "Bist du was?",
+        "es": "¿Eres qué?"
+      }
+    ],
+    "morgen": [
+      {
+        "de": "Das ist morgen.",
+        "es": "Eso es mañana."
+      },
+      {
+        "de": "Ich bin morgen.",
+        "es": "Soy mañana."
+      },
+      {
+        "de": "Bist du morgen?",
+        "es": "¿Eres mañana?"
+      }
+    ],
+    "Donnerstag": [
+      {
+        "de": "Der Donnerstag ist gut.",
+        "es": "El jueves es bueno/a."
+      },
+      {
+        "de": "Ich mag den Donnerstag.",
+        "es": "Me gusta el/la jueves."
+      },
+      {
+        "de": "Wo ist der Donnerstag?",
+        "es": "¿Dónde está el/la jueves?"
+      }
+    ],
+    "Radiergummi": [
+      {
+        "de": "Der Radiergummi ist gut.",
+        "es": "El la goma de borrar es bueno/a."
+      },
+      {
+        "de": "Ich mag den Radiergummi.",
+        "es": "Me gusta el/la la goma de borrar."
+      },
+      {
+        "de": "Wo ist der Radiergummi?",
+        "es": "¿Dónde está el/la la goma de borrar?"
+      }
+    ],
+    "vier": [
+      {
+        "de": "Die vier ist gut.",
+        "es": "La cuatro es bueno/a."
+      },
+      {
+        "de": "Ich mag die vier.",
+        "es": "Me gusta el/la cuatro."
+      },
+      {
+        "de": "Wo ist die vier?",
+        "es": "¿Dónde está el/la cuatro?"
+      }
+    ],
+    "März": [
+      {
+        "de": "Der März ist gut.",
+        "es": "El marzo es bueno/a."
+      },
+      {
+        "de": "Ich mag den März.",
+        "es": "Me gusta el/la marzo."
+      },
+      {
+        "de": "Wo ist der März?",
+        "es": "¿Dónde está el/la marzo?"
+      }
+    ],
+    "Juli": [
+      {
+        "de": "Der Juli ist gut.",
+        "es": "El julio es bueno/a."
+      },
+      {
+        "de": "Ich mag den Juli.",
+        "es": "Me gusta el/la julio."
+      },
+      {
+        "de": "Wo ist der Juli?",
+        "es": "¿Dónde está el/la julio?"
+      }
+    ],
+    "Linie": [
+      {
+        "de": "Die Linie ist gut.",
+        "es": "La línea es bueno/a."
+      },
+      {
+        "de": "Ich mag die Linie.",
+        "es": "Me gusta el/la línea."
+      },
+      {
+        "de": "Wo ist die Linie?",
+        "es": "¿Dónde está el/la línea?"
+      }
+    ],
+    "Nachbar": [
+      {
+        "de": "Der Nachbar ist gut.",
+        "es": "El vecino es bueno/a."
+      },
+      {
+        "de": "Ich mag den Nachbar.",
+        "es": "Me gusta el/la vecino."
+      },
+      {
+        "de": "Wo ist der Nachbar?",
+        "es": "¿Dónde está el/la vecino?"
+      }
+    ],
+    "Januar": [
+      {
+        "de": "Der Januar ist gut.",
+        "es": "El el enero es bueno/a."
+      },
+      {
+        "de": "Ich mag den Januar.",
+        "es": "Me gusta el/la el enero."
+      },
+      {
+        "de": "Wo ist der Januar?",
+        "es": "¿Dónde está el/la el enero?"
+      }
+    ],
+    "Oma": [
+      {
+        "de": "Die Oma ist gut.",
+        "es": "La abuela es bueno/a."
+      },
+      {
+        "de": "Ich mag die Oma.",
+        "es": "Me gusta el/la abuela."
+      },
+      {
+        "de": "Wo ist die Oma?",
+        "es": "¿Dónde está el/la abuela?"
+      }
+    ],
+    "sondern": [
+      {
+        "de": "Das ist sondern.",
+        "es": "Eso es sino."
+      },
+      {
+        "de": "Ich bin sondern.",
+        "es": "Soy sino."
+      },
+      {
+        "de": "Bist du sondern?",
+        "es": "¿Eres sino?"
+      }
+    ],
+    "nüchtern": [
+      {
+        "de": "Das ist nüchtern.",
+        "es": "Eso es sobrio."
+      },
+      {
+        "de": "Ich bin nüchtern.",
+        "es": "Soy sobrio."
+      },
+      {
+        "de": "Bist du nüchtern?",
+        "es": "¿Eres sobrio?"
+      }
+    ],
+    "Ausflug": [
+      {
+        "de": "Der Ausflug ist gut.",
+        "es": "El la excursión es bueno/a."
+      },
+      {
+        "de": "Ich mag den Ausflug.",
+        "es": "Me gusta el/la la excursión."
+      },
+      {
+        "de": "Wo ist der Ausflug?",
+        "es": "¿Dónde está el/la la excursión?"
+      }
+    ],
+    "Brötchen": [
+      {
+        "de": "Das Brötchen ist gut.",
+        "es": "El/La el panecillo es bueno/a."
+      },
+      {
+        "de": "Ich mag das Brötchen.",
+        "es": "Me gusta el/la el panecillo."
+      },
+      {
+        "de": "Wo ist das Brötchen?",
+        "es": "¿Dónde está el/la el panecillo?"
+      }
+    ],
+    "Sonntag": [
+      {
+        "de": "Der Sonntag ist gut.",
+        "es": "El domingo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Sonntag.",
+        "es": "Me gusta el/la domingo."
+      },
+      {
+        "de": "Wo ist der Sonntag?",
+        "es": "¿Dónde está el/la domingo?"
+      }
+    ],
+    "Handtuch": [
+      {
+        "de": "Das Handtuch ist gut.",
+        "es": "El/La la toalla es bueno/a."
+      },
+      {
+        "de": "Ich mag das Handtuch.",
+        "es": "Me gusta el/la la toalla."
+      },
+      {
+        "de": "Wo ist das Handtuch?",
+        "es": "¿Dónde está el/la la toalla?"
+      }
+    ],
+    "sieben": [
+      {
+        "de": "Das ist sieben.",
+        "es": "Eso es siete."
+      },
+      {
+        "de": "Ich bin sieben.",
+        "es": "Soy siete."
+      },
+      {
+        "de": "Bist du sieben?",
+        "es": "¿Eres siete?"
+      }
+    ],
+    "eins": [
+      {
+        "de": "Das ist eins.",
+        "es": "Eso es uno."
+      },
+      {
+        "de": "Ich bin eins.",
+        "es": "Soy uno."
+      },
+      {
+        "de": "Bist du eins?",
+        "es": "¿Eres uno?"
+      }
+    ],
+    "zwei": [
+      {
+        "de": "Das ist zwei.",
+        "es": "Eso es dos."
+      },
+      {
+        "de": "Ich bin zwei.",
+        "es": "Soy dos."
+      },
+      {
+        "de": "Bist du zwei?",
+        "es": "¿Eres dos?"
+      }
+    ],
+    "Neffe": [
+      {
+        "de": "Der Neffe ist gut.",
+        "es": "El sobrino es bueno/a."
+      },
+      {
+        "de": "Ich mag den Neffe.",
+        "es": "Me gusta el/la sobrino."
+      },
+      {
+        "de": "Wo ist der Neffe?",
+        "es": "¿Dónde está el/la sobrino?"
+      }
+    ],
+    "geöffnet": [
+      {
+        "de": "Das ist geöffnet.",
+        "es": "Eso es abierto."
+      },
+      {
+        "de": "Ich bin geöffnet.",
+        "es": "Soy abierto."
+      },
+      {
+        "de": "Bist du geöffnet?",
+        "es": "¿Eres abierto?"
+      }
+    ],
+    "heftig": [
+      {
+        "de": "Das ist heftig.",
+        "es": "Eso es violento."
+      },
+      {
+        "de": "Ich bin heftig.",
+        "es": "Soy violento."
+      },
+      {
+        "de": "Bist du heftig?",
+        "es": "¿Eres violento?"
+      }
+    ],
+    "Frühstück": [
+      {
+        "de": "Das Frühstück ist gut.",
+        "es": "El/La el desayuno es bueno/a."
+      },
+      {
+        "de": "Ich mag das Frühstück.",
+        "es": "Me gusta el/la el desayuno."
+      },
+      {
+        "de": "Wo ist das Frühstück?",
+        "es": "¿Dónde está el/la el desayuno?"
+      }
+    ],
+    "sehr": [
+      {
+        "de": "Das ist sehr.",
+        "es": "Eso es muy."
+      },
+      {
+        "de": "Ich bin sehr.",
+        "es": "Soy muy."
+      },
+      {
+        "de": "Bist du sehr?",
+        "es": "¿Eres muy?"
+      }
+    ],
+    "viel": [
+      {
+        "de": "Das ist viel.",
+        "es": "Eso es mucho."
+      },
+      {
+        "de": "Ich bin viel.",
+        "es": "Soy mucho."
+      },
+      {
+        "de": "Bist du viel?",
+        "es": "¿Eres mucho?"
+      }
+    ],
+    "Schreibtisch": [
+      {
+        "de": "Der Schreibtisch ist gut.",
+        "es": "El el escritorio es bueno/a."
+      },
+      {
+        "de": "Ich mag den Schreibtisch.",
+        "es": "Me gusta el/la el escritorio."
+      },
+      {
+        "de": "Wo ist der Schreibtisch?",
+        "es": "¿Dónde está el/la el escritorio?"
+      }
+    ],
+    "August": [
+      {
+        "de": "Der August ist gut.",
+        "es": "El agosto es bueno/a."
+      },
+      {
+        "de": "Ich mag den August.",
+        "es": "Me gusta el/la agosto."
+      },
+      {
+        "de": "Wo ist der August?",
+        "es": "¿Dónde está el/la agosto?"
+      }
+    ],
+    "Schiff": [
+      {
+        "de": "Das Schiff ist gut.",
+        "es": "El/La el barco es bueno/a."
+      },
+      {
+        "de": "Ich mag das Schiff.",
+        "es": "Me gusta el/la el barco."
+      },
+      {
+        "de": "Wo ist das Schiff?",
+        "es": "¿Dónde está el/la el barco?"
+      }
+    ],
+    "Herz": [
+      {
+        "de": "Das Herz ist gut.",
+        "es": "El/La corazón es bueno/a."
+      },
+      {
+        "de": "Ich mag das Herz.",
+        "es": "Me gusta el/la corazón."
+      },
+      {
+        "de": "Wo ist das Herz?",
+        "es": "¿Dónde está el/la corazón?"
+      }
+    ],
+    "sorgfältig": [
+      {
+        "de": "Das ist sorgfältig.",
+        "es": "Eso es cuidadoso."
+      },
+      {
+        "de": "Ich bin sorgfältig.",
+        "es": "Soy cuidadoso."
+      },
+      {
+        "de": "Bist du sorgfältig?",
+        "es": "¿Eres cuidadoso?"
+      }
+    ],
+    "Nummer": [
+      {
+        "de": "Die Nummer ist gut.",
+        "es": "La el número es bueno/a."
+      },
+      {
+        "de": "Ich mag die Nummer.",
+        "es": "Me gusta el/la el número."
+      },
+      {
+        "de": "Wo ist die Nummer?",
+        "es": "¿Dónde está el/la el número?"
+      }
+    ],
+    "Gast": [
+      {
+        "de": "Der Gast ist gut.",
+        "es": "El invitado es bueno/a."
+      },
+      {
+        "de": "Ich mag den Gast.",
+        "es": "Me gusta el/la invitado."
+      },
+      {
+        "de": "Wo ist der Gast?",
+        "es": "¿Dónde está el/la invitado?"
+      }
+    ],
+    "biegsam": [
+      {
+        "de": "Das ist biegsam.",
+        "es": "Eso es flexible."
+      },
+      {
+        "de": "Ich bin biegsam.",
+        "es": "Soy flexible."
+      },
+      {
+        "de": "Bist du biegsam?",
+        "es": "¿Eres flexible?"
+      }
+    ],
+    "Hausaufgabe": [
+      {
+        "de": "Die Hausaufgabe ist gut.",
+        "es": "La los deberes es bueno/a."
+      },
+      {
+        "de": "Ich mag die Hausaufgabe.",
+        "es": "Me gusta el/la los deberes."
+      },
+      {
+        "de": "Wo ist die Hausaufgabe?",
+        "es": "¿Dónde está el/la los deberes?"
+      }
+    ],
+    "angenehm": [
+      {
+        "de": "Das ist angenehm.",
+        "es": "Eso es agradable."
+      },
+      {
+        "de": "Ich bin angenehm.",
+        "es": "Soy agradable."
+      },
+      {
+        "de": "Bist du angenehm?",
+        "es": "¿Eres agradable?"
+      }
+    ],
+    "farbig": [
+      {
+        "de": "Das ist farbig.",
+        "es": "Eso es de color."
+      },
+      {
+        "de": "Ich bin farbig.",
+        "es": "Soy de color."
+      },
+      {
+        "de": "Bist du farbig?",
+        "es": "¿Eres de color?"
+      }
+    ],
+    "Abendessen": [
+      {
+        "de": "Das Abendessen ist gut.",
+        "es": "El/La la cena es bueno/a."
+      },
+      {
+        "de": "Ich mag das Abendessen.",
+        "es": "Me gusta el/la la cena."
+      },
+      {
+        "de": "Wo ist das Abendessen?",
+        "es": "¿Dónde está el/la la cena?"
+      }
+    ],
+    "Bild": [
+      {
+        "de": "Das Bild ist gut.",
+        "es": "El/La el cuadro / la foto es bueno/a."
+      },
+      {
+        "de": "Ich mag das Bild.",
+        "es": "Me gusta el/la el cuadro / la foto."
+      },
+      {
+        "de": "Wo ist das Bild?",
+        "es": "¿Dónde está el/la el cuadro / la foto?"
+      }
+    ],
+    "hören": [
+      {
+        "de": "Ich hören gern.",
+        "es": "Me gusta oír."
+      },
+      {
+        "de": "Er hörent jeden Tag.",
+        "es": "Él oír cada día."
+      },
+      {
+        "de": "Hören du oft?",
+        "es": "¿Oír tú a menudo?"
+      }
+    ],
+    "Herbst": [
+      {
+        "de": "Der Herbst ist gut.",
+        "es": "El otoño es bueno/a."
+      },
+      {
+        "de": "Ich mag den Herbst.",
+        "es": "Me gusta el/la otoño."
+      },
+      {
+        "de": "Wo ist der Herbst?",
+        "es": "¿Dónde está el/la otoño?"
+      }
+    ],
+    "Verlobte": [
+      {
+        "de": "Der Verlobte ist gut.",
+        "es": "El prometido es bueno/a."
+      },
+      {
+        "de": "Ich mag den Verlobte.",
+        "es": "Me gusta el/la prometido."
+      },
+      {
+        "de": "Wo ist der Verlobte?",
+        "es": "¿Dónde está el/la prometido?"
+      }
+    ],
+    "Onkel": [
+      {
+        "de": "Der Onkel ist gut.",
+        "es": "El tío es bueno/a."
+      },
+      {
+        "de": "Ich mag den Onkel.",
+        "es": "Me gusta el/la tío."
+      },
+      {
+        "de": "Wo ist der Onkel?",
+        "es": "¿Dónde está el/la tío?"
+      }
+    ],
+    "Buntstift": [
+      {
+        "de": "Der Buntstift ist gut.",
+        "es": "El el lápiz de color es bueno/a."
+      },
+      {
+        "de": "Ich mag den Buntstift.",
+        "es": "Me gusta el/la el lápiz de color."
+      },
+      {
+        "de": "Wo ist der Buntstift?",
+        "es": "¿Dónde está el/la el lápiz de color?"
+      }
+    ],
+    "abhängig": [
+      {
+        "de": "Das ist abhängig.",
+        "es": "Eso es dependiente."
+      },
+      {
+        "de": "Ich bin abhängig.",
+        "es": "Soy dependiente."
+      },
+      {
+        "de": "Bist du abhängig?",
+        "es": "¿Eres dependiente?"
+      }
+    ],
+    "wer": [
+      {
+        "de": "Das ist wer.",
+        "es": "Eso es quién."
+      },
+      {
+        "de": "Ich bin wer.",
+        "es": "Soy quién."
+      },
+      {
+        "de": "Bist du wer?",
+        "es": "¿Eres quién?"
+      }
+    ],
+    "wie": [
+      {
+        "de": "Das ist wie.",
+        "es": "Eso es cómo."
+      },
+      {
+        "de": "Ich bin wie.",
+        "es": "Soy cómo."
+      },
+      {
+        "de": "Bist du wie?",
+        "es": "¿Eres cómo?"
+      }
+    ],
+    "dumm": [
+      {
+        "de": "Das ist dumm.",
+        "es": "Eso es tonto."
+      },
+      {
+        "de": "Ich bin dumm.",
+        "es": "Soy tonto."
+      },
+      {
+        "de": "Bist du dumm?",
+        "es": "¿Eres tonto?"
+      }
+    ],
+    "kommen": [
+      {
+        "de": "Ich kommen gern.",
+        "es": "Me gusta venir."
+      },
+      {
+        "de": "Er komment jeden Tag.",
+        "es": "Él venir cada día."
+      },
+      {
+        "de": "Kommen du oft?",
+        "es": "¿Venir tú a menudo?"
+      }
+    ],
+    "echt": [
+      {
+        "de": "Das ist echt.",
+        "es": "Eso es auténtico."
+      },
+      {
+        "de": "Ich bin echt.",
+        "es": "Soy auténtico."
+      },
+      {
+        "de": "Bist du echt?",
+        "es": "¿Eres auténtico?"
+      }
+    ],
+    "Information": [
+      {
+        "de": "Die Information ist gut.",
+        "es": "La la información es bueno/a."
+      },
+      {
+        "de": "Ich mag die Information.",
+        "es": "Me gusta el/la la información."
+      },
+      {
+        "de": "Wo ist die Information?",
+        "es": "¿Dónde está el/la la información?"
+      }
+    ],
+    "Großeltern": [
+      {
+        "de": "Die Großeltern ist gut.",
+        "es": "La los abuelos es bueno/a."
+      },
+      {
+        "de": "Ich mag die Großeltern.",
+        "es": "Me gusta el/la los abuelos."
+      },
+      {
+        "de": "Wo ist die Großeltern?",
+        "es": "¿Dónde está el/la los abuelos?"
+      }
+    ],
+    "Herr": [
+      {
+        "de": "Der Herr ist gut.",
+        "es": "El el señor es bueno/a."
+      },
+      {
+        "de": "Ich mag den Herr.",
+        "es": "Me gusta el/la el señor."
+      },
+      {
+        "de": "Wo ist der Herr?",
+        "es": "¿Dónde está el/la el señor?"
+      }
+    ],
+    "auch": [
+      {
+        "de": "Das ist auch.",
+        "es": "Eso es también."
+      },
+      {
+        "de": "Ich bin auch.",
+        "es": "Soy también."
+      },
+      {
+        "de": "Bist du auch?",
+        "es": "¿Eres también?"
+      }
+    ],
+    "tapfer": [
+      {
+        "de": "Das ist tapfer.",
+        "es": "Eso es valiente."
+      },
+      {
+        "de": "Ich bin tapfer.",
+        "es": "Soy valiente."
+      },
+      {
+        "de": "Bist du tapfer?",
+        "es": "¿Eres valiente?"
+      }
+    ],
+    "Klebstoff": [
+      {
+        "de": "Der Klebstoff ist gut.",
+        "es": "El el pegamento es bueno/a."
+      },
+      {
+        "de": "Ich mag den Klebstoff.",
+        "es": "Me gusta el/la el pegamento."
+      },
+      {
+        "de": "Wo ist der Klebstoff?",
+        "es": "¿Dónde está el/la el pegamento?"
+      }
+    ],
+    "Spitzer": [
+      {
+        "de": "Der Spitzer ist gut.",
+        "es": "El el sacapuntas es bueno/a."
+      },
+      {
+        "de": "Ich mag den Spitzer.",
+        "es": "Me gusta el/la el sacapuntas."
+      },
+      {
+        "de": "Wo ist der Spitzer?",
+        "es": "¿Dónde está el/la el sacapuntas?"
+      }
+    ],
+    "Hobby": [
+      {
+        "de": "Das Hobby ist gut.",
+        "es": "El/La el pasatiempo es bueno/a."
+      },
+      {
+        "de": "Ich mag das Hobby.",
+        "es": "Me gusta el/la el pasatiempo."
+      },
+      {
+        "de": "Wo ist das Hobby?",
+        "es": "¿Dónde está el/la el pasatiempo?"
+      }
+    ],
+    "Prospekt": [
+      {
+        "de": "Der Prospekt ist gut.",
+        "es": "El el folleto es bueno/a."
+      },
+      {
+        "de": "Ich mag den Prospekt.",
+        "es": "Me gusta el/la el folleto."
+      },
+      {
+        "de": "Wo ist der Prospekt?",
+        "es": "¿Dónde está el/la el folleto?"
+      }
+    ],
+    "Ausgang": [
+      {
+        "de": "Der Ausgang ist gut.",
+        "es": "El la salida es bueno/a."
+      },
+      {
+        "de": "Ich mag den Ausgang.",
+        "es": "Me gusta el/la la salida."
+      },
+      {
+        "de": "Wo ist der Ausgang?",
+        "es": "¿Dónde está el/la la salida?"
+      }
+    ],
+    "Ellenbogen": [
+      {
+        "de": "Der Ellenbogen ist gut.",
+        "es": "El codo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Ellenbogen.",
+        "es": "Me gusta el/la codo."
+      },
+      {
+        "de": "Wo ist der Ellenbogen?",
+        "es": "¿Dónde está el/la codo?"
+      }
+    ],
+    "rechts": [
+      {
+        "de": "Das ist rechts.",
+        "es": "Eso es derecha."
+      },
+      {
+        "de": "Ich bin rechts.",
+        "es": "Soy derecha."
+      },
+      {
+        "de": "Bist du rechts?",
+        "es": "¿Eres derecha?"
+      }
+    ],
+    "hier": [
+      {
+        "de": "Das ist hier.",
+        "es": "Eso es aquí."
+      },
+      {
+        "de": "Ich bin hier.",
+        "es": "Soy aquí."
+      },
+      {
+        "de": "Bist du hier?",
+        "es": "¿Eres aquí?"
+      }
+    ],
+    "Fundbüro": [
+      {
+        "de": "Das Fundbüro ist gut.",
+        "es": "El/La la oficina de objetos perdidos es bueno/a."
+      },
+      {
+        "de": "Ich mag das Fundbüro.",
+        "es": "Me gusta el/la la oficina de objetos perdidos."
+      },
+      {
+        "de": "Wo ist das Fundbüro?",
+        "es": "¿Dónde está el/la la oficina de objetos perdidos?"
+      }
+    ],
+    "nein": [
+      {
+        "de": "Das ist nein.",
+        "es": "Eso es no."
+      },
+      {
+        "de": "Ich bin nein.",
+        "es": "Soy no."
+      },
+      {
+        "de": "Bist du nein?",
+        "es": "¿Eres no?"
+      }
+    ],
+    "bitte": [
+      {
+        "de": "Das ist bitte.",
+        "es": "Eso es por favor."
+      },
+      {
+        "de": "Ich bin bitte.",
+        "es": "Soy por favor."
+      },
+      {
+        "de": "Bist du bitte?",
+        "es": "¿Eres por favor?"
+      }
+    ],
+    "schon": [
+      {
+        "de": "Das ist schon.",
+        "es": "Eso es ya."
+      },
+      {
+        "de": "Ich bin schon.",
+        "es": "Soy ya."
+      },
+      {
+        "de": "Bist du schon?",
+        "es": "¿Eres ya?"
+      }
+    ],
+    "Durst": [
+      {
+        "de": "Der Durst ist gut.",
+        "es": "El la sed es bueno/a."
+      },
+      {
+        "de": "Ich mag den Durst.",
+        "es": "Me gusta el/la la sed."
+      },
+      {
+        "de": "Wo ist der Durst?",
+        "es": "¿Dónde está el/la la sed?"
+      }
+    ],
+    "Seife": [
+      {
+        "de": "Die Seife ist gut.",
+        "es": "La el jabón es bueno/a."
+      },
+      {
+        "de": "Ich mag die Seife.",
+        "es": "Me gusta el/la el jabón."
+      },
+      {
+        "de": "Wo ist die Seife?",
+        "es": "¿Dónde está el/la el jabón?"
+      }
+    ],
+    "unten": [
+      {
+        "de": "Das ist unten.",
+        "es": "Eso es abajo."
+      },
+      {
+        "de": "Ich bin unten.",
+        "es": "Soy abajo."
+      },
+      {
+        "de": "Bist du unten?",
+        "es": "¿Eres abajo?"
+      }
+    ],
+    "links": [
+      {
+        "de": "Das ist links.",
+        "es": "Eso es izquierda."
+      },
+      {
+        "de": "Ich bin links.",
+        "es": "Soy izquierda."
+      },
+      {
+        "de": "Bist du links?",
+        "es": "¿Eres izquierda?"
+      }
+    ],
+    "Kissen": [
+      {
+        "de": "Das Kissen ist gut.",
+        "es": "El/La la almohada / cojín es bueno/a."
+      },
+      {
+        "de": "Ich mag das Kissen.",
+        "es": "Me gusta el/la la almohada / cojín."
+      },
+      {
+        "de": "Wo ist das Kissen?",
+        "es": "¿Dónde está el/la la almohada / cojín?"
+      }
+    ],
+    "September": [
+      {
+        "de": "Der September ist gut.",
+        "es": "El septiembre es bueno/a."
+      },
+      {
+        "de": "Ich mag den September.",
+        "es": "Me gusta el/la septiembre."
+      },
+      {
+        "de": "Wo ist der September?",
+        "es": "¿Dónde está el/la septiembre?"
+      }
+    ],
+    "Sommer": [
+      {
+        "de": "Der Sommer ist gut.",
+        "es": "El verano es bueno/a."
+      },
+      {
+        "de": "Ich mag den Sommer.",
+        "es": "Me gusta el/la verano."
+      },
+      {
+        "de": "Wo ist der Sommer?",
+        "es": "¿Dónde está el/la verano?"
+      }
+    ],
+    "Samstag": [
+      {
+        "de": "Der Samstag ist gut.",
+        "es": "El sábado es bueno/a."
+      },
+      {
+        "de": "Ich mag den Samstag.",
+        "es": "Me gusta el/la sábado."
+      },
+      {
+        "de": "Wo ist der Samstag?",
+        "es": "¿Dónde está el/la sábado?"
+      }
+    ],
+    "Autobahn": [
+      {
+        "de": "Die Autobahn ist gut.",
+        "es": "La la autopista es bueno/a."
+      },
+      {
+        "de": "Ich mag die Autobahn.",
+        "es": "Me gusta el/la la autopista."
+      },
+      {
+        "de": "Wo ist die Autobahn?",
+        "es": "¿Dónde está el/la la autopista?"
+      }
+    ],
+    "Vorname": [
+      {
+        "de": "Der Vorname ist gut.",
+        "es": "El el nombre de pila es bueno/a."
+      },
+      {
+        "de": "Ich mag den Vorname.",
+        "es": "Me gusta el/la el nombre de pila."
+      },
+      {
+        "de": "Wo ist der Vorname?",
+        "es": "¿Dónde está el/la el nombre de pila?"
+      }
+    ],
+    "zehn": [
+      {
+        "de": "Die zehn ist gut.",
+        "es": "La diez es bueno/a."
+      },
+      {
+        "de": "Ich mag die zehn.",
+        "es": "Me gusta el/la diez."
+      },
+      {
+        "de": "Wo ist die zehn?",
+        "es": "¿Dónde está el/la diez?"
+      }
+    ],
+    "Schild": [
+      {
+        "de": "Das Schild ist gut.",
+        "es": "El/La el cartel / letrero es bueno/a."
+      },
+      {
+        "de": "Ich mag das Schild.",
+        "es": "Me gusta el/la el cartel / letrero."
+      },
+      {
+        "de": "Wo ist das Schild?",
+        "es": "¿Dónde está el/la el cartel / letrero?"
+      }
+    ],
+    "lustig": [
+      {
+        "de": "Das ist lustig.",
+        "es": "Eso es divertido."
+      },
+      {
+        "de": "Ich bin lustig.",
+        "es": "Soy divertido."
+      },
+      {
+        "de": "Bist du lustig?",
+        "es": "¿Eres divertido?"
+      }
+    ],
+    "Sport": [
+      {
+        "de": "Der Sport ist gut.",
+        "es": "El el deporte es bueno/a."
+      },
+      {
+        "de": "Ich mag den Sport.",
+        "es": "Me gusta el/la el deporte."
+      },
+      {
+        "de": "Wo ist der Sport?",
+        "es": "¿Dónde está el/la el deporte?"
+      }
+    ],
+    "sehen": [
+      {
+        "de": "Ich sehen gern.",
+        "es": "Me gusta ver."
+      },
+      {
+        "de": "Er sehent jeden Tag.",
+        "es": "Él ver cada día."
+      },
+      {
+        "de": "Sehen du oft?",
+        "es": "¿Ver tú a menudo?"
+      }
+    ],
+    "grausam": [
+      {
+        "de": "Das ist grausam.",
+        "es": "Eso es cruel."
+      },
+      {
+        "de": "Ich bin grausam.",
+        "es": "Soy cruel."
+      },
+      {
+        "de": "Bist du grausam?",
+        "es": "¿Eres cruel?"
+      }
+    ],
+    "Nichte": [
+      {
+        "de": "Die Nichte ist gut.",
+        "es": "La sobrina es bueno/a."
+      },
+      {
+        "de": "Ich mag die Nichte.",
+        "es": "Me gusta el/la sobrina."
+      },
+      {
+        "de": "Wo ist die Nichte?",
+        "es": "¿Dónde está el/la sobrina?"
+      }
+    ],
+    "Schnaps": [
+      {
+        "de": "Der Schnaps ist gut.",
+        "es": "El licor es bueno/a."
+      },
+      {
+        "de": "Ich mag den Schnaps.",
+        "es": "Me gusta el/la licor."
+      },
+      {
+        "de": "Wo ist der Schnaps?",
+        "es": "¿Dónde está el/la licor?"
+      }
+    ],
+    "machen": [
+      {
+        "de": "Ich machen gern.",
+        "es": "Me gusta hacer."
+      },
+      {
+        "de": "Er machent jeden Tag.",
+        "es": "Él hacer cada día."
+      },
+      {
+        "de": "Machen du oft?",
+        "es": "¿Hacer tú a menudo?"
+      }
+    ],
+    "dicht": [
+      {
+        "de": "Das ist dicht.",
+        "es": "Eso es denso."
+      },
+      {
+        "de": "Ich bin dicht.",
+        "es": "Soy denso."
+      },
+      {
+        "de": "Bist du dicht?",
+        "es": "¿Eres denso?"
+      }
+    ],
+    "Taschenrechner": [
+      {
+        "de": "Der Taschenrechner ist gut.",
+        "es": "El la calculadora es bueno/a."
+      },
+      {
+        "de": "Ich mag den Taschenrechner.",
+        "es": "Me gusta el/la la calculadora."
+      },
+      {
+        "de": "Wo ist der Taschenrechner?",
+        "es": "¿Dónde está el/la la calculadora?"
+      }
+    ],
+    "Dienstag": [
+      {
+        "de": "Der Dienstag ist gut.",
+        "es": "El martes es bueno/a."
+      },
+      {
+        "de": "Ich mag den Dienstag.",
+        "es": "Me gusta el/la martes."
+      },
+      {
+        "de": "Wo ist der Dienstag?",
+        "es": "¿Dónde está el/la martes?"
+      }
+    ],
+    "Eingang": [
+      {
+        "de": "Der Eingang ist gut.",
+        "es": "El la entrada es bueno/a."
+      },
+      {
+        "de": "Ich mag den Eingang.",
+        "es": "Me gusta el/la la entrada."
+      },
+      {
+        "de": "Wo ist der Eingang?",
+        "es": "¿Dónde está el/la la entrada?"
+      }
+    ],
+    "rund": [
+      {
+        "de": "Das ist rund.",
+        "es": "Eso es redondo."
+      },
+      {
+        "de": "Ich bin rund.",
+        "es": "Soy redondo."
+      },
+      {
+        "de": "Bist du rund?",
+        "es": "¿Eres redondo?"
+      }
+    ],
+    "Teil": [
+      {
+        "de": "Der Teil ist gut.",
+        "es": "El la parte es bueno/a."
+      },
+      {
+        "de": "Ich mag den Teil.",
+        "es": "Me gusta el/la la parte."
+      },
+      {
+        "de": "Wo ist der Teil?",
+        "es": "¿Dónde está el/la la parte?"
+      }
+    ],
+    "Sekt": [
+      {
+        "de": "Der Sekt ist gut.",
+        "es": "El cava es bueno/a."
+      },
+      {
+        "de": "Ich mag den Sekt.",
+        "es": "Me gusta el/la cava."
+      },
+      {
+        "de": "Wo ist der Sekt?",
+        "es": "¿Dónde está el/la cava?"
+      }
+    ],
+    "Schnitzel": [
+      {
+        "de": "Das Schnitzel ist gut.",
+        "es": "El/La el filete empanado es bueno/a."
+      },
+      {
+        "de": "Ich mag das Schnitzel.",
+        "es": "Me gusta el/la el filete empanado."
+      },
+      {
+        "de": "Wo ist das Schnitzel?",
+        "es": "¿Dónde está el/la el filete empanado?"
+      }
+    ],
+    "Sohn": [
+      {
+        "de": "Der Sohn ist gut.",
+        "es": "El el hijo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Sohn.",
+        "es": "Me gusta el/la el hijo."
+      },
+      {
+        "de": "Wo ist der Sohn?",
+        "es": "¿Dónde está el/la el hijo?"
+      }
+    ],
+    "kaufen": [
+      {
+        "de": "Ich kaufen gern.",
+        "es": "Me gusta comprar."
+      },
+      {
+        "de": "Er kaufent jeden Tag.",
+        "es": "Él comprar cada día."
+      },
+      {
+        "de": "Kaufen du oft?",
+        "es": "¿Comprar tú a menudo?"
+      }
+    ],
+    "schüchtern": [
+      {
+        "de": "Das ist schüchtern.",
+        "es": "Eso es tímido."
+      },
+      {
+        "de": "Ich bin schüchtern.",
+        "es": "Soy tímido."
+      },
+      {
+        "de": "Bist du schüchtern?",
+        "es": "¿Eres tímido?"
+      }
+    ],
+    "tun": [
+      {
+        "de": "Ich tun gern.",
+        "es": "Me gusta hacer."
+      },
+      {
+        "de": "Er tunt jeden Tag.",
+        "es": "Él hacer cada día."
+      },
+      {
+        "de": "Tun du oft?",
+        "es": "¿Hacer tú a menudo?"
+      }
+    ],
+    "Schultasche": [
+      {
+        "de": "Die Schultasche ist gut.",
+        "es": "La la mochila escolar es bueno/a."
+      },
+      {
+        "de": "Ich mag die Schultasche.",
+        "es": "Me gusta el/la la mochila escolar."
+      },
+      {
+        "de": "Wo ist die Schultasche?",
+        "es": "¿Dónde está el/la la mochila escolar?"
+      }
+    ],
+    "Schlafzimmer": [
+      {
+        "de": "Das Schlafzimmer ist gut.",
+        "es": "El/La el dormitorio es bueno/a."
+      },
+      {
+        "de": "Ich mag das Schlafzimmer.",
+        "es": "Me gusta el/la el dormitorio."
+      },
+      {
+        "de": "Wo ist das Schlafzimmer?",
+        "es": "¿Dónde está el/la el dormitorio?"
+      }
+    ],
+    "Laden": [
+      {
+        "de": "Der Laden ist gut.",
+        "es": "El la tienda es bueno/a."
+      },
+      {
+        "de": "Ich mag den Laden.",
+        "es": "Me gusta el/la la tienda."
+      },
+      {
+        "de": "Wo ist der Laden?",
+        "es": "¿Dónde está el/la la tienda?"
+      }
+    ],
+    "lernen": [
+      {
+        "de": "Ich lernen gern.",
+        "es": "Me gusta aprender."
+      },
+      {
+        "de": "Er lernent jeden Tag.",
+        "es": "Él aprender cada día."
+      },
+      {
+        "de": "Lernen du oft?",
+        "es": "¿Aprender tú a menudo?"
+      }
+    ],
+    "Herd": [
+      {
+        "de": "Der Herd ist gut.",
+        "es": "El la cocina (fuego/fogón) es bueno/a."
+      },
+      {
+        "de": "Ich mag den Herd.",
+        "es": "Me gusta el/la la cocina (fuego/fogón)."
+      },
+      {
+        "de": "Wo ist der Herd?",
+        "es": "¿Dónde está el/la la cocina (fuego/fogón)?"
+      }
+    ],
+    "oft": [
+      {
+        "de": "Das ist oft.",
+        "es": "Eso es a menudo."
+      },
+      {
+        "de": "Ich bin oft.",
+        "es": "Soy a menudo."
+      },
+      {
+        "de": "Bist du oft?",
+        "es": "¿Eres a menudo?"
+      }
+    ],
+    "langweilig": [
+      {
+        "de": "Das ist langweilig.",
+        "es": "Eso es aburrido."
+      },
+      {
+        "de": "Ich bin langweilig.",
+        "es": "Soy aburrido."
+      },
+      {
+        "de": "Bist du langweilig?",
+        "es": "¿Eres aburrido?"
+      }
+    ],
+    "Februar": [
+      {
+        "de": "Der Februar ist gut.",
+        "es": "El febrero es bueno/a."
+      },
+      {
+        "de": "Ich mag den Februar.",
+        "es": "Me gusta el/la febrero."
+      },
+      {
+        "de": "Wo ist der Februar?",
+        "es": "¿Dónde está el/la febrero?"
+      }
+    ],
+    "warum": [
+      {
+        "de": "Das ist warum.",
+        "es": "Eso es por qué."
+      },
+      {
+        "de": "Ich bin warum.",
+        "es": "Soy por qué."
+      },
+      {
+        "de": "Bist du warum?",
+        "es": "¿Eres por qué?"
+      }
+    ],
+    "vorne": [
+      {
+        "de": "Das ist vorne.",
+        "es": "Eso es delante."
+      },
+      {
+        "de": "Ich bin vorne.",
+        "es": "Soy delante."
+      },
+      {
+        "de": "Bist du vorne?",
+        "es": "¿Eres delante?"
+      }
+    ],
+    "Zahl": [
+      {
+        "de": "Die Zahl ist gut.",
+        "es": "La la cifra / número es bueno/a."
+      },
+      {
+        "de": "Ich mag die Zahl.",
+        "es": "Me gusta el/la la cifra / número."
+      },
+      {
+        "de": "Wo ist die Zahl?",
+        "es": "¿Dónde está el/la la cifra / número?"
+      }
+    ],
+    "gern": [
+      {
+        "de": "Das ist gern.",
+        "es": "Eso es con gusto."
+      },
+      {
+        "de": "Ich bin gern.",
+        "es": "Soy con gusto."
+      },
+      {
+        "de": "Bist du gern?",
+        "es": "¿Eres con gusto?"
+      }
+    ],
+    "Tochter": [
+      {
+        "de": "Die Tochter ist gut.",
+        "es": "La la hija es bueno/a."
+      },
+      {
+        "de": "Ich mag die Tochter.",
+        "es": "Me gusta el/la la hija."
+      },
+      {
+        "de": "Wo ist die Tochter?",
+        "es": "¿Dónde está el/la la hija?"
+      }
+    ],
+    "Wunsch": [
+      {
+        "de": "Der Wunsch ist gut.",
+        "es": "El el deseo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Wunsch.",
+        "es": "Me gusta el/la el deseo."
+      },
+      {
+        "de": "Wo ist der Wunsch?",
+        "es": "¿Dónde está el/la el deseo?"
+      }
+    ],
+    "Mittagessen": [
+      {
+        "de": "Das Mittagessen ist gut.",
+        "es": "El/La el almuerzo es bueno/a."
+      },
+      {
+        "de": "Ich mag das Mittagessen.",
+        "es": "Me gusta el/la el almuerzo."
+      },
+      {
+        "de": "Wo ist das Mittagessen?",
+        "es": "¿Dónde está el/la el almuerzo?"
+      }
+    ],
+    "eifersüchtig": [
+      {
+        "de": "Das ist eifersüchtig.",
+        "es": "Eso es celoso."
+      },
+      {
+        "de": "Ich bin eifersüchtig.",
+        "es": "Soy celoso."
+      },
+      {
+        "de": "Bist du eifersüchtig?",
+        "es": "¿Eres celoso?"
+      }
+    ],
+    "wenn": [
+      {
+        "de": "Das ist wenn.",
+        "es": "Eso es si/cuando."
+      },
+      {
+        "de": "Ich bin wenn.",
+        "es": "Soy si/cuando."
+      },
+      {
+        "de": "Bist du wenn?",
+        "es": "¿Eres si/cuando?"
+      }
+    ],
+    "werden": [
+      {
+        "de": "Ich werden gern.",
+        "es": "Me gusta volverse."
+      },
+      {
+        "de": "Er werdent jeden Tag.",
+        "es": "Él volverse cada día."
+      },
+      {
+        "de": "Werden du oft?",
+        "es": "¿Volverse tú a menudo?"
+      }
+    ],
+    "können": [
+      {
+        "de": "Ich können gern.",
+        "es": "Me gusta poder."
+      },
+      {
+        "de": "Er könnent jeden Tag.",
+        "es": "Él poder cada día."
+      },
+      {
+        "de": "Können du oft?",
+        "es": "¿Poder tú a menudo?"
+      }
+    ],
+    "Würfel": [
+      {
+        "de": "Der Würfel ist gut.",
+        "es": "El cubo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Würfel.",
+        "es": "Me gusta el/la cubo."
+      },
+      {
+        "de": "Wo ist der Würfel?",
+        "es": "¿Dónde está el/la cubo?"
+      }
+    ],
+    "Tourist": [
+      {
+        "de": "Der Tourist ist gut.",
+        "es": "El el turista es bueno/a."
+      },
+      {
+        "de": "Ich mag den Tourist.",
+        "es": "Me gusta el/la el turista."
+      },
+      {
+        "de": "Wo ist der Tourist?",
+        "es": "¿Dónde está el/la el turista?"
+      }
+    ],
+    "ungeduldig": [
+      {
+        "de": "Das ist ungeduldig.",
+        "es": "Eso es impaciente."
+      },
+      {
+        "de": "Ich bin ungeduldig.",
+        "es": "Soy impaciente."
+      },
+      {
+        "de": "Bist du ungeduldig?",
+        "es": "¿Eres impaciente?"
+      }
+    ],
+    "Wüste": [
+      {
+        "de": "Die Wüste ist gut.",
+        "es": "La desierto es bueno/a."
+      },
+      {
+        "de": "Ich mag die Wüste.",
+        "es": "Me gusta el/la desierto."
+      },
+      {
+        "de": "Wo ist die Wüste?",
+        "es": "¿Dónde está el/la desierto?"
+      }
+    ],
+    "Bekannte": [
+      {
+        "de": "Der Bekannte ist gut.",
+        "es": "El conocido es bueno/a."
+      },
+      {
+        "de": "Ich mag den Bekannte.",
+        "es": "Me gusta el/la conocido."
+      },
+      {
+        "de": "Wo ist der Bekannte?",
+        "es": "¿Dónde está el/la conocido?"
+      }
+    ],
+    "fünf": [
+      {
+        "de": "Das ist fünf.",
+        "es": "Eso es cinco."
+      },
+      {
+        "de": "Ich bin fünf.",
+        "es": "Soy cinco."
+      },
+      {
+        "de": "Bist du fünf?",
+        "es": "¿Eres cinco?"
+      }
+    ],
+    "Orange": [
+      {
+        "de": "Die Orange ist gut.",
+        "es": "La la naranja es bueno/a."
+      },
+      {
+        "de": "Ich mag die Orange.",
+        "es": "Me gusta el/la la naranja."
+      },
+      {
+        "de": "Wo ist die Orange?",
+        "es": "¿Dónde está el/la la naranja?"
+      }
+    ],
+    "Boot": [
+      {
+        "de": "Das Boot ist gut.",
+        "es": "El/La el bote / barca es bueno/a."
+      },
+      {
+        "de": "Ich mag das Boot.",
+        "es": "Me gusta el/la el bote / barca."
+      },
+      {
+        "de": "Wo ist das Boot?",
+        "es": "¿Dónde está el/la el bote / barca?"
+      }
+    ],
+    "Kante": [
+      {
+        "de": "Die Kante ist gut.",
+        "es": "La borde es bueno/a."
+      },
+      {
+        "de": "Ich mag die Kante.",
+        "es": "Me gusta el/la borde."
+      },
+      {
+        "de": "Wo ist die Kante?",
+        "es": "¿Dónde está el/la borde?"
+      }
+    ],
+    "Nachmittag": [
+      {
+        "de": "Der Nachmittag ist gut.",
+        "es": "El la tarde es bueno/a."
+      },
+      {
+        "de": "Ich mag den Nachmittag.",
+        "es": "Me gusta el/la la tarde."
+      },
+      {
+        "de": "Wo ist der Nachmittag?",
+        "es": "¿Dónde está el/la la tarde?"
+      }
+    ],
+    "zart": [
+      {
+        "de": "Das ist zart.",
+        "es": "Eso es tierno."
+      },
+      {
+        "de": "Ich bin zart.",
+        "es": "Soy tierno."
+      },
+      {
+        "de": "Bist du zart?",
+        "es": "¿Eres tierno?"
+      }
+    ],
+    "Rathaus": [
+      {
+        "de": "Das Rathaus ist gut.",
+        "es": "El/La el ayuntamiento es bueno/a."
+      },
+      {
+        "de": "Ich mag das Rathaus.",
+        "es": "Me gusta el/la el ayuntamiento."
+      },
+      {
+        "de": "Wo ist das Rathaus?",
+        "es": "¿Dónde está el/la el ayuntamiento?"
+      }
+    ],
+    "sein": [
+      {
+        "de": "Ich sein gern.",
+        "es": "Me gusta ser/estar."
+      },
+      {
+        "de": "Er seint jeden Tag.",
+        "es": "Él ser/estar cada día."
+      },
+      {
+        "de": "Sein du oft?",
+        "es": "¿Ser/estar tú a menudo?"
+      }
+    ],
+    "haben": [
+      {
+        "de": "Ich haben gern.",
+        "es": "Me gusta haber/tener."
+      },
+      {
+        "de": "Er habent jeden Tag.",
+        "es": "Él haber/tener cada día."
+      },
+      {
+        "de": "Haben du oft?",
+        "es": "¿Haber/tener tú a menudo?"
+      }
+    ],
+    "Wecker": [
+      {
+        "de": "Der Wecker ist gut.",
+        "es": "El el despertador es bueno/a."
+      },
+      {
+        "de": "Ich mag den Wecker.",
+        "es": "Me gusta el/la el despertador."
+      },
+      {
+        "de": "Wo ist der Wecker?",
+        "es": "¿Dónde está el/la el despertador?"
+      }
+    ],
+    "Fehler": [
+      {
+        "de": "Der Fehler ist gut.",
+        "es": "El el error es bueno/a."
+      },
+      {
+        "de": "Ich mag den Fehler.",
+        "es": "Me gusta el/la el error."
+      },
+      {
+        "de": "Wo ist der Fehler?",
+        "es": "¿Dónde está el/la el error?"
+      }
+    ],
+    "Bahnsteig": [
+      {
+        "de": "Der Bahnsteig ist gut.",
+        "es": "El el andén es bueno/a."
+      },
+      {
+        "de": "Ich mag den Bahnsteig.",
+        "es": "Me gusta el/la el andén."
+      },
+      {
+        "de": "Wo ist der Bahnsteig?",
+        "es": "¿Dónde está el/la el andén?"
+      }
+    ],
+    "Zahnbürste": [
+      {
+        "de": "Die Zahnbürste ist gut.",
+        "es": "La el cepillo de dientes es bueno/a."
+      },
+      {
+        "de": "Ich mag die Zahnbürste.",
+        "es": "Me gusta el/la el cepillo de dientes."
+      },
+      {
+        "de": "Wo ist die Zahnbürste?",
+        "es": "¿Dónde está el/la el cepillo de dientes?"
+      }
+    ],
+    "nie": [
+      {
+        "de": "Das ist nie.",
+        "es": "Eso es nunca."
+      },
+      {
+        "de": "Ich bin nie.",
+        "es": "Soy nunca."
+      },
+      {
+        "de": "Bist du nie?",
+        "es": "¿Eres nunca?"
+      }
+    ],
+    "Kasten": [
+      {
+        "de": "Der Kasten ist gut.",
+        "es": "El la caja / cajón es bueno/a."
+      },
+      {
+        "de": "Ich mag den Kasten.",
+        "es": "Me gusta el/la la caja / cajón."
+      },
+      {
+        "de": "Wo ist der Kasten?",
+        "es": "¿Dónde está el/la la caja / cajón?"
+      }
+    ],
+    "wach": [
+      {
+        "de": "Das ist wach.",
+        "es": "Eso es despierto."
+      },
+      {
+        "de": "Ich bin wach.",
+        "es": "Soy despierto."
+      },
+      {
+        "de": "Bist du wach?",
+        "es": "¿Eres despierto?"
+      }
+    ],
+    "sprechen": [
+      {
+        "de": "Ich sprechen gern.",
+        "es": "Me gusta hablar."
+      },
+      {
+        "de": "Er sprechent jeden Tag.",
+        "es": "Él hablar cada día."
+      },
+      {
+        "de": "Sprechen du oft?",
+        "es": "¿Hablar tú a menudo?"
+      }
+    ],
+    "fein": [
+      {
+        "de": "Das ist fein.",
+        "es": "Eso es fino."
+      },
+      {
+        "de": "Ich bin fein.",
+        "es": "Soy fino."
+      },
+      {
+        "de": "Bist du fein?",
+        "es": "¿Eres fino?"
+      }
+    ],
+    "Stern": [
+      {
+        "de": "Der Stern ist gut.",
+        "es": "El la estrella es bueno/a."
+      },
+      {
+        "de": "Ich mag den Stern.",
+        "es": "Me gusta el/la la estrella."
+      },
+      {
+        "de": "Wo ist der Stern?",
+        "es": "¿Dónde está el/la la estrella?"
+      }
+    ],
+    "Spaß": [
+      {
+        "de": "Der Spaß ist gut.",
+        "es": "El la diversión es bueno/a."
+      },
+      {
+        "de": "Ich mag den Spaß.",
+        "es": "Me gusta el/la la diversión."
+      },
+      {
+        "de": "Wo ist der Spaß?",
+        "es": "¿Dónde está el/la la diversión?"
+      }
+    ],
+    "Quiz": [
+      {
+        "de": "Das Quiz ist gut.",
+        "es": "El/La el concurso / quiz es bueno/a."
+      },
+      {
+        "de": "Ich mag das Quiz.",
+        "es": "Me gusta el/la el concurso / quiz."
+      },
+      {
+        "de": "Wo ist das Quiz?",
+        "es": "¿Dónde está el/la el concurso / quiz?"
+      }
+    ],
+    "sicher": [
+      {
+        "de": "Das ist sicher.",
+        "es": "Eso es seguro."
+      },
+      {
+        "de": "Ich bin sicher.",
+        "es": "Soy seguro."
+      },
+      {
+        "de": "Bist du sicher?",
+        "es": "¿Eres seguro?"
+      }
+    ],
+    "danke": [
+      {
+        "de": "Das ist danke.",
+        "es": "Eso es gracias."
+      },
+      {
+        "de": "Ich bin danke.",
+        "es": "Soy gracias."
+      },
+      {
+        "de": "Bist du danke?",
+        "es": "¿Eres gracias?"
+      }
+    ],
+    "hallo": [
+      {
+        "de": "Das ist hallo.",
+        "es": "Eso es hola."
+      },
+      {
+        "de": "Ich bin hallo.",
+        "es": "Soy hola."
+      },
+      {
+        "de": "Bist du hallo?",
+        "es": "¿Eres hola?"
+      }
+    ],
+    "Geschwister": [
+      {
+        "de": "Die Geschwister ist gut.",
+        "es": "La los hermanos (en general) es bueno/a."
+      },
+      {
+        "de": "Ich mag die Geschwister.",
+        "es": "Me gusta el/la los hermanos (en general)."
+      },
+      {
+        "de": "Wo ist die Geschwister?",
+        "es": "¿Dónde está el/la los hermanos (en general)?"
+      }
+    ],
+    "Enkelin": [
+      {
+        "de": "Die Enkelin ist gut.",
+        "es": "La nieta es bueno/a."
+      },
+      {
+        "de": "Ich mag die Enkelin.",
+        "es": "Me gusta el/la nieta."
+      },
+      {
+        "de": "Wo ist die Enkelin?",
+        "es": "¿Dónde está el/la nieta?"
+      }
+    ],
+    "Rechteck": [
+      {
+        "de": "Das Rechteck ist gut.",
+        "es": "El/La rectángulo es bueno/a."
+      },
+      {
+        "de": "Ich mag das Rechteck.",
+        "es": "Me gusta el/la rectángulo."
+      },
+      {
+        "de": "Wo ist das Rechteck?",
+        "es": "¿Dónde está el/la rectángulo?"
+      }
+    ],
+    "Rucksack": [
+      {
+        "de": "Der Rucksack ist gut.",
+        "es": "El la mochila es bueno/a."
+      },
+      {
+        "de": "Ich mag den Rucksack.",
+        "es": "Me gusta el/la la mochila."
+      },
+      {
+        "de": "Wo ist der Rucksack?",
+        "es": "¿Dónde está el/la la mochila?"
+      }
+    ],
+    "silbern": [
+      {
+        "de": "Das ist silbern.",
+        "es": "Eso es plateado."
+      },
+      {
+        "de": "Ich bin silbern.",
+        "es": "Soy plateado."
+      },
+      {
+        "de": "Bist du silbern?",
+        "es": "¿Eres plateado?"
+      }
+    ],
+    "Ding": [
+      {
+        "de": "Das Ding ist gut.",
+        "es": "El/La la cosa es bueno/a."
+      },
+      {
+        "de": "Ich mag das Ding.",
+        "es": "Me gusta el/la la cosa."
+      },
+      {
+        "de": "Wo ist das Ding?",
+        "es": "¿Dónde está el/la la cosa?"
+      }
+    ],
+    "Zylinder": [
+      {
+        "de": "Der Zylinder ist gut.",
+        "es": "El cilindro es bueno/a."
+      },
+      {
+        "de": "Ich mag den Zylinder.",
+        "es": "Me gusta el/la cilindro."
+      },
+      {
+        "de": "Wo ist der Zylinder?",
+        "es": "¿Dónde está el/la cilindro?"
+      }
+    ],
+    "Speisekarte": [
+      {
+        "de": "Die Speisekarte ist gut.",
+        "es": "La la carta (restaurante) es bueno/a."
+      },
+      {
+        "de": "Ich mag die Speisekarte.",
+        "es": "Me gusta el/la la carta (restaurante)."
+      },
+      {
+        "de": "Wo ist die Speisekarte?",
+        "es": "¿Dónde está el/la la carta (restaurante)?"
+      }
+    ],
+    "Mal": [
+      {
+        "de": "Das Mal ist gut.",
+        "es": "El/La la vez es bueno/a."
+      },
+      {
+        "de": "Ich mag das Mal.",
+        "es": "Me gusta el/la la vez."
+      },
+      {
+        "de": "Wo ist das Mal?",
+        "es": "¿Dónde está el/la la vez?"
+      }
+    ],
+    "Montag": [
+      {
+        "de": "Der Montag ist gut.",
+        "es": "El lunes es bueno/a."
+      },
+      {
+        "de": "Ich mag den Montag.",
+        "es": "Me gusta el/la lunes."
+      },
+      {
+        "de": "Wo ist der Montag?",
+        "es": "¿Dónde está el/la lunes?"
+      }
+    ],
+    "Welt": [
+      {
+        "de": "Die Welt ist gut.",
+        "es": "La el mundo es bueno/a."
+      },
+      {
+        "de": "Ich mag die Welt.",
+        "es": "Me gusta el/la el mundo."
+      },
+      {
+        "de": "Wo ist die Welt?",
+        "es": "¿Dónde está el/la el mundo?"
+      }
+    ],
+    "Geschirr": [
+      {
+        "de": "Das Geschirr ist gut.",
+        "es": "El/La la vajilla es bueno/a."
+      },
+      {
+        "de": "Ich mag das Geschirr.",
+        "es": "Me gusta el/la la vajilla."
+      },
+      {
+        "de": "Wo ist das Geschirr?",
+        "es": "¿Dónde está el/la la vajilla?"
+      }
+    ],
+    "Kiosk": [
+      {
+        "de": "Der Kiosk ist gut.",
+        "es": "El el quiosco es bueno/a."
+      },
+      {
+        "de": "Ich mag den Kiosk.",
+        "es": "Me gusta el/la el quiosco."
+      },
+      {
+        "de": "Wo ist der Kiosk?",
+        "es": "¿Dónde está el/la el quiosco?"
+      }
+    ],
+    "Oktober": [
+      {
+        "de": "Der Oktober ist gut.",
+        "es": "El octubre es bueno/a."
+      },
+      {
+        "de": "Ich mag den Oktober.",
+        "es": "Me gusta el/la octubre."
+      },
+      {
+        "de": "Wo ist der Oktober?",
+        "es": "¿Dónde está el/la octubre?"
+      }
+    ],
+    "Opa": [
+      {
+        "de": "Der Opa ist gut.",
+        "es": "El abuelo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Opa.",
+        "es": "Me gusta el/la abuelo."
+      },
+      {
+        "de": "Wo ist der Opa?",
+        "es": "¿Dónde está el/la abuelo?"
+      }
+    ],
+    "Wanderung": [
+      {
+        "de": "Die Wanderung ist gut.",
+        "es": "La la caminata es bueno/a."
+      },
+      {
+        "de": "Ich mag die Wanderung.",
+        "es": "Me gusta el/la la caminata."
+      },
+      {
+        "de": "Wo ist die Wanderung?",
+        "es": "¿Dónde está el/la la caminata?"
+      }
+    ],
+    "Gitarre": [
+      {
+        "de": "Die Gitarre ist gut.",
+        "es": "La la guitarra es bueno/a."
+      },
+      {
+        "de": "Ich mag die Gitarre.",
+        "es": "Me gusta el/la la guitarra."
+      },
+      {
+        "de": "Wo ist die Gitarre?",
+        "es": "¿Dónde está el/la la guitarra?"
+      }
+    ],
+    "kosten": [
+      {
+        "de": "Ich kosten gern.",
+        "es": "Me gusta costar."
+      },
+      {
+        "de": "Er kostent jeden Tag.",
+        "es": "Él costar cada día."
+      },
+      {
+        "de": "Kosten du oft?",
+        "es": "¿Costar tú a menudo?"
+      }
+    ],
+    "dort": [
+      {
+        "de": "Das ist dort.",
+        "es": "Eso es allí."
+      },
+      {
+        "de": "Ich bin dort.",
+        "es": "Soy allí."
+      },
+      {
+        "de": "Bist du dort?",
+        "es": "¿Eres allí?"
+      }
+    ],
+    "jetzt": [
+      {
+        "de": "Das ist jetzt.",
+        "es": "Eso es ahora."
+      },
+      {
+        "de": "Ich bin jetzt.",
+        "es": "Soy ahora."
+      },
+      {
+        "de": "Bist du jetzt?",
+        "es": "¿Eres ahora?"
+      }
+    ],
+    "LKW": [
+      {
+        "de": "Der LKW ist gut.",
+        "es": "El el camión es bueno/a."
+      },
+      {
+        "de": "Ich mag den LKW.",
+        "es": "Me gusta el/la el camión."
+      },
+      {
+        "de": "Wo ist der LKW?",
+        "es": "¿Dónde está el/la el camión?"
+      }
+    ],
+    "Lärm": [
+      {
+        "de": "Der Lärm ist gut.",
+        "es": "El el ruido es bueno/a."
+      },
+      {
+        "de": "Ich mag den Lärm.",
+        "es": "Me gusta el/la el ruido."
+      },
+      {
+        "de": "Wo ist der Lärm?",
+        "es": "¿Dónde está el/la el ruido?"
+      }
+    ],
+    "tschüss": [
+      {
+        "de": "Das ist tschüss.",
+        "es": "Eso es adiós."
+      },
+      {
+        "de": "Ich bin tschüss.",
+        "es": "Soy adiós."
+      },
+      {
+        "de": "Bist du tschüss?",
+        "es": "¿Eres adiós?"
+      }
+    ],
+    "und": [
+      {
+        "de": "Das ist und.",
+        "es": "Eso es y."
+      },
+      {
+        "de": "Ich bin und.",
+        "es": "Soy y."
+      },
+      {
+        "de": "Bist du und?",
+        "es": "¿Eres y?"
+      }
+    ],
+    "nützlich": [
+      {
+        "de": "Das ist nützlich.",
+        "es": "Eso es útil."
+      },
+      {
+        "de": "Ich bin nützlich.",
+        "es": "Soy útil."
+      },
+      {
+        "de": "Bist du nützlich?",
+        "es": "¿Eres útil?"
+      }
+    ],
+    "angesehen": [
+      {
+        "de": "Das ist angesehen.",
+        "es": "Eso es respetado."
+      },
+      {
+        "de": "Ich bin angesehen.",
+        "es": "Soy respetado."
+      },
+      {
+        "de": "Bist du angesehen?",
+        "es": "¿Eres respetado?"
+      }
+    ],
+    "spielen": [
+      {
+        "de": "Ich spielen gern.",
+        "es": "Me gusta jugar."
+      },
+      {
+        "de": "Er spielent jeden Tag.",
+        "es": "Él jugar cada día."
+      },
+      {
+        "de": "Spielen du oft?",
+        "es": "¿Jugar tú a menudo?"
+      }
+    ],
+    "sitzen": [
+      {
+        "de": "Ich sitzen gern.",
+        "es": "Me gusta estar sentado."
+      },
+      {
+        "de": "Er sitzent jeden Tag.",
+        "es": "Él estar sentado cada día."
+      },
+      {
+        "de": "Sitzen du oft?",
+        "es": "¿Estar sentado tú a menudo?"
+      }
+    ],
+    "Licht": [
+      {
+        "de": "Das Licht ist gut.",
+        "es": "El/La la luz es bueno/a."
+      },
+      {
+        "de": "Ich mag das Licht.",
+        "es": "Me gusta el/la la luz."
+      },
+      {
+        "de": "Wo ist das Licht?",
+        "es": "¿Dónde está el/la la luz?"
+      }
+    ],
+    "neun": [
+      {
+        "de": "Das ist neun.",
+        "es": "Eso es nueve."
+      },
+      {
+        "de": "Ich bin neun.",
+        "es": "Soy nueve."
+      },
+      {
+        "de": "Bist du neun?",
+        "es": "¿Eres nueve?"
+      }
+    ],
+    "Mai": [
+      {
+        "de": "Der Mai ist gut.",
+        "es": "El mayo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Mai.",
+        "es": "Me gusta el/la mayo."
+      },
+      {
+        "de": "Wo ist der Mai?",
+        "es": "¿Dónde está el/la mayo?"
+      }
+    ],
+    "Etage": [
+      {
+        "de": "Die Etage ist gut.",
+        "es": "La la planta / piso es bueno/a."
+      },
+      {
+        "de": "Ich mag die Etage.",
+        "es": "Me gusta el/la la planta / piso."
+      },
+      {
+        "de": "Wo ist die Etage?",
+        "es": "¿Dónde está el/la la planta / piso?"
+      }
+    ],
+    "bleiben": [
+      {
+        "de": "Ich bleiben gern.",
+        "es": "Me gusta quedarse."
+      },
+      {
+        "de": "Er bleibent jeden Tag.",
+        "es": "Él quedarse cada día."
+      },
+      {
+        "de": "Bleiben du oft?",
+        "es": "¿Quedarse tú a menudo?"
+      }
+    ],
+    "heißen": [
+      {
+        "de": "Ich heißen gern.",
+        "es": "Me gusta llamarse."
+      },
+      {
+        "de": "Er heißent jeden Tag.",
+        "es": "Él llamarse cada día."
+      },
+      {
+        "de": "Heißen du oft?",
+        "es": "¿Llamarse tú a menudo?"
+      }
+    ],
+    "Beispiel": [
+      {
+        "de": "Das Beispiel ist gut.",
+        "es": "El/La el ejemplo es bueno/a."
+      },
+      {
+        "de": "Ich mag das Beispiel.",
+        "es": "Me gusta el/la el ejemplo."
+      },
+      {
+        "de": "Wo ist das Beispiel?",
+        "es": "¿Dónde está el/la el ejemplo?"
+      }
+    ],
+    "Seite": [
+      {
+        "de": "Die Seite ist gut.",
+        "es": "La la página / lado es bueno/a."
+      },
+      {
+        "de": "Ich mag die Seite.",
+        "es": "Me gusta el/la la página / lado."
+      },
+      {
+        "de": "Wo ist die Seite?",
+        "es": "¿Dónde está el/la la página / lado?"
+      }
+    ],
+    "Wal": [
+      {
+        "de": "Der Wal ist gut.",
+        "es": "El ballena es bueno/a."
+      },
+      {
+        "de": "Ich mag den Wal.",
+        "es": "Me gusta el/la ballena."
+      },
+      {
+        "de": "Wo ist der Wal?",
+        "es": "¿Dónde está el/la ballena?"
+      }
+    ],
+    "Cousin": [
+      {
+        "de": "Der Cousin ist gut.",
+        "es": "El primo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Cousin.",
+        "es": "Me gusta el/la primo."
+      },
+      {
+        "de": "Wo ist der Cousin?",
+        "es": "¿Dónde está el/la primo?"
+      }
+    ],
+    "April": [
+      {
+        "de": "Der April ist gut.",
+        "es": "El abril es bueno/a."
+      },
+      {
+        "de": "Ich mag den April.",
+        "es": "Me gusta el/la abril."
+      },
+      {
+        "de": "Wo ist der April?",
+        "es": "¿Dónde está el/la abril?"
+      }
+    ],
+    "oder": [
+      {
+        "de": "Das ist oder.",
+        "es": "Eso es o."
+      },
+      {
+        "de": "Ich bin oder.",
+        "es": "Soy o."
+      },
+      {
+        "de": "Bist du oder?",
+        "es": "¿Eres o?"
+      }
+    ],
+    "aber": [
+      {
+        "de": "Das ist aber.",
+        "es": "Eso es pero."
+      },
+      {
+        "de": "Ich bin aber.",
+        "es": "Soy pero."
+      },
+      {
+        "de": "Bist du aber?",
+        "es": "¿Eres pero?"
+      }
+    ],
+    "Auskunft": [
+      {
+        "de": "Die Auskunft ist gut.",
+        "es": "La la información es bueno/a."
+      },
+      {
+        "de": "Ich mag die Auskunft.",
+        "es": "Me gusta el/la la información."
+      },
+      {
+        "de": "Wo ist die Auskunft?",
+        "es": "¿Dónde está el/la la información?"
+      }
+    ],
+    "Regenbogen": [
+      {
+        "de": "Der Regenbogen ist gut.",
+        "es": "El arcoíris es bueno/a."
+      },
+      {
+        "de": "Ich mag den Regenbogen.",
+        "es": "Me gusta el/la arcoíris."
+      },
+      {
+        "de": "Wo ist der Regenbogen?",
+        "es": "¿Dónde está el/la arcoíris?"
+      }
+    ],
+    "wohnen": [
+      {
+        "de": "Ich wohnen gern.",
+        "es": "Me gusta vivir."
+      },
+      {
+        "de": "Er wohnent jeden Tag.",
+        "es": "Él vivir cada día."
+      },
+      {
+        "de": "Wohnen du oft?",
+        "es": "¿Vivir tú a menudo?"
+      }
+    ],
+    "arbeiten": [
+      {
+        "de": "Ich arbeiten gern.",
+        "es": "Me gusta trabajar."
+      },
+      {
+        "de": "Er arbeitent jeden Tag.",
+        "es": "Él trabajar cada día."
+      },
+      {
+        "de": "Arbeiten du oft?",
+        "es": "¿Trabajar tú a menudo?"
+      }
+    ],
+    "munter": [
+      {
+        "de": "Das ist munter.",
+        "es": "Eso es alegre."
+      },
+      {
+        "de": "Ich bin munter.",
+        "es": "Soy alegre."
+      },
+      {
+        "de": "Bist du munter?",
+        "es": "¿Eres alegre?"
+      }
+    ],
+    "hart": [
+      {
+        "de": "Das ist hart.",
+        "es": "Eso es duro."
+      },
+      {
+        "de": "Ich bin hart.",
+        "es": "Soy duro."
+      },
+      {
+        "de": "Bist du hart?",
+        "es": "¿Eres duro?"
+      }
+    ],
+    "Reparatur": [
+      {
+        "de": "Die Reparatur ist gut.",
+        "es": "La la reparación es bueno/a."
+      },
+      {
+        "de": "Ich mag die Reparatur.",
+        "es": "Me gusta el/la la reparación."
+      },
+      {
+        "de": "Wo ist die Reparatur?",
+        "es": "¿Dónde está el/la la reparación?"
+      }
+    ],
+    "Schweinefleisch": [
+      {
+        "de": "Das Schweinefleisch ist gut.",
+        "es": "El/La cerdo es bueno/a."
+      },
+      {
+        "de": "Ich mag das Schweinefleisch.",
+        "es": "Me gusta el/la cerdo."
+      },
+      {
+        "de": "Wo ist das Schweinefleisch?",
+        "es": "¿Dónde está el/la cerdo?"
+      }
+    ],
+    "Hahn": [
+      {
+        "de": "Der Hahn ist gut.",
+        "es": "El gallo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Hahn.",
+        "es": "Me gusta el/la gallo."
+      },
+      {
+        "de": "Wo ist der Hahn?",
+        "es": "¿Dónde está el/la gallo?"
+      }
+    ],
+    "lesen": [
+      {
+        "de": "Ich lesen gern.",
+        "es": "Me gusta leer."
+      },
+      {
+        "de": "Er lesent jeden Tag.",
+        "es": "Él leer cada día."
+      },
+      {
+        "de": "Lesen du oft?",
+        "es": "¿Leer tú a menudo?"
+      }
+    ],
+    "schreiben": [
+      {
+        "de": "Ich schreiben gern.",
+        "es": "Me gusta escribir."
+      },
+      {
+        "de": "Er schreibent jeden Tag.",
+        "es": "Él escribir cada día."
+      },
+      {
+        "de": "Schreiben du oft?",
+        "es": "¿Escribir tú a menudo?"
+      }
+    ],
+    "klar": [
+      {
+        "de": "Das ist klar.",
+        "es": "Eso es claro."
+      },
+      {
+        "de": "Ich bin klar.",
+        "es": "Soy claro."
+      },
+      {
+        "de": "Bist du klar?",
+        "es": "¿Eres claro?"
+      }
+    ],
+    "Nachbarin": [
+      {
+        "de": "Die Nachbarin ist gut.",
+        "es": "La vecina es bueno/a."
+      },
+      {
+        "de": "Ich mag die Nachbarin.",
+        "es": "Me gusta el/la vecina."
+      },
+      {
+        "de": "Wo ist die Nachbarin?",
+        "es": "¿Dónde está el/la vecina?"
+      }
+    ],
+    "Viereck": [
+      {
+        "de": "Das Viereck ist gut.",
+        "es": "El/La cuadrilátero es bueno/a."
+      },
+      {
+        "de": "Ich mag das Viereck.",
+        "es": "Me gusta el/la cuadrilátero."
+      },
+      {
+        "de": "Wo ist das Viereck?",
+        "es": "¿Dónde está el/la cuadrilátero?"
+      }
+    ],
+    "tüchtig": [
+      {
+        "de": "Das ist tüchtig.",
+        "es": "Eso es competente."
+      },
+      {
+        "de": "Ich bin tüchtig.",
+        "es": "Soy competente."
+      },
+      {
+        "de": "Bist du tüchtig?",
+        "es": "¿Eres competente?"
+      }
+    ],
+    "Papier": [
+      {
+        "de": "Das Papier ist gut.",
+        "es": "El/La el papel es bueno/a."
+      },
+      {
+        "de": "Ich mag das Papier.",
+        "es": "Me gusta el/la el papel."
+      },
+      {
+        "de": "Wo ist das Papier?",
+        "es": "¿Dónde está el/la el papel?"
+      }
+    ],
+    "Rose": [
+      {
+        "de": "Die Rose ist gut.",
+        "es": "La la rosa es bueno/a."
+      },
+      {
+        "de": "Ich mag die Rose.",
+        "es": "Me gusta el/la la rosa."
+      },
+      {
+        "de": "Wo ist die Rose?",
+        "es": "¿Dónde está el/la la rosa?"
+      }
+    ],
+    "seltsam": [
+      {
+        "de": "Das ist seltsam.",
+        "es": "Eso es extraño."
+      },
+      {
+        "de": "Ich bin seltsam.",
+        "es": "Soy extraño."
+      },
+      {
+        "de": "Bist du seltsam?",
+        "es": "¿Eres extraño?"
+      }
+    ],
+    "Baum": [
+      {
+        "de": "Der Baum ist gut.",
+        "es": "El el árbol es bueno/a."
+      },
+      {
+        "de": "Ich mag den Baum.",
+        "es": "Me gusta el/la el árbol."
+      },
+      {
+        "de": "Wo ist der Baum?",
+        "es": "¿Dónde está el/la el árbol?"
+      }
+    ],
+    "nehmen": [
+      {
+        "de": "Ich nehmen gern.",
+        "es": "Me gusta tomar."
+      },
+      {
+        "de": "Er nehment jeden Tag.",
+        "es": "Él tomar cada día."
+      },
+      {
+        "de": "Nehmen du oft?",
+        "es": "¿Tomar tú a menudo?"
+      }
+    ],
+    "finden": [
+      {
+        "de": "Ich finden gern.",
+        "es": "Me gusta encontrar."
+      },
+      {
+        "de": "Er findent jeden Tag.",
+        "es": "Él encontrar cada día."
+      },
+      {
+        "de": "Finden du oft?",
+        "es": "¿Encontrar tú a menudo?"
+      }
+    ],
+    "Erfolg": [
+      {
+        "de": "Der Erfolg ist gut.",
+        "es": "El el éxito es bueno/a."
+      },
+      {
+        "de": "Ich mag den Erfolg.",
+        "es": "Me gusta el/la el éxito."
+      },
+      {
+        "de": "Wo ist der Erfolg?",
+        "es": "¿Dónde está el/la el éxito?"
+      }
+    ],
+    "drei": [
+      {
+        "de": "Das ist drei.",
+        "es": "Eso es tres."
+      },
+      {
+        "de": "Ich bin drei.",
+        "es": "Soy tres."
+      },
+      {
+        "de": "Bist du drei?",
+        "es": "¿Eres tres?"
+      }
+    ],
+    "Lineal": [
+      {
+        "de": "Das Lineal ist gut.",
+        "es": "El/La la regla es bueno/a."
+      },
+      {
+        "de": "Ich mag das Lineal.",
+        "es": "Me gusta el/la la regla."
+      },
+      {
+        "de": "Wo ist das Lineal?",
+        "es": "¿Dónde está el/la la regla?"
+      }
+    ],
+    "Heft": [
+      {
+        "de": "Das Heft ist gut.",
+        "es": "El/La el cuaderno es bueno/a."
+      },
+      {
+        "de": "Ich mag das Heft.",
+        "es": "Me gusta el/la el cuaderno."
+      },
+      {
+        "de": "Wo ist das Heft?",
+        "es": "¿Dónde está el/la el cuaderno?"
+      }
+    ],
+    "Kollegin": [
+      {
+        "de": "Die Kollegin ist gut.",
+        "es": "La la compañera de trabajo es bueno/a."
+      },
+      {
+        "de": "Ich mag die Kollegin.",
+        "es": "Me gusta el/la la compañera de trabajo."
+      },
+      {
+        "de": "Wo ist die Kollegin?",
+        "es": "¿Dónde está el/la la compañera de trabajo?"
+      }
+    ],
+    "Winter": [
+      {
+        "de": "Der Winter ist gut.",
+        "es": "El invierno es bueno/a."
+      },
+      {
+        "de": "Ich mag den Winter.",
+        "es": "Me gusta el/la invierno."
+      },
+      {
+        "de": "Wo ist der Winter?",
+        "es": "¿Dónde está el/la invierno?"
+      }
+    ],
+    "Freitag": [
+      {
+        "de": "Der Freitag ist gut.",
+        "es": "El viernes es bueno/a."
+      },
+      {
+        "de": "Ich mag den Freitag.",
+        "es": "Me gusta el/la viernes."
+      },
+      {
+        "de": "Wo ist der Freitag?",
+        "es": "¿Dónde está el/la viernes?"
+      }
+    ],
+    "wenig": [
+      {
+        "de": "Das ist wenig.",
+        "es": "Eso es poco."
+      },
+      {
+        "de": "Ich bin wenig.",
+        "es": "Soy poco."
+      },
+      {
+        "de": "Bist du wenig?",
+        "es": "¿Eres poco?"
+      }
+    ],
+    "ja": [
+      {
+        "de": "Das ist ja.",
+        "es": "Eso es sí."
+      },
+      {
+        "de": "Ich bin ja.",
+        "es": "Soy sí."
+      },
+      {
+        "de": "Bist du ja?",
+        "es": "¿Eres sí?"
+      }
+    ],
+    "Banane": [
+      {
+        "de": "Die Banane ist gut.",
+        "es": "La el plátano es bueno/a."
+      },
+      {
+        "de": "Ich mag die Banane.",
+        "es": "Me gusta el/la el plátano."
+      },
+      {
+        "de": "Wo ist die Banane?",
+        "es": "¿Dónde está el/la el plátano?"
+      }
+    ],
+    "Pyramide": [
+      {
+        "de": "Die Pyramide ist gut.",
+        "es": "La pirámide es bueno/a."
+      },
+      {
+        "de": "Ich mag die Pyramide.",
+        "es": "Me gusta el/la pirámide."
+      },
+      {
+        "de": "Wo ist die Pyramide?",
+        "es": "¿Dónde está el/la pirámide?"
+      }
+    ],
+    "Meinung": [
+      {
+        "de": "Die Meinung ist gut.",
+        "es": "La la opinión es bueno/a."
+      },
+      {
+        "de": "Ich mag die Meinung.",
+        "es": "Me gusta el/la la opinión."
+      },
+      {
+        "de": "Wo ist die Meinung?",
+        "es": "¿Dónde está el/la la opinión?"
+      }
+    ],
+    "Traum": [
+      {
+        "de": "Der Traum ist gut.",
+        "es": "El el sueño es bueno/a."
+      },
+      {
+        "de": "Ich mag den Traum.",
+        "es": "Me gusta el/la el sueño."
+      },
+      {
+        "de": "Wo ist der Traum?",
+        "es": "¿Dónde está el/la el sueño?"
+      }
+    ],
+    "Absender": [
+      {
+        "de": "Der Absender ist gut.",
+        "es": "El el remitente es bueno/a."
+      },
+      {
+        "de": "Ich mag den Absender.",
+        "es": "Me gusta el/la el remitente."
+      },
+      {
+        "de": "Wo ist der Absender?",
+        "es": "¿Dónde está el/la el remitente?"
+      }
+    ],
+    "Zeit": [
+      {
+        "de": "Die Zeit ist gut.",
+        "es": "La el tiempo es bueno/a."
+      },
+      {
+        "de": "Ich mag die Zeit.",
+        "es": "Me gusta el/la el tiempo."
+      },
+      {
+        "de": "Wo ist die Zeit?",
+        "es": "¿Dónde está el/la el tiempo?"
+      }
+    ],
+    "nass": [
+      {
+        "de": "Das ist nass.",
+        "es": "Eso es mojado."
+      },
+      {
+        "de": "Ich bin nass.",
+        "es": "Soy mojado."
+      },
+      {
+        "de": "Bist du nass?",
+        "es": "¿Eres mojado?"
+      }
+    ],
+    "Oper": [
+      {
+        "de": "Die Oper ist gut.",
+        "es": "La la ópera es bueno/a."
+      },
+      {
+        "de": "Ich mag die Oper.",
+        "es": "Me gusta el/la la ópera."
+      },
+      {
+        "de": "Wo ist die Oper?",
+        "es": "¿Dónde está el/la la ópera?"
+      }
+    ],
+    "Zweck": [
+      {
+        "de": "Der Zweck ist gut.",
+        "es": "El el propósito es bueno/a."
+      },
+      {
+        "de": "Ich mag den Zweck.",
+        "es": "Me gusta el/la el propósito."
+      },
+      {
+        "de": "Wo ist der Zweck?",
+        "es": "¿Dónde está el/la el propósito?"
+      }
+    ],
+    "abwaschen": [
+      {
+        "de": "Ich abwaschen gern.",
+        "es": "Me gusta fregar."
+      },
+      {
+        "de": "Er abwaschent jeden Tag.",
+        "es": "Él fregar cada día."
+      },
+      {
+        "de": "Abwaschen du oft?",
+        "es": "¿Fregar tú a menudo?"
+      }
+    ],
+    "Dreieck": [
+      {
+        "de": "Das Dreieck ist gut.",
+        "es": "El/La triángulo es bueno/a."
+      },
+      {
+        "de": "Ich mag das Dreieck.",
+        "es": "Me gusta el/la triángulo."
+      },
+      {
+        "de": "Wo ist das Dreieck?",
+        "es": "¿Dónde está el/la triángulo?"
+      }
+    ],
+    "trocken": [
+      {
+        "de": "Das ist trocken.",
+        "es": "Eso es seco."
+      },
+      {
+        "de": "Ich bin trocken.",
+        "es": "Soy seco."
+      },
+      {
+        "de": "Bist du trocken?",
+        "es": "¿Eres seco?"
+      }
+    ],
+    "Reiseführer": [
+      {
+        "de": "Der Reiseführer ist gut.",
+        "es": "El la guía de viaje es bueno/a."
+      },
+      {
+        "de": "Ich mag den Reiseführer.",
+        "es": "Me gusta el/la la guía de viaje."
+      },
+      {
+        "de": "Wo ist der Reiseführer?",
+        "es": "¿Dónde está el/la la guía de viaje?"
+      }
+    ],
+    "golden": [
+      {
+        "de": "Das ist golden.",
+        "es": "Eso es dorado."
+      },
+      {
+        "de": "Ich bin golden.",
+        "es": "Soy dorado."
+      },
+      {
+        "de": "Bist du golden?",
+        "es": "¿Eres dorado?"
+      }
+    ],
+    "Schere": [
+      {
+        "de": "Die Schere ist gut.",
+        "es": "La las tijeras es bueno/a."
+      },
+      {
+        "de": "Ich mag die Schere.",
+        "es": "Me gusta el/la las tijeras."
+      },
+      {
+        "de": "Wo ist die Schere?",
+        "es": "¿Dónde está el/la las tijeras?"
+      }
+    ],
+    "liegen": [
+      {
+        "de": "Ich liegen gern.",
+        "es": "Me gusta yacer."
+      },
+      {
+        "de": "Er liegent jeden Tag.",
+        "es": "Él yacer cada día."
+      },
+      {
+        "de": "Liegen du oft?",
+        "es": "¿Yacer tú a menudo?"
+      }
+    ],
+    "stellen": [
+      {
+        "de": "Ich stellen gern.",
+        "es": "Me gusta colocar."
+      },
+      {
+        "de": "Er stellent jeden Tag.",
+        "es": "Él colocar cada día."
+      },
+      {
+        "de": "Stellen du oft?",
+        "es": "¿Colocar tú a menudo?"
+      }
+    ],
+    "Erdgeschoss": [
+      {
+        "de": "Das Erdgeschoss ist gut.",
+        "es": "El/La la planta baja es bueno/a."
+      },
+      {
+        "de": "Ich mag das Erdgeschoss.",
+        "es": "Me gusta el/la la planta baja."
+      },
+      {
+        "de": "Wo ist das Erdgeschoss?",
+        "es": "¿Dónde está el/la la planta baja?"
+      }
+    ],
+    "ernst": [
+      {
+        "de": "Das ist ernst.",
+        "es": "Eso es serio."
+      },
+      {
+        "de": "Ich bin ernst.",
+        "es": "Soy serio."
+      },
+      {
+        "de": "Bist du ernst?",
+        "es": "¿Eres serio?"
+      }
+    ],
+    "erst": [
+      {
+        "de": "Das ist erst.",
+        "es": "Eso es sólo."
+      },
+      {
+        "de": "Ich bin erst.",
+        "es": "Soy sólo."
+      },
+      {
+        "de": "Bist du erst?",
+        "es": "¿Eres sólo?"
+      }
+    ],
+    "Tante": [
+      {
+        "de": "Die Tante ist gut.",
+        "es": "La tía es bueno/a."
+      },
+      {
+        "de": "Ich mag die Tante.",
+        "es": "Me gusta el/la tía."
+      },
+      {
+        "de": "Wo ist die Tante?",
+        "es": "¿Dónde está el/la tía?"
+      }
+    ],
+    "locker": [
+      {
+        "de": "Das ist locker.",
+        "es": "Eso es suelto."
+      },
+      {
+        "de": "Ich bin locker.",
+        "es": "Soy suelto."
+      },
+      {
+        "de": "Bist du locker?",
+        "es": "¿Eres suelto?"
+      }
+    ],
+    "Kugelschreiber": [
+      {
+        "de": "Der Kugelschreiber ist gut.",
+        "es": "El el bolígrafo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Kugelschreiber.",
+        "es": "Me gusta el/la el bolígrafo."
+      },
+      {
+        "de": "Wo ist der Kugelschreiber?",
+        "es": "¿Dónde está el/la el bolígrafo?"
+      }
+    ],
+    "sagen": [
+      {
+        "de": "Ich sagen gern.",
+        "es": "Me gusta decir."
+      },
+      {
+        "de": "Er sagent jeden Tag.",
+        "es": "Él decir cada día."
+      },
+      {
+        "de": "Sagen du oft?",
+        "es": "¿Decir tú a menudo?"
+      }
+    ],
+    "Frühling": [
+      {
+        "de": "Der Frühling ist gut.",
+        "es": "El primavera es bueno/a."
+      },
+      {
+        "de": "Ich mag den Frühling.",
+        "es": "Me gusta el/la primavera."
+      },
+      {
+        "de": "Wo ist der Frühling?",
+        "es": "¿Dónde está el/la primavera?"
+      }
+    ],
+    "Baby": [
+      {
+        "de": "Das Baby ist gut.",
+        "es": "El/La el bebé es bueno/a."
+      },
+      {
+        "de": "Ich mag das Baby.",
+        "es": "Me gusta el/la el bebé."
+      },
+      {
+        "de": "Wo ist das Baby?",
+        "es": "¿Dónde está el/la el bebé?"
+      }
+    ],
+    "entschlossen": [
+      {
+        "de": "Das ist entschlossen.",
+        "es": "Eso es decidido."
+      },
+      {
+        "de": "Ich bin entschlossen.",
+        "es": "Soy decidido."
+      },
+      {
+        "de": "Bist du entschlossen?",
+        "es": "¿Eres decidido?"
+      }
+    ],
+    "denn": [
+      {
+        "de": "Das ist denn.",
+        "es": "Eso es porque."
+      },
+      {
+        "de": "Ich bin denn.",
+        "es": "Soy porque."
+      },
+      {
+        "de": "Bist du denn?",
+        "es": "¿Eres porque?"
+      }
+    ],
+    "Quadrat": [
+      {
+        "de": "Das Quadrat ist gut.",
+        "es": "El/La cuadrado es bueno/a."
+      },
+      {
+        "de": "Ich mag das Quadrat.",
+        "es": "Me gusta el/la cuadrado."
+      },
+      {
+        "de": "Wo ist das Quadrat?",
+        "es": "¿Dónde está el/la cuadrado?"
+      }
+    ],
+    "schrecklich": [
+      {
+        "de": "Das ist schrecklich.",
+        "es": "Eso es terrible."
+      },
+      {
+        "de": "Ich bin schrecklich.",
+        "es": "Soy terrible."
+      },
+      {
+        "de": "Bist du schrecklich?",
+        "es": "¿Eres terrible?"
+      }
+    ],
+    "wünschen": [
+      {
+        "de": "Ich wünschen gern.",
+        "es": "Me gusta desear."
+      },
+      {
+        "de": "Er wünschent jeden Tag.",
+        "es": "Él desear cada día."
+      },
+      {
+        "de": "Wünschen du oft?",
+        "es": "¿Desear tú a menudo?"
+      }
+    ],
+    "edel": [
+      {
+        "de": "Das ist edel.",
+        "es": "Eso es noble."
+      },
+      {
+        "de": "Ich bin edel.",
+        "es": "Soy noble."
+      },
+      {
+        "de": "Bist du edel?",
+        "es": "¿Eres noble?"
+      }
+    ],
+    "Teppich": [
+      {
+        "de": "Der Teppich ist gut.",
+        "es": "El la alfombra es bueno/a."
+      },
+      {
+        "de": "Ich mag den Teppich.",
+        "es": "Me gusta el/la la alfombra."
+      },
+      {
+        "de": "Wo ist der Teppich?",
+        "es": "¿Dónde está el/la la alfombra?"
+      }
+    ],
+    "Tour": [
+      {
+        "de": "Die Tour ist gut.",
+        "es": "La la excursión / tour es bueno/a."
+      },
+      {
+        "de": "Ich mag die Tour.",
+        "es": "Me gusta el/la la excursión / tour."
+      },
+      {
+        "de": "Wo ist die Tour?",
+        "es": "¿Dónde está el/la la excursión / tour?"
+      }
+    ],
+    "Rat": [
+      {
+        "de": "Der Rat ist gut.",
+        "es": "El el consejo es bueno/a."
+      },
+      {
+        "de": "Ich mag den Rat.",
+        "es": "Me gusta el/la el consejo."
+      },
+      {
+        "de": "Wo ist der Rat?",
+        "es": "¿Dónde está el/la el consejo?"
+      }
+    ],
+    "gehen": [
+      {
+        "de": "Ich gehen gern.",
+        "es": "Me gusta ir."
+      },
+      {
+        "de": "Er gehent jeden Tag.",
+        "es": "Él ir cada día."
+      },
+      {
+        "de": "Gehen du oft?",
+        "es": "¿Ir tú a menudo?"
+      }
+    ],
+    "Getränk": [
+      {
+        "de": "Das Getränk ist gut.",
+        "es": "El/La la bebida es bueno/a."
+      },
+      {
+        "de": "Ich mag das Getränk.",
+        "es": "Me gusta el/la la bebida."
+      },
+      {
+        "de": "Wo ist das Getränk?",
+        "es": "¿Dónde está el/la la bebida?"
+      }
+    ],
+    "Lehrerin": [
+      {
+        "de": "Die Lehrerin ist gut.",
+        "es": "La la profesora es bueno/a."
+      },
+      {
+        "de": "Ich mag die Lehrerin.",
+        "es": "Me gusta el/la la profesora."
+      },
+      {
+        "de": "Wo ist die Lehrerin?",
+        "es": "¿Dónde está el/la la profesora?"
+      }
+    ],
+    "Universität": [
+      {
+        "de": "Die Universität ist gut.",
+        "es": "La la universidad es bueno/a."
+      },
+      {
+        "de": "Ich mag die Universität.",
+        "es": "Me gusta el/la la universidad."
+      },
+      {
+        "de": "Wo ist die Universität?",
+        "es": "¿Dónde está el/la la universidad?"
+      }
+    ],
+    "Pommes (Pl.)": [
+      {
+        "de": "Die Pommes (Pl.) ist gut.",
+        "es": "La las patatas fritas es bueno/a."
+      },
+      {
+        "de": "Ich mag die Pommes (Pl.).",
+        "es": "Me gusta el/la las patatas fritas."
+      },
+      {
+        "de": "Wo ist die Pommes (Pl.)?",
+        "es": "¿Dónde está el/la las patatas fritas?"
+      }
+    ],
+    "hinten": [
+      {
+        "de": "Das ist hinten.",
+        "es": "Eso es detrás."
+      },
+      {
+        "de": "Ich bin hinten.",
+        "es": "Soy detrás."
+      },
+      {
+        "de": "Bist du hinten?",
+        "es": "¿Eres detrás?"
+      }
+    ],
+    "oben": [
+      {
+        "de": "Das ist oben.",
+        "es": "Eso es arriba."
+      },
+      {
+        "de": "Ich bin oben.",
+        "es": "Soy arriba."
+      },
+      {
+        "de": "Bist du oben?",
+        "es": "¿Eres arriba?"
+      }
+    ],
+    "Pause": [
+      {
+        "de": "Die Pause ist gut.",
+        "es": "La la pausa es bueno/a."
+      },
+      {
+        "de": "Ich mag die Pause.",
+        "es": "Me gusta el/la la pausa."
+      },
+      {
+        "de": "Wo ist die Pause?",
+        "es": "¿Dónde está el/la la pausa?"
+      }
+    ],
+    "Test": [
+      {
+        "de": "Der Test ist gut.",
+        "es": "El el test / prueba es bueno/a."
+      },
+      {
+        "de": "Ich mag den Test.",
+        "es": "Me gusta el/la el test / prueba."
+      },
+      {
+        "de": "Wo ist der Test?",
+        "es": "¿Dónde está el/la el test / prueba?"
+      }
+    ],
+    "Punkt": [
+      {
+        "de": "Der Punkt ist gut.",
+        "es": "El punto es bueno/a."
+      },
+      {
+        "de": "Ich mag den Punkt.",
+        "es": "Me gusta el/la punto."
+      },
+      {
+        "de": "Wo ist der Punkt?",
+        "es": "¿Dónde está el/la punto?"
+      }
+    ],
+    "köstlich": [
+      {
+        "de": "Das ist köstlich.",
+        "es": "Eso es delicioso."
+      },
+      {
+        "de": "Ich bin köstlich.",
+        "es": "Soy delicioso."
+      },
+      {
+        "de": "Bist du köstlich?",
+        "es": "¿Eres delicioso?"
+      }
+    ],
+    "Kamm": [
+      {
+        "de": "Der Kamm ist gut.",
+        "es": "El el peine es bueno/a."
+      },
+      {
+        "de": "Ich mag den Kamm.",
+        "es": "Me gusta el/la el peine."
+      },
+      {
+        "de": "Wo ist der Kamm?",
+        "es": "¿Dónde está el/la el peine?"
+      }
+    ],
+    "geschlossen": [
+      {
+        "de": "Das ist geschlossen.",
+        "es": "Eso es cerrado."
+      },
+      {
+        "de": "Ich bin geschlossen.",
+        "es": "Soy cerrado."
+      },
+      {
+        "de": "Bist du geschlossen?",
+        "es": "¿Eres cerrado?"
+      }
+    ],
+    "Vermieter": [
+      {
+        "de": "Der Vermieter ist gut.",
+        "es": "El el arrendador es bueno/a."
+      },
+      {
+        "de": "Ich mag den Vermieter.",
+        "es": "Me gusta el/la el arrendador."
+      },
+      {
+        "de": "Wo ist der Vermieter?",
+        "es": "¿Dónde está el/la el arrendador?"
+      }
+    ],
+    "Hunger": [
+      {
+        "de": "Der Hunger ist gut.",
+        "es": "El el hambre es bueno/a."
+      },
+      {
+        "de": "Ich mag den Hunger.",
+        "es": "Me gusta el/la el hambre."
+      },
+      {
+        "de": "Wo ist der Hunger?",
+        "es": "¿Dónde está el/la el hambre?"
+      }
+    ],
+    "Koch": [
+      {
+        "de": "Der Koch ist gut.",
+        "es": "El el cocinero es bueno/a."
+      },
+      {
+        "de": "Ich mag den Koch.",
+        "es": "Me gusta el/la el cocinero."
+      },
+      {
+        "de": "Wo ist der Koch?",
+        "es": "¿Dónde está el/la el cocinero?"
+      }
+    ],
+    "Friseur": [
+      {
+        "de": "Der Friseur ist gut.",
+        "es": "El el peluquero es bueno/a."
+      },
+      {
+        "de": "Ich mag den Friseur.",
+        "es": "Me gusta el/la el peluquero."
+      },
+      {
+        "de": "Wo ist der Friseur?",
+        "es": "¿Dónde está el/la el peluquero?"
+      }
+    ],
+    "Schlüssel": [
+      {
+        "de": "Der Schlüssel ist gut.",
+        "es": "El la llave es bueno/a."
+      },
+      {
+        "de": "Ich mag den Schlüssel.",
+        "es": "Me gusta el/la la llave."
+      },
+      {
+        "de": "Wo ist der Schlüssel?",
+        "es": "¿Dónde está el/la la llave?"
+      }
+    ],
+    "Geburtsdatum": [
+      {
+        "de": "Das Geburtsdatum ist gut.",
+        "es": "El/La la fecha de nacimiento es bueno/a."
+      },
+      {
+        "de": "Ich mag das Geburtsdatum.",
+        "es": "Me gusta el/la la fecha de nacimiento."
+      },
+      {
+        "de": "Wo ist das Geburtsdatum?",
+        "es": "¿Dónde está el/la la fecha de nacimiento?"
+      }
+    ],
+    "reich": [
+      {
+        "de": "Das ist reich.",
+        "es": "Eso es rico."
+      },
+      {
+        "de": "Ich bin reich.",
+        "es": "Soy rico."
+      },
+      {
+        "de": "Bist du reich?",
+        "es": "¿Eres rico?"
+      }
+    ],
+    "Ausland": [
+      {
+        "de": "Das Ausland ist gut.",
+        "es": "El/La el extranjero es bueno/a."
+      },
+      {
+        "de": "Ich mag das Ausland.",
+        "es": "Me gusta el/la el extranjero."
+      },
+      {
+        "de": "Wo ist das Ausland?",
+        "es": "¿Dónde está el/la el extranjero?"
+      }
+    ],
+    "Vorwahl": [
+      {
+        "de": "Die Vorwahl ist gut.",
+        "es": "La el prefijo telefónico es bueno/a."
+      },
+      {
+        "de": "Ich mag die Vorwahl.",
+        "es": "Me gusta el/la el prefijo telefónico."
+      },
+      {
+        "de": "Wo ist die Vorwahl?",
+        "es": "¿Dónde está el/la el prefijo telefónico?"
+      }
+    ],
+    "müssen": [
+      {
+        "de": "Ich müssen gern.",
+        "es": "Me gusta deber."
+      },
+      {
+        "de": "Er müssent jeden Tag.",
+        "es": "Él deber cada día."
+      },
+      {
+        "de": "Müssen du oft?",
+        "es": "¿Deber tú a menudo?"
+      }
+    ],
+    "wollen": [
+      {
+        "de": "Ich wollen gern.",
+        "es": "Me gusta querer."
+      },
+      {
+        "de": "Er wollent jeden Tag.",
+        "es": "Él querer cada día."
+      },
+      {
+        "de": "Wollen du oft?",
+        "es": "¿Querer tú a menudo?"
+      }
+    ],
+    "S-Bahn": [
+      {
+        "de": "Die S-Bahn ist gut.",
+        "es": "La el tren de cercanías es bueno/a."
+      },
+      {
+        "de": "Ich mag die S-Bahn.",
+        "es": "Me gusta el/la el tren de cercanías."
+      },
+      {
+        "de": "Wo ist die S-Bahn?",
+        "es": "¿Dónde está el/la el tren de cercanías?"
+      }
     ]
   }
 }
