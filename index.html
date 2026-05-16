@@ -1059,4 +1059,49 @@
       setTimeout(function() { document.body.style.opacity = '1'; }, 40);
     };
   </script>
+
+  <!-- SCRIPT: setViewMode mejorado con max-width en #root -->
+  <script>
+    window.setViewMode = function(mode) {
+      var root = document.getElementById('root');
+      if (!root) return;
+      // Limpiar estilos anteriores de simulaci\u00F3n
+      root.style.maxWidth = '';
+      root.style.margin = '';
+      root.style.overflowX = '';
+      root.style.boxShadow = '';
+      root.style.borderRadius = '';
+
+      // Restaurar viewport a device-width para todos los modos
+      var meta = document.querySelector('meta[name="viewport"]');
+      if (meta) {
+        meta.setAttribute('content', 'width=device-width, initial-scale=1, viewport-fit=cover');
+      }
+
+      var width;
+      switch (mode) {
+        case 'phone':
+          width = '480px';
+          break;
+        case 'tablet':
+          width = '768px';
+          break;
+        case 'desktop':
+          width = '';
+          break;
+        default:
+          return;
+      }
+      if (width) {
+        root.style.maxWidth = width;
+        root.style.margin = '0 auto';
+        root.style.overflowX = 'hidden';
+        root.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+        root.style.borderRadius = '12px';
+      }
+      // Forzar redibujado suave
+      document.body.style.opacity = '0.99';
+      setTimeout(function() { document.body.style.opacity = '1'; }, 40);
+    };
+  </script>
 </html>
