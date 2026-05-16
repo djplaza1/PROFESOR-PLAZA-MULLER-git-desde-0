@@ -249,7 +249,7 @@ window.Muller.FloatingAiChat.Component = function() {
         height: 56,
         borderRadius: 28,
         border: 'none',
-        background: 'linear-gradient(135deg, #0ea5e9, #3b82f6)',
+        background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.85), rgba(59, 130, 246, 0.85))', opacity: 0.9,
         color: 'white',
         fontSize: 24,
         cursor: 'pointer',
