@@ -2,7 +2,7 @@
 // TOP BAR – Profesor Plaza Müller v2
 // Solo tabs que NO están en BottomBar (para evitar duplicados)
 // Iconos SVG inline (sin lucide.createIcons para evitar error #300)
-// Incluye tiempo activo global + Plaza Münzen
+// Incluye tiempo activo global + Plaza Münzen + Indicador de scroll
 // ═══════════════════════════════════════════════════
 window.Muller = window.Muller || {};
 
@@ -33,6 +33,8 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     { id: 'tienda', label: 'Tienda', icon: 'store' }
   ];
 
+  const tabsRef = React.useRef(null);
+
   // ─── TIMER GLOBAL PARA TIEMPO ACTIVO ───
   const [todaySeconds, setTodaySeconds] = React.useState(
     window.Muller.Progreso ? window.Muller.Progreso.getTodayActiveTime() : 0
@@ -46,19 +48,15 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     const interval = setInterval(() => {
       if (window.Muller.Progreso) {
         const P = window.Muller.Progreso;
-        // Obtener el tiempo actual guardado
         const currentSaved = P.getTodayActiveTime();
-        // Avanzar 30 segundos (simula que han pasado 30s reales)
         P.logActiveTime(30);
-        // Actualizar estado visual
         setTodaySeconds(currentSaved + 30);
       }
     }, 30000);
 
-    // Actualizar display cada segundo Y registrar tiempo activo (para toda la app)
+    // Actualizar display cada segundo Y registrar tiempo activo
     const displayInterval = setInterval(() => {
       if (window.Muller.Progreso) {
-        // Registrar 1 segundo de actividad (efectivo en toda la app)
         window.Muller.Progreso.logActiveTime(1);
         const saved = window.Muller.Progreso.getTodayActiveTime();
         setTodaySeconds(saved);
@@ -66,7 +64,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       }
     }, 1000);
 
-    // Sincronizar monedas cuando se hace clic en reclamar (evento personalizado)
     const onCoinsChanged = () => {
       if (window.Muller.Progreso) {
         setPlazaMuenzen(window.Muller.Progreso.getPlazaMuenzen());
@@ -82,7 +79,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     };
   }, []);
 
-  // Formatear segundos a "45m 23s"
   function formatSeconds(sec) {
     if (!sec || sec <= 0) return '0s';
     const h = Math.floor(sec / 3600);
@@ -92,6 +88,12 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
     if (m > 0) return `${m}m ${s}s`;
     return `${s}s`;
   }
+
+  const scrollTabsRight = () => {
+    if (tabsRef.current) {
+      tabsRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+    }
+  };
 
   return React.createElement('div', {
     style: {
@@ -108,8 +110,9 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       borderBottom: '1px solid #334155'
     }
   },
-    // Tabs secundarias con iconos y texto
+    // Tabs secundarias con scroll horizontal
     React.createElement('div', {
+      ref: tabsRef,
       style: {
         flex: 1,
         display: 'flex',
@@ -149,6 +152,33 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
       );
     })),
 
+    // Flecha indicadora de más pestañas (pulso animado)
+    React.createElement('button', {
+      onClick: scrollTabsRight,
+      className: 'animate-pulse',
+      title: 'Más pestañas',
+      style: {
+        background: 'rgba(6,182,212,0.2)',
+        border: '1px solid rgba(6,182,212,0.4)',
+        borderRadius: '50%',
+        width: 28,
+        height: 28,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        flexShrink: 0,
+        marginLeft: 6,
+        marginRight: 8,
+        color: '#06b6d4'
+      }
+    },
+      React.createElement('span', {
+        style: { width: 16, height: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' },
+        dangerouslySetInnerHTML: { __html: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>' }
+      })
+    ),
+
     // ─── BARRA DE ESTADO: TIEMPO ACTIVO + MONEDAS ───
     React.createElement('div', {
       style: {
@@ -186,7 +216,7 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
           }
         }, formatSeconds(todaySeconds))
       ),
-      // Plaza Münzen (más grande y visible)
+      // Plaza Münzen
       React.createElement('div', {
         style: {
           display: 'flex',
@@ -202,7 +232,6 @@ window.Muller.TopBar = ({ activeTab, onTabChange, session }) => {
         title: 'Plaza Münzen - Monedas',
         onClick: () => onTabChange('tienda')
       },
-        // Moneda personalizada: fondo negro + logo PNG sin fondo
         React.createElement('div', {
           style: {
             width: 40,
