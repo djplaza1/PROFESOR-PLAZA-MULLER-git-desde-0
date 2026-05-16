@@ -1104,4 +1104,14 @@
       setTimeout(function() { document.body.style.opacity = '1'; }, 40);
     };
   </script>
+
+  <!-- SCRIPT: logout global para bot\u00F3n en Ajustes -->
+  <script>
+    window.Muller.logout = function() {
+      if (window.Muller.authLogout) {
+        window.Muller.authLogout();
+        window.location.reload();
+      }
+    };
+  </script>
 </html>

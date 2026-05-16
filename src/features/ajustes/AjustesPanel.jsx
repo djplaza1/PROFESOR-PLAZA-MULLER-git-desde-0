@@ -1,4 +1,4 @@
-﻿// ==================================================
+// ==================================================
 // src/features/ajustes/AjustesPanel.jsx
 // Panel de Ajustes premium - 4 pestañas
 // ==================================================
@@ -66,6 +66,12 @@ window.Muller.Panels.AjustesPanel = {
         <div class="flex-shrink-0 px-4 py-2 border-t border-gray-800 text-center text-[10px] text-gray-600">
           Profesor Plaza Müller — Ajustes locales. La configuración se guarda automáticamente.
         </div>
+      </div>
+      <!-- Cerrar sesi&oacute;n -->
+      <div class="bg-gray-900 border border-red-900/30 rounded-2xl p-5 mt-5 text-center">
+        <button onclick="window.Muller.logout()" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-sm font-bold transition text-white w-full">
+          Cerrar sesi&oacute;n
+        </button>
       </div>
     `;
   },
