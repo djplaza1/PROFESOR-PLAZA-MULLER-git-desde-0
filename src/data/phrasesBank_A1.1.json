@@ -1,0 +1,1138 @@
+{
+  "A1.1": {
+    "Haus": [
+      {
+        "de": "Das Haus ist groß.",
+        "es": "La casa es grande."
+      },
+      {
+        "de": "Ich wohne in einem Haus.",
+        "es": "Vivo en una casa."
+      },
+      {
+        "de": "Wo ist das Haus?",
+        "es": "¿Dónde está la casa?"
+      }
+    ],
+    "Mann": [
+      {
+        "de": "Der Mann ist freundlich.",
+        "es": "El hombre es amable."
+      },
+      {
+        "de": "Ich sehe einen Mann.",
+        "es": "Veo a un hombre."
+      },
+      {
+        "de": "Wer ist der Mann?",
+        "es": "¿Quién es el hombre?"
+      }
+    ],
+    "Frau": [
+      {
+        "de": "Die Frau ist schön.",
+        "es": "La mujer es bonita."
+      },
+      {
+        "de": "Ich kenne die Frau.",
+        "es": "Conozco a la mujer."
+      },
+      {
+        "de": "Wo wohnt die Frau?",
+        "es": "¿Dónde vive la mujer?"
+      }
+    ],
+    "Kind": [
+      {
+        "de": "Das Kind spielt im Park.",
+        "es": "El niño juega en el parque."
+      },
+      {
+        "de": "Ich habe ein Kind.",
+        "es": "Tengo un niño."
+      },
+      {
+        "de": "Wie alt ist das Kind?",
+        "es": "¿Cuántos años tiene el niño?"
+      }
+    ],
+    "Tisch": [
+      {
+        "de": "Der Tisch ist neu.",
+        "es": "La mesa es nueva."
+      },
+      {
+        "de": "Ich kaufe einen Tisch.",
+        "es": "Compro una mesa."
+      },
+      {
+        "de": "Wo steht der Tisch?",
+        "es": "¿Dónde está la mesa?"
+      }
+    ],
+    "Buch": [
+      {
+        "de": "Das Buch ist interessant.",
+        "es": "El libro es interesante."
+      },
+      {
+        "de": "Ich lese ein Buch.",
+        "es": "Leo un libro."
+      },
+      {
+        "de": "Hast du das Buch?",
+        "es": "¿Tienes el libro?"
+      }
+    ],
+    "Katze": [
+      {
+        "de": "Die Katze ist süß.",
+        "es": "La gata es dulce."
+      },
+      {
+        "de": "Ich habe eine Katze.",
+        "es": "Tengo una gata."
+      },
+      {
+        "de": "Schläft die Katze?",
+        "es": "¿Duerme la gata?"
+      }
+    ],
+    "Hund": [
+      {
+        "de": "Der Hund ist treu.",
+        "es": "El perro es fiel."
+      },
+      {
+        "de": "Ich führe den Hund aus.",
+        "es": "Paseo al perro."
+      },
+      {
+        "de": "Ist der Hund freundlich?",
+        "es": "¿Es amable el perro?"
+      }
+    ],
+    "Wasser": [
+      {
+        "de": "Das Wasser ist kalt.",
+        "es": "El agua está fría."
+      },
+      {
+        "de": "Ich trinke Wasser.",
+        "es": "Bebo agua."
+      },
+      {
+        "de": "Hast du Wasser?",
+        "es": "¿Tienes agua?"
+      }
+    ],
+    "Brot": [
+      {
+        "de": "Das Brot ist frisch.",
+        "es": "El pan está fresco."
+      },
+      {
+        "de": "Ich kaufe Brot.",
+        "es": "Compro pan."
+      },
+      {
+        "de": "Magst du Brot?",
+        "es": "¿Te gusta el pan?"
+      }
+    ],
+    "Name": [
+      {
+        "de": "Mein Name ist Peter.",
+        "es": "Mi nombre es Peter."
+      },
+      {
+        "de": "Wie ist dein Name?",
+        "es": "¿Cómo te llamas?"
+      },
+      {
+        "de": "Der Name ist schön.",
+        "es": "El nombre es bonito."
+      }
+    ],
+    "Tag": [
+      {
+        "de": "Guten Tag!",
+        "es": "¡Buenos días!"
+      },
+      {
+        "de": "Der Tag ist sonnig.",
+        "es": "El día está soleado."
+      },
+      {
+        "de": "Welcher Tag ist heute?",
+        "es": "¿Qué día es hoy?"
+      }
+    ],
+    "Nacht": [
+      {
+        "de": "Gute Nacht!",
+        "es": "¡Buenas noches!"
+      },
+      {
+        "de": "Die Nacht ist dunkel.",
+        "es": "La noche es oscura."
+      },
+      {
+        "de": "Schläfst du in der Nacht?",
+        "es": "¿Duermes por la noche?"
+      }
+    ],
+    "Woche": [
+      {
+        "de": "Die Woche hat sieben Tage.",
+        "es": "La semana tiene siete días."
+      },
+      {
+        "de": "Ich arbeite jede Woche.",
+        "es": "Trabajo cada semana."
+      },
+      {
+        "de": "Wie viele Tage hat eine Woche?",
+        "es": "¿Cuántos días tiene una semana?"
+      }
+    ],
+    "Jahr": [
+      {
+        "de": "Das Jahr hat zwölf Monate.",
+        "es": "El año tiene doce meses."
+      },
+      {
+        "de": "Ich bin ein Jahr älter.",
+        "es": "Soy un año mayor."
+      },
+      {
+        "de": "In welchem Jahr bist du geboren?",
+        "es": "¿En qué año naciste?"
+      }
+    ],
+    "Mutter": [
+      {
+        "de": "Meine Mutter ist nett.",
+        "es": "Mi madre es amable."
+      },
+      {
+        "de": "Ich liebe meine Mutter.",
+        "es": "Amo a mi madre."
+      },
+      {
+        "de": "Wo ist deine Mutter?",
+        "es": "¿Dónde está tu madre?"
+      }
+    ],
+    "Vater": [
+      {
+        "de": "Mein Vater ist stark.",
+        "es": "Mi padre es fuerte."
+      },
+      {
+        "de": "Ich helfe meinem Vater.",
+        "es": "Ayudo a mi padre."
+      },
+      {
+        "de": "Arbeitet dein Vater viel?",
+        "es": "¿Trabaja mucho tu padre?"
+      }
+    ],
+    "Schwester": [
+      {
+        "de": "Meine Schwester ist jünger.",
+        "es": "Mi hermana es menor."
+      },
+      {
+        "de": "Ich spiele mit meiner Schwester.",
+        "es": "Juego con mi hermana."
+      },
+      {
+        "de": "Hast du eine Schwester?",
+        "es": "¿Tienes una hermana?"
+      }
+    ],
+    "Bruder": [
+      {
+        "de": "Mein Bruder ist älter.",
+        "es": "Mi hermano es mayor."
+      },
+      {
+        "de": "Ich streite oft mit meinem Bruder.",
+        "es": "Discuto a menudo con mi hermano."
+      },
+      {
+        "de": "Wie alt ist dein Bruder?",
+        "es": "¿Cuántos años tiene tu hermano?"
+      }
+    ],
+    "Mädchen": [
+      {
+        "de": "Das Mädchen ist klug.",
+        "es": "La chica es inteligente."
+      },
+      {
+        "de": "Ich sehe ein Mädchen.",
+        "es": "Veo a una chica."
+      },
+      {
+        "de": "Wer ist das Mädchen?",
+        "es": "¿Quién es la chica?"
+      }
+    ],
+    "Junge": [
+      {
+        "de": "Der Junge läuft schnell.",
+        "es": "El chico corre rápido."
+      },
+      {
+        "de": "Ich kenne den Jungen.",
+        "es": "Conozco al chico."
+      },
+      {
+        "de": "Spielt der Junge Fußball?",
+        "es": "¿Juega al fútbol el chico?"
+      }
+    ],
+    "Tür": [
+      {
+        "de": "Die Tür ist offen.",
+        "es": "La puerta está abierta."
+      },
+      {
+        "de": "Ich öffne die Tür.",
+        "es": "Abro la puerta."
+      },
+      {
+        "de": "Ist die Tür zu?",
+        "es": "¿Está cerrada la puerta?"
+      }
+    ],
+    "Fenster": [
+      {
+        "de": "Das Fenster ist groß.",
+        "es": "La ventana es grande."
+      },
+      {
+        "de": "Ich schließe das Fenster.",
+        "es": "Cierro la ventana."
+      },
+      {
+        "de": "Kannst du das Fenster öffnen?",
+        "es": "¿Puedes abrir la ventana?"
+      }
+    ],
+    "Stuhl": [
+      {
+        "de": "Der Stuhl ist bequem.",
+        "es": "La silla es cómoda."
+      },
+      {
+        "de": "Ich sitze auf dem Stuhl.",
+        "es": "Estoy sentado en la silla."
+      },
+      {
+        "de": "Ist der Stuhl frei?",
+        "es": "¿Está libre la silla?"
+      }
+    ],
+    "Bett": [
+      {
+        "de": "Das Bett ist weich.",
+        "es": "La cama es blanda."
+      },
+      {
+        "de": "Ich schlafe im Bett.",
+        "es": "Duermo en la cama."
+      },
+      {
+        "de": "Wann gehst du ins Bett?",
+        "es": "¿Cuándo te vas a la cama?"
+      }
+    ],
+    "Lampe": [
+      {
+        "de": "Die Lampe leuchtet hell.",
+        "es": "La lámpara brilla intensamente."
+      },
+      {
+        "de": "Ich schalte die Lampe ein.",
+        "es": "Enciendo la lámpara."
+      },
+      {
+        "de": "Wo ist die Lampe?",
+        "es": "¿Dónde está la lámpara?"
+      }
+    ],
+    "Küche": [
+      {
+        "de": "Die Küche ist modern.",
+        "es": "La cocina es moderna."
+      },
+      {
+        "de": "Ich koche in der Küche.",
+        "es": "Cocino en la cocina."
+      },
+      {
+        "de": "Ist die Küche sauber?",
+        "es": "¿Está limpia la cocina?"
+      }
+    ],
+    "Schule": [
+      {
+        "de": "Die Schule ist neu.",
+        "es": "La escuela es nueva."
+      },
+      {
+        "de": "Ich gehe zur Schule.",
+        "es": "Voy a la escuela."
+      },
+      {
+        "de": "Magst du die Schule?",
+        "es": "¿Te gusta la escuela?"
+      }
+    ],
+    "Lehrer": [
+      {
+        "de": "Der Lehrer ist streng.",
+        "es": "El profesor es estricto."
+      },
+      {
+        "de": "Ich mag den Lehrer.",
+        "es": "Me gusta el profesor."
+      },
+      {
+        "de": "Wer ist dein Lehrer?",
+        "es": "¿Quién es tu profesor?"
+      }
+    ],
+    "Schüler": [
+      {
+        "de": "Der Schüler lernt viel.",
+        "es": "El alumno estudia mucho."
+      },
+      {
+        "de": "Ich bin Schüler.",
+        "es": "Soy alumno."
+      },
+      {
+        "de": "Bist du ein guter Schüler?",
+        "es": "¿Eres un buen alumno?"
+      }
+    ],
+    "Ball": [
+      {
+        "de": "Der Ball ist rot.",
+        "es": "La pelota es roja."
+      },
+      {
+        "de": "Ich werfe den Ball.",
+        "es": "Lanzo la pelota."
+      },
+      {
+        "de": "Hast du einen Ball?",
+        "es": "¿Tienes una pelota?"
+      }
+    ],
+    "Spiel": [
+      {
+        "de": "Das Spiel macht Spaß.",
+        "es": "El juego es divertido."
+      },
+      {
+        "de": "Ich spiele das Spiel.",
+        "es": "Juego al juego."
+      },
+      {
+        "de": "Kennst du das Spiel?",
+        "es": "¿Conoces el juego?"
+      }
+    ],
+    "Lied": [
+      {
+        "de": "Das Lied ist schön.",
+        "es": "La canción es bonita."
+      },
+      {
+        "de": "Ich singe ein Lied.",
+        "es": "Canto una canción."
+      },
+      {
+        "de": "Hörst du das Lied?",
+        "es": "¿Escuchas la canción?"
+      }
+    ],
+    "Milch": [
+      {
+        "de": "Die Milch ist frisch.",
+        "es": "La leche está fresca."
+      },
+      {
+        "de": "Ich trinke Milch.",
+        "es": "Bebo leche."
+      },
+      {
+        "de": "Möchtest du Milch?",
+        "es": "¿Quieres leche?"
+      }
+    ],
+    "Kaffee": [
+      {
+        "de": "Der Kaffee ist heiß.",
+        "es": "El café está caliente."
+      },
+      {
+        "de": "Ich trinke gern Kaffee.",
+        "es": "Me gusta beber café."
+      },
+      {
+        "de": "Trinkst du Kaffee?",
+        "es": "¿Bebes café?"
+      }
+    ],
+    "Tee": [
+      {
+        "de": "Der Tee ist warm.",
+        "es": "El té está caliente."
+      },
+      {
+        "de": "Ich mag Tee mit Zucker.",
+        "es": "Me gusta el té con azúcar."
+      },
+      {
+        "de": "Willst du einen Tee?",
+        "es": "¿Quieres un té?"
+      }
+    ],
+    "Apfel": [
+      {
+        "de": "Der Apfel ist rot.",
+        "es": "La manzana es roja."
+      },
+      {
+        "de": "Ich esse einen Apfel.",
+        "es": "Como una manzana."
+      },
+      {
+        "de": "Magst du Äpfel?",
+        "es": "¿Te gustan las manzanas?"
+      }
+    ],
+    "Bier": [
+      {
+        "de": "Das Bier ist kalt.",
+        "es": "La cerveza está fría."
+      },
+      {
+        "de": "Ich bestelle ein Bier.",
+        "es": "Pido una cerveza."
+      },
+      {
+        "de": "Trinkst du Bier?",
+        "es": "¿Bebes cerveza?"
+      }
+    ],
+    "Fleisch": [
+      {
+        "de": "Das Fleisch ist zart.",
+        "es": "La carne es tierna."
+      },
+      {
+        "de": "Ich esse kein Fleisch.",
+        "es": "No como carne."
+      },
+      {
+        "de": "Kochst du das Fleisch?",
+        "es": "¿Cocinas la carne?"
+      }
+    ],
+    "Fisch": [
+      {
+        "de": "Der Fisch schmeckt gut.",
+        "es": "El pescado sabe bien."
+      },
+      {
+        "de": "Ich fange einen Fisch.",
+        "es": "Pesco un pez."
+      },
+      {
+        "de": "Isst du gern Fisch?",
+        "es": "¿Te gusta comer pescado?"
+      }
+    ],
+    "groß": [
+      {
+        "de": "Das Haus ist groß.",
+        "es": "La casa es grande."
+      },
+      {
+        "de": "Ich bin nicht groß.",
+        "es": "No soy grande."
+      },
+      {
+        "de": "Bist du groß?",
+        "es": "¿Es grande?"
+      }
+    ],
+    "klein": [
+      {
+        "de": "Das Kind ist klein.",
+        "es": "El niño es pequeño."
+      },
+      {
+        "de": "Ich fühle mich klein.",
+        "es": "Me siento pequeño."
+      },
+      {
+        "de": "Ist das Zimmer klein?",
+        "es": "¿Es pequeña la habitación?"
+      }
+    ],
+    "gut": [
+      {
+        "de": "Der Film ist gut.",
+        "es": "La película es buena."
+      },
+      {
+        "de": "Ich bin gut in Deutsch.",
+        "es": "Soy bueno en alemán."
+      },
+      {
+        "de": "Schmeckt das gut?",
+        "es": "¿Sabe bien?"
+      }
+    ],
+    "schlecht": [
+      {
+        "de": "Das Wetter ist schlecht.",
+        "es": "El tiempo es malo."
+      },
+      {
+        "de": "Ich bin schlecht in Mathe.",
+        "es": "Soy malo en matemáticas."
+      },
+      {
+        "de": "Ist das Essen schlecht?",
+        "es": "¿Está mala la comida?"
+      }
+    ],
+    "schön": [
+      {
+        "de": "Die Blume ist schön.",
+        "es": "La flor es bonita."
+      },
+      {
+        "de": "Ich finde dich schön.",
+        "es": "Te encuentro bonita."
+      },
+      {
+        "de": "Findest du das Bild schön?",
+        "es": "¿Encuentras bonito el cuadro?"
+      }
+    ],
+    "neu": [
+      {
+        "de": "Das Auto ist neu.",
+        "es": "El coche es nuevo."
+      },
+      {
+        "de": "Ich habe ein neues Handy.",
+        "es": "Tengo un teléfono nuevo."
+      },
+      {
+        "de": "Ist dein Laptop neu?",
+        "es": "¿Es nuevo tu portátil?"
+      }
+    ],
+    "alt": [
+      {
+        "de": "Der Fernseher ist alt.",
+        "es": "El televisor es viejo."
+      },
+      {
+        "de": "Ich werde alt.",
+        "es": "Me hago viejo."
+      },
+      {
+        "de": "Wie alt bist du?",
+        "es": "¿Cuántos años tienes?"
+      }
+    ],
+    "warm": [
+      {
+        "de": "Die Suppe ist warm.",
+        "es": "La sopa está caliente."
+      },
+      {
+        "de": "Mir ist warm.",
+        "es": "Tengo calor."
+      },
+      {
+        "de": "Ist es draußen warm?",
+        "es": "¿Hace calor fuera?"
+      }
+    ],
+    "kalt": [
+      {
+        "de": "Das Eis ist kalt.",
+        "es": "El hielo está frío."
+      },
+      {
+        "de": "Mir ist kalt.",
+        "es": "Tengo frío."
+      },
+      {
+        "de": "Ist es im Winter kalt?",
+        "es": "¿Hace frío en invierno?"
+      }
+    ],
+    "heiß": [
+      {
+        "de": "Der Ofen ist heiß.",
+        "es": "El horno está caliente."
+      },
+      {
+        "de": "Ich habe heißen Tee.",
+        "es": "Tengo té caliente."
+      },
+      {
+        "de": "Ist das Wasser heiß?",
+        "es": "¿Está caliente el agua?"
+      }
+    ],
+    "Witz": [
+      {
+        "de": "Der Witz ist lustig.",
+        "es": "El chiste es divertido."
+      },
+      {
+        "de": "Ich erzähle einen Witz.",
+        "es": "Cuento un chiste."
+      },
+      {
+        "de": "Kennst du einen guten Witz?",
+        "es": "¿Conoces un buen chiste?"
+      }
+    ],
+    "treu": [
+      {
+        "de": "Der Hund ist treu.",
+        "es": "El perro es fiel."
+      },
+      {
+        "de": "Ich bin treu.",
+        "es": "Soy fiel."
+      },
+      {
+        "de": "Bist du treu?",
+        "es": "¿Eres fiel?"
+      }
+    ],
+    "Wolle": [
+      {
+        "de": "Die Wolle ist weich.",
+        "es": "La lana es suave."
+      },
+      {
+        "de": "Ich kaufe Wolle.",
+        "es": "Compro lana."
+      },
+      {
+        "de": "Ist die Wolle warm?",
+        "es": "¿Es caliente la lana?"
+      }
+    ],
+    "Fußball": [
+      {
+        "de": "Fußball ist ein Sport.",
+        "es": "El fútbol es un deporte."
+      },
+      {
+        "de": "Ich spiele Fußball.",
+        "es": "Juego al fútbol."
+      },
+      {
+        "de": "Magst du Fußball?",
+        "es": "¿Te gusta el fútbol?"
+      }
+    ],
+    "legen": [
+      {
+        "de": "Ich lege das Buch auf den Tisch.",
+        "es": "Pongo el libro sobre la mesa."
+      },
+      {
+        "de": "Er legt den Schlüssel hin.",
+        "es": "Él deja la llave."
+      },
+      {
+        "de": "Legst du das Baby ins Bett?",
+        "es": "¿Pones al bebé en la cama?"
+      }
+    ],
+    "geben": [
+      {
+        "de": "Ich gebe dir ein Geschenk.",
+        "es": "Te doy un regalo."
+      },
+      {
+        "de": "Er gibt mir das Buch.",
+        "es": "Él me da el libro."
+      },
+      {
+        "de": "Gibst du mir etwas Geld?",
+        "es": "¿Me das algo de dinero?"
+      }
+    ],
+    "Wagen": [
+      {
+        "de": "Der Wagen ist neu.",
+        "es": "El coche es nuevo."
+      },
+      {
+        "de": "Ich fahre einen Wagen.",
+        "es": "Conduzco un coche."
+      },
+      {
+        "de": "Wem gehört der Wagen?",
+        "es": "¿A quién pertenece el coche?"
+      }
+    ],
+    "kühn": [
+      {
+        "de": "Der Plan ist kühn.",
+        "es": "El plan es audaz."
+      },
+      {
+        "de": "Ich bin kühn.",
+        "es": "Soy audaz."
+      },
+      {
+        "de": "Bist du kühn genug?",
+        "es": "¿Eres lo bastante audaz?"
+      }
+    ],
+    "faul": [
+      {
+        "de": "Die Katze ist faul.",
+        "es": "La gata es perezosa."
+      },
+      {
+        "de": "Ich bin heute faul.",
+        "es": "Hoy estoy perezoso."
+      },
+      {
+        "de": "Bist du oft faul?",
+        "es": "¿Eres a menudo perezoso?"
+      }
+    ],
+    "glatt": [
+      {
+        "de": "Das Eis ist glatt.",
+        "es": "El hielo es liso."
+      },
+      {
+        "de": "Die Straße ist glatt.",
+        "es": "La carretera está resbaladiza."
+      },
+      {
+        "de": "Ist das Parkett glatt?",
+        "es": "¿Es liso el parqué?"
+      }
+    ],
+    "der Donnerstag": [
+      {
+        "de": "Donnerstag ist heute.",
+        "es": "Hoy es jueves."
+      },
+      {
+        "de": "Ich arbeite am Donnerstag.",
+        "es": "Trabajo el jueves."
+      },
+      {
+        "de": "Kommst du am Donnerstag?",
+        "es": "¿Vienes el jueves?"
+      }
+    ],
+    "sanft": [
+      {
+        "de": "Die Musik ist sanft.",
+        "es": "La música es suave."
+      },
+      {
+        "de": "Ich berühre dich sanft.",
+        "es": "Te toco suavemente."
+      },
+      {
+        "de": "Ist das Kissen sanft?",
+        "es": "¿Es suave la almohada?"
+      }
+    ],
+    "Dezember": [
+      {
+        "de": "Dezember ist kalt.",
+        "es": "Diciembre es frío."
+      },
+      {
+        "de": "Ich reise im Dezember.",
+        "es": "Viajo en diciembre."
+      },
+      {
+        "de": "Wann ist Dezember?",
+        "es": "¿Cuándo es diciembre?"
+      }
+    ],
+    "der Radiergummi": [
+      {
+        "de": "Der Radiergummi ist klein.",
+        "es": "La goma de borrar es pequeña."
+      },
+      {
+        "de": "Ich brauche einen Radiergummi.",
+        "es": "Necesito una goma de borrar."
+      },
+      {
+        "de": "Hast du meinen Radiergummi?",
+        "es": "¿Tienes mi goma de borrar?"
+      }
+    ],
+    "Arbeit": [
+      {
+        "de": "Die Arbeit ist schwer.",
+        "es": "El trabajo es duro."
+      },
+      {
+        "de": "Ich suche Arbeit.",
+        "es": "Busco trabajo."
+      },
+      {
+        "de": "Wann beginnt die Arbeit?",
+        "es": "¿Cuándo empieza el trabajo?"
+      }
+    ],
+    "grob": [
+      {
+        "de": "Der Stoff ist grob.",
+        "es": "La tela es gruesa."
+      },
+      {
+        "de": "Ich mag keine groben Sachen.",
+        "es": "No me gustan las cosas gruesas."
+      },
+      {
+        "de": "Ist das Salz grob?",
+        "es": "¿Es gruesa la sal?"
+      }
+    ],
+    "freundlich": [
+      {
+        "de": "Der Verkäufer ist freundlich.",
+        "es": "El vendedor es amable."
+      },
+      {
+        "de": "Ich bin immer freundlich.",
+        "es": "Siempre soy amable."
+      },
+      {
+        "de": "Bist du zu allen freundlich?",
+        "es": "¿Eres amable con todos?"
+      }
+    ],
+    "gestern": [
+      {
+        "de": "Gestern war schönes Wetter.",
+        "es": "Ayer hizo buen tiempo."
+      },
+      {
+        "de": "Ich habe gestern gearbeitet.",
+        "es": "Ayer trabajé."
+      },
+      {
+        "de": "Warst du gestern im Kino?",
+        "es": "¿Estuviste ayer en el cine?"
+      }
+    ],
+    "manchmal": [
+      {
+        "de": "Manchmal regnet es.",
+        "es": "A veces llueve."
+      },
+      {
+        "de": "Ich lese manchmal Bücher.",
+        "es": "A veces leo libros."
+      },
+      {
+        "de": "Kochst du manchmal?",
+        "es": "¿Cocinas a veces?"
+      }
+    ],
+    "Gruß": [
+      {
+        "de": "Ein freundlicher Gruß ist wichtig.",
+        "es": "Un saludo amable es importante."
+      },
+      {
+        "de": "Ich sende dir einen Gruß.",
+        "es": "Te envío un saludo."
+      },
+      {
+        "de": "Hast du meinen Gruß bekommen?",
+        "es": "¿Recibiste mi saludo?"
+      }
+    ],
+    "kennen": [
+      {
+        "de": "Ich kenne deinen Bruder.",
+        "es": "Conozco a tu hermano."
+      },
+      {
+        "de": "Er kennt das Buch.",
+        "es": "Él conoce el libro."
+      },
+      {
+        "de": "Kennst du diesen Film?",
+        "es": "¿Conoces esta película?"
+      }
+    ],
+    "der März": [
+      {
+        "de": "Der März ist oft windig.",
+        "es": "Marzo es a menudo ventoso."
+      },
+      {
+        "de": "Ich habe im März Geburtstag.",
+        "es": "Cumplo años en marzo."
+      },
+      {
+        "de": "Reist du im März?",
+        "es": "¿Viajas en marzo?"
+      }
+    ],
+    "Mehrheit": [
+      {
+        "de": "Die Mehrheit stimmt zu.",
+        "es": "La mayoría está de acuerdo."
+      },
+      {
+        "de": "Ich bin in der Mehrheit.",
+        "es": "Estoy en la mayoría."
+      },
+      {
+        "de": "Hat die Mehrheit entschieden?",
+        "es": "¿Ha decidido la mayoría?"
+      }
+    ],
+    "Rindfleisch": [
+      {
+        "de": "Das Rindfleisch ist zart.",
+        "es": "La carne de vaca es tierna."
+      },
+      {
+        "de": "Ich koche Rindfleisch.",
+        "es": "Cocino carne de vaca."
+      },
+      {
+        "de": "Isst du gern Rindfleisch?",
+        "es": "¿Te gusta comer carne de vaca?"
+      }
+    ],
+    "Verkauf": [
+      {
+        "de": "Der Verkauf läuft gut.",
+        "es": "La venta va bien."
+      },
+      {
+        "de": "Ich leite den Verkauf.",
+        "es": "Dirijo la venta."
+      },
+      {
+        "de": "Wann endet der Verkauf?",
+        "es": "¿Cuándo termina la venta?"
+      }
+    ],
+    "essen": [
+      {
+        "de": "Ich esse gern Pizza.",
+        "es": "Me gusta comer pizza."
+      },
+      {
+        "de": "Er isst jeden Tag Obst.",
+        "es": "Él come fruta cada día."
+      },
+      {
+        "de": "Was isst du am liebsten?",
+        "es": "¿Qué te gusta más comer?"
+      }
+    ],
+    "trinken": [
+      {
+        "de": "Ich trinke Wasser.",
+        "es": "Bebo agua."
+      },
+      {
+        "de": "Sie trinkt einen Saft.",
+        "es": "Ella bebe un zumo."
+      },
+      {
+        "de": "Was möchtest du trinken?",
+        "es": "¿Qué quieres beber?"
+      }
+    ],
+    "der Juli": [
+      {
+        "de": "Der Juli ist heiß.",
+        "es": "Julio es caluroso."
+      },
+      {
+        "de": "Ich fahre im Juli ans Meer.",
+        "es": "Voy al mar en julio."
+      },
+      {
+        "de": "Hast du im Juli Urlaub?",
+        "es": "¿Tienes vacaciones en julio?"
+      }
+    ],
+    "die Linie": [
+      {
+        "de": "Die Linie 5 fährt zum Bahnhof.",
+        "es": "La línea 5 va a la estación."
+      },
+      {
+        "de": "Ich warte auf die Linie 3.",
+        "es": "Espero la línea 3."
+      },
+      {
+        "de": "Welche Linie nimmst du?",
+        "es": "¿Qué línea tomas?"
+      }
+    ],
+    "der Nachbar": [
+      {
+        "de": "Der Nachbar ist freundlich.",
+        "es": "El vecino es amable."
+      },
+      {
+        "de": "Ich helfe dem Nachbar.",
+        "es": "Ayudo al vecino."
+      },
+      {
+        "de": "Kennst du den Nachbar?",
+        "es": "¿Conoces al vecino?"
+      }
+    ],
+    "Natur": [
+      {
+        "de": "Die Natur ist schön.",
+        "es": "La naturaleza es bonita."
+      },
+      {
+        "de": "Ich liebe die Natur.",
+        "es": "Amo la naturaleza."
+      },
+      {
+        "de": "Gehst du oft in die Natur?",
+        "es": "¿Vas a menudo a la naturaleza?"
+      }
+    ]
+  }
+}
