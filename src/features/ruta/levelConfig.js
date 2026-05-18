@@ -4,7 +4,7 @@
 
 const LEVEL_CONFIG = [
   { id: 'A1.1', badge: 'A1.1', title: 'Primeros pasos',
-    words: 489, wordsPerLesson: 12, lessons: 41,
+    words: 394, wordsPerLesson: 12, lessons: 33,
     testQuestions: 20, passPercent: 70,
     rewardCoins: 10, rewardXp: 15, testRewardCoins: 50, testRewardXp: 100 },
 
