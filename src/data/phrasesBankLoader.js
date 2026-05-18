@@ -12,7 +12,9 @@
   var LEVEL_FILES = [
     { level: 'A1.1', file: 'src/data/phrasesBank_A1.1.json' }
     // En el futuro se añadirán más niveles aquí, ej:
-    // { level: 'A1.2', file: 'src/data/phrasesBank_A1.2.json' }
+    { level: 'A1.2', file: 'src/data/phrasesBank_A1.2.json' },
+  { level: 'A2.1', file: 'src/data/phrasesBank_A2.1.json' },
+  { level: 'A2.2', file: 'src/data/phrasesBank_A2.2.json' }
   ];
 
   window.PhrasesBank_onReady = function(cb) {
