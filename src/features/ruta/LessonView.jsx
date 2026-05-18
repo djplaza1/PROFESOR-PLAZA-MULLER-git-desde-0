@@ -57,7 +57,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     if (!lesson) return;
     
   // AUTO-GENERAR ejercicios si no vienen en la lección // Usar siempre el generador dinámico
-  setExercises(lesson.exercises || []);
+  console.log('Ejercicios cargados:', lesson.exercises); setExercises(lesson.exercises || []);
 ;
     setCurrentEx(0);
     setUserAnswer("");
