@@ -55,7 +55,16 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     if (!window.PhraseGenerator) return;
     const lesson = window.PhraseGenerator.generateLesson(levelId, lessonIdx);
     if (!lesson) return;
-    setExercises(lesson.exercises || []);
+    
+  // AUTO-GENERAR ejercicios si no vienen en la lección
+  if (lesson && (!lesson.exercises || lesson.exercises.length === 0)) {
+    const generated = window.PhraseGenerator.generateLesson(lesson.levelId, lessonIdx);
+    if (generated && generated.exercises) {
+      lesson.exercises = generated.exercises;
+    }
+  }
+  setExercises(lesson.exercises || []);
+;
     setCurrentEx(0);
     setUserAnswer("");
     setUserOrder([]);
