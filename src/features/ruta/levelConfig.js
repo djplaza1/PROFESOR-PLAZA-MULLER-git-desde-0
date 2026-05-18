@@ -9,7 +9,7 @@ const LEVEL_CONFIG = [
     rewardCoins: 10, rewardXp: 15, testRewardCoins: 50, testRewardXp: 100 },
 
   { id: 'A1.2', badge: 'A1.2', title: 'Primera rutina',
-    words: 1263, wordsPerLesson: 15, lessons: 85,
+    words: 1274, wordsPerLesson: 15, lessons: 85,
     testQuestions: 20, passPercent: 70,
     rewardCoins: 12, rewardXp: 18, testRewardCoins: 60, testRewardXp: 120 },
 

@@ -1583,12 +1583,12 @@
   ],
   "Regen": [
     {
-      "de": "Der Regen ist kalt.",
-      "es": "La lluvia est\u00e1 fr\u00eda."
+      "de": "Der Regen ist willkommen.",
+      "es": "La lluvia es bienvenida."
     },
     {
-      "de": "Es hat gestern stark geregnet.",
-      "es": "Ayer ha llovido mucho."
+      "de": "Es hat gestern den ganzen Tag geregnet.",
+      "es": "Ayer ha llovido todo el d\u00eda."
     },
     {
       "de": "Magst du Spazierg\u00e4nge im Regen?",
@@ -2931,12 +2931,12 @@
       "es": "El vestido es maravilloso."
     },
     {
-      "de": "Sie hat das Kleid zur Hochzeit getragen.",
-      "es": "Ella ha llevado el vestido para la boda."
+      "de": "Sie hat ein langes Kleid zur Party getragen.",
+      "es": "Ella ha llevado un vestido largo a la fiesta."
     },
     {
-      "de": "Gef\u00e4llt dir mein neues Kleid?",
-      "es": "\u00bfTe gusta mi vestido nuevo?"
+      "de": "Gef\u00e4llt dir mein Kleid?",
+      "es": "\u00bfTe gusta mi vestido?"
     }
   ],
   "die Apotheke": [
@@ -2983,16 +2983,16 @@
   ],
   "Essig": [
     {
-      "de": "Der Essig riecht stark.",
-      "es": "El vinagre huele fuerte."
+      "de": "Der Essig ist aus Apfelwein.",
+      "es": "El vinagre es de sidra de manzana."
     },
     {
-      "de": "Ich habe Essig an den Salat gemacht.",
-      "es": "He puesto vinagre en la ensalada."
+      "de": "Ich habe den Salat mit Essig und \u00d6l angemacht.",
+      "es": "He ali\u00f1ado la ensalada con vinagre y aceite."
     },
     {
-      "de": "Benutzt du Essig zum Putzen?",
-      "es": "\u00bfUsas vinagre para limpiar?"
+      "de": "Nimmst du Essig oder Zitrone f\u00fcr die So\u00dfe?",
+      "es": "\u00bfTomas vinagre o lim\u00f3n para la salsa?"
     }
   ],
   "Student": [
@@ -4145,16 +4145,16 @@
   ],
   "Mund": [
     {
-      "de": "Dein Mund ist voller Schokolade.",
-      "es": "Tu boca est\u00e1 llena de chocolate."
+      "de": "Ihr Mund l\u00e4chelt freundlich.",
+      "es": "Su boca sonr\u00ede amablemente."
     },
     {
       "de": "Er hat sich den Mund am hei\u00dfen Tee verbrannt.",
       "es": "\u00c9l se ha quemado la boca con el t\u00e9 caliente."
     },
     {
-      "de": "Hast du dir den Mund verletzt?",
-      "es": "\u00bfTe has hecho da\u00f1o en la boca?"
+      "de": "Sp\u00fclst du deinen Mund nach dem Essen aus?",
+      "es": "\u00bfTe enjuagas la boca despu\u00e9s de comer?"
     }
   ],
   "bescheiden": [
@@ -4593,16 +4593,16 @@
   ],
   "Dach": [
     {
-      "de": "Das Dach ist mit Ziegeln gedeckt.",
-      "es": "El tejado est\u00e1 cubierto con tejas."
+      "de": "Das Dach ist undicht.",
+      "es": "El tejado tiene goteras."
     },
     {
       "de": "Der Sturm hat das Dach besch\u00e4digt.",
       "es": "La tormenta ha da\u00f1ado el tejado."
     },
     {
-      "de": "Ist das Dach repariert?",
-      "es": "\u00bfEst\u00e1 reparado el tejado?"
+      "de": "Kannst du das Dach reparieren?",
+      "es": "\u00bfPuedes reparar el tejado?"
     }
   ],
   "Feuer": [
@@ -4691,16 +4691,16 @@
   ],
   "Suppe": [
     {
-      "de": "Die Suppe ist noch zu hei\u00df.",
-      "es": "La sopa est\u00e1 a\u00fan demasiado caliente."
+      "de": "Die Suppe k\u00f6chelt auf dem Herd.",
+      "es": "La sopa hierve a fuego lento en la cocina."
     },
     {
-      "de": "Ich habe eine Tomatensuppe gekocht.",
-      "es": "He cocinado una sopa de tomate."
+      "de": "Mama hat eine kr\u00e4ftige Rindfleischsuppe gemacht.",
+      "es": "Mam\u00e1 ha hecho una sopa de carne fuerte."
     },
     {
-      "de": "M\u00f6chtest du etwas Brot zur Suppe?",
-      "es": "\u00bfQuieres un poco de pan con la sopa?"
+      "de": "Isst du die Suppe mit Brot?",
+      "es": "\u00bfComes la sopa con pan?"
     }
   ],
   "bestellen": [
@@ -5713,16 +5713,16 @@
   ],
   "Kuchen": [
     {
-      "de": "Der Kuchen schmeckt k\u00f6stlich.",
-      "es": "La tarta sabe deliciosa."
+      "de": "Der Kuchen duftet nach Zimt.",
+      "es": "El pastel huele a canela."
     },
     {
-      "de": "Ich habe den Kuchen f\u00fcr die Feier gebacken.",
-      "es": "He horneado la tarta para la fiesta."
+      "de": "Wir haben gestern einen Schokoladenkuchen gebacken.",
+      "es": "Ayer hemos horneado un pastel de chocolate."
     },
     {
       "de": "M\u00f6chtest du ein St\u00fcck Kuchen?",
-      "es": "\u00bfQuieres un trozo de tarta?"
+      "es": "\u00bfQuieres un trozo de pastel?"
     }
   ],
   "Shampoo": [
@@ -7967,16 +7967,16 @@
   ],
   "Sonne": [
     {
-      "de": "Die Sonne scheint warm.",
-      "es": "El sol calienta."
+      "de": "Die Sonne scheint hell.",
+      "es": "El sol brilla intensamente."
     },
     {
       "de": "Gestern hat die Sonne den ganzen Tag geschienen.",
       "es": "Ayer el sol ha brillado todo el d\u00eda."
     },
     {
-      "de": "Siehst du die Sonne durch die Wolken?",
-      "es": "\u00bfVes el sol a trav\u00e9s de las nubes?"
+      "de": "Gehst du gern in die Sonne?",
+      "es": "\u00bfTe gusta ponerte al sol?"
     }
   ],
   "Blase": [
@@ -8065,16 +8065,16 @@
   ],
   "bringen": [
     {
-      "de": "Kannst du mir das Buch bringen?",
-      "es": "\u00bfPuedes traerme el libro?"
+      "de": "Kannst du mir bitte ein Glas Wasser bringen?",
+      "es": "\u00bfPuedes traerme un vaso de agua, por favor?"
     },
     {
-      "de": "Er hat mir frische Br\u00f6tchen gebracht.",
-      "es": "\u00c9l me ha tra\u00eddo panecillos frescos."
+      "de": "Sie hat mir eine Tasse Kaffee gebracht.",
+      "es": "Ella me ha tra\u00eddo una taza de caf\u00e9."
     },
     {
-      "de": "Bringst du den M\u00fcll raus?",
-      "es": "\u00bfTiras la basura?"
+      "de": "Bringst du die Blumen zur Oma?",
+      "es": "\u00bfLlevas las flores a la abuela?"
     }
   ],
   "Ananas": [
@@ -8205,16 +8205,16 @@
   ],
   "vorbereiten": [
     {
-      "de": "Ich muss die Pr\u00e4sentation vorbereiten.",
-      "es": "Tengo que preparar la presentaci\u00f3n."
+      "de": "Ich muss mich auf die Pr\u00fcfung vorbereiten.",
+      "es": "Tengo que prepararme para el examen."
     },
     {
-      "de": "Sie hat das Abendessen vorbereitet.",
-      "es": "Ella ha preparado la cena."
+      "de": "Oma hat das Abendessen vorbereitet.",
+      "es": "La abuela ha preparado la cena."
     },
     {
-      "de": "Bereitest du dich auf die Pr\u00fcfung vor?",
-      "es": "\u00bfTe preparas para el examen?"
+      "de": "Bereitest du die Pr\u00e4sentation f\u00fcr morgen vor?",
+      "es": "\u00bfPreparas la presentaci\u00f3n para ma\u00f1ana?"
     }
   ],
   "smart": [
@@ -9059,16 +9059,16 @@
   ],
   "Haar": [
     {
-      "de": "Ihr Haar ist sehr lang und gl\u00e4nzend.",
-      "es": "Su pelo es muy largo y brillante."
+      "de": "Ihr Haar ist lang und lockig.",
+      "es": "Su pelo es largo y rizado."
     },
     {
-      "de": "Der Friseur hat mir die Haare geschnitten.",
-      "es": "El peluquero me ha cortado el pelo."
+      "de": "Ich habe mir die Haare schneiden lassen.",
+      "es": "Me he cortado el pelo."
     },
     {
-      "de": "W\u00e4schst du dein Haar jeden Tag?",
-      "es": "\u00bfTe lavas el pelo todos los d\u00edas?"
+      "de": "F\u00e4rbst du dein Haar?",
+      "es": "\u00bfTe ti\u00f1es el pelo?"
     }
   ],
   "unterlassen": [
@@ -9745,16 +9745,16 @@
   ],
   "Garten": [
     {
-      "de": "Der Garten bl\u00fcht im Fr\u00fchling.",
-      "es": "El jard\u00edn florece en primavera."
+      "de": "Der Garten ist unser kleines Paradies.",
+      "es": "El jard\u00edn es nuestro peque\u00f1o para\u00edso."
     },
     {
-      "de": "Opa hat im Garten Tomaten gepflanzt.",
-      "es": "El abuelo ha plantado tomates en el jard\u00edn."
+      "de": "Wir haben gestern den Garten umgegraben.",
+      "es": "Ayer hemos cavado el jard\u00edn."
     },
     {
-      "de": "Arbeitest du gern im Garten?",
-      "es": "\u00bfTe gusta trabajar en el jard\u00edn?"
+      "de": "Hast du einen Garten mit Gem\u00fcsebeet?",
+      "es": "\u00bfTienes un jard\u00edn con huerto?"
     }
   ],
   "reisen": [
@@ -9969,12 +9969,12 @@
   ],
   "Wurst": [
     {
-      "de": "Die Wurst riecht nach Knoblauch.",
-      "es": "El embutido huele a ajo."
+      "de": "Die Wurst ist gut gew\u00fcrzt.",
+      "es": "El embutido est\u00e1 bien condimentado."
     },
     {
-      "de": "Er hat die Wurst in Scheiben geschnitten.",
-      "es": "\u00c9l ha cortado el embutido en lonchas."
+      "de": "Er hat die Wurst in d\u00fcnne Scheiben geschnitten.",
+      "es": "\u00c9l ha cortado el embutido en lonchas finas."
     },
     {
       "de": "Magst du Wurst auf dem Brot?",
@@ -10571,16 +10571,16 @@
   ],
   "Boden": [
     {
-      "de": "Der Boden ist aus Holz.",
-      "es": "El suelo es de madera."
+      "de": "Der Boden im Keller ist kalt.",
+      "es": "El suelo del s\u00f3tano est\u00e1 fr\u00edo."
     },
     {
-      "de": "Das Kind hat Milch auf den Boden versch\u00fcttet.",
-      "es": "El ni\u00f1o ha derramado leche al suelo."
+      "de": "Papa hat den Boden mit Laminat belegt.",
+      "es": "Pap\u00e1 ha puesto suelo laminado."
     },
     {
-      "de": "Wischst du den Boden mit kaltem Wasser?",
-      "es": "\u00bfLimpias el suelo con agua fr\u00eda?"
+      "de": "Hast du den Boden schon gesaugt?",
+      "es": "\u00bfYa has aspirado el suelo?"
     }
   ],
   "Moment": [
@@ -10599,16 +10599,16 @@
   ],
   "zeigen": [
     {
-      "de": "Ich muss dir etwas zeigen.",
-      "es": "Tengo que mostrarte algo."
+      "de": "Ich muss dir etwas Wichtiges zeigen.",
+      "es": "Tengo que mostrarte algo importante."
     },
     {
-      "de": "Er hat mir seinen Ausweis gezeigt.",
-      "es": "\u00c9l me ha mostrado su carnet."
+      "de": "Der Lehrer hat uns den neuen Film gezeigt.",
+      "es": "El profesor nos ha mostrado la nueva pel\u00edcula."
     },
     {
-      "de": "Zeigst du mir den Weg?",
-      "es": "\u00bfMe muestras el camino?"
+      "de": "Zeigst du mir den Weg zum Bahnhof?",
+      "es": "\u00bfMe muestras el camino a la estaci\u00f3n?"
     }
   ],
   "Abmachung": [
@@ -11659,6 +11659,6180 @@
     {
       "de": "Hast du schon einen Fuchs in der Stadt gesehen?",
       "es": "\u00bfHas visto ya un zorro en la ciudad?"
+    }
+  ],
+  "Vogel": [
+    {
+      "de": "Der Vogel singt auf dem Baum.",
+      "es": "El p\u00e1jaro canta en el \u00e1rbol."
+    },
+    {
+      "de": "Ich habe heute Morgen einen bunten Vogel gesehen.",
+      "es": "Esta ma\u00f1ana he visto un p\u00e1jaro de colores."
+    },
+    {
+      "de": "Kannst du den Vogel dort dr\u00fcben sehen?",
+      "es": "\u00bfPuedes ver el p\u00e1jaro all\u00ed?"
+    }
+  ],
+  "der Pfirsich": [
+    {
+      "de": "Der Pfirsich ist saftig und s\u00fc\u00df.",
+      "es": "El melocot\u00f3n es jugoso y dulce."
+    },
+    {
+      "de": "Wir haben Pfirsiche f\u00fcr den Kuchen gekauft.",
+      "es": "Hemos comprado melocotones para la tarta."
+    },
+    {
+      "de": "Magst du Pfirsiche im Obstsalat?",
+      "es": "\u00bfTe gustan los melocotones en la macedonia?"
+    }
+  ],
+  "der Schuh": [
+    {
+      "de": "Der Schuh ist zu eng.",
+      "es": "El zapato est\u00e1 demasiado apretado."
+    },
+    {
+      "de": "Ich habe die Schuhe ausgezogen.",
+      "es": "Me he quitado los zapatos."
+    },
+    {
+      "de": "Hast du deine Schuhe schon geputzt?",
+      "es": "\u00bfYa has limpiado tus zapatos?"
+    }
+  ],
+  "sich putzen": [
+    {
+      "de": "Ich muss mir die Z\u00e4hne putzen.",
+      "es": "Tengo que lavarme los dientes."
+    },
+    {
+      "de": "Das Kind hat sich die H\u00e4nde geputzt.",
+      "es": "El ni\u00f1o se ha limpiado las manos."
+    },
+    {
+      "de": "Putzt du dir die Z\u00e4hne nach jeder Mahlzeit?",
+      "es": "\u00bfTe lavas los dientes despu\u00e9s de cada comida?"
+    }
+  ],
+  "Glas": [
+    {
+      "de": "Das Glas ist voll Wasser.",
+      "es": "El vaso est\u00e1 lleno de agua."
+    },
+    {
+      "de": "Ich habe ein Glas Milch getrunken.",
+      "es": "He bebido un vaso de leche."
+    },
+    {
+      "de": "Kannst du mir ein Glas geben?",
+      "es": "\u00bfPuedes darme un vaso?"
+    }
+  ],
+  "Teller": [
+    {
+      "de": "Der Teller ist aus Porzellan.",
+      "es": "El plato es de porcelana."
+    },
+    {
+      "de": "Ich habe den Teller fallenlassen.",
+      "es": "He dejado caer el plato."
+    },
+    {
+      "de": "Hast du den Teller schon abgetrocknet?",
+      "es": "\u00bfYa has secado el plato?"
+    }
+  ],
+  "pflanzen": [
+    {
+      "de": "Wir wollen im Fr\u00fchling Blumen pflanzen.",
+      "es": "Queremos plantar flores en primavera."
+    },
+    {
+      "de": "Oma hat letztes Jahr einen Apfelbaum gepflanzt.",
+      "es": "La abuela plant\u00f3 un manzano el a\u00f1o pasado."
+    },
+    {
+      "de": "Pflanzt du Gem\u00fcse im Garten?",
+      "es": "\u00bfPlantas verduras en el jard\u00edn?"
+    }
+  ],
+  "Personalchef": [
+    {
+      "de": "Der Personalchef ist f\u00fcr Einstellungen zust\u00e4ndig.",
+      "es": "El jefe de personal es responsable de las contrataciones."
+    },
+    {
+      "de": "Ich habe ein Vorstellungsgespr\u00e4ch beim Personalchef gehabt.",
+      "es": "He tenido una entrevista de trabajo con el jefe de personal."
+    },
+    {
+      "de": "Kennst du den neuen Personalchef?",
+      "es": "\u00bfConoces al nuevo jefe de personal?"
+    }
+  ],
+  "B\u00fcgeleisen": [
+    {
+      "de": "Das B\u00fcgeleisen ist noch hei\u00df.",
+      "es": "La plancha a\u00fan est\u00e1 caliente."
+    },
+    {
+      "de": "Ich habe das Hemd mit dem B\u00fcgeleisen geb\u00fcgelt.",
+      "es": "He planchado la camisa con la plancha."
+    },
+    {
+      "de": "Kannst du das B\u00fcgeleisen ausschalten?",
+      "es": "\u00bfPuedes apagar la plancha?"
+    }
+  ],
+  "Verteidigung": [
+    {
+      "de": "Die Verteidigung war stark.",
+      "es": "La defensa fue fuerte."
+    },
+    {
+      "de": "Der Anwalt hat eine gute Verteidigung vorbereitet.",
+      "es": "El abogado ha preparado una buena defensa."
+    },
+    {
+      "de": "\u00dcbernimmst du die Verteidigung?",
+      "es": "\u00bfAsumes la defensa?"
+    }
+  ],
+  "Feuerwache": [
+    {
+      "de": "Die Feuerwache ist direkt um die Ecke.",
+      "es": "El parque de bomberos est\u00e1 justo a la vuelta de la esquina."
+    },
+    {
+      "de": "Die Kinder haben die Feuerwache besichtigt.",
+      "es": "Los ni\u00f1os han visitado el parque de bomberos."
+    },
+    {
+      "de": "Wei\u00dft du, wo die Feuerwache ist?",
+      "es": "\u00bfSabes d\u00f3nde est\u00e1 el parque de bomberos?"
+    }
+  ],
+  "Augenarzt": [
+    {
+      "de": "Der Augenarzt hat meine Sehkraft getestet.",
+      "es": "El oculista me ha examinado la vista."
+    },
+    {
+      "de": "Ich muss morgen zum Augenarzt.",
+      "es": "Ma\u00f1ana tengo que ir al oculista."
+    },
+    {
+      "de": "Gehst du regelm\u00e4\u00dfig zum Augenarzt?",
+      "es": "\u00bfVas regularmente al oculista?"
+    }
+  ],
+  "das Rathaus": [
+    {
+      "de": "Das Rathaus ist ein historisches Geb\u00e4ude.",
+      "es": "El ayuntamiento es un edificio hist\u00f3rico."
+    },
+    {
+      "de": "Wir haben im Rathaus geheiratet.",
+      "es": "Nos hemos casado en el ayuntamiento."
+    },
+    {
+      "de": "Kannst du mir den Weg zum Rathaus zeigen?",
+      "es": "\u00bfPuedes ense\u00f1arme el camino al ayuntamiento?"
+    }
+  ],
+  "tr\u00fcb": [
+    {
+      "de": "Das Wasser im Teich ist tr\u00fcb.",
+      "es": "El agua del estanque est\u00e1 turbia."
+    },
+    {
+      "de": "Der Himmel ist heute tr\u00fcb geworden.",
+      "es": "El cielo se ha puesto turbio hoy."
+    },
+    {
+      "de": "Warum ist der Wein tr\u00fcb?",
+      "es": "\u00bfPor qu\u00e9 est\u00e1 turbio el vino?"
+    }
+  ],
+  "die nen": [
+    {
+      "de": "Die Nen sind lecker.",
+      "es": "Los nen son sabrosos."
+    },
+    {
+      "de": "Ich habe die Nen mit So\u00dfe serviert.",
+      "es": "He servido los nen con salsa."
+    },
+    {
+      "de": "Magst du die Nen?",
+      "es": "\u00bfTe gustan los nen?"
+    }
+  ],
+  "die Bluse": [
+    {
+      "de": "Die Bluse ist aus reiner Baumwolle.",
+      "es": "La blusa es de algod\u00f3n puro."
+    },
+    {
+      "de": "Sie hat eine neue Bluse f\u00fcr das Vorstellungsgespr\u00e4ch gekauft.",
+      "es": "Ella ha comprado una blusa nueva para la entrevista de trabajo."
+    },
+    {
+      "de": "Gef\u00e4llt dir meine Bluse?",
+      "es": "\u00bfTe gusta mi blusa?"
+    }
+  ],
+  "das Huhn": [
+    {
+      "de": "Das Huhn legt jeden Tag ein Ei.",
+      "es": "La gallina pone un huevo cada d\u00eda."
+    },
+    {
+      "de": "Wir haben die H\u00fchner im Stall gef\u00fcttert.",
+      "es": "Hemos dado de comer a las gallinas en el gallinero."
+    },
+    {
+      "de": "Hast du schon ein frischgelegtes Ei vom Huhn gegessen?",
+      "es": "\u00bfHas comido ya un huevo fresco de gallina?"
+    }
+  ],
+  "Empf\u00e4nger": [
+    {
+      "de": "Der Empf\u00e4nger wohnt in Berlin.",
+      "es": "El destinatario vive en Berl\u00edn."
+    },
+    {
+      "de": "Ich habe den Brief an den Empf\u00e4nger geschickt.",
+      "es": "He enviado la carta al destinatario."
+    },
+    {
+      "de": "Bist du der Empf\u00e4nger des Pakets?",
+      "es": "\u00bfEres el destinatario del paquete?"
+    }
+  ],
+  "Quark": [
+    {
+      "de": "Der Quark schmeckt frisch und cremig.",
+      "es": "El reques\u00f3n sabe fresco y cremoso."
+    },
+    {
+      "de": "Zum Fr\u00fchst\u00fcck habe ich Quark mit Fr\u00fcchten gegessen.",
+      "es": "Para el desayuno he comido reques\u00f3n con frutas."
+    },
+    {
+      "de": "Isst du gern Quark?",
+      "es": "\u00bfTe gusta el reques\u00f3n?"
+    }
+  ],
+  "der Nachmittag": [
+    {
+      "de": "Der Nachmittag ist lang.",
+      "es": "La tarde es larga."
+    },
+    {
+      "de": "Am Nachmittag habe ich einen Spaziergang gemacht.",
+      "es": "Por la tarde he dado un paseo."
+    },
+    {
+      "de": "Was machst du am Nachmittag?",
+      "es": "\u00bfQu\u00e9 haces por la tarde?"
+    }
+  ],
+  "Ummeldung": [
+    {
+      "de": "Die Ummeldung muss innerhalb von zwei Wochen erfolgen.",
+      "es": "El cambio de registro debe realizarse en un plazo de dos semanas."
+    },
+    {
+      "de": "Ich habe meine Ummeldung beim Einwohnermeldeamt gemacht.",
+      "es": "He hecho mi cambio de registro en la oficina de empadronamiento."
+    },
+    {
+      "de": "Hast du deine Ummeldung schon beantragt?",
+      "es": "\u00bfYa has solicitado tu cambio de registro?"
+    }
+  ],
+  "Nebeneingang": [
+    {
+      "de": "Der Nebeneingang ist auf der R\u00fcckseite.",
+      "es": "La entrada lateral est\u00e1 en la parte trasera."
+    },
+    {
+      "de": "Wir haben den Nebeneingang benutzt.",
+      "es": "Hemos usado la entrada lateral."
+    },
+    {
+      "de": "Wei\u00dft du, wo der Nebeneingang ist?",
+      "es": "\u00bfSabes d\u00f3nde est\u00e1 la entrada lateral?"
+    }
+  ],
+  "Sportplatz": [
+    {
+      "de": "Der Sportplatz ist nach der Schule belebt.",
+      "es": "La pista deportiva est\u00e1 animada despu\u00e9s de la escuela."
+    },
+    {
+      "de": "Die Kinder haben auf dem Sportplatz Fu\u00dfball gespielt.",
+      "es": "Los ni\u00f1os han jugado al f\u00fatbol en la pista deportiva."
+    },
+    {
+      "de": "Gehst du gern zum Sportplatz?",
+      "es": "\u00bfTe gusta ir a la pista deportiva?"
+    }
+  ],
+  "Karte": [
+    {
+      "de": "Die Karte f\u00fchrt uns zum See.",
+      "es": "El mapa nos gu\u00eda al lago."
+    },
+    {
+      "de": "Ich habe eine Karte von der Stadt gekauft.",
+      "es": "He comprado un mapa de la ciudad."
+    },
+    {
+      "de": "Hast du eine Karte dabei?",
+      "es": "\u00bfLlevas un mapa?"
+    }
+  ],
+  "Fahrkarte": [
+    {
+      "de": "Die Fahrkarte ist f\u00fcr die Hin- und R\u00fcckfahrt g\u00fcltig.",
+      "es": "El billete es v\u00e1lido para ida y vuelta."
+    },
+    {
+      "de": "Ich habe die Fahrkarte am Automaten gel\u00f6st.",
+      "es": "He sacado el billete en la m\u00e1quina."
+    },
+    {
+      "de": "Brauchst du eine Fahrkarte?",
+      "es": "\u00bfNecesitas un billete?"
+    }
+  ],
+  "die Str\u00fcmpfe": [
+    {
+      "de": "Die Str\u00fcmpfe sind aus Seide.",
+      "es": "Las medias son de seda."
+    },
+    {
+      "de": "Sie hat die Str\u00fcmpfe im Badezimmer vergessen.",
+      "es": "Ella ha olvidado las medias en el ba\u00f1o."
+    },
+    {
+      "de": "Tr\u00e4gst du gern Str\u00fcmpfe?",
+      "es": "\u00bfTe gusta llevar medias?"
+    }
+  ],
+  "Hocker": [
+    {
+      "de": "Der Hocker ist aus Holz.",
+      "es": "El taburete es de madera."
+    },
+    {
+      "de": "Opa hat sich auf den Hocker gesetzt.",
+      "es": "El abuelo se ha sentado en el taburete."
+    },
+    {
+      "de": "Kannst du den Hocker holen?",
+      "es": "\u00bfPuedes traer el taburete?"
+    }
+  ],
+  "Frosch": [
+    {
+      "de": "Der Frosch quakt im Teich.",
+      "es": "La rana croa en el estanque."
+    },
+    {
+      "de": "Ich habe einen kleinen Frosch im Garten gefunden.",
+      "es": "He encontrado una rana peque\u00f1a en el jard\u00edn."
+    },
+    {
+      "de": "Hast du schon einen Frosch gek\u00fcsst?",
+      "es": "\u00bfHas besado ya a una rana?"
+    }
+  ],
+  "F\u00f6n": [
+    {
+      "de": "Der F\u00f6n ist zu hei\u00df.",
+      "es": "El secador est\u00e1 demasiado caliente."
+    },
+    {
+      "de": "Ich habe meine Haare mit dem F\u00f6n getrocknet.",
+      "es": "Me he secado el pelo con el secador."
+    },
+    {
+      "de": "Kannst du mir deinen F\u00f6n leihen?",
+      "es": "\u00bfPuedes prestarme tu secador?"
+    }
+  ],
+  "Wetterbericht": [
+    {
+      "de": "Der Wetterbericht hat Regen angesagt.",
+      "es": "El parte meteorol\u00f3gico ha anunciado lluvia."
+    },
+    {
+      "de": "Ich habe den Wetterbericht im Radio geh\u00f6rt.",
+      "es": "He o\u00eddo el parte meteorol\u00f3gico en la radio."
+    },
+    {
+      "de": "Schaltest du morgens den Wetterbericht ein?",
+      "es": "\u00bfEnciendes el parte meteorol\u00f3gico por la ma\u00f1ana?"
+    }
+  ],
+  "el libro": [
+    {
+      "de": "\"el libro\" ist ein spanisches Wort.",
+      "es": "\"el libro\" es una palabra espa\u00f1ola."
+    },
+    {
+      "de": "Auf Deutsch hei\u00dft \"el libro\" das Buch.",
+      "es": "En alem\u00e1n \"el libro\" significa el libro."
+    },
+    {
+      "de": "Hast du das Wort \"Buch\" schon gelernt?",
+      "es": "\u00bfHas aprendido ya la palabra \"Buch\"?"
+    }
+  ],
+  "das Schloss": [
+    {
+      "de": "Das Schloss steht auf einem H\u00fcgel.",
+      "es": "El castillo est\u00e1 en una colina."
+    },
+    {
+      "de": "Wir haben ein altes Schloss besichtigt.",
+      "es": "Hemos visitado un castillo antiguo."
+    },
+    {
+      "de": "Warst du schon auf einem Schloss?",
+      "es": "\u00bfHas estado ya en un castillo?"
+    }
+  ],
+  "Faden": [
+    {
+      "de": "Der Faden ist zu kurz.",
+      "es": "El hilo es demasiado corto."
+    },
+    {
+      "de": "Oma hat den Faden durch die Nadel gezogen.",
+      "es": "La abuela ha pasado el hilo por la aguja."
+    },
+    {
+      "de": "Hast du einen roten Faden?",
+      "es": "\u00bfTienes un hilo rojo?"
+    }
+  ],
+  "eigen": [
+    {
+      "de": "Ich habe mein eigenes Zimmer.",
+      "es": "Tengo mi propia habitaci\u00f3n."
+    },
+    {
+      "de": "Er hat eine eigene Firma gegr\u00fcndet.",
+      "es": "\u00c9l ha fundado su propia empresa."
+    },
+    {
+      "de": "Hast du einen eigenen Computer?",
+      "es": "\u00bfTienes un ordenador propio?"
+    }
+  ],
+  "anpassen": [
+    {
+      "de": "Du musst die Einstellungen anpassen.",
+      "es": "Tienes que adaptar los ajustes."
+    },
+    {
+      "de": "Die Software wurde an das neue System angepasst.",
+      "es": "El software ha sido adaptado al nuevo sistema."
+    },
+    {
+      "de": "Passt du deinen Plan dem Wetter an?",
+      "es": "\u00bfAdaptas tu plan al tiempo?"
+    }
+  ],
+  "Ferse": [
+    {
+      "de": "Meine Ferse tut weh.",
+      "es": "Me duele el tal\u00f3n."
+    },
+    {
+      "de": "Ich habe mir die Ferse an einer Kante gesto\u00dfen.",
+      "es": "Me he golpeado el tal\u00f3n con un borde."
+    },
+    {
+      "de": "Hast du eine Blase an der Ferse?",
+      "es": "\u00bfTienes una ampolla en el tal\u00f3n?"
+    }
+  ],
+  "falsch": [
+    {
+      "de": "Die Antwort ist falsch.",
+      "es": "La respuesta es incorrecta."
+    },
+    {
+      "de": "Er hat die falsche T\u00fcr genommen.",
+      "es": "\u00c9l ha tomado la puerta equivocada."
+    },
+    {
+      "de": "Habe ich etwas falsch gemacht?",
+      "es": "\u00bfHe hecho algo mal?"
+    }
+  ],
+  "Tischler": [
+    {
+      "de": "Der Tischler fertigt M\u00f6bel an.",
+      "es": "El carpintero fabrica muebles."
+    },
+    {
+      "de": "Mein Onkel hat als Tischler gearbeitet.",
+      "es": "Mi t\u00edo ha trabajado como carpintero."
+    },
+    {
+      "de": "Kennst du einen guten Tischler?",
+      "es": "\u00bfConoces a un buen carpintero?"
+    }
+  ],
+  "Papierkorb": [
+    {
+      "de": "Der Papierkorb ist voll.",
+      "es": "La papelera est\u00e1 llena."
+    },
+    {
+      "de": "Ich habe die Notiz in den Papierkorb geworfen.",
+      "es": "He tirado la nota a la papelera."
+    },
+    {
+      "de": "Kannst du den Papierkorb leeren?",
+      "es": "\u00bfPuedes vaciar la papelera?"
+    }
+  ],
+  "die Schokolade": [
+    {
+      "de": "Die Schokolade ist zartschmelzend.",
+      "es": "El chocolate se deshace suavemente."
+    },
+    {
+      "de": "Oma hat mir eine Tafel Schokolade geschenkt.",
+      "es": "La abuela me ha regalado una tableta de chocolate."
+    },
+    {
+      "de": "Magst du wei\u00dfe Schokolade?",
+      "es": "\u00bfTe gusta el chocolate blanco?"
+    }
+  ],
+  "Pass": [
+    {
+      "de": "Der Pass ist noch g\u00fcltig.",
+      "es": "El pasaporte a\u00fan es v\u00e1lido."
+    },
+    {
+      "de": "Ich habe meinen Pass im Hotel gelassen.",
+      "es": "He dejado mi pasaporte en el hotel."
+    },
+    {
+      "de": "Hast du deinen Pass dabei?",
+      "es": "\u00bfLlevas tu pasaporte?"
+    }
+  ],
+  "Hagel": [
+    {
+      "de": "Der Hagel hat die Pflanzen zerst\u00f6rt.",
+      "es": "El granizo ha destrozado las plantas."
+    },
+    {
+      "de": "Gestern hat es stark gehagelt.",
+      "es": "Ayer ha granizado fuerte."
+    },
+    {
+      "de": "Hast du schon einmal Hagel gesehen?",
+      "es": "\u00bfHas visto ya alguna vez granizo?"
+    }
+  ],
+  "das Ferienhaus": [
+    {
+      "de": "Das Ferienhaus liegt direkt am Strand.",
+      "es": "La casa de vacaciones est\u00e1 justo en la playa."
+    },
+    {
+      "de": "Wir haben das Ferienhaus f\u00fcr zwei Wochen gemietet.",
+      "es": "Hemos alquilado la casa de vacaciones por dos semanas."
+    },
+    {
+      "de": "Hast du ein Ferienhaus in den Bergen?",
+      "es": "\u00bfTienes una casa de vacaciones en las monta\u00f1as?"
+    }
+  ],
+  "Kleidung": [
+    {
+      "de": "Die Kleidung ist f\u00fcr den Winter geeignet.",
+      "es": "La ropa es adecuada para el invierno."
+    },
+    {
+      "de": "Ich habe die Kleidung in den Schrank einger\u00e4umt.",
+      "es": "He colocado la ropa en el armario."
+    },
+    {
+      "de": "Kaufst du deine Kleidung im Internet?",
+      "es": "\u00bfCompras tu ropa por internet?"
+    }
+  ],
+  "Rabe": [
+    {
+      "de": "Der Rabe kr\u00e4chzt auf dem Dach.",
+      "es": "El cuervo grazna en el tejado."
+    },
+    {
+      "de": "Ein Rabe hat den K\u00e4se vom Tisch gestohlen.",
+      "es": "Un cuervo ha robado el queso de la mesa."
+    },
+    {
+      "de": "Siehst du den Raben im Baum?",
+      "es": "\u00bfVes el cuervo en el \u00e1rbol?"
+    }
+  ],
+  "der Apfelsaft": [
+    {
+      "de": "Der Apfelsaft ist naturtr\u00fcb.",
+      "es": "El zumo de manzana es naturalmente turbio."
+    },
+    {
+      "de": "Zum Fr\u00fchst\u00fcck habe ich Apfelsaft getrunken.",
+      "es": "En el desayuno he bebido zumo de manzana."
+    },
+    {
+      "de": "M\u00f6chtest du einen Apfelsaft?",
+      "es": "\u00bfQuieres un zumo de manzana?"
+    }
+  ],
+  "Bademantel": [
+    {
+      "de": "Mein Bademantel ist flauschig.",
+      "es": "Mi bata es esponjosa."
+    },
+    {
+      "de": "Nach dem Duschen habe ich den Bademantel angezogen.",
+      "es": "Despu\u00e9s de ducharme me he puesto la bata."
+    },
+    {
+      "de": "Hast du deinen Bademantel dabei?",
+      "es": "\u00bfLlevas tu bata?"
+    }
+  ],
+  "Rucksack": [
+    {
+      "de": "Der Rucksack ist wasserdicht.",
+      "es": "La mochila es impermeable."
+    },
+    {
+      "de": "Ich habe den Rucksack f\u00fcr die Wanderung gepackt.",
+      "es": "He preparado la mochila para la caminata."
+    },
+    {
+      "de": "Tr\u00e4gst du deinen Rucksack gern?",
+      "es": "\u00bfTe gusta llevar tu mochila?"
+    }
+  ],
+  "hinweisen": [
+    {
+      "de": "Der Lehrer muss auf die Regeln hinweisen.",
+      "es": "El profesor tiene que se\u00f1alar las normas."
+    },
+    {
+      "de": "Er hat auf den Fehler im Plan hingewiesen.",
+      "es": "\u00c9l ha se\u00f1alado el error en el plan."
+    },
+    {
+      "de": "Weist du auf das Problem hin?",
+      "es": "\u00bfSe\u00f1alas el problema?"
+    }
+  ],
+  "die Br\u00fccke": [
+    {
+      "de": "Die Br\u00fccke ist sehr alt.",
+      "es": "El puente es muy antiguo."
+    },
+    {
+      "de": "Wir sind \u00fcber die Br\u00fccke gegangen.",
+      "es": "Hemos cruzado el puente."
+    },
+    {
+      "de": "F\u00fchrt diese Br\u00fccke zum Schloss?",
+      "es": "\u00bfConduce este puente al castillo?"
+    }
+  ],
+  "Eidechse": [
+    {
+      "de": "Die Eidechse sonnt sich auf dem Stein.",
+      "es": "La lagartija se est\u00e1 tomando el sol sobre la piedra."
+    },
+    {
+      "de": "Ich habe eine gr\u00fcne Eidechse im Garten entdeckt.",
+      "es": "He descubierto una lagartija verde en el jard\u00edn."
+    },
+    {
+      "de": "Hast du schon eine Eidechse auf der Hand gehalten?",
+      "es": "\u00bfHas tenido ya una lagartija en la mano?"
+    }
+  ],
+  "Jacke": [
+    {
+      "de": "Die Jacke ist mir zu gro\u00df.",
+      "es": "La chaqueta me queda demasiado grande."
+    },
+    {
+      "de": "Ich habe die Jacke im Schaufenster gesehen.",
+      "es": "He visto la chaqueta en el escaparate."
+    },
+    {
+      "de": "Ziehst du eine Jacke an? Es ist kalt.",
+      "es": "\u00bfTe pones una chaqueta? Hace fr\u00edo."
+    }
+  ],
+  "streben": [
+    {
+      "de": "Wir streben nach einem besseren Leben.",
+      "es": "Nos esforzamos por una vida mejor."
+    },
+    {
+      "de": "Er hat immer nach Erfolg gestrebt.",
+      "es": "\u00c9l siempre se ha esforzado por el \u00e9xito."
+    },
+    {
+      "de": "Strebt ihr nach mehr Gerechtigkeit?",
+      "es": "\u00bfOs esforz\u00e1is por m\u00e1s justicia?"
+    }
+  ],
+  "Pizza": [
+    {
+      "de": "Die Pizza ist noch hei\u00df.",
+      "es": "La pizza est\u00e1 a\u00fan caliente."
+    },
+    {
+      "de": "Gestern haben wir Pizza mit Salami bestellt.",
+      "es": "Ayer hemos pedido pizza con salami."
+    },
+    {
+      "de": "Isst du deine Pizza gern mit extra K\u00e4se?",
+      "es": "\u00bfTe gusta tu pizza con queso extra?"
+    }
+  ],
+  "Betonung": [
+    {
+      "de": "Die Betonung liegt auf der ersten Silbe.",
+      "es": "El \u00e9nfasis recae en la primera s\u00edlaba."
+    },
+    {
+      "de": "Der Lehrer hat die richtige Betonung erkl\u00e4rt.",
+      "es": "El profesor ha explicado la acentuaci\u00f3n correcta."
+    },
+    {
+      "de": "\u00c4nderst du die Betonung bei diesem Wort?",
+      "es": "\u00bfCambias el \u00e9nfasis en esta palabra?"
+    }
+  ],
+  "stimmen": [
+    {
+      "de": "Deine Antwort stimmt.",
+      "es": "Tu respuesta es correcta."
+    },
+    {
+      "de": "Das hat mit meiner Meinung \u00fcbereingestimmt.",
+      "es": "Eso ha coincidido con mi opini\u00f3n."
+    },
+    {
+      "de": "Stimmt es, dass du umziehst?",
+      "es": "\u00bfEs cierto que te mudas?"
+    }
+  ],
+  "K\u00fcbel": [
+    {
+      "de": "Der K\u00fcbel ist aus Plastik.",
+      "es": "La cubeta es de pl\u00e1stico."
+    },
+    {
+      "de": "Ich habe den K\u00fcbel mit Wasser gef\u00fcllt.",
+      "es": "He llenado la cubeta con agua."
+    },
+    {
+      "de": "Kannst du den K\u00fcbel in den Keller bringen?",
+      "es": "\u00bfPuedes llevar la cubeta al s\u00f3tano?"
+    }
+  ],
+  "aussteigen": [
+    {
+      "de": "Wir m\u00fcssen an der n\u00e4chsten Haltestelle aussteigen.",
+      "es": "Tenemos que bajarnos en la pr\u00f3xima parada."
+    },
+    {
+      "de": "Er ist aus dem Bus ausgestiegen.",
+      "es": "\u00c9l se ha bajado del autob\u00fas."
+    },
+    {
+      "de": "Steigst du am Marktplatz aus?",
+      "es": "\u00bfTe bajas en la plaza del mercado?"
+    }
+  ],
+  "der Schal": [
+    {
+      "de": "Der Schal kratzt am Hals.",
+      "es": "La bufanda pica en el cuello."
+    },
+    {
+      "de": "Oma hat mir einen warmen Schal gestrickt.",
+      "es": "La abuela me ha tejido una bufanda caliente."
+    },
+    {
+      "de": "Tr\u00e4gst du den Schal auch drinnen?",
+      "es": "\u00bfLlevas la bufanda tambi\u00e9n dentro de casa?"
+    }
+  ],
+  "sich baden": [
+    {
+      "de": "Ich will mich nach der Arbeit baden.",
+      "es": "Quiero ba\u00f1arme despu\u00e9s del trabajo."
+    },
+    {
+      "de": "Die Kinder haben sich im See gebadet.",
+      "es": "Los ni\u00f1os se han ba\u00f1ado en el lago."
+    },
+    {
+      "de": "Badest du dich jeden Abend?",
+      "es": "\u00bfTe ba\u00f1as cada noche?"
+    }
+  ],
+  "Sonnencreme": [
+    {
+      "de": "Die Sonnencreme sch\u00fctzt vor Hautkrebs.",
+      "es": "La crema solar protege del c\u00e1ncer de piel."
+    },
+    {
+      "de": "Ich habe Sonnencreme mit Lichtschutzfaktor 50 gekauft.",
+      "es": "He comprado crema solar con factor 50."
+    },
+    {
+      "de": "Cremst du dich vor dem Strandbesuch ein?",
+      "es": "\u00bfTe pones crema antes de ir a la playa?"
+    }
+  ],
+  "die Zahnb\u00fcrste": [
+    {
+      "de": "Die Zahnb\u00fcrste ist weich.",
+      "es": "El cepillo de dientes es blando."
+    },
+    {
+      "de": "Ich habe eine neue Zahnb\u00fcrste gekauft.",
+      "es": "He comprado un cepillo de dientes nuevo."
+    },
+    {
+      "de": "Wechselst du deine Zahnb\u00fcrste alle drei Monate?",
+      "es": "\u00bfCambias tu cepillo de dientes cada tres meses?"
+    }
+  ],
+  "Krankheitstag": [
+    {
+      "de": "Der Krankheitstag wird bezahlt.",
+      "es": "El d\u00eda de enfermedad se paga."
+    },
+    {
+      "de": "Er hat einen Krankheitstag eingereicht.",
+      "es": "\u00c9l ha presentado un d\u00eda de enfermedad."
+    },
+    {
+      "de": "Nimmst du einen Krankheitstag, wenn du dich schlecht f\u00fchlst?",
+      "es": "\u00bfTomas un d\u00eda de enfermedad cuando te sientes mal?"
+    }
+  ],
+  "Sonderangebot": [
+    {
+      "de": "Das Sonderangebot gilt nur heute.",
+      "es": "La oferta especial solo es v\u00e1lida hoy."
+    },
+    {
+      "de": "Ich habe das Sonderangebot im Prospekt gefunden.",
+      "es": "He encontrado la oferta especial en el folleto."
+    },
+    {
+      "de": "Kaufst du gern Sonderangebote?",
+      "es": "\u00bfTe gusta comprar ofertas especiales?"
+    }
+  ],
+  "Flur": [
+    {
+      "de": "Der Flur ist lang und eng.",
+      "es": "El pasillo es largo y estrecho."
+    },
+    {
+      "de": "Ich habe die Schuhe im Flur abgestellt.",
+      "es": "He dejado los zapatos en el pasillo."
+    },
+    {
+      "de": "H\u00e4ngt der Spiegel im Flur?",
+      "es": "\u00bfCuelga el espejo en el pasillo?"
+    }
+  ],
+  "Ziege": [
+    {
+      "de": "Die Ziege meckert auf der Weide.",
+      "es": "La cabra bala en el prado."
+    },
+    {
+      "de": "Der Bauer hat die Ziege gef\u00fcttert.",
+      "es": "El granjero ha dado de comer a la cabra."
+    },
+    {
+      "de": "Hast du schon Ziegenk\u00e4se probiert?",
+      "es": "\u00bfHas probado ya el queso de cabra?"
+    }
+  ],
+  "abholen": [
+    {
+      "de": "Ich muss die Kinder von der Schule abholen.",
+      "es": "Tengo que recoger a los ni\u00f1os de la escuela."
+    },
+    {
+      "de": "Er hat das Paket bei der Post abgeholt.",
+      "es": "\u00c9l ha recogido el paquete en correos."
+    },
+    {
+      "de": "Holst du mich vom Bahnhof ab?",
+      "es": "\u00bfMe recoges en la estaci\u00f3n?"
+    }
+  ],
+  "Dr\u00fcse": [
+    {
+      "de": "Die Dr\u00fcse produziert Hormone.",
+      "es": "La gl\u00e1ndula produce hormonas."
+    },
+    {
+      "de": "Der Arzt hat meine Dr\u00fcsen untersucht.",
+      "es": "El m\u00e9dico me ha examinado las gl\u00e1ndulas."
+    },
+    {
+      "de": "Sind deine Dr\u00fcsen geschwollen?",
+      "es": "\u00bfEst\u00e1n inflamadas tus gl\u00e1ndulas?"
+    }
+  ],
+  "Tag": [
+    {
+      "de": "Der Tag war wundersch\u00f6n.",
+      "es": "El d\u00eda fue maravilloso."
+    },
+    {
+      "de": "Ich habe den ganzen Tag im B\u00fcro verbracht.",
+      "es": "He pasado todo el d\u00eda en la oficina."
+    },
+    {
+      "de": "Welcher Tag ist heute?",
+      "es": "\u00bfQu\u00e9 d\u00eda es hoy?"
+    }
+  ],
+  "der Hirsch": [
+    {
+      "de": "Der Hirsch r\u00f6hrt in der Brunftzeit.",
+      "es": "El ciervo berrea en la \u00e9poca de celo."
+    },
+    {
+      "de": "Wir haben einen Hirsch mit gro\u00dfem Geweih gesehen.",
+      "es": "Hemos visto un ciervo con una gran cornamenta."
+    },
+    {
+      "de": "Lebt der Hirsch in diesem Wald?",
+      "es": "\u00bfVive el ciervo en este bosque?"
+    }
+  ],
+  "erziehen": [
+    {
+      "de": "Eltern m\u00fcssen ihre Kinder erziehen.",
+      "es": "Los padres tienen que educar a sus hijos."
+    },
+    {
+      "de": "Sie hat ihre Kinder streng erzogen.",
+      "es": "Ella ha educado a sus hijos de manera estricta."
+    },
+    {
+      "de": "Erziehst du deinen Hund selbst?",
+      "es": "\u00bfEducas a tu perro t\u00fa mismo?"
+    }
+  ],
+  "der Fisch": [
+    {
+      "de": "Der Fisch ist heute besonders frisch.",
+      "es": "El pescado est\u00e1 hoy especialmente fresco."
+    },
+    {
+      "de": "Ich habe den Fisch auf dem Markt gekauft.",
+      "es": "He comprado el pescado en el mercado."
+    },
+    {
+      "de": "Bratest du den Fisch oder kochst du ihn?",
+      "es": "\u00bfFr\u00edes el pescado o lo cueces?"
+    }
+  ],
+  "Hose": [
+    {
+      "de": "Die Hose sitzt perfekt.",
+      "es": "El pantal\u00f3n queda perfecto."
+    },
+    {
+      "de": "Er hat eine neue Hose f\u00fcr das Vorstellungsgespr\u00e4ch gekauft.",
+      "es": "\u00c9l ha comprado un pantal\u00f3n nuevo para la entrevista."
+    },
+    {
+      "de": "B\u00fcgelst du deine Hose selbst?",
+      "es": "\u00bfPlanchas tu pantal\u00f3n t\u00fa mismo?"
+    }
+  ],
+  "Schuh": [
+    {
+      "de": "Der Schuh dr\u00fcckt an der Ferse.",
+      "es": "El zapato aprieta en el tal\u00f3n."
+    },
+    {
+      "de": "Ich habe die Schuhe im Internet bestellt.",
+      "es": "He pedido los zapatos por internet."
+    },
+    {
+      "de": "Putzt du deine Schuhe jeden Sonntag?",
+      "es": "\u00bfLimpias tus zapatos todos los domingos?"
+    }
+  ],
+  "die Limonade": [
+    {
+      "de": "Die Limonade ist selbst gemacht.",
+      "es": "La limonada es casera."
+    },
+    {
+      "de": "An hei\u00dfen Tagen habe ich Limonade getrunken.",
+      "es": "En los d\u00edas calurosos he bebido limonada."
+    },
+    {
+      "de": "Magst du Limonade mit Minze?",
+      "es": "\u00bfTe gusta la limonada con menta?"
+    }
+  ],
+  "hinsetzen": [
+    {
+      "de": "Du sollst das Baby vorsichtig hinsetzen.",
+      "es": "Debes sentar al beb\u00e9 con cuidado."
+    },
+    {
+      "de": "Ich habe mich auf die Bank hingesetzt.",
+      "es": "Me he sentado en el banco."
+    },
+    {
+      "de": "Setzt du dich gern ans Fenster?",
+      "es": "\u00bfTe gusta sentarte junto a la ventana?"
+    }
+  ],
+  "Theater": [
+    {
+      "de": "Das Theater ist heute ausverkauft.",
+      "es": "El teatro est\u00e1 hoy agotado."
+    },
+    {
+      "de": "Wir haben ein tolles St\u00fcck im Theater gesehen.",
+      "es": "Hemos visto una obra estupenda en el teatro."
+    },
+    {
+      "de": "Gehst du gern ins Theater?",
+      "es": "\u00bfTe gusta ir al teatro?"
+    }
+  ],
+  "Museum": [
+    {
+      "de": "Das Museum hat sonntags ge\u00f6ffnet.",
+      "es": "El museo abre los domingos."
+    },
+    {
+      "de": "Ich habe mir die neue Ausstellung im Museum angeschaut.",
+      "es": "He visto la nueva exposici\u00f3n en el museo."
+    },
+    {
+      "de": "Interessierst du dich f\u00fccr moderne Kunst im Museum?",
+      "es": "\u00bfTe interesa el arte moderno en el museo?"
+    }
+  ],
+  "dunkel": [
+    {
+      "de": "Der Keller ist sehr dunkel.",
+      "es": "El s\u00f3tano est\u00e1 muy oscuro."
+    },
+    {
+      "de": "Im Winter wird es fr\u00fch dunkel.",
+      "es": "En invierno oscurece pronto."
+    },
+    {
+      "de": "Hast du Angst im Dunkeln?",
+      "es": "\u00bfTienes miedo en la oscuridad?"
+    }
+  ],
+  "gegen": [
+    {
+      "de": "Ich bin gegen diese Entscheidung.",
+      "es": "Estoy en contra de esta decisi\u00f3n."
+    },
+    {
+      "de": "Er hat sich gegen die Wand gelehnt.",
+      "es": "\u00c9l se ha apoyado contra la pared."
+    },
+    {
+      "de": "Spielst du gegen uns?",
+      "es": "\u00bfJuegas contra nosotros?"
+    }
+  ],
+  "K\u00fcrbis": [
+    {
+      "de": "Der K\u00fcrbis wiegt f\u00fcnf Kilo.",
+      "es": "La calabaza pesa cinco kilos."
+    },
+    {
+      "de": "Zu Halloween haben wir einen K\u00fcrbis geschnitzt.",
+      "es": "En Halloween hemos tallado una calabaza."
+    },
+    {
+      "de": "Kochst du gern K\u00fcrbissuppe?",
+      "es": "\u00bfTe gusta cocinar sopa de calabaza?"
+    }
+  ],
+  "Treppe": [
+    {
+      "de": "Die Treppe knarrt beim Steigen.",
+      "es": "La escalera cruje al subir."
+    },
+    {
+      "de": "Oma ist die Treppe langsam hinaufgestiegen.",
+      "es": "La abuela ha subido la escalera lentamente."
+    },
+    {
+      "de": "Nimmst du die Treppe oder den Aufzug?",
+      "es": "\u00bfTomas la escalera o el ascensor?"
+    }
+  ],
+  "die Eins": [
+    {
+      "de": "Die Eins ist die beste Note.",
+      "es": "El uno es la mejor nota."
+    },
+    {
+      "de": "Ich habe eine Eins in Mathe geschrieben.",
+      "es": "He sacado un uno en matem\u00e1ticas."
+    },
+    {
+      "de": "Hast du schon eine Eins bekommen?",
+      "es": "\u00bfHas obtenido ya un uno?"
+    }
+  ],
+  "der Elefant": [
+    {
+      "de": "Der Elefant hat einen langen R\u00fcssel.",
+      "es": "El elefante tiene una trompa larga."
+    },
+    {
+      "de": "Im Zoo haben wir einen Elefanten gef\u00fcttert.",
+      "es": "En el zoo hemos dado de comer a un elefante."
+    },
+    {
+      "de": "Kann ein Elefant wirklich so schwer tragen?",
+      "es": "\u00bfPuede un elefante cargar realmente tanto peso?"
+    }
+  ],
+  "vollenden": [
+    {
+      "de": "Wir m\u00fcssen das Projekt vollenden.",
+      "es": "Tenemos que completar el proyecto."
+    },
+    {
+      "de": "Der K\u00fcnstler hat sein Werk vollendet.",
+      "es": "El artista ha completado su obra."
+    },
+    {
+      "de": "Wann wirst du dein Studium vollenden?",
+      "es": "\u00bfCu\u00e1ndo completar\u00e1s tu carrera?"
+    }
+  ],
+  "der Nebel": [
+    {
+      "de": "Der Nebel ist heute sehr dicht.",
+      "es": "La niebla est\u00e1 hoy muy densa."
+    },
+    {
+      "de": "Im Herbst hat der Nebel die Sicht versperrt.",
+      "es": "En oto\u00f1o la niebla ha bloqueado la visibilidad."
+    },
+    {
+      "de": "F\u00e4hrst du vorsichtig bei Nebel?",
+      "es": "\u00bfConduces con cuidado cuando hay niebla?"
+    }
+  ],
+  "Sohle": [
+    {
+      "de": "Die Sohle ist abgelaufen.",
+      "es": "La suela est\u00e1 gastada."
+    },
+    {
+      "de": "Ich habe die Sohlen beim Schuster erneuern lassen.",
+      "es": "He mandado renovar las suelas al zapatero."
+    },
+    {
+      "de": "Hast du L\u00f6cher in den Sohlen?",
+      "es": "\u00bfTienes agujeros en las suelas?"
+    }
+  ],
+  "Termin": [
+    {
+      "de": "Mein Termin ist um halb drei.",
+      "es": "Mi cita es a las dos y media."
+    },
+    {
+      "de": "Ich habe den Termin beim Arzt verpasst.",
+      "es": "He perdido la cita con el m\u00e9dico."
+    },
+    {
+      "de": "Hast du morgen einen Termin?",
+      "es": "\u00bfTienes cita ma\u00f1ana?"
+    }
+  ],
+  "Besuch": [
+    {
+      "de": "Der Besuch war sehr angenehm.",
+      "es": "La visita fue muy agradable."
+    },
+    {
+      "de": "Wir haben gestern Besuch von Oma bekommen.",
+      "es": "Ayer recibimos la visita de la abuela."
+    },
+    {
+      "de": "Erwartest du Besuch?",
+      "es": "\u00bfEsperas visita?"
+    }
+  ],
+  "der Frosch": [
+    {
+      "de": "Der Frosch h\u00fcpft \u00fcber den Weg.",
+      "es": "La rana salta por el camino."
+    },
+    {
+      "de": "Im Teich haben wir viele Fr\u00f6sche geh\u00f6rt.",
+      "es": "En el estanque hemos o\u00eddo muchas ranas."
+    },
+    {
+      "de": "Hast du schon einen Frosch gefangen?",
+      "es": "\u00bfHas atrapado ya una rana?"
+    }
+  ],
+  "der Bahnhof": [
+    {
+      "de": "Der Bahnhof wird gerade renoviert.",
+      "es": "La estaci\u00f3n est\u00e1 siendo renovada."
+    },
+    {
+      "de": "Ich habe dich am Bahnhof verpasst.",
+      "es": "Te he perdido en la estaci\u00f3n."
+    },
+    {
+      "de": "Kommst du mit dem Zug am Bahnhof an?",
+      "es": "\u00bfLlegas en tren a la estaci\u00f3n?"
+    }
+  ],
+  "Abteilungsleiter": [
+    {
+      "de": "Der Abteilungsleiter ist f\u00fcr das Team verantwortlich.",
+      "es": "El jefe de departamento es responsable del equipo."
+    },
+    {
+      "de": "Ich habe ein Gespr\u00e4ch mit dem Abteilungsleiter gef\u00fchrt.",
+      "es": "He tenido una conversaci\u00f3n con el jefe de departamento."
+    },
+    {
+      "de": "Hast du den Abteilungsleiter schon kennengelernt?",
+      "es": "\u00bfYa has conocido al jefe de departamento?"
+    }
+  ],
+  "verwirren": [
+    {
+      "de": "Die vielen Schilder verwirren mich.",
+      "es": "Las muchas se\u00f1ales me confunden."
+    },
+    {
+      "de": "Die pl\u00f6tzliche Frage hat ihn verwirrt.",
+      "es": "La pregunta repentina lo ha confundido."
+    },
+    {
+      "de": "Verwirrt dich die Aufgabe?",
+      "es": "\u00bfTe confunde la tarea?"
+    }
+  ],
+  "die M\u00fctze": [
+    {
+      "de": "Die M\u00fctze sitzt schief.",
+      "es": "El gorro est\u00e1 torcido."
+    },
+    {
+      "de": "Ich habe eine warme M\u00fctze f\u00fcr den Winter gestrickt.",
+      "es": "He tejido un gorro caliente para el invierno."
+    },
+    {
+      "de": "Setzt du deine M\u00fctze bei K\u00e4lte auf?",
+      "es": "\u00bfTe pones el gorro cuando hace fr\u00edo?"
+    }
+  ],
+  "die Drei": [
+    {
+      "de": "Die Drei ist eine Primzahl.",
+      "es": "El tres es un n\u00famero primo."
+    },
+    {
+      "de": "Ich habe eine Drei in der Klassenarbeit geschrieben.",
+      "es": "He sacado un tres en el examen de clase."
+    },
+    {
+      "de": "Ist die Drei deine Gl\u00fcckszahl?",
+      "es": "\u00bfEs el tres tu n\u00famero de la suerte?"
+    }
+  ],
+  "leer": [
+    {
+      "de": "Die Flasche ist leer.",
+      "es": "La botella est\u00e1 vac\u00eda."
+    },
+    {
+      "de": "Der Parkplatz war heute Morgen leer.",
+      "es": "El aparcamiento estaba vac\u00edo esta ma\u00f1ana."
+    },
+    {
+      "de": "Ist dein Glas schon leer?",
+      "es": "\u00bfEst\u00e1 ya vac\u00edo tu vaso?"
+    }
+  ],
+  "voll": [
+    {
+      "de": "Der Bus ist heute sehr voll.",
+      "es": "El autob\u00fas est\u00e1 hoy muy lleno."
+    },
+    {
+      "de": "Ich habe den Tank voll gemacht.",
+      "es": "He llenado el dep\u00f3sito."
+    },
+    {
+      "de": "Ist die Waschmaschine schon voll?",
+      "es": "\u00bfEst\u00e1 ya llena la lavadora?"
+    }
+  ],
+  "die Schlange": [
+    {
+      "de": "Die Schlange ist harmlos.",
+      "es": "La serpiente es inofensiva."
+    },
+    {
+      "de": "Wir haben eine Schlange im Zoo gesehen.",
+      "es": "Hemos visto una serpiente en el zoo."
+    },
+    {
+      "de": "Hast du Angst vor einer Schlange?",
+      "es": "\u00bfTienes miedo a una serpiente?"
+    }
+  ],
+  "die Orange": [
+    {
+      "de": "Die Orange schmeckt s\u00fc\u00df.",
+      "es": "La naranja sabe dulce."
+    },
+    {
+      "de": "Ich habe mir eine Orange gesch\u00e4lt.",
+      "es": "Me he pelado una naranja."
+    },
+    {
+      "de": "Magst du Orangen zum Fr\u00fchst\u00fcck?",
+      "es": "\u00bfTe gustan las naranjas para el desayuno?"
+    }
+  ],
+  "wegr\u00e4umen": [
+    {
+      "de": "Ich muss die B\u00fccher wegr\u00e4umen.",
+      "es": "Tengo que guardar los libros."
+    },
+    {
+      "de": "Er hat das Spielzeug wegger\u00e4umt.",
+      "es": "\u00c9l ha guardado el juguete."
+    },
+    {
+      "de": "R\u00e4umst du die Teller weg?",
+      "es": "\u00bfGuardas los platos?"
+    }
+  ],
+  "betr\u00fcgen": [
+    {
+      "de": "Du darfst deine Freunde nicht betr\u00fcgen.",
+      "es": "No debes enga\u00f1ar a tus amigos."
+    },
+    {
+      "de": "Er hat mich um zehn Euro betr\u00fcgt.",
+      "es": "\u00c9l me ha enga\u00f1ado con diez euros."
+    },
+    {
+      "de": "Betr\u00fcgst du beim Spiel?",
+      "es": "\u00bfEnga\u00f1as en el juego?"
+    }
+  ],
+  "Zucker": [
+    {
+      "de": "Der Zucker ist im Schrank.",
+      "es": "El az\u00facar est\u00e1 en el armario."
+    },
+    {
+      "de": "Ich habe zwei L\u00f6ffel Zucker in den Tee getan.",
+      "es": "He puesto dos cucharadas de az\u00facar en el t\u00e9."
+    },
+    {
+      "de": "Nimmst du Zucker in den Kaffee?",
+      "es": "\u00bfTomas az\u00facar en el caf\u00e9?"
+    }
+  ],
+  "Salz": [
+    {
+      "de": "Das Salz ist auf dem Tisch.",
+      "es": "La sal est\u00e1 en la mesa."
+    },
+    {
+      "de": "Hast du das Essen schon gesalzen?",
+      "es": "\u00bfYa has salado la comida?"
+    },
+    {
+      "de": "Kannst du mir das Salz geben?",
+      "es": "\u00bfPuedes pasarme la sal?"
+    }
+  ],
+  "Ank\u00fcndigung": [
+    {
+      "de": "Die Ank\u00fcndigung war \u00fcberraschend.",
+      "es": "El anuncio fue sorprendente."
+    },
+    {
+      "de": "Der Chef hat eine wichtige Ank\u00fcndigung gemacht.",
+      "es": "El jefe ha hecho un anuncio importante."
+    },
+    {
+      "de": "Hast du die Ank\u00fcndigung geh\u00f6rt?",
+      "es": "\u00bfHas o\u00eddo el anuncio?"
+    }
+  ],
+  "der Kaffee": [
+    {
+      "de": "Der Kaffee ist zu stark.",
+      "es": "El caf\u00e9 est\u00e1 demasiado fuerte."
+    },
+    {
+      "de": "Ich habe mir einen Kaffee gemacht.",
+      "es": "Me he preparado un caf\u00e9."
+    },
+    {
+      "de": "M\u00f6chtest du einen Kaffee?",
+      "es": "\u00bfQuieres un caf\u00e9?"
+    }
+  ],
+  "harken": [
+    {
+      "de": "Im Herbst muss man das Laub harken.",
+      "es": "En oto\u00f1o hay que rastrillar la hojarasca."
+    },
+    {
+      "de": "Papa hat den ganzen Vormittag geharkt.",
+      "es": "Pap\u00e1 ha rastrillado toda la ma\u00f1ana."
+    },
+    {
+      "de": "Harkst du die Bl\u00e4tter im Garten?",
+      "es": "\u00bfRastrillas las hojas en el jard\u00edn?"
+    }
+  ],
+  "Waschmaschine": [
+    {
+      "de": "Die Waschmaschine ist defekt.",
+      "es": "La lavadora est\u00e1 averiada."
+    },
+    {
+      "de": "Ich habe die W\u00e4sche in die Waschmaschine gesteckt.",
+      "es": "He metido la ropa en la lavadora."
+    },
+    {
+      "de": "L\u00e4uft die Waschmaschine noch?",
+      "es": "\u00bfEst\u00e1 funcionando todav\u00eda la lavadora?"
+    }
+  ],
+  "B\u00e4r": [
+    {
+      "de": "Der B\u00e4r schl\u00e4ft im Winter.",
+      "es": "El oso duerme en invierno."
+    },
+    {
+      "de": "Wir haben einen B\u00e4ren im Wald gesehen.",
+      "es": "Hemos visto un oso en el bosque."
+    },
+    {
+      "de": "Hast du Angst vor B\u00e4ren?",
+      "es": "\u00bfTienes miedo a los osos?"
+    }
+  ],
+  "verbos": [
+    {
+      "de": "\"verbos\" ist ein spanisches Wort.",
+      "es": "\"verbos\" es una palabra espa\u00f1ola."
+    },
+    {
+      "de": "Auf Deutsch hei\u00dft \"verbos\" Verben.",
+      "es": "En alem\u00e1n \"verbos\" significa verbos."
+    },
+    {
+      "de": "Kennst du viele deutsche Verben?",
+      "es": "\u00bfConoces muchos verbos alemanes?"
+    }
+  ],
+  "Badehose": [
+    {
+      "de": "Meine Badehose ist zu eng.",
+      "es": "Mi ba\u00f1ador est\u00e1 demasiado ajustado."
+    },
+    {
+      "de": "Ich habe eine neue Badehose f\u00fcr den Urlaub gekauft.",
+      "es": "He comprado un ba\u00f1ador nuevo para las vacaciones."
+    },
+    {
+      "de": "Tr\u00e4gst du die Badehose am Strand?",
+      "es": "\u00bfLlevas el ba\u00f1ador en la playa?"
+    }
+  ],
+  "Garnele": [
+    {
+      "de": "Die Garnele ist rosa.",
+      "es": "La gamba es rosa."
+    },
+    {
+      "de": "Wir haben Garnelen gegrillt.",
+      "es": "Hemos hecho gambas a la parrilla."
+    },
+    {
+      "de": "Magst du Garnelen mit Knoblauch?",
+      "es": "\u00bfTe gustan las gambas al ajillo?"
+    }
+  ],
+  "der Papagei": [
+    {
+      "de": "Der Papagei kann sprechen.",
+      "es": "El loro puede hablar."
+    },
+    {
+      "de": "Oma hat einen bunten Papagei zu Hause.",
+      "es": "La abuela tiene un loro de colores en casa."
+    },
+    {
+      "de": "Hast du schon einen Papagei gef\u00fcttert?",
+      "es": "\u00bfHas dado ya de comer a un loro?"
+    }
+  ],
+  "das Messer": [
+    {
+      "de": "Das Messer ist scharf.",
+      "es": "El cuchillo est\u00e1 afilado."
+    },
+    {
+      "de": "Ich habe das Brot mit dem Messer geschnitten.",
+      "es": "He cortado el pan con el cuchillo."
+    },
+    {
+      "de": "Kannst du mir das Messer geben?",
+      "es": "\u00bfPuedes darme el cuchillo?"
+    }
+  ],
+  "Wiese": [
+    {
+      "de": "Die Wiese ist voller Blumen.",
+      "es": "El prado est\u00e1 lleno de flores."
+    },
+    {
+      "de": "Wir sind \u00fcber die Wiese gelaufen.",
+      "es": "Hemos corrido por el prado."
+    },
+    {
+      "de": "Picknickst du auf der Wiese?",
+      "es": "\u00bfHaces p\u00edcnic en el prado?"
+    }
+  ],
+  "bekannt": [
+    {
+      "de": "Der Schauspieler ist sehr bekannt.",
+      "es": "El actor es muy conocido."
+    },
+    {
+      "de": "Ich habe ihn auf einer Party kennengelernt.",
+      "es": "Lo he conocido en una fiesta."
+    },
+    {
+      "de": "Ist dir diese Melodie bekannt?",
+      "es": "\u00bfTe resulta conocida esta melod\u00eda?"
+    }
+  ],
+  "Topf": [
+    {
+      "de": "Der Topf ist aus Edelstahl.",
+      "es": "La olla es de acero inoxidable."
+    },
+    {
+      "de": "Oma hat die Suppe im Topf gekocht.",
+      "es": "La abuela ha cocinado la sopa en la olla."
+    },
+    {
+      "de": "Hast du einen gro\u00dfen Topf?",
+      "es": "\u00bfTienes una olla grande?"
+    }
+  ],
+  "Pfanne": [
+    {
+      "de": "Die Pfanne ist zu hei\u00df.",
+      "es": "La sart\u00e9n est\u00e1 demasiado caliente."
+    },
+    {
+      "de": "Ich habe Eier in der Pfanne gebraten.",
+      "es": "He frito huevos en la sart\u00e9n."
+    },
+    {
+      "de": "Benutzt du eine beschichtete Pfanne?",
+      "es": "\u00bfUsas una sart\u00e9n antiadherente?"
+    }
+  ],
+  "achtzig": [
+    {
+      "de": "Achtzig ist eine hohe Zahl.",
+      "es": "Ochenta es un n\u00famero alto."
+    },
+    {
+      "de": "Meine Oma ist achtzig Jahre alt geworden.",
+      "es": "Mi abuela ha cumplido ochenta a\u00f1os."
+    },
+    {
+      "de": "Kostet das achtzig Euro?",
+      "es": "\u00bfCuesta eso ochenta euros?"
+    }
+  ],
+  "hungrig": [
+    {
+      "de": "Ich bin heute sehr hungrig.",
+      "es": "Hoy tengo mucha hambre."
+    },
+    {
+      "de": "Er hat hungrig auf das Essen gewartet.",
+      "es": "\u00c9l ha esperado la comida con hambre."
+    },
+    {
+      "de": "Bist du hungrig?",
+      "es": "\u00bfTienes hambre?"
+    }
+  ],
+  "der Ring": [
+    {
+      "de": "Der Ring gl\u00e4nzt im Licht.",
+      "es": "El anillo brilla a la luz."
+    },
+    {
+      "de": "Er hat mir einen Ring geschenkt.",
+      "es": "\u00c9l me ha regalado un anillo."
+    },
+    {
+      "de": "Tr\u00e4gst du deinen Ehering jeden Tag?",
+      "es": "\u00bfLlevas tu alianza todos los d\u00edas?"
+    }
+  ],
+  "schlie\u00dfen": [
+    {
+      "de": "Kannst du das Fenster schlie\u00dfen?",
+      "es": "\u00bfPuedes cerrar la ventana?"
+    },
+    {
+      "de": "Ich habe die T\u00fcr abgeschlossen.",
+      "es": "He cerrado la puerta con llave."
+    },
+    {
+      "de": "Schlie\u00dft der Laden um acht?",
+      "es": "\u00bfCierra la tienda a las ocho?"
+    }
+  ],
+  "anfangen": [
+    {
+      "de": "Wann soll ich mit der Arbeit anfangen?",
+      "es": "\u00bfCu\u00e1ndo debo empezar con el trabajo?"
+    },
+    {
+      "de": "Der Film hat gerade angefangen.",
+      "es": "La pel\u00edcula acaba de empezar."
+    },
+    {
+      "de": "F\u00e4ngst du schon an?",
+      "es": "\u00bfYa empiezas?"
+    }
+  ],
+  "Freundin": [
+    {
+      "de": "Meine Freundin hei\u00dft Julia.",
+      "es": "Mi amiga se llama Julia."
+    },
+    {
+      "de": "Ich habe eine neue Freundin kennengelernt.",
+      "es": "He conocido a una amiga nueva."
+    },
+    {
+      "de": "Kommt deine Freundin mit ins Kino?",
+      "es": "\u00bfViene tu amiga al cine?"
+    }
+  ],
+  "Stadt": [
+    {
+      "de": "Die Stadt ist sehr gro\u00df.",
+      "es": "La ciudad es muy grande."
+    },
+    {
+      "de": "Wir sind durch die Stadt geschlendert.",
+      "es": "Hemos paseado por la ciudad."
+    },
+    {
+      "de": "Gef\u00e4llt dir diese Stadt?",
+      "es": "\u00bfTe gusta esta ciudad?"
+    }
+  ],
+  "TShirt": [
+    {
+      "de": "Das TShirt ist aus Baumwolle.",
+      "es": "La camiseta es de algod\u00f3n."
+    },
+    {
+      "de": "Ich habe ein wei\u00dfes TShirt angezogen.",
+      "es": "Me he puesto una camiseta blanca."
+    },
+    {
+      "de": "Tr\u00e4gst du das TShirt gern?",
+      "es": "\u00bfTe gusta llevar esa camiseta?"
+    }
+  ],
+  "Geld": [
+    {
+      "de": "Das Geld liegt auf dem Tisch.",
+      "es": "El dinero est\u00e1 sobre la mesa."
+    },
+    {
+      "de": "Ich habe gestern Geld abgehoben.",
+      "es": "Ayer saqu\u00e9 dinero."
+    },
+    {
+      "de": "Hast du genug Geld dabei?",
+      "es": "\u00bfLlevas suficiente dinero?"
+    }
+  ],
+  "Preis": [
+    {
+      "de": "Der Preis ist zu hoch.",
+      "es": "El precio es demasiado alto."
+    },
+    {
+      "de": "Wir haben den Preis auf dem Etikett gesehen.",
+      "es": "Hemos visto el precio en la etiqueta."
+    },
+    {
+      "de": "Kennst du den Preis von dem Buch?",
+      "es": "\u00bfConoces el precio del libro?"
+    }
+  ],
+  "Meer": [
+    {
+      "de": "Das Meer ist heute ruhig.",
+      "es": "El mar est\u00e1 hoy tranquilo."
+    },
+    {
+      "de": "Wir sind im Meer geschwommen.",
+      "es": "Hemos nadado en el mar."
+    },
+    {
+      "de": "F\u00e4hrst du gern ans Meer?",
+      "es": "\u00bfTe gusta ir al mar?"
+    }
+  ],
+  "Hand": [
+    {
+      "de": "Meine Hand ist kalt.",
+      "es": "Mi mano est\u00e1 fr\u00eda."
+    },
+    {
+      "de": "Sie hat mir die Hand gesch\u00fcttelt.",
+      "es": "Ella me ha estrechado la mano."
+    },
+    {
+      "de": "Gibst du mir deine Hand?",
+      "es": "\u00bfMe das la mano?"
+    }
+  ],
+  "der Hase": [
+    {
+      "de": "Der Hase frisst gerne M\u00f6hren.",
+      "es": "La liebre come zanahorias con gusto."
+    },
+    {
+      "de": "Zu Ostern haben wir einen Hasen gebastelt.",
+      "es": "En Pascua hemos hecho una liebre de manualidades."
+    },
+    {
+      "de": "Hast du schon einen Hasen im Feld gesehen?",
+      "es": "\u00bfHas visto ya una liebre en el campo?"
+    }
+  ],
+  "die Pfanne": [
+    {
+      "de": "Die Pfanne ist aus Eisen.",
+      "es": "La sart\u00e9n es de hierro."
+    },
+    {
+      "de": "Ich habe die Pfanne gesp\u00fclt.",
+      "es": "He lavado la sart\u00e9n."
+    },
+    {
+      "de": "Hast du die Pfanne auf den Herd gestellt?",
+      "es": "\u00bfHas puesto la sart\u00e9n en la cocina?"
+    }
+  ],
+  "Bauernhof": [
+    {
+      "de": "Der Bauernhof liegt am Dorfrand.",
+      "es": "La granja est\u00e1 a las afueras del pueblo."
+    },
+    {
+      "de": "Wir haben einen Bauernhof besucht.",
+      "es": "Hemos visitado una granja."
+    },
+    {
+      "de": "W\u00fcrdest du auf einem Bauernhof leben?",
+      "es": "\u00bfVivir\u00edas en una granja?"
+    }
+  ],
+  "die Zehn": [
+    {
+      "de": "Die Zehn ist eine runde Zahl.",
+      "es": "El diez es un n\u00famero redondo."
+    },
+    {
+      "de": "Ich habe eine Zehn in der Klassenarbeit geschrieben.",
+      "es": "He sacado un diez en el examen de clase."
+    },
+    {
+      "de": "Ist die Zehn deine Note?",
+      "es": "\u00bfEs el diez tu nota?"
+    }
+  ],
+  "trinken": [
+    {
+      "de": "Du musst genug Wasser trinken.",
+      "es": "Tienes que beber suficiente agua."
+    },
+    {
+      "de": "Er hat den ganzen Saft getrunken.",
+      "es": "\u00c9l ha bebido todo el zumo."
+    },
+    {
+      "de": "Trinkst du gern Tee?",
+      "es": "\u00bfTe gusta beber t\u00e9?"
+    }
+  ],
+  "das Jahrtausend": [
+    {
+      "de": "Das Jahrtausend ist eine lange Zeit.",
+      "es": "El milenio es un tiempo largo."
+    },
+    {
+      "de": "Wir leben im dritten Jahrtausend.",
+      "es": "Vivimos en el tercer milenio."
+    },
+    {
+      "de": "Wei\u00dft du, wann das letzte Jahrtausend endete?",
+      "es": "\u00bfSabes cu\u00e1ndo termin\u00f3 el \u00faltimo milenio?"
+    }
+  ],
+  "Leuchtturm": [
+    {
+      "de": "Der Leuchtturm steht an der K\u00fcste.",
+      "es": "El faro est\u00e1 en la costa."
+    },
+    {
+      "de": "Wir haben den Leuchtturm bei Sonnenuntergang fotografiert.",
+      "es": "Hemos fotografiado el faro al atardecer."
+    },
+    {
+      "de": "Kann man den Leuchtturm besichtigen?",
+      "es": "\u00bfSe puede visitar el faro?"
+    }
+  ],
+  "Nuss": [
+    {
+      "de": "Die Nuss hat eine harte Schale.",
+      "es": "La nuez tiene una c\u00e1scara dura."
+    },
+    {
+      "de": "Oma hat N\u00fcsse f\u00fcr den Kuchen gehackt.",
+      "es": "La abuela ha picado nueces para la tarta."
+    },
+    {
+      "de": "Knackst du die Nuss mit den Fingern?",
+      "es": "\u00bfRompes la nuez con los dedos?"
+    }
+  ],
+  "heben": [
+    {
+      "de": "Kannst du den schweren Koffer heben?",
+      "es": "\u00bfPuedes levantar la maleta pesada?"
+    },
+    {
+      "de": "Er hat die Kiste \u00fcber den Kopf gehoben.",
+      "es": "\u00c9l ha levantado la caja por encima de la cabeza."
+    },
+    {
+      "de": "Hebst du jeden Morgen Gewichte?",
+      "es": "\u00bfLevantas pesas todas las ma\u00f1anas?"
+    }
+  ],
+  "Lichtung": [
+    {
+      "de": "Die Lichtung ist voller Sonne.",
+      "es": "El claro est\u00e1 lleno de sol."
+    },
+    {
+      "de": "Wir haben ein Picknick auf der Lichtung gemacht.",
+      "es": "Hemos hecho un p\u00edcnic en el claro."
+    },
+    {
+      "de": "F\u00fchrt der Weg zur Lichtung?",
+      "es": "\u00bfConduce el camino al claro?"
+    }
+  ],
+  "verlieben": [
+    {
+      "de": "Ich will mich dieses Jahr verlieben.",
+      "es": "Quiero enamorarme este a\u00f1o."
+    },
+    {
+      "de": "Er hat sich in sie verliebt.",
+      "es": "\u00c9l se ha enamorado de ella."
+    },
+    {
+      "de": "Verliebst du dich schnell?",
+      "es": "\u00bfTe enamoras r\u00e1pido?"
+    }
+  ],
+  "die Eisenbahn": [
+    {
+      "de": "Die Eisenbahn ist p\u00fcnktlich.",
+      "es": "El ferrocarril es puntual."
+    },
+    {
+      "de": "Wir sind mit der Eisenbahn nach Wien gefahren.",
+      "es": "Hemos ido en ferrocarril a Viena."
+    },
+    {
+      "de": "Nimmst du die Eisenbahn zur Arbeit?",
+      "es": "\u00bfTomas el ferrocarril para ir al trabajo?"
+    }
+  ],
+  "die Turnschuhe": [
+    {
+      "de": "Die Turnschuhe sind bequem.",
+      "es": "Las zapatillas son c\u00f3modas."
+    },
+    {
+      "de": "Ich habe die Turnschuhe im Schrank versteckt.",
+      "es": "He escondido las zapatillas en el armario."
+    },
+    {
+      "de": "Tr\u00e4gst du deine Turnschuhe zum Sport?",
+      "es": "\u00bfLlevas tus zapatillas para el deporte?"
+    }
+  ],
+  "H\u00f6hle": [
+    {
+      "de": "Die H\u00f6hle ist dunkel und feucht.",
+      "es": "La cueva es oscura y h\u00fameda."
+    },
+    {
+      "de": "Wir sind in eine tiefe H\u00f6hle hineingegangen.",
+      "es": "Hemos entrado en una cueva profunda."
+    },
+    {
+      "de": "Hast du Flederm\u00e4use in der H\u00f6hle gesehen?",
+      "es": "\u00bfHas visto murci\u00e9lagos en la cueva?"
+    }
+  ],
+  "Brombeere": [
+    {
+      "de": "Die Brombeere ist reif.",
+      "es": "La mora est\u00e1 madura."
+    },
+    {
+      "de": "Wir haben Brombeeren am Waldrand gepfl\u00fcckt.",
+      "es": "Hemos recogido moras en el borde del bosque."
+    },
+    {
+      "de": "Isst du Brombeeren mit Eis?",
+      "es": "\u00bfComes moras con helado?"
+    }
+  ],
+  "rau": [
+    {
+      "de": "Das Holz ist rau.",
+      "es": "La madera es \u00e1spera."
+    },
+    {
+      "de": "Die Oberfl\u00e4che hat sich rau angef\u00fchlt.",
+      "es": "La superficie se ha sentido \u00e1spera."
+    },
+    {
+      "de": "Ist der Stoff zu rau f\u00fcr die Haut?",
+      "es": "\u00bfEs \u00e1spera la tela para la piel?"
+    }
+  ],
+  "Onkel": [
+    {
+      "de": "Mein Onkel ist gestern angekommen.",
+      "es": "Mi t\u00edo lleg\u00f3 ayer."
+    },
+    {
+      "de": "Der Onkel hat mir eine Geschichte erz\u00e4hlt.",
+      "es": "El t\u00edo me ha contado una historia."
+    },
+    {
+      "de": "Wohnt dein Onkel in der N\u00e4he?",
+      "es": "\u00bfVive tu t\u00edo cerca?"
+    }
+  ],
+  "sich rasieren": [
+    {
+      "de": "Ich muss mich vor der Arbeit rasieren.",
+      "es": "Tengo que afeitarme antes del trabajo."
+    },
+    {
+      "de": "Er hat sich heute Morgen nass rasiert.",
+      "es": "\u00c9l se ha afeitado esta ma\u00f1ana con agua."
+    },
+    {
+      "de": "Rasierst du dich jeden Tag?",
+      "es": "\u00bfTe afeitas todos los d\u00edas?"
+    }
+  ],
+  "bearbeiten": [
+    {
+      "de": "Ich muss das Dokument bearbeiten.",
+      "es": "Tengo que editar el documento."
+    },
+    {
+      "de": "Er hat die Fotos am Computer bearbeitet.",
+      "es": "\u00c9l ha editado las fotos en el ordenador."
+    },
+    {
+      "de": "Bearbeitest du den Text heute noch?",
+      "es": "\u00bfEditas el texto hoy todav\u00eda?"
+    }
+  ],
+  "Disco": [
+    {
+      "de": "Die Disco ist sehr laut.",
+      "es": "La discoteca es muy ruidosa."
+    },
+    {
+      "de": "Wir haben in der Disco bis morgens getanzt.",
+      "es": "Hemos bailado en la discoteca hasta la ma\u00f1ana."
+    },
+    {
+      "de": "Gehst du gern in die Disco?",
+      "es": "\u00bfTe gusta ir a la discoteca?"
+    }
+  ],
+  "die Birne": [
+    {
+      "de": "Die Birne ist saftig.",
+      "es": "La pera es jugosa."
+    },
+    {
+      "de": "Ich habe eine Birne vom Baum gepfl\u00fcckt.",
+      "es": "He cogido una pera del \u00e1rbol."
+    },
+    {
+      "de": "Magst du Birnen im Kuchen?",
+      "es": "\u00bfTe gustan las peras en la tarta?"
+    }
+  ],
+  "Schleife": [
+    {
+      "de": "Die Schleife ist rosa.",
+      "es": "El lazo es rosa."
+    },
+    {
+      "de": "Sie hat eine Schleife ins Haar gebunden.",
+      "es": "Ella se ha atado un lazo en el pelo."
+    },
+    {
+      "de": "Kannst du eine Schleife binden?",
+      "es": "\u00bfPuedes hacer un lazo?"
+    }
+  ],
+  "das Theater": [
+    {
+      "de": "Das Theater ist wundersch\u00f6n.",
+      "es": "El teatro es maravilloso."
+    },
+    {
+      "de": "Wir haben ein St\u00fcck im Theater gesehen.",
+      "es": "Hemos visto una obra en el teatro."
+    },
+    {
+      "de": "Gehst du oft ins Theater?",
+      "es": "\u00bfVas a menudo al teatro?"
+    }
+  ],
+  "der Mantel": [
+    {
+      "de": "Der Mantel ist zu warm.",
+      "es": "El abrigo es demasiado caliente."
+    },
+    {
+      "de": "Ich habe den Mantel im Bus vergessen.",
+      "es": "He olvidado el abrigo en el autob\u00fas."
+    },
+    {
+      "de": "Tr\u00e4gst du den Mantel im Winter?",
+      "es": "\u00bfLlevas el abrigo en invierno?"
+    }
+  ],
+  "Nagel": [
+    {
+      "de": "Der Nagel ist krumm.",
+      "es": "El clavo est\u00e1 torcido."
+    },
+    {
+      "de": "Er hat den Nagel in die Wand geschlagen.",
+      "es": "\u00c9l ha clavado el clavo en la pared."
+    },
+    {
+      "de": "Hast du einen Hammer f\u00fcr den Nagel?",
+      "es": "\u00bfTienes un martillo para el clavo?"
+    }
+  ],
+  "parken": [
+    {
+      "de": "Du darfst hier nicht parken.",
+      "es": "No debes aparcar aqu\u00ed."
+    },
+    {
+      "de": "Ich habe das Auto vor dem Haus geparkt.",
+      "es": "He aparcado el coche delante de la casa."
+    },
+    {
+      "de": "Parkst du immer in der Garage?",
+      "es": "\u00bfAparcas siempre en el garaje?"
+    }
+  ],
+  "die Acht": [
+    {
+      "de": "Die Acht ist meine Gl\u00fcckszahl.",
+      "es": "El ocho es mi n\u00famero de la suerte."
+    },
+    {
+      "de": "Ich habe die Acht im Lotto gezogen.",
+      "es": "He sacado el ocho en la loter\u00eda."
+    },
+    {
+      "de": "Magst du die Acht?",
+      "es": "\u00bfTe gusta el ocho?"
+    }
+  ],
+  "Mai": [
+    {
+      "de": "Der Mai ist wundersch\u00f6n.",
+      "es": "Mayo es maravilloso."
+    },
+    {
+      "de": "Im Mai haben wir einen Ausflug gemacht.",
+      "es": "En mayo hemos hecho una excursi\u00f3n."
+    },
+    {
+      "de": "Feierst du im Mai Geburtstag?",
+      "es": "\u00bfCelebras tu cumplea\u00f1os en mayo?"
+    }
+  ],
+  "K\u00fcste": [
+    {
+      "de": "Die K\u00fcste ist felsig.",
+      "es": "La costa es rocosa."
+    },
+    {
+      "de": "Wir sind an der K\u00fcste entlang gewandert.",
+      "es": "Hemos paseado a lo largo de la costa."
+    },
+    {
+      "de": "F\u00e4hrst du im Sommer an die K\u00fcste?",
+      "es": "\u00bfVas a la costa en verano?"
+    }
+  ],
+  "die Taube": [
+    {
+      "de": "Die Taube gurrt auf dem Dach.",
+      "es": "La paloma arrulla en el tejado."
+    },
+    {
+      "de": "Eine Taube hat auf meinem Balkon genistet.",
+      "es": "Una paloma ha anidado en mi balc\u00f3n."
+    },
+    {
+      "de": "F\u00fctterst du die Tauben im Park?",
+      "es": "\u00bfDas de comer a las palomas en el parque?"
+    }
+  ],
+  "Fund": [
+    {
+      "de": "Der Fund war wertvoll.",
+      "es": "El hallazgo era valioso."
+    },
+    {
+      "de": "Ich habe den Fund im Fundb\u00fcro abgegeben.",
+      "es": "He entregado el hallazgo en la oficina de objetos perdidos."
+    },
+    {
+      "de": "Hast du deinen Fund schon gemeldet?",
+      "es": "\u00bfHas comunicado ya tu hallazgo?"
+    }
+  ],
+  "die Hose": [
+    {
+      "de": "Die Hose passt perfekt.",
+      "es": "El pantal\u00f3n queda perfecto."
+    },
+    {
+      "de": "Ich habe die Hose im Angebot gekauft.",
+      "es": "He comprado el pantal\u00f3n en oferta."
+    },
+    {
+      "de": "Gef\u00e4llt dir meine neue Hose?",
+      "es": "\u00bfTe gusta mi pantal\u00f3n nuevo?"
+    }
+  ],
+  "Waschbecken": [
+    {
+      "de": "Das Waschbecken ist verstopft.",
+      "es": "El lavabo est\u00e1 atascado."
+    },
+    {
+      "de": "Ich habe das Waschbecken mit einem Lappen geputzt.",
+      "es": "He limpiado el lavabo con un pa\u00f1o."
+    },
+    {
+      "de": "Kannst du das Waschbecken reparieren?",
+      "es": "\u00bfPuedes reparar el lavabo?"
+    }
+  ],
+  "pfeffern": [
+    {
+      "de": "Du musst die Suppe noch pfeffern.",
+      "es": "Todav\u00eda tienes que echar pimienta a la sopa."
+    },
+    {
+      "de": "Er hat das Steak kr\u00e4ftig gepfeffert.",
+      "es": "\u00c9l ha pimentado el filete abundantemente."
+    },
+    {
+      "de": "Pfefferst du dein Essen gern?",
+      "es": "\u00bfTe gusta echar pimienta a la comida?"
+    }
+  ],
+  "bereiten": [
+    {
+      "de": "Ich muss das Abendessen bereiten.",
+      "es": "Tengo que preparar la cena."
+    },
+    {
+      "de": "Sie hat alles f\u00fcr die Party bereitet.",
+      "es": "Ella ha preparado todo para la fiesta."
+    },
+    {
+      "de": "Bereitest du den Tisch vor?",
+      "es": "\u00bfPreparas la mesa?"
+    }
+  ],
+  "missen": [
+    {
+      "de": "Ich will diesen Zug nicht missen.",
+      "es": "No quiero perder este tren."
+    },
+    {
+      "de": "Er hat seine Heimat nie gemisst.",
+      "es": "\u00c9l nunca ha extra\u00f1ado su tierra natal."
+    },
+    {
+      "de": "Misst du deine alten Freunde?",
+      "es": "\u00bfExtra\u00f1as a tus viejos amigos?"
+    }
+  ],
+  "Akkusativ": [
+    {
+      "de": "Der Akkusativ ist der vierte Fall.",
+      "es": "El acusativo es el cuarto caso."
+    },
+    {
+      "de": "Im Unterricht haben wir den Akkusativ ge\u00fcbt.",
+      "es": "En clase hemos practicado el acusativo."
+    },
+    {
+      "de": "Kennst du den Akkusativ?",
+      "es": "\u00bfConoces el acusativo?"
+    }
+  ],
+  "Fieberthermometer": [
+    {
+      "de": "Das Fieberthermometer ist kaputt.",
+      "es": "El term\u00f3metro est\u00e1 roto."
+    },
+    {
+      "de": "Die Mutter hat das Fieberthermometer benutzt.",
+      "es": "La madre ha usado el term\u00f3metro."
+    },
+    {
+      "de": "Hast du ein Fieberthermometer zu Hause?",
+      "es": "\u00bfTienes un term\u00f3metro en casa?"
+    }
+  ],
+  "Wiederholung": [
+    {
+      "de": "Die Wiederholung ist wichtig zum Lernen.",
+      "es": "La repetici\u00f3n es importante para aprender."
+    },
+    {
+      "de": "Ich habe eine Wiederholung der Pr\u00fcfung gemacht.",
+      "es": "He hecho un repaso del examen."
+    },
+    {
+      "de": "Machst du eine Wiederholung vor der Klassenarbeit?",
+      "es": "\u00bfHaces un repaso antes del examen de clase?"
+    }
+  ],
+  "studieren": [
+    {
+      "de": "Mein Bruder will Medizin studieren.",
+      "es": "Mi hermano quiere estudiar medicina."
+    },
+    {
+      "de": "Sie hat in M\u00fcnchen studiert.",
+      "es": "Ella ha estudiado en M\u00fanich."
+    },
+    {
+      "de": "Studierst du gern?",
+      "es": "\u00bfTe gusta estudiar?"
+    }
+  ],
+  "el hombre": [
+    {
+      "de": "\"el hombre\" ist ein spanisches Wort.",
+      "es": "\"el hombre\" es una palabra espa\u00f1ola."
+    },
+    {
+      "de": "Auf Deutsch hei\u00dft \"el hombre\" der Mann.",
+      "es": "En alem\u00e1n \"el hombre\" significa el hombre."
+    },
+    {
+      "de": "Hast du das Wort \"Mann\" gelernt?",
+      "es": "\u00bfHas aprendido la palabra \"Mann\"?"
+    }
+  ],
+  "gemein": [
+    {
+      "de": "Dein Kommentar war gemein.",
+      "es": "Tu comentario fue mezquino."
+    },
+    {
+      "de": "Er hat sich gemein verhalten.",
+      "es": "\u00c9l se ha comportado de manera mezquina."
+    },
+    {
+      "de": "Warum bist du so gemein?",
+      "es": "\u00bfPor qu\u00e9 eres tan mezquino?"
+    }
+  ],
+  "offen": [
+    {
+      "de": "Die T\u00fcr steht offen.",
+      "es": "La puerta est\u00e1 abierta."
+    },
+    {
+      "de": "Ich habe das Fenster offen gelassen.",
+      "es": "He dejado la ventana abierta."
+    },
+    {
+      "de": "Bleibt der Laden am Sonntag offen?",
+      "es": "\u00bfPermanece abierta la tienda el domingo?"
+    }
+  ],
+  "der Kamm": [
+    {
+      "de": "Der Kamm liegt im Badezimmer.",
+      "es": "El peine est\u00e1 en el ba\u00f1o."
+    },
+    {
+      "de": "Ich habe mir die Haare mit dem Kamm gek\u00e4mmt.",
+      "es": "Me he peinado el pelo con el peine."
+    },
+    {
+      "de": "Kannst du mir deinen Kamm leihen?",
+      "es": "\u00bfPuedes prestarme tu peine?"
+    }
+  ],
+  "Sonnenbrille": [
+    {
+      "de": "Meine Sonnenbrille ist polarisiert.",
+      "es": "Mis gafas de sol son polarizadas."
+    },
+    {
+      "de": "Ich habe die Sonnenbrille im Auto vergessen.",
+      "es": "He olvidado las gafas de sol en el coche."
+    },
+    {
+      "de": "Tr\u00e4gst du deine Sonnenbrille jeden Tag?",
+      "es": "\u00bfLlevas tus gafas de sol todos los d\u00edas?"
+    }
+  ],
+  "Wohnort": [
+    {
+      "de": "Mein Wohnort ist eine Kleinstadt.",
+      "es": "Mi lugar de residencia es una ciudad peque\u00f1a."
+    },
+    {
+      "de": "Er hat seinen Wohnort gewechselt.",
+      "es": "\u00c9l ha cambiado su lugar de residencia."
+    },
+    {
+      "de": "Wo ist dein Wohnort?",
+      "es": "\u00bfCu\u00e1l es tu lugar de residencia?"
+    }
+  ],
+  "Versand": [
+    {
+      "de": "Der Versand ist kostenlos.",
+      "es": "El env\u00edo es gratuito."
+    },
+    {
+      "de": "Ich habe den Versand per E-Mail best\u00e4tigt.",
+      "es": "He confirmado el env\u00edo por correo electr\u00f3nico."
+    },
+    {
+      "de": "Dauert der Versand lange?",
+      "es": "\u00bfTarda mucho el env\u00edo?"
+    }
+  ],
+  "schwimmen": [
+    {
+      "de": "Die Enten schwimmen auf dem Teich.",
+      "es": "Los patos nadan en el estanque."
+    },
+    {
+      "de": "Wir sind gestern im See geschwommen.",
+      "es": "Ayer hemos nadado en el lago."
+    },
+    {
+      "de": "Schwimmst du gern im Meer?",
+      "es": "\u00bfTe gusta nadar en el mar?"
+    }
+  ],
+  "spazieren": [
+    {
+      "de": "Wir wollen im Park spazieren.",
+      "es": "Queremos pasear por el parque."
+    },
+    {
+      "de": "Oma ist am Nachmittag spazieren gegangen.",
+      "es": "La abuela ha ido a pasear por la tarde."
+    },
+    {
+      "de": "Spazierst du gern am Fluss?",
+      "es": "\u00bfTe gusta pasear junto al r\u00edo?"
+    }
+  ],
+  "Mantel": [
+    {
+      "de": "Der Mantel ist blau.",
+      "es": "El abrigo es azul."
+    },
+    {
+      "de": "Sie hat den Mantel an die Garderobe geh\u00e4ngt.",
+      "es": "Ella ha colgado el abrigo en el perchero."
+    },
+    {
+      "de": "Brauchst du einen Mantel im Fr\u00fchling?",
+      "es": "\u00bfNecesitas un abrigo en primavera?"
+    }
+  ],
+  "Benachrichtigung": [
+    {
+      "de": "Die Benachrichtigung kam per Post.",
+      "es": "La notificaci\u00f3n lleg\u00f3 por correo."
+    },
+    {
+      "de": "Ich habe eine Benachrichtigung \u00fcber das Paket erhalten.",
+      "es": "He recibido una notificaci\u00f3n sobre el paquete."
+    },
+    {
+      "de": "Hast du die Benachrichtigung gelesen?",
+      "es": "\u00bfHas le\u00eddo la notificaci\u00f3n?"
+    }
+  ],
+  "dreizehn": [
+    {
+      "de": "Dreizehn ist eine Ungl\u00fcckszahl.",
+      "es": "Trece es un n\u00famero de mala suerte."
+    },
+    {
+      "de": "Ich habe dreizehn Euro in der Tasche.",
+      "es": "Tengo trece euros en el bolsillo."
+    },
+    {
+      "de": "Bist du dreizehn Jahre alt?",
+      "es": "\u00bfTienes trece a\u00f1os?"
+    }
+  ],
+  "Rippe": [
+    {
+      "de": "Meine Rippe tut weh.",
+      "es": "Mi costilla me duele."
+    },
+    {
+      "de": "Ich habe mir eine Rippe gebrochen.",
+      "es": "Me he roto una costilla."
+    },
+    {
+      "de": "Hast du Schmerzen an der Rippe?",
+      "es": "\u00bfTienes dolor en la costilla?"
+    }
+  ],
+  "helfen": [
+    {
+      "de": "Kannst du mir bitte helfen?",
+      "es": "\u00bfPuedes ayudarme, por favor?"
+    },
+    {
+      "de": "Er hat mir beim Umzug geholfen.",
+      "es": "\u00c9l me ha ayudado con la mudanza."
+    },
+    {
+      "de": "Hilfst du deiner Oma im Garten?",
+      "es": "\u00bfAyudas a tu abuela en el jard\u00edn?"
+    }
+  ],
+  "gr\u00fc\u00dfen": [
+    {
+      "de": "Ich muss noch Oma gr\u00fc\u00dfen.",
+      "es": "Todav\u00eda tengo que saludar a la abuela."
+    },
+    {
+      "de": "Er hat mich freundlich gegr\u00fc\u00dft.",
+      "es": "\u00c9l me ha saludado amablemente."
+    },
+    {
+      "de": "Gr\u00fc\u00dft du deine Nachbarn?",
+      "es": "\u00bfSaludas a tus vecinos?"
+    }
+  ],
+  "Krug": [
+    {
+      "de": "Der Krug ist aus Ton.",
+      "es": "La jarra es de barro."
+    },
+    {
+      "de": "Oma hat Wasser in den Krug gegossen.",
+      "es": "La abuela ha echado agua en la jarra."
+    },
+    {
+      "de": "Kannst du den Krug auf den Tisch stellen?",
+      "es": "\u00bfPuedes poner la jarra en la mesa?"
+    }
+  ],
+  "springen": [
+    {
+      "de": "Die Katze kann sehr hoch springen.",
+      "es": "El gato puede saltar muy alto."
+    },
+    {
+      "de": "Das Kind ist ins Wasser gesprungen.",
+      "es": "El ni\u00f1o ha saltado al agua."
+    },
+    {
+      "de": "Springst du gern Seil?",
+      "es": "\u00bfTe gusta saltar a la comba?"
+    }
+  ],
+  "Schildkr\u00f6te": [
+    {
+      "de": "Die Schildkr\u00f6te ist sehr langsam.",
+      "es": "La tortuga es muy lenta."
+    },
+    {
+      "de": "Wir haben eine Schildkr\u00f6te im Garten gefunden.",
+      "es": "Hemos encontrado una tortuga en el jard\u00edn."
+    },
+    {
+      "de": "Hast du schon eine Schildkr\u00f6te gestreichelt?",
+      "es": "\u00bfHas acariciado ya una tortuga?"
+    }
+  ],
+  "der Schnee": [
+    {
+      "de": "Der Schnee ist tief.",
+      "es": "La nieve es profunda."
+    },
+    {
+      "de": "Es hat gestern stark geschneit.",
+      "es": "Ayer ha nevado mucho."
+    },
+    {
+      "de": "F\u00e4hrst du im Winter gern in den Schnee?",
+      "es": "\u00bfTe gusta ir a la nieve en invierno?"
+    }
+  ],
+  "wegbringen": [
+    {
+      "de": "Du musst den M\u00fcll wegbringen.",
+      "es": "Tienes que llevarte la basura."
+    },
+    {
+      "de": "Ich habe die alten Kleider weggebracht.",
+      "es": "Me he llevado la ropa vieja."
+    },
+    {
+      "de": "Bringst du die Flaschen weg?",
+      "es": "\u00bfTe llevas las botellas?"
+    }
+  ],
+  "weise": [
+    {
+      "de": "Meine Oma ist sehr weise.",
+      "es": "Mi abuela es muy sabia."
+    },
+    {
+      "de": "Er hat einen weisen Rat gegeben.",
+      "es": "\u00c9l ha dado un consejo sabio."
+    },
+    {
+      "de": "Bist du ein weiser Mensch?",
+      "es": "\u00bfEres una persona sabia?"
+    }
+  ],
+  "heilen": [
+    {
+      "de": "Die Medizin soll die Krankheit heilen.",
+      "es": "La medicina debe curar la enfermedad."
+    },
+    {
+      "de": "Der Arzt hat die Wunde geheilt.",
+      "es": "El m\u00e9dico ha curado la herida."
+    },
+    {
+      "de": "Heilt die Zeit alle Wunden?",
+      "es": "\u00bfEl tiempo cura todas las heridas?"
+    }
+  ],
+  "Radio": [
+    {
+      "de": "Das Radio ist zu laut.",
+      "es": "La radio est\u00e1 demasiado alta."
+    },
+    {
+      "de": "Ich habe das Radio im Auto eingeschaltet.",
+      "es": "He encendido la radio en el coche."
+    },
+    {
+      "de": "H\u00f6rst du gern Radio?",
+      "es": "\u00bfTe gusta escuchar la radio?"
+    }
+  ],
+  "laufen": [
+    {
+      "de": "Ich will einen Marathon laufen.",
+      "es": "Quiero correr un marat\u00f3n."
+    },
+    {
+      "de": "Er ist gestern f\u00fcnf Kilometer gelaufen.",
+      "es": "\u00c9l ha corrido ayer cinco kil\u00f3metros."
+    },
+    {
+      "de": "L\u00e4ufst du jeden Morgen?",
+      "es": "\u00bfCorres todas las ma\u00f1anas?"
+    }
+  ],
+  "Darm": [
+    {
+      "de": "Der Darm ist ein langes Organ.",
+      "es": "El intestino es un \u00f3rgano largo."
+    },
+    {
+      "de": "Der Arzt hat den Darm untersucht.",
+      "es": "El m\u00e9dico ha examinado el intestino."
+    },
+    {
+      "de": "Hast du Probleme mit dem Darm?",
+      "es": "\u00bfTienes problemas con el intestino?"
+    }
+  ],
+  "der Eistee": [
+    {
+      "de": "Der Eistee ist erfrischend.",
+      "es": "El t\u00e9 helado es refrescante."
+    },
+    {
+      "de": "Ich habe mir einen Eistee bestellt.",
+      "es": "Me he pedido un t\u00e9 helado."
+    },
+    {
+      "de": "Trinkst du gern Eistee mit Zitrone?",
+      "es": "\u00bfTe gusta el t\u00e9 helado con lim\u00f3n?"
+    }
+  ],
+  "der Salat": [
+    {
+      "de": "Der Salat ist frisch und knackig.",
+      "es": "La ensalada est\u00e1 fresca y crujiente."
+    },
+    {
+      "de": "Ich habe den Salat mit Essig und \u00d6l angemacht.",
+      "es": "He ali\u00f1ado la ensalada con vinagre y aceite."
+    },
+    {
+      "de": "Kannst du den Salat f\u00fcr das Abendessen vorbereiten?",
+      "es": "\u00bfPuedes preparar la ensalada para la cena?"
+    }
+  ],
+  "Brief": [
+    {
+      "de": "Der Brief liegt auf dem Schreibtisch.",
+      "es": "La carta est\u00e1 en el escritorio."
+    },
+    {
+      "de": "Oma hat mir einen langen Brief geschrieben.",
+      "es": "La abuela me ha escrito una carta larga."
+    },
+    {
+      "de": "Hast du den Brief schon zur Post gebracht?",
+      "es": "\u00bfYa has llevado la carta a correos?"
+    }
+  ],
+  "Paket": [
+    {
+      "de": "Das Paket ist schwer.",
+      "es": "El paquete es pesado."
+    },
+    {
+      "de": "Der Bote hat das Paket vor der T\u00fcr abgelegt.",
+      "es": "El mensajero ha dejado el paquete delante de la puerta."
+    },
+    {
+      "de": "Kannst du das Paket f\u00fcr mich annehmen?",
+      "es": "\u00bfPuedes recoger el paquete por m\u00ed?"
+    }
+  ],
+  "die Grapefruit": [
+    {
+      "de": "Die Grapefruit ist sauer.",
+      "es": "El pomelo es \u00e1cido."
+    },
+    {
+      "de": "Zum Fr\u00fchst\u00fcck habe ich eine halbe Grapefruit gegessen.",
+      "es": "En el desayuno he comido medio pomelo."
+    },
+    {
+      "de": "Magst du Grapefruit oder lieber Orange?",
+      "es": "\u00bfTe gusta el pomelo o prefieres la naranja?"
+    }
+  ],
+  "liefern": [
+    {
+      "de": "Der Supermarkt kann die Eink\u00e4ufe liefern.",
+      "es": "El supermercado puede entregar la compra."
+    },
+    {
+      "de": "Die Firma hat die Ware p\u00fcnktlich geliefert.",
+      "es": "La empresa ha entregado la mercanc\u00eda puntualmente."
+    },
+    {
+      "de": "Lieferst du auch am Samstag?",
+      "es": "\u00bfEntregas tambi\u00e9n los s\u00e1bados?"
+    }
+  ],
+  "die Margarine": [
+    {
+      "de": "Die Margarine ist streichzart.",
+      "es": "La margarina es untable."
+    },
+    {
+      "de": "Ich habe Margarine statt Butter benutzt.",
+      "es": "He usado margarina en lugar de mantequilla."
+    },
+    {
+      "de": "Nimmst du Margarine oder Butter aufs Brot?",
+      "es": "\u00bfTomas margarina o mantequilla en el pan?"
+    }
+  ],
+  "sich ausziehen": [
+    {
+      "de": "Du musst dich vor dem Schlafen ausziehen.",
+      "es": "Tienes que desvestirte antes de dormir."
+    },
+    {
+      "de": "Das Kind hat sich schon ausgezogen.",
+      "es": "El ni\u00f1o ya se ha desvestido."
+    },
+    {
+      "de": "Ziehst du dich im Bad aus?",
+      "es": "\u00bfTe desvistes en el ba\u00f1o?"
+    }
+  ],
+  "Weizen": [
+    {
+      "de": "Der Weizen ist goldgelb.",
+      "es": "El trigo es de color dorado."
+    },
+    {
+      "de": "Der Bauer hat den Weizen im Juli geerntet.",
+      "es": "El agricultor ha cosechado el trigo en julio."
+    },
+    {
+      "de": "W\u00e4chst hier Weizen oder Roggen?",
+      "es": "\u00bfCrece aqu\u00ed trigo o centeno?"
+    }
+  ],
+  "ungl\u00fccklich": [
+    {
+      "de": "Sie sieht heute ungl\u00fccklich aus.",
+      "es": "Ella parece infeliz hoy."
+    },
+    {
+      "de": "Er hat sich nach der Nachricht ungl\u00fccklich gef\u00fchlt.",
+      "es": "\u00c9l se ha sentido infeliz despu\u00e9s de la noticia."
+    },
+    {
+      "de": "Warum bist du so ungl\u00fccklich?",
+      "es": "\u00bfPor qu\u00e9 est\u00e1s tan infeliz?"
+    }
+  ],
+  "Kaugummi": [
+    {
+      "de": "Der Kaugummi ist minzig.",
+      "es": "El chicle sabe a menta."
+    },
+    {
+      "de": "Er hat den Kaugummi unter den Tisch geklebt.",
+      "es": "\u00c9l ha pegado el chicle debajo de la mesa."
+    },
+    {
+      "de": "Kaufst du Kaugummi an der Kasse?",
+      "es": "\u00bfCompras chicle en la caja?"
+    }
+  ],
+  "guion": [
+    {
+      "de": "\"guion\" ist ein spanisches Wort.",
+      "es": "\"guion\" es una palabra espa\u00f1ola."
+    },
+    {
+      "de": "Auf Deutsch hei\u00dft \"guion\" Drehbuch.",
+      "es": "En alem\u00e1n \"guion\" significa guion cinematogr\u00e1fico."
+    },
+    {
+      "de": "Kennst du das Wort \"Drehbuch\"?",
+      "es": "\u00bfConoces la palabra \"Drehbuch\"?"
+    }
+  ],
+  "das TShirt": [
+    {
+      "de": "Das TShirt ist aus reiner Baumwolle.",
+      "es": "La camiseta es de algod\u00f3n puro."
+    },
+    {
+      "de": "Ich habe das TShirt im Sonderangebot gekauft.",
+      "es": "He comprado la camiseta en oferta especial."
+    },
+    {
+      "de": "Gef\u00e4llt dir mein neues TShirt?",
+      "es": "\u00bfTe gusta mi camiseta nueva?"
+    }
+  ],
+  "die Sechs": [
+    {
+      "de": "Die Sechs ist eine gerade Zahl.",
+      "es": "El seis es un n\u00famero par."
+    },
+    {
+      "de": "Ich habe eine Sechs im Lotto gew\u00e4hlt.",
+      "es": "He elegido el seis en la loter\u00eda."
+    },
+    {
+      "de": "Magst du die Sechs oder die Acht?",
+      "es": "\u00bfTe gusta el seis o el ocho?"
+    }
+  ],
+  "Wartezimmer": [
+    {
+      "de": "Das Wartezimmer ist hell.",
+      "es": "La sala de espera es luminosa."
+    },
+    {
+      "de": "Wir haben lange im Wartezimmer gesessen.",
+      "es": "Hemos estado sentados mucho rato en la sala de espera."
+    },
+    {
+      "de": "Ist das Wartezimmer immer so voll?",
+      "es": "\u00bfEst\u00e1 siempre tan llena la sala de espera?"
+    }
+  ],
+  "hell": [
+    {
+      "de": "Die Farbe ist sehr hell.",
+      "es": "El color es muy claro."
+    },
+    {
+      "de": "Der Himmel ist heute heller als gestern.",
+      "es": "El cielo est\u00e1 hoy m\u00e1s claro que ayer."
+    },
+    {
+      "de": "Wird es im Sommer fr\u00fch hell?",
+      "es": "\u00bfAmanece pronto en verano?"
+    }
+  ],
+  "gie\u00dfen": [
+    {
+      "de": "Ich muss die Blumen gie\u00dfen.",
+      "es": "Tengo que regar las flores."
+    },
+    {
+      "de": "Er hat Wasser in die Kanne gegossen.",
+      "es": "\u00c9l ha echado agua en la jarra."
+    },
+    {
+      "de": "Gie\u00dft du die Pflanzen t\u00e4glich?",
+      "es": "\u00bfRiegas las plantas a diario?"
+    }
+  ],
+  "Wirbel": [
+    {
+      "de": "Der Wirbel sch\u00fctzt das R\u00fcckenmark.",
+      "es": "La v\u00e9rtebra protege la m\u00e9dula espinal."
+    },
+    {
+      "de": "Ich habe mir einen Wirbel verletzt.",
+      "es": "Me he lesionado una v\u00e9rtebra."
+    },
+    {
+      "de": "Tut dein Wirbel bei Bewegung weh?",
+      "es": "\u00bfTe duele la v\u00e9rtebra al moverte?"
+    }
+  ],
+  "Erbse": [
+    {
+      "de": "Die Erbse ist gr\u00fcn.",
+      "es": "El guisante es verde."
+    },
+    {
+      "de": "Oma hat Erbsen aus dem Garten geerntet.",
+      "es": "La abuela ha cosechado guisantes del jard\u00edn."
+    },
+    {
+      "de": "Isst du gern Erbsensuppe?",
+      "es": "\u00bfTe gusta la sopa de guisantes?"
+    }
+  ],
+  "Taube": [
+    {
+      "de": "Die Taube pickt Kr\u00fcmel auf.",
+      "es": "La paloma picotea migajas."
+    },
+    {
+      "de": "Auf dem Marktplatz haben wir Tauben gef\u00fcttert.",
+      "es": "En la plaza del mercado hemos dado de comer a las palomas."
+    },
+    {
+      "de": "Fliegen die Tauben zu deinem Fenster?",
+      "es": "\u00bfVuelan las palomas hasta tu ventana?"
+    }
+  ],
+  "das Krankenhaus": [
+    {
+      "de": "Das Krankenhaus ist modern ausgestattet.",
+      "es": "El hospital est\u00e1 equipado de forma moderna."
+    },
+    {
+      "de": "Mein Onkel hat das Krankenhaus gestern verlassen.",
+      "es": "Mi t\u00edo ha salido ayer del hospital."
+    },
+    {
+      "de": "Bringst du mich morgen ins Krankenhaus?",
+      "es": "\u00bfMe llevas ma\u00f1ana al hospital?"
+    }
+  ],
+  "Badeanzug": [
+    {
+      "de": "Mein Badeanzug ist zu eng.",
+      "es": "Mi ba\u00f1ador est\u00e1 demasiado ajustado."
+    },
+    {
+      "de": "Sie hat sich einen neuen Badeanzug f\u00fcr den Urlaub gekauft.",
+      "es": "Ella se ha comprado un ba\u00f1ador nuevo para las vacaciones."
+    },
+    {
+      "de": "Tr\u00e4gst du lieber Badeanzug oder Bikini?",
+      "es": "\u00bfPrefieres ba\u00f1ador o bikini?"
+    }
+  ],
+  "Teddyb\u00e4r": [
+    {
+      "de": "Der Teddyb\u00e4r ist flauschig.",
+      "es": "El oso de peluche es esponjoso."
+    },
+    {
+      "de": "Das Kind hat den Teddyb\u00e4r \u00fcberall mit hingenommen.",
+      "es": "El ni\u00f1o ha llevado el oso de peluche a todas partes."
+    },
+    {
+      "de": "Schl\u00e4fst du noch mit einem Teddyb\u00e4r?",
+      "es": "\u00bfDuermes todav\u00eda con un oso de peluche?"
+    }
+  ],
+  "Pf\u00f6rtner": [
+    {
+      "de": "Der Pf\u00f6rtner gr\u00fc\u00dft freundlich.",
+      "es": "El portero saluda amablemente."
+    },
+    {
+      "de": "Ich habe den Pf\u00f6rtner nach dem Weg gefragt.",
+      "es": "He preguntado al portero por el camino."
+    },
+    {
+      "de": "Arbeitet der Pf\u00f6rtner auch nachts?",
+      "es": "\u00bfTrabaja el portero tambi\u00e9n de noche?"
+    }
+  ],
+  "Dutt": [
+    {
+      "de": "Ihr Dutt sitzt perfekt.",
+      "es": "Su mo\u00f1o est\u00e1 perfecto."
+    },
+    {
+      "de": "Sie hat sich die Haare zu einem Dutt gebunden.",
+      "es": "Ella se ha recogido el pelo en un mo\u00f1o."
+    },
+    {
+      "de": "Tr\u00e4gst du gern einen Dutt?",
+      "es": "\u00bfTe gusta llevar un mo\u00f1o?"
+    }
+  ],
+  "die Sporthalle": [
+    {
+      "de": "Die Sporthalle ist nagelneu.",
+      "es": "El polideportivo es completamente nuevo."
+    },
+    {
+      "de": "Wir haben in der Sporthalle Basketball gespielt.",
+      "es": "Hemos jugado al baloncesto en el polideportivo."
+    },
+    {
+      "de": "Trainierst du dreimal pro Woche in der Sporthalle?",
+      "es": "\u00bfEntrenas tres veces por semana en el polideportivo?"
+    }
+  ],
+  "\u00fcberwinden": [
+    {
+      "de": "Du musst deine Angst \u00fcberwinden.",
+      "es": "Tienes que superar tu miedo."
+    },
+    {
+      "de": "Er hat die schwierige Pr\u00fcfung \u00fcberwunden.",
+      "es": "\u00c9l ha superado el dif\u00edcil examen."
+    },
+    {
+      "de": "\u00dcberwindest du die Hindernisse leicht?",
+      "es": "\u00bfSuperas los obst\u00e1culos f\u00e1cilmente?"
+    }
+  ],
+  "neben": [
+    {
+      "de": "Die Lampe steht neben dem Bett.",
+      "es": "La l\u00e1mpara est\u00e1 al lado de la cama."
+    },
+    {
+      "de": "Ich habe mich neben meinen Freund gesetzt.",
+      "es": "Me he sentado al lado de mi amigo."
+    },
+    {
+      "de": "Parkst du neben der Kirche?",
+      "es": "\u00bfAparcas al lado de la iglesia?"
+    }
+  ],
+  "der Keks": [
+    {
+      "de": "Der Keks ist mit Schokolade \u00fcberzogen.",
+      "es": "La galleta est\u00e1 cubierta de chocolate."
+    },
+    {
+      "de": "Wir haben Kekse zu Weihnachten gebacken.",
+      "es": "Hemos horneado galletas en Navidad."
+    },
+    {
+      "de": "Darf ich noch einen Keks nehmen?",
+      "es": "\u00bfPuedo coger otra galleta?"
+    }
+  ],
+  "Gew\u00fcrz": [
+    {
+      "de": "Das Gew\u00fcrz duftet orientalisch.",
+      "es": "La especia huele oriental."
+    },
+    {
+      "de": "Ich habe das Gew\u00fcrz auf dem Markt gefunden.",
+      "es": "He encontrado la especia en el mercado."
+    },
+    {
+      "de": "Kennst du das Gew\u00fcrz namens Kurkuma?",
+      "es": "\u00bfConoces la especia llamada c\u00farcuma?"
+    }
+  ],
+  "werben": [
+    {
+      "de": "Das Plakat soll f\u00fcr das Konzert werben.",
+      "es": "El cartel debe anunciar el concierto."
+    },
+    {
+      "de": "Die Firma hat in der Zeitung geworben.",
+      "es": "La empresa ha anunciado en el peri\u00f3dico."
+    },
+    {
+      "de": "Wirbst du f\u00fcr deine Produkte online?",
+      "es": "\u00bfAnuncias tus productos en l\u00ednea?"
+    }
+  ],
+  "Park": [
+    {
+      "de": "Der Park ist voller Spazierg\u00e4nger.",
+      "es": "El parque est\u00e1 lleno de paseantes."
+    },
+    {
+      "de": "Gestern sind wir in den Park gegangen.",
+      "es": "Ayer fuimos al parque."
+    },
+    {
+      "de": "Spielst du oft im Park?",
+      "es": "\u00bfJuegas a menudo en el parque?"
+    }
+  ],
+  "Strand": [
+    {
+      "de": "Der Strand ist sauber.",
+      "es": "La playa est\u00e1 limpia."
+    },
+    {
+      "de": "Wir haben den ganzen Tag am Strand verbracht.",
+      "es": "Hemos pasado todo el d\u00eda en la playa."
+    },
+    {
+      "de": "F\u00e4hrst du gern an den Strand?",
+      "es": "\u00bfTe gusta ir a la playa?"
+    }
+  ],
+  "unwichtig": [
+    {
+      "de": "Das Problem ist v\u00f6llig unwichtig.",
+      "es": "El problema es completamente sin importancia."
+    },
+    {
+      "de": "Er hat die unwichtigen Details einfach ignoriert.",
+      "es": "\u00c9l ha ignorado simplemente los detalles sin importancia."
+    },
+    {
+      "de": "Findest du die Diskussion unwichtig?",
+      "es": "\u00bfEncuentras la discusi\u00f3n sin importancia?"
+    }
+  ],
+  "die Woche": [
+    {
+      "de": "Die Woche hat sieben Tage.",
+      "es": "La semana tiene siete d\u00edas."
+    },
+    {
+      "de": "Ich habe diese Woche viel gearbeitet.",
+      "es": "He trabajado mucho esta semana."
+    },
+    {
+      "de": "Welcher Tag der Woche ist heute?",
+      "es": "\u00bfQu\u00e9 d\u00eda de la semana es hoy?"
+    }
+  ],
+  "Kopf": [
+    {
+      "de": "Mein Kopf tut weh.",
+      "es": "Me duele la cabeza."
+    },
+    {
+      "de": "Er hat sich den Kopf an der Schrankecke gesto\u00dfen.",
+      "es": "\u00c9l se ha golpeado la cabeza con la esquina del armario."
+    },
+    {
+      "de": "Hast du Kopfschmerzen?",
+      "es": "\u00bfTienes dolor de cabeza?"
+    }
+  ],
+  "lieb": [
+    {
+      "de": "Meine Katze ist sehr lieb.",
+      "es": "Mi gato es muy querido."
+    },
+    {
+      "de": "Er hat mir einen lieben Brief geschrieben.",
+      "es": "\u00c9l me ha escrito una carta cari\u00f1osa."
+    },
+    {
+      "de": "Bist du immer so lieb zu deiner Oma?",
+      "es": "\u00bfSiempre eres tan cari\u00f1oso con tu abuela?"
+    }
+  ],
+  "achtzehn": [
+    {
+      "de": "Achtzehn ist fast zwanzig.",
+      "es": "Dieciocho es casi veinte."
+    },
+    {
+      "de": "Sie ist gestern achtzehn geworden.",
+      "es": "Ella cumpli\u00f3 ayer dieciocho a\u00f1os."
+    },
+    {
+      "de": "Bist du schon achtzehn?",
+      "es": "\u00bfYa tienes dieciocho?"
+    }
+  ],
+  "sich duschen": [
+    {
+      "de": "Ich muss mich nach dem Sport duschen.",
+      "es": "Tengo que ducharme despu\u00e9s del deporte."
+    },
+    {
+      "de": "Er hat sich kalt geduscht.",
+      "es": "\u00c9l se ha duchado con agua fr\u00eda."
+    },
+    {
+      "de": "Duschst du dich jeden Morgen?",
+      "es": "\u00bfTe duchas todas las ma\u00f1anas?"
+    }
+  ],
+  "Faust": [
+    {
+      "de": "Er ballt die Faust vor Wut.",
+      "es": "\u00c9l aprieta el pu\u00f1o de rabia."
+    },
+    {
+      "de": "Der Boxer hat mit der Faust zugeschlagen.",
+      "es": "El boxeador ha golpeado con el pu\u00f1o."
+    },
+    {
+      "de": "Kannst du eine Faust machen?",
+      "es": "\u00bfPuedes hacer un pu\u00f1o?"
+    }
+  ],
+  "Rentenversicherung": [
+    {
+      "de": "Die Rentenversicherung ist obligatorisch.",
+      "es": "El seguro de pensiones es obligatorio."
+    },
+    {
+      "de": "Er hat in die Rentenversicherung eingezahlt.",
+      "es": "\u00c9l ha cotizado al seguro de pensiones."
+    },
+    {
+      "de": "Hast du deine Rentenversicherung schon gepr\u00fcft?",
+      "es": "\u00bfYa has revisado tu seguro de pensiones?"
+    }
+  ],
+  "Gl\u00e4tteisen": [
+    {
+      "de": "Das Gl\u00e4tteisen ist zu hei\u00df.",
+      "es": "El alisador est\u00e1 demasiado caliente."
+    },
+    {
+      "de": "Sie hat sich die Haare mit dem Gl\u00e4tteisen gegl\u00e4ttet.",
+      "es": "Ella se ha alisado el pelo con el alisador."
+    },
+    {
+      "de": "Benutzt du das Gl\u00e4tteisen jeden Tag?",
+      "es": "\u00bfUsas el alisador todos los d\u00edas?"
+    }
+  ],
+  "articles": [
+    {
+      "de": "\"articles\" ist ein englisches Wort.",
+      "es": "\"articles\" es una palabra inglesa."
+    },
+    {
+      "de": "Auf Deutsch hei\u00dft \"articles\" Artikel.",
+      "es": "En alem\u00e1n \"articles\" significa art\u00edculos."
+    },
+    {
+      "de": "Kennst du die deutschen Artikel?",
+      "es": "\u00bfConoces los art\u00edculos alemanes?"
+    }
+  ],
+  "die Haselnuss": [
+    {
+      "de": "Die Haselnuss ist knackig.",
+      "es": "La avellana es crujiente."
+    },
+    {
+      "de": "Wir haben Haseln\u00fcsse f\u00fcr den Kuchen gehackt.",
+      "es": "Hemos picado avellanas para la tarta."
+    },
+    {
+      "de": "Isst du gern Haseln\u00fcsse?",
+      "es": "\u00bfTe gusta comer avellanas?"
+    }
+  ],
+  "holen": [
+    {
+      "de": "Ich muss noch Brot vom B\u00e4cker holen.",
+      "es": "Todav\u00eda tengo que ir a buscar pan a la panader\u00eda."
+    },
+    {
+      "de": "Er hat die Kinder von der Schule geholt.",
+      "es": "\u00c9l ha ido a buscar a los ni\u00f1os a la escuela."
+    },
+    {
+      "de": "Holst du mich um f\u00fcnf ab?",
+      "es": "\u00bfMe recoges a las cinco?"
+    }
+  ],
+  "Spatz": [
+    {
+      "de": "Der Spatz zwitschert fr\u00f6hlich.",
+      "es": "El gorri\u00f3n gorjea alegremente."
+    },
+    {
+      "de": "Auf dem Fensterbrett habe ich einen Spatz gesehen.",
+      "es": "En el alfeizar he visto un gorri\u00f3n."
+    },
+    {
+      "de": "F\u00fctterst du die Spatzen im Winter?",
+      "es": "\u00bfDas de comer a los gorriones en invierno?"
+    }
+  ],
+  "K\u00fchlschrank": [
+    {
+      "de": "Der K\u00fchlschrank ist leer.",
+      "es": "La nevera est\u00e1 vac\u00eda."
+    },
+    {
+      "de": "Ich habe den K\u00fchlschrank gestern abgetaut.",
+      "es": "Ayer he descongelado la nevera."
+    },
+    {
+      "de": "Stellst du die Milch in den K\u00fchlschrank?",
+      "es": "\u00bfPones la leche en la nevera?"
+    }
+  ],
+  "der Honig": [
+    {
+      "de": "Der Honig ist fl\u00fcssig und golden.",
+      "es": "La miel es l\u00edquida y dorada."
+    },
+    {
+      "de": "Oma hat Honig aus der Region gekauft.",
+      "es": "La abuela ha comprado miel de la regi\u00f3n."
+    },
+    {
+      "de": "M\u00f6chtest du Honig im Tee?",
+      "es": "\u00bfQuieres miel en el t\u00e9?"
+    }
+  ],
+  "biegen": [
+    {
+      "de": "Der Draht l\u00e4sst sich leicht biegen.",
+      "es": "El alambre se puede doblar f\u00e1cilmente."
+    },
+    {
+      "de": "Er hat das Blech vorsichtig gebogen.",
+      "es": "\u00c9l ha doblado la chapa con cuidado."
+    },
+    {
+      "de": "Biegst du den Ast nach unten?",
+      "es": "\u00bfDoblas la rama hacia abajo?"
+    }
+  ],
+  "malen": [
+    {
+      "de": "Mein Sohn kann sehr sch\u00f6n malen.",
+      "es": "Mi hijo sabe pintar muy bonito."
+    },
+    {
+      "de": "Gestern hat er ein Bild mit Wasserfarben gemalt.",
+      "es": "Ayer \u00e9l ha pintado un cuadro con acuarelas."
+    },
+    {
+      "de": "Malst du lieber Landschaften oder Portr\u00e4ts?",
+      "es": "\u00bfPrefieres pintar paisajes o retratos?"
+    }
+  ],
+  "Wohnzimmer": [
+    {
+      "de": "Das Wohnzimmer ist sehr gem\u00fctlich.",
+      "es": "El sal\u00f3n es muy acogedor."
+    },
+    {
+      "de": "Wir haben das Wohnzimmer gestern gestrichen.",
+      "es": "Ayer hemos pintado el sal\u00f3n."
+    },
+    {
+      "de": "Steht der Fernseher im Wohnzimmer?",
+      "es": "\u00bfEst\u00e1 el televisor en el sal\u00f3n?"
+    }
+  ],
+  "Tierarzt": [
+    {
+      "de": "Der Tierarzt ist sehr freundlich.",
+      "es": "El veterinario es muy amable."
+    },
+    {
+      "de": "Ich habe die Katze zum Tierarzt gebracht.",
+      "es": "He llevado al gato al veterinario."
+    },
+    {
+      "de": "Musst du mit deinem Hund zum Tierarzt?",
+      "es": "\u00bfTienes que ir al veterinario con tu perro?"
+    }
+  ],
+  "Schrank": [
+    {
+      "de": "Der Schrank ist aus Kiefernholz.",
+      "es": "El armario es de madera de pino."
+    },
+    {
+      "de": "Opa hat den Schrank selbst gebaut.",
+      "es": "El abuelo ha construido el armario \u00e9l mismo."
+    },
+    {
+      "de": "Kannst du den Schrank aufmachen?",
+      "es": "\u00bfPuedes abrir el armario?"
+    }
+  ],
+  "W\u00e4schetrockner": [
+    {
+      "de": "Der W\u00e4schetrockner ist kaputt.",
+      "es": "La secadora est\u00e1 rota."
+    },
+    {
+      "de": "Ich habe die Handt\u00fccher in den W\u00e4schetrockner gelegt.",
+      "es": "He puesto las toallas en la secadora."
+    },
+    {
+      "de": "Benutzt du den W\u00e4schetrockner im Winter?",
+      "es": "\u00bfUsas la secadora en invierno?"
+    }
+  ],
+  "Spinne": [
+    {
+      "de": "Die Spinne hat acht Beine.",
+      "es": "La ara\u00f1a tiene ocho patas."
+    },
+    {
+      "de": "Ich habe eine dicke Spinne im Keller gefunden.",
+      "es": "He encontrado una ara\u00f1a gorda en el s\u00f3tano."
+    },
+    {
+      "de": "Hast du Angst vor Spinnen?",
+      "es": "\u00bfTienes miedo a las ara\u00f1as?"
+    }
+  ],
+  "der Hund": [
+    {
+      "de": "Der Hund ist der beste Freund des Menschen.",
+      "es": "El perro es el mejor amigo del hombre."
+    },
+    {
+      "de": "Wir haben den Hund aus dem Tierheim geholt.",
+      "es": "Hemos adoptado al perro de la protectora."
+    },
+    {
+      "de": "Gehst du zweimal am Tag mit dem Hund spazieren?",
+      "es": "\u00bfPaseas al perro dos veces al d\u00eda?"
+    }
+  ],
+  "der Regen": [
+    {
+      "de": "Der Regen prasselt gegen das Fenster.",
+      "es": "La lluvia golpetea contra la ventana."
+    },
+    {
+      "de": "Gestern hat der Regen den ganzen Tag gedauert.",
+      "es": "Ayer la lluvia ha durado todo el d\u00eda."
+    },
+    {
+      "de": "Magst du den Klang von Regen?",
+      "es": "\u00bfTe gusta el sonido de la lluvia?"
+    }
+  ],
+  "Hautarzt": [
+    {
+      "de": "Der Hautarzt hat meine Muttermale gepr\u00fcft.",
+      "es": "El dermat\u00f3logo me ha revisado los lunares."
+    },
+    {
+      "de": "Ich muss morgen zum Hautarzt.",
+      "es": "Ma\u00f1ana tengo que ir al dermat\u00f3logo."
+    },
+    {
+      "de": "Kennst du einen guten Hautarzt in der N\u00e4he?",
+      "es": "\u00bfConoces un buen dermat\u00f3logo cerca?"
+    }
+  ],
+  "Rasiermesser": [
+    {
+      "de": "Das Rasiermesser ist sehr scharf.",
+      "es": "La cuchilla de afeitar est\u00e1 muy afilada."
+    },
+    {
+      "de": "Opa hat sich fr\u00fcher mit einem Rasiermesser rasiert.",
+      "es": "El abuelo antes se afeitaba con una cuchilla."
+    },
+    {
+      "de": "Benutzt du ein Rasiermesser oder einen Rasierer?",
+      "es": "\u00bfUsas cuchilla o maquinilla de afeitar?"
+    }
+  ],
+  "Verschiebung": [
+    {
+      "de": "Die Verschiebung des Termins ist kein Problem.",
+      "es": "El aplazamiento de la cita no es un problema."
+    },
+    {
+      "de": "Der Chef hat eine Verschiebung des Meetings vorgeschlagen.",
+      "es": "El jefe ha propuesto un aplazamiento de la reuni\u00f3n."
+    },
+    {
+      "de": "Hast du die Verschiebung best\u00e4tigt?",
+      "es": "\u00bfHas confirmado el aplazamiento?"
+    }
+  ],
+  "die Ameise": [
+    {
+      "de": "Die Ameise tr\u00e4gt ein Blatt.",
+      "es": "La hormiga lleva una hoja."
+    },
+    {
+      "de": "Im Sommer sind viele Ameisen auf der Terrasse gewesen.",
+      "es": "En verano ha habido muchas hormigas en la terraza."
+    },
+    {
+      "de": "Siehst du die Ameisenstra\u00dfe?",
+      "es": "\u00bfVes el camino de hormigas?"
+    }
+  ],
+  "Pfeffer": [
+    {
+      "de": "Der Pfeffer ist frisch gemahlen.",
+      "es": "La pimienta est\u00e1 reci\u00e9n molida."
+    },
+    {
+      "de": "Du hast zu viel Pfeffer an die Suppe getan.",
+      "es": "Has puesto demasiada pimienta a la sopa."
+    },
+    {
+      "de": "Magst du Pfeffer auf deinem Steak?",
+      "es": "\u00bfTe gusta la pimienta en tu filete?"
+    }
+  ],
+  "Gummistiefel": [
+    {
+      "de": "Die Gummistiefel sind blau.",
+      "es": "Las botas de goma son azules."
+    },
+    {
+      "de": "Das Kind hat die Gummistiefel im Regen getragen.",
+      "es": "El ni\u00f1o ha llevado las botas de goma bajo la lluvia."
+    },
+    {
+      "de": "Hast du deine Gummistiefel mitgenommen?",
+      "es": "\u00bfTe has llevado las botas de goma?"
+    }
+  ],
+  "das Schwimmbad": [
+    {
+      "de": "Das Schwimmbad ist heute geschlossen.",
+      "es": "La piscina est\u00e1 cerrada hoy."
+    },
+    {
+      "de": "Wir sind im Sommer oft ins Schwimmbad gegangen.",
+      "es": "En verano hemos ido a menudo a la piscina."
+    },
+    {
+      "de": "Darf ich dich ins Schwimmbad begleiten?",
+      "es": "\u00bfPuedo acompa\u00f1arte a la piscina?"
+    }
+  ],
+  "der Bikini": [
+    {
+      "de": "Der Bikini ist zu knapp.",
+      "es": "El bikini es demasiado peque\u00f1o."
+    },
+    {
+      "de": "Sie hat einen roten Bikini am Strand getragen.",
+      "es": "Ella ha llevado un bikini rojo en la playa."
+    },
+    {
+      "de": "Kaufst du diesen Bikini?",
+      "es": "\u00bfCompras este bikini?"
+    }
+  ],
+  "umgehen": [
+    {
+      "de": "Wir m\u00fcssen die Staus umgehen.",
+      "es": "Tenemos que evitar los atascos."
+    },
+    {
+      "de": "Er hat das Problem geschickt umgangen.",
+      "es": "\u00c9l ha evitado el problema h\u00e1bilmente."
+    },
+    {
+      "de": "Umgehst du das Thema?",
+      "es": "\u00bfEvitas el tema?"
+    }
+  ],
+  "Zahnb\u00fcrste": [
+    {
+      "de": "Meine Zahnb\u00fcrste ist elektrisch.",
+      "es": "Mi cepillo de dientes es el\u00e9ctrico."
+    },
+    {
+      "de": "Ich habe die Zahnb\u00fcrste in der Drogerie gekauft.",
+      "es": "He comprado el cepillo de dientes en la droguer\u00eda."
+    },
+    {
+      "de": "Wechselst du deine Zahnb\u00fcrste regelm\u00e4\u00dfig?",
+      "es": "\u00bfCambias tu cepillo de dientes regularmente?"
+    }
+  ],
+  "heuteMorgen": [
+    {
+      "de": "Heute Morgen war es neblig.",
+      "es": "Esta ma\u00f1ana hab\u00eda niebla."
+    },
+    {
+      "de": "Ich habe heute Morgen frische Br\u00f6tchen geholt.",
+      "es": "Esta ma\u00f1ana he ido a por panecillos frescos."
+    },
+    {
+      "de": "Hast du heute Morgen schon Kaffee getrunken?",
+      "es": "\u00bfYa has bebido caf\u00e9 esta ma\u00f1ana?"
+    }
+  ],
+  "die Stadt": [
+    {
+      "de": "Die Stadt hat viele Sehensw\u00fcrdigkeiten.",
+      "es": "La ciudad tiene muchos lugares de inter\u00e9s."
+    },
+    {
+      "de": "Wir haben die Stadt zu Fu\u00df erkundet.",
+      "es": "Hemos explorado la ciudad a pie."
+    },
+    {
+      "de": "Gef\u00e4llt dir die Stadt?",
+      "es": "\u00bfTe gusta la ciudad?"
+    }
+  ],
+  "Tablet": [
+    {
+      "de": "Das Tablet ist sehr handlich.",
+      "es": "La tablet es muy manejable."
+    },
+    {
+      "de": "Ich habe das Tablet f\u00fcr die Uni gekauft.",
+      "es": "He comprado la tablet para la universidad."
+    },
+    {
+      "de": "Benutzt du das Tablet auch zum Lesen?",
+      "es": "\u00bfUsas la tablet tambi\u00e9n para leer?"
+    }
+  ],
+  "loslassen": [
+    {
+      "de": "Du musst die Vergangenheit loslassen.",
+      "es": "Tienes que soltar el pasado."
+    },
+    {
+      "de": "Das Kind hat die Hand seiner Mutter losgelassen.",
+      "es": "El ni\u00f1o ha soltado la mano de su madre."
+    },
+    {
+      "de": "L\u00e4sst du den Ball los?",
+      "es": "\u00bfSuelta la pelota?"
+    }
+  ],
+  "sorgen": [
+    {
+      "de": "Ich sorge mich um meine Gesundheit.",
+      "es": "Me preocupo por mi salud."
+    },
+    {
+      "de": "Er hat sich um die Organisation gesorgt.",
+      "es": "\u00c9l se ha preocupado de la organizaci\u00f3n."
+    },
+    {
+      "de": "Sorgst du dich auch um deine Zukunft?",
+      "es": "\u00bfTe preocupas tambi\u00e9n por tu futuro?"
+    }
+  ],
+  "tief": [
+    {
+      "de": "Der Brunnen ist sehr tief.",
+      "es": "El pozo es muy profundo."
+    },
+    {
+      "de": "Sie hat tief geschlafen.",
+      "es": "Ella ha dormido profundamente."
+    },
+    {
+      "de": "Wie tief ist das Wasser hier?",
+      "es": "\u00bfC\u00f3mo de profunda est\u00e1 el agua aqu\u00ed?"
+    }
+  ],
+  "flach": [
+    {
+      "de": "Das Land ist hier ganz flach.",
+      "es": "El terreno es aqu\u00ed totalmente llano."
+    },
+    {
+      "de": "Der Teich ist zu flach zum Schwimmen.",
+      "es": "El estanque es demasiado llano para nadar."
+    },
+    {
+      "de": "Findest du den Kuchen zu flach?",
+      "es": "\u00bfEncuentras la tarta demasiado plana?"
+    }
+  ],
+  "G\u00e4rtner": [
+    {
+      "de": "Der G\u00e4rtner schneidet die Hecken.",
+      "es": "El jardinero recorta los setos."
+    },
+    {
+      "de": "Wir haben den G\u00e4rtner f\u00fcr den Fr\u00fchling bestellt.",
+      "es": "Hemos pedido al jardinero para la primavera."
+    },
+    {
+      "de": "Arbeitet der G\u00e4rtner auch am Samstag?",
+      "es": "\u00bfTrabaja el jardinero tambi\u00e9n el s\u00e1bado?"
+    }
+  ],
+  "M\u00fctze": [
+    {
+      "de": "Meine M\u00fctze ist aus Wolle.",
+      "es": "Mi gorro es de lana."
+    },
+    {
+      "de": "Er hat die M\u00fctze auf den Tisch gelegt.",
+      "es": "\u00c9l ha dejado el gorro en la mesa."
+    },
+    {
+      "de": "Setzt du die M\u00fctze bei K\u00e4lte auf?",
+      "es": "\u00bfTe pones el gorro cuando hace fr\u00edo?"
+    }
+  ],
+  "Rock": [
+    {
+      "de": "Der Rocksaum ist ausgefranst.",
+      "es": "El borde de la falda est\u00e1 deshilachado."
+    },
+    {
+      "de": "Ich habe den Rock im Schrank gefunden.",
+      "es": "He encontrado la falda en el armario."
+    },
+    {
+      "de": "B\u00fcgelst du den Rock?",
+      "es": "\u00bfPlanchas la falda?"
+    }
+  ],
+  "die Butter": [
+    {
+      "de": "Die Butter ist weich.",
+      "es": "La mantequilla est\u00e1 blanda."
+    },
+    {
+      "de": "Oma hat die Butter selbst gemacht.",
+      "es": "La abuela ha hecho la mantequilla ella misma."
+    },
+    {
+      "de": "Streicht du die Butter aufs Br\u00f6tchen?",
+      "es": "\u00bfUntas la mantequilla en el panecillo?"
+    }
+  ],
+  "Deckel": [
+    {
+      "de": "Der Deckel sitzt fest auf dem Glas.",
+      "es": "La tapa est\u00e1 bien cerrada en el tarro."
+    },
+    {
+      "de": "Ich habe den Deckel nicht aufbekommen.",
+      "es": "No he conseguido abrir la tapa."
+    },
+    {
+      "de": "Kannst du den Deckel abschrauben?",
+      "es": "\u00bfPuedes desenroscar la tapa?"
+    }
+  ],
+  "decken": [
+    {
+      "de": "Ich muss noch den Tisch decken.",
+      "es": "Todav\u00eda tengo que poner la mesa."
+    },
+    {
+      "de": "Er hat die Teller und Gl\u00e4ser gedeckt.",
+      "es": "\u00c9l ha puesto los platos y los vasos en la mesa."
+    },
+    {
+      "de": "Deckst du den Tisch f\u00fcr sechs Personen?",
+      "es": "\u00bfPones la mesa para seis personas?"
+    }
+  ],
+  "abwaschen": [
+    {
+      "de": "Du musst das Geschirr abwaschen.",
+      "es": "Tienes que fregar los platos."
+    },
+    {
+      "de": "Ich habe die Tassen von Hand abgewaschen.",
+      "es": "He fregado las tazas a mano."
+    },
+    {
+      "de": "W\u00e4schst du mit hei\u00dfem Wasser ab?",
+      "es": "\u00bfFriegas con agua caliente?"
+    }
+  ],
+  "suchen": [
+    {
+      "de": "Ich suche meine Brille.",
+      "es": "Busco mis gafas."
+    },
+    {
+      "de": "Er hat den Schl\u00fcssel \u00fcberall gesucht.",
+      "es": "\u00c9l ha buscado la llave por todas partes."
+    },
+    {
+      "de": "Suchst du eine neue Wohnung?",
+      "es": "\u00bfBuscas un piso nuevo?"
+    }
+  ],
+  "Frisur": [
+    {
+      "de": "Deine neue Frisur steht dir gut.",
+      "es": "Tu nuevo peinado te queda bien."
+    },
+    {
+      "de": "Der Friseur hat mir eine tolle Frisur gemacht.",
+      "es": "El peluquero me ha hecho un peinado estupendo."
+    },
+    {
+      "de": "\u00c4nderst du deine Frisur oft?",
+      "es": "\u00bfCambias de peinado a menudo?"
+    }
+  ],
+  "z\u00e4h": [
+    {
+      "de": "Das Fleisch ist heute z\u00e4h.",
+      "es": "La carne est\u00e1 hoy correosa."
+    },
+    {
+      "de": "Der L\u00e4ufer hat sich als z\u00e4h erwiesen.",
+      "es": "El corredor se ha mostrado tenaz."
+    },
+    {
+      "de": "Bist du ein z\u00e4her Gegner?",
+      "es": "\u00bfEs un oponente correoso?"
+    }
+  ],
+  "vierzig": [
+    {
+      "de": "Vierzig ist eine runde Zahl.",
+      "es": "Cuarenta es un n\u00famero redondo."
+    },
+    {
+      "de": "Mein Vater ist gestern vierzig geworden.",
+      "es": "Mi padre cumpli\u00f3 ayer cuarenta a\u00f1os."
+    },
+    {
+      "de": "Kostet das Hemd vierzig Euro?",
+      "es": "\u00bfCuesta la camisa cuarenta euros?"
+    }
+  ],
+  "Untertasse": [
+    {
+      "de": "Die Untertasse ist aus feinem Porzellan.",
+      "es": "El platillo es de porcelana fina."
+    },
+    {
+      "de": "Oma hat die Tasse auf die Untertasse gestellt.",
+      "es": "La abuela ha puesto la taza sobre el platillo."
+    },
+    {
+      "de": "Hast du eine passende Untertasse?",
+      "es": "\u00bfTienes un platillo a juego?"
+    }
+  ],
+  "\u00e4ngstlich": [
+    {
+      "de": "Der Hund ist etwas \u00e4ngstlich.",
+      "es": "El perro es un poco temeroso."
+    },
+    {
+      "de": "Sie hat \u00e4ngstlich auf die Pr\u00fcfung gewartet.",
+      "es": "Ella ha esperado el examen con temor."
+    },
+    {
+      "de": "Warum schaust du so \u00e4ngstlich?",
+      "es": "\u00bfPor qu\u00e9 miras tan temeroso?"
+    }
+  ],
+  "Rollladen": [
+    {
+      "de": "Der Rollladen ist heruntergelassen.",
+      "es": "La persiana est\u00e1 bajada."
+    },
+    {
+      "de": "Ich habe die Rolll\u00e4den im Schlafzimmer erneuert.",
+      "es": "He renovado las persianas del dormitorio."
+    },
+    {
+      "de": "Ziehst du die Rolll\u00e4den am Abend hoch?",
+      "es": "\u00bfSubes las persianas por la noche?"
+    }
+  ],
+  "graben": [
+    {
+      "de": "Der Hund gr\u00e4bt ein Loch im Garten.",
+      "es": "El perro cava un agujero en el jard\u00edn."
+    },
+    {
+      "de": "Opa hat letzte Woche Kartoffeln gegraben.",
+      "es": "El abuelo ha cavado patatas la semana pasada."
+    },
+    {
+      "de": "Gr\u00e4bst du mit der Hand oder mit der Schaufel?",
+      "es": "\u00bfCavas con la mano o con la pala?"
+    }
+  ],
+  "der Keller": [
+    {
+      "de": "Der Keller ist k\u00fchl und trocken.",
+      "es": "El s\u00f3tano es fresco y seco."
+    },
+    {
+      "de": "Wir haben den Wein im Keller gelagert.",
+      "es": "Hemos guardado el vino en el s\u00f3tano."
+    },
+    {
+      "de": "Bringst du die Kisten in den Keller?",
+      "es": "\u00bfLlevas las cajas al s\u00f3tano?"
+    }
+  ],
+  "Hilfe": [
+    {
+      "de": "Ich brauche dringend Hilfe.",
+      "es": "Necesito ayuda urgentemente."
+    },
+    {
+      "de": "Der Nachbar hat mir seine Hilfe angeboten.",
+      "es": "El vecino me ha ofrecido su ayuda."
+    },
+    {
+      "de": "Kannst du mir Hilfe holen?",
+      "es": "\u00bfPuedes ir a buscar ayuda?"
+    }
+  ],
+  "Klimaanlage": [
+    {
+      "de": "Die Klimaanlage ist defekt.",
+      "es": "El aire acondicionado est\u00e1 averiado."
+    },
+    {
+      "de": "Wir haben die Klimaanlage im B\u00fcro eingeschaltet.",
+      "es": "Hemos encendido el aire acondicionado en la oficina."
+    },
+    {
+      "de": "Funktioniert die Klimaanlage in deinem Auto?",
+      "es": "\u00bfFunciona el aire acondicionado en tu coche?"
+    }
+  ],
+  "abfahren": [
+    {
+      "de": "Der Bus wird in f\u00fcnf Minuten abfahren.",
+      "es": "El autob\u00fas saldr\u00e1 en cinco minutos."
+    },
+    {
+      "de": "P\u00fcnktlich um acht ist der Zug abgefahren.",
+      "es": "Puntualmente a las ocho ha salido el tren."
+    },
+    {
+      "de": "F\u00e4hrst du mit dem Rad ab oder l\u00e4ufst du?",
+      "es": "\u00bfTe vas en bici o caminando?"
+    }
+  ],
+  "\u00fcbernehmen": [
+    {
+      "de": "Du musst die Verantwortung \u00fcbernehmen.",
+      "es": "Tienes que asumir la responsabilidad."
+    },
+    {
+      "de": "Der neue Kollege hat die Aufgabe \u00fcbernommen.",
+      "es": "El compa\u00f1ero nuevo ha asumido la tarea."
+    },
+    {
+      "de": "\u00dcbernimmst du das Projekt?",
+      "es": "\u00bfAsumes el proyecto?"
+    }
+  ],
+  "Zeitpunkt": [
+    {
+      "de": "Der Zeitpunkt ist g\u00fcnstig.",
+      "es": "El momento es favorable."
+    },
+    {
+      "de": "Er hat den richtigen Zeitpunkt verpasst.",
+      "es": "\u00c9l ha perdido el momento adecuado."
+    },
+    {
+      "de": "Ist das ein guter Zeitpunkt f\u00fcr ein Gespr\u00e4ch?",
+      "es": "\u00bfEs este un buen momento para una conversaci\u00f3n?"
+    }
+  ],
+  "die Insel": [
+    {
+      "de": "Die Insel ist von Wasser umgeben.",
+      "es": "La isla est\u00e1 rodeada de agua."
+    },
+    {
+      "de": "Im Urlaub haben wir eine kleine Insel besucht.",
+      "es": "En vacaciones hemos visitado una isla peque\u00f1a."
+    },
+    {
+      "de": "M\u00f6chtest du auf einer Insel leben?",
+      "es": "\u00bfTe gustar\u00eda vivir en una isla?"
+    }
+  ],
+  "drei\u00dfig": [
+    {
+      "de": "Drei\u00dfig ist eine runde Zahl.",
+      "es": "Treinta es un n\u00famero redondo."
+    },
+    {
+      "de": "Mein Bruder ist gestern drei\u00dfig geworden.",
+      "es": "Mi hermano cumpli\u00f3 ayer treinta a\u00f1os."
+    },
+    {
+      "de": "Kostet das Kleid drei\u00dfig Euro?",
+      "es": "\u00bfCuesta el vestido treinta euros?"
+    }
+  ],
+  "Kommode": [
+    {
+      "de": "Die Kommode steht im Schlafzimmer.",
+      "es": "La c\u00f3moda est\u00e1 en el dormitorio."
+    },
+    {
+      "de": "Oma hat die alte Kommode neu gestrichen.",
+      "es": "La abuela ha pintado de nuevo la c\u00f3moda vieja."
+    },
+    {
+      "de": "Hast du den Schl\u00fcssel in der Kommode gefunden?",
+      "es": "\u00bfHas encontrado la llave en la c\u00f3moda?"
+    }
+  ],
+  "die Waschmaschine": [
+    {
+      "de": "Die Waschmaschine schleudert sehr laut.",
+      "es": "La lavadora centrifuga muy fuerte."
+    },
+    {
+      "de": "Ich habe die Waschmaschine heute Morgen eingeschaltet.",
+      "es": "He encendido la lavadora esta ma\u00f1ana."
+    },
+    {
+      "de": "Kannst du die Waschmaschine ausr\u00e4umen?",
+      "es": "\u00bfPuedes vaciar la lavadora?"
+    }
+  ],
+  "Brot": [
+    {
+      "de": "Das Brot ist knusprig und frisch.",
+      "es": "El pan est\u00e1 crujiente y fresco."
+    },
+    {
+      "de": "Der B\u00e4cker hat das Brot fr\u00fch am Morgen gebacken.",
+      "es": "El panadero ha horneado el pan temprano por la ma\u00f1ana."
+    },
+    {
+      "de": "Hast du das Brot schon angeschnitten?",
+      "es": "\u00bfYa has empezado a cortar el pan?"
+    }
+  ],
+  "la mesa": [
+    {
+      "de": "\"la mesa\" ist ein spanisches Wort.",
+      "es": "\"la mesa\" es una palabra espa\u00f1ola."
+    },
+    {
+      "de": "Auf Deutsch hei\u00dft \"la mesa\" der Tisch.",
+      "es": "En alem\u00e1n \"la mesa\" significa la mesa."
+    },
+    {
+      "de": "Kennst du das Wort \"Tisch\"?",
+      "es": "\u00bfConoces la palabra \"Tisch\"?"
+    }
+  ],
+  "Bad": [
+    {
+      "de": "Das Bad ist gefliest.",
+      "es": "El ba\u00f1o est\u00e1 alicatado."
+    },
+    {
+      "de": "Ich habe gestern das Bad geputzt.",
+      "es": "Ayer he limpiado el ba\u00f1o."
+    },
+    {
+      "de": "Ist das Bad frei?",
+      "es": "\u00bfEst\u00e1 libre el ba\u00f1o?"
+    }
+  ],
+  "satt": [
+    {
+      "de": "Nach dem Essen bin ich satt.",
+      "es": "Despu\u00e9s de comer estoy lleno."
+    },
+    {
+      "de": "Er hat sich an dem Kuchen satt gegessen.",
+      "es": "\u00c9l se ha hartado de comer tarta."
+    },
+    {
+      "de": "Bist du schon satt?",
+      "es": "\u00bfYa est\u00e1s lleno?"
+    }
+  ],
+  "die Blaubeere": [
+    {
+      "de": "Die Blaubeere ist winzig und blau.",
+      "es": "El ar\u00e1ndano es diminuto y azul."
+    },
+    {
+      "de": "Wir haben Blaubeeren f\u00fcr die Marmelade gesammelt.",
+      "es": "Hemos recogido ar\u00e1ndanos para la mermelada."
+    },
+    {
+      "de": "Magst du Blaubeeren im Joghurt?",
+      "es": "\u00bfTe gustan los ar\u00e1ndanos en el yogur?"
+    }
+  ],
+  "werten": [
+    {
+      "de": "Der Chef wird deine Arbeit werten.",
+      "es": "El jefe valorar\u00e1 tu trabajo."
+    },
+    {
+      "de": "Sie hat den Film negativ gewertet.",
+      "es": "Ella ha valorado la pel\u00edcula negativamente."
+    },
+    {
+      "de": "Wertest du deine Kollegen fair?",
+      "es": "\u00bfValoras a tus compa\u00f1eros de manera justa?"
+    }
+  ],
+  "unter": [
+    {
+      "de": "Die Katze schl\u00e4ft unter dem Tisch.",
+      "es": "El gato duerme debajo de la mesa."
+    },
+    {
+      "de": "Ich habe die Schuhe unter das Bett gestellt.",
+      "es": "He puesto los zapatos debajo de la cama."
+    },
+    {
+      "de": "Liegt der Teppich unter dem Sofa?",
+      "es": "\u00bfEst\u00e1 la alfombra debajo del sof\u00e1?"
+    }
+  ],
+  "Picknick": [
+    {
+      "de": "Das Picknick war ein voller Erfolg.",
+      "es": "El p\u00edcnic fue todo un \u00e9xito."
+    },
+    {
+      "de": "Wir haben am See ein Picknick gemacht.",
+      "es": "Hemos hecho un p\u00edcnic junto al lago."
+    },
+    {
+      "de": "Packst du den Korb f\u00fcr das Picknick?",
+      "es": "\u00bfPreparas la cesta para el p\u00edcnic?"
+    }
+  ],
+  "Ader": [
+    {
+      "de": "Die Ader am Handgelenk pulsiert.",
+      "es": "La vena de la mu\u00f1eca late."
+    },
+    {
+      "de": "Die Krankenschwester hat eine Ader am Arm gefunden.",
+      "es": "La enfermera ha encontrado una vena en el brazo."
+    },
+    {
+      "de": "Siehst du deine Adern unter der Haut?",
+      "es": "\u00bfVes tus venas debajo de la piel?"
+    }
+  ],
+  "Unterhose": [
+    {
+      "de": "Meine Unterhose ist aus reiner Baumwolle.",
+      "es": "Mi ropa interior es de puro algod\u00f3n."
+    },
+    {
+      "de": "Er hat die Unterhosen in den Schrank einger\u00e4umt.",
+      "es": "\u00c9l ha guardado la ropa interior en el armario."
+    },
+    {
+      "de": "Wechselst du deine Unterhose t\u00e4glich?",
+      "es": "\u00bfTe cambias la ropa interior a diario?"
+    }
+  ],
+  "Zopf": [
+    {
+      "de": "Ihr Zopf ist lang und dick.",
+      "es": "Su trenza es larga y gruesa."
+    },
+    {
+      "de": "Die Mutter hat der Tochter einen Zopf geflochten.",
+      "es": "La madre ha trenzado una trenza a la hija."
+    },
+    {
+      "de": "Tr\u00e4gst du gern einen Zopf?",
+      "es": "\u00bfTe gusta llevar trenza?"
+    }
+  ],
+  "die Neun": [
+    {
+      "de": "Die Neun ist eine ungerade Zahl.",
+      "es": "El nueve es un n\u00famero impar."
+    },
+    {
+      "de": "Ich habe die Neun auf dem W\u00fcrfel gew\u00fcrfelt.",
+      "es": "He sacado el nueve con el dado."
+    },
+    {
+      "de": "Ist die Neun deine Gl\u00fcckszahl?",
+      "es": "\u00bfEs el nueve tu n\u00famero de la suerte?"
+    }
+  ],
+  "der Berg": [
+    {
+      "de": "Der Berg ragt in den Himmel.",
+      "es": "La monta\u00f1a se alza hacia el cielo."
+    },
+    {
+      "de": "Wir sind im Urlaub auf den Berg gestiegen.",
+      "es": "En vacaciones hemos subido a la monta\u00f1a."
+    },
+    {
+      "de": "Hast du schon einen Berg bestiegen?",
+      "es": "\u00bfHas escalado ya una monta\u00f1a?"
+    }
+  ],
+  "Eltern": [
+    {
+      "de": "Meine Eltern wohnen in Hamburg.",
+      "es": "Mis padres viven en Hamburgo."
+    },
+    {
+      "de": "Die Eltern haben das Kinderzimmer gestrichen.",
+      "es": "Los padres han pintado la habitaci\u00f3n de los ni\u00f1os."
+    },
+    {
+      "de": "Besuchst du deine Eltern am Wochenende?",
+      "es": "\u00bfVisitas a tus padres el fin de semana?"
+    }
+  ],
+  "leisten": [
+    {
+      "de": "Ich muss mir mehr M\u00fche leisten.",
+      "es": "Tengo que esforzarme m\u00e1s."
+    },
+    {
+      "de": "Er hat sich einen teuren Urlaub geleistet.",
+      "es": "\u00c9l se ha permitido unas vacaciones caras."
+    },
+    {
+      "de": "Leistest du dir oft neue Kleidung?",
+      "es": "\u00bfTe compras ropa nueva a menudo?"
+    }
+  ],
+  "scheiden": [
+    {
+      "de": "Das Gericht wird die Ehe scheiden.",
+      "es": "El tribunal disolver\u00e1 el matrimonio."
+    },
+    {
+      "de": "Sie haben sich nach zehn Jahren scheiden lassen.",
+      "es": "Ellos se han divorciado despu\u00e9s de diez a\u00f1os."
+    },
+    {
+      "de": "Scheiden tut weh, oder?",
+      "es": "\u00bfEl divorcio duele, no?"
+    }
+  ],
+  "sch\u00e4len": [
+    {
+      "de": "Du musst die Kartoffeln sch\u00e4len.",
+      "es": "Tienes que pelar las patatas."
+    },
+    {
+      "de": "Oma hat die \u00c4pfel f\u00fcr den Kuchen gesch\u00e4lt.",
+      "es": "La abuela ha pelado las manzanas para la tarta."
+    },
+    {
+      "de": "Sch\u00e4lst du die Gurke oder isst du sie mit Schale?",
+      "es": "\u00bfPelas el pepino o lo comes con piel?"
+    }
+  ],
+  "Arbeitserlaubnis": [
+    {
+      "de": "Die Arbeitserlaubnis ist zwei Jahre g\u00fcltig.",
+      "es": "El permiso de trabajo es v\u00e1lido por dos a\u00f1os."
+    },
+    {
+      "de": "Er hat endlich seine Arbeitserlaubnis erhalten.",
+      "es": "\u00c9l ha recibido por fin su permiso de trabajo."
+    },
+    {
+      "de": "Hast du deine Arbeitserlaubnis beantragt?",
+      "es": "\u00bfHas solicitado tu permiso de trabajo?"
+    }
+  ],
+  "Firmensitz": [
+    {
+      "de": "Der Firmensitz ist in Berlin.",
+      "es": "La sede social est\u00e1 en Berl\u00edn."
+    },
+    {
+      "de": "Die Firma hat ihren Firmensitz verlegt.",
+      "es": "La empresa ha trasladado su sede."
+    },
+    {
+      "de": "Wei\u00dft du, wo der Firmensitz ist?",
+      "es": "\u00bfSabes d\u00f3nde est\u00e1 la sede?"
+    }
+  ],
+  "Stirn": [
+    {
+      "de": "Meine Stirn ist hei\u00df.",
+      "es": "Mi frente est\u00e1 caliente."
+    },
+    {
+      "de": "Die Mutter hat dem Kind die Stirn gek\u00fchlt.",
+      "es": "La madre ha refrescado la frente del ni\u00f1o."
+    },
+    {
+      "de": "Hast du Fieber? Deine Stirn gl\u00fcht.",
+      "es": "\u00bfTienes fiebre? Tu frente arde."
+    }
+  ],
+  "kleben": [
+    {
+      "de": "Das Etikett klebt auf der Flasche.",
+      "es": "La etiqueta est\u00e1 pegada en la botella."
+    },
+    {
+      "de": "Er hat die Briefmarke auf den Umschlag geklebt.",
+      "es": "\u00c9l ha pegado el sello en el sobre."
+    },
+    {
+      "de": "Klebst du das Poster mit Klebeband fest?",
+      "es": "\u00bfPegas el p\u00f3ster con cinta adhesiva?"
+    }
+  ],
+  "Marienk\u00e4fer": [
+    {
+      "de": "Der Marienk\u00e4fer hat sieben Punkte.",
+      "es": "La mariquita tiene siete puntos."
+    },
+    {
+      "de": "Ich habe einen Marienk\u00e4fer auf dem Blatt gefunden.",
+      "es": "He encontrado una mariquita sobre la hoja."
+    },
+    {
+      "de": "Bringt ein Marienk\u00e4fer Gl\u00fcck?",
+      "es": "\u00bfTrae buena suerte una mariquita?"
+    }
+  ],
+  "Ohrring": [
+    {
+      "de": "Mein Ohrring ist aus Silber.",
+      "es": "Mi pendiente es de plata."
+    },
+    {
+      "de": "Sie hat einen Ohrring im Bad verloren.",
+      "es": "Ella ha perdido un pendiente en el ba\u00f1o."
+    },
+    {
+      "de": "Tr\u00e4gst du jeden Tag Ohrringe?",
+      "es": "\u00bfLlevas pendientes todos los d\u00edas?"
+    }
+  ],
+  "ernten": [
+    {
+      "de": "Der Bauer will morgen die Kartoffeln ernten.",
+      "es": "El agricultor quiere cosechar ma\u00f1ana las patatas."
+    },
+    {
+      "de": "Im Herbst haben wir \u00c4pfel geerntet.",
+      "es": "En oto\u00f1o hemos cosechado manzanas."
+    },
+    {
+      "de": "Erntest du dein eigenes Gem\u00fcse?",
+      "es": "\u00bfCosechas tu propia verdura?"
+    }
+  ],
+  "greifen": [
+    {
+      "de": "Das Baby will nach dem Spielzeug greifen.",
+      "es": "El beb\u00e9 quiere agarrar el juguete."
+    },
+    {
+      "de": "Er hat meine Hand gegriffen.",
+      "es": "\u00c9l ha agarrado mi mano."
+    },
+    {
+      "de": "Greifst du nach dem Seil?",
+      "es": "\u00bfAgarra la cuerda?"
+    }
+  ],
+  "Niere": [
+    {
+      "de": "Die Niere filtert das Blut.",
+      "es": "El ri\u00f1\u00f3n filtra la sangre."
+    },
+    {
+      "de": "Der Arzt hat meine Nieren untersucht.",
+      "es": "El m\u00e9dico me ha examinado los ri\u00f1ones."
+    },
+    {
+      "de": "Hast du Schmerzen in der Niere?",
+      "es": "\u00bfTienes dolor de ri\u00f1ones?"
+    }
+  ],
+  "K\u00e4fer": [
+    {
+      "de": "Der K\u00e4fer krabbelt \u00fcber das Blatt.",
+      "es": "El escarabajo se arrastra sobre la hoja."
+    },
+    {
+      "de": "Wir haben einen bunten K\u00e4fer im Wald gesehen.",
+      "es": "Hemos visto un escarabajo de colores en el bosque."
+    },
+    {
+      "de": "Hast du schon einen Maik\u00e4fer gefangen?",
+      "es": "\u00bfHas atrapado ya un escarabajo de mayo?"
+    }
+  ],
+  "der Schaffner": [
+    {
+      "de": "Der Schaffner kontrolliert die Fahrkarten.",
+      "es": "El revisor controla los billetes."
+    },
+    {
+      "de": "Ich habe dem Schaffner mein Ticket gezeigt.",
+      "es": "Le he mostrado mi billete al revisor."
+    },
+    {
+      "de": "Kommt der Schaffner noch?",
+      "es": "\u00bfViene a\u00fan el revisor?"
+    }
+  ],
+  "hacken": [
+    {
+      "de": "Du musst die N\u00fcsse hacken.",
+      "es": "Tienes que picar las nueces."
+    },
+    {
+      "de": "Oma hat die Zwiebeln fein gehackt.",
+      "es": "La abuela ha picado las cebollas finas."
+    },
+    {
+      "de": "Hackst du das Gem\u00fcse mit einem Messer oder einer Maschine?",
+      "es": "\u00bfPicas la verdura con cuchillo o a m\u00e1quina?"
+    }
+  ],
+  "der Hut": [
+    {
+      "de": "Der Hut sch\u00fctzt vor Sonne.",
+      "es": "El sombrero protege del sol."
+    },
+    {
+      "de": "Opa hat einen alten Filzhut getragen.",
+      "es": "El abuelo ha llevado un viejo sombrero de fieltro."
+    },
+    {
+      "de": "Setzt du im Sommer einen Hut auf?",
+      "es": "\u00bfTe pones sombrero en verano?"
+    }
+  ],
+  "das Mineralwasser": [
+    {
+      "de": "Das Mineralwasser ist mit Kohlens\u00e4ure.",
+      "es": "El agua mineral es con gas."
+    },
+    {
+      "de": "Ich habe zwei Flaschen Mineralwasser gekauft.",
+      "es": "He comprado dos botellas de agua mineral."
+    },
+    {
+      "de": "Trinkst du lieber stilles oder sprudelndes Mineralwasser?",
+      "es": "\u00bfPrefieres agua mineral sin gas o con gas?"
+    }
+  ],
+  "Galle": [
+    {
+      "de": "Die Galle hilft bei der Fettverdauung.",
+      "es": "La bilis ayuda en la digesti\u00f3n de las grasas."
+    },
+    {
+      "de": "Der Arzt hat meine Galle untersucht.",
+      "es": "El m\u00e9dico me ha examinado la bilis."
+    },
+    {
+      "de": "Hast du Probleme mit der Galle?",
+      "es": "\u00bfTienes problemas de la ves\u00edcula?"
+    }
+  ],
+  "Einkaufszentrum": [
+    {
+      "de": "Das Einkaufszentrum hat bis acht ge\u00f6ffnet.",
+      "es": "El centro comercial est\u00e1 abierto hasta las ocho."
+    },
+    {
+      "de": "Wir sind am Samstag ins Einkaufszentrum gefahren.",
+      "es": "El s\u00e1bado fuimos al centro comercial."
+    },
+    {
+      "de": "Gehst du gern ins Einkaufszentrum?",
+      "es": "\u00bfTe gusta ir al centro comercial?"
+    }
+  ],
+  "Verabredung": [
+    {
+      "de": "Die Verabredung ist um sieben.",
+      "es": "La cita es a las siete."
+    },
+    {
+      "de": "Ich habe die Verabredung leider verpasst.",
+      "es": "Por desgracia he faltado a la cita."
+    },
+    {
+      "de": "Hast du heute Abend eine Verabredung?",
+      "es": "\u00bfTienes una cita esta noche?"
+    }
+  ],
+  "Kirsche": [
+    {
+      "de": "Die Kirsche ist reif.",
+      "es": "La cereza est\u00e1 madura."
+    },
+    {
+      "de": "Wir haben Kirschen vom Baum gepfl\u00fcckt.",
+      "es": "Hemos recogido cerezas del \u00e1rbol."
+    },
+    {
+      "de": "Backst du einen Kirschkuchen?",
+      "es": "\u00bfHorneas una tarta de cerezas?"
+    }
+  ],
+  "Vormittag": [
+    {
+      "de": "Der Vormittag vergeht schnell.",
+      "es": "La ma\u00f1ana pasa r\u00e1pido."
+    },
+    {
+      "de": "Am Vormittag habe ich E-Mails beantwortet.",
+      "es": "Por la ma\u00f1ana he contestado correos electr\u00f3nicos."
+    },
+    {
+      "de": "Hast du am Vormittag Zeit?",
+      "es": "\u00bfTienes tiempo por la ma\u00f1ana?"
+    }
+  ],
+  "Handfl\u00e4che": [
+    {
+      "de": "Meine Handfl\u00e4che ist verschwitzt.",
+      "es": "Mi palma de la mano est\u00e1 sudada."
+    },
+    {
+      "de": "Sie hat die M\u00fcnze in die Handfl\u00e4che genommen.",
+      "es": "Ella ha cogido la moneda en la palma de la mano."
+    },
+    {
+      "de": "Zeigst du mir deine Handfl\u00e4che?",
+      "es": "\u00bfMe muestras la palma de tu mano?"
+    }
+  ],
+  "Notiz": [
+    {
+      "de": "Die Notiz klebt am Spiegel.",
+      "es": "La nota est\u00e1 pegada en el espejo."
+    },
+    {
+      "de": "Ich habe mir eine Notiz auf dem Handy gemacht.",
+      "es": "Me he apuntado una nota en el m\u00f3vil."
+    },
+    {
+      "de": "Hast du die Notiz gelesen?",
+      "es": "\u00bfHas le\u00eddo la nota?"
+    }
+  ],
+  "der Delfin": [
+    {
+      "de": "Der Delfin springt aus dem Wasser.",
+      "es": "El delf\u00edn salta fuera del agua."
+    },
+    {
+      "de": "Bei der Bootstour haben wir Delfine gesehen.",
+      "es": "En la excursi\u00f3n en barco hemos visto delfines."
+    },
+    {
+      "de": "Kann man mit Delfinen schwimmen?",
+      "es": "\u00bfSe puede nadar con delfines?"
+    }
+  ],
+  "gedenken": [
+    {
+      "de": "Wir gedenken der Opfer des Krieges.",
+      "es": "Conmemoramos a las v\u00edctimas de la guerra."
+    },
+    {
+      "de": "Die Stadt hat der Toten gedacht.",
+      "es": "La ciudad ha conmemorado a los fallecidos."
+    },
+    {
+      "de": "Gedenkst du der Verstorbenen an diesem Tag?",
+      "es": "\u00bfConmemoras a los difuntos en este d\u00eda?"
+    }
+  ],
+  "Bus": [
+    {
+      "de": "Der Bus ist heute zu sp\u00e4t.",
+      "es": "El autob\u00fas llega hoy tarde."
+    },
+    {
+      "de": "Ich habe den Bus um eine Minute verpasst.",
+      "es": "He perdido el autob\u00fas por un minuto."
+    },
+    {
+      "de": "Nimmst du den Bus zur Arbeit?",
+      "es": "\u00bfTomas el autob\u00fas para ir al trabajo?"
+    }
+  ],
+  "Auto": [
+    {
+      "de": "Mein Auto braucht neuen T\u00dcV.",
+      "es": "Mi coche necesita pasar la ITV."
+    },
+    {
+      "de": "Er hat das Auto gestern gewaschen.",
+      "es": "\u00c9l ha lavado el coche ayer."
+    },
+    {
+      "de": "F\u00e4hrst du mit dem Auto in den Urlaub?",
+      "es": "\u00bfVas en coche de vacaciones?"
+    }
+  ],
+  "versammeln": [
+    {
+      "de": "Der Chef will das Team versammeln.",
+      "es": "El jefe quiere reunir al equipo."
+    },
+    {
+      "de": "Wir haben uns im Besprechungsraum versammelt.",
+      "es": "Nos hemos reunido en la sala de reuniones."
+    },
+    {
+      "de": "Versammelt ihr euch jeden Morgen?",
+      "es": "\u00bfOs reun\u00eds todas las ma\u00f1anas?"
+    }
+  ],
+  "die Zwei": [
+    {
+      "de": "Die Zwei ist eine niedrige Zahl.",
+      "es": "El dos es un n\u00famero bajo."
+    },
+    {
+      "de": "Ich habe eine Zwei in der Klassenarbeit geschrieben.",
+      "es": "He sacado un dos en el examen de clase."
+    },
+    {
+      "de": "Ist die Zwei deine Gl\u00fcckszahl?",
+      "es": "\u00bfEs el dos tu n\u00famero de la suerte?"
+    }
+  ],
+  "Niederlassung": [
+    {
+      "de": "Die Niederlassung wurde letztes Jahr er\u00f6ffnet.",
+      "es": "La sucursal fue inaugurada el a\u00f1o pasado."
+    },
+    {
+      "de": "Die Firma hat eine neue Niederlassung in K\u00f6ln gegr\u00fcndet.",
+      "es": "La empresa ha abierto una nueva sucursal en Colonia."
+    },
+    {
+      "de": "Arbeitest du in der Hauptniederlassung?",
+      "es": "\u00bfTrabajas en la sucursal principal?"
+    }
+  ],
+  "erregen": [
+    {
+      "de": "Die laute Musik erregt meine Aufmerksamkeit.",
+      "es": "La m\u00fasica alta excita mi atenci\u00f3n."
+    },
+    {
+      "de": "Sein Verhalten hat mich sehr erregt.",
+      "es": "Su comportamiento me ha excitado mucho."
+    },
+    {
+      "de": "Erregt dich diese Diskussion?",
+      "es": "\u00bfTe excita esta discusi\u00f3n?"
+    }
+  ],
+  "Bein": [
+    {
+      "de": "Mein Bein ist eingeschlafen.",
+      "es": "Se me ha dormido la pierna."
+    },
+    {
+      "de": "Ich habe mir das Bein beim Skifahren gebrochen.",
+      "es": "Me he roto la pierna esquiando."
+    },
+    {
+      "de": "Kannst du dein Bein heben?",
+      "es": "\u00bfPuedes levantar la pierna?"
+    }
+  ],
+  "Auge": [
+    {
+      "de": "Das Auge des Adlers sieht scharf.",
+      "es": "El ojo del \u00e1guila ve con nitidez."
+    },
+    {
+      "de": "Ich habe ein Staubkorn im Auge.",
+      "es": "Tengo una mota de polvo en el ojo."
+    },
+    {
+      "de": "Tut dein Auge weh?",
+      "es": "\u00bfTe duele el ojo?"
+    }
+  ],
+  "Bach": [
+    {
+      "de": "Der Bach f\u00fchrt klares Wasser.",
+      "es": "El arroyo lleva agua clara."
+    },
+    {
+      "de": "Wir sind am Bach entlang gewandert.",
+      "es": "Hemos paseado a lo largo del arroyo."
+    },
+    {
+      "de": "Pl\u00e4tschert der Bach das ganze Jahr?",
+      "es": "\u00bfMurmura el arroyo todo el a\u00f1o?"
+    }
+  ],
+  "n\u00f6tig": [
+    {
+      "de": "Ein Ausweis ist f\u00fcr die Reise n\u00f6tig.",
+      "es": "Un documento de identidad es necesario para el viaje."
+    },
+    {
+      "de": "Er hat die n\u00f6tigen Unterlagen mitgebracht.",
+      "es": "\u00c9l ha tra\u00eddo los documentos necesarios."
+    },
+    {
+      "de": "Ist es wirklich n\u00f6tig?",
+      "es": "\u00bfEs realmente necesario?"
+    }
+  ],
+  "breit": [
+    {
+      "de": "Der Fluss ist hier sehr breit.",
+      "es": "El r\u00edo es aqu\u00ed muy ancho."
+    },
+    {
+      "de": "Das Bett war zu breit f\u00fcr die T\u00fcr.",
+      "es": "La cama era demasiado ancha para la puerta."
+    },
+    {
+      "de": "Wie breit ist dein Schreibtisch?",
+      "es": "\u00bfCu\u00e1nto mide de ancho tu escritorio?"
+    }
+  ],
+  "eng": [
+    {
+      "de": "Die Hose ist mir zu eng.",
+      "es": "El pantal\u00f3n me queda demasiado estrecho."
+    },
+    {
+      "de": "In der engen Gasse hat er sich verlaufen.",
+      "es": "En el callej\u00f3n estrecho se ha perdido."
+    },
+    {
+      "de": "Ist der Flur nicht zu eng?",
+      "es": "\u00bfNo es demasiado estrecho el pasillo?"
+    }
+  ],
+  "Schraubglas": [
+    {
+      "de": "Das Schraubglas ist luftdicht verschlossen.",
+      "es": "El frasco de rosca est\u00e1 cerrado herm\u00e9ticamente."
+    },
+    {
+      "de": "Oma hat die Marmelade in Schraubgl\u00e4ser gef\u00fcllt.",
+      "es": "La abuela ha llenado la mermelada en frascos de rosca."
+    },
+    {
+      "de": "Hast du ein leeres Schraubglas?",
+      "es": "\u00bfTienes un frasco de rosca vac\u00edo?"
+    }
+  ],
+  "ber\u00fchmt": [
+    {
+      "de": "Der Schauspieler ist weltber\u00fchmt.",
+      "es": "El actor es mundialmente famoso."
+    },
+    {
+      "de": "Sie ist durch ihren Roman ber\u00fchmt geworden.",
+      "es": "Ella se ha hecho famosa por su novela."
+    },
+    {
+      "de": "M\u00f6chtest du auch ber\u00fchmt sein?",
+      "es": "\u00bfTe gustar\u00eda tambi\u00e9n ser famoso?"
+    }
+  ],
+  "die Hauptstadt": [
+    {
+      "de": "Die Hauptstadt hat viel Verkehr.",
+      "es": "La capital tiene mucho tr\u00e1fico."
+    },
+    {
+      "de": "Wir haben die Hauptstadt mit dem Bus erkundet.",
+      "es": "Hemos explorado la capital en autob\u00fas."
+    },
+    {
+      "de": "Wohnst du in der Hauptstadt?",
+      "es": "\u00bfVives en la capital?"
+    }
+  ],
+  "Vorhang": [
+    {
+      "de": "Der Vorhang ist zu lang.",
+      "es": "La cortina es demasiado larga."
+    },
+    {
+      "de": "Ich habe den Vorhang gestern gewaschen.",
+      "es": "Ayer he lavado la cortina."
+    },
+    {
+      "de": "Ziehst du den Vorhang am Abend zu?",
+      "es": "\u00bfCorres la cortina por la noche?"
+    }
+  ],
+  "Selbstst\u00e4ndigkeit": [
+    {
+      "de": "Die Selbstst\u00e4ndigkeit erfordert Mut.",
+      "es": "La autonom\u00eda requiere valor."
+    },
+    {
+      "de": "Er hat sich f\u00fcr die Selbstst\u00e4ndigkeit entschieden.",
+      "es": "\u00c9l se ha decidido por la autonom\u00eda."
+    },
+    {
+      "de": "Traust du dir die Selbstst\u00e4ndigkeit zu?",
+      "es": "\u00bfTe crees capaz de ser aut\u00f3nomo?"
+    }
+  ],
+  "Nebel": [
+    {
+      "de": "Der Nebel war heute Morgen sehr dicht.",
+      "es": "La niebla era esta ma\u00f1ana muy densa."
+    },
+    {
+      "de": "Im Nebel haben wir den Weg verloren.",
+      "es": "En la niebla hemos perdido el camino."
+    },
+    {
+      "de": "Hast du den dichten Nebel gesehen?",
+      "es": "\u00bfHas visto la densa niebla?"
+    }
+  ],
+  "der F\u00f6hn": [
+    {
+      "de": "Der F\u00f6hn bl\u00e4st hei\u00dfe Luft.",
+      "es": "El secador sopla aire caliente."
+    },
+    {
+      "de": "Ich habe mir die Haare mit dem F\u00f6hn getrocknet.",
+      "es": "Me he secado el pelo con el secador."
+    },
+    {
+      "de": "Kannst du mir deinen F\u00f6hn leihen?",
+      "es": "\u00bfPuedes prestarme tu secador?"
+    }
+  ],
+  "betragen": [
+    {
+      "de": "Die Miete betr\u00e4gt f\u00fcnfhundert Euro.",
+      "es": "El alquiler asciende a quinientos euros."
+    },
+    {
+      "de": "Der Schaden hat tausend Euro betragen.",
+      "es": "El da\u00f1o ha ascendido a mil euros."
+    },
+    {
+      "de": "Wie viel betr\u00e4gt der Eintritt?",
+      "es": "\u00bfA cu\u00e1nto asciende la entrada?"
+    }
+  ],
+  "aufdecken": [
+    {
+      "de": "Der Reporter will den Skandal aufdecken.",
+      "es": "El periodista quiere destapar el esc\u00e1ndalo."
+    },
+    {
+      "de": "Die Polizei hat das Geheimnis aufgedeckt.",
+      "es": "La polic\u00eda ha destapado el secreto."
+    },
+    {
+      "de": "Deckst du die Wahrheit auf?",
+      "es": "\u00bfDestapas la verdad?"
+    }
+  ],
+  "Biene": [
+    {
+      "de": "Die Biene best\u00e4ubt die Blumen.",
+      "es": "La abeja poliniza las flores."
+    },
+    {
+      "de": "Eine Biene hat mich in den Arm gestochen.",
+      "es": "Una abeja me ha picado en el brazo."
+    },
+    {
+      "de": "Siehst du die Biene auf der Sonnenblume?",
+      "es": "\u00bfVes la abeja en el girasol?"
+    }
+  ],
+  "retten": [
+    {
+      "de": "Die Feuerwehr will das Kind retten.",
+      "es": "Los bomberos quieren salvar al ni\u00f1o."
+    },
+    {
+      "de": "Er hat mir das Leben gerettet.",
+      "es": "\u00c9l me ha salvado la vida."
+    },
+    {
+      "de": "Rettest du Tiere aus dem Tierheim?",
+      "es": "\u00bfSalvas animales de la protectora?"
+    }
+  ],
+  "Plan": [
+    {
+      "de": "Mein Plan f\u00fcr heute ist ein Ausflug.",
+      "es": "Mi plan para hoy es una excursi\u00f3n."
+    },
+    {
+      "de": "Wir haben einen neuen Plan gemacht.",
+      "es": "Hemos hecho un plan nuevo."
+    },
+    {
+      "de": "Hast du einen besseren Plan?",
+      "es": "\u00bfTienes un plan mejor?"
+    }
+  ],
+  "Rolltreppe": [
+    {
+      "de": "Die Rolltreppe ist au\u00dfer Betrieb.",
+      "es": "La escalera mec\u00e1nica est\u00e1 fuera de servicio."
+    },
+    {
+      "de": "Wir sind mit der Rolltreppe nach oben gefahren.",
+      "es": "Hemos subido en la escalera mec\u00e1nica."
+    },
+    {
+      "de": "Nimmst du die Rolltreppe oder den Aufzug?",
+      "es": "\u00bfTomas la escalera mec\u00e1nica o el ascensor?"
+    }
+  ],
+  "Brille": [
+    {
+      "de": "Meine Brille ist zerkratzt.",
+      "es": "Mis gafas est\u00e1n rayadas."
+    },
+    {
+      "de": "Ich habe die Brille beim Optiker bestellt.",
+      "es": "He pedido las gafas en la \u00f3ptica."
+    },
+    {
+      "de": "Tr\u00e4gst du deine Brille beim Lesen?",
+      "es": "\u00bfLlevas las gafas al leer?"
+    }
+  ],
+  "die Seife": [
+    {
+      "de": "Die Seife duftet nach Olive.",
+      "es": "El jab\u00f3n huele a oliva."
+    },
+    {
+      "de": "Ich habe die Seife im Bioladen gekauft.",
+      "es": "He comprado el jab\u00f3n en la tienda ecol\u00f3gica."
+    },
+    {
+      "de": "W\u00e4schst du deine H\u00e4nde mit Seife?",
+      "es": "\u00bfTe lavas las manos con jab\u00f3n?"
+    }
+  ],
+  "Becher": [
+    {
+      "de": "Der Becher ist aus Pappe.",
+      "es": "El vaso es de cart\u00f3n."
+    },
+    {
+      "de": "Ich habe mir einen Becher Kaffee geholt.",
+      "es": "Me he cogido un vaso de caf\u00e9."
+    },
+    {
+      "de": "Hast du einen Becher f\u00fcr mich?",
+      "es": "\u00bfTienes un vaso para m\u00ed?"
+    }
+  ],
+  "stumpf": [
+    {
+      "de": "Das Messer ist v\u00f6llig stumpf.",
+      "es": "El cuchillo est\u00e1 completamente romo."
+    },
+    {
+      "de": "Die Schere hat sich mit der Zeit gestumpft.",
+      "es": "Las tijeras se han vuelto romas con el tiempo."
+    },
+    {
+      "de": "Ist dein Bleistift stumpf?",
+      "es": "\u00bfEst\u00e1 romo tu l\u00e1piz?"
+    }
+  ],
+  "Winter": [
+    {
+      "de": "Der Winter ist kalt und lang.",
+      "es": "El invierno es fr\u00edo y largo."
+    },
+    {
+      "de": "Wir haben den Winter in den Bergen verbracht.",
+      "es": "Hemos pasado el invierno en las monta\u00f1as."
+    },
+    {
+      "de": "Magst du den Winter?",
+      "es": "\u00bfTe gusta el invierno?"
+    }
+  ],
+  "Elektriker": [
+    {
+      "de": "Der Elektriker repariert die Leitung.",
+      "es": "El electricista repara la instalaci\u00f3n el\u00e9ctrica."
+    },
+    {
+      "de": "Ich habe den Elektriker f\u00fcr morgen bestellt.",
+      "es": "He pedido al electricista para ma\u00f1ana."
+    },
+    {
+      "de": "Kennst du einen g\u00fcnstigen Elektriker?",
+      "es": "\u00bfConoces un electricista barato?"
+    }
+  ],
+  "Sp\u00e4tschicht": [
+    {
+      "de": "Die Sp\u00e4tschicht beginnt um vierzehn Uhr.",
+      "es": "El turno de tarde empieza a las dos."
+    },
+    {
+      "de": "Mein Vater hat jahrelang Sp\u00e4tschicht gearbeitet.",
+      "es": "Mi padre ha trabajado a\u00f1os en el turno de tarde."
+    },
+    {
+      "de": "Arbeitest du lieber Fr\u00fchschicht oder Sp\u00e4tschicht?",
+      "es": "\u00bfPrefieres el turno de ma\u00f1ana o de tarde?"
+    }
+  ],
+  "Bart": [
+    {
+      "de": "Sein Bart ist grau.",
+      "es": "Su barba es gris."
+    },
+    {
+      "de": "Ich habe mir den Bart abrasiert.",
+      "es": "Me he afeitado la barba."
+    },
+    {
+      "de": "L\u00e4sst du dir einen Bart wachsen?",
+      "es": "\u00bfTe dejas crecer la barba?"
+    }
+  ],
+  "zu Abend essen": [
+    {
+      "de": "Wir wollen heute um sieben zu Abend essen.",
+      "es": "Queremos cenar hoy a las siete."
+    },
+    {
+      "de": "Gestern habe ich mit den Kollegen zu Abend gegessen.",
+      "es": "Ayer he cenado con los compa\u00f1eros."
+    },
+    {
+      "de": "Isst du gern zu Abend?",
+      "es": "\u00bfTe gusta cenar?"
+    }
+  ],
+  "Badewanne": [
+    {
+      "de": "Die Badewanne ist voller Schaum.",
+      "es": "La ba\u00f1era est\u00e1 llena de espuma."
+    },
+    {
+      "de": "Ich habe ein hei\u00dfes Bad in der Wanne genommen.",
+      "es": "Me he dado un ba\u00f1o caliente en la ba\u00f1era."
+    },
+    {
+      "de": "Hast du die Badewanne schon geputzt?",
+      "es": "\u00bfYa has limpiado la ba\u00f1era?"
+    }
+  ],
+  "Cousin": [
+    {
+      "de": "Mein Cousin studiert in Berlin.",
+      "es": "Mi primo estudia en Berl\u00edn."
+    },
+    {
+      "de": "Der Cousin hat mich zum Geburtstag eingeladen.",
+      "es": "El primo me ha invitado a su cumplea\u00f1os."
+    },
+    {
+      "de": "Siehst du deinen Cousin oft?",
+      "es": "\u00bfVes a tu primo a menudo?"
+    }
+  ],
+  "Falke": [
+    {
+      "de": "Der Falke kreist am Himmel.",
+      "es": "El halc\u00f3n vuela en c\u00edrculos en el cielo."
+    },
+    {
+      "de": "Wir haben einen Falken im Wald gesehen.",
+      "es": "Hemos visto un halc\u00f3n en el bosque."
+    },
+    {
+      "de": "Kann ein Falke eine Taube fangen?",
+      "es": "\u00bfPuede un halc\u00f3n atrapar una paloma?"
+    }
+  ],
+  "Nachbarin": [
+    {
+      "de": "Die Nachbarin ist sehr hilfsbereit.",
+      "es": "La vecina es muy servicial."
+    },
+    {
+      "de": "Ich habe die Nachbarin um Zucker gebeten.",
+      "es": "He pedido az\u00facar a la vecina."
+    },
+    {
+      "de": "Wohnt die Nachbarin allein?",
+      "es": "\u00bfVive sola la vecina?"
+    }
+  ],
+  "Fahrrad": [
+    {
+      "de": "Mein Fahrrad hat einen Platten.",
+      "es": "Mi bicicleta tiene un pinchazo."
+    },
+    {
+      "de": "Ich habe das Fahrrad im Keller abgestellt.",
+      "es": "He guardado la bicicleta en el s\u00f3tano."
+    },
+    {
+      "de": "F\u00e4hrst du mit dem Fahrrad zur Schule?",
+      "es": "\u00bfVas en bicicleta a la escuela?"
+    }
+  ],
+  "Flugzeug": [
+    {
+      "de": "Das Flugzeug hebt p\u00fcnktlich ab.",
+      "es": "El avi\u00f3n despega puntualmente."
+    },
+    {
+      "de": "Wir sind mit dem Flugzeug nach Spanien geflogen.",
+      "es": "Hemos volado a Espa\u00f1a en avi\u00f3n."
+    },
+    {
+      "de": "Hast du Angst vor dem Flugzeug?",
+      "es": "\u00bfTienes miedo al avi\u00f3n?"
+    }
+  ],
+  "heuteAbend": [
+    {
+      "de": "Heute Abend gehe ich ins Kino.",
+      "es": "Esta tarde voy al cine."
+    },
+    {
+      "de": "Wir haben heute Abend G\u00e4ste eingeladen.",
+      "es": "Esta tarde hemos invitado a unos amigos."
+    },
+    {
+      "de": "Was machst du heute Abend?",
+      "es": "\u00bfQu\u00e9 haces esta tarde?"
+    }
+  ],
+  "der Pfau": [
+    {
+      "de": "Der Pfau schl\u00e4gt ein wundersch\u00f6nes Rad.",
+      "es": "El pavo real despliega una rueda maravillosa."
+    },
+    {
+      "de": "Im Park haben wir einen Pfau gesehen.",
+      "es": "En el parque hemos visto un pavo real."
+    },
+    {
+      "de": "Hast du schon einen Pfau im Zoo fotografiert?",
+      "es": "\u00bfHas fotografiado ya un pavo real en el zoo?"
+    }
+  ],
+  "Trag\u00f6die": [
+    {
+      "de": "Das Theaterst\u00fcck endet als Trag\u00f6die.",
+      "es": "La obra de teatro termina en tragedia."
+    },
+    {
+      "de": "Der Unfall war eine schreckliche Trag\u00f6die.",
+      "es": "El accidente fue una tragedia horrible."
+    },
+    {
+      "de": "Liest du gern griechische Trag\u00f6dien?",
+      "es": "\u00bfTe gusta leer tragedias griegas?"
+    }
+  ],
+  "die Robbe": [
+    {
+      "de": "Die Robbe sonnt sich auf dem Felsen.",
+      "es": "La foca toma el sol sobre la roca."
+    },
+    {
+      "de": "Wir haben die Robbe im Wattenmeer beobachtet.",
+      "es": "Hemos observado la foca en el mar de Frisia."
+    },
+    {
+      "de": "Siehst du die Robbe dort am Strand?",
+      "es": "\u00bfVes la foca all\u00ed en la playa?"
+    }
+  ],
+  "die Gans": [
+    {
+      "de": "Die Gans schnattert auf dem Bauernhof.",
+      "es": "El ganso grazna en la granja."
+    },
+    {
+      "de": "Zu Weihnachten haben wir eine Gans gebraten.",
+      "es": "En Navidad hemos asado un ganso."
+    },
+    {
+      "de": "Hast du die Gans gef\u00fcttert?",
+      "es": "\u00bfHas dado de comer al ganso?"
+    }
+  ],
+  "Senf": [
+    {
+      "de": "Der Senf ist mir zu scharf.",
+      "es": "La mostaza me resulta demasiado picante."
+    },
+    {
+      "de": "Ich habe Senf auf die Bratwurst gemacht.",
+      "es": "He puesto mostaza en la salchicha."
+    },
+    {
+      "de": "Magst du s\u00fc\u00dfen Senf?",
+      "es": "\u00bfTe gusta la mostaza dulce?"
+    }
+  ],
+  "\u00fcberraschen": [
+    {
+      "de": "Ich will meine Mutter \u00fcberraschen.",
+      "es": "Quiero sorprender a mi madre."
+    },
+    {
+      "de": "Das Geschenk hat mich sehr \u00fcberrascht.",
+      "es": "El regalo me ha sorprendido mucho."
+    },
+    {
+      "de": "\u00dcberraschst du deinen Freund zum Geburtstag?",
+      "es": "\u00bfSorprendes a tu amigo por su cumplea\u00f1os?"
+    }
+  ],
+  "der Pyjama": [
+    {
+      "de": "Der Pyjama ist aus weichem Stoff.",
+      "es": "El pijama es de tela blanda."
+    },
+    {
+      "de": "Das Kind hat den Pyjama schon angezogen.",
+      "es": "El ni\u00f1o ya se ha puesto el pijama."
+    },
+    {
+      "de": "Ziehst du deinen Pyjama fr\u00fch an?",
+      "es": "\u00bfTe pones el pijama temprano?"
+    }
+  ],
+  "k\u00fchl": [
+    {
+      "de": "Das Wasser im See ist k\u00fchl.",
+      "es": "El agua del lago est\u00e1 fresca."
+    },
+    {
+      "de": "Heute Morgen ist es recht k\u00fchl.",
+      "es": "Esta ma\u00f1ana hace bastante fresco."
+    },
+    {
+      "de": "Magst du k\u00fchle Getr\u00e4nke?",
+      "es": "\u00bfTe gustan las bebidas frescas?"
+    }
+  ],
+  "Motorrad": [
+    {
+      "de": "Mein Motorrad braucht einen neuen Auspuff.",
+      "es": "Mi moto necesita un escape nuevo."
+    },
+    {
+      "de": "Er ist mit dem Motorrad durch Europa gefahren.",
+      "es": "\u00c9l ha recorrido Europa en moto."
+    },
+    {
+      "de": "F\u00e4hrst du gern mit dem Motorrad?",
+      "es": "\u00bfTe gusta conducir la moto?"
+    }
+  ],
+  "der Geburtstag": [
+    {
+      "de": "Mein Geburtstag ist im August.",
+      "es": "Mi cumplea\u00f1os es en agosto."
+    },
+    {
+      "de": "Wir haben den Geburtstag gro\u00df gefeiert.",
+      "es": "Hemos celebrado el cumplea\u00f1os a lo grande."
+    },
+    {
+      "de": "Wann hast du Geburtstag?",
+      "es": "\u00bfCu\u00e1ndo es tu cumplea\u00f1os?"
+    }
+  ],
+  "die Ratte": [
+    {
+      "de": "Die Ratte ist ein kluges Nagetier.",
+      "es": "La rata es un roedor inteligente."
+    },
+    {
+      "de": "Ich habe eine Ratte im Keller entdeckt.",
+      "es": "He descubierto una rata en el s\u00f3tano."
+    },
+    {
+      "de": "Kannst du die Ratte aus der Falle befreien?",
+      "es": "\u00bfPuedes liberar a la rata de la trampa?"
+    }
+  ],
+  "die Elster": [
+    {
+      "de": "Die Elster hat ein schwarz-wei\u00dfes Gefieder.",
+      "es": "La urraca tiene un plumaje blanco y negro."
+    },
+    {
+      "de": "Eine Elster hat den gl\u00e4nzenden Ring gestohlen.",
+      "es": "Una urraca ha robado el anillo brillante."
+    },
+    {
+      "de": "Siehst du die Elster auf dem Zaun?",
+      "es": "\u00bfVes la urraca en la valla?"
+    }
+  ],
+  "die Fliege": [
+    {
+      "de": "Die Fliege summt laut im Zimmer.",
+      "es": "La mosca zumba fuerte en la habitaci\u00f3n."
+    },
+    {
+      "de": "Ich habe die l\u00e4stige Fliege aus dem Fenster gescheucht.",
+      "es": "He espantado a la molesta mosca por la ventana."
+    },
+    {
+      "de": "Hast du die Fliege an der Lampe bemerkt?",
+      "es": "\u00bfHas notado la mosca en la l\u00e1mpara?"
+    }
+  ],
+  "Esel": [
+    {
+      "de": "Der Esel hat gro\u00dfe, weiche Ohren.",
+      "es": "El burro tiene orejas grandes y suaves."
+    },
+    {
+      "de": "Die Kinder sind auf dem Esel geritten.",
+      "es": "Los ni\u00f1os han montado en el burro."
+    },
+    {
+      "de": "Willst du den Esel mit einer M\u00f6hre f\u00fcttern?",
+      "es": "\u00bfQuieres dar de comer al burro una zanahoria?"
+    }
+  ],
+  "Gesicht": [
+    {
+      "de": "Ihr Gesicht ist voller Sommersprossen.",
+      "es": "Su cara est\u00e1 llena de pecas."
+    },
+    {
+      "de": "Er hat sein Gesicht mit kaltem Wasser gewaschen.",
+      "es": "\u00c9l se ha lavado la cara con agua fr\u00eda."
+    },
+    {
+      "de": "Zeigst du mir dein Gesicht?",
+      "es": "\u00bfMe muestras tu cara?"
+    }
+  ],
+  "die Katze": [
+    {
+      "de": "Die Katze schnurrt auf dem Sofa.",
+      "es": "El gato ronronea en el sof\u00e1."
+    },
+    {
+      "de": "Meine Katze hat eine Maus gefangen.",
+      "es": "Mi gato ha atrapado un rat\u00f3n."
+    },
+    {
+      "de": "Darf die Katze im Schlafzimmer schlafen?",
+      "es": "\u00bfPuede dormir el gato en el dormitorio?"
+    }
+  ],
+  "Haust\u00fcr": [
+    {
+      "de": "Die Haust\u00fcr ist aus Eichenholz.",
+      "es": "La puerta principal es de madera de roble."
+    },
+    {
+      "de": "Ich habe die Haust\u00fcr abgeschlossen, bevor ich gegangen bin.",
+      "es": "He cerrado la puerta principal antes de irme."
+    },
+    {
+      "de": "Hast du die Haust\u00fcr zugezogen?",
+      "es": "\u00bfHas cerrado bien la puerta principal?"
+    }
+  ],
+  "Heiratsurkunde": [
+    {
+      "de": "Die Heiratsurkunde ist ein wichtiges Dokument.",
+      "es": "El certificado de matrimonio es un documento importante."
+    },
+    {
+      "de": "Wir haben die Heiratsurkunde im Rathaus abgeholt.",
+      "es": "Hemos recogido el certificado de matrimonio en el ayuntamiento."
+    },
+    {
+      "de": "Kannst du mir deine Heiratsurkunde zeigen?",
+      "es": "\u00bfPuedes mostrarme tu certificado de matrimonio?"
+    }
+  ],
+  "reiben": [
+    {
+      "de": "Du musst den Parmesan f\u00fcr die Pasta reiben.",
+      "es": "Tienes que rallar el parmesano para la pasta."
+    },
+    {
+      "de": "Ich habe mir die Augen gerieben, weil sie juckten.",
+      "es": "Me he frotado los ojos porque me picaban."
+    },
+    {
+      "de": "Reibst du die M\u00f6hren f\u00fcr den Salat?",
+      "es": "\u00bfRallas las zanahorias para la ensalada?"
+    }
+  ],
+  "Lutscher": [
+    {
+      "de": "Der Lutscher schmeckt nach Erdbeere.",
+      "es": "La piruleta sabe a fresa."
+    },
+    {
+      "de": "Das Kind hat den Lutscher in wenigen Minuten gelutscht.",
+      "es": "El ni\u00f1o ha chupado la piruleta en pocos minutos."
+    },
+    {
+      "de": "Darf ich einen Lutscher nehmen?",
+      "es": "\u00bfPuedo coger una piruleta?"
+    }
+  ],
+  "lang": [
+    {
+      "de": "Der Rock ist zu lang f\u00fcr mich.",
+      "es": "La falda es demasiado larga para m\u00ed."
+    },
+    {
+      "de": "Wir haben einen langen Spaziergang durch den Wald gemacht.",
+      "es": "Hemos dado un largo paseo por el bosque."
+    },
+    {
+      "de": "Findest du den Film zu lang?",
+      "es": "\u00bfEncuentras la pel\u00edcula demasiado larga?"
+    }
+  ],
+  "kurz": [
+    {
+      "de": "Meine Haare sind jetzt kurz.",
+      "es": "Mi pelo ahora es corto."
+    },
+    {
+      "de": "Er hat einen kurzen Bericht geschrieben.",
+      "es": "\u00c9l ha escrito un informe breve."
+    },
+    {
+      "de": "War der Urlaub zu kurz?",
+      "es": "\u00bfFueron las vacaciones demasiado cortas?"
+    }
+  ],
+  "Adler": [
+    {
+      "de": "Der Adler ist ein majest\u00e4tischer Vogel.",
+      "es": "El \u00e1guila es un ave majestuosa."
+    },
+    {
+      "de": "Wir haben einen Adler hoch am Himmel gesehen.",
+      "es": "Hemos visto un \u00e1guila en lo alto del cielo."
+    },
+    {
+      "de": "Kann ein Adler wirklich so gro\u00df werden?",
+      "es": "\u00bfPuede un \u00e1guila llegar a ser tan grande?"
+    }
+  ],
+  "der Adler": [
+    {
+      "de": "Der Adler nistet auf der Felswand.",
+      "es": "El \u00e1guila anida en la pared rocosa."
+    },
+    {
+      "de": "Ein Adler hat die Beute mit seinen Krallen gegriffen.",
+      "es": "Un \u00e1guila ha agarrado la presa con sus garras."
+    },
+    {
+      "de": "Hast du schon einen Adler in Freiheit gesehen?",
+      "es": "\u00bfHas visto ya un \u00e1guila en libertad?"
+    }
+  ],
+  "elf": [
+    {
+      "de": "Die elf spielt heute Abend.",
+      "es": "El once juega esta noche."
+    },
+    {
+      "de": "Ich habe elf Punkte im Spiel erreicht.",
+      "es": "He conseguido once puntos en el juego."
+    },
+    {
+      "de": "Sind es elf Spieler auf dem Feld?",
+      "es": "\u00bfSon once jugadores en el campo?"
+    }
+  ],
+  "Spaghetti": [
+    {
+      "de": "Die Spaghetti sind al dente.",
+      "es": "Los espaguetis est\u00e1n al dente."
+    },
+    {
+      "de": "Mama hat Spaghetti mit Tomatenso\u00dfe serviert.",
+      "es": "Mam\u00e1 ha servido espaguetis con salsa de tomate."
+    },
+    {
+      "de": "Kochst du die Spaghetti nur acht Minuten?",
+      "es": "\u00bfCueces los espaguetis solo ocho minutos?"
+    }
+  ],
+  "Sehne": [
+    {
+      "de": "Die Sehne im Fu\u00df ist gereizt.",
+      "es": "El tend\u00f3n del pie est\u00e1 irritado."
+    },
+    {
+      "de": "Der Sportler hat sich eine Sehne gerissen.",
+      "es": "El deportista se ha roto un tend\u00f3n."
+    },
+    {
+      "de": "Tut deine Sehne beim Laufen weh?",
+      "es": "\u00bfTe duele el tend\u00f3n al correr?"
+    }
+  ],
+  "die Pflaume": [
+    {
+      "de": "Die Pflaume ist reif und s\u00fc\u00df.",
+      "es": "La ciruela est\u00e1 madura y dulce."
+    },
+    {
+      "de": "Oma hat die Pflaumen f\u00fcr den Kuchen gewaschen.",
+      "es": "La abuela ha lavado las ciruelas para la tarta."
+    },
+    {
+      "de": "Isst du lieber frische oder getrocknete Pflaumen?",
+      "es": "\u00bfPrefieres ciruelas frescas o secas?"
+    }
+  ],
+  "Gesch\u00e4ft": [
+    {
+      "de": "Das Gesch\u00e4ft hat bis 20 Uhr ge\u00f6ffnet.",
+      "es": "La tienda est\u00e1 abierta hasta las 20 h."
+    },
+    {
+      "de": "Ich habe ein gutes Gesch\u00e4ft in der Altstadt gefunden.",
+      "es": "He encontrado una buena tienda en el casco antiguo."
+    },
+    {
+      "de": "Gehst du nach der Arbeit ins Gesch\u00e4ft?",
+      "es": "\u00bfVas a la tienda despu\u00e9s del trabajo?"
+    }
+  ],
+  "Markt": [
+    {
+      "de": "Der Markt ist jeden Mittwoch auf dem Platz.",
+      "es": "El mercado est\u00e1 cada mi\u00e9rcoles en la plaza."
+    },
+    {
+      "de": "Wir haben frischen Fisch auf dem Markt geholt.",
+      "es": "Hemos comprado pescado fresco en el mercado."
+    },
+    {
+      "de": "Gehst du morgen fr\u00fch zum Markt?",
+      "es": "\u00bfVas ma\u00f1ana temprano al mercado?"
+    }
+  ],
+  "die Badehose": [
+    {
+      "de": "Die Badehose ist ein bisschen eng.",
+      "es": "El ba\u00f1ador est\u00e1 un poco ajustado."
+    },
+    {
+      "de": "Er hat seine Badehose im Schwimmbad vergessen.",
+      "es": "\u00c9l ha olvidado su ba\u00f1ador en la piscina."
+    },
+    {
+      "de": "Hast du die Badehose eingepackt?",
+      "es": "\u00bfHas metido el ba\u00f1ador en la maleta?"
+    }
+  ],
+  "das Jahrhundert": [
+    {
+      "de": "Das Jahrhundert neigt sich dem Ende zu.",
+      "es": "El siglo se acerca a su fin."
+    },
+    {
+      "de": "Im letzten Jahrhundert ist viel passiert.",
+      "es": "En el \u00faltimo siglo ha pasado mucho."
+    },
+    {
+      "de": "Wei\u00dft du, wann das Jahrhundert beginnt?",
+      "es": "\u00bfSabes cu\u00e1ndo empieza el siglo?"
+    }
+  ],
+  "der Espresso": [
+    {
+      "de": "Der Espresso ist sehr stark.",
+      "es": "El espresso es muy fuerte."
+    },
+    {
+      "de": "Nach dem Abendessen habe ich einen Espresso bestellt.",
+      "es": "Despu\u00e9s de la cena me he pedido un espresso."
+    },
+    {
+      "de": "Trinkst du deinen Espresso mit Zucker?",
+      "es": "\u00bfBebes el espresso con az\u00facar?"
+    }
+  ],
+  "sich umziehen": [
+    {
+      "de": "Ich muss mich f\u00fcr die Party umziehen.",
+      "es": "Tengo que cambiarme para la fiesta."
+    },
+    {
+      "de": "Er hat sich schnell umgezogen, weil es sp\u00e4t war.",
+      "es": "\u00c9l se ha cambiado r\u00e1pido porque era tarde."
+    },
+    {
+      "de": "Ziehst du dich vor dem Abendessen um?",
+      "es": "\u00bfTe cambias antes de cenar?"
+    }
+  ],
+  "Hitze": [
+    {
+      "de": "Die Hitze ist heute unertr\u00e4glich.",
+      "es": "El calor es hoy insoportable."
+    },
+    {
+      "de": "Gestern haben wir unter der Hitze sehr gelitten.",
+      "es": "Ayer hemos sufrido mucho con el calor."
+    },
+    {
+      "de": "Kannst du die Hitze in der K\u00fcche ertragen?",
+      "es": "\u00bfPuedes soportar el calor en la cocina?"
+    }
+  ],
+  "eckig": [
+    {
+      "de": "Der Tisch ist eckig und nicht rund.",
+      "es": "La mesa es cuadrada y no redonda."
+    },
+    {
+      "de": "Er hat ein eckiges Gesicht.",
+      "es": "\u00c9l tiene una cara angulosa."
+    },
+    {
+      "de": "Findest du eckige Formen sch\u00f6ner?",
+      "es": "\u00bfEncuentras m\u00e1s bonitas las formas cuadradas?"
+    }
+  ],
+  "der Topf": [
+    {
+      "de": "Der Topf ist aus Edelstahl.",
+      "es": "La olla es de acero inoxidable."
+    },
+    {
+      "de": "Mama hat den Topf auf den Herd gestellt.",
+      "es": "Mam\u00e1 ha puesto la olla en la cocina."
+    },
+    {
+      "de": "Hast du den gro\u00dfen Topf oder den kleinen genommen?",
+      "es": "\u00bfHas cogido la olla grande o la peque\u00f1a?"
+    }
+  ],
+  "die Erdnuss": [
+    {
+      "de": "Die Erdnuss ist ger\u00f6stet und gesalzen.",
+      "es": "El cacahuete est\u00e1 tostado y salado."
+    },
+    {
+      "de": "Ich habe eine T\u00fcte Erdn\u00fcsse f\u00fcr die Reise gekauft.",
+      "es": "He comprado una bolsa de cacahuetes para el viaje."
+    },
+    {
+      "de": "Isst du Erdn\u00fcsse gern zum Bier?",
+      "es": "\u00bfTe gusta comer cacahuetes con cerveza?"
+    }
+  ],
+  "Vorh\u00e4nge": [
+    {
+      "de": "Die Vorh\u00e4nge im Wohnzimmer sind zu dunkel.",
+      "es": "Las cortinas del sal\u00f3n son demasiado oscuras."
+    },
+    {
+      "de": "Oma hat die Vorh\u00e4nge selbst gen\u00e4ht.",
+      "es": "La abuela ha cosido las cortinas ella misma."
+    },
+    {
+      "de": "W\u00e4schst du die Vorh\u00e4nge einmal im Jahr?",
+      "es": "\u00bfLavas las cortinas una vez al a\u00f1o?"
+    }
+  ],
+  "Perle": [
+    {
+      "de": "Die Perle gl\u00e4nzt wundersch\u00f6n.",
+      "es": "La perla brilla maravillosamente."
+    },
+    {
+      "de": "Sie hat eine echte Perle im Meer gefunden.",
+      "es": "Ella ha encontrado una perla aut\u00e9ntica en el mar."
+    },
+    {
+      "de": "Tr\u00e4gst du die Perle an einer Kette?",
+      "es": "\u00bfLlevas la perla en un collar?"
+    }
+  ],
+  "K\u00fcndigungsfrist": [
+    {
+      "de": "Die K\u00fcndigungsfrist betr\u00e4gt vier Wochen.",
+      "es": "El plazo de preaviso es de cuatro semanas."
+    },
+    {
+      "de": "Er hat die K\u00fcndigungsfrist nicht eingehalten.",
+      "es": "\u00c9l no ha respetado el plazo de preaviso."
+    },
+    {
+      "de": "Wei\u00dft du, wie lang die K\u00fcndigungsfrist ist?",
+      "es": "\u00bfSabes cu\u00e1nto dura el plazo de preaviso?"
+    }
+  ],
+  "verwenden": [
+    {
+      "de": "Du kannst f\u00fcr den Kuchen Butter verwenden.",
+      "es": "Puedes utilizar mantequilla para la tarta."
+    },
+    {
+      "de": "Ich habe f\u00fcr das Projekt alte Fotos verwendet.",
+      "es": "He utilizado fotos antiguas para el proyecto."
+    },
+    {
+      "de": "Verwendest du dieses Werkzeug oft?",
+      "es": "\u00bfUtilizas esta herramienta a menudo?"
+    }
+  ],
+  "Metzger": [
+    {
+      "de": "Der Metzger hat heute geschlossen.",
+      "es": "La carnicer\u00eda ha cerrado hoy."
+    },
+    {
+      "de": "Wir haben beim Metzger frisches Rindfleisch bestellt.",
+      "es": "Hemos pedido carne de res fresca en la carnicer\u00eda."
+    },
+    {
+      "de": "Gehst du zum Metzger oder reicht dir der Supermarkt?",
+      "es": "\u00bfVas a la carnicer\u00eda o te basta con el supermercado?"
+    }
+  ],
+  "\u00fcbermorgen": [
+    {
+      "de": "\u00dcbermorgen beginnt das gro\u00dfe Fest.",
+      "es": "Pasado ma\u00f1ana empieza la gran fiesta."
+    },
+    {
+      "de": "Ich habe \u00fcbermorgen einen wichtigen Termin.",
+      "es": "Tengo una cita importante pasado ma\u00f1ana."
+    },
+    {
+      "de": "Hast du \u00fcbermorgen Zeit f\u00fcr mich?",
+      "es": "\u00bfTienes tiempo para m\u00ed pasado ma\u00f1ana?"
+    }
+  ],
+  "der Vogel": [
+    {
+      "de": "Der Vogel pickt nach den K\u00f6rnern.",
+      "es": "El p\u00e1jaro picotea los granos."
+    },
+    {
+      "de": "Jeden Morgen hat ein Vogel auf dem Balkon gesungen.",
+      "es": "Cada ma\u00f1ana un p\u00e1jaro ha cantado en el balc\u00f3n."
+    },
+    {
+      "de": "Siehst du den Vogel im Geb\u00fcsch?",
+      "es": "\u00bfVes el p\u00e1jaro en el arbusto?"
+    }
+  ],
+  "Ameise": [
+    {
+      "de": "Die Ameise ist winzig, aber stark.",
+      "es": "La hormiga es diminuta, pero fuerte."
+    },
+    {
+      "de": "Eine Ameisenk\u00f6nigin hat tausende Eier gelegt.",
+      "es": "Una hormiga reina ha puesto miles de huevos."
+    },
+    {
+      "de": "Hast du die Ameisenstra\u00dfe im Wald bemerkt?",
+      "es": "\u00bfHas notado el camino de hormigas en el bosque?"
+    }
+  ],
+  "hinfallen": [
+    {
+      "de": "Auf dem Glatteis kannst du leicht hinfallen.",
+      "es": "Sobre el hielo resbaladizo te puedes caer f\u00e1cilmente."
+    },
+    {
+      "de": "Opa ist auf der Treppe hingefallen.",
+      "es": "El abuelo se ha ca\u00eddo en la escalera."
+    },
+    {
+      "de": "Bist du schon einmal im Regen hingefallen?",
+      "es": "\u00bfTe has ca\u00eddo ya alguna vez bajo la lluvia?"
+    }
+  ],
+  "Brieftasche": [
+    {
+      "de": "Meine Brieftasche ist aus braunem Leder.",
+      "es": "Mi cartera es de cuero marr\u00f3n."
+    },
+    {
+      "de": "Ich habe die Brieftasche im Bus liegenlassen.",
+      "es": "He dejado olvidada la cartera en el autob\u00fas."
+    },
+    {
+      "de": "Hast du deine Brieftasche gefunden?",
+      "es": "\u00bfHas encontrado tu cartera?"
+    }
+  ],
+  "mischen": [
+    {
+      "de": "Du musst Mehl und Zucker gut mischen.",
+      "es": "Tienes que mezclar bien la harina y el az\u00facar."
+    },
+    {
+      "de": "Er hat die Farben auf der Palette gemischt.",
+      "es": "\u00c9l ha mezclado los colores en la paleta."
+    },
+    {
+      "de": "Mischst du deinen Kaffee mit Milch?",
+      "es": "\u00bfMezclas tu caf\u00e9 con leche?"
+    }
+  ],
+  "sich k\u00e4mmen": [
+    {
+      "de": "Ich muss mich vor dem Spiegel k\u00e4mmen.",
+      "es": "Tengo que peinarme delante del espejo."
+    },
+    {
+      "de": "Sie hat sich die nassen Haare vorsichtig gek\u00e4mmt.",
+      "es": "Ella se ha peinado el pelo mojado con cuidado."
+    },
+    {
+      "de": "K\u00e4mmst du dich jeden Morgen?",
+      "es": "\u00bfTe peinas todas las ma\u00f1anas?"
+    }
+  ],
+  "ausparken": [
+    {
+      "de": "Der Fahrer muss das Auto vorsichtig ausparken.",
+      "es": "El conductor tiene que salir del aparcamiento con cuidado."
+    },
+    {
+      "de": "Ich habe aus der engen L\u00fccke ausgeparkt.",
+      "es": "He salido del hueco estrecho al aparcar."
+    },
+    {
+      "de": "Parkst du r\u00fcckw\u00e4rts aus der Garage aus?",
+      "es": "\u00bfSales marcha atr\u00e1s del garaje?"
+    }
+  ],
+  "begleiten": [
+    {
+      "de": "Kannst du mich zum Bahnhof begleiten?",
+      "es": "\u00bfPuedes acompau00F1arme a la estaci\u00f3n?"
+    },
+    {
+      "de": "Er hat sie auf dem Heimweg begleitet.",
+      "es": "\u00c9l la ha acompau00F1ado de camino a casa."
+    },
+    {
+      "de": "Begleitest du deine Oma zur Bank?",
+      "es": "\u00bfAcompau00F1as a tu abuela al banco?"
+    }
+  ],
+  "das Waschbecken": [
+    {
+      "de": "Das Waschbecken ist aus Keramik.",
+      "es": "El lavabo es de cer\u00e1mica."
+    },
+    {
+      "de": "Ich habe das Waschbecken im Bad geputzt.",
+      "es": "He limpiado el lavabo del ba\u00f1o."
+    },
+    {
+      "de": "Tropft das Waschbecken bei dir?",
+      "es": "\u00bfGotea el lavabo en tu casa?"
+    }
+  ],
+  "ausr\u00e4umen": [
+    {
+      "de": "Ich muss den Geschirrsp\u00fcler ausr\u00e4umen.",
+      "es": "Tengo que vaciar el lavavajillas."
+    },
+    {
+      "de": "Er hat die Kisten aus dem Keller ausger\u00e4umt.",
+      "es": "\u00c9l ha vaciado las cajas del s\u00f3tano."
+    },
+    {
+      "de": "R\u00e4umst du die Waschmaschine gleich aus?",
+      "es": "\u00bfVau00EDas la lavadora enseguida?"
+    }
+  ],
+  "Stock": [
+    {
+      "de": "Mein B\u00fcro ist im zweiten Stock.",
+      "es": "Mi oficina est\u00e1 en la segunda planta."
+    },
+    {
+      "de": "Opa kann die Treppe bis zum vierten Stock laufen.",
+      "es": "El abuelo puede subir la escalera hasta la cuarta planta."
+    },
+    {
+      "de": "Auf welchem Stock wohnst du?",
+      "es": "\u00bfEn qu\u00e9 planta vives?"
+    }
+  ],
+  "die Mandel": [
+    {
+      "de": "Die Mandel ist eine Nuss.",
+      "es": "La almendra es un fruto seco."
+    },
+    {
+      "de": "Wir haben Mandeln f\u00fcr den Kuchen gemahlen.",
+      "es": "Hemos molido almendras para la tarta."
+    },
+    {
+      "de": "Hast du schon Mandeln selbst gesch\u00e4lt?",
+      "es": "\u00bfHas pelado ya almendras t\u00fa mismo?"
+    }
+  ],
+  "der Quark": [
+    {
+      "de": "Der Quark schmeckt mild und frisch.",
+      "es": "El reques\u00f3n sabe suave y fresco."
+    },
+    {
+      "de": "Zum Fr\u00fchst\u00fcck habe ich Quark mit Erdbeeren gegessen.",
+      "es": "En el desayuno he comido reques\u00f3n con fresas."
+    },
+    {
+      "de": "Isst du lieber Quark oder Joghurt?",
+      "es": "\u00bfPrefieres reques\u00f3n o yogur?"
+    }
+  ],
+  "Ohr": [
+    {
+      "de": "Mein Ohr ist ganz rot vor K\u00e4lte.",
+      "es": "Mi oreja est\u00e1 completamente roja del fr\u00edo."
+    },
+    {
+      "de": "Sie hat sich ein zweites Loch ins Ohr stechen lassen.",
+      "es": "Ella se ha hecho un segundo agujero en la oreja."
+    },
+    {
+      "de": "H\u00f6rst du mit dem linken Ohr besser?",
+      "es": "\u00bfOyes mejor con la oreja izquierda?"
+    }
+  ],
+  "fegen": [
+    {
+      "de": "Nach dem Sturm muss ich die Terrasse fegen.",
+      "es": "Despu\u00e9s de la tormenta tengo que barrer la terraza."
+    },
+    {
+      "de": "Der Hausmeister hat das Laub vom Gehweg gefegt.",
+      "es": "El portero ha barrido las hojas de la acera."
+    },
+    {
+      "de": "Fegst du lieber mit dem Besen oder saugst du?",
+      "es": "\u00bfPrefieres barrer con la escoba o aspirar?"
+    }
+  ],
+  "Polizei": [
+    {
+      "de": "Die Polizei ist schnell am Unfallort.",
+      "es": "La polic\u00eda est\u00e1 r\u00e1pido en el lugar del accidente."
+    },
+    {
+      "de": "Ich habe die Polizei sofort angerufen.",
+      "es": "He llamado a la polic\u00eda inmediatamente."
+    },
+    {
+      "de": "Hast du schon mit der Polizei gesprochen?",
+      "es": "\u00bfHas hablado ya con la polic\u00eda?"
+    }
+  ],
+  "Gem\u00fcse": [
+    {
+      "de": "Das Gem\u00fcse ist frisch aus dem Garten.",
+      "es": "La verdura es fresca del jard\u00edn."
+    },
+    {
+      "de": "Oma hat das Gem\u00fcse in der Pfanne ged\u00fcnstet.",
+      "es": "La abuela ha rehogado la verdura en la sart\u00e9n."
+    },
+    {
+      "de": "Kaufst du dein Gem\u00fcse auf dem Wochenmarkt?",
+      "es": "\u00bfCompras tu verdura en el mercado semanal?"
+    }
+  ],
+  "Eule": [
+    {
+      "de": "Die Eule dreht ihren Kopf fast ganz herum.",
+      "es": "El b\u00faho gira la cabeza casi por completo."
+    },
+    {
+      "de": "In der Nacht haben wir eine Eule rufen geh\u00f6rt.",
+      "es": "Por la noche hemos o\u00eddo ulular a un b\u00faho."
+    },
+    {
+      "de": "Hast du schon eine Eule im Wald gesehen?",
+      "es": "\u00bfHas visto ya un b\u00faho en el bosque?"
+    }
+  ],
+  "Ei": [
+    {
+      "de": "Das Ei ist zum Fr\u00fchst\u00fcck perfekt.",
+      "es": "El huevo es perfecto para el desayuno."
+    },
+    {
+      "de": "Ich habe mir ein Ei in die Pfanne geschlagen.",
+      "es": "Me he cascado un huevo en la sart\u00e9n."
+    },
+    {
+      "de": "Isst du dein Ei weich oder hart?",
+      "es": "\u00bfComes el huevo pasado por agua o duro?"
+    }
+  ],
+  "K\u00e4se": [
+    {
+      "de": "Der K\u00e4se ist gut gereift.",
+      "es": "El queso est\u00e1 bien curado."
+    },
+    {
+      "de": "Er hat den K\u00e4se auf das Brot gelegt.",
+      "es": "\u00c9l ha puesto el queso sobre el pan."
+    },
+    {
+      "de": "Magst du lieber milden oder kr\u00e4ftigen K\u00e4se?",
+      "es": "\u00bfPrefieres queso suave o fuerte?"
+    }
+  ],
+  "das Kino": [
+    {
+      "de": "Das Kino hat heute zwei Filme im Programm.",
+      "es": "El cine tiene hoy dos pel\u00edculas en cartelera."
+    },
+    {
+      "de": "Wir sind am Samstag ins Kino gegangen.",
+      "es": "El s\u00e1bado hemos ido al cine."
+    },
+    {
+      "de": "Gehst du gern ins Kino oder schaust du lieber zu Hause?",
+      "es": "\u00bfVas al cine con gusto o prefieres ver en casa?"
+    }
+  ],
+  "Nachname": [
+    {
+      "de": "Mein Nachname ist schwer auszusprechen.",
+      "es": "Mi apellido es dif\u00edcil de pronunciar."
+    },
+    {
+      "de": "Sie hat nach der Heirat den Nachnamen gewechselt.",
+      "es": "Ella ha cambiado el apellido despu\u00e9s de casarse."
+    },
+    {
+      "de": "Wie lautet dein Nachname?",
+      "es": "\u00bfCu\u00e1l es tu apellido?"
+    }
+  ],
+  "Deo": [
+    {
+      "de": "Das Deo riecht frisch nach Zitrus.",
+      "es": "El desodorante huele fresco a c\u00edtricos."
+    },
+    {
+      "de": "Ich habe mir ein neues Deo im Drogeriemarkt gekauft.",
+      "es": "Me he comprado un desodorante nuevo en la droguer\u00eda."
+    },
+    {
+      "de": "Benutzt du Deo oder lieber einen Roller?",
+      "es": "\u00bfUsas desodorante en spray o prefieres en roll-on?"
     }
   ]
 }

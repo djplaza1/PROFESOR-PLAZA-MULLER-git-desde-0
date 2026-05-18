@@ -6,255 +6,255 @@ if (fs.existsSync("src/data/phrasesBank_A2.2.json")) {
 }
 // ▼▼▼ PEGA AQUÍ EL BLOQUE DE FRASES (blockX) ▼▼▼
 const blockX = {
-  "Campingplatz": [
-    { "de": "Der Campingplatz ist schön.", "es": "El camping es bonito." },
-    { "de": "Gestern haben wir auf dem Campingplatz übernachtet.", "es": "Ayer pernoctamos en el camping." },
-    { "de": "Kannst du den Campingplatz reservieren?", "es": "¿Puedes reservar el camping?" }
+  "Protest": [
+    { "de": "Der laute Protest war überall zu hören.", "es": "La ruidosa protesta se oía por todas partes." },
+    { "de": "Gestern gab es einen großen Protest, weil die Preise gestiegen sind.", "es": "Ayer hubo una gran protesta porque los precios subieron." },
+    { "de": "Hast du den friedlichen Protest im Zentrum gesehen?", "es": "¿Has visto la protesta pacífica en el centro?" }
   ],
-  "Fahrplan": [
-    { "de": "Der Fahrplan ist kompliziert.", "es": "El horario es complicado." },
-    { "de": "Ich habe gestern den Fahrplan studiert.", "es": "Ayer estudié el horario." },
-    { "de": "Wo kann ich den Fahrplan finden?", "es": "¿Dónde puedo encontrar el horario?" }
+  "Internet": [
+    { "de": "Das schnelle Internet funktioniert heute nicht.", "es": "El internet rápido no funciona hoy." },
+    { "de": "Gestern habe ich im freien Internet nach einem Rezept gesucht, deshalb koche ich jetzt.", "es": "Ayer busqué una receta en internet libre, por eso cocino ahora." },
+    { "de": "Brauchst du das stabile Internet für die Videokonferenz?", "es": "¿Necesitas el internet estable para la videoconferencia?" }
   ],
-  "Nachlässigkeit": [
-    { "de": "Nachlässigkeit ist gefährlich.", "es": "La negligencia es peligrosa." },
-    { "de": "Er hat gestern seine Nachlässigkeit zugegeben.", "es": "Ayer admitió su negligencia." },
-    { "de": "Warum hast du so viel Nachlässigkeit gezeigt?", "es": "¿Por qué has mostrado tanta negligencia?" }
+  "Website": [
+    { "de": "Die neue Website ist sehr übersichtlich.", "es": "La nueva página web es muy clara." },
+    { "de": "Gestern habe ich eine interessante Website entdeckt, obwohl ich zufällig gesurft habe.", "es": "Ayer descubrí una página web interesante, aunque estaba navegando por casualidad." },
+    { "de": "Kennst du die offizielle Website des Museums?", "es": "¿Conoces la página web oficial del museo?" }
   ],
-  "Freiwilligenarbeit": [
-    { "de": "Freiwilligenarbeit ist wichtig.", "es": "El trabajo voluntario es importante." },
-    { "de": "Gestern habe ich Freiwilligenarbeit geleistet.", "es": "Ayer hice trabajo voluntario." },
-    { "de": "Suchst du nach Freiwilligenarbeit?", "es": "¿Buscas trabajo voluntario?" }
+  "wissen": [
+    { "de": "Ich weiß die richtige Antwort.", "es": "Sé la respuesta correcta." },
+    { "de": "Gestern wusste ich nicht, dass du krank warst, deshalb habe ich nicht angerufen.", "es": "Ayer no supe que estabas enfermo, por eso no llamé." },
+    { "de": "Weißt du, wann der letzte Bus fährt?", "es": "¿Sabes cuándo sale el último autobús?" }
   ],
-  "Niederschrift": [
-    { "de": "Die Niederschrift ist korrekt.", "es": "La transcripción es correcta." },
-    { "de": "Ich habe gestern die Niederschrift überprüft.", "es": "Ayer revisé la transcripción." },
-    { "de": "Wer hat die Niederschrift gemacht?", "es": "¿Quién hizo la transcripción?" }
+  "kennen": [
+    { "de": "Ich kenne den netten Nachbarn gut.", "es": "Conozco bien al vecino simpático." },
+    { "de": "Gestern habe ich einen lustigen Verkäufer kennengelernt, der viele Witze erzählte.", "es": "Ayer conocí a un vendedor divertido que contaba muchos chistes." },
+    { "de": "Kennst du das kleine Restaurant am Fluss?", "es": "¿Conoces el pequeño restaurante junto al río?" }
   ],
-  "der Übersetzer": [
-    { "de": "Der Übersetzer ist fleißig.", "es": "El traductor es aplicado." },
-    { "de": "Gestern hat der Übersetzer den Text übersetzt.", "es": "Ayer el traductor tradujo el texto." },
-    { "de": "Kennst du einen guten Übersetzer?", "es": "¿Conoces a un buen traductor?" }
+  "Unterführung": [
+    { "de": "Die dunkle Unterführung ist schlecht beleuchtet.", "es": "El paso subterráneo oscuro está mal iluminado." },
+    { "de": "Gestern bin ich durch die enge Unterführung gegangen, obwohl ich Angst hatte.", "es": "Ayer pasé por el estrecho paso subterráneo, aunque tenía miedo." },
+    { "de": "Nimmst du die kurze Unterführung oder die lange Brücke?", "es": "¿Coges el corto paso subterráneo o el largo puente?" }
   ],
-  "Gruppenarbeit": [
-    { "de": "Gruppenarbeit macht Spaß.", "es": "El trabajo en grupo es divertido." },
-    { "de": "Wir haben gestern eine Gruppenarbeit gemacht.", "es": "Ayer hicimos un trabajo en grupo." },
-    { "de": "Willst du bei der Gruppenarbeit mitmachen?", "es": "¿Quieres participar en el trabajo en grupo?" }
+  "Schlaf": [
+    { "de": "Der tiefe Schlaf war erholsam.", "es": "El sueño profundo fue reparador." },
+    { "de": "Gestern hatte ich einen schlechten Schlaf, weil es draußen so laut war.", "es": "Ayer tuve un mal sueño porque fuera había mucho ruido." },
+    { "de": "Brauchst du einen ruhigen Schlaf für die Arbeit?", "es": "¿Necesitas un sueño tranquilo para el trabajo?" }
   ],
-  "sich erkundigen": [
-    { "de": "Ich erkundige mich bei der Rezeption.", "es": "Me informo en la recepción." },
-    { "de": "Gestern habe ich mich nach den Preisen erkundigt.", "es": "Ayer me informé de los precios." },
-    { "de": "Wonach möchtest du dich erkundigen?", "es": "¿Sobre qué quieres informarte?" }
+  "der Pilot": [
+    { "de": "Der erfahrene Pilot begrüßt die Passagiere.", "es": "El experimentado piloto saluda a los pasajeros." },
+    { "de": "Gestern flog der junge Pilot zum ersten Mal allein, deshalb war er aufgeregt.", "es": "Ayer el joven piloto voló solo por primera vez, por eso estaba nervioso." },
+    { "de": "Kennst du den freundlichen Piloten aus der Zeitung?", "es": "¿Conoces al amable piloto del periódico?" }
   ],
-  "sich freuen": [
-    { "de": "Ich freue mich über das Geschenk.", "es": "Me alegro por el regalo." },
-    { "de": "Gestern hat sie sich über die Blumen gefreut.", "es": "Ayer se alegró de las flores." },
-    { "de": "Freust du dich auf das Wochenende?", "es": "¿Te alegras por el fin de semana?" }
+  "die Ingenieurin": [
+    { "de": "Die kluge Ingenieurin plant eine Brücke.", "es": "La inteligente ingeniera planea un puente." },
+    { "de": "Gestern hat die neue Ingenieurin das Projekt vorgestellt, deshalb waren alle begeistert.", "es": "Ayer la nueva ingeniera presentó el proyecto, por eso todos estaban entusiasmados." },
+    { "de": "Hast du die zuständige Ingenieurin schon getroffen?", "es": "¿Ya has conocido a la ingeniera responsable?" }
   ],
-  "sich fürchten": [
-    { "de": "Ich fürchte mich vor Spinnen.", "es": "Temo a las arañas." },
-    { "de": "Gestern hat er sich im Dunkeln gefürchtet.", "es": "Ayer tuvo miedo en la oscuridad." },
-    { "de": "Wovor fürchtest du dich?", "es": "¿A qué temes?" }
+  "die Metzgerei": [
+    { "de": "Die kleine Metzgerei hat frische Wurst.", "es": "La pequeña carnicería tiene embutido fresco." },
+    { "de": "Gestern habe ich in der alten Metzgerei Fleisch gekauft, weil es dort gute Qualität gibt.", "es": "Ayer compré carne en la vieja carnicería porque allí tienen buena calidad." },
+    { "de": "Kennst du die neue Metzgerei im Einkaufszentrum?", "es": "¿Conoces la nueva carnicería en el centro comercial?" }
   ],
-  "Bar": [
-    { "de": "Die Bar ist geschlossen.", "es": "El bar está cerrado." },
-    { "de": "Gestern haben wir in der Bar etwas getrunken.", "es": "Ayer tomamos algo en el bar." },
-    { "de": "Sollen wir heute Abend in die Bar gehen?", "es": "¿Deberíamos ir al bar esta noche?" }
+  "Kammer": [
+    { "de": "Die dunkle Kammer ist voller alter Sachen.", "es": "La cámara oscura está llena de cosas viejas." },
+    { "de": "Gestern habe ich die kleine Kammer aufgeräumt, deshalb habe ich jetzt mehr Platz.", "es": "Ayer ordené la pequeña cámara, por eso ahora tengo más espacio." },
+    { "de": "Hast du die geheime Kammer im Schloss gesehen?", "es": "¿Has visto la cámara secreta en el castillo?" }
   ],
-  "Wandertag": [
-    { "de": "Der Wandertag war anstrengend.", "es": "El día de senderismo fue agotador." },
-    { "de": "Gestern war Wandertag und wir sind weit gelaufen.", "es": "Ayer fue el día de senderismo y caminamos mucho." },
-    { "de": "Wann ist der nächste Wandertag?", "es": "¿Cuándo es el próximo día de senderismo?" }
+  "einschalten": [
+    { "de": "Ich schalte den Fernseher ein.", "es": "Enciendo la televisión." },
+    { "de": "Gestern habe ich die neue Lampe eingeschaltet, weil es schon dunkel war.", "es": "Ayer encendí la lámpara nueva porque ya estaba oscuro." },
+    { "de": "Kannst du bitte die Heizung einschalten?", "es": "¿Puedes encender la calefacción, por favor?" }
   ],
-  "beispielsweise": [
-    { "de": "Beispielsweise mag ich Hunde.", "es": "Por ejemplo, me gustan los perros." },
-    { "de": "Gestern habe ich beispielsweise einen Film gesehen.", "es": "Ayer, por ejemplo, vi una película." },
-    { "de": "Kannst du mir beispielsweise helfen?", "es": "¿Puedes, por ejemplo, ayudarme?" }
+  "danken für": [
+    { "de": "Ich danke dir für die schöne Karte.", "es": "Te agradezco la bonita postal." },
+    { "de": "Gestern habe ich ihm für die große Hilfe gedankt, deshalb hat er gelächelt.", "es": "Ayer le agradecí la gran ayuda, por eso sonrió." },
+    { "de": "Wofür willst du deiner Mutter danken?", "es": "¿Por qué quieres dar las gracias a tu madre?" }
   ],
-  "Akku": [
-    { "de": "Der Akku ist leer.", "es": "La batería está vacía." },
-    { "de": "Ich habe gestern den Akku geladen.", "es": "Ayer cargué la batería." },
-    { "de": "Kannst du mir dein Ladegerät für den Akku leihen?", "es": "¿Puedes prestarme tu cargador para la batería?" }
+  "der Gewinner": [
+    { "de": "Der glückliche Gewinner bekommt einen Preis.", "es": "El afortunado ganador recibe un premio." },
+    { "de": "Gestern wurde der neue Gewinner bekannt gegeben, nachdem alle Stimmen gezählt waren.", "es": "Ayer se anunció al nuevo ganador después de contar todos los votos." },
+    { "de": "Kennst du den stolzen Gewinner vom Wettbewerb?", "es": "¿Conoces al orgulloso ganador del concurso?" }
   ],
-  "Ladekabel": [
-    { "de": "Das Ladekabel ist kaputt.", "es": "El cable de carga está roto." },
-    { "de": "Hast du gestern mein Ladekabel benutzt?", "es": "¿Usaste ayer mi cable de carga?" },
-    { "de": "Wo ist das Ladekabel?", "es": "¿Dónde está el cable de carga?" }
+  "Arbeitsrecht": [
+    { "de": "Das deutsche Arbeitsrecht ist kompliziert.", "es": "El derecho laboral alemán es complicado." },
+    { "de": "Gestern habe ich mich über das neue Arbeitsrecht informiert, weil ich Probleme im Job habe.", "es": "Ayer me informé sobre el nuevo derecho laboral porque tengo problemas en el trabajo." },
+    { "de": "Kennst du einen Anwalt für Arbeitsrecht?", "es": "¿Conoces a un abogado de derecho laboral?" }
   ],
-  "auswandern": [
-    { "de": "Viele Leute wandern aus.", "es": "Mucha gente emigra." },
-    { "de": "Meine Tante ist vor fünf Jahren ausgewandert.", "es": "Mi tía emigró hace cinco años." },
-    { "de": "Willst du später auswandern?", "es": "¿Quieres emigrar más tarde?" }
+  "Briefmarke": [
+    { "de": "Die bunte Briefmarke klebt auf dem Umschlag.", "es": "El colorido sello está pegado en el sobre." },
+    { "de": "Gestern habe ich eine seltene Briefmarke gekauft, deshalb freue ich mich.", "es": "Ayer compré un sello raro, por eso me alegro." },
+    { "de": "Hast du eine alte Briefmarke für meine Sammlung?", "es": "¿Tienes un sello antiguo para mi colección?" }
   ],
-  "ocuparse de": [
-    { "de": "Ich kümmere mich um die Gäste.", "es": "Me ocupo de los invitados." },
-    { "de": "Gestern habe ich mich um die Reservierung gekümmert.", "es": "Ayer me ocupé de la reserva." },
-    { "de": "Wer kann sich um das Problem kümmern?", "es": "¿Quién puede ocuparse del problema?" }
+  "Umschlag": [
+    { "de": "Der weiße Umschlag liegt auf dem Tisch.", "es": "El sobre blanco está sobre la mesa." },
+    { "de": "Gestern habe ich den dicken Umschlag geöffnet, weil ein wichtiger Brief drin war.", "es": "Ayer abrí el sobre grueso porque dentro había una carta importante." },
+    { "de": "Bringst du den frankierten Umschlag zur Post?", "es": "¿Llevas el sobre franqueado a correos?" }
   ],
-  "ziehen": [
-    { "de": "Ich ziehe den Wagen.", "es": "Tiro del carro." },
-    { "de": "Gestern habe ich den schweren Koffer gezogen.", "es": "Ayer arrastré la maleta pesada." },
-    { "de": "Kannst du bitte an der Tür ziehen?", "es": "¿Puedes tirar de la puerta, por favor?" }
+  "der Kapitän": [
+    { "de": "Der strenge Kapitän gibt Befehle.", "es": "El estricto capitán da órdenes." },
+    { "de": "Gestern hat der alte Kapitän eine Geschichte erzählt, deshalb hörten alle zu.", "es": "Ayer el viejo capitán contó una historia, por eso todos escucharon." },
+    { "de": "Kennst du den neuen Kapitän vom Kreuzfahrtschiff?", "es": "¿Conoces al nuevo capitán del crucero?" }
   ],
-  "schieben": [
-    { "de": "Ich schiebe das Fahrrad.", "es": "Empujo la bicicleta." },
-    { "de": "Er hat gestern den Tisch geschoben.", "es": "Ayer empujó la mesa." },
-    { "de": "Musst du immer alles schieben?", "es": "¿Tienes que empujarlo todo siempre?" }
+  "Hemd": [
+    { "de": "Das weiße Hemd ist leider schmutzig.", "es": "La camisa blanca está sucia por desgracia." },
+    { "de": "Gestern habe ich ein kariertes Hemd getragen, obwohl es nicht gebügelt war.", "es": "Ayer llevé una camisa a cuadros, aunque no estaba planchada." },
+    { "de": "Leihst du mir das blaue Hemd für das Vorstellungsgespräch?", "es": "¿Me prestas la camisa azul para la entrevista de trabajo?" }
   ],
-  "Nennung": [
-    { "de": "Die Nennung deines Namens ist erforderlich.", "es": "La mención de tu nombre es necesaria." },
-    { "de": "Gestern erfolgte die Nennung der Gewinner.", "es": "Ayer se mencionó a los ganadores." },
-    { "de": "Warum ist die Nennung wichtig?", "es": "¿Por qué es importante la mención?" }
+  "einrichten": [
+    { "de": "Ich richte mein Zimmer neu ein.", "es": "Amueblo mi habitación de nuevo." },
+    { "de": "Gestern habe ich das leere Wohnzimmer eingerichtet, deshalb sieht es jetzt gemütlich aus.", "es": "Ayer amueblé el salón vacío, por eso ahora parece acogedor." },
+    { "de": "Kannst du mir helfen, die neue Küche einzurichten?", "es": "¿Puedes ayudarme a amueblar la cocina nueva?" }
   ],
-  "Besorgung": [
-    { "de": "Die Besorgung war schnell erledigt.", "es": "La compra se hizo rápido." },
-    { "de": "Gestern habe ich einige Besorgungen gemacht.", "es": "Ayer hice algunas compras." },
-    { "de": "Kannst du für mich eine Besorgung erledigen?", "es": "¿Puedes hacerme una compra?" }
+  "bemerken": [
+    { "de": "Ich bemerke den leisen Fehler.", "es": "Noto el leve error." },
+    { "de": "Gestern habe ich den kleinen Kratzer am Auto bemerkt, deshalb war ich sauer.", "es": "Ayer noté el pequeño arañazo en el coche, por eso me enfadé." },
+    { "de": "Hast du den komischen Geruch im Flur bemerkt?", "es": "¿Has notado el olor raro en el pasillo?" }
   ],
-  "Strumpfhose": [
-    { "de": "Die Strumpfhose ist warm.", "es": "Las medias son calentitas." },
-    { "de": "Ich habe gestern eine neue Strumpfhose gekauft.", "es": "Ayer compré unas medias nuevas." },
-    { "de": "Trägst du heute eine Strumpfhose?", "es": "¿Llevas medias hoy?" }
+  "bedeuten": [
+    { "de": "Das Wort bedeutet „schön“.", "es": "La palabra significa „bonito“." },
+    { "de": "Gestern hat sie mir erklärt, was das schwierige Zeichen bedeutet.", "es": "Ayer me explicó qué significa el signo difícil." },
+    { "de": "Weißt du, was die rote Ampel bedeutet?", "es": "¿Sabes qué significa el semáforo rojo?" }
   ],
-  "das Fieber": [
-    { "de": "Das Fieber ist hoch.", "es": "La fiebre es alta." },
-    { "de": "Gestern hatte ich Fieber und bin zu Hause geblieben.", "es": "Ayer tuve fiebre y me quedé en casa." },
-    { "de": "Hast du immer noch Fieber?", "es": "¿Todavía tienes fiebre?" }
+  "der Rücken": [
+    { "de": "Mein schmerzender Rücken tut weh.", "es": "Mi dolorida espalda me duele." },
+    { "de": "Gestern habe ich den krummen Rücken trainiert, deshalb geht es mir heute besser.", "es": "Ayer entrené la espalda encorvada, por eso hoy me siento mejor." },
+    { "de": "Hast du deinen verspannten Rücken massieren lassen?", "es": "¿Te has hecho masajear la espalda contracturada?" }
   ],
-  "Pacht": [
-    { "de": "Die Pacht ist teuer.", "es": "El alquiler es caro." },
-    { "de": "Wir haben gestern die Pacht bezahlt.", "es": "Ayer pagamos el alquiler." },
-    { "de": "Wie lange läuft die Pacht?", "es": "¿Por cuánto tiempo es el alquiler?" }
+  "Fantasie": [
+    { "de": "Die kindliche Fantasie ist wunderbar.", "es": "La fantasía infantil es maravillosa." },
+    { "de": "Gestern brauchte ich viel Fantasie, um die leere Wand zu dekorieren.", "es": "Ayer necesité mucha fantasía para decorar la pared vacía." },
+    { "de": "Regt das bunte Bild deine Fantasie an?", "es": "¿Estimula el colorido cuadro tu fantasía?" }
   ],
-  "Zertifikat": [
-    { "de": "Das Zertifikat ist gültig.", "es": "El certificado es válido." },
-    { "de": "Gestern habe ich ein Zertifikat erhalten.", "es": "Ayer recibí un certificado." },
-    { "de": "Brauchst du ein Zertifikat für den Job?", "es": "¿Necesitas un certificado para el trabajo?" }
+  "die Tüte": [
+    { "de": "Die braune Tüte ist aus Papier.", "es": "La bolsa marrón es de papel." },
+    { "de": "Gestern habe ich eine volle Tüte Bonbons gekauft, obwohl ich Diät mache.", "es": "Ayer compré una bolsa llena de caramelos, aunque estoy a dieta." },
+    { "de": "Nimmst du die leere Tüte zum Einkaufen mit?", "es": "¿Llevas la bolsa vacía para hacer la compra?" }
   ],
-  "Ortschaft": [
-    { "de": "Die Ortschaft ist klein.", "es": "La localidad es pequeña." },
-    { "de": "Gestern haben wir eine malerische Ortschaft besucht.", "es": "Ayer visitamos una localidad pintoresca." },
-    { "de": "Wie heißt diese Ortschaft?", "es": "¿Cómo se llama esta localidad?" }
+  "die Universität": [
+    { "de": "Die große Universität hat viele Fakultäten.", "es": "La gran universidad tiene muchas facultades." },
+    { "de": "Gestern habe ich die berühmte Universität besichtigt, weil ich mich einschreiben möchte.", "es": "Ayer visité la famosa universidad porque quiero matricularme." },
+    { "de": "Studierst du an der alten Universität im Zentrum?", "es": "¿Estudias en la vieja universidad del centro?" }
   ],
-  "Gerichtsbarkeit": [
-    { "de": "Die Gerichtsbarkeit ist kompliziert.", "es": "La jurisdicción es complicada." },
-    { "de": "Gestern wurde über die Gerichtsbarkeit diskutiert.", "es": "Ayer se discutió sobre la jurisdicción." },
-    { "de": "Wer hat die Gerichtsbarkeit in diesem Fall?", "es": "¿Quién tiene la jurisdicción en este caso?" }
+  "Geltenmachung": [
+    { "de": "Die rechtliche Geltenmachung dauerte lange.", "es": "La reivindicación legal duró mucho." },
+    { "de": "Gestern wurde die offizielle Geltenmachung eingereicht, weil die Frist ablief.", "es": "Ayer se presentó la reivindicación oficial porque el plazo vencía." },
+    { "de": "Wer übernimmt die schwierige Geltenmachung?", "es": "¿Quién se encarga de la difícil reivindicación?" }
   ],
-  "das Tennis": [
-    { "de": "Tennis macht fit.", "es": "El tenis pone en forma." },
-    { "de": "Gestern habe ich mit meinem Bruder Tennis gespielt.", "es": "Ayer jugué al tenis con mi hermano." },
-    { "de": "Spielst du regelmäßig Tennis?", "es": "¿Juegas al tenis regularmente?" }
+  "Nichtbeachtung": [
+    { "de": "Die ständige Nichtbeachtung ärgert ihn.", "es": "La constante desatención lo enfada." },
+    { "de": "Gestern führte die bewusste Nichtbeachtung zu einem Streit, weil sich niemand respektiert fühlte.", "es": "Ayer la deliberada desatención provocó una pelea porque nadie se sintió respetado." },
+    { "de": "Leidest du unter der elterlichen Nichtbeachtung?", "es": "¿Sufres la desatención de tus padres?" }
   ],
-  "Touristeninformation": [
-    { "de": "Die Touristeninformation ist geöffnet.", "es": "La oficina de turismo está abierta." },
-    { "de": "Gestern haben wir die Touristeninformation besucht.", "es": "Ayer visitamos la oficina de turismo." },
-    { "de": "Kannst du mir den Weg zur Touristeninformation zeigen?", "es": "¿Puedes mostrarme el camino a la oficina de turismo?" }
+  "Beförderung": [
+    { "de": "Die neue Beförderung hat sie verdient.", "es": "El nuevo ascenso lo tiene merecido." },
+    { "de": "Gestern habe ich die lang ersehnte Beförderung bekommen, deshalb feiere ich heute.", "es": "Ayer recibí el largamente esperado ascenso, por eso hoy lo celebro." },
+    { "de": "Hast du die offizielle Beförderung schon unterschrieben?", "es": "¿Ya has firmado el ascenso oficial?" }
   ],
-  "Schwimmbad": [
-    { "de": "Das Schwimmbad ist sauber.", "es": "La piscina está limpia." },
-    { "de": "Gestern sind wir ins Schwimmbad gegangen.", "es": "Ayer fuimos a la piscina." },
-    { "de": "Willst du heute ins Schwimmbad gehen?", "es": "¿Quieres ir hoy a la piscina?" }
+  "Steuerberater": [
+    { "de": "Mein neuer Steuerberater ist sehr gründlich.", "es": "Mi nuevo asesor fiscal es muy minucioso." },
+    { "de": "Gestern habe ich einen kompetenten Steuerberater gefunden, deshalb mache ich mir keine Sorgen mehr.", "es": "Ayer encontré un asesor fiscal competente, por eso ya no me preocupo." },
+    { "de": "Kennst du einen günstigen Steuerberater in der Nähe?", "es": "¿Conoces a un asesor fiscal barato por aquí cerca?" }
   ],
-  "der Hausarzt": [
-    { "de": "Mein Hausarzt ist sehr erfahren.", "es": "Mi médico de cabecera tiene mucha experiencia." },
-    { "de": "Gestern war ich beim Hausarzt.", "es": "Ayer fui al médico de cabecera." },
-    { "de": "Kannst du mir deinen Hausarzt empfehlen?", "es": "¿Puedes recomendarme a tu médico de cabecera?" }
+  "darüber": [
+    { "de": "Darüber möchte ich nicht sprechen.", "es": "Sobre eso no quiero hablar." },
+    { "de": "Gestern haben wir lange darüber diskutiert, weil es eine wichtige Entscheidung war.", "es": "Ayer discutimos largo rato al respecto porque era una decisión importante." },
+    { "de": "Was denkst du darüber?", "es": "¿Qué piensas al respecto?" }
   ],
-  "der Geldbeutel": [
-    { "de": "Mein Geldbeutel ist weg.", "es": "Mi monedero ha desaparecido." },
-    { "de": "Gestern habe ich meinen Geldbeutel verloren.", "es": "Ayer perdí mi monedero." },
-    { "de": "Hast du meinen Geldbeutel gesehen?", "es": "¿Has visto mi monedero?" }
+  "Enthüllung": [
+    { "de": "Die überraschende Enthüllung schockierte alle.", "es": "La sorprendente revelación conmocionó a todos." },
+    { "de": "Gestern gab es eine große Enthüllung, deshalb stand es in der Zeitung.", "es": "Ayer hubo una gran revelación, por eso salió en el periódico." },
+    { "de": "Hast du die geheime Enthüllung geglaubt?", "es": "¿Creíste la secreta revelación?" }
   ],
-  "schenken": [
-    { "de": "Ich schenke dir Blumen.", "es": "Te regalo flores." },
-    { "de": "Gestern hat er mir ein Buch geschenkt.", "es": "Ayer me regaló un libro." },
-    { "de": "Was willst du mir schenken?", "es": "¿Qué quieres regalarme?" }
+  "Arbeitsgericht": [
+    { "de": "Das zuständige Arbeitsgericht entscheidet bald.", "es": "El tribunal laboral competente decide pronto." },
+    { "de": "Gestern war ich beim Arbeitsgericht, weil ich gekündigt wurde.", "es": "Ayer estuve en el tribunal laboral porque me despidieron." },
+    { "de": "Kennst du den Termin vor dem Arbeitsgericht?", "es": "¿Sabes la fecha ante el tribunal laboral?" }
   ],
-  "Friedlichkeit": [
-    { "de": "Friedlichkeit ist wertvoll.", "es": "La paz es valiosa." },
-    { "de": "Gestern herrschte eine tiefe Friedlichkeit.", "es": "Ayer reinaba una profunda paz." },
-    { "de": "Wie können wir Friedlichkeit bewahren?", "es": "¿Cómo podemos preservar la paz?" }
+  "hier": [
+    { "de": "Hier ist es sehr ruhig.", "es": "Aquí está muy tranquilo." },
+    { "de": "Gestern war ich schon einmal hier, deshalb kenne ich den Weg.", "es": "Ayer ya estuve aquí una vez, por eso conozco el camino." },
+    { "de": "Bleibst du hier oder gehst du dorthin?", "es": "¿Te quedas aquí o vas allí?" }
   ],
-  "Operation": [
-    { "de": "Die Operation ist morgen.", "es": "La operación es mañana." },
-    { "de": "Gestern wurde die Operation erfolgreich durchgeführt.", "es": "Ayer la operación se realizó con éxito." },
-    { "de": "Hast du Angst vor der Operation?", "es": "¿Tienes miedo de la operación?" }
+  "Terminplaner": [
+    { "de": "Mein digitaler Terminplaner ist voll.", "es": "Mi agenda digital está llena." },
+    { "de": "Gestern habe ich den neuen Terminplaner gekauft, weil der alte kaputt war.", "es": "Ayer compré la nueva agenda porque la vieja estaba rota." },
+    { "de": "Hast du deinen wichtigen Terminplaner dabei?", "es": "¿Llevas contigo tu importante agenda?" }
   ],
-  "Spritze": [
-    { "de": "Die Spritze ist schmerzhaft.", "es": "La inyección es dolorosa." },
-    { "de": "Gestern hat mir die Ärztin eine Spritze gegeben.", "es": "Ayer la médica me puso una inyección." },
-    { "de": "Brauchst du eine Spritze?", "es": "¿Necesitas una inyección?" }
+  "Diplom": [
+    { "de": "Das rote Diplom hängt an der Wand.", "es": "El diploma rojo cuelga en la pared." },
+    { "de": "Gestern habe ich endlich mein Diplom bekommen, nachdem ich alle Prüfungen bestanden hatte.", "es": "Ayer por fin recibí mi diploma después de aprobar todos los exámenes." },
+    { "de": "Zeigst du mir dein gerahmtes Diplom?", "es": "¿Me enseñas tu diploma enmarcado?" }
   ],
-  "Chance": [
-    { "de": "Die Chance ist groß.", "es": "La oportunidad es grande." },
-    { "de": "Gestern habe ich eine große Chance bekommen.", "es": "Ayer recibí una gran oportunidad." },
-    { "de": "Willst du die Chance nutzen?", "es": "¿Quieres aprovechar la oportunidad?" }
+  "der Augenarzt": [
+    { "de": "Der freundliche Augenarzt hat eine neue Brille empfohlen.", "es": "El amable oculista recomendó unas gafas nuevas." },
+    { "de": "Gestern war ich bei einem guten Augenarzt, weil ich schlechter sehe.", "es": "Ayer fui a un buen oculista porque veo peor." },
+    { "de": "Kennst du den erfahrenen Augenarzt am Marktplatz?", "es": "¿Conoces al experimentado oculista de la plaza del mercado?" }
   ],
-  "das Stadion": [
-    { "de": "Das Stadion ist voll.", "es": "El estadio está lleno." },
-    { "de": "Gestern haben wir das Stadion besichtigt.", "es": "Ayer visitamos el estadio." },
-    { "de": "Gehst du oft ins Stadion?", "es": "¿Vas a menudo al estadio?" }
+  "Die nsthandy": [
+    { "de": "Mein altes Diensthandy klingelt ständig.", "es": "Mi viejo móvil de empresa suena constantemente." },
+    { "de": "Gestern habe ich das neue Diensthandy eingerichtet, deshalb bin ich jetzt erreichbar.", "es": "Ayer configuré el nuevo móvil de empresa, por eso ahora estoy localizable." },
+    { "de": "Hast du dein dienstliches Handy ausgeschaltet?", "es": "¿Has apagado tu móvil de empresa?" }
   ],
-  "Körper": [
-    { "de": "Der Körper braucht Bewegung.", "es": "El cuerpo necesita movimiento." },
-    { "de": "Gestern habe ich meinen Körper trainiert.", "es": "Ayer entrené mi cuerpo." },
-    { "de": "Pflegst du deinen Körper?", "es": "¿Cuidas tu cuerpo?" }
+  "installieren": [
+    { "de": "Ich installiere die neue Software.", "es": "Instalo el nuevo software." },
+    { "de": "Gestern habe ich die kostenlose App installiert, weil sie viele Funktionen hat.", "es": "Ayer instalé la aplicación gratuita porque tiene muchas funciones." },
+    { "de": "Kannst du den neuen Drucker installieren?", "es": "¿Puedes instalar la nueva impresora?" }
   ],
-  "Gesicht": [
-    { "de": "Dein Gesicht ist mir bekannt.", "es": "Tu cara me resulta familiar." },
-    { "de": "Gestern habe ich dein Gesicht im Traum gesehen.", "es": "Ayer vi tu cara en un sueño." },
-    { "de": "Kannst du das Gesicht zeichnen?", "es": "¿Puedes dibujar la cara?" }
+  "aktualisieren": [
+    { "de": "Ich aktualisiere meine Kontaktdaten.", "es": "Actualizo mis datos de contacto." },
+    { "de": "Gestern habe ich den alten Computer aktualisiert, deshalb läuft er jetzt schneller.", "es": "Ayer actualicé el ordenador viejo, por eso ahora va más rápido." },
+    { "de": "Musst du die gesamte Liste aktualisieren?", "es": "¿Tienes que actualizar la lista entera?" }
   ],
-  "abschneiden": [
-    { "de": "Ich schneide die Hecke ab.", "es": "Corto el seto." },
-    { "de": "Gestern habe ich meine Haare abgeschnitten.", "es": "Ayer me corté el pelo." },
-    { "de": "Soll ich das Etikett abschneiden?", "es": "¿Debo cortar la etiqueta?" }
+  "Ansteckung": [
+    { "de": "Die schnelle Ansteckung ist gefährlich.", "es": "El contagio rápido es peligroso." },
+    { "de": "Gestern wurde eine hohe Ansteckung festgestellt, deshalb bleiben wir zu Hause.", "es": "Ayer se detectó un alto contagio, por eso nos quedamos en casa." },
+    { "de": "Wie vermeidest du die direkte Ansteckung?", "es": "¿Cómo evitas el contagio directo?" }
   ],
-  "Rundgang": [
-    { "de": "Der Rundgang dauert eine Stunde.", "es": "El recorrido dura una hora." },
-    { "de": "Gestern haben wir einen Rundgang durch das Museum gemacht.", "es": "Ayer hicimos un recorrido por el museo." },
-    { "de": "Können wir an einem Rundgang teilnehmen?", "es": "¿Podemos participar en un recorrido?" }
+  "Eingabe": [
+    { "de": "Die falsche Eingabe führte zum Fehler.", "es": "La entrada errónea provocó el error." },
+    { "de": "Gestern habe ich die letzte Eingabe gelöscht, weil sie nicht stimmte.", "es": "Ayer borré la última entrada porque no era correcta." },
+    { "de": "Kontrollierst du jede wichtige Eingabe?", "es": "¿Revisas cada entrada importante?" }
   ],
-  "Postkarte": [
-    { "de": "Die Postkarte ist aus Paris.", "es": "La postal es de París." },
-    { "de": "Gestern habe ich eine Postkarte geschickt.", "es": "Ayer envié una postal." },
-    { "de": "Schreibst du mir eine Postkarte?", "es": "¿Me escribes una postal?" }
+  "der Feuerwehrmann": [
+    { "de": "Der tapfere Feuerwehrmann rettet die Katze.", "es": "El valiente bombero salva al gato." },
+    { "de": "Gestern hat der junge Feuerwehrmann den Brand gelöscht, deshalb ist niemand verletzt.", "es": "Ayer el joven bombero apagó el incendio, por eso nadie resultó herido." },
+    { "de": "Kennst du den mutigen Feuerwehrmann aus der Nachbarschaft?", "es": "¿Conoces al valiente bombero del vecindario?" }
   ],
-  "Garage": [
-    { "de": "Die Garage ist voll.", "es": "El garaje está lleno." },
-    { "de": "Gestern habe ich die Garage aufgeräumt.", "es": "Ayer ordené el garaje." },
-    { "de": "Parkst du dein Auto in der Garage?", "es": "¿Aparcas tu coche en el garaje?" }
+  "glauben": [
+    { "de": "Ich glaube an dich.", "es": "Creo en ti." },
+    { "de": "Gestern habe ich ihm die dumme Geschichte geglaubt, obwohl sie erfunden war.", "es": "Ayer le creí la tonta historia, aunque era inventada." },
+    { "de": "Glaubst du an das große Glück?", "es": "¿Crees en la gran suerte?" }
   ],
-  "andererseits": [
-    { "de": "Andererseits ist es teuer.", "es": "Por otro lado, es caro." },
-    { "de": "Gestern war das Wetter schlecht, andererseits hatten wir viel Spaß.", "es": "Ayer hizo mal tiempo, por otro lado nos divertimos mucho." },
-    { "de": "Andererseits, hast du eine bessere Idee?", "es": "Por otro lado, ¿tienes una idea mejor?" }
+  "anschauen": [
+    { "de": "Ich schaue mir den neuen Film an.", "es": "Miro la nueva película." },
+    { "de": "Gestern haben wir uns die bunte Ausstellung angeschaut, deshalb sind wir später nach Hause gegangen.", "es": "Ayer miramos la colorida exposición, por eso volvimos más tarde a casa." },
+    { "de": "Willst du dir das leere Haus anschauen?", "es": "¿Quieres mirar la casa vacía?" }
   ],
-  "Erfüllung": [
-    { "de": "Die Erfüllung des Vertrags ist wichtig.", "es": "El cumplimiento del contrato es importante." },
-    { "de": "Gestern haben wir die Erfüllung der Bedingungen besprochen.", "es": "Ayer hablamos del cumplimiento de las condiciones." },
-    { "de": "Wann erwarten wir die Erfüllung?", "es": "¿Cuándo esperamos el cumplimiento?" }
+  "sich versammeln": [
+    { "de": "Die Leute versammeln sich auf dem Platz.", "es": "La gente se reúne en la plaza." },
+    { "de": "Gestern haben sich alle im großen Saal versammelt, weil es eine wichtige Ansprache gab.", "es": "Ayer todos se reunieron en la gran sala porque había un discurso importante." },
+    { "de": "Versammelt ihr euch jeden Morgen am Eingang?", "es": "¿Os reunís cada mañana en la entrada?" }
   ],
-  "Stockwerk": [
-    { "de": "Mein Büro ist im dritten Stockwerk.", "es": "Mi oficina está en el tercer piso." },
-    { "de": "Gestern bin ich alle Stockwerke zu Fuß gegangen.", "es": "Ayer subí todos los pisos a pie." },
-    { "de": "In welchem Stockwerk wohnst du?", "es": "¿En qué piso vives?" }
+  "rasieren": [
+    { "de": "Ich rasiere mich vor dem Spiegel.", "es": "Me afeito delante del espejo." },
+    { "de": "Gestern habe ich mich nass rasiert, obwohl ich normalerweise einen Rasierer benutze.", "es": "Ayer me afeité en húmedo, aunque normalmente uso maquinilla." },
+    { "de": "Musst du dich jeden Morgen rasieren?", "es": "¿Tienes que afeitarte cada mañana?" }
   ],
-  "Belieferung": [
-    { "de": "Die Belieferung ist pünktlich.", "es": "El suministro es puntual." },
-    { "de": "Gestern ist die Belieferung nicht angekommen.", "es": "Ayer no llegó el suministro." },
-    { "de": "Wann erfolgt die nächste Belieferung?", "es": "¿Cuándo se realizará el próximo suministro?" }
+  "Million": [
+    { "de": "Eine ganze Million ist viel Geld.", "es": "Un millón entero es mucho dinero." },
+    { "de": "Gestern hat er eine hohe Million im Lotto gewonnen, deshalb kündigte er seinen Job.", "es": "Ayer ganó un alto millón en la lotería, por eso renunció a su trabajo." },
+    { "de": "Würdest du eine einzige Million mit mir teilen?", "es": "¿Compartirías un solo millón conmigo?" }
   ],
-  "der Architekt": [
-    { "de": "Der Architekt ist kreativ.", "es": "El arquitecto es creativo." },
-    { "de": "Gestern hat der Architekt die Pläne gezeigt.", "es": "Ayer el arquitecto mostró los planos." },
-    { "de": "Kennst du einen guten Architekten?", "es": "¿Conoces a un buen arquitecto?" }
+  "Tod": [
+    { "de": "Der plötzliche Tod schockierte die Familie.", "es": "La repentina muerte conmocionó a la familia." },
+    { "de": "Gestern haben wir vom traurigen Tod erfahren, deshalb trugen wir Schwarz.", "es": "Ayer nos enteramos de la triste muerte, por eso vestimos de negro." },
+    { "de": "Hast du Angst vor dem eigenen Tod?", "es": "¿Tienes miedo de la propia muerte?" }
   ],
-  "der Ball": [
-    { "de": "Der Ball ist rund.", "es": "La pelota es redonda." },
-    { "de": "Gestern habe ich einen neuen Ball gekauft.", "es": "Ayer compré una pelota nueva." },
-    { "de": "Kannst du den Ball werfen?", "es": "¿Puedes lanzar la pelota?" }
+  "sich zurückziehen": [
+    { "de": "Ich ziehe mich in mein Zimmer zurück.", "es": "Me retiro a mi habitación." },
+    { "de": "Gestern hat sie sich vom lauten Fest zurückgezogen, weil sie Kopfschmerzen hatte.", "es": "Ayer se retiró de la ruidosa fiesta porque tenía dolor de cabeza." },
+    { "de": "Willst du dich für eine ruhige Pause zurückziehen?", "es": "¿Quieres retirarte para una pausa tranquila?" }
   ]
 };
 // ▲▲▲ FIN DEL BLOQUE ▲▲▲
