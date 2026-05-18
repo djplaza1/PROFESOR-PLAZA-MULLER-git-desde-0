@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- redeploy 2026-05-08-ruta-5010-palabras -->
+    <title>PROFESOR PLAZA MÜLLER</title>
+    <meta name="theme-color" content="#581c87" />
+    <meta name="description" content="PROFESOR PLAZA MÜLLER: historia, vocabulario, B1/B2 y progreso." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PROFESOR PLAZA MÜLLER" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/png" href="assets/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="assets/icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="assets/icons/Logo-Plaza-Sin-fondo_20250125_054126_0000.png" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- CSS Variables para temas: oscuro / claro / alto contraste -->
+    <style>
+      :root, .dark {
+        --bg-primary: #0f172a;
+        --bg-surface: #1e293b;
+        --bg-card: #1e293b;
+        --bg-elevated: #334155;
+        --border-color: #334155;
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --accent: #06b6d4;
+        --accent-alt: #8b5cf6;
+      }
+      /* Animación pulse para indicador de grabación */
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+      .light {
+        --bg-primary: #f1f5f9;
+        --bg-surface: #ffffff;
+        --bg-card: #ffffff;
+        --bg-elevated: #e2e8f0;
+        --border-color: #cbd5e1;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --accent: #0891b2;
+        --accent-alt: #7c3aed;
+      }
+      .hc {
+        --bg-primary: #000000;
+        --bg-surface: #1a1a1a;
+        --bg-card: #000000;
+        --bg-elevated: #333333;
+        --border-color: #ffffff;
+        --text-primary: #ffffff;
+        --text-secondary: #cccccc;
+        --accent: #ffcc00;
+        --accent-alt: #ff8800;
+      }
+      body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+      }
+      /* ── FORZAR TEMAS en componentes concretos ── */
+      .light #app-main,
+      .light #app-main .bg-slate-900,
+      .light #app-main .bg-gray-900,
+      .light #app-main .bg-slate-800,
+      .light #app-main .bg-gray-800,
+      .light #app-main .bg-zinc-900,
+      .light #app-main .bg-zinc-800,
+      .light #app-main [class*="bg-black/"] {
+        background: var(--bg-primary) !important;
+      }
+      .light #app-main .bg-slate-700,
+      .light #app-main .bg-gray-700 {
+        background: var(--bg-elevated) !important;
+      }
+      .light #app-main .text-white,
+      .light #app-main .text-gray-100,
+      .light #app-main .text-slate-100,
+      .light #app-main .text-zinc-100 {
+        color: var(--text-primary) !important;
+      }
+      .light #app-main .text-gray-300,
+      .light #app-main .text-gray-400,
+      .light #app-main .text-slate-400 {
+        color: var(--text-secondary) !important;
+      }
+      .light #app-main .border-white\/10,
+      .light #app-main .border-white\/20,
+      .light #app-main .border-slate-700 {
+        border-color: var(--border-color) !important;
+      }
+      .light #app-main .muller-mobile-bottom-nav {
+        background: var(--bg-surface) !important;
+        border-top-color: var(--border-color) !important;
+      }
+      .light #app-main .muller-glass-card {
+        background: var(--bg-card) !important;
+        border-color: var(--border-color) !important;
+      }
+      /* alto contraste */
+      .hc #app-main .bg-slate-900,
+      .hc #app-main .bg-gray-900,
+      .hc #app-main .bg-slate-800,
+      .hc #app-main .bg-gray-800,
+      .hc #app-main .bg-zinc-900,
+      .hc #app-main .bg-zinc-800,
+      .hc #app-main .bg-slate-700,
+      .hc #app-main [class*="bg-black/"] {
+        background: #000000 !important;
+      }
+      .hc #app-main .text-white,
+      .hc #app-main .text-gray-100,
+      .hc #app-main .text-slate-100 {
+        color: #ffffff !important;
+      }
+      .hc #app-main .text-gray-300,
+      .hc #app-main .text-gray-400,
+      .hc #app-main .text-slate-400 {
+        color: #cccccc !important;
+      }
+      .hc #app-main .border-white\/10,
+      .hc #app-main .border-white\/20 {
+        border-color: #ffffff !important;
+      }
+      .hc #app-main .muller-mobile-bottom-nav {
+        background: #000000 !important;
+        border-top-color: #ffffff !important;
+      }
+      .hc #app-main .muller-glass-card {
+        background: #1a1a1a !important;
+        border-color: #ffffff !important;
+      }
+      .hc #app-main button,
+      .hc #app-main a {
+        border-color: #ffffff !important;
+        color: #ffcc00 !important;
+      }
+    </style>
+    
+    <!-- React y ReactDOM -->
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SAFETY NET: DeepSeek stub síncrono (antes de Babel)       -->
+    <!-- Evita "TypeError: window.Muller.DeepSeek.hasApiKey        -->
+    <!-- is not a function" cuando Babel aún no ha compilado       -->
+    <!-- deepSeekAi.jsx                                             -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <script>
+    window.Muller = window.Muller || {};
+    window.Muller.DeepSeek = window.Muller.DeepSeek || {};
+    
+    // Stub: si deepSeekAi.jsx no se ha cargado, esto evita el crash
+    if (typeof window.Muller.DeepSeek.hasApiKey !== 'function') {
+        window.Muller.DeepSeek.hasApiKey = function() {
+            try {
+                var k = localStorage.getItem('muller_deepseek_api_key_v1') || '';
+                return k && k.length > 10;
+            } catch(e) { return false; }
+        };
+    }
+    if (typeof window.Muller.DeepSeek.getApiKey !== 'function') {
+        window.Muller.DeepSeek.getApiKey = function() {
+            try { return localStorage.getItem('muller_deepseek_api_key_v1') || ''; } catch(e) { return ''; }
+        };
+    }
+    if (typeof window.Muller.DeepSeek.setApiKey !== 'function') {
+        window.Muller.DeepSeek.setApiKey = function(k) {
+            try {
+                localStorage.setItem('muller_deepseek_api_key_v1', k);
+                window.dispatchEvent(new CustomEvent('deepseekKeyChanged', { detail: { key: k } }));
+            } catch(e) {}
+        };
+    }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js"></script>
+
+    <style>
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        @media (max-width: 1024px) {
+            html { font-size: 100%; }
+        }
+        @media (max-width: 640px) {
+            html { font-size: 95%; }
+        }
+        body { margin: 0; background-color: #000; overflow: hidden; font-family: 'Outfit', system-ui, -apple-system, sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .lucide-wrapper { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+        .lucide-wrapper i[data-lucide] { display: inline-flex; align-items: center; justify-content: center; }
+        .lucide-wrapper svg, i[data-lucide] svg {
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            vector-effect: non-scaling-stroke;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
+            stroke: currentColor;
+            color: inherit;
+            fill: none;
+        }
+        .lucide-wrapper svg[fill="none"], i[data-lucide] svg[fill="none"] { fill: none; }
+        .lucide-wrapper svg.fill-current, i[data-lucide].fill-current svg,
+        .lucide-wrapper .fill-current svg { fill: currentColor; stroke: none; }
+        button.muller-icon-nav .lucide-wrapper,
+        button.muller-icon-nav i[data-lucide] { color: #fff; }
+        button.muller-mic-hold-btn {
+            position: relative;
+            background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22) 0%, transparent 52%),
+                linear-gradient(155deg, #0f766e 0%, #047857 55%, #065f46 100%);
+        }
+        button.muller-mic-hold-btn::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 9999px;
+            border: 2px solid rgba(255,255,255,0.45);
+            pointer-events: none;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+        }
+        button.muller-mic-hold-btn .lucide-wrapper svg,
+        button.muller-mic-hold-btn i[data-lucide] svg {
+            stroke-width: 2.5;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.65));
+        }
+        i[data-lucide] svg[fill="currentColor"],
+        i[data-lucide].fill-current svg { filter: none; }
+        .nav-tab-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 0.5rem;
+            background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        @media (min-width: 768px) {
+            .nav-tab-icon { width: 2rem; height: 2rem; border-radius: 0.6rem; }
+        }
+        .float-icon-glow {
+            box-shadow: 0 4px 14px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12);
+        }
+        .muller-glass-card {
+            background: linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.03) 100%);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 26px rgba(0,0,0,0.25);
+            backdrop-filter: blur(10px);
+        }
+        .muller-top-nav button .lucide-wrapper,
+        .muller-top-nav button i[data-lucide] {
+            padding: 0.28rem;
+            border-radius: 0.45rem;
+            background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        .muller-nav-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            justify-content: flex-start;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .muller-nav-row::-webkit-scrollbar { display: none; }
+        .muller-nav-row button {
+            flex: 0 0 var(--muller-nav-tab-w);
+            min-width: var(--muller-nav-tab-w);
+            justify-content: center;
+        }
+        @media (max-width: 1024px) {
+            .muller-top-nav {
+                position: sticky;
+                top: 0;
+                z-index: 80;
+            }
+            .muller-nav-row button {
+                min-height: 2.35rem !important;
+                padding-top: 0.55rem !important;
+                padding-bottom: 0.55rem !important;
+            }
+        }
+        .muller-skeleton {
+            background: linear-gradient(90deg, rgba(148,163,184,0.18) 25%, rgba(148,163,184,0.34) 37%, rgba(148,163,184,0.18) 63%);
+            background-size: 400% 100%;
+            animation: mullerShimmer 1.2s ease infinite;
+        }
+        @keyframes mullerShimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: 0 0; }
+        }
+        .muller-reduce-motion *,
+        .muller-reduce-motion *::before,
+        .muller-reduce-motion *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+        @media (max-width: 640px) {
+            .tempus-panel { font-size: 0.75rem; padding: 0.5rem; }
+            .verb-tag { font-size: 0.7rem; }
+        }
+        .reading-word-token {
+            cursor: pointer;
+            border-bottom: 1px dashed rgba(125, 211, 252, 0.45);
+            border-radius: 0.22rem;
+            padding: 0 0.12rem;
+            transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+        }
+        .reading-word-token:hover {
+            background: rgba(14, 116, 144, 0.35);
+            color: #f0f9ff;
+            border-color: rgba(186, 230, 253, 0.8);
+        }
+        .reading-word-token.is-active {
+            background: rgba(14, 165, 233, 0.3);
+            color: #ffffff;
+            border-color: rgba(186, 230, 253, 0.95);
+        }
+        .reading-premium-mode .muller-reading-surface {
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.92) 0%, rgba(7, 16, 35, 0.86) 100%);
+            border-color: rgba(56, 189, 248, 0.38);
+            box-shadow: 0 20px 60px rgba(2, 6, 23, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+        .reading-premium-mode .muller-reading-header,
+        .reading-premium-mode .muller-reading-muted {
+            opacity: 0.94;
+        }
+        .reading-premium-mode .reading-word-token {
+            border-bottom-color: rgba(186, 230, 253, 0.78);
+            background: rgba(2, 132, 199, 0.08);
+        }
+        .reading-premium-mode .reading-word-token:hover {
+            background: rgba(2, 132, 199, 0.3);
+            color: #f8fcff;
+        }
+        .reading-premium-mode .reading-word-token.is-active {
+            background: rgba(14, 165, 233, 0.42);
+        }
+        .handwriting-canvas {
+            touch-action: none;
+            width: 100%;
+            height: 250px;
+            background-color: #1e293b;
+            border-radius: 0.75rem;
+            border: 2px solid #475569;
+            cursor: crosshair;
+        }
+        .writing-pad-wrap {
+            touch-action: none;
+            background-color: #0c1222;
+            background-image: linear-gradient(transparent 35px, rgba(148, 163, 184, 0.09) 36px);
+            background-size: 100% 36px;
+            border-radius: 0.75rem;
+            border: 2px solid rgba(71, 85, 105, 0.6);
+            overflow: hidden;
+        }
+        .writing-lab-canvas {
+            touch-action: none;
+            display: block;
+            width: 100%;
+            cursor: crosshair;
+            background: transparent;
+        }
+        .muller-theme-light {
+            --muller-surface: #f1f5f9;
+            --muller-ink: #0f172a;
+            --muller-muted: #475569;
+        }
+        .muller-theme-light .muller-theme-bg {
+            background-color: var(--muller-surface) !important;
+            color: var(--muller-ink);
+        }
+        .muller-theme-hc {
+            --muller-hc-bg: #000000;
+            --muller-hc-fg: #ffff00;
+            --muller-hc-border: #ffffff;
+        }
+        .muller-theme-hc .muller-theme-bg,
+        .muller-theme-hc.bg-gray-900,
+        .muller-theme-hc.bg-slate-900,
+        .muller-theme-hc.bg-zinc-900 {
+            background-color: var(--muller-hc-bg) !important;
+            color: var(--muller-hc-fg) !important;
+            border-color: var(--muller-hc-border) !important;
+        }
+        .muller-theme-hc .text-white { color: var(--muller-hc-fg) !important; }
+        .muller-theme-hc .text-gray-400 { color: #e5e5e5 !important; }
+        .muller-pwa-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 120;
+            padding: 0.75rem 1rem;
+            padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+            background: linear-gradient(90deg, #0f172a, #1e3a5f);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        :root {
+            --muller-mobile-header-h: 48px;
+            --muller-mobile-bottom-nav-h: 52px;
+            --muller-nav-tab-w: 10.25rem;
+        }
+        @media (min-width: 768px) {
+            :root {
+                --muller-mobile-header-h: 52px;
+                --muller-mobile-bottom-nav-h: 56px;
+                --muller-nav-tab-w: 11rem;
+            }
+        }
+        @media (min-width: 1025px) {
+            :root {
+                --muller-mobile-header-h: 52px;
+                --muller-mobile-bottom-nav-h: 56px;
+                --muller-nav-tab-w: 11.5rem;
+            }
+        }
+        .muller-bottom-secondary-nav {
+            --muller-bottom-tab-w: var(--muller-nav-tab-w);
+        }
+        .muller-bottom-secondary-nav > button,
+        .muller-bottom-secondary-nav > * > button {
+            flex: 0 0 var(--muller-bottom-tab-w) !important;
+            min-width: var(--muller-bottom-tab-w) !important;
+        }
+        .muller-bottom-secondary-nav .muller-bxbank-btns {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex: 0 0 auto;
+            padding: 0 0.2rem 0 0.1rem;
+            margin-right: 0.1rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .muller-bottom-secondary-nav .muller-bxbank-btns > button {
+            min-width: 2.4rem !important;
+            flex: 0 0 2.4rem !important;
+        }
+        .muller-main-fill {
+            height: 100svh;
+            min-height: 100svh;
+        }
+        .muller-mobile-bottom-nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 95;
+            display: flex;
+            gap: 0.4rem;
+            overflow-x: auto;
+            padding: 0.5rem 0.5rem max(0.5rem, env(safe-area-inset-bottom, 0px));
+            border-top: 1px solid rgba(255,255,255,0.14);
+            background: linear-gradient(180deg, rgba(2,6,23,0.92), rgba(2,6,23,0.98));
+            backdrop-filter: blur(12px);
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            box-sizing: content-box;
+        }
+        .muller-mobile-bottom-nav::-webkit-scrollbar { display: none; }
+        .muller-mobile-bottom-nav button {
+            flex: 0 0 var(--muller-nav-tab-w);
+            min-width: var(--muller-nav-tab-w);
+            border-radius: 0.75rem;
+            padding: 0.625rem 0.875rem;
+            min-height: 3rem;
+            border: 1px solid transparent;
+            background: rgba(255,255,255,0.02);
+            color: #d1d5db;
+            font-size: 0.8125rem;
+            font-weight: 900;
+            line-height: 1.1;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        .muller-mobile-bottom-nav button.is-active {
+            background: rgba(88, 28, 135, 0.7);
+            color: #ffffff;
+            border-color: rgba(255,255,255,0.22);
+            box-shadow: 0 0 14px rgba(168,85,247,0.35);
+        }
+        .muller-mobile-bottom-nav button .lucide-wrapper,
+        .muller-mobile-bottom-nav button i[data-lucide] {
+            padding: 0.1rem;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+        }
+        .muller-theme-light .muller-app-main {
+            color: #0f172a;
+        }
+        .muller-theme-light .muller-app-main .text-white {
+            color: #0f172a !important;
+        }
+        .muller-theme-light .muller-app-main .text-white[class*="bg-"]:not([class*="bg-black/"]):not([class*="bg-white/"]):not([class~="bg-transparent"]),
+        .muller-theme-light .muller-app-main [class*="from-"][class*="to-"].text-white,
+        .muller-theme-light .muller-app-main a.text-white[class*="bg-"]:not([class*="bg-black/"]) {
+            color: #ffffff !important;
+        }
+        .muller-theme-light .muller-app-main .text-gray-300,
+        .muller-theme-light .muller-app-main .text-gray-400 {
+            color: #475569 !important;
+        }
+        .muller-theme-light .muller-app-main .text-gray-500 {
+            color: #64748b !important;
+        }
+        .muller-theme-light .muller-app-main .border-white\/10,
+        .muller-theme-light .muller-app-main .border-white\/20 {
+            border-color: rgba(15, 23, 42, 0.12) !important;
+        }
+        .muller-theme-light .muller-app-main [class*="bg-black/30"],
+        .muller-theme-light .muller-app-main [class*="bg-black/35"],
+        .muller-theme-light .muller-app-main [class*="bg-black/40"],
+        .muller-theme-light .muller-app-main [class*="bg-black/45"],
+        .muller-theme-light .muller-app-main [class*="bg-black/50"] {
+            background-color: rgba(241, 245, 249, 0.96) !important;
+        }
+        .muller-historia-player-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: var(--muller-mobile-bottom-nav-h);
+            z-index: 39;
+            background: #f8f8f8;
+            border-top: 1px solid #ddd;
+            padding: 8px 16px;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
+        }
+        @media (min-width: 1024px) {
+            .muller-historia-player-bar {
+                width: 50%;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+            }
+        }
+        .muller-main-historia-pb {
+            padding-bottom: calc(var(--muller-mobile-bottom-nav-h) + 8rem) !important;
+        }
+        @media (max-width: 640px) {
+            .muller-nav-row { gap: 0.32rem; }
+        }
+
+        /* ==================== SPLASH / PREBOOT ==================== */
+        .muller-preboot {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            min-height: 100dvh;
+            background: #ffffff;
+            transition: opacity 280ms ease, visibility 280ms ease;
+        }
+        .muller-preboot.is-hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+        .muller-preboot-de {
+            flex: 1;
+            width: 100%;
+            min-height: 60px;
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            background: linear-gradient(180deg, #000000 0%, #000000 33.3%, #dd0000 33.3%, #dd0000 66.6%, #ffce00 66.6%, #ffce00 100%);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+        .muller-preboot-es {
+            flex: 1;
+            width: 100%;
+            min-height: 60px;
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            background: linear-gradient(180deg, #aa151b 0%, #aa151b 33.3%, #f1bf00 33.3%, #f1bf00 66.6%, #aa151b 66.6%, #aa151b 100%);
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+        }
+        .muller-preboot-mid {
+            flex: 0 0 18vh;
+            height: 18vh;
+            min-height: 64px;
+            max-height: 170px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 100vw;
+            position: relative;
+            z-index: 2;
+            overflow: visible;
+            padding: 0;
+            background: #ffffff;
+            box-sizing: border-box;
+        }
+        .muller-preboot-mid-left {
+            flex: 0 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            padding: 0;
+            box-sizing: border-box;
+            position: relative;
+            overflow: visible;
+        }
+        .muller-preboot-logo-btn {
+            -webkit-tap-highlight-color: transparent;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: #000000;
+            box-shadow: none;
+            line-height: 0;
+            cursor: pointer;
+            transition: transform 180ms ease, opacity 180ms ease;
+            position: relative;
+            z-index: 3;
+            outline: none;
+            height: calc(100% - 4px);
+            aspect-ratio: 1 / 1;
+            min-width: 62px;
+            min-height: 62px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .muller-preboot-logo-btn:hover { transform: scale(1.02); }
+        .muller-preboot-logo-btn:focus-visible { outline: 2px solid #6366f1; outline-offset: 3px; }
+        .muller-preboot-logo-btn img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            background: transparent !important;
+            border: 0;
+            box-shadow: none;
+            filter: none;
+        }
+        .muller-preboot-mid-right {
+            flex: 0 1 auto;
+            max-width: 55%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            background: #ffffff;
+            padding: clamp(0.25rem, 1vw, 0.75rem);
+            box-sizing: border-box;
+        }
+        .muller-preboot-title-frame {
+            border: 3px solid #000000;
+            border-radius: 1.2rem;
+            padding: clamp(0.3rem, 1vw, 0.8rem) clamp(0.5rem, 1.5vw, 1.2rem);
+            display: inline-block;
+            background: #ffffff;
+            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+            box-shadow: 0 0 6px rgba(212, 175, 55, 0.2);
+        }
+        .muller-preboot-title {
+            font-family: 'Outfit', system-ui, sans-serif;
+            font-size: clamp(1.2rem, 6vw, 3rem);
+            font-weight: 800;
+            line-height: 1.05;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            letter-spacing: 0;
+            text-shadow: none;
+            text-align: left;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+        .muller-preboot-hint {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.2rem;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+            margin-top: 0;
+        }
+        .muller-preboot-hint--visible { opacity: 1; transform: translateY(0); }
+        .muller-preboot-hint-arrow {
+            display: inline-block;
+            font-size: clamp(1rem, 3vw, 1.8rem);
+            line-height: 1;
+            color: #b45309;
+            animation: prebootArrowBounce 1s ease-in-out infinite;
+        }
+        @keyframes prebootArrowBounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-5px); }
+        }
+        .muller-preboot-hint-text {
+            font-family: 'Outfit', system-ui, sans-serif;
+            font-size: clamp(0.75rem, 2vw, 1.1rem);
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-align: left;
+            line-height: 1.2;
+            background: linear-gradient(90deg, #a16207, #d97706, #eab308, #b45309);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        .muller-preboot-logo-btn.preboot-logo-blink { animation: golden-frame-blink 0.8s ease-in-out infinite; }
+        .muller-preboot-mid-right.preboot-border-blink .muller-preboot-title-frame { animation: golden-frame-blink 0.8s ease-in-out infinite; }
+        @keyframes golden-frame-blink {
+            0%, 100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); border-color: #000000; }
+            50% { box-shadow: 0 0 35px gold, 0 0 70px rgba(212, 175, 55, 0.4); border-color: #d4a017; }
+        }
+        @media (max-width: 640px) {
+            .muller-preboot-mid { flex-direction: row; flex: 0 0 16vh; height: 16vh; min-height: 60px; max-height: 140px; }
+            .muller-preboot-mid-left, .muller-preboot-mid-right { flex: none; }
+            .muller-preboot-mid-right { max-width: 65%; padding: 0.4rem; align-items: flex-start; }
+            .muller-preboot-mid-right .muller-preboot-title-frame { text-align: left; }
+            .muller-preboot-mid-right .muller-preboot-title { text-align: left; white-space: nowrap; font-size: clamp(1rem, 4.5vw, 1.8rem); }
+            .muller-preboot-mid-right .muller-preboot-hint { justify-content: flex-start; }
+            .muller-preboot-logo-btn { max-width: 14vh; max-height: 14vh; min-width: 50px; min-height: 50px; }
+            .muller-preboot-title-frame { padding: 0.25rem 0.4rem; border-width: 2px; border-radius: 0.8rem; }
+            .muller-preboot-hint-text { font-size: clamp(0.65rem, 2.5vw, 0.9rem); }
+        }
+        @media (max-width: 480px) {
+            .muller-preboot-de { min-height: 50px; }
+            .muller-preboot-es { min-height: 50px; }
+            .muller-preboot-mid { flex: 0 0 14vh; height: 14vh; min-height: 50px; max-height: 120px; }
+            .muller-preboot-title { font-size: clamp(0.85rem, 4vw, 1.4rem); }
+            .muller-preboot-hint-text { font-size: clamp(0.6rem, 2.5vw, 0.8rem); }
+            .muller-preboot-title-frame { padding: 0.2rem 0.35rem; border-width: 2px; border-radius: 0.6rem; }
+        }
+        @media (min-width: 768px) {
+            .muller-preboot-mid { flex: 0 0 22vh; height: 22vh; max-height: 200px; }
+            .muller-preboot-logo-btn { max-width: 22vh; max-height: 22vh; }
+            .muller-preboot-title { font-size: clamp(1.5rem, 5vw, 3.2rem); }
+        }
+        .muller-fullscreen-mode {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 200 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: #020617 !important;
+            overflow-y: auto !important;
+            padding: 1rem !important;
+            padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px)) !important;
+        }
+        .muller-fullscreen-mode .muller-reading-surface {
+            max-width: 100% !important;
+            min-height: calc(100vh - 2rem) !important;
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.98) 0%, rgba(7, 16, 35, 0.92) 100%) !important;
+        }
+        .muller-fullscreen-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+            color: #e2e8f0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+        .muller-fullscreen-btn:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.25);
+        }
+    </style>
+</head>
+<body>
+    <div id="muller-preboot" class="muller-preboot" role="dialog" aria-modal="true" aria-label="Pantalla de inicio">
+        <div class="muller-preboot-de" aria-hidden="true" title="Bandera de Alemania"></div>
+        <div class="muller-preboot-mid">
+            <div class="muller-preboot-mid-left">
+                <button type="button" id="muller-preboot-logo-btn" class="muller-preboot-logo-btn" title="Pulse aquí para entrar" aria-label="Pulse en el logo para abrir la aplicación">
+                    <img src="assets/icons/Logo-Plaza-Sin-fondo_20250125_054126_0000.png" alt="Profesor Plaza Müller" width="600" height="600" loading="eager" fetchpriority="high" decoding="async" />
+                </button>
+            </div>
+            <div id="muller-preboot-mid-right" class="muller-preboot-mid-right">
+                <div class="muller-preboot-title-frame">
+                    <div class="muller-preboot-title">PROFESOR PLAZA MÜLLER</div>
+                    <div id="muller-preboot-hint" class="muller-preboot-hint" role="status" aria-live="polite" aria-hidden="true">
+                        <span class="muller-preboot-hint-arrow" aria-hidden="true">←</span>
+                        <span class="muller-preboot-hint-text">PULSE AQUÍ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="muller-preboot-es" aria-hidden="true" title="Bandera de España"></div>
+    </div>
+    <div id="root"></div>
+
+    <script>
+(function () {
+    var hintTid;
+    var prebootDismissed = false;
+    function dismissPreboot() {
+        if (prebootDismissed) return;
+        prebootDismissed = true;
+        var el = document.getElementById('muller-preboot');
+        if (!el) return;
+        el.classList.add('is-hidden');
+        setTimeout(function () {
+            if (el && el.parentNode) el.parentNode.removeChild(el);
+        }, 320);
+    }
+    var prebootAudio = new Audio('audio/bist-du-bereit.mp3');
+    prebootAudio.preload = 'auto';
+    prebootAudio.load();
+    function speakGermanAndDismiss() {
+        if (hintTid) { try { clearTimeout(hintTid); } catch (e) {} }
+        prebootAudio.currentTime = 0;
+        prebootAudio.play().then(function () {
+            prebootAudio.onended = function () { dismissPreboot(); };
+        }).catch(function () {
+            dismissPreboot();
+        });
+        setTimeout(function () {
+            if (!prebootDismissed) dismissPreboot();
+        }, 8000);
+    }
+    function setupPreboot() {
+        var btn = document.getElementById('muller-preboot-logo-btn');
+        if (btn) {
+            btn.addEventListener('click', speakGermanAndDismiss);
+            btn.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    speakGermanAndDismiss();
+                }
+            });
+        }
+        hintTid = setTimeout(function () {
+            var wrap = document.getElementById('muller-preboot');
+            if (!wrap || wrap.classList.contains('is-hidden')) return;
+            if (btn) btn.classList.add('preboot-logo-blink');
+            var right = document.getElementById('muller-preboot-mid-right');
+            if (right) right.classList.add('preboot-border-blink');
+            var h = document.getElementById('muller-preboot-hint');
+            if (h) { h.classList.add('muller-preboot-hint--visible'); h.setAttribute('aria-hidden', 'false'); }
+        }, 3000);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupPreboot, { once: true });
+    else setupPreboot();
+})();
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.getRegistrations()
+                    .then(function (regs) {
+                        return Promise.all(regs.map(function (reg) { return reg.unregister(); }));
+                    })
+                    .catch(function () {})
+                    .finally(function () {
+                        navigator.serviceWorker.register('./sw.js?v=20260427-anti-cache-1', { updateViaCache: 'none' }).catch(function () {});
+                    });
+            });
+        }
+    </script>
+  <!-- CORE -->
+  <script type="text/babel" src="src/core/constants.jsx"></script>
+  <script type="text/babel" src="src/core/translate.js"></script>
+  <script type="text/babel" src="src/core/detectaPalabra.js"></script>
+  <script type="text/babel" src="src/core/storage.jsx"></script>
+  <script type="text/babel" src="src/core/utils.jsx"></script>
+  <script type="text/babel" src="src/core/cloud.jsx"></script>
+  <script type="text/babel" src="src/core/auth.jsx"></script>
+  <script type="text/babel" src="src/core/achievements.jsx"></script>
+  <script type="text/babel" src="src/core/toast.jsx"></script>
+  <script type="text/babel" src="src/core/speech.jsx"></script>
+  <script type="text/babel" src="src/core/srs.jsx"></script>
+  <script type="text/babel" src="src/core/bxHelpers.jsx"></script>
+  <!-- HOOKS -->
+  <script type="text/babel" src="src/hooks/useLocalStorage.jsx"></script>
+  <!-- FEATURES (componentes) -->
+  <script type="text/babel" src="src/features/escritura/escrituraHelpers.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/escritura/writing-data.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/escritura/telc-core.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/escritura/typingMode.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/escritura/handwriteMode.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/escritura/EscrituraPanel.jsx?v=1"></script>
+  <!-- LECTURA MODULAR -->
+  <script type="text/babel" src="src/features/lectura/lecturaHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/icons.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/normalization.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/tokenizer.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/scoring.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/helpers/pronunciation.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/hooks/useLectura.js"></script>
+  <script type="text/babel" src="src/features/lectura/components/LecturaComponents.jsx"></script>
+  <script type="text/babel" src="src/features/lectura/LecturaPanel.jsx"></script>
+  <script type="text/babel" src="src/features/entrenamiento/deepSeekAi.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/entrenamiento/deepseek-integration.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/entrenamiento/entrenamientoHelpers.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/entrenamiento/EntrenamientoPanel.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/lexikon/vocabSrsHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/lexikon/LexikonPanel.jsx"></script>
+  <script type="text/babel" src="src/features/progreso/progresoHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/progreso/ProgresoPanel.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadAmigos.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadMensajes.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadDuelos.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadBloqueos.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadArena.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadClubs.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadFeed.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadTienda.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadGuiones.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadMentor.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/comunidadHistorias.jsx"></script>
+  <script type="text/babel" src="src/features/comunidad/ComunidadPanel.jsx"></script>
+  <script type="text/babel" src="src/features/biblioteca/BibliotecaPanel.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/maestros/maestrosHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA1_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA1_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA2_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoA2_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB1_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB1_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB2_1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoB2_2.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/contenido/contenidoC1.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/MaestroIA.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/EjerciciosMaestros.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/CompetenciaHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/CompetenciaMaestros.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/ProgresionMaestros.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/HistoriaMaestros.jsx"></script>
+  <script type="text/babel" src="src/features/maestros/MaestrosPanel.jsx"></script>
+  <script type="text/babel" src="src/features/telc/TelcPanel.jsx"></script>
+  <script type="text/babel" src="src/features/splash/Splash.jsx"></script>
+  <script type="text/babel" src="src/features/navigation/TopBar.jsx"></script>
+  <script type="text/babel" src="src/features/navigation/BottomBar.jsx"></script>
+  <script type="text/babel" src="src/features/ia/iaHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/ia/IAPanel.jsx"></script>
+  <script type="text/babel" src="src/features/ia/FloatingAiChat.jsx"></script>
+  <script type="text/babel" src="src/features/ajustes/ajustesHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/ajustes/AjustesPanel.jsx"></script>
+  <script type="text/babel" src="src/features/tienda/TiendaPanel.jsx"></script>
+  <script type="text/babel" src="src/features/pdfstudy/pdfstudyHelpers.jsx"></script>
+  <script type="text/babel" src="src/features/pdfstudy/PdfstudyPanel.jsx"></script>
+  <!-- RUTA DE APRENDIZAJE (LEVELS DATA FIRST) -->
+  <!-- RUTA DE APRENDIZAJE (arquitectura modular) -->
+  <script type="text/javascript" src="src/features/ruta/rutaHelpers.jsx?v=4"></script>
+  <script type="text/javascript" src="src/data/vocabData.js"></script>
+  <script type="text/javascript" src="src/data/phrasesBankLoader.js"></script>
+  <script type="text/javascript" src="src/features/ruta/levelConfig.js"></script>
+  <script type="text/javascript" src="src/features/ruta/exerciseTypes.js"></script>
+  <script type="text/javascript" src="src/features/ruta/phraseGenerator.js"></script>
+  <script type="text/javascript" src="src/features/ruta/srsHelpers.js"></script>
+  <script type="text/javascript" src="src/features/ruta/corrector.js"></script>
+  <script type="text/javascript" src="src/features/ruta/rutaAudio.js"></script>
+  <script type="text/javascript" src="src/features/ruta/podcastA1_1Engine.js"></script>
+  <script type="text/javascript" src="src/features/ruta/podcastA1_2Engine.js"></script>
+  <script type="text/javascript" src="src/features/ruta/storyA1_1Engine.js"></script>
+  <script type="text/javascript" src="src/features/ruta/storyA1_2Engine.js"></script>
+  <script type="text/babel" src="src/features/ruta/LessonView.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/ruta/PodcastView.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/ruta/StoryView.jsx?v=1"></script>
+  <script type="text/babel" src="src/features/ruta/RutaPanel.jsx?v=4"></script>
+
+  <script type="text/babel" src="src/features/historia/data/defaultGuion.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/data/oralB1Questions.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/data/tempusDict.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/helpers/historiaHelpers.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/helpers/resaltador.jsx?v=3"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Fluestern.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Ruido.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Diktat.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Huecos.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Articulos.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Declinar.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Tempus.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Satzbau.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/Submodos/Oido.jsx?v=2"></script>
+  <script type="text/babel" src="src/features/historia/HistoriaPanel.jsx?v=3"></script>
+
+  <!-- PDF.JS CDN (renderizado nativo de PDFs) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- TESSERACT.JS CDN (OCR para escanear PDFs/imágenes) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
+  <!-- PUNTO DE ENTRADA PRINCIPAL -->
+  <script type="text/babel" src="src/app.jsx?v=3"></script>
+</html>
