@@ -252,7 +252,7 @@ const PhraseGenerator = {
     
     if (adjPhrases.length === 0) return exercises;
 
-    var allEndingOpts = ["-e", "-er", "-es", "-en"];
+    var allEndingOpts = ["-e", "-er", "-es", "-em", "-en"];
     var sliced = this.shuffle(adjPhrases).slice(0, Math.min(count, adjPhrases.length));
     
     for (var i = 0; i < sliced.length; i++) {
