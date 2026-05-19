@@ -22,7 +22,7 @@ addLevel('A1.1',[
   ['Bäckerei','la panadería','die','','n'],
     ['immer','siempre','-','-','adv'],
   ['schnell','rápido','','','adv'],['langsam','lento','','','adv'],
-    ['Maus','[Maus]','der','Mausen','n'],
+    ['Maus','ratón','die','Mäuse','n'],
   ['Hausnummer','el número de la casa','die','','n'],
   ['Cousine','la prima','die','','n'],
     ['der November','noviembre','der','November','n'],
