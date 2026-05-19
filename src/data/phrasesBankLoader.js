@@ -16,6 +16,8 @@ async function loadPhrasesBank() {
       if (!response.ok) throw new Error("HTTP " + response.status);
       const json = await response.json();
       Object.assign(bank, json);
+      // También guardar por nivel para el generador
+      bank[entry.level] = json;
       console.log("Frases cargadas para " + entry.level + " (" + Object.keys(json).length + " palabras)");
     } catch (err) {
       console.warn("No se pudo cargar " + entry.file + ": " + err.message);
