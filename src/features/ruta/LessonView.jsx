@@ -55,9 +55,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     if (!window.PhraseGenerator) return;
     const lesson = window.PhraseGenerator.generateLesson(levelId, lessonIdx);
     if (!lesson) return;
-    const allExercises = (lesson.exercises || []).concat(lesson.cumulativeReview || []);
-  console.log('Ejercicios totales (incluyendo repaso):', allExercises.length);
-  setExercises(allExercises);
+    setExercises(lesson.exercises || []);
     setCurrentEx(0);
     setUserAnswer("");
     setUserOrder([]);
@@ -133,7 +131,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       }
       // Se acabaron los intentos - marca como incorrecto definitivo
       playWrong();
-      if (!ex.isCumulativeReview) { setFailedStack(prev => [...prev, ex]); }
+      setFailedStack(prev => [...prev, ex]);
       setFeedback({
         correct: false,
         exact: false,
@@ -176,7 +174,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       setWrongWords([]);
       setLastUserTranscript("");
     } else {
-      if (!reviewMode && failedStack.filter(e => !e.isCumulativeReview).length > 0) {
+      if (!reviewMode && failedStack.length > 0) {
         setExercises(failedStack);
         setFailedStack([]);
         setCurrentEx(0);
@@ -235,9 +233,9 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
             <button onClick={onBack} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 transition shadow">← Volver</button>
           </div>
         </div>
-        <div className={`bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border ${ex.isCumulativeReview ? 'border-orange-500/80' : ex.isReview ? 'border-amber-500/50' : 'border-slate-700'}`}>
+        <div className={`bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border ${ex.isReview ? 'border-amber-500/50' : 'border-slate-700'}`}>
           <div className="flex items-center mb-6">
-            <p className="text-slate-200 font-medium text-lg">{ex.prompt}{ex.isCumulativeReview && <span className="ml-2 px-2 py-0.5 bg-orange-600 text-white text-xs rounded-full">Repaso Pro</span>}{ex.isCumulativeReview && <span className="ml-2 px-2 py-0.5 bg-orange-600 text-white text-xs rounded-full">Repaso Pro</span>}</p>
+            <p className="text-slate-200 font-medium text-lg">{ex.prompt}</p>
             {ex.speakText && <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">🔊</button>}
             {ex.isReview && <span className="ml-2 text-amber-400 text-xs" title="Palabra para repasar">🔁 repaso</span>}
           </div>
@@ -367,55 +365,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
                 </>
               ) : null}
             </div>
-           ) : ex.type === "fillInSentence" ? (
-             <div className="space-y-4 mt-4">
-               <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
-               <div className="p-4 bg-slate-700/50 rounded-xl border border-slate-600">
-                 <p className="text-xl text-white font-serif">
-                   {(ex.sentenceWithBlank || "___").split("___").map((part, i) =>
-                     i === 0 ? part : <span key={i}><span className="inline-block mx-1 px-4 py-1 border-2 border-dashed border-amber-400 rounded text-amber-400">___</span>{part}</span>
-                   )}
-                 </p>
-               </div>
-               <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} disabled={inputDisabled} className={"w-full p-4 bg-slate-700 border-2 rounded-xl focus:ring-2 focus:ring-amber-400 outline-none text-white text-lg placeholder-slate-400 " + (inputDisabled ? "border-slate-500 opacity-50" : "border-slate-500")} placeholder="Escribe la palabra que falta" />
-               {!inputDisabled && <button onClick={()=>checkAnswer()} className="px-8 py-3 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transition shadow-md font-semibold">Comprobar</button>}
-             </div>
-           ) : ex.type === "articleChoice" ? (
-             <div className="space-y-4 mt-4">
-               <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
-               <p className="text-2xl text-white font-serif">{ex.word?.[1] || ex.word?.[0]}</p>
-               <div className="flex gap-3">
-                 {ex.options.map((opt, i) => (
-                   <button key={i} onClick={() => checkAnswer(opt)} className="px-6 py-3 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-bold text-white text-xl">
-                     {opt}
-                   </button>
-                 ))}
-               </div>
-             </div>
-           ) : ex.type === "adjectiveDeclension" ? (
-             <div className="space-y-4 mt-4">
-               <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
-               <p className="text-xl text-white font-serif">{ex.sentence}</p>
-               <p className="text-sm text-slate-400">{ex.hint}</p>
-               <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} disabled={inputDisabled} className={"w-full p-4 bg-slate-700 border-2 rounded-xl focus:ring-2 focus:ring-purple-400 outline-none text-white text-lg placeholder-slate-400 " + (inputDisabled ? "border-slate-500 opacity-50" : "border-slate-500")} placeholder="Solo la terminación (e, en, em, es, er)" />
-               {!inputDisabled && <button onClick={()=>checkAnswer()} className="px-8 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition shadow-md font-semibold">Comprobar</button>}
-             </div>
-           ) : ex.type === "conjugate" ? (
-             <div className="space-y-4 mt-4">
-               <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
-               <p className="text-2xl text-white font-serif">{ex.verb}</p>
-               <p className="text-lg text-slate-400">Persona: {ex.person}</p>
-               <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} disabled={inputDisabled} className={"w-full p-4 bg-slate-700 border-2 rounded-xl focus:ring-2 focus:ring-teal-400 outline-none text-white text-lg placeholder-slate-400 " + (inputDisabled ? "border-slate-500 opacity-50" : "border-slate-500")} placeholder="Conjugación..." />
-               {!inputDisabled && <button onClick={()=>checkAnswer()} className="px-8 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition shadow-md font-semibold">Comprobar</button>}
-             </div>
-           ) : ex.type === "declension" ? (
-             <div className="space-y-4 mt-4">
-               <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
-               <p className="text-2xl text-white font-serif">{ex.noun}</p>
-               <p className="text-lg text-slate-400">Caso: {ex.case}</p>
-               <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} disabled={inputDisabled} className={"w-full p-4 bg-slate-700 border-2 rounded-xl focus:ring-2 focus:ring-pink-400 outline-none text-white text-lg placeholder-slate-400 " + (inputDisabled ? "border-slate-500 opacity-50" : "border-slate-500")} placeholder="Forma declinada..." />
-               {!inputDisabled && <button onClick={()=>checkAnswer()} className="px-8 py-3 bg-pink-600 text-white rounded-xl hover:bg-pink-700 transition shadow-md font-semibold">Comprobar</button>}
-             </div>
           ) : ex.options ? (
             <div className="space-y-3">
               {ex.options.map((opt,i) => <button key={i} onClick={()=>checkAnswer(opt)} className="block w-full text-left p-4 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-medium text-white">{opt}</button>)}
