@@ -289,7 +289,7 @@ const PhraseGenerator = {
       exercises.push({
         type: "adjectiveDeclension",
         prompt: "Completa el adjetivo '" + adjClean + "':\n\"" + phraseWithBlank + "\"",
-        answer: correctEnding.replace("-",""),
+        answer: correctEnding,
         options: this.shuffle([].concat(allEndingOpts)),
         hint: "Escribe solo la terminación (sin guion).",
         speakText: p.de,
@@ -879,9 +879,6 @@ const PhraseGenerator = {
   },
 
   
-  /**
-   * Genera ejercicios de repaso acumulativo (Pro/Premium)
-   */
   generateCumulativeReview(levelId, currentLessonIdx, count) {
     const exercises = [];
     if (count <= 0 || currentLessonIdx < 1) return exercises;

@@ -13,6 +13,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [showComponent, setShowComponent] = useState(null);
   const [failedStack, setFailedStack] = useState([]);
   const [reviewMode, setReviewMode] = useState(false);
+  const [reviewCycles, setReviewCycles] = useState(0);
   const [streak, setStreak] = useState(0);
   const [celebrate, setCelebrate] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -59,6 +60,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const cumulExs = lesson.cumulativeReview || [];
   const allExs = [...normalExs, ...cumulExs];
   setExercises(allExs);
+  setReviewCycles(0);
     setCurrentEx(0);
     setUserAnswer("");
     setUserOrder([]);
