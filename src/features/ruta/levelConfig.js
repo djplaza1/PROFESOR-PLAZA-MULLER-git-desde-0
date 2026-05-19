@@ -14,7 +14,7 @@ const LEVEL_CONFIG = [
     rewardCoins: 12, rewardXp: 18, testRewardCoins: 60, testRewardXp: 120 },
 
   { id: 'A2.1', badge: 'A2.1', title: 'Viajes y transporte',
-    words: 391, wordsPerLesson: 15, lessons: 27,
+    words: 419, wordsPerLesson: 15, lessons: 27,
     testQuestions: 20, passPercent: 70,
     rewardCoins: 15, rewardXp: 20, testRewardCoins: 70, testRewardXp: 140 },
 
