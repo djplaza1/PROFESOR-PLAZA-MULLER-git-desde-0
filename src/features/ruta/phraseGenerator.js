@@ -556,7 +556,7 @@ const PhraseGenerator = {
       }
 
       exercises.push({
-        type: "fillInSentence",
+        type: "fillInSentence", sentenceWithBlank: sentenceWithBlank || "___",
         prompt: "Completa la frase:\n\"" + hiddenSentence + "\"\n🇪🇸 \"" + p.es + "\"",
         answer: answer,
         options: this.shuffle([answer].concat(distractors)),

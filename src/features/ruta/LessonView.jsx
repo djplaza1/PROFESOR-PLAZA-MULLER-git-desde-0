@@ -372,7 +372,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
                <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
                <div className="p-4 bg-slate-700/50 rounded-xl border border-slate-600">
                  <p className="text-xl text-white font-serif">
-                   {ex.sentenceWithBlank.split("___").map((part, i) =>
+                   {(ex.sentenceWithBlank || "___").split("___").map((part, i) =>
                      i === 0 ? part : <span key={i}><span className="inline-block mx-1 px-4 py-1 border-2 border-dashed border-amber-400 rounded text-amber-400">___</span>{part}</span>
                    )}
                  </p>
