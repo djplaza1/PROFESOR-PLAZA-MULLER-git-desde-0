@@ -668,47 +668,47 @@ const PhraseGenerator = {
     // TODOS generados SOLO con frases de phrasesBank[levelId]
 
     // EJ 1: Declinación de adjetivos (usa adjDecl inferido del JSON cuando no tiene metadatos)
-    var adjDeclCount = Math.min(3, Math.max(1, 1));
+    var adjDeclCount = Math.min(4, Math.max(2, 2));
     if (adjDeclCount > 0 && allPhrases.length > 0) {
       var adjEx = this.generateAdjDeclExercises(levelId, adjDeclCount);
       for (var i = 0; i < adjEx.length; i++) {
-        if (exercises.length < 25) exercises.push(adjEx[i]);
+        if (exercises.length < 15) exercises.push(adjEx[i]);
       }
     }
 
     // EJ 2: Artículo correcto según caso
-    var artCount = Math.min(3, Math.max(1, 1));
+    var artCount = Math.min(4, Math.max(2, 2));
     if (artCount > 0 && allPhrases.length > 0) {
       var artEx = this.generateArticleExercises(levelId, artCount);
       for (var i = 0; i < artEx.length; i++) {
-        if (exercises.length < 25) exercises.push(artEx[i]);
+        if (exercises.length < 15) exercises.push(artEx[i]);
       }
     }
 
     // EJ 3: Ordenar palabras
-    var orderCount = Math.min(3, Math.max(1, 1));
+    var orderCount = Math.min(4, Math.max(2, 2));
     if (orderCount > 0 && allPhrases.length > 0) {
       var orderEx = this.generateOrderExercises(levelId, orderCount);
       for (var i = 0; i < orderEx.length; i++) {
-        if (exercises.length < 25) exercises.push(orderEx[i]);
+        if (exercises.length < 15) exercises.push(orderEx[i]);
       }
     }
 
     // EJ 4: Completar huecos
-    var fillCount = Math.min(3, Math.max(1, 1));
+    var fillCount = Math.min(4, Math.max(2, 2));
     if (fillCount > 0 && allPhrases.length > 0) {
       var fillEx = this.generateFillInBlankExercises(levelId, fillCount);
       for (var i = 0; i < fillEx.length; i++) {
-        if (exercises.length < 25) exercises.push(fillEx[i]);
+        if (exercises.length < 15) exercises.push(fillEx[i]);
       }
     }
 
     // EJ 5: Pronunciación (ROTA entre frases SIMPLES del nivel)
-    var pronCount = Math.min(4, Math.max(1, 1));
+    var pronCount = Math.min(5, Math.max(2, 2));
     if (pronCount > 0 && allPhrases.length > 0) {
       var pronEx = this.generatePronunciationExercises(levelId, pronCount);
       for (var i = 0; i < pronEx.length; i++) {
-        if (exercises.length < 25) {
+        if (exercises.length < 15) {
           pronEx[i].isReview = false;
           exercises.push(pronEx[i]);
         }
@@ -722,7 +722,7 @@ const PhraseGenerator = {
     for (const w of reviewWordsInVocab) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
-      if (exercises.length >= 25) break;
+      if (exercises.length >= 15) break;
       var ex = this.createVocabExercise(w, vocabTypes, allValid);
       if (ex) { ex.isReview = true; exercises.push(ex); }
     }
@@ -731,7 +731,7 @@ const PhraseGenerator = {
     for (const w of newLessonWords) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
-      if (exercises.length >= 25) break;
+      if (exercises.length >= 15) break;
       var ex = this.createVocabExercise(w, vocabTypes, allValid);
       if (ex) exercises.push(ex);
     }
@@ -758,7 +758,7 @@ const PhraseGenerator = {
       }
 
       // audioMatch
-      if (exercises.length < 25) {
+      if (exercises.length < 15) {
         var audioMatchCount = Math.min(4, allValid.length);
         var audioMatchWords = this.selectUniquePairs(allValid, audioMatchCount);
         if (audioMatchWords.length >= 2) {
