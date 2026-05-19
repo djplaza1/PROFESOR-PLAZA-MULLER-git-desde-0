@@ -55,7 +55,9 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     if (!window.PhraseGenerator) return;
     const lesson = window.PhraseGenerator.generateLesson(levelId, lessonIdx);
     if (!lesson) return;
-    setExercises(lesson.exercises || []);
+    const allExercises = (lesson.exercises || []).concat(lesson.cumulativeReview || []);
+  console.log('Ejercicios totales (incluyendo repaso):', allExercises.length);
+  setExercises(allExercises);
     setCurrentEx(0);
     setUserAnswer("");
     setUserOrder([]);
@@ -233,9 +235,9 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
             <button onClick={onBack} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 transition shadow">← Volver</button>
           </div>
         </div>
-        <div className={`bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border ${ex.isReview ? 'border-amber-500/50' : 'border-slate-700'}`}>
+        <div className={`bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border ${ex.isCumulativeReview ? 'border-orange-500/80' : ex.isReview ? 'border-amber-500/50' : 'border-slate-700'}`}>
           <div className="flex items-center mb-6">
-            <p className="text-slate-200 font-medium text-lg">{ex.prompt}</p>
+            <p className="text-slate-200 font-medium text-lg">{ex.prompt}{ex.isCumulativeReview && <span className="ml-2 px-2 py-0.5 bg-orange-600 text-white text-xs rounded-full">Repaso Pro</span>}</p>
             {ex.speakText && <button onClick={() => speak(ex.speakText)} className="ml-2 text-slate-400 hover:text-white transition" title="Escuchar">🔊</button>}
             {ex.isReview && <span className="ml-2 text-amber-400 text-xs" title="Palabra para repasar">🔁 repaso</span>}
           </div>

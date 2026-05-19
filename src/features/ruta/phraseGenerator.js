@@ -879,7 +879,98 @@ const PhraseGenerator = {
     return arr;
   },
 
-  generateLesson(levelId, lessonIdx) {
+  
+  /**
+   * Genera ejercicios de repaso acumulativo (Pro/Premium)
+   * @param {string} levelId - ej. 'A1.2'
+   * @param {number} currentLessonIdx - índice de la lección actual (base 0)
+   * @param {number} count - número de ejercicios de repaso deseados
+   * @returns {Array} ejercicios extra con isCumulativeReview: true
+   */
+  generateCumulativeReview(levelId, currentLessonIdx, count) {
+    const exercises = [];
+    if (count <= 0) return exercises;
+    if (typeof window === 'undefined' || !window.SRSHelpers) return exercises;
+
+    const progress = window.SRSHelpers.loadProgress();
+    const allWords = window.SRSHelpers.getWordsToReview
+      ? window.SRSHelpers.getWordsToReview(progress, levelId, 100)
+      : [];
+    if (allWords.length === 0) return exercises;
+
+    // Filtrar solo palabras de lecciones anteriores (< currentLessonIdx)
+    const previousWords = allWords.filter(rw => {
+      const idx = rw.lessonIdx;
+      return idx !== undefined && idx < currentLessonIdx;
+    });
+    if (previousWords.length === 0) return exercises;
+
+    // Ordenar por mayor número de fallos (priorizar las más débiles)
+    previousWords.sort((a, b) => (b.failCount || 0) - (a.failCount || 0));
+
+    const usedWords = [];
+    const maxWords = Math.min(previousWords.length, count * 2); // margen para emparejar
+    for (let i = 0; i < maxWords; i++) {
+      usedWords.push(previousWords[i].word);
+    }
+
+    // Crear matchPairs/audioMatch con bloques de 4-5 palabras
+    let idx = 0;
+    while (idx < usedWords.length && exercises.length < count) {
+      const chunkSize = Math.min(5, usedWords.length - idx);
+      if (chunkSize < 2) break;
+      const chunk = usedWords.slice(idx, idx + chunkSize);
+      idx += chunkSize;
+
+      // Buscar palabras completas en el vocabulario del nivel
+      const vocabWords = [];
+      for (const word of chunk) {
+        const found = this.findWordInLevel(levelId, word);
+        if (found) vocabWords.push(found);
+      }
+      if (vocabWords.length < 2) continue;
+
+      const dePairs = vocabWords.map(w => this.canonizeNoun(w));
+      const esPairs = vocabWords.map(w => w[1]);
+
+      const ex = {
+        type: exercises.length % 2 === 0 ? "matchPairs" : "audioMatch",
+        prompt: "🔁 Repaso acumulado (lecciones anteriores)",
+        pairs: dePairs.map((de, i) => ({ de, es: esPairs[i] })),
+        leftColumn: this.shuffle([...dePairs]),
+        rightColumn: this.shuffle([...esPairs]),
+        hint: "Refuerzo Pro: palabras que has fallado antes.",
+        word: vocabWords[0],
+        isCumulativeReview: true
+      };
+      exercises.push(ex);
+    }
+
+    // Si aún faltan ejercicios y hay palabras sueltas, rellenar con fill/choose
+    while (exercises.length < count && idx < usedWords.length) {
+      const word = usedWords[idx++];
+      const fullWord = this.findWordInLevel(levelId, word);
+      if (!fullWord) continue;
+      const ex = this.createVocabExercise(fullWord, ["fill", "choose"], []);
+      if (ex) {
+        ex.prompt = "🔁 Repaso: " + ex.prompt;
+        ex.isCumulativeReview = true;
+        exercises.push(ex);
+      }
+    }
+
+    return exercises;
+  },
+
+  /**
+   * Busca una palabra (en alemán) en el vocabulario del nivel
+   */
+  findWordInLevel(levelId, deWord) {
+    const allValid = this.getValidWords(levelId);
+    return allValid.find(w => w[0].toLowerCase() === deWord.toLowerCase()) || null;
+  },
+
+generateLesson(levelId, lessonIdx) {
     const config = window.LevelConfig?.getLevelConfig?.(levelId);
     if (!config) return null;
     const wordsPerLesson = config.wordsPerLesson || 10;
@@ -887,7 +978,8 @@ const PhraseGenerator = {
       id: levelId + "-l" + (lessonIdx + 1),
       title: "Lección " + (lessonIdx + 1),
       levelId,
-      exercises: this.generateExercises(levelId, lessonIdx, wordsPerLesson)
+      exercises: this.generateExercises(levelId, lessonIdx, wordsPerLesson),
+      cumulativeReview: this.generateCumulativeReview(levelId, lessonIdx, lessonIdx < 3 ? 5 : lessonIdx < 9 ? 7 : 10)
     };
   }
 };
