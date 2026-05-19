@@ -55,7 +55,10 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     if (!window.PhraseGenerator) return;
     const lesson = window.PhraseGenerator.generateLesson(levelId, lessonIdx);
     if (!lesson) return;
-    setExercises(lesson.exercises || []);
+    const normalExs = lesson.exercises || [];
+  const cumulExs = lesson.cumulativeReview || [];
+  const allExs = [...normalExs, ...cumulExs];
+  setExercises(allExs);
     setCurrentEx(0);
     setUserAnswer("");
     setUserOrder([]);
@@ -131,7 +134,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       }
       // Se acabaron los intentos - marca como incorrecto definitivo
       playWrong();
-      setFailedStack(prev => [...prev, ex]);
+      if (!ex.isCumulativeReview) setFailedStack(prev => [...prev, ex]);
       setFeedback({
         correct: false,
         exact: false,
@@ -224,7 +227,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">
-            {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1}`} – {ex.type}
+            {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1} (${currentEx+1}/${exercises.length})`} – {ex.type}
             {ex.isReview && <span className="ml-2 text-amber-400 text-sm" title="Ejercicio de repaso SRS">🔁</span>}
           </h2>
           <div className="flex gap-2">

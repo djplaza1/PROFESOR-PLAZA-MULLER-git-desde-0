@@ -280,7 +280,7 @@ const PhraseGenerator = {
       var targetDet = detTable[caseName] ? detTable[caseName][gender] : "der";
 
       // Mostrar la frase COMPLETA con ___ en lugar del adjetivo
-      var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "(e|er|es|em|en)", "i"), "___");
+      var phraseWithBlank = p.de.replace(p.adjective, "___");
       // Si no se pudo reemplazar, intentar con el adjetivo original completo
       if (phraseWithBlank === p.de) {
         phraseWithBlank = p.de.replace(new RegExp(adjClean, "i"), "___");
@@ -288,10 +288,10 @@ const PhraseGenerator = {
 
       exercises.push({
         type: "adjectiveDeclension",
-        prompt: "Completa el adjetivo '" + adjClean + "' en caso " + caseLabel + ":\n\"" + phraseWithBlank + "\"",
-        answer: correctEnding,
+        prompt: "Completa el adjetivo '" + adjClean + "':\n\"" + phraseWithBlank + "\"",
+        answer: correctEnding.replace("-",""),
         options: this.shuffle([].concat(allEndingOpts)),
-        hint: "Caso " + caseLabel + " (" + targetDet + "). Terminación: " + correctEnding,
+        hint: "Escribe solo la terminación (sin guion).",
         speakText: p.de,
         word: [p.de, p.es],
         translation: p.es,
@@ -878,7 +878,75 @@ const PhraseGenerator = {
     return arr;
   },
 
-  generateLesson(levelId, lessonIdx) {
+  
+  /**
+   * Genera ejercicios de repaso acumulativo (Pro/Premium)
+   */
+  generateCumulativeReview(levelId, currentLessonIdx, count) {
+    const exercises = [];
+    if (count <= 0 || currentLessonIdx < 1) return exercises;
+    if (typeof window === 'undefined' || !window.SRSHelpers) return exercises;
+
+    const progress = window.SRSHelpers.loadProgress();
+    const allWords = window.SRSHelpers.getWordsToReview
+      ? window.SRSHelpers.getWordsToReview(progress, levelId, 100)
+      : [];
+    if (allWords.length === 0) return exercises;
+
+    const previousWords = allWords.filter(rw => rw.lessonIdx !== undefined && rw.lessonIdx < currentLessonIdx);
+    if (previousWords.length === 0) return exercises;
+
+    previousWords.sort((a, b) => (b.failCount || 0) - (a.failCount || 0));
+
+    const allValid = this.getValidWords(levelId);
+    const vocabMap = {};
+    allValid.forEach(w => { vocabMap[w[0].toLowerCase()] = w; });
+
+    const usedFullWords = [];
+    for (const rw of previousWords) {
+      const full = vocabMap[rw.word.toLowerCase()];
+      if (full && !usedFullWords.includes(full)) {
+        usedFullWords.push(full);
+        if (usedFullWords.length >= count * 2) break;
+      }
+    }
+
+    let idx = 0;
+    while (idx < usedFullWords.length && exercises.length < count) {
+      const chunkSize = Math.min(5, usedFullWords.length - idx);
+      if (chunkSize < 2) break;
+      const chunk = usedFullWords.slice(idx, idx + chunkSize);
+      idx += chunkSize;
+
+      const dePairs = chunk.map(w => this.canonizeNoun(w));
+      const esPairs = chunk.map(w => w[1]);
+
+      exercises.push({
+        type: exercises.length % 2 === 0 ? "matchPairs" : "audioMatch",
+        prompt: "🔁 Repaso acumulado (lecciones anteriores)",
+        pairs: dePairs.map((de, i) => ({ de, es: esPairs[i] })),
+        leftColumn: this.shuffle([...dePairs]),
+        rightColumn: this.shuffle([...esPairs]),
+        hint: "Refuerzo Pro: palabras que has fallado antes.",
+        word: chunk[0],
+        isCumulativeReview: true
+      });
+    }
+
+    while (exercises.length < count && idx < usedFullWords.length) {
+      const w = usedFullWords[idx++];
+      const ex = this.createVocabExercise(w, ["fill", "choose"], allValid);
+      if (ex) {
+        ex.prompt = "🔁 Repaso: " + ex.prompt;
+        ex.isCumulativeReview = true;
+        exercises.push(ex);
+      }
+    }
+
+    return exercises;
+  },
+
+generateLesson(levelId, lessonIdx) {
     const config = window.LevelConfig?.getLevelConfig?.(levelId);
     if (!config) return null;
     const wordsPerLesson = config.wordsPerLesson || 10;
@@ -886,7 +954,8 @@ const PhraseGenerator = {
       id: levelId + "-l" + (lessonIdx + 1),
       title: "Lección " + (lessonIdx + 1),
       levelId,
-      exercises: this.generateExercises(levelId, lessonIdx, wordsPerLesson)
+      exercises: this.generateExercises(levelId, lessonIdx, wordsPerLesson),
+      cumulativeReview: this.generateCumulativeReview(levelId, lessonIdx, lessonIdx < 3 ? 5 : lessonIdx < 9 ? 7 : 10)
     };
   }
 };
