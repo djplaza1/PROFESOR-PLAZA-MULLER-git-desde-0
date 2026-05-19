@@ -133,7 +133,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       }
       // Se acabaron los intentos - marca como incorrecto definitivo
       playWrong();
-      setFailedStack(prev => [...prev, ex]);
+      if (!ex.isCumulativeReview) { setFailedStack(prev => [...prev, ex]); }
       setFeedback({
         correct: false,
         exact: false,
@@ -176,7 +176,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       setWrongWords([]);
       setLastUserTranscript("");
     } else {
-      if (!reviewMode && failedStack.length > 0) {
+      if (!reviewMode && failedStack.filter(e => !e.isCumulativeReview).length > 0) {
         setExercises(failedStack);
         setFailedStack([]);
         setCurrentEx(0);
@@ -397,7 +397,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
                <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
                <p className="text-xl text-white font-serif">{ex.sentence}</p>
                <p className="text-sm text-slate-400">{ex.hint}</p>
-               <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} disabled={inputDisabled} className={"w-full p-4 bg-slate-700 border-2 rounded-xl focus:ring-2 focus:ring-purple-400 outline-none text-white text-lg placeholder-slate-400 " + (inputDisabled ? "border-slate-500 opacity-50" : "border-slate-500")} placeholder="Forma correcta del adjetivo" />
+               <input type="text" value={userAnswer} onChange={e => setUserAnswer(e.target.value)} disabled={inputDisabled} className={"w-full p-4 bg-slate-700 border-2 rounded-xl focus:ring-2 focus:ring-purple-400 outline-none text-white text-lg placeholder-slate-400 " + (inputDisabled ? "border-slate-500 opacity-50" : "border-slate-500")} placeholder="Solo la terminación (e, en, em, es, er)" />
                {!inputDisabled && <button onClick={()=>checkAnswer()} className="px-8 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition shadow-md font-semibold">Comprobar</button>}
              </div>
            ) : ex.type === "conjugate" ? (
