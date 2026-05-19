@@ -225,7 +225,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">
-            {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1}`} – {ex.type}
+            {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1} (${currentEx+1}/${exercises.length})`} – {ex.type}
             {ex.isReview && <span className="ml-2 text-amber-400 text-sm" title="Ejercicio de repaso SRS">🔁</span>}
           </h2>
           <div className="flex gap-2">
@@ -370,7 +370,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
            ) : ex.type === "adjectiveDeclension" ? (
              <div className="space-y-4 mt-4">
                <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
-               <p className="text-xl text-white font-serif">{ex.sourcePhrase}</p>
+               {ex.translation && <p className="text-sm text-slate-400 italic">Traducción: {ex.translation}</p>}
                <p className="text-sm text-slate-400">Escribe solo la terminación (con guion, ej: -e)</p>
                <div className="flex gap-3">
                  {ex.options.map((opt, i) => (
