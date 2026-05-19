@@ -288,10 +288,10 @@ const PhraseGenerator = {
 
       exercises.push({
         type: "adjectiveDeclension",
-        prompt: "Completa el adjetivo '" + adjClean + "' en caso " + caseLabel + ":\n\"" + phraseWithBlank + "\"",
+        prompt: "Completa el adjetivo '" + adjClean + "':\n\"" + phraseWithBlank + "\"",
         answer: correctEnding.replace('-',''),
         options: this.shuffle([].concat(allEndingOpts)),
-        hint: "Caso " + caseLabel + " (" + targetDet + "). Escribe solo la terminación (sin guion).",
+        hint: "Escribe solo la terminación (sin guion).",
         speakText: p.de,
         word: [p.de, p.es],
         translation: p.es,
