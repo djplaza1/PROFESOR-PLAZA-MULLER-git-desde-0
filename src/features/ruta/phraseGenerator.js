@@ -658,7 +658,8 @@ const PhraseGenerator = {
     const newWordsPool = allValid.filter(w => !reviewWordsSet.has(w[0]));
     let newCount = wordsPerLesson - reviewWordsInVocab.length;
     if (newCount < 0) newCount = 0;
-    const newLessonWords = newWordsPool.slice(0, newCount);
+    const startIdx = (lessonIdx * wordsPerLesson) % newWordsPool.length;
+  const newLessonWords = newWordsPool.slice(startIdx, startIdx + newCount);
 
     const usedSet = new Set();
     const vocabTypes = ["fill", "translateDE", "translateES", "choose", "declension", "plural", "conjugate"];
