@@ -556,7 +556,7 @@ const PhraseGenerator = {
       }
 
       exercises.push({
-        type: "fillInSentence", sentenceWithBlank: sentenceWithBlank || "___",
+        type: "fillInSentence",
         prompt: "Completa la frase:\n\"" + hiddenSentence + "\"\n🇪🇸 \"" + p.es + "\"",
         answer: answer,
         options: this.shuffle([answer].concat(distractors)),
@@ -658,8 +658,7 @@ const PhraseGenerator = {
     const newWordsPool = allValid.filter(w => !reviewWordsSet.has(w[0]));
     let newCount = wordsPerLesson - reviewWordsInVocab.length;
     if (newCount < 0) newCount = 0;
-    const startIdx = (lessonIdx * wordsPerLesson) % newWordsPool.length;
-  const newLessonWords = newWordsPool.slice(startIdx, startIdx + newCount);
+    const newLessonWords = newWordsPool.slice(0, newCount);
 
     const usedSet = new Set();
     const vocabTypes = ["fill", "translateDE", "translateES", "choose", "declension", "plural", "conjugate"];
@@ -668,47 +667,47 @@ const PhraseGenerator = {
     // TODOS generados SOLO con frases de phrasesBank[levelId]
 
     // EJ 1: Declinación de adjetivos (usa adjDecl inferido del JSON cuando no tiene metadatos)
-    var adjDeclCount = Math.min(4, Math.max(2, 2));
+    var adjDeclCount = Math.min(3, Math.max(1, Math.floor(wordsPerLesson * 0.1)));
     if (adjDeclCount > 0 && allPhrases.length > 0) {
       var adjEx = this.generateAdjDeclExercises(levelId, adjDeclCount);
       for (var i = 0; i < adjEx.length; i++) {
-        if (exercises.length < 15) exercises.push(adjEx[i]);
+        if (exercises.length < wordsPerLesson * 2) exercises.push(adjEx[i]);
       }
     }
 
     // EJ 2: Artículo correcto según caso
-    var artCount = Math.min(4, Math.max(2, 2));
+    var artCount = Math.min(3, Math.max(1, Math.floor(wordsPerLesson * 0.1)));
     if (artCount > 0 && allPhrases.length > 0) {
       var artEx = this.generateArticleExercises(levelId, artCount);
       for (var i = 0; i < artEx.length; i++) {
-        if (exercises.length < 15) exercises.push(artEx[i]);
+        if (exercises.length < wordsPerLesson * 2) exercises.push(artEx[i]);
       }
     }
 
     // EJ 3: Ordenar palabras
-    var orderCount = Math.min(4, Math.max(2, 2));
+    var orderCount = Math.min(3, Math.max(1, Math.floor(wordsPerLesson * 0.1)));
     if (orderCount > 0 && allPhrases.length > 0) {
       var orderEx = this.generateOrderExercises(levelId, orderCount);
       for (var i = 0; i < orderEx.length; i++) {
-        if (exercises.length < 15) exercises.push(orderEx[i]);
+        if (exercises.length < wordsPerLesson * 2) exercises.push(orderEx[i]);
       }
     }
 
     // EJ 4: Completar huecos
-    var fillCount = Math.min(4, Math.max(2, 2));
+    var fillCount = Math.min(3, Math.max(1, Math.floor(wordsPerLesson * 0.1)));
     if (fillCount > 0 && allPhrases.length > 0) {
       var fillEx = this.generateFillInBlankExercises(levelId, fillCount);
       for (var i = 0; i < fillEx.length; i++) {
-        if (exercises.length < 15) exercises.push(fillEx[i]);
+        if (exercises.length < wordsPerLesson * 2) exercises.push(fillEx[i]);
       }
     }
 
     // EJ 5: Pronunciación (ROTA entre frases SIMPLES del nivel)
-    var pronCount = Math.min(5, Math.max(2, 2));
+    var pronCount = Math.min(4, Math.max(2, Math.floor(wordsPerLesson * 0.15)));
     if (pronCount > 0 && allPhrases.length > 0) {
       var pronEx = this.generatePronunciationExercises(levelId, pronCount);
       for (var i = 0; i < pronEx.length; i++) {
-        if (exercises.length < 15) {
+        if (exercises.length < wordsPerLesson * 2) {
           pronEx[i].isReview = false;
           exercises.push(pronEx[i]);
         }
@@ -722,7 +721,7 @@ const PhraseGenerator = {
     for (const w of reviewWordsInVocab) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
-      if (exercises.length >= 15) break;
+      if (exercises.length >= wordsPerLesson * 2) break;
       var ex = this.createVocabExercise(w, vocabTypes, allValid);
       if (ex) { ex.isReview = true; exercises.push(ex); }
     }
@@ -731,7 +730,7 @@ const PhraseGenerator = {
     for (const w of newLessonWords) {
       if (usedSet.has(w[0])) continue;
       usedSet.add(w[0]);
-      if (exercises.length >= 15) break;
+      if (exercises.length >= wordsPerLesson * 2) break;
       var ex = this.createVocabExercise(w, vocabTypes, allValid);
       if (ex) exercises.push(ex);
     }
@@ -758,7 +757,7 @@ const PhraseGenerator = {
       }
 
       // audioMatch
-      if (exercises.length < 15) {
+      if (exercises.length < wordsPerLesson * 3) {
         var audioMatchCount = Math.min(4, allValid.length);
         var audioMatchWords = this.selectUniquePairs(allValid, audioMatchCount);
         if (audioMatchWords.length >= 2) {
@@ -879,98 +878,7 @@ const PhraseGenerator = {
     return arr;
   },
 
-  
-  /**
-   * Genera ejercicios de repaso acumulativo (Pro/Premium)
-   * @param {string} levelId - ej. 'A1.2'
-   * @param {number} currentLessonIdx - índice de la lección actual (base 0)
-   * @param {number} count - número de ejercicios de repaso deseados
-   * @returns {Array} ejercicios extra con isCumulativeReview: true
-   */
-  generateCumulativeReview(levelId, currentLessonIdx, count) {
-    const exercises = [];
-    if (count <= 0) return exercises;
-    if (typeof window === 'undefined' || !window.SRSHelpers) return exercises;
-
-    const progress = window.SRSHelpers.loadProgress();
-    const allWords = window.SRSHelpers.getWordsToReview
-      ? window.SRSHelpers.getWordsToReview(progress, levelId, 100)
-      : [];
-    if (allWords.length === 0) return exercises;
-
-    // Filtrar solo palabras de lecciones anteriores (< currentLessonIdx)
-    const previousWords = allWords.filter(rw => {
-      const idx = rw.lessonIdx;
-      return idx !== undefined && idx < currentLessonIdx;
-    });
-    if (previousWords.length === 0) return exercises;
-
-    // Ordenar por mayor número de fallos (priorizar las más débiles)
-    previousWords.sort((a, b) => (b.failCount || 0) - (a.failCount || 0));
-
-    const usedWords = [];
-    const maxWords = Math.min(previousWords.length, count * 2); // margen para emparejar
-    for (let i = 0; i < maxWords; i++) {
-      usedWords.push(previousWords[i].word);
-    }
-
-    // Crear matchPairs/audioMatch con bloques de 4-5 palabras
-    let idx = 0;
-    while (idx < usedWords.length && exercises.length < count) {
-      const chunkSize = Math.min(5, usedWords.length - idx);
-      if (chunkSize < 2) break;
-      const chunk = usedWords.slice(idx, idx + chunkSize);
-      idx += chunkSize;
-
-      // Buscar palabras completas en el vocabulario del nivel
-      const vocabWords = [];
-      for (const word of chunk) {
-        const found = this.findWordInLevel(levelId, word);
-        if (found) vocabWords.push(found);
-      }
-      if (vocabWords.length < 2) continue;
-
-      const dePairs = vocabWords.map(w => this.canonizeNoun(w));
-      const esPairs = vocabWords.map(w => w[1]);
-
-      const ex = {
-        type: exercises.length % 2 === 0 ? "matchPairs" : "audioMatch",
-        prompt: "🔁 Repaso acumulado (lecciones anteriores)",
-        pairs: dePairs.map((de, i) => ({ de, es: esPairs[i] })),
-        leftColumn: this.shuffle([...dePairs]),
-        rightColumn: this.shuffle([...esPairs]),
-        hint: "Refuerzo Pro: palabras que has fallado antes.",
-        word: vocabWords[0],
-        isCumulativeReview: true
-      };
-      exercises.push(ex);
-    }
-
-    // Si aún faltan ejercicios y hay palabras sueltas, rellenar con fill/choose
-    while (exercises.length < count && idx < usedWords.length) {
-      const word = usedWords[idx++];
-      const fullWord = this.findWordInLevel(levelId, word);
-      if (!fullWord) continue;
-      const ex = this.createVocabExercise(fullWord, ["fill", "choose"], []);
-      if (ex) {
-        ex.prompt = "🔁 Repaso: " + ex.prompt;
-        ex.isCumulativeReview = true;
-        exercises.push(ex);
-      }
-    }
-
-    return exercises;
-  },
-
-  /**
-   * Busca una palabra (en alemán) en el vocabulario del nivel
-   */
-  findWordInLevel(levelId, deWord) {
-    const allValid = this.getValidWords(levelId);
-    return allValid.find(w => w[0].toLowerCase() === deWord.toLowerCase()) || null;
-  },
-
-generateLesson(levelId, lessonIdx) {
+  generateLesson(levelId, lessonIdx) {
     const config = window.LevelConfig?.getLevelConfig?.(levelId);
     if (!config) return null;
     const wordsPerLesson = config.wordsPerLesson || 10;
@@ -978,8 +886,7 @@ generateLesson(levelId, lessonIdx) {
       id: levelId + "-l" + (lessonIdx + 1),
       title: "Lección " + (lessonIdx + 1),
       levelId,
-      exercises: this.generateExercises(levelId, lessonIdx, wordsPerLesson),
-      cumulativeReview: this.generateCumulativeReview(levelId, lessonIdx, lessonIdx < 3 ? 5 : lessonIdx < 9 ? 7 : 10)
+      exercises: this.generateExercises(levelId, lessonIdx, wordsPerLesson)
     };
   }
 };
