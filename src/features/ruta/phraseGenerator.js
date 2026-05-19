@@ -658,7 +658,12 @@ const PhraseGenerator = {
     const newWordsPool = allValid.filter(w => !reviewWordsSet.has(w[0]));
     let newCount = wordsPerLesson - reviewWordsInVocab.length;
     if (newCount < 0) newCount = 0;
-    const newLessonWords = newWordsPool.slice(0, newCount);
+    const startIdx = (lessonIdx * wordsPerLesson) % newWordsPool.length;
+  const endIdx = Math.min(startIdx + newCount, newWordsPool.length);
+  let newLessonWords = newWordsPool.slice(startIdx, endIdx);
+  if (newLessonWords.length < newCount) {
+    newLessonWords = newLessonWords.concat(newWordsPool.slice(0, newCount - newLessonWords.length));
+  }
 
     const usedSet = new Set();
     const vocabTypes = ["fill", "translateDE", "translateES", "choose", "declension", "plural", "conjugate"];
@@ -879,7 +884,34 @@ const PhraseGenerator = {
   },
 
   
-  generateCumulativeReview(levelId, currentLessonIdx, count) {
+  
+  createCumulativeExercises(wordList, count) {
+    const exercises = [];
+    let idx = 0;
+    while (idx < wordList.length && exercises.length < count) {
+      const chunkSize = Math.min(5, wordList.length - idx);
+      if (chunkSize < 2) break;
+      const chunk = wordList.slice(idx, idx + chunkSize);
+      idx += chunkSize;
+
+      const dePairs = chunk.map(w => this.canonizeNoun(w));
+      const esPairs = chunk.map(w => w[1]);
+
+      exercises.push({
+        type: exercises.length % 2 === 0 ? "matchPairs" : "audioMatch",
+        prompt: "🔁 Repaso acumulado (lecciones anteriores)",
+        pairs: dePairs.map((de, i) => ({ de, es: esPairs[i] })),
+        leftColumn: this.shuffle([...dePairs]),
+        rightColumn: this.shuffle([...esPairs]),
+        hint: "Refuerzo Pro: palabras de lecciones anteriores.",
+        word: chunk[0],
+        isCumulativeReview: true
+      });
+    }
+    return exercises;
+  },
+
+generateCumulativeReview(levelId, currentLessonIdx, count) {
     const exercises = [];
     if (count <= 0 || currentLessonIdx < 1) return exercises;
     if (typeof window === 'undefined' || !window.SRSHelpers) return exercises;
@@ -888,7 +920,22 @@ const PhraseGenerator = {
     const allWords = window.SRSHelpers.getWordsToReview
       ? window.SRSHelpers.getWordsToReview(progress, levelId, 100)
       : [];
-    if (allWords.length === 0) return exercises;
+    if (allWords.length === 0) {
+    // Fallback: usar palabras aleatorias de lecciones anteriores
+    const allValid = this.getValidWords(levelId);
+    if (allValid.length === 0) return exercises;
+    const wordsPerLesson = window.LevelConfig?.getLevelConfig?.(levelId)?.wordsPerLesson || 10;
+    const totalLessons = Math.ceil(allValid.length / wordsPerLesson);
+    const prevLessons = Array.from({ length: currentLessonIdx }, (_, i) => i);
+    const selected = [];
+    for (const lesson of prevLessons) {
+      const start = lesson * wordsPerLesson;
+      const end = Math.min(start + wordsPerLesson, allValid.length);
+      const lessonWords = allValid.slice(start, end);
+      selected.push(...lessonWords.slice(0, 3)); // tomar hasta 3 palabras por lección anterior
+    }
+    return this.createCumulativeExercises(selected, count);
+  }
 
     const previousWords = allWords.filter(rw => rw.lessonIdx !== undefined && rw.lessonIdx < currentLessonIdx);
     if (previousWords.length === 0) return exercises;
