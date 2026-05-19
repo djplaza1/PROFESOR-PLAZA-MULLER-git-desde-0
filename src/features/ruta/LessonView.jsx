@@ -13,7 +13,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [showComponent, setShowComponent] = useState(null);
   const [failedStack, setFailedStack] = useState([]);
   const [reviewMode, setReviewMode] = useState(false);
-  const [reviewCycles, setReviewCycles] = useState(0);
   const [streak, setStreak] = useState(0);
   const [celebrate, setCelebrate] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -60,7 +59,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const cumulExs = lesson.cumulativeReview || [];
   const allExs = [...normalExs, ...cumulExs];
   setExercises(allExs);
-  setReviewCycles(0);
     setCurrentEx(0);
     setUserAnswer("");
     setUserOrder([]);
@@ -136,7 +134,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       }
       // Se acabaron los intentos - marca como incorrecto definitivo
       playWrong();
-      if (!ex.isCumulativeReview) setFailedStack(prev => [...prev, ex]);
       setFeedback({
         correct: false,
         exact: false,
@@ -159,7 +156,6 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       }
     } else {
       playWrong();
-      setFailedStack(prev => [...prev, ex]);
     }
   };
 
@@ -229,7 +225,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">
-            {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1} (${currentEx+1}/${exercises.length})`} – {ex.type}
+            {reviewMode ? "Repaso de fallos" : `Lección ${lessonIdx+1}`} – {ex.type}
             {ex.isReview && <span className="ml-2 text-amber-400 text-sm" title="Ejercicio de repaso SRS">🔁</span>}
           </h2>
           <div className="flex gap-2">
@@ -370,6 +366,20 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
                 </>
               ) : null}
             </div>
+
+           ) : ex.type === "adjectiveDeclension" ? (
+             <div className="space-y-4 mt-4">
+               <p className="text-slate-300 text-sm mb-2">{ex.prompt}</p>
+               <p className="text-xl text-white font-serif">{ex.sourcePhrase}</p>
+               <p className="text-sm text-slate-400">Escribe solo la terminación (con guion, ej: -e)</p>
+               <div className="flex gap-3">
+                 {ex.options.map((opt, i) => (
+                   <button key={i} onClick={() => checkAnswer(opt)} className="px-6 py-3 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-bold text-white text-xl">
+                     {opt}
+                   </button>
+                 ))}
+               </div>
+             </div>
           ) : ex.options ? (
             <div className="space-y-3">
               {ex.options.map((opt,i) => <button key={i} onClick={()=>checkAnswer(opt)} className="block w-full text-left p-4 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-medium text-white">{opt}</button>)}
@@ -433,7 +443,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         )}
         {feedback && (
           <button onClick={nextExercise} className="mt-4 w-full px-6 py-3 bg-slate-700 text-white rounded-xl hover:bg-slate-600 transition shadow-md font-medium">
-            {currentEx < exercises.length - 1 ? "Siguiente →" : (failedStack.length > 0 && !reviewMode ? "Repasar fallos →" : "Finalizar")}
+            {currentEx < exercises.length - 1 ? "Siguiente →" : "Finalizar"}
           </button>
         )}
       </div>

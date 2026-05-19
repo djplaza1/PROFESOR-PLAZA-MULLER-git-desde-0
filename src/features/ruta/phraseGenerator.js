@@ -280,7 +280,7 @@ const PhraseGenerator = {
       var targetDet = detTable[caseName] ? detTable[caseName][gender] : "der";
 
       // Mostrar la frase COMPLETA con ___ en lugar del adjetivo
-      var phraseWithBlank = p.de.replace(p.adjective, "___");
+      var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "(e|er|es|em|en)", "i"), "___");
       // Si no se pudo reemplazar, intentar con el adjetivo original completo
       if (phraseWithBlank === p.de) {
         phraseWithBlank = p.de.replace(new RegExp(adjClean, "i"), "___");
@@ -288,10 +288,10 @@ const PhraseGenerator = {
 
       exercises.push({
         type: "adjectiveDeclension",
-        prompt: "Completa el adjetivo '" + adjClean + "':\n\"" + phraseWithBlank + "\"",
+        prompt: "Completa el adjetivo '" + adjClean + "' en caso " + caseLabel + ":\n\"" + phraseWithBlank + "\"",
         answer: correctEnding,
         options: this.shuffle([].concat(allEndingOpts)),
-        hint: "Escribe solo la terminación (sin guion).",
+        hint: "Caso " + caseLabel + " (" + targetDet + "). Terminación: " + correctEnding,
         speakText: p.de,
         word: [p.de, p.es],
         translation: p.es,
