@@ -1999,7 +1999,7 @@ addLevel('A2.1',[
 ]);
 
 addLevel('A2.2',[
-  ['prepararse para','[prepararse para]','','','n'],
+  ['sich vorbereiten','prepararse para','','','v']','','','n'],
     ['Bekanntmachung','anuncio','die','Bekanntmachungen','n'],
     ['das Wohnheim','residencia','das','Wohnheime','n'],
     ['Gefangenschaft','cautiverio','die','Gefangenschaften','n'],
@@ -2012,12 +2012,12 @@ addLevel('A2.2',[
   ['Bauchschmerzen','dolor de estómago','die','-','n'],
   ['Lokal','el local / restaurante','das','','n'],
     ['sich auszeichnen','destacarse','','','v'],
-    ['Einkaufswagen','[Einkaufswagen]','die','Einkaufswagen','n'],
+    ['Einkaufswagen','carrito','der','Einkaufswagen','n']','die','Einkaufswagen','n'],
   ['Geldautomat','cajero automático','der','Geldautomaten','n'],
     ['womöglich','posiblemente','','','adv'],
     ['Enthaltung','abstención','die','Enthaltungen','n'],
-    ['Kleidungsgeschäft','[Kleidungsgeschäft]','das','Kleidungsgeschäften','n'],
-  ['la confianza','[la confianza]','','','n'],
+    ['Kleidungsgeschäft','tienda de ropa','das','Kleidungsgeschäfte','n']','das','Kleidungsgeschäften','n'],
+  ['Vertrauen','confianza','das','','n']','','','n'],
     ['Landkarte','mapa','die','Landkarten','n'],
     ['der Schmerz','dolor','der','Schmerzen','n'],
   ['Applaus','aplausos','der','-','n'],
@@ -2030,7 +2030,7 @@ addLevel('A2.2',[
     ['Erkennung','reconocimiento','die','Erkennungen','n'],
   ['Kette','cadena','die','Ketten','n'],['Armbanduhr','reloj pulsera','die','Armbanduhren','n'],
   ['Elektronikgeschäft','tienda de electrónica','das','Elektronikgeschäfte','n'],
-  ['el ordenador','[el ordenador]','','','n'],
+  ['Computer','ordenador','der','Computer','n']','','','n'],
     ['Mikrowelle','microondas','die','Mikrowellen','n'],
   ['Museum','museo','das','Museen','n'],
   ['Betrag','el importe / suma','der','','n'],
