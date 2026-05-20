@@ -19,7 +19,7 @@ const LEVEL_CONFIG = [
     rewardCoins: 15, rewardXp: 20, testRewardCoins: 70, testRewardXp: 140 },
 
   { id: 'A2.2', badge: 'A2.2', title: 'Salud y emociones',
-    words: 1048, wordsPerLesson: 18, lessons: 55,
+    words: 1123, wordsPerLesson: 18, lessons: 55,
     testQuestions: 20, passPercent: 70,
     rewardCoins: 18, rewardXp: 22, testRewardCoins: 80, testRewardXp: 160 },
 
