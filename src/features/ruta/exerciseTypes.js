@@ -1,22 +1,22 @@
 window.exerciseTypes = {
-  adjectiveDeclension(adjClean, caseLabel, contextPhrase, correctEnding, allOptions) {
-    const options = [...allOptions].sort(() => Math.random() - 0.5);
+  adjectiveDeclension: function(adjClean, caseLabel, contextPhrase, correctEnding, allOptions) {
+    var options = allOptions.slice().sort(function() { return Math.random() - 0.5; });
     return {
-      type: 'adjectiveDeclension',
-      prompt: Completa el adjetivo '' en caso :\n"",
+      type: "adjectiveDeclension",
+      prompt: "Completa el adjetivo " + adjClean + " en caso " + caseLabel + ": " + contextPhrase,
       answer: correctEnding,
-      options,
+      options: options,
       hint: ""
     };
   },
 
-  articleChoice(targetCase, newPhrase, correctArticle, optionsArr) {
-    const options = [...optionsArr].sort(() => Math.random() - 0.5);
+  articleChoice: function(targetCase, newPhrase, correctArticle, optionsArr) {
+    var options = optionsArr.slice().sort(function() { return Math.random() - 0.5; });
     return {
-      type: 'articleChoice',
-      prompt: Elige el artículo correcto para caso :\n"",
+      type: "articleChoice",
+      prompt: "Elige el artículo correcto para caso " + targetCase.toUpperCase() + ": " + newPhrase,
       answer: correctArticle,
-      options,
+      options: options,
       hint: ""
     };
   }
