@@ -8,28 +8,28 @@ const EXERCISE_TYPES = {
       prompt: `Completa: "___" significa "${es}".`,
       answer: de,
       options: [...opts, de].sort(() => Math.random() - 0.5),
-      hint: 'Es una palabra de nivel.'
+      hint: ""
     };
   },
 
   choose(de, es, distractors) {
     const opts = distractors || [];
     const options = [es, ...opts].sort(() => Math.random() - 0.5);
-    return { type: 'choose', prompt: `¿Cuál es la traducción de "${de}"?`, answer: es, options, hint: 'Mira bien las opciones.' };
+    return { type: 'choose', prompt: `¿Cuál es la traducción de "${de}"?`, answer: es, options, hint: ""
   },
 
   plural(de, plural, distractors) {
     const opts = distractors || [];
     const options = [plural, ...opts].filter(Boolean).sort(() => Math.random() - 0.5);
-    return { type: 'plural', prompt: `¿Cuál es el plural de "${de}"?`, answer: plural, options, hint: 'Recuerda las reglas de plural.' };
+    return { type: 'plural', prompt: `¿Cuál es el plural de "${de}"?`, answer: plural, options, hint: ""
   },
 
   translateDE(es, de) {
-    return { type: 'translateDE', prompt: `Traduce al alemán: "${es}"`, answer: de, hint: 'Empieza como se escribe en alemán.' };
+    return { type: 'translateDE', prompt: `Traduce al alemán: "${es}"`, answer: de, hint: ""
   },
 
   translateES(de, es) {
-    return { type: 'translateES', prompt: `Traduce al español: "${de}"`, answer: es, hint: 'Pista: está relacionado con el tema.' };
+    return { type: 'translateES', prompt: `Traduce al español: "${de}"`, answer: es, hint: ""
   },
 
   conjugate(infinitive, pronoun, tense, correctForm) {
@@ -37,7 +37,7 @@ const EXERCISE_TYPES = {
       type: 'conjugate',
       prompt: `Conjuga "${infinitive}" para "${pronoun}" en ${tense}.`,
       answer: correctForm,
-      hint: `Recuerda la terminación para ${pronoun}.`
+      hint: ""
     };
   },
 
@@ -46,12 +46,12 @@ const EXERCISE_TYPES = {
       type: 'order',
       prompt: `Ordena estas palabras: ${scrambledWords.join(' ')}`,
       answer: correctSentence,
-      hint: `La frase empieza con: "${scrambledWords[0]}"?`
+      hint: ""
     };
   },
 
   correct(wrongSentence, correctSentence) {
-    return { type: 'correct', prompt: `Corrige el error: "${wrongSentence}"`, answer: correctSentence, hint: 'Hay un error gramatical.' };
+    return { type: 'correct', prompt: `Corrige el error: "${wrongSentence}"`, answer: correctSentence, hint: ""
   },
 
   // NUEVO: completar hueco en frase, se indica en español la palabra que falta
@@ -62,7 +62,7 @@ const EXERCISE_TYPES = {
       prompt: `Completa la frase. Falta la palabra "${missingWordEs}":\n"${sentenceWithBlank}"`,
       answer: missingWordDe,
       options: [...opts, missingWordDe].sort(() => Math.random() - 0.5),
-      hint: `Pista: es la traducción de "${missingWordEs}".`
+      hint: ""
     };
   },
 
@@ -72,7 +72,7 @@ const EXERCISE_TYPES = {
       type: 'separableVerb',
       prompt: `Completa con el prefijo separable del verbo "${infinitive}":\n"${sentencePrefix} ___"`,
       answer: separablePrefix,
-      hint: `El verbo "${infinitive}" se separa, el prefijo va al final.`
+      hint: ""
     };
   },
 
@@ -85,7 +85,7 @@ const EXERCISE_TYPES = {
       prompt: `¿Cuál es el artículo correcto para "${noun}"?`,
       answer: article,
       options,
-      hint: 'Recuerda el género del sustantivo.'
+      hint: ""
     };
   },
 
@@ -97,7 +97,7 @@ const EXERCISE_TYPES = {
       prompt: `Completa el adjetivo '${adjClean}' en caso ${caseLabel}:\n"${contextPhrase}"`,
       answer: correctEnding,
       options,
-      hint: `Caso ${caseLabel}. Terminación: ${correctEnding}`
+      hint: ""
     };
   },
 
@@ -109,7 +109,7 @@ const EXERCISE_TYPES = {
       prompt: `Elige el artículo correcto para caso ${targetCase.toUpperCase()}:\n"${newPhrase}"`,
       answer: correctArticle,
       options,
-      hint: `Caso: ${targetCase.toUpperCase()}`
+      hint: ""
     };
   },
 
@@ -120,9 +120,10 @@ const EXERCISE_TYPES = {
       prompt: `Toca las palabras en el orden correcto para formar la frase:`,
       answer: correctSentence,
       scrambledWords: [...scrambledWords].sort(() => Math.random() - 0.5),
-      hint: `La frase empieza con: "${correctSentence.split(' ')[0]}"?`
+      hint: ""
     };
   }
 };
 
 window.ExerciseTypes = EXERCISE_TYPES;
+
