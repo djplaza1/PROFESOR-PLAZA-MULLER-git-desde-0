@@ -24,7 +24,7 @@ const LEVEL_CONFIG = [
     rewardCoins: 18, rewardXp: 22, testRewardCoins: 80, testRewardXp: 160 },
 
   { id: 'B1.1', badge: 'B1.1', title: 'Trabajo y economía',
-    words: 461, wordsPerLesson: 18, lessons: 26,
+    words: 533, wordsPerLesson: 18, lessons: 26,
     testQuestions: 25, passPercent: 75,
     rewardCoins: 20, rewardXp: 25, testRewardCoins: 100, testRewardXp: 180 },
 
