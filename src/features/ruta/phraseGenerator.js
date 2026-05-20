@@ -280,7 +280,7 @@ const PhraseGenerator = {
       var targetDet = detTable[caseName] ? detTable[caseName][gender] : "der";
 
       // Mostrar la frase COMPLETA con ___ en lugar del adjetivo
-                  var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, "\\var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, "\\var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, "\\var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "(e|er|es|em|en)", "i"), "___");"), "gi"), "___");`n      if (phraseWithBlank === p.de) {`n        phraseWithBlank = p.de.replace(new RegExp(adjClean, "gi"), "___");`n      }"), "gi"), "___");"), "gi"), "___");
+      var phraseWithBlank = p.de.replace(new RegExp(adjClean.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), "___");
       // Si no se pudo reemplazar, intentar con el adjetivo original completo
       if (phraseWithBlank === p.de) {
         phraseWithBlank = p.de.replace(new RegExp(adjClean, "i"), "___");
