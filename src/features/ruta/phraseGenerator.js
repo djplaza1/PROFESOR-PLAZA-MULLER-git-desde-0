@@ -5,7 +5,7 @@
  * - Si el JSON tiene metadatos (adjDecl, article, case) → se usan DIRECTAMENTE
  * - Si NO tiene metadatos → se INFIEREN desde la frase real
  * - Cada ejercicio se genera SOLO con phrasesBank[levelId]
- * - Vocabulario (fill, translate, conjugate) → sigue usando rutaVocabData.js
+ * - Vocabulario (fill, translate, conjugate) → sigue usando ../../data/vocabData.js
  */
 const PhraseGenerator = {
   // Conjugaciones para verbos comunes
@@ -720,7 +720,7 @@ const PhraseGenerator = {
     }
 
     // ─── EJERCICIOS DE VOCABULARIO ───
-    // Usan rutaVocabData.js (fill, translate, conjugate, etc.)
+    // Usan ../../data/vocabData.js (fill, translate, conjugate, etc.)
 
     // Repaso SRS
     for (const w of reviewWordsInVocab) {
