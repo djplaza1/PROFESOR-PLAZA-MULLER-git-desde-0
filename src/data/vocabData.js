@@ -401,7 +401,6 @@ addLevel('A1.1',[
   ['Vermieter','el arrendador','der','','n'],
   ['Hunger','el hambre','der','','n'],
   ['November','el noviembre','der','','n'],
-  ['string','[string],
     ['der Januar','enero','der','Januare','n'],
   ['Koch','el cocinero','der','','n'],
     ['grau','[grau]','das','grauen','n'],
@@ -6192,5 +6191,7 @@ addLevel('C2.2',[
 
 console.log("Ruta: vocab loaded", Object.keys(R.VOCAB).length, "levels");
 })((window.Muller = window.Muller || {}).Ruta = window.Muller.Ruta || {});
+
+
 
 
