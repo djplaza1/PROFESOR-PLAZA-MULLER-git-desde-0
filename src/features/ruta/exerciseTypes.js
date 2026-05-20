@@ -1,4 +1,4 @@
-export const exerciseTypes = {
+window.exerciseTypes = {
   adjectiveDeclension(adjClean, caseLabel, contextPhrase, correctEnding, allOptions) {
     const options = [...allOptions].sort(() => Math.random() - 0.5);
     return {
