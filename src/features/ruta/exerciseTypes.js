@@ -76,25 +76,24 @@ const EXERCISE_TYPES = {
     };
   },
 
-  // NUEVO: declinación (artículo/forma correcta)
-  declension(noun, article, distractors) {
-    const opts = distractors || [];
-    const options = [article, ...opts].sort(() => Math.random() - 0.5);
+    // NUEVO: declinaci�n de adjetivos (adjectiveDeclension)
+  adjectiveDeclension(adjClean, caseLabel, contextPhrase, correctEnding, allOptions) {
+    const options = [...allOptions].sort(() => Math.random() - 0.5);
     return {
-      type: 'declension',
-      prompt: `¿Cuál es el artículo correcto para "${noun}"?`,
-      answer: article,
+      type: 'adjectiveDeclension',
+      prompt: Completa el adjetivo '' en caso :\n"",
+      answer: correctEnding,
       options,
       hint: ""
     };
   },
 
-  // NUEVO: declinación de adjetivos (adjectiveDeclension)
+    // NUEVO: declinaci�n de adjetivos (adjectiveDeclension)
   adjectiveDeclension(adjClean, caseLabel, contextPhrase, correctEnding, allOptions) {
     const options = [...allOptions].sort(() => Math.random() - 0.5);
     return {
       type: 'adjectiveDeclension',
-      prompt: `Completa el adjetivo '${adjClean}' en caso ${caseLabel}:\n"${contextPhrase}"`,
+      prompt: Completa el adjetivo '' en caso :\n"",
       answer: correctEnding,
       options,
       hint: ""
@@ -126,4 +125,5 @@ const EXERCISE_TYPES = {
 };
 
 window.ExerciseTypes = EXERCISE_TYPES;
+
 
