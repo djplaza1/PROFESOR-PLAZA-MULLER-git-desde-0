@@ -1,11 +1,11 @@
-const { useState, useEffect, useRef } = React;
-const StoryView = ({ levelId, onBack }) => {
+﻿const { useState, useEffect, useRef } = React;
+const StoryView = ({ levelId, lessonIdx, onBack }) => {
   const [sceneIdx, setSceneIdx] = useState(0);
   const [exerciseIdx, setExerciseIdx] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState(null);
   const speak = (text) => window.RutaAudio?.speak(text);
-  const engineKey = "Story" + (levelId || "A1_1").replace(/\./g, "_"); const data = window[engineKey] || window.StoryA1_1;
+  const engineKey = "Story" + (levelId || "A1_1").replace(/\./g, "_"); const rawData = window[engineKey] || window.StoryA1_1; const data = (rawData && Array.isArray(rawData)) ? rawData[lessonIdx] : rawData;
   if (!data) return React.createElement("div", { className: "text-white p-4" }, "Historia no disponible");
   const scene = data.scenes[sceneIdx];
   const ex = scene?.exercises[exerciseIdx];

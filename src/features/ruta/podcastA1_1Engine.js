@@ -1,54 +1,74 @@
-const PodcastA1_1 = {
-  title: "Willkommen bei Müller",
+﻿const PodcastA1_1 = [];
+
+// LECCIÓN 1: La búsqueda de empleo (Mapeado con las 11 palabras reales)
+PodcastA1_1[0] = {
+  title: "Lektion 1: Die Jobsuche",
   segments: [
     {
-      audioText: "Hallo! Ich bin Anna. Ich bin Lehrerin. Mein Bruder ist Schüler. Er lernt Deutsch.",
-      translation: "¡Hola! Soy Anna. Soy profesora. Mi hermano es alumno. Él aprende alemán.",
+      audioText: "Hallo, liebe Deutschlerner! Heute sprechen wir über einen wichtigen Tag. Ich sitze im Zimmer und lese eine Anzeige. Die Anzeige ist sehr interessant für meine Familie.",
+      translation: "¡Hola, queridos estudiantes de alemán! Hoy hablamos de un día importante. Estoy sentado en la habitación y leo un anuncio. El anuncio es muy interesante para mi familia.",
       exercises: [
-        { type: "choose", prompt: "¿Quién es Anna?", answer: "Lehrerin", options: ["Lehrerin","Schülerin","Ärztin","Verkäuferin"] },
-        { type: "fillInSentence", prompt: "Completa: 'Mein ___ ist Schüler.'", answer: "Bruder", options: ["Bruder","Vater","Onkel","Freund"] }
+        { type: "choose", prompt: "¿Qué está leyendo?", answer: "eine Anzeige", options: ["eine Anzeige", "ein Buch", "einen Brief", "eine Zeitung"] },
+        { type: "fillInSentence", prompt: "Completa: 'Die ___ ist sehr interessant.'", answer: "Anzeige", options: ["Anzeige", "Federtasche", "Straßenbahn", "Klasse"] }
       ]
     },
     {
-      audioText: "Wir wohnen in Berlin. Berlin ist eine große Stadt. Ich arbeite in einer Schule.",
-      translation: "Vivimos en Berlín. Berlín es una ciudad grande. Trabajo en una escuela.",
+      audioText: "Mein Bruder sucht schon lange eine Arbeit. Er möchte einen guten Lohn bekommen, denn das Leben in der Stadt ist teuer. Ist der Lohn hier hoch?",
+      translation: "Mi hermano busca trabajo desde hace tiempo. Le gustaría recibir un buen salario, porque la vida en la ciudad es cara. ¿Es alto el salario aquí?",
       exercises: [
-        { type: "order", prompt: "Ordena: 'Berlin / eine / große / Stadt / ist'", answer: "Berlin ist eine große Stadt", hint: "Empieza con Berlin" },
-        { type: "translateDE", prompt: "Traduce al alemán: 'Trabajo en una escuela.'", answer: "Ich arbeite in einer Schule", hint: "Ich arbeite..." }
+        { type: "order", prompt: "Ordena: 'guten / einen / Lohn / Er / möchte / bekommen'", answer: "Er möchte einen guten Lohn bekommen" },
+        { type: "translateDE", prompt: "Traduce al alemán: 'Mi hermano busca un trabajo.'", answer: "Mein Bruder sucht eine Arbeit" }
       ]
     },
     {
-      audioText: "Am Samstag gehe ich in den Zoo. Ich sehe einen Hund und eine Katze. Das Wetter ist schön.",
-      translation: "El sábado voy al zoo. Veo un perro y un gato. El tiempo es bonito.",
+      audioText: "Mein Bruder ist sehr fleißig und arbeitet viel. Später am Nachmittag fahre ich mit der Straßenbahn ins Zentrum, um ihn zu treffen.",
+      translation: "Mi hermano es muy trabajador y trabaja mucho. Más tarde, por la tarde, voy en tranvía al centro para encontrarme con él.",
       exercises: [
-        { type: "declension", prompt: "Artículo de 'Hund' es:", answer: "der", options: ["der","die","das"] },
-        { type: "choose", prompt: "¿Cómo está el tiempo?", answer: "schön", options: ["schön","schlecht","kalt","heiß"] }
+        { type: "choose", prompt: "¿Cómo es el hermano?", answer: "fleißig", options: ["fleißig", "faul", "müde", "traurig"] },
+        { type: "fillInSentence", prompt: "Completa: 'Ich fahre mit der ___.'", answer: "Straßenbahn", options: ["Straßenbahn", "Taxi", "Auto", "Fahrrad"] }
       ]
     },
     {
-      audioText: "Ich trinke gern Kaffee und esse ein Brötchen. Meine Mutter macht einen Kuchen.",
-      translation: "Me gusta beber café y como un panecillo. Mi madre hace un pastel.",
+      audioText: "In der Straßenbahn sitzt ein kleines Mädchen neben mir. Das Mädchen ist sehr lebhaft, es lacht und spricht die ganze Zeit.",
+      translation: "En el tranvía, una chica pequeña se sienta a mi lado. La chica es muy vivaz, se ríe y habla todo el tiempo.",
       exercises: [
-        { type: "fillInSentence", prompt: "Completa: 'Ich trinke gern ___.'", answer: "Kaffee", options: ["Kaffee","Tee","Milch","Wasser"] },
-        { type: "translateES", prompt: "Traduce al español: 'Meine Mutter macht einen Kuchen.'", answer: "Mi madre hace un pastel", hint: "Pista: mamá cocina." }
+        { type: "order", prompt: "Ordena: 'Mädchen / ist / sehr / Das / lebhaft'", answer: "Das Mädchen ist sehr lebhaft" },
+        { type: "translateES", prompt: "Traduce al español: 'Das Mädchen ist sehr lebhaft.'", answer: "La chica es muy vivaz" }
       ]
     },
     {
-      audioText: "Heute gehe ich in den Supermarkt. Ich brauche Brot, Butter und Milch.",
-      translation: "Hoy voy al supermercado. Necesito pan, mantequilla y leche.",
+      audioText: "Das Mädchen sucht etwas. Sie öffnet eine neue Federtasche und nimmt einen Stift. Ihre Federtasche ist wirklich schön.",
+      translation: "La chica busca algo. Abre un estuche nuevo y toma un bolígrafo. Su estuche es realmente bonito.",
       exercises: [
-        { type: "order", prompt: "Ordena: 'brauche / Brot / Butter / Milch / und / ich'", answer: "Ich brauche Brot, Butter und Milch", hint: "Empieza con Ich" },
-        { type: "choose", prompt: "¿Qué compra?", answer: "Brot", options: ["Brot","Apfel","Wurst","Käse"] }
+        { type: "declension", prompt: "El artículo correcto para 'Federtasche' es:", answer: "die", options: ["der", "die", "das"] },
+        { type: "fillInSentence", prompt: "Completa: 'Sie öffnet eine neue ___.'", answer: "Federtasche", options: ["Federtasche", "Anzeige", "Bäckerei", "Blume"] }
       ]
     },
     {
-      audioText: "Am Sonntag schlafe ich lange. Dann lese ich ein Buch oder spiele Klavier.",
-      translation: "El domingo duermo hasta tarde. Luego leo un libro o toco el piano.",
+      audioText: "Ich schaue aus dem Fenster. Zu Hause wartet mein Bruder. Ich muss die Bücher in das Regal stellen. Das Regal steht im Wohnzimmer.",
+      translation: "Miro por la ventana. En casa espera mi hermano. Tengo que poner los libros en la estantería. La estantería está en el salón.",
       exercises: [
-        { type: "conjugate", prompt: "Conjuga 'schlafen' para 'ich':", answer: "schlafe", hint: "ich schlafe" },
-        { type: "translateDE", prompt: "Traduce al alemán: 'Leo un libro.'", answer: "Ich lese ein Buch", hint: "Ich lese..." }
+        { type: "translateDE", prompt: "Traduce al alemán: 'La estantería está en el salón.'", answer: "Das Regal steht im Wohnzimmer" },
+        { type: "declension", prompt: "El artículo de 'Regal' es:", answer: "das", options: ["der", "die", "das"] }
       ]
     }
   ]
 };
+
+// Autollenado de seguridad para las lecciones restantes (Evita crashes de undefined)
+for (let i = 1; i < 33; i++) {
+  PodcastA1_1[i] = {
+    title: "Lektion " + (i + 1) + " Podcast",
+    segments: [
+      {
+        audioText: "Hallo! Das ist ein Platzhalter für den Podcast dieser Lektion. Bald verfügbar.",
+        translation: "¡Hola! Esto es un marcador de posición para el podcast de esta lección. Próximamente disponible.",
+        exercises: [
+          { type: "choose", prompt: "Wählen Sie 'Platzhalter':", answer: "Platzhalter", options: ["Platzhalter", "Auto", "Buch"] }
+        ]
+      }
+    ]
+  };
+}
+
 window.PodcastA1_1 = PodcastA1_1;

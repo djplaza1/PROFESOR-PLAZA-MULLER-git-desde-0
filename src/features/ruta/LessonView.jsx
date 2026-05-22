@@ -1,4 +1,4 @@
-const { useState, useEffect, useCallback, useRef } = React;
+﻿const { useState, useEffect, useCallback, useRef } = React;
 
 const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [exercises, setExercises] = useState([]);
@@ -210,8 +210,8 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const ex = exercises[currentEx];
   if (!ex) return <div className="text-white p-4">Cargando ejercicios...</div>;
 
-  if (showComponent === 'podcast') return <PodcastView levelId={levelId} onBack={() => { showCelebration('🎬 Ahora completa la Historia'); setShowComponent('story'); }} />;
-  if (showComponent === 'story') return <StoryView levelId={levelId} onBack={() => { playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400); showCelebration('🎉 ¡Lección completada!'); const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setTimeout(() => onBack(), 1500); }} />;
+  if (showComponent === 'podcast') return <PodcastView levelId={levelId} lessonIdx={lessonIdx} onBack={() => { showCelebration('🎬 Ahora completa la Historia'); setShowComponent('story'); }} />;
+  if (showComponent === 'story') return <StoryView levelId={levelId} lessonIdx={lessonIdx} onBack={() => { playTone(523,0.2); setTimeout(()=>playTone(659,0.2),200); setTimeout(()=>playTone(784,0.3),400); showCelebration('🎉 ¡Lección completada!'); const lessonId = levelId + "-l" + (lessonIdx + 1); const newProgress = { ...progress }; newProgress.completed[lessonId] = true; setProgress(newProgress); setTimeout(() => onBack(), 1500); }} />;
 
   const inputDisabled = feedback && !feedback.correct;
 
