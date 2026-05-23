@@ -1,4 +1,4 @@
-/**
+﻿/**
  * phraseGenerator.js - Generador de ejercicios basado en frases reales del JSON por nivel
  * 
  * Enfoque HÍBRIDO:
@@ -644,8 +644,17 @@ const PhraseGenerator = {
   // ─────────────────────────────────────────────────────────────
 
   generateExercises(levelId, lessonIdx, wordsPerLesson) {
-    const allValid = this.getValidWords(levelId);
-    const allPhrases = this.getPhrasesForLevel(levelId);
+    let allValid = this.getValidWords(levelId);
+    let allPhrases = this.getPhrasesForLevel(levelId);
+    // Usar mapa fijo si existe para este nivel y leccion
+    var vocabMap = window.LESSON_VOCAB_MAP;
+    if (vocabMap && vocabMap[levelId] && vocabMap[levelId][lessonIdx]) {
+      var targetWords = vocabMap[levelId][lessonIdx];
+      var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
+      allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
+      allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
+    }
+
 
     if (allValid.length === 0 && allPhrases.length === 0) return [];
 
@@ -922,7 +931,16 @@ generateCumulativeReview(levelId, currentLessonIdx, count) {
       : [];
     if (allWords.length === 0) {
     // Fallback: usar palabras aleatorias de lecciones anteriores
-    const allValid = this.getValidWords(levelId);
+    let allValid = this.getValidWords(levelId);
+    let allPhrases = this.getPhrasesForLevel(levelId);
+    // Usar mapa fijo si existe para este nivel y leccion
+    var vocabMap = window.LESSON_VOCAB_MAP;
+    if (vocabMap && vocabMap[levelId] && vocabMap[levelId][lessonIdx]) {
+      var targetWords = vocabMap[levelId][lessonIdx];
+      var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
+      allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
+      allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
+    }
     if (allValid.length === 0) return exercises;
     const wordsPerLesson = window.LevelConfig?.getLevelConfig?.(levelId)?.wordsPerLesson || 10;
     const totalLessons = Math.ceil(allValid.length / wordsPerLesson);
@@ -942,7 +960,16 @@ generateCumulativeReview(levelId, currentLessonIdx, count) {
 
     previousWords.sort((a, b) => (b.failCount || 0) - (a.failCount || 0));
 
-    const allValid = this.getValidWords(levelId);
+    let allValid = this.getValidWords(levelId);
+    let allPhrases = this.getPhrasesForLevel(levelId);
+    // Usar mapa fijo si existe para este nivel y leccion
+    var vocabMap = window.LESSON_VOCAB_MAP;
+    if (vocabMap && vocabMap[levelId] && vocabMap[levelId][lessonIdx]) {
+      var targetWords = vocabMap[levelId][lessonIdx];
+      var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
+      allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
+      allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
+    }
     const vocabMap = {};
     allValid.forEach(w => { vocabMap[w[0].toLowerCase()] = w; });
 
