@@ -51,9 +51,21 @@ const PodcastView = ({ levelId, lessonIdx, onBack }) => {
         React.createElement("p", { className: "text-slate-200 mb-4 font-medium text-lg" }, ex.prompt),
         ex.options ?
           React.createElement("div", { className: "space-y-3" },
-            ex.options.map((opt, i) =>
-              React.createElement("button", { key: i, onClick: () => check(opt), className: "block w-full text-left p-4 bg-slate-700 border border-slate-600 rounded-xl hover:bg-blue-600 hover:border-blue-400 transition font-medium text-white" }, opt)
-            )
+            ex.options.map((opt, i) => {
+              let btnClass = "block w-full text-left p-4 rounded-xl transition font-medium text-white border ";
+              if (feedback) {
+                if (opt === ex.answer) {
+                  btnClass += "bg-emerald-600 border-emerald-400";
+                } else if (opt === userAnswer && !feedback.correct) {
+                  btnClass += "bg-red-600 border-red-400";
+                } else {
+                  btnClass += "bg-slate-700 border-slate-600 opacity-50";
+                }
+              } else {
+                btnClass += "bg-slate-700 border-slate-600 hover:bg-blue-600 hover:border-blue-400";
+              }
+              return React.createElement("button", { key: i, onClick: () => { setUserAnswer(opt); check(opt); }, disabled: !!feedback, className: btnClass }, opt);
+            })
           )
         : React.createElement("div", null,
             React.createElement("input", { type: "text", value: userAnswer, onChange: e => setUserAnswer(e.target.value), className: "w-full p-4 bg-slate-700 border-2 border-slate-500 rounded-xl mb-4 focus:ring-2 focus:ring-blue-400 outline-none text-white text-lg placeholder-slate-400", onKeyDown: e => e.key === "Enter" && check(), placeholder: "Escribe tu respuesta..." }),
