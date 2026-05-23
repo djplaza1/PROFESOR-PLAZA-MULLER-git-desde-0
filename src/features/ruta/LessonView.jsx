@@ -53,7 +53,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
 
   useEffect(() => {
     if (!window.PhraseGenerator) return;
-    const lesson = window.PhraseGenerator.generateLesson(levelId, lessonIdx);
+    const lesson = (window.LessonExercises && window.LessonExercises.getLesson(levelId, lessonIdx)) || window.PhraseGenerator.generateLesson(levelId, lessonIdx);
     if (!lesson) return;
     const normalExs = lesson.exercises || [];
   const cumulExs = lesson.cumulativeReview || [];
