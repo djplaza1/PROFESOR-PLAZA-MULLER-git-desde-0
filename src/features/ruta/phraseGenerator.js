@@ -1,4 +1,4 @@
-/**
+﻿/**
  * phraseGenerator.js - Generador de ejercicios basado en frases reales del JSON por nivel
  * 
  * Enfoque HÍBRIDO:
@@ -646,6 +646,19 @@ const PhraseGenerator = {
   generateExercises(levelId, lessonIdx, wordsPerLesson) {
     const allValid = this.getValidWords(levelId);
     const allPhrases = this.getPhrasesForLevel(levelId);
+
+    // Si hay datos fijos para esta leccion, usarlos
+    var lessonData = window.LESSON_DATA;
+    if (lessonData && lessonData[levelId] && lessonData[levelId][lessonIdx]) {
+      var data = lessonData[levelId][lessonIdx];
+      allValid = data.words.map(function(item) { return item.wordData; });
+      allPhrases = [];
+      data.words.forEach(function(item) {
+        item.phrases.forEach(function(p) {
+          allPhrases.push({ key: item.wordData[0], de: p.de, es: p.es });
+        });
+      });
+    }
 
     if (allValid.length === 0 && allPhrases.length === 0) return [];
 
