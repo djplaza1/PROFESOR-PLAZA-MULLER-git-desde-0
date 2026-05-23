@@ -984,7 +984,7 @@ addLevel('A1.2',[
   ['Meldeadresse','dirección registrada','die','Meldeadressen','n'],
   ['Urlaubstag','dí­a de vacaciones','der','Urlaubstage','n'],
     ['der Zucker','azíºcar','der','Zucker','n'],
-    ['die Zwölf','doce','die','Zwölfen','n'],
+    ['Zwölf','doce','','','num'],
     ['Mikrowelle','microondas','die','Mikrowellen','n'],
   ['Parkbank','banco','die','Parkbänke','n'],
   ['fangen','atrapar','','','v'],
@@ -1104,7 +1104,7 @@ addLevel('A1.2',[
   ['Wirbelsäule','columna','die','Wirbelsäulen','n'],
   ['Hüfte','cadera','die','Hüften','n'],
     ['die Zahnpasta','pasta de dientes','die','Zahnpasten','n'],
-    ['die Elf','once','die','Elfen','n'],
+    ['Elf','once','','','num'],
   ['Flyer','panfleto','der','Flyer','n'],
     
   ['Klo','retrete','das','Klos','n'],
@@ -1146,7 +1146,7 @@ addLevel('A1.2',[
     ['der Löffel','cuchara','der','Löffel','n'],
     
     ['stören','molestar','','','v'],
-    ['die Vier','cuatro','die','Vieren','n'],
+    ['Vier','cuatro','','','num'],
   ['Löffel','cuchara','der','Löffel','n'],['Messer','cuchillo','das','Messer','n'],
   ['einkaufen','comprar','','','v'],['bezahlen','pagar','','','v'],
   ['Freitag','viernes','der','Freitage','n'],['Samstag','sábado','der','Samstage','n'],
@@ -1237,7 +1237,7 @@ addLevel('A1.2',[
   ['gegen','contra','','','prep'],
   ['Kürbis','calabaza','der','Kürbisse','n'],
   ['Treppe','escalera','die','Treppen','n'],['Kleid','vestido','das','Kleider','n'],
-    ['die Eins','uno','die','Einsen','n'],
+    ['Eins','uno','','','num'],
     ['Haar','pelo','das','Haare','n'],
     ['der Elefant','elefante','der','Elefanten','n'],
     ['vollenden','completar','','','v'],
@@ -1248,7 +1248,7 @@ addLevel('A1.2',[
     ['der Bahnhof','estación','der','Bahnhöfe','n'],
     ['verwirren','confundir','','','v'],
     ['die Mütze','gorro','die','Mützen','n'],
-    ['die Drei','tres','die','Dreien','n'],
+    ['Drei','tres','','','num'],
   ['leer','vací­o','','','adj'],['voll','lleno','','','adj'],
     ['die Schlange','serpiente','die','Schlangen','n'],
     ['die Orange','naranja','die','Orangen','n'],
@@ -1280,7 +1280,7 @@ addLevel('A1.2',[
     ['der Hase','liebre','der','Hasen','n'],
     ['die Pfanne','sartén','die','Pfannen','n'],
   ['Bauernhof','granja','der','Bauernhöfe','n'],
-    ['die Zehn','diez','die','Zehnen','n'],
+    ['Zehn','diez','','','num'],
     ['trinken','beber','-','-','v'],
     ['das Jahrtausend','milenio','das','Jahrtausende','n'],
   ['Leuchtturm','faro','der','Leuchttürme','n'],
@@ -1303,7 +1303,7 @@ addLevel('A1.2',[
     ['der Mantel','abrigo','der','Mäntel','n'],
   ['Nagel','clavo','der','Nägel','n'],
   ['parken','aparcar','','','v'],
-    ['die Acht','ocho','die','Achten','n'],
+    ['Acht','ocho','','','num'],
   ['Mai','el mayo','der','','n'],
   ['Küste','costa','die','Küsten','n'],
     ['die Taube','paloma','die','Tauben','n'],
@@ -1354,7 +1354,7 @@ addLevel('A1.2',[
   ['Kaugummi','chicle','der','Kaugummis','n'],
   
     ['das TShirt','camiseta','das','TShirts','n'],
-    ['die Sechs','seis','die','Sechsen','n'],
+    ['Sechs','seis','','','num'],
   ['Wartezimmer','sala de espera','das','Wartezimmer','n'],
   ['hell','claro','','','adj'],
   ['gießen','verter','','','v'],
@@ -1448,7 +1448,7 @@ addLevel('A1.2',[
   ['Ader','vena','die','Adern','n'],
     ['Unterhose','calzoncillos','die','Unterhosen','n'],
   ['Zopf','trenza','der','Zöpfe','n'],
-    ['die Neun','nueve','die','Neunen','n'],
+    ['Neun','nueve','','','num'],
     ['der Berg','montaña','der','Berge','n'],
   ['Eltern','los padres','die','','n'],
     ['leisten','realizar','','','v'],
@@ -1479,7 +1479,7 @@ addLevel('A1.2',[
     ['gedenken','conmemorar','','','v'],
   ['Bus','autobíºs','der','Busse','n'],['Auto','coche','das','Autos','n'],
     ['versammeln','reunir','','','v'],
-    ['die Zwei','dos','die','Zweien','n'],
+    ['Zwei','dos','','','num'],
   ['Niederlassung','sucursal','die','Niederlassungen','n'],
     ['erregen','excitar','','','v'],
   ['Bein','pierna','das','Beine','n'],['Auge','ojo','das','Augen','n'],
@@ -6112,6 +6112,7 @@ addLevel('C2.2',[
 
 console.log("Ruta: vocab loaded", Object.keys(R.VOCAB).length, "levels");
 })((window.Muller = window.Muller || {}).Ruta = window.Muller.Ruta || {});
+
 
 
 
