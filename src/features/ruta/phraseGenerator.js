@@ -647,9 +647,9 @@ const PhraseGenerator = {
     let allValid = this.getValidWords(levelId);
     let allPhrases = this.getPhrasesForLevel(levelId);
     // Usar mapa fijo si existe para este nivel y leccion
-    var vocabMap = window.LESSON_VOCAB_MAP;
-    if (vocabMap && vocabMap[levelId] && vocabMap[levelId][lessonIdx]) {
-      var targetWords = vocabMap[levelId][lessonIdx];
+    var lessonVocabMap = window.LESSON_VOCAB_MAP;
+    if (lessonVocabMap && lessonVocabMap[levelId] && lessonVocabMap[levelId][lessonIdx]) {
+      var targetWords = lessonVocabMap[levelId][lessonIdx];
       var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
       allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
       allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
@@ -934,9 +934,9 @@ generateCumulativeReview(levelId, currentLessonIdx, count) {
     let allValid = this.getValidWords(levelId);
     let allPhrases = this.getPhrasesForLevel(levelId);
     // Usar mapa fijo si existe para este nivel y leccion
-    var vocabMap = window.LESSON_VOCAB_MAP;
-    if (vocabMap && vocabMap[levelId] && vocabMap[levelId][lessonIdx]) {
-      var targetWords = vocabMap[levelId][lessonIdx];
+    var lessonVocabMap = window.LESSON_VOCAB_MAP;
+    if (lessonVocabMap && lessonVocabMap[levelId] && lessonVocabMap[levelId][lessonIdx]) {
+      var targetWords = lessonVocabMap[levelId][lessonIdx];
       var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
       allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
       allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
@@ -963,9 +963,9 @@ generateCumulativeReview(levelId, currentLessonIdx, count) {
     let allValid = this.getValidWords(levelId);
     let allPhrases = this.getPhrasesForLevel(levelId);
     // Usar mapa fijo si existe para este nivel y leccion
-    var vocabMap = window.LESSON_VOCAB_MAP;
-    if (vocabMap && vocabMap[levelId] && vocabMap[levelId][lessonIdx]) {
-      var targetWords = vocabMap[levelId][lessonIdx];
+    var lessonVocabMap = window.LESSON_VOCAB_MAP;
+    if (lessonVocabMap && lessonVocabMap[levelId] && lessonVocabMap[levelId][lessonIdx]) {
+      var targetWords = lessonVocabMap[levelId][lessonIdx];
       var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
       allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
       allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
@@ -1031,3 +1031,4 @@ generateLesson(levelId, lessonIdx) {
   }
 };
 window.PhraseGenerator = PhraseGenerator;
+
