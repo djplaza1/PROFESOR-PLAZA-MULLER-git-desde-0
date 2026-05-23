@@ -49,21 +49,7 @@ PodcastA1_1[0] = {
   ]
 };
 
-// Autollenado de seguridad para las lecciones restantes (Evita crashes de undefined)
-for (let i = 1; i < 33; i++) {
-  PodcastA1_1[i] = {
-    title: "Lektion " + (i + 1) + " Podcast",
-    segments: [
-      {
-        audioText: "Hallo! Das ist ein Platzhalter für den Podcast dieser Lektion. Bald verfügbar.",
-        translation: "¡Hola! Esto es un marcador de posición para el podcast de esta lección. Próximamente disponible.",
-        exercises: [
-          { type: "choose", prompt: "Wählen Sie 'Platzhalter':", answer: "Platzhalter", options: ["Platzhalter", "Auto", "Buch"] }
-        ]
-      }
-    ]
-  };
-}
 
-window.PodcastA1_1 = PodcastA1_1;
+
+
 
