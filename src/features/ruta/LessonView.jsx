@@ -120,7 +120,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     const ex = exercises[currentEx];
     const answerToCheck = submittedAnswer !== null ? submittedAnswer : userAnswer;
     const lang = (ex.type === 'translateES' || ex.type === 'choose') ? 'es' : 'de';
-    const result = window.Corrector.check(answerToCheck, ex.answer, lang);
+    var result = window.Corrector.check(answerToCheck, ex.answer, lang); if (!result.correct && ex.acceptableAnswers) { for (var i = 0; i < ex.acceptableAnswers.length; i++) { result = window.Corrector.check(answerToCheck, ex.acceptableAnswers[i], lang); if (result.correct) break; } }
     
     // Para pronunciation: permitir múltiples intentos
     if (ex.type === 'pronounce' && !result.correct) {
