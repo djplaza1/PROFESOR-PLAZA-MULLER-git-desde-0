@@ -652,7 +652,7 @@ const PhraseGenerator = {
       var targetWords = lessonVocabMap[levelId][lessonIdx];
       var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
       allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
-      allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
+      allPhrases = allPhrases.filter(function(p) { var wordsInDe = p.de.toLowerCase().split(/\\\s+/); return targetWords.some(function(tw) { var twLower = tw.toLowerCase(); return wordsInDe.includes(twLower) || p.key.toLowerCase() === twLower; }); });
     }
 
 
@@ -939,7 +939,7 @@ generateCumulativeReview(levelId, currentLessonIdx, count) {
       var targetWords = lessonVocabMap[levelId][lessonIdx];
       var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
       allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
-      allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
+      allPhrases = allPhrases.filter(function(p) { var wordsInDe = p.de.toLowerCase().split(/\\\s+/); return targetWords.some(function(tw) { var twLower = tw.toLowerCase(); return wordsInDe.includes(twLower) || p.key.toLowerCase() === twLower; }); });
     }
     if (allValid.length === 0) return exercises;
     const wordsPerLesson = window.LevelConfig?.getLevelConfig?.(levelId)?.wordsPerLesson || 10;
@@ -968,7 +968,7 @@ generateCumulativeReview(levelId, currentLessonIdx, count) {
       var targetWords = lessonVocabMap[levelId][lessonIdx];
       var targetSet = new Set(targetWords.map(function(w) { return w.toLowerCase(); }));
       allValid = allValid.filter(function(w) { return targetSet.has(w[0].toLowerCase()); });
-      allPhrases = allPhrases.filter(function(p) { return targetWords.some(function(tw) { return p.key.toLowerCase() === tw.toLowerCase(); }); });
+      allPhrases = allPhrases.filter(function(p) { var wordsInDe = p.de.toLowerCase().split(/\\\s+/); return targetWords.some(function(tw) { var twLower = tw.toLowerCase(); return wordsInDe.includes(twLower) || p.key.toLowerCase() === twLower; }); });
     }
     const vocabMap = {};
     allValid.forEach(w => { vocabMap[w[0].toLowerCase()] = w; });
