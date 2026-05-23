@@ -22,6 +22,19 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   const [wrongWords, setWrongWords] = useState([]);
   const [lastUserTranscript, setLastUserTranscript] = useState("");
   const audioCtxRef = useRef(null);
+  const transformForReview = (ex) => {
+    const types = ["fillInSentence","order","translateDE","translateES","choose","declension"];
+    const i = types.indexOf(ex.type);
+    const newType = types[(i + 1) % types.length];
+    const newEx = { ...ex, type: newType };
+    if (newType === "fillInSentence" && !newEx.options) {
+      newEx.options = [ex.answer, "___", "___", "___"];
+    }
+    if (newType === "order" && !newEx.scrambledWords) {
+      newEx.scrambledWords = ex.answer.split(" ").sort(() => Math.random() - 0.5);
+    }
+    return newEx;
+  };
 
   const playTone = (freq, duration, type = 'sine') => {
     try {
@@ -117,10 +130,12 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       
       // Calcular palabras incorrectas
       const wrong = findWrongWords(answerToCheck, ex.answer);
+        if (!reviewMode) { setFailedStack(prev => { if (!prev.some(e => e.prompt === ex.prompt && e.type === ex.type)) return [...prev, ex]; return prev; }); }
       setWrongWords(wrong.missing.concat(wrong.extra));
       
       if (newAttempt < pronMaxAttempts) {
         // Aún quedan intentos - mostrar feedback pero NO marcar como fallo definitivo
+        if (!reviewMode) { setFailedStack(prev => { if (!prev.some(e => e.prompt === ex.prompt && e.type === ex.type)) return [...prev, ex]; return prev; }); }
         setFeedback({
           correct: false,
           exact: false,
@@ -143,6 +158,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         maxAttempts: pronMaxAttempts,
         wrongWords: wrong.missing.concat(wrong.extra)
       });
+        if (!reviewMode) { setFailedStack(prev => { if (!prev.some(e => e.prompt === ex.prompt && e.type === ex.type)) return [...prev, ex]; return prev; }); }
       return;
     }
     
@@ -176,7 +192,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       setLastUserTranscript("");
     } else {
       if (!reviewMode && failedStack.length > 0) {
-        setExercises(failedStack);
+        setExercises(failedStack.map(transformForReview));
         setFailedStack([]);
         setCurrentEx(0);
         setUserAnswer("");
@@ -416,7 +432,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
                         <p className="text-white font-medium mt-1 text-lg">{lastUserTranscript}</p>
                       </div>
                     )}
-                    <p className="text-sm mt-2">La frase correcta es: <strong className="text-white text-lg block mt-1">{feedback.answer}</strong></p>
+                    <p className="text-sm mt-2">✅ <strong className="text-green-400 text-lg block mt-1">{feedback.answer}</strong></p>
                     {feedback.wrongWords && feedback.wrongWords.length > 0 && (
                       <div className="mt-3 p-3 bg-amber-900/40 rounded-lg border border-amber-700">
                         <p className="text-sm text-amber-300">📌 Palabras con dificultad:</p>
@@ -433,7 +449,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
                   </>
                 ) : (
                   <>
-                    <span>❌ Incorrecto. La respuesta correcta es: <strong className="text-white">{feedback.answer}</strong></span>
+                    <span>❌ Incorrecto.</span><div className="mt-2"><span className="text-red-400 line-through">{userAnswer}</span> <span className="text-green-400 font-bold ml-2">{feedback.answer}</span></div>
                     {ex.translation && <p className="text-sm mt-1 text-slate-300">Traducción: {ex.translation}</p>}
                   </>
                 )}
@@ -443,7 +459,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
         )}
         {feedback && (
           <button onClick={nextExercise} className="mt-4 w-full px-6 py-3 bg-slate-700 text-white rounded-xl hover:bg-slate-600 transition shadow-md font-medium">
-            {currentEx < exercises.length - 1 ? "Siguiente →" : "Finalizar"}
+            {feedback.correct ? (currentEx < exercises.length - 1 ? "Siguiente →" : "Finalizar") : "Continuar"}
           </button>
         )}
       </div>
@@ -451,3 +467,5 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
   );
 };
 window.LessonView = LessonView;
+
+
