@@ -113,6 +113,58 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
     // También detectar palabras extra que el usuario dijo
     const extra = userWords.filter(w => !correctWords.includes(w));
     return { missing, extra };
+
+  const flexibleCheck = (userText, correctAnswer, lang) => {
+    if (!userText || !correctAnswer) return null;
+    const u = userText.trim();
+    const c = correctAnswer.trim();
+    if (u === c) return null;
+
+    // 1) Sustantivo en minuscula
+    if (lang === "de" && u.toLowerCase() === c.toLowerCase() && u !== c) {
+      // Verificar que la unica diferencia sea la capitalizacion
+      if (u.charAt(0).toLowerCase() === c.charAt(0).toLowerCase()) {
+        return { casiCorrecto: true, message: "Casi correcto. Recuerda que los sustantivos en aleman se escriben con mayuscula." };
+      }
+    }
+
+    // 2) Normalizar dieresis / ß
+    const normalize = (s) => s.toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss");
+    if (normalize(u) === normalize(c)) {
+      return { casiCorrecto: true, message: "Casi correcto. Atencion a las dieresis (a, o, u) o ß." };
+    }
+
+    // 3) Distancia de Levenshtein = 1 para palabras de mas de 3 caracteres
+    const wordsU = u.split(/\s+/);
+    const wordsC = c.split(/\s+/);
+    if (wordsU.length === wordsC.length) {
+      let totalDist = 0;
+      for (let i = 0; i < wordsU.length; i++) {
+        if (wordsU[i].length > 3 && wordsC[i].length > 3) {
+          totalDist += levenshtein(wordsU[i], wordsC[i]);
+        } else {
+          if (wordsU[i] !== wordsC[i]) totalDist += 99;
+        }
+      }
+      if (totalDist === 1) {
+        return { casiCorrecto: true, message: "Casi correcto. Solo una letra de diferencia." };
+      }
+    }
+
+    return null;
+  };
+
+  function levenshtein(a, b) {
+    const m = a.length, n = b.length;
+    const dp = Array.from({length: m+1}, (_,i) => [i]);
+    for (let j=0; j<=n; j++) dp[0][j] = j;
+    for (let i=1; i<=m; i++) {
+      for (let j=1; j<=n; j++) {
+        dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+      }
+    }
+    return dp[m][n];
+  }
   };
 
   const checkAnswer = (submittedAnswer = null) => {
@@ -162,6 +214,22 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
       return;
     }
     
+    if (!result.correct && ex.type !== 'pronounce') {
+      var flex = flexibleCheck(answerToCheck, ex.answer, lang);
+      if (flex && flex.casiCorrecto) {
+        result.correct = true;       // lo damos por bueno para no penalizar
+        result.exact = false;
+        result.message = flex.message;
+        setFeedback({ correct: true, exact: false, answer: ex.answer, hint: flex.message, casiCorrecto: true });
+        if (ex.word && window.SRSHelpers) {
+          const newProgress = window.SRSHelpers.updateWordSRS(progress, ex.word[0], ex.type, true);
+          newProgress.xp = (newProgress.xp || 0) + 5;
+          setProgress(window.SRSHelpers.updateStreak(newProgress));
+        }
+        playCorrect();
+        return;
+      }
+    }
     setFeedback({ correct: result.correct, exact: result.exact, answer: ex.answer, hint: result.message });
     if (result.correct) {
       playCorrect();
@@ -408,7 +476,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
           )}
         </div>
         {feedback && (
-          <div className={`p-4 rounded-xl ${feedback.correct ? "bg-emerald-900/80 text-emerald-200 border border-emerald-700" : "bg-red-900/80 text-red-200 border border-red-700"}`}>
+          <div className={`p-4 rounded-xl ${feedback.correct ? (feedback.casiCorrecto ? "bg-amber-900/80 text-amber-200 border border-amber-700" : "bg-emerald-900/80 text-emerald-200 border border-emerald-700") : "bg-red-900/80 text-red-200 border border-red-700"}`}>
             {feedback.correct ? (
               <div>
                 <span>{feedback.exact ? "✅ ¡Correcto!" : "✅ Aceptado"}</span>
