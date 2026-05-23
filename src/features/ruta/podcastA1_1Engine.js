@@ -49,6 +49,48 @@ PodcastA1_1[0] = {
   ]
 };
 
+PodcastA1_1[1] = {
+  title: "Lektion 2: Familie",
+  segments: [
+    {
+      audioText: "Meine Mutter und mein Vater sind zu Hause. Die Mutter ist sehr nett.",
+      exercises: [
+        { type: "choose", prompt: "Was bedeutet 'Mutter'?", answer: "madre", options: ["madre", "padre", "hermana", "hermano"] },
+        { type: "fillInSentence", prompt: "Completa (madre): 'Meine ___ ist sehr nett.'", answer: "Mutter", options: ["Mutter", "Vater", "Schwester", "Bruder"] }
+      ]
+    },
+    {
+      audioText: "Meine Schwester heißt Laura. Mein Bruder heißt Tim. Beide sind noch klein.",
+      exercises: [
+        { type: "order", prompt: "Ordena: 'Meine Schwester heißt Laura.'", answer: "Meine Schwester heißt Laura", scrambledWords: ["Laura.", "Meine", "Schwester", "heißt"] },
+        { type: "translateES", prompt: "Traduce al español: 'Mein Bruder heißt Tim.'", answer: "Mi hermano se llama Tim." }
+      ]
+    },
+    {
+      audioText: "Das Mädchen spielt im Garten. Der Junge liest ein Buch.",
+      exercises: [
+        { type: "choose", prompt: "Was bedeutet 'Mädchen'?", answer: "chica", options: ["chica", "chico", "mujer", "hombre"] },
+        { type: "fillInSentence", prompt: "Completa (chica): 'Das ___ spielt im Garten.'", answer: "Mädchen", options: ["Mädchen", "Junge", "Frau", "Mann"] }
+      ]
+    },
+    {
+      audioText: "Die Frau und der Mann gehen spazieren. Sie haben ein Kind.",
+      exercises: [
+        { type: "choose", prompt: "Wer geht spazieren?", answer: "Die Frau und der Mann", options: ["Die Frau und der Mann", "Das Mädchen", "Der Junge", "Die Mutter"] },
+        { type: "translateDE", prompt: "Traduce al alemán: 'Ellos tienen un niño.'", answer: "Sie haben ein Kind." }
+      ]
+    },
+    {
+      audioText: "Das Haus ist groß. Mein Zimmer ist klein.",
+      exercises: [
+        { type: "order", prompt: "Ordena: 'Das Haus ist groß.'", answer: "Das Haus ist groß", scrambledWords: ["groß.", "Das", "Haus", "ist"] },
+        { type: "fillInSentence", prompt: "Completa (pequeño): 'Mein Zimmer ist ___.'", answer: "klein", options: ["klein", "groß", "alt", "neu"] }
+      ]
+    }
+  ]
+};
+
+
 
 
 
