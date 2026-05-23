@@ -44,7 +44,7 @@ const PodcastView = ({ levelId, lessonIdx, onBack }) => {
       ),
       React.createElement("div", { className: "bg-slate-800 p-8 rounded-2xl shadow-2xl mb-4 border border-slate-700" },
         React.createElement("div", { className: "flex items-start mb-3" },
-          React.createElement("p", { className: "text-slate-300 italic flex-1" }, `"${seg.audioText}"`),
+          // Texto del podcast oculto (solo audio)
           React.createElement("button", { onClick: () => speak(seg.audioText), className: "ml-2 text-slate-400 hover:text-white transition", title: "Volver a escuchar" }, "🔊")
         ),
         React.createElement("hr", { className: "border-slate-600 mb-6" }),
