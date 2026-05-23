@@ -1,6 +1,6 @@
 ﻿const StoryA1_1 = [];
 
-// LECCIÓN 1: Una historia real y fluida dividida en escenas cohesivas
+// LECCIÓN 1: Hallo! – Die Geschichte
 StoryA1_1[0] = {
   title: "Lektion 1: Hallo! – Die Geschichte",
   scenes: [
@@ -13,8 +13,8 @@ StoryA1_1[0] = {
       ],
       translation: "Escena 1: En el café. Anna saluda, pregunta el nombre y ofrece café.",
       exercises: [
-        { type: "order", prompt: "Ordena la frase de Anna:", answer: "Hallo! Ich bin Anna.", scrambledWords: ["Anna.", "Hallo!", "ich", "bin"] },
-        { type: "choose", prompt: "¿Qué ofrece Anna?", answer: "Kaffee", options: ["Kaffee", "Tee", "Wasser", "Brot"] }
+        { type: "fillInSentence", prompt: "Completa (verbo): 'Ich ___ Anna.'", answer: "bin", options: ["bin", "bist", "ist", "sind"] },
+        { type: "translateES", prompt: "Traduce: 'Wie ist dein Name?'", answer: "¿Cuál es tu nombre?" }
       ]
     },
     {
@@ -26,8 +26,8 @@ StoryA1_1[0] = {
       ],
       translation: "Escena 2: Hablan del pastel, el tiempo y un coche nuevo.",
       exercises: [
-        { type: "fillInSentence", prompt: "Completa (bueno): 'Der Kuchen schmeckt ___.'", answer: "gut", options: ["gut", "schlecht", "schön", "alt"] },
-        { type: "translateDE", prompt: "Traduce al alemán: 'El día es bonito.'", answer: "Der Tag ist schön." }
+        { type: "choose", prompt: "¿Qué opina Lukas sobre el pastel?", answer: "gut", options: ["gut", "schlecht"] },
+        { type: "fillInSentence", prompt: "Completa (bonito): 'Der Tag ist ___.'", answer: "schön", options: ["schön", "schlecht", "neu", "alt"] }
       ]
     },
     {
@@ -46,7 +46,7 @@ StoryA1_1[0] = {
   ]
 };
 
-// Inicialización preventiva para evitar excepciones de tipo undefined en el resto de rutas
+// Inicialización preventiva para las lecciones restantes
 for (let i = 1; i < 33; i++) {
   StoryA1_1[i] = {
     title: "Lektion " + (i + 1) + ": Geschichte",
