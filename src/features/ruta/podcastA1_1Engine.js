@@ -14,7 +14,7 @@ PodcastA1_1[0] = {
     {
       audioText: "Danke für das Geschenk. Bitte sehr, hier ist Ihr Kaffee.",
       exercises: [
-        { type: "order", prompt: "Ordena: 'Danke für das Geschenk.'", answer: "Danke für das Geschenk", scrambledWords: ["Geschenk.", "Danke", "für", "das"] },
+        { type: "fillInSentence", prompt: "Completa (gracias): '___ für das Geschenk.'", answer: "Danke", options: ["Danke", "Bitte", "Hallo", "Ja"] },
         { type: "translateES", prompt: "Traduce al español: 'Bitte sehr, hier ist Ihr Kaffee.'", answer: "Aquí tiene su café, por favor." }
       ]
     },
@@ -35,7 +35,7 @@ PodcastA1_1[0] = {
     {
       audioText: "Der Tag ist schön. Das Auto ist neu. Das Haus ist sehr alt.",
       exercises: [
-        { type: "order", prompt: "Ordena: 'Der Tag ist schön.'", answer: "Der Tag ist schön", scrambledWords: ["schön.", "Der", "Tag", "ist"] },
+        { type: "fillInSentence", prompt: "Completa (bonito): 'Der Tag ist ___.'", answer: "schön", options: ["schön", "schlecht", "neu", "alt"] },
         { type: "translateDE", prompt: "Traduce al alemán: 'El coche es nuevo.'", answer: "Das Auto ist neu." }
       ]
     },
@@ -63,7 +63,7 @@ PodcastA1_1[1] = {
     {
       audioText: "Meine Schwester heißt Laura. Mein Bruder heißt Tim. Beide sind noch klein.",
       exercises: [
-        { type: "order", prompt: "Ordena: 'Meine Schwester heißt Laura.'", answer: "Meine Schwester heißt Laura", scrambledWords: ["Laura.", "Meine", "Schwester", "heißt"] },
+        { type: "fillInSentence", prompt: "Completa (hermana): 'Meine ___ heißt Laura.'", answer: "Schwester", options: ["Schwester", "Mutter", "Frau", "Mädchen"] },
         { type: "translateES", prompt: "Traduce al español: 'Mein Bruder heißt Tim.'", answer: "Mi hermano se llama Tim." }
       ]
     },
@@ -84,7 +84,7 @@ PodcastA1_1[1] = {
     {
       audioText: "Das Haus ist groß. Mein Zimmer ist klein.",
       exercises: [
-        { type: "order", prompt: "Ordena: 'Das Haus ist groß.'", answer: "Das Haus ist groß", scrambledWords: ["groß.", "Das", "Haus", "ist"] },
+        { type: "fillInSentence", prompt: "Completa (grande): 'Das Haus ist ___.'", answer: "groß", options: ["groß", "klein", "alt", "neu"] },
         { type: "fillInSentence", prompt: "Completa (pequeño): 'Mein Zimmer ist ___.'", answer: "klein", options: ["klein", "groß", "alt", "neu"] }
       ]
     }
@@ -108,3 +108,4 @@ for (let i = 2; i < 33; i++) {
 }
 
 window.PodcastA1_1 = PodcastA1_1;
+
