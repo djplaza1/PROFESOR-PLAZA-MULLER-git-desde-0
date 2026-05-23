@@ -230,7 +230,7 @@ const LessonView = ({ levelId, lessonIdx, onBack }) => {
           </h2>
           <div className="flex gap-2">
             <button onClick={() => setShowComponent('podcast')} className={`px-3 py-1 text-white text-xs rounded-full hover:bg-purple-500 transition shadow ${showComponent === 'podcast' || showComponent === 'story' ? 'bg-gray-500 cursor-not-allowed' : 'bg-purple-600'}`} disabled={showComponent === 'podcast' || showComponent === 'story'}>🎙️ Podcast</button>
-            <button onClick={() => { if (showComponent !== 'podcast') return; setShowComponent('story'); }} className={`px-3 py-1 text-white text-xs rounded-full transition shadow ${showComponent === 'podcast' ? 'bg-pink-600 hover:bg-pink-500' : 'bg-gray-500 cursor-not-allowed'}`} disabled={showComponent !== 'podcast'}>🎬 Historia</button>
+            <button onClick={() => setShowComponent('story')} className={`px-3 py-1 text-white text-xs rounded-full transition shadow ${showComponent !== 'story' ? 'bg-pink-600 hover:bg-pink-500' : 'bg-gray-500 cursor-not-allowed'}`} disabled={showComponent === 'story'}>🎬 Historia</button>
             <button onClick={onBack} className="px-4 py-2 bg-slate-700 text-slate-200 rounded-lg hover:bg-slate-600 transition shadow">← Volver</button>
           </div>
         </div>
